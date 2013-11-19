@@ -1,0 +1,5 @@
+#ifndef WINDOW_INTERFACE_H
+#define WINDOW_INTERFACE_H
+
+
+#endif // WINDOW_INTERFACE_H
