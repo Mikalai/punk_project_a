@@ -19,6 +19,19 @@ namespace Punk {
                     ,0,0,1,0
                     ,0,0,0,1} {}
 
+            mat4::mat4(float a0, float a1, float a2, float a3,
+                 float a4, float a5, float a6, float a7,
+                 float a8, float a9, float a10, float a11,
+                 float a12, float a13, float a14, float a15)
+                : m{a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15} {}
+
+            mat4::mat4(std::initializer_list<float> v) {
+                auto it = v.begin();
+                for (int i = 0; i < 16; ++i) {
+                    m[i] = *(it++);
+                }
+            }
+
             mat4::mat4(const mat4& mm) {
 #ifdef _WIN32
                 memcpy_s(m, sizeof(m), mm.m, sizeof(m));
@@ -507,6 +520,22 @@ namespace Punk {
                 return m;
             }
 
+            const Math::mat4 mat4::CreatePerspectiveProjectionInfinity(float left, float right, float top, float bottom, float znear) {
+                mat4 res;
+                res[0] = 2.0f*znear / (right - left);
+                res[1] = res[2] = res[3] = res[4] = 0;
+                res[5] = 2.0f*znear / (top - bottom);
+                res[6] = res[7] = 0;
+                res[8] = (right + left) / (right - left);
+                res[9] = (top + bottom) / (top - bottom);
+                res[10] = -1;
+                res[11] = -1;
+                res[12] = res[13] = 0;
+                res[14] = -2.0f*znear;
+                res[15] = 0;
+                return res;
+            }
+
             const Math::mat4 mat4::CreateTextureBiasMatrix()
             {
                 const float bias[16] = {	0.5f, 0.0f, 0.0f, 0.0f,
@@ -663,6 +692,19 @@ namespace Punk {
             //    {
             //        buffer->ReadBuffer(&value[0], sizeof(value));
             //    }
+
+            bool operator == (const mat4& l, const mat4& r) {
+                for (int i = 0; i < 16; ++i) {
+                    if (fabs(l[i] - r[i]) > std::numeric_limits<float>::epsilon())
+                        return false;
+                }
+                return true;
+            }
+
+            bool operator != (const mat4& l, const mat4& r) {
+                return !(l == r);
+            }
+
         }
     }
 }
