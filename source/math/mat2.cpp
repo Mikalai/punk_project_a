@@ -50,6 +50,15 @@ namespace Punk {
                 m[3] = a11;
             }
 
+            mat2& mat2::operator = (const mat2& v)
+            {
+#ifdef _WIN32
+                memcpy_s(m, sizeof(m), v.m, sizeof(m));
+#elif defined __gnu_linux__
+                memcpy(m, v.m, sizeof(m));
+#endif
+                return *this;
+            }
 
             const float& mat2::operator [] (int i) const {
                 if (i < 0 || i > 3)
@@ -185,6 +194,13 @@ namespace Punk {
                 mat2 m;
                 for (int i = 0; i < 4; i++)
                     m[i] = a[i] + b[i];
+                return m;
+            }
+
+            const mat2 operator - (const mat2& l, const mat2& r) {
+                mat2 m;
+                for (int i = 0; i < 4; i++)
+                    m[i] = l[i] - r[i];
                 return m;
             }
         }
