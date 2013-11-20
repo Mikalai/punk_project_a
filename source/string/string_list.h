@@ -32,6 +32,9 @@ namespace Punk
                 void Pop();
                 const String ToString() const;
 
+                const String& operator [] (std::uint32_t index) const;
+                String& operator [] (std::uint32_t index);
+
                 __private::StringListImpl* impl;
 
                 friend bool operator == (const StringList&, const StringList&);

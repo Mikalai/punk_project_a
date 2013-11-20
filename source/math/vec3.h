@@ -16,8 +16,8 @@ namespace Punk {
 
             class PUNK_ENGINE_API vec3 {
             public:
-                vec3(const std::initializer_list<float>& v);
                 vec3();
+                vec3(const std::initializer_list<float>& v);                
                 vec3(float x, float y, float z);
                 vec3(const vec3& vec);
                 vec3(const vec3& origin, const vec3& destination);

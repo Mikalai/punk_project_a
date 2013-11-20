@@ -52,6 +52,30 @@ namespace Punk {
             {
                 return l.impl->m_list == r.impl->m_list;
             }
+
+            const String& StringList::operator [] (std::uint32_t index) const
+            {
+                std::list<String>::iterator it = impl->m_list.begin();
+                std::advance(it, index);
+                return *it;
+            }
+
+            String& StringList::operator [] (std::uint32_t index)
+            {
+                std::list<String>::iterator it = impl->m_list.begin();
+                std::advance(it, index);
+                return *it;
+            }
+
+            const String StringList::ToString() const
+            {
+                String res;
+                for (const auto& s : impl->m_list)
+                {
+                    res += s;
+                }
+                return res;
+            }
         }
     }
 }

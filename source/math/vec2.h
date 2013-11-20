@@ -1,6 +1,7 @@
 #ifndef _H_PUNK_MATH_VEC2_MATH
 #define _H_PUNK_MATH_VEC2_MATH
 
+#include <initializer_list>
 #include "config.h"
 
 namespace Punk {
@@ -15,6 +16,11 @@ namespace Punk {
 
             class PUNK_ENGINE_API vec2 {
             public:
+                vec2();
+                vec2(float x, float y);
+                vec2(std::initializer_list<float> v);
+                vec2(const vec2& vec);
+                vec2(const vec2& origin, const vec2& destination);
                 const float& X() const;
                 float& X();
                 float& Y();
@@ -23,19 +29,19 @@ namespace Punk {
                 const float& R() const;
                 const float& G() const;
                 float& G();
-                vec2 XY() const;
+                const vec2 XY() const;
+                const vec2 YX() const;
                 operator float* ();
                 float& operator [] (int i);
                 const float& operator [] (int i) const;
-                vec2& operator = (const vec2& vec);
-                vec2();
-                vec2(float x, float y);
-                vec2(const vec2& vec);
-                vec2(const vec2& origin, const vec2& destination);
+                vec2& operator = (const vec2& vec);                
+                const vec2 operator -();
                 vec2& Normalize();
+                const vec2 Normalized() const;
                 float Length();
                 float SqrLength();
                 vec2& Negate();
+                const vec2 Negated() const;
                 vec2& Set(float x, float y);
                 vec2 ComponentMult(const vec2& v);
                 float Dot(const vec2& vec);

@@ -64,12 +64,35 @@ namespace Punk {
                 const vec2 ZW() const;
                 const vec2 YW() const;
                 const vec2 WY() const;
+
                 const vec3 XYZ() const;
                 const vec3 XZY() const;
+                const vec3 XWY() const;
+                const vec3 XYW() const;
+                const vec3 XZW() const;
+                const vec3 XWZ() const;
+
                 const vec3 YXZ() const;
                 const vec3 YZX() const;
+                const vec3 YXW() const;
+                const vec3 YWX() const;
+                const vec3 YZW() const;
+                const vec3 YWZ() const;
+
                 const vec3 ZXY() const;
                 const vec3 ZYX() const;
+                const vec3 ZWX() const;
+                const vec3 ZXW() const;
+                const vec3 ZWY() const;
+                const vec3 ZYW() const;
+
+                const vec3 WXY() const;
+                const vec3 WXZ() const;
+                const vec3 WYX() const;
+                const vec3 WYZ() const;
+                const vec3 WZX() const;
+                const vec3 WZY() const;
+
                 const vec4 XYZW() const;
                 const vec4 XYWZ() const;
                 const vec4 XZYW() const;

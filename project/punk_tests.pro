@@ -15,19 +15,29 @@ TARGET = punk_tests
 SOURCES += \
     ../source/tests/main.cpp \
     ../source/tests/punk/engine/core/buffer_test.cpp \
-    ../source/tests/punk/engine/core/string_test.cpp
+    ../source/tests/punk/engine/core/string_test.cpp \
+    ../source/tests/punk/engine/core/string_list_test.cpp \
+    ../source/tests/punk/engine/math/vec2_test.cpp \
+    ../source/tests/punk/engine/math/vec3_test.cpp \
+    ../source/tests/punk/engine/math/vec4_test.cpp
 
 
-LIBS += -lcppunit
+INCLUDEPATH += D:\sdk\cppunit-1.12.1\include\
 
 CONFIG(debug, debug|release) {
-    LIBS += -L../bin/debug/ -lpunk_error -lpunk_string
+    LIBS += -L../bin/debug/ -lpunk_error -lpunk_string \
+            d:/sdk/cppunit-1.12.1/lib/libcppunit.a
     DESTDIR = ../bin/debug
 } else {
-    LIBS += -L../bin/release/ -lpunk_error -lpunk_string
+    LIBS += -L../bin/release/ -lpunk_error -lpunk_string \
+            d:/sdk/cppunit-1.12.1/lib/libcppunit.a
     DESTDIR = ../bin/release
 }
 
 HEADERS += \
     ../source/tests/punk/engine/core/buffer_test.h \
-    ../source/tests/punk/engine/core/string_test.h
+    ../source/tests/punk/engine/core/string_test.h \
+    ../source/tests/punk/engine/core/string_list_test.h \
+    ../source/tests/punk/engine/math/vec2_test.h \
+    ../source/tests/punk/engine/math/vec3_test.h \
+    ../source/tests/punk/engine/math/vec4_test.h

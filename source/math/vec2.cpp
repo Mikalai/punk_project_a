@@ -40,8 +40,12 @@ namespace Punk {
                 return m_v[1];
             }
 
-            vec2 vec2::XY() const {
+            const vec2 vec2::XY() const {
                 return vec2(m_v[0], m_v[1]);
+            }
+
+            const vec2 vec2::YX() const {
+                return vec2{m_v[1], m_v[0]};
             }
 
             vec2::operator float* () {
@@ -56,6 +60,11 @@ namespace Punk {
                 return m_v[i];
             }
 
+            const vec2 vec2::operator -()
+            {
+                return Negated();
+            }
+
             vec2& vec2::operator = (const vec2& vec) {
 #ifdef _WIN32
                 memcpy_s(m_v, sizeof(m_v), vec.m_v, sizeof(m_v));
@@ -67,6 +76,15 @@ namespace Punk {
 
             vec2::vec2() {
                 memset(m_v, 0, sizeof(m_v));
+            }
+
+            vec2::vec2(std::initializer_list<float> v) {
+                int index = 0;
+                for (auto c : v) {
+                    m_v[index] = c;
+                    if (++index == 2)
+                        break;
+                }
             }
 
             vec2::vec2(float x, float y) {
@@ -93,6 +111,12 @@ namespace Punk {
                 return *this;
             }
 
+            const vec2 vec2::Normalized() const
+            {
+                vec2 res = *this;
+                return res.Normalize();
+            }
+
             float vec2::Length() {
                 return (float)sqrtf(float(m_v[0] * m_v[0] + m_v[1] * m_v[1]));
             }
@@ -105,6 +129,11 @@ namespace Punk {
                 m_v[0] = -m_v[0];
                 m_v[1] = -m_v[1];
                 return *this;
+            }
+
+            const vec2 vec2::Negated() const {
+                vec2 v = *this;
+                return v.Negate();
             }
 
             vec2& vec2::Set(float x, float y) {
@@ -122,7 +151,7 @@ namespace Punk {
             }
 
             const Core::String vec2::ToString() const {
-                return Core::String(L"{0}; {1}").arg(m_v[0]).arg(m_v[1]);
+                return Core::String(L"({0}; {1})").arg(m_v[0]).arg(m_v[1]);
             }
 
             const vec2 operator + (const vec2& v1, const vec2& v2) {
