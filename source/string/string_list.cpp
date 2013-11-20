@@ -25,57 +25,53 @@ namespace Punk {
             StringList::StringList(const StringList &value)
                 : impl(new __private::StringListImpl(*value.impl)) {}
 
-            StringList& StringList::operator = (const StringList& value)
-            {
+            StringList& StringList::operator = (const StringList& value) {
                 StringList temp(value);
                 std::swap(impl, temp.impl);
                 return *this;
             }
 
-            void StringList::Push(const String &value)
-            {
+            void StringList::Push(const String &value) {
                 impl->m_list.push_back(value);
             }
 
-            void StringList::Pop()
-            {
+            void StringList::Pop() {
                 impl->m_list.pop_back();
             }
 
-            StringList::~StringList()
-            {
+            StringList::~StringList() {
                 delete impl;
                 impl = nullptr;
             }
 
-            bool operator == (const StringList& l, const StringList& r)
-            {
+            bool operator == (const StringList& l, const StringList& r) {
                 return l.impl->m_list == r.impl->m_list;
             }
 
-            const String& StringList::operator [] (std::uint32_t index) const
-            {
+            const String& StringList::operator [] (std::uint32_t index) const {
                 std::list<String>::iterator it = impl->m_list.begin();
                 std::advance(it, index);
                 return *it;
             }
 
-            String& StringList::operator [] (std::uint32_t index)
-            {
+            String& StringList::operator [] (std::uint32_t index) {
                 std::list<String>::iterator it = impl->m_list.begin();
                 std::advance(it, index);
                 return *it;
             }
 
-            const String StringList::ToString() const
-            {
+            const String StringList::ToString() const {
                 String res;
-                for (const auto& s : impl->m_list)
-                {
+                for (const auto& s : impl->m_list) {
                     res += s;
                 }
                 return res;
             }
+
+            std::uint32_t StringList::Size() const {
+                return impl->m_list.size();
+            }
+
         }
     }
 }

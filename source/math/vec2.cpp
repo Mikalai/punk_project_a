@@ -24,22 +24,6 @@ namespace Punk {
                 return m_v[1];
             }
 
-            float& vec2::R() {
-                return m_v[0];
-            }
-
-            const float& vec2::R() const {
-                return m_v[0];
-            }
-
-            const float& vec2::G() const {
-                return m_v[1];
-            }
-
-            float& vec2::G() {
-                return m_v[1];
-            }
-
             const vec2 vec2::XY() const {
                 return vec2(m_v[0], m_v[1]);
             }

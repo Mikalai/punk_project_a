@@ -1,4 +1,6 @@
 #include <memory.h>
+#include <math.h>
+#include <limits>
 #include "math_error.h"
 #include "vec2.h"
 #include "mat2.h"
@@ -40,14 +42,14 @@ namespace Punk {
 
             mat2::mat2() {
                 memset(m, 0, sizeof(m));
-                m[0] = m[3] = float(1);
+                m[0] = m[3] = 1.0f;
             }
 
-            mat2::mat2(float a00, float a01, float a10, float a11) {
-                m[0] = a00;
-                m[1] = a10;
-                m[2] = a01;
-                m[3] = a11;
+            mat2::mat2(float a1, float a2, float a3, float a4) {
+                m[0] = a1;
+                m[1] = a2;
+                m[2] = a3;
+                m[3] = a4;
             }
 
             mat2& mat2::operator = (const mat2& v)
@@ -72,12 +74,12 @@ namespace Punk {
                 return m[i];
             }
 
-            const vec2 mat2::Row(int i) {
-                return vec2(m[i*2 + 0], m[i*2 + 1]);
+            const vec2 mat2::Row(int row) {
+                return vec2(m[row], m[2 + row]);
             }
 
-            const vec2 mat2::Column(int i) {
-                return vec2(m[i], m[2 + i]);
+            const vec2 mat2::Column(int col) {
+                return vec2(m[0 + 2*col], m[1 + 2*col]);
             }
 
             float mat2::Determinant() const {
@@ -202,6 +204,15 @@ namespace Punk {
                 for (int i = 0; i < 4; i++)
                     m[i] = l[i] - r[i];
                 return m;
+            }
+
+            bool operator == (const mat2& l, const mat2& r) {
+                for (int i = 0; i < 4; ++i) {
+                    float f = fabs(l[i] - r[i]);
+                    if (f > std::numeric_limits<float>::epsilon())
+                        return false;
+                }
+                return true;
             }
         }
     }

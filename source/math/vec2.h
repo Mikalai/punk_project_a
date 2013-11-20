@@ -25,10 +25,6 @@ namespace Punk {
                 float& X();
                 float& Y();
                 const float& Y() const;
-                float& R();
-                const float& R() const;
-                const float& G() const;
-                float& G();
                 const vec2 XY() const;
                 const vec2 YX() const;
                 operator float* ();

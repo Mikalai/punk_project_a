@@ -11,8 +11,6 @@ void Vector2Test::testXYRG() {
     vec2 v{1, 2};
     CPPUNIT_ASSERT(v.X() == 1);
     CPPUNIT_ASSERT(v.Y() == 2);
-    CPPUNIT_ASSERT(v.R() == 1);
-    CPPUNIT_ASSERT(v.G() == 2);
     CPPUNIT_ASSERT(v.XY() == vec2(1, 2));
     CPPUNIT_ASSERT(v.YX() == vec2(2, 1));
 }
@@ -55,7 +53,7 @@ void Vector2Test::testSqrLength()
 {
     vec2 v{3, 4};
     float l = v.Length();
-    CPPUNIT_ASSERT(l == 25);
+    CPPUNIT_ASSERT(l == 5.0f);
 }
 
 void Vector2Test::testNegate()

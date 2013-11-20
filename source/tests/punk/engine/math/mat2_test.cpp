@@ -11,30 +11,30 @@ void Matrix2x2Test::testCreateIdentity() {
     mat2 m = mat2::CreateIdentity();
     CPPUNIT_ASSERT(m[0] == 1);
     CPPUNIT_ASSERT(m[1] == 0);
-    CPPUNIT_ASSERT(m[2] == 1);
-    CPPUNIT_ASSERT(m[3] == 0);
+    CPPUNIT_ASSERT(m[2] == 0);
+    CPPUNIT_ASSERT(m[3] == 1);
 }
 
 void Matrix2x2Test::testCreateMirrorX() {
-    mat2 test{-1, 0, 0, 1};
-    mat2 m = mat2::CreateMirrorX();
-    CPPUNIT_ASSERT(m == test);
-}
-
-void Matrix2x2Test::testCreateMirrorY() {
     mat2 test{1, 0, 0, -1};
     mat2 m = mat2::CreateMirrorX();
     CPPUNIT_ASSERT(m == test);
 }
 
+void Matrix2x2Test::testCreateMirrorY() {
+    mat2 test{-1, 0, 0, 1};
+    mat2 m = mat2::CreateMirrorY();
+    CPPUNIT_ASSERT(m == test);
+}
+
 void Matrix2x2Test::testCreateMirrorXY() {
     mat2 test{-1, 0, 0, -1};
-    mat2 m = mat2::CreateMirrorX();
+    mat2 m = mat2::CreateMirrorXY();
     CPPUNIT_ASSERT(m == test);
 }
 
 void Matrix2x2Test::testMatrix2x2() {
-    mat2 i{1, 0, 0, 1};
+    mat2 i{1.0f, 0.0f, 0.0f, 1.0f};
     mat2 m1;
     CPPUNIT_ASSERT(m1 == i);
     mat2 m2{1, 2, 3, 4};
@@ -70,7 +70,7 @@ void Matrix2x2Test::testDeterminant() {
 }
 
 void Matrix2x2Test::testInverse() {
-    mat2 test{-2, 1.5, 1, -0.5};
+    mat2 test{-2, 1, 1.5f, -0.5f};
     mat2 m1{1, 2, 3, 4};
     mat2 m2 = m1.Inversed();
     CPPUNIT_ASSERT(m2 == test);

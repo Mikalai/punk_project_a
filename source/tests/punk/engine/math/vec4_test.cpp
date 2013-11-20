@@ -22,9 +22,9 @@ void Vector4Test::testVector4() {
     CPPUNIT_ASSERT(v2[3] == 1);
     vec4 v3(v1,v2);
     CPPUNIT_ASSERT(v3[0] == 0);
-    CPPUNIT_ASSERT(v3[1] == 1);
-    CPPUNIT_ASSERT(v3[2] == 2);
-    CPPUNIT_ASSERT(v3[3] == 3);
+    CPPUNIT_ASSERT(v3[1] == -1);
+    CPPUNIT_ASSERT(v3[2] == -2);
+    CPPUNIT_ASSERT(v3[3] == -3);
     vec3 v5(1, 2, 3);
     vec4 v4(v5, 5);
     CPPUNIT_ASSERT(v4[0] == 1);
@@ -103,7 +103,7 @@ void Vector4Test::testXYZW() {
     CPPUNIT_ASSERT(v1.XYZW() == vec4(1, 2, 3, 4));
     CPPUNIT_ASSERT(v1.XYWZ() == vec4(1, 2, 4, 3));
     CPPUNIT_ASSERT(v1.XZYW() == vec4(1, 3, 2, 4));
-    CPPUNIT_ASSERT(v1.XZWY() == vec4(1, 3, 4, 3));
+    CPPUNIT_ASSERT(v1.XZWY() == vec4(1, 3, 4, 2));
     CPPUNIT_ASSERT(v1.XWYZ() == vec4(1, 4, 2, 3));
     CPPUNIT_ASSERT(v1.XWZY() == vec4(1, 4, 3, 2));
 

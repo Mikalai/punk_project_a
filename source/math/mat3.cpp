@@ -1,4 +1,5 @@
 #include <memory.h>
+#include <limits>
 #include <utility>
 #include <math.h>
 #include "mat2.h"
@@ -16,17 +17,18 @@ namespace Punk {
             const mat3 mat3::CreateFromQuaternion(const quat& q)
             {
                 float wx, wy, wz, xx, yy, yz, xy, xz, zz, x2, y2, z2;
-                x2 = q[0] + q[0];
-                y2 = q[1] + q[1];
-                z2 = q[2] + q[2];
-                xx = q[0] * x2;   xy = q[0] * y2;   xz = q[0] * z2;
-                yy = q[1] * y2;   yz = q[1] * z2;   zz = q[2] * z2;
-                wx = q[3] * x2;   wy = q[3] * y2;   wz = q[3] * z2;
+                x2 = q.X() + q.X();
+                y2 = q.Y() + q.Y();
+                z2 = q.Z() + q.Z();
+                xx = q.X() * x2;   xy = q.X() * y2;   xz = q.X() * z2;
+                yy = q.Y() * y2;   yz = q.Y() * z2;   zz = q.Z() * z2;
+                wx = q.W() * x2;   wy = q.W() * y2;   wz = q.W() * z2;
                 mat3 mat;
                 float* m = &mat[0];
-                m[0*3 + 0]=1.0f-(yy+zz); m[0*3 + 1]=xy-wz;        m[0*2 + 2]=xz+wy;
-                m[1*3 + 0]=xy+wz;        m[1*3 + 1]=1.0f-(xx+zz); m[1*2 + 2]=yz-wx;
-                m[2*3 + 0]=xz-wy;        m[2*3 + 1]=yz+wx;        m[2*2 + 2]=1.0f-(xx+yy);
+                m[0]=1.0f-(yy+zz); m[1]=xy-wz;        m[2]=xz+wy;
+                m[3]=xy+wz;        m[4]=1.0f-(xx+zz); m[5]=yz-wx;
+                m[6]=xz-wy;        m[7]=yz+wx;        m[8]=1.0f-(xx+yy);
+
                 return mat;
             }
 
@@ -169,6 +171,8 @@ namespace Punk {
 
             mat3& mat3::SwapRows(int row1, int row2)
             {
+                if (row1 == row2)
+                    return *this;
                 int size = 3;
                 for (int col = 0; col < size; ++col)
                     std::swap(At(row1, col), At(row2, col));
@@ -545,7 +549,7 @@ namespace Punk {
             bool operator == (const mat3& l, const mat3& r)
             {
                 for (int i = 0; i < 9; ++i)
-                    if (l[i] != r[i])
+                    if (fabs(l[i] - r[i]) > std::numeric_limits<float>::epsilon())
                         return false;
                 return true;;
             }

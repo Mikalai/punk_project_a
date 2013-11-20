@@ -26,7 +26,7 @@ namespace Punk {
                 static const mat2 CreateMirrorY();
                 static const mat2 CreateMirrorXY();
                 mat2();
-                mat2(float a00, float a01, float a10, float a11);
+                mat2(float a1, float a2, float a3, float a4);
                 mat2& operator = (const mat2& v);
                 const float& operator [] (int i) const;
                 float& operator [] (int i);
@@ -50,6 +50,7 @@ namespace Punk {
             PUNK_ENGINE_API const mat2 operator / (const mat2& a, float b);
             PUNK_ENGINE_API const mat2 operator + (const mat2& a, const mat2& b);
             PUNK_ENGINE_API const mat2 operator - (const mat2& l, const mat2& r);
+            PUNK_ENGINE_API bool operator == (const mat2& l, const mat2& r);
         }
     }
 }

@@ -30,12 +30,12 @@ win32 {
 
 unix {
 CONFIG(debug, debug|release) {
-    LIBS += -L../bin/debug/ -lpunk_error -lpunk_string
+    LIBS += -L../bin/debug/ -lpunk_error -lpunk_string -lpunk_math
     LIBS += -lgcov -lcppunit
 
     DESTDIR = ../bin/debug
 } else {
-    LIBS += -lgcov -lcppunit -L../bin/release/ -lpunk_error -lpunk_string
+    LIBS += -lgcov -lcppunit -L../bin/release/ -lpunk_error -lpunk_string -lpunk_math
     DESTDIR = ../bin/release
 }
 }
