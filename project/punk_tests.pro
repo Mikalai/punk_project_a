@@ -24,16 +24,20 @@ SOURCES += \
     ../source/tests/punk/engine/math/mat3_test.cpp
 
 
-INCLUDEPATH += D:\sdk\cppunit-1.12.1\include\
+win32 {
+    INCLUDEPATH += D:\sdk\cppunit-1.12.1\include\
+}
 
+unix {
 CONFIG(debug, debug|release) {
-    LIBS += -lgcov -L../bin/debug/ -lpunk_error -lpunk_string \
-            d:/sdk/cppunit-1.12.1/lib/libcppunit.a
+    LIBS += -L../bin/debug/ -lpunk_error -lpunk_string
+    LIBS += -lgcov -lcppunit
+
     DESTDIR = ../bin/debug
 } else {
-    LIBS += -lgcon -L../bin/release/ -lpunk_error -lpunk_string \
-            d:/sdk/cppunit-1.12.1/lib/libcppunit.a
+    LIBS += -lgcov -lcppunit -L../bin/release/ -lpunk_error -lpunk_string
     DESTDIR = ../bin/release
+}
 }
 
 HEADERS += \

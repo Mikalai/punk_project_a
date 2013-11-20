@@ -16,3 +16,6 @@
 *.user
 
 bin
+*.Debug
+*.Release
+*Makefile*
