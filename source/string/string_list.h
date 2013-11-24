@@ -35,6 +35,8 @@ namespace Punk
                 const String& operator [] (std::uint32_t index) const;
                 String& operator [] (std::uint32_t index);
 
+                StringList& operator << (const String& value);
+
                 __private::StringListImpl* impl;
 
                 friend bool operator == (const StringList&, const StringList&);

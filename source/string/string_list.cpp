@@ -72,6 +72,10 @@ namespace Punk {
                 return impl->m_list.size();
             }
 
+            StringList& StringList::operator << (const String& value) {
+                impl->m_list.push_back(value);
+                return *this;
+            }
         }
     }
 }

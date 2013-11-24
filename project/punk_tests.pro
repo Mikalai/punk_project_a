@@ -23,7 +23,32 @@ SOURCES += \
     ../source/tests/punk/engine/math/mat2_test.cpp \
     ../source/tests/punk/engine/math/mat3_test.cpp \
     ../source/tests/punk/engine/math/mat4_test.cpp \
-    ../source/tests/punk/engine/math/matrix_helper_test.cpp
+    ../source/tests/punk/engine/math/matrix_helper_test.cpp \
+    ../source/tests/punk/engine/math/volume_construction_test.cpp \
+    ../source/tests/punk/engine/math/trigonometry_test.cpp \
+    ../source/tests/punk/engine/math/triangle2d_test.cpp \
+    ../source/tests/punk/engine/math/triangle3d_test.cpp \
+    ../source/tests/punk/engine/math/square_root_test.cpp \
+    ../source/tests/punk/engine/math/sphere_test.cpp \
+    ../source/tests/punk/engine/math/root_find_test.cpp \
+    ../source/tests/punk/engine/math/relations_test.cpp \
+    ../source/tests/punk/engine/math/power_test.cpp \
+    ../source/tests/punk/engine/math/portal_test.cpp \
+    ../source/tests/punk/engine/math/polygon3d_test.cpp \
+    ../source/tests/punk/engine/math/plane_test.cpp \
+    ../source/tests/punk/engine/math/perspective_decoder_test.cpp \
+    ../source/tests/punk/engine/math/min_max_test.cpp \
+    ../source/tests/punk/engine/math/line3d_test.cpp \
+    ../source/tests/punk/engine/math/line2d_test.cpp \
+    ../source/tests/punk/engine/math/frustum_test.cpp \
+    ../source/tests/punk/engine/math/ellipsoid_test.cpp \
+    ../source/tests/punk/engine/math/convex_shape_mesh_test.cpp \
+    ../source/tests/punk/engine/math/clip_space_test.cpp \
+    ../source/tests/punk/engine/math/bounding_sphere_test.cpp \
+    ../source/tests/punk/engine/math/bounding_box_test.cpp \
+    ../source/tests/punk/engine/math/array_test.cpp \
+    ../source/tests/punk/engine/math/absolute_value_test.cpp \
+    ../source/tests/punk/engine/math/aabb_test.cpp
 
 
 win32 {
@@ -52,4 +77,29 @@ HEADERS += \
     ../source/tests/punk/engine/math/mat2_test.h \
     ../source/tests/punk/engine/math/mat3_test.h \
     ../source/tests/punk/engine/math/mat4_test.h \
-    ../source/tests/punk/engine/math/matrix_helper_test.h
+    ../source/tests/punk/engine/math/matrix_helper_test.h \
+    ../source/tests/punk/engine/math/volume_construction_test.h \
+    ../source/tests/punk/engine/math/trigonometry_test.h \
+    ../source/tests/punk/engine/math/triangle2d_test.h \
+    ../source/tests/punk/engine/math/triangle3d_test.h \
+    ../source/tests/punk/engine/math/square_root_test.h \
+    ../source/tests/punk/engine/math/sphere_test.h \
+    ../source/tests/punk/engine/math/root_find_test.h \
+    ../source/tests/punk/engine/math/relations_test.h \
+    ../source/tests/punk/engine/math/power_test.h \
+    ../source/tests/punk/engine/math/portal_test.h \
+    ../source/tests/punk/engine/math/polygon3d_test.h \
+    ../source/tests/punk/engine/math/plane_test.h \
+    ../source/tests/punk/engine/math/perspective_decoder_test.h \
+    ../source/tests/punk/engine/math/min_max_test.h \
+    ../source/tests/punk/engine/math/line3d_test.h \
+    ../source/tests/punk/engine/math/line2d_test.h \
+    ../source/tests/punk/engine/math/frustum_test.h \
+    ../source/tests/punk/engine/math/ellipsoid_test.h \
+    ../source/tests/punk/engine/math/convex_shape_mesh_test.h \
+    ../source/tests/punk/engine/math/clip_space_test.h \
+    ../source/tests/punk/engine/math/bounding_sphere_test.h \
+    ../source/tests/punk/engine/math/bounding_box_test.h \
+    ../source/tests/punk/engine/math/array_test.h \
+    ../source/tests/punk/engine/math/absolute_value_test.h \
+    ../source/tests/punk/engine/math/aabb_test.h

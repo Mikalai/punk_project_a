@@ -168,6 +168,11 @@ namespace Punk {
                 return Relation::INSIDE;
             }
 
+            Relation ClassifyPoint(const vec2& point, const Line2D& line) {
+                (void)point; (void)line;
+                throw Error::MathNotImplemented(0);
+            }
+
             Relation ClassifyLine(const Line3D& line, const Plane& p)
             {
                 const vec3 n = p.GetNormal();

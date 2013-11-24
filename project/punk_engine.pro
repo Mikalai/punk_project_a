@@ -8,4 +8,6 @@ CONFIG -= QT
 
 SUBDIRS = punk_engine/punk_error \
           punk_engine/punk_string \
-          punk_engine/punk_math
+          punk_engine/punk_math \
+          punk_engine/punk_core
+          #punk_engine/punk_system
