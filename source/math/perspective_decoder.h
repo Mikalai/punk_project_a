@@ -2,33 +2,36 @@
 #define PERSPECTIVE_DECODER_H
 
 #include <cstdint>
-#include "../config.h"
+#include "config.h"
 
-namespace Math
-{
-    class mat4;
-    class Plane;
+namespace Punk {
+    namespace Engine {
+        namespace Math {
 
-    enum class FrustumPlane : uint8_t;
+            class mat4;
+            class Plane;
 
-    class PUNK_ENGINE_API PerspectiveDecoder
-    {
-    public:
-        PerspectiveDecoder(const mat4& value);
+            enum class FrustumPlane : uint8_t;
+
+            class PUNK_ENGINE_API PerspectiveDecoder
+            {
+            public:
+                PerspectiveDecoder(const mat4& value);
 
 
-        float GetFovX() const;
-        float GetFovY() const;
-        float GetNearZ() const;
-        float GetFarZ() const;
-        float GetWidthToHeightAspectRatio() const;
+                float GetFovX() const;
+                float GetFovY() const;
+                float GetNearZ() const;
+                float GetFarZ() const;
+                float GetWidthToHeightAspectRatio() const;
 
-        const Plane GetPlane(FrustumPlane value);
+                const Plane GetPlane(FrustumPlane value);
 
-    private:
-        const mat4& m_value;
-    };
-
+            private:
+                const mat4& m_value;
+            };
+        }
+    }
 }
 
 #endif // PERSPECTIVE_DECODER_H

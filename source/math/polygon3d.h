@@ -2,35 +2,40 @@
 #define _H_PUNK_MATH_POLYGON_3D
 
 #include <vector>
-#include "../config.h"
+#include "config.h"
 
-#include "vec3.h"
+namespace Punk {
+    namespace Engine {
+        namespace Math {
 
+            namespace __private {
+                struct Polygon3DImpl;
+            }
 
-namespace Math
-{
-	class Plane;
+            class vec3;
 
-	class PUNK_ENGINE_API Polygon3D
-	{
-	public:
-		typedef std::vector<vec3> Points;
+            class PUNK_ENGINE_API Polygon3D
+            {
+            public:
+                Polygon3D();
+                Polygon3D(const Polygon3D& value);
+                Polygon3D& operator = (const Polygon3D& value);
+                ~Polygon3D();
 
-	public:
+                void Append(const vec3& p);
+                const vec3* GetPoints() const;
+                std::size_t GetCount() const;
 
-		void Append(const vec3& p);		
-		const Points& GetPoints() const { return m_points; }
-		
-		bool IsPlanar();
-		bool IsTriangle();
+                bool IsPlanar();
+                bool IsTriangle();
 
-		//	modifies current polygon
-		Polygon3D& MakePlanar();
+                //	modifies current polygon
+                Polygon3D& MakePlanar();
 
-	private:		
-		Points m_points;
-		bool m_is_planar;		
-	};
+                __private::Polygon3DImpl* impl;
+            };
+        }
+    }
 }
 
 #endif

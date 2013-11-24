@@ -44,32 +44,6 @@ namespace Punk {
                 const Core::String ToString() const;
                 mat4& operator *= (const mat4& b);
 
-
-                static const mat4 CreateTargetCameraMatrix(const vec3& eye, const vec3& target, const vec3& up);
-                static const mat4 CreateFreeCameraMatrix(const vec3& eye, const vec3& dir, const vec3& up);
-                static const mat4 CreatePerspectiveProjection(float fovy, float width, float height, float znear, float zfar);
-                static const mat4 CreateOrthographicProjection(float left, float right, float bottom, float top, float _near, float _far);
-                static const mat4 CreateOrthographicProjection2(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax);
-                static const mat4 CreateTextureBiasMatrix();
-                static const mat4 CreateCropMatrix(const Math::FrustumCore &frustum, const Math::mat4 &shadow_view, const Math::mat4& shadow_proj, float& min_x, float& max_x, float& min_y, float& max_y);
-                static const mat4 CreateLightProjectionMatrix(const Math::vec2& z_range);
-                static const mat4 CreateFromQuaternion(const quat& value);
-                static const mat4 CreateFromPoistionAndDirection(const Math::vec3& position, const Math::vec3& direction);
-                static const mat4 CreatePerspectiveProjectionInfinity(float left, float right, float top, float bottom, float znear);
-                static const mat4 CreatePerspectiveProjection(float left, float right, float top, float bottom, float znear, float zfar);
-                static const mat4 CreateIdentity();
-                static const mat4 CreateScaling(float sx, float sy, float sz);
-                static const mat4 CreateTranslate(float x, float y, float z);
-                static const mat4 CreateTranslate(const vec3& v);
-                static const mat4 CreateZRotation(float angle);
-                static const mat4 CreateXRotation(float angle);
-                static const mat4 CreateYRotation(float angle);
-                static const mat4 CreateRotation(float x, float y, float z, float angle);
-                static const mat4 CreateReflectZ();
-                static const mat4 CreateReflectX();
-                static const mat4 CreateReflectY();
-                static const mat4 CreateFromYawPitchRoll(const vec3& eye, float yaw, float pitch, float roll);
-
             private:
                 float m[16];
             };

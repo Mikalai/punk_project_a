@@ -24,7 +24,34 @@ SOURCES += \
     ../../../source/math/mat3.cpp \
     ../../../source/math/mat2.cpp \
     ../../../source/math/quat.cpp \
-    ../../../source/math/math_error.cpp
+    ../../../source/math/math_error.cpp \
+    ../../../source/math/matrix_helper.cpp \
+    ../../../source/math/bounding_box.cpp \
+    ../../../source/math/bounding_sphere.cpp \
+    ../../../source/math/plane.cpp \
+    ../../../source/math/line3d.cpp \
+    ../../../source/math/line2d.cpp \
+    ../../../source/math/volume_construction.cpp \
+    ../../../source/math/root_find.cpp \
+    ../../../source/math/absolute_value.cpp \
+    ../../../source/math/square_root.cpp \
+    ../../../source/math/power.cpp \
+    ../../../source/math/trigonometry.cpp \
+    ../../../source/math/sphere.cpp \
+    ../../../source/math/relations.cpp \
+    ../../../source/math/aabb.cpp \
+    ../../../source/math/triangle2d.cpp \
+    ../../../source/math/triangle3d.cpp \
+    ../../../source/math/array.cpp \
+    ../../../source/math/polygon3d.cpp \
+    ../../../source/math/ellipsoid.cpp \
+    ../../../source/math/portal.cpp \
+    ../../../source/math/clip_space.cpp \
+    ../../../source/math/convex_shape_mesh.cpp \
+    ../../../source/math/frustum_plane.cpp \
+    ../../../source/math/frustum.cpp \
+    ../../../source/math/perspective_decoder.cpp \
+    ../../../source/math/min_max.cpp
 
 
 HEADERS += \
@@ -35,4 +62,32 @@ HEADERS += \
     ../../../source/math/mat3.h \
     ../../../source/math/mat2.h \
     ../../../source/math/quat.h \
-    ../../../source/math/math_error.h
+    ../../../source/math/math_error.h \
+    ../../../source/math/matrix_helper.h \
+    ../../../source/math/bounding_box.h \
+    ../../../source/math/bounding_sphere.h \
+    ../../../source/math/plane.h \
+    ../../../source/math/line3d.h \
+    ../../../source/math/line2d.h \
+    ../../../source/math/volume_construction.h \
+    ../../../source/math/root_find.h \
+    ../../../source/math/absolute_value.h \
+    ../../../source/math/square_root.h \
+    ../../../source/math/power.h \
+    ../../../source/math/trigonometry.h \
+    ../../../source/math/sphere.h \
+    ../../../source/math/relations.h \
+    ../../../source/math/aabb.h \
+    ../../../source/math/triangle3d.h \
+    ../../../source/math/triangle2d.h \
+    ../../../source/math/array.h \
+    ../../../source/math/polygon3d.h \
+    ../../../source/math/ellipsoid.h \
+    ../../../source/math/portal.h \
+    ../../../source/math/clip_space.h \
+    ../../../source/math/convex_shape_mesh.h \
+    ../../../source/math/frustum_plane.h \
+    ../../../source/math/frustum_points.h \
+    ../../../source/math/frustum.h \
+    ../../../source/math/perspective_decoder.h \
+    ../../../source/math/min_max.h

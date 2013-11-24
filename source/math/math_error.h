@@ -40,6 +40,22 @@ namespace Punk {
                 class DevisionByZero : public MathError {
                     using MathError::MathError;
                 };
+
+                class NotEnoughData : public MathError {
+                    using MathError::MathError;
+                };
+
+                class EigenValuesNotFound : public MathError {
+                    using MathError::MathError;
+                };
+
+                class MathNotImplemented : public MathError {
+                    using MathError::MathError;
+                };
+
+                class UnexpectedResult : public MathError {
+                    using MathError::MathError;
+                };
             }
         }
     }

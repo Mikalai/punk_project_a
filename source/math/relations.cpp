@@ -1,11 +1,12 @@
 #include <set>
+#include <cstdint>
+#include <limits>
+#include "min_max.h"
 #include "vec2.h"
 #include "mat2.h"
-#include "low_level_math.h"
-#include <limits>
+#include "mat3.h"
 #include "relations.h"
 #include "constants.h"
-#include "helper.h"
 #include "root_find.h"
 #include "vec3.h"
 #include "sphere.h"
@@ -22,13 +23,16 @@
 #include "triangle2d.h"
 #include "frustum_plane.h"
 #include "frustum_points.h"
+#include "trigonometry.h"
+#include "absolute_value.h"
+#include "bounding_sphere.h"
+#include "mat4.h"
+#include "math_error.h"
 
-namespace Punk
-{
-    namespace Engine
-    {
-        namespace Math
-        {
+namespace Punk {
+    namespace Engine {
+        namespace Math {
+
             Relation ClassifyPoint(const Line3D& line, const vec3& point)
             {
                 const vec3 org = line.GetOrigin();
@@ -36,12 +40,12 @@ namespace Punk
                 const vec3 p = point;
 
                 float cosa = (p-org).Dot(dst);
-                if (Math::Abs(1.0f - Math::Abs(cosa)) < Eps)
+                if (Abs(1.0f - Abs(cosa)) < Eps)
                 {
                     float t = (p - org).Length() / (dst - org).Length();
-                    if (Math::Abs(t) < Eps)
+                    if (Abs(t) < Eps)
                         return Relation::START;
-                    if (Math::Abs(1 - t) < Eps)
+                    if (Abs(1 - t) < Eps)
                         return Relation::END;
                     if (t < 0)
                         return Relation::FRONT;
@@ -133,14 +137,14 @@ namespace Punk
 
             Relation ClassifyPoint(const vec3& point, const ClipSpace& space)
             {
-                for (size_t i = 0; i != space.size(); ++i)
+                for (std::size_t i = 0; i != space.GetSize(); ++i)
                 {
                     auto r = ClassifyPoint(point, space[i]);
-                    if (r == BACK)
-                        return OUTSIDE;
+                    if (r == Relation::BACK)
+                        return Relation::OUTSIDE;
 
                 }
-                return INSIDE;
+                return Relation::INSIDE;
             }
 
             Relation ClassifyPoint(const vec3& point, const ConvexShapeMesh& mesh)
@@ -153,13 +157,10 @@ namespace Punk
                 if (relation == Relation::OUTSIDE)
                     return Relation::OUTSIDE;
 
-                const ConvexShapeMesh::PointsCollection& points = mesh.GetPoints();
-                const ConvexShapeMesh::FacesCollection& faces = mesh.GetFaces();
-                const ConvexShapeMesh::NormalsCollection& normals = mesh.GetNormals();
-
-                for (int i = 0; i < (int)faces.size(); ++i)
+                for (int i = 0; i < (int)mesh.GetFaceCount(); ++i)
                 {
-                    Plane p(points[faces[i][0]], normals[i]);
+                    ivec3 face = mesh.GetFace(i);
+                    Plane p(mesh.GetPoint(face[0]), mesh.GetNormal(i));
                     Relation relation = ClassifyPoint(point, p);
                     if (relation == Relation::BACK)
                         return Relation::OUTSIDE;
@@ -188,9 +189,8 @@ namespace Punk
                 return Relation::INTERSECT;
             }
 
-            Relation ClassifyLine(const Line3D& line, const ClipSpace& space)
-            {
-                throw System::PunkNotImplemented("Not implemented");
+            Relation ClassifyLine(const Line3D&, const ClipSpace&) {
+                throw Error::MathNotImplemented(0);
             }
 
             Relation ClassifyLine(const Line3D& line, const Triangle3D& triangle)
@@ -230,8 +230,9 @@ namespace Punk
                     vec3 q1 = bbox.GetCenter() - 0.5f * bbox.GetR();
                     vec3 q2 = bbox.GetCenter() + 0.5f * bbox.GetR();
 
-                    for (const auto& plane : clipper)
+                    for (auto i = 0u; i < clipper.GetSize(); ++i)
                     {
+                        Plane plane = clipper[i];
                         const vec3 n = plane.GetNormal();
                         float r_eff = 0.5f * ( Abs(n.Dot(bbox.GetS())) + Abs(n.Dot(bbox.GetT())));
 
@@ -257,8 +258,9 @@ namespace Punk
                 }
                 else
                 {
-                    for (const auto& plane : clipper)
+                    for (std::size_t i = 0, max_i = clipper.GetSize(); i < max_i; ++i)
                     {
+                        auto plane = clipper[i];
                         const vec3 n = plane.GetNormal();
                         float r_eff = 0.5f * (Abs(n.Dot(bbox.GetR())) + Abs(n.Dot(bbox.GetS())) + Abs(n.Dot(bbox.GetT())));
 
@@ -273,8 +275,9 @@ namespace Punk
             Relation ClassifyBoudingSphere(const Sphere& sphere, const ClipSpace& clipper)
             {
                 const vec3 q = sphere.GetCenter();
-                for (const auto& plane : clipper)
+                for (auto i = 0u; i < clipper.GetSize(); ++i)
                 {
+                    auto plane = clipper[i];
                     float r = plane * q;
                     if (r <= -sphere.GetRadius())
                         return Relation::NOT_VISIBLE;
@@ -329,7 +332,7 @@ namespace Punk
                 float t2;
                 float dst;
                 auto res = CrossLineLine(line1, line2, t1, t2, dst);
-                if (res == INTERSECT)
+                if (res == Relation::INTERSECT)
                 {
                     auto p1 = line1.PointAt(t1);
                     auto p2 = line2.PointAt(t2);
@@ -404,11 +407,11 @@ namespace Punk
                 return res;
             }
 
-            Relation CrossLineTriangles(const Line3D &line, const std::vector<vec3> &point, const std::vector<ivec3> &faces, std::vector<vec3> &res_points, std::vector<size_t> &res_faces)
+            Relation CrossLineTriangles(const Line3D &line, const std::vector<vec3> &point, const std::vector<ivec3> &faces, std::vector<vec3> &res_points, std::vector<std::size_t> &res_faces)
             {
                 res_faces.clear();
                 res_points.clear();
-                for (size_t i = 0; i != faces.size(); ++i)
+                for (std::size_t i = 0; i != faces.size(); ++i)
                 {
                     const ivec3& face = faces[i];
                     const vec3& p0 = point[face[0]];
@@ -530,9 +533,6 @@ namespace Punk
 
             Relation CrossLineConvexShape(const Line3D& line, const ConvexShapeMesh& mesh, float& t1, float& t2, int& face1, int& face2)
             {
-                const ConvexShapeMesh::PointsCollection& points = mesh.GetPoints();
-                const ConvexShapeMesh::FacesCollection& faces = mesh.GetFaces();
-
                 Relation result[] = {Relation::NOT_INTERSECT, Relation::INTERSECT_1, Relation::INTERSECT_2};
                 int* res_face[] = {&face1, &face2};
                 float* res_params[] = {&t1, &t2};
@@ -541,9 +541,10 @@ namespace Punk
                 Relation* cur_result = result;
                 int** cur_face = res_face;
 
-                for (int i = 0; i < (int)faces.size(); ++i)
+                for (int i = 0; i < (int)mesh.GetFaceCount(); ++i)
                 {
-                    Triangle3D t(points[faces[i][0]], points[faces[i][1]], points[faces[i][2]]);
+                    auto face = mesh.GetFace(i);
+                    Triangle3D t(mesh.GetPoint(face[0]), mesh.GetPoint(face[1]), mesh.GetPoint(face[2]));
                     Relation res = CrossLineTriangle(line, t, **cur_param);
                     if (res == Relation::INTERSECT)
                     {
@@ -595,7 +596,7 @@ namespace Punk
                 const vec3 n2 = b.GetNormal();
 
                 if (fabs(n1.Dot(n2)) > 1.0f - Math::Eps)
-                    return NOT_INTERSECT;
+                    return Relation::NOT_INTERSECT;
 
                 vec3 dir = n1.Cross(n2).Normalized();
 
@@ -694,7 +695,7 @@ namespace Punk
             Relation CrossPlanePolygon(const Plane& plane, const Polygon3D& polygon, const Polygon3D& front, const Polygon3D& back)
             {
                 (void)plane; (void)polygon; (void)front; (void)back;
-                throw System::PunkNotImplemented();
+                throw Error::MathNotImplemented(0);
             }
 
             Relation SplitTriangle(const Plane& splitter, const Triangle3D& t, Triangle3D front[2], Triangle3D back[2])
@@ -731,7 +732,7 @@ namespace Punk
                     Relation r = CrossLinePlane(l, splitter, p);
 
                     if (r != Relation::NOT_INTERSECT)
-                        return (out_error() << "Supposed to have a cross" << std::endl, Relation::NOT_INTERSECT);
+                        throw Error::UnexpectedResult(0);
 
                     if (s1 <= 0 && s2 >= 0)
                     {
@@ -754,7 +755,7 @@ namespace Punk
                     Relation r = CrossLinePlane(l, splitter, p);
 
                     if (r != Relation::NOT_INTERSECT)
-                        return (out_error() << "Supposed to have a cross" << std::endl, Relation::NOT_INTERSECT);
+                        throw Error::UnexpectedResult(0);
 
                     if (s0 <= 0 && s2 >= 0)
                     {
@@ -777,7 +778,7 @@ namespace Punk
                     Relation r = CrossLinePlane(l, splitter, p);
 
                     if (r != Relation::NOT_INTERSECT)
-                        return (out_error() << "Supposed to have a cross" << std::endl, Relation::NOT_INTERSECT);
+                        throw Error::UnexpectedResult(0);
 
                     if (s0 <= 0 && s1 >= 0)
                     {
@@ -834,11 +835,11 @@ namespace Punk
                 vec3 bb, cc;
                 Relation r = CrossLinePlane(ab, splitter, bb);
                 if (r == Relation::NOT_INTERSECT)
-                    return (out_error() << "Supposed to have intersection" << std::endl, Relation::NOT_INTERSECT);
+                    throw Error::UnexpectedResult(0);
 
                 r = CrossLinePlane(ac, splitter, cc);
                 if (r == Relation::NOT_INTERSECT)
-                    return (out_error() << "Supposed to have intersection" << std::endl, Relation::NOT_INTERSECT);
+                    throw Error::UnexpectedResult(0);
 
                 *cur_front = Triangle3D(*a, bb, cc);
                 *cur_back++ = Triangle3D(bb, *b, *c);
@@ -860,17 +861,18 @@ namespace Punk
                 bool partial_visible = false;
                 Portal temp(portal);
                 FrustumPlane p = (FrustumPlane)0;
-                for (const auto& plane : clipper)
+                for (std::size_t j = 0u, max_j = clipper.GetSize(); j < max_j; ++j)
                 {
-                    std::vector<int> in_points; in_points.reserve(portal.size());
-                    std::vector<int> out_points; out_points.reserve(portal.size());
-                    std::vector<int> on_points; on_points.reserve(portal.size());
-                    std::vector<Relation> flags; flags.reserve(portal.size());
+                    auto plane = clipper[j];
+                    std::vector<int> in_points; in_points.reserve(portal.GetSize());
+                    std::vector<int> out_points; out_points.reserve(portal.GetSize());
+                    std::vector<int> on_points; on_points.reserve(portal.GetSize());
+                    std::vector<Relation> flags; flags.reserve(portal.GetSize());
 
-                    for (int i = 0; i < (int)temp.size(); ++i)
+                    for (int i = 0; i < (int)temp.GetSize(); ++i)
                     {
                         const vec3& point = temp[i];
-                        auto dst = plane * point;
+                        auto dst = clipper[j] * point;
 
                         if (dst < - 0.001)	//	back
                         {
@@ -905,9 +907,9 @@ namespace Punk
 
                     // otherwise portal should be clipped
                     //	out_message() << "PORTAL PARTIALLY VISIBLE" << std::endl;
-                    int mod = temp.size();
-                    Portal::PointsCollection new_points;
-                    for (int i = 0; i < (int)temp.size(); ++i)
+                    int mod = temp.GetSize();
+                    std::vector<vec3> new_points;
+                    for (int i = 0; i < (int)temp.GetSize(); ++i)
                     {
                         if (flags[i] == Relation::FRONT || flags[i] == Relation::ON)
                             new_points.push_back(temp[i]);
@@ -928,12 +930,12 @@ namespace Punk
                     }
 
                     p = (FrustumPlane)((int)p + 1);
-                    temp.SetPoints(new_points);
+                    temp.SetPoints(&new_points[0], new_points.size());
                 }
 
                 //	create reduced frustum
-                int mod = (int)temp.size();
-                for (int i = 0; i < (int)temp.size(); ++i)
+                int mod = (int)temp.GetSize();
+                for (int i = 0; i < (int)temp.GetSize(); ++i)
                 {
                     const vec3 p0 = temp[i];
                     const vec3 p1 = temp[(i+1) % mod];
@@ -1007,13 +1009,13 @@ namespace Punk
             Relation CrossLines(const std::vector<Line3D>& lines, std::vector<vec3>& points)
             {
                 points.clear();
-                size_t count = lines.size();
-                for (size_t i = 0; i != count-1; ++i)
+                std::size_t count = lines.size();
+                for (std::size_t i = 0; i != count-1; ++i)
                 {
-                    for (size_t j = i+1; j != count; ++j)
+                    for (std::size_t j = i+1; j != count; ++j)
                     {
                         vec3 point;
-                        if (INTERSECT == CrossLineLine(lines[i], lines[j], point))
+                        if (Relation::INTERSECT == CrossLineLine(lines[i], lines[j], point))
                         {
                             points.push_back(point);
                         }
@@ -1026,20 +1028,20 @@ namespace Punk
 
             PUNK_ENGINE_API Relation CrossPlanes(const std::vector<Plane>& planes, std::vector<Line3D>& lines)
             {
-                size_t size = planes.size();
-                for (int i = 0; i != size; ++i)
+                std::size_t size = planes.size();
+                for (auto i = 0u; i != size; ++i)
                 {
-                    for (int j = i+1; j != size; ++j)
+                    for (auto j = i+1; j != size; ++j)
                     {
-                        Math::Line3D line;
-                        auto res = Math::CrossPlanePlane(planes[i], planes[j], line);
-                        if (res == Math::INTERSECT)
+                        Line3D line;
+                        auto res = CrossPlanePlane(planes[i], planes[j], line);
+                        if (res == Relation::INTERSECT)
                             lines.push_back(line);
                     }
                 }
                 if (lines.empty())
-                    return NOT_INTERSECT;
-                return INTERSECT;
+                    return Relation::NOT_INTERSECT;
+                return Relation::INTERSECT;
             }
 
             PUNK_ENGINE_API Relation ClipExteriorLine(const Line3D& line, const Plane& plane, Line3D& ray)
@@ -1054,55 +1056,55 @@ namespace Punk
 
                 //	find intersection point
                 float t;
-                if (CrossLinePlane(line, plane, t) != INTERSECT)
-                    return NOT_INTERSECT;
+                if (CrossLinePlane(line, plane, t) != Relation::INTERSECT)
+                    return Relation::NOT_INTERSECT;
 
                 if (t < 0 || t > 1)
-                    return NOT_INTERSECT;
+                    return Relation::NOT_INTERSECT;
 
                 //	line segment on negative halfplane (1)
-                if (s <= 0 &&  org_relative == BACK)
-                    return NOT_INTERSECT;
+                if (s <= 0 &&  org_relative == Relation::BACK)
+                    return Relation::NOT_INTERSECT;
 
                 //	line segment on negative halfplane (2)
-                if (s >= 0 && dst_relative == BACK)
-                    return NOT_INTERSECT;
+                if (s >= 0 && dst_relative == Relation::BACK)
+                    return Relation::NOT_INTERSECT;
 
                 //	clip line segment to put dst on the plane (3)
-                if (s <= 0 && dst_relative == FRONT)
+                if (s <= 0 && dst_relative == Relation::FRONT)
                 {
                     auto new_dst = line.PointAt(t);
                     ray.SetOriginDestination(org, new_dst);
-                    return INTERSECT;
+                    return Relation::INTERSECT;
                 }
 
                 // clip line segment to put origin on the plane (4)
-                if (s >= 0 && org_relative == FRONT)
+                if (s >= 0 && org_relative == Relation::FRONT)
                 {
                     auto new_org = line.PointAt(t);
                     ray.SetOriginDestination(new_org, dst);
-                    return INTERSECT;
+                    return Relation::INTERSECT;
                 }
 
                 //	(5)
-                if (org_relative == FRONT && dst_relative == BACK)
+                if (org_relative == Relation::FRONT && dst_relative == Relation::BACK)
                 {
                     auto new_dst = line.PointAt(t);
                     ray.SetOriginDestination(org, new_dst);
-                    return INTERSECT;
+                    return Relation::INTERSECT;
                 }
 
                 //	(6)
-                if (org_relative == BACK && dst_relative == FRONT)
+                if (org_relative == Relation::BACK && dst_relative == Relation::FRONT)
                 {
                     auto new_org = line.PointAt(t);
                     ray.SetOriginDestination(new_org, dst);
-                    return INTERSECT;
+                    return Relation::INTERSECT;
                 }
 
                 ray = line;
 
-                return INTERSECT;
+                return Relation::INTERSECT;
             }
 
             Relation CrossCircleTrianglesProjection(const std::vector<vec3>& point, const std::vector<ivec3>& faces, const Math::vec3& center, float radius)
@@ -1187,33 +1189,33 @@ namespace Punk
                 auto pp2 = t[2];
                 auto pp3 = t[3];
                 if (pp1[0] > aabb.MaxPoint()[0] && pp2[0] > aabb.MaxPoint()[0] && pp3[0] > aabb.MaxPoint()[0])
-                    return NOT_INTERSECT;
+                    return Relation::NOT_INTERSECT;
                 if (pp1[0] < aabb.MinPoint()[0] && pp2[0] < aabb.MinPoint()[0] && pp3[0] < aabb.MinPoint()[0])
-                    return NOT_INTERSECT;
+                    return Relation::NOT_INTERSECT;
                 if (pp1[1] > aabb.MaxPoint()[1] && pp2[1] > aabb.MaxPoint()[1] && pp3[1] > aabb.MaxPoint()[1])
-                    return NOT_INTERSECT;
+                    return Relation::NOT_INTERSECT;
                 if (pp1[1] < aabb.MinPoint()[1] && pp2[1] < aabb.MinPoint()[1] && pp3[1] < aabb.MinPoint()[1])
-                    return NOT_INTERSECT;
+                    return Relation::NOT_INTERSECT;
                 if (pp1[2] > aabb.MaxPoint()[2] && pp2[2] > aabb.MaxPoint()[2] && pp3[2] > aabb.MaxPoint()[2])
-                    return NOT_INTERSECT;
+                    return Relation::NOT_INTERSECT;
                 if (pp1[2] < aabb.MinPoint()[2] && pp2[2] < aabb.MinPoint()[2] && pp3[2] < aabb.MinPoint()[2])
-                    return NOT_INTERSECT;
+                    return Relation::NOT_INTERSECT;
                 //
                 //  the simpliest test
                 //
                 if (ClassifyPoint(pp1, aabb) == Relation::INSIDE
                         || ClassifyPoint(pp2, aabb) == Relation::INSIDE
                         || ClassifyPoint(pp3, aabb) == Relation::INSIDE)
-                    return INTERSECT;
+                    return Relation::INTERSECT;
 
                 if (ClipSegment3D(pp1, pp2, aabb.MinPoint(), aabb.MaxPoint()))
-                    return INTERSECT;
+                    return Relation::INTERSECT;
                 if (ClipSegment3D(pp2, pp3, aabb.MinPoint(), aabb.MaxPoint()))
-                    return INTERSECT;
+                    return Relation::INTERSECT;
                 if (ClipSegment3D(pp3, pp1, aabb.MinPoint(), aabb.MaxPoint()))
-                    return INTERSECT;
+                    return Relation::INTERSECT;
 
-                return NOT_INTERSECT;
+                return Relation::NOT_INTERSECT;
             }
 
             bool ClipSegment(float min, float max, float a, float b, float d, float* t0, float* t1)

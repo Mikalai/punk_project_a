@@ -1,36 +1,37 @@
 #ifndef _H_PUNK_MATH_CLIP_SPACE
 #define _H_PUNK_MATH_CLIP_SPACE
 
-#include <vector>
-#include "../config.h"
-#include "plane.h"
+#include <cstdint>
+#include "config.h"
 
-namespace Math
-{
-	class PUNK_ENGINE_API ClipSpace
-	{
-	public:
-		typedef std::vector<Plane> PlanesCollection;
-		typedef PlanesCollection::iterator iterator;
-		typedef PlanesCollection::const_iterator const_iterator;
-	public:
+namespace Punk {
+    namespace Engine {
+        namespace Math {
 
-		void Add(const Plane& plane);
+            namespace __private {
+                struct ClipSpaceImpl;
+            }
 
-		iterator begin() { return m_planes.begin(); }
-		const_iterator begin() const { return m_planes.begin(); }
-		iterator end() { return m_planes.end(); }
-		const_iterator end() const { return m_planes.end(); }
-        size_t size() const { return m_planes.size(); }
-        bool empty() const { return m_planes.empty(); }
-        const Plane& operator[] (size_t index) const { return m_planes[index]; }
-        Plane& operator[] (size_t index) { return m_planes[index]; }
+            class Plane;
 
-		const PlanesCollection& GetPlanes() const;
+            class PUNK_ENGINE_API ClipSpace
+            {
+            public:
+                ClipSpace();
+                ClipSpace(const ClipSpace& value);
+                ClipSpace& operator = (const ClipSpace& value);
+                ~ClipSpace();
 
-	private:
-		PlanesCollection m_planes;
-	};
+                void Add(const Plane& plane);
+                std::size_t GetSize() const;
+                bool Empty() const;
+                const Plane& operator[] (std::size_t index) const;
+                Plane& operator[] (std::size_t index);
+
+                __private::ClipSpaceImpl* impl {nullptr};
+            };
+        }
+    }
 }
 
 #endif

@@ -5,13 +5,9 @@
 #include <cstdint>
 #include <vector>
 
-namespace Punk
-{
-    namespace Engine
-    {
-        namespace Math
-        {
-
+namespace Punk {
+    namespace Engine {
+        namespace Math {
             class AxisAlignedBox;
             class vec3;
             class vec2;
@@ -32,39 +28,39 @@ namespace Punk
             class FrustumCore;
 
             enum class Relation { INTERSECT,
-                            INTERSECT_1 = INTERSECT,
-                            INTERSECT_2,
-                            INTERSECT_3,
-                            INTERSECT_4,
-                            NOT_INTERSECT,
-                            PARALLEL,
-                            SKEW,
-                            PERPENDICULAR,
-                            INSIDE,
-                            OUTSIDE,
-                            ON,
-                            FRONT,
-                            BACK,
-                            TOP,
-                            BOTTOM,
-                            LEFT,
-                            RIGHT,
-                            START,
-                            END,
-                            A,
-                            B,
-                            C,
-                            AB,
-                            BC,
-                            CA,
-                            NO_SPLIT_FRONT,
-                            NO_SPLIT_BACK,
-                            NO_SPLIT_ON,
-                            SPLIT_1_FRONT_1_BACK,
-                            SPLIT_2_FRONT_1_BACK,
-                            SPLIT_1_FRONT_2_BACK,
-                            VISIBLE, NOT_VISIBLE,
-                            PARTIALLY_VISIBLE };
+                                  INTERSECT_1 = INTERSECT,
+                                  INTERSECT_2,
+                                  INTERSECT_3,
+                                  INTERSECT_4,
+                                  NOT_INTERSECT,
+                                  PARALLEL,
+                                  SKEW,
+                                  PERPENDICULAR,
+                                  INSIDE,
+                                  OUTSIDE,
+                                  ON,
+                                  FRONT,
+                                  BACK,
+                                  TOP,
+                                  BOTTOM,
+                                  LEFT,
+                                  RIGHT,
+                                  START,
+                                  END,
+                                  A,
+                                  B,
+                                  C,
+                                  AB,
+                                  BC,
+                                  CA,
+                                  NO_SPLIT_FRONT,
+                                  NO_SPLIT_BACK,
+                                  NO_SPLIT_ON,
+                                  SPLIT_1_FRONT_1_BACK,
+                                  SPLIT_2_FRONT_1_BACK,
+                                  SPLIT_1_FRONT_2_BACK,
+                                  VISIBLE, NOT_VISIBLE,
+                                  PARTIALLY_VISIBLE };
 
             PUNK_ENGINE_API Relation ClassifyPoint(const vec3& point, const Line3D& line);
             PUNK_ENGINE_API Relation ClassifyPoint(const vec3& point, const Plane& plane);
@@ -75,6 +71,7 @@ namespace Punk
             PUNK_ENGINE_API Relation ClassifyPoint(const vec3& point, const FrustumCore& frustum);
             PUNK_ENGINE_API Relation ClassifyPoint(const vec3& point, const ClipSpace& frustum);
             PUNK_ENGINE_API Relation ClassifyPoint(const vec2& point, const Rect& rect);
+            PUNK_ENGINE_API Relation ClassifyPoint(const vec2& point, const Line2D& line);
             PUNK_ENGINE_API Relation ClassifyPoint(const vec3& point, const AxisAlignedBox& aabb);
 
             PUNK_ENGINE_API Relation ClassifyLine(const Line3D& line, const Plane& plane);

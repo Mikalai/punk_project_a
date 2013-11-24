@@ -1,49 +1,45 @@
 #ifndef _H_PUNK_MATH_PORTAL
 #define _H_PUNK_MATH_PORTAL
 
-#include <vector>
-#include "../config.h"
+#include <cstdint>
+#include "config.h"
 
-#include "vec3.h"
-#include "mat4.h"
-#include "plane.h"
+namespace Punk {
+    namespace Engine {
+        namespace Math {
+            namespace __private {
+                struct PortalImpl;
+            }
 
-namespace Math
-{
-	class PUNK_ENGINE_API Portal
-	{
-	public:
-		typedef std::vector<vec3> PointsCollection;
-		typedef PointsCollection::iterator iterator;
-		typedef PointsCollection::const_iterator const_iterator;
+            class vec3;
+            class mat4;
 
-	public:
-		bool SetPoints(const PointsCollection& points);
+            class PUNK_ENGINE_API Portal
+            {
+            public:
+                Portal();
+                Portal(const Portal& value);
+                Portal& operator = (const Portal& value);
+                ~Portal();
 
-		iterator begin() { return m_points.begin(); }
-		const_iterator begin() const { return m_points.begin(); }
-		iterator end() { return m_points.end(); }
-		const_iterator end() const { return m_points.end(); }
-		unsigned size() const { return m_points.size(); }
+                bool SetPoints(const vec3* points, std::uint32_t count);
+                std::uint32_t GetSize() const;
+                void SetSize(std::uint32_t value);
+                const vec3& operator [] (std::uint32_t index) const;
+                vec3& operator [] (std::uint32_t index);
 
-		const vec3& operator [] (int index) const { return m_points[index]; }
-		vec3& operator [] (int index) { return m_points[index]; }
+                const vec3 GetNormal() const;
+                float GetDistance() const;
 
-        const vec3 GetNormal() const { return m_plane.GetNormal(); }
-		float GetDistance() const { return m_plane.GetDistance(); }
+                __private::PortalImpl* impl {nullptr};
 
-	private:
-		PointsCollection m_points;
-		Plane m_plane;
+                friend PUNK_ENGINE_API const Portal operator * (const mat4& m, const Portal& p);
+            };
 
-		friend PUNK_ENGINE_API const Portal operator * (const mat4& m, const Portal& p);        
-	};
-
-	//	transforms portal to other space
-	PUNK_ENGINE_API const Portal operator * (const mat4& m, const Portal& p);
-//    PUNK_ENGINE_API void SaveBoundingBox(System::Buffer* buffer, const Portal& value);
-//    PUNK_ENGINE_API void LoadBoundingBox(System::Buffer* buffer, Portal& value);
-
+            //	transforms portal to other space
+            PUNK_ENGINE_API const Portal operator * (const mat4& m, const Portal& p);
+        }
+    }
 }
 
 #endif	//	_H_PUNK_MATH_PORTAL

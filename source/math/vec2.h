@@ -34,8 +34,8 @@ namespace Punk {
                 const vec2 operator -();
                 vec2& Normalize();
                 const vec2 Normalized() const;
-                float Length();
-                float SqrLength();
+                float Length() const;
+                float SqrLength() const;
                 vec2& Negate();
                 const vec2 Negated() const;
                 vec2& Set(float x, float y);

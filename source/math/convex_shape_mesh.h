@@ -1,54 +1,54 @@
 #ifndef _H_PUNK_MATH_SHAPE_MESH
 #define _H_PUNK_MATH_SHAPE_MESH
 
-#include <vector>
+#include <cstdint>
+#include "config.h"
 
-#include "../config.h"
-#include "vec3.h"
-#include "bounding_box.h"
-#include "bounding_sphere.h"
+namespace Punk {
+    namespace Engine {
+        namespace Math {
 
-namespace Math
-{
-	class PUNK_ENGINE_API ConvexShapeMesh
-	{
-	public:
-		typedef std::vector<Math::vec3> PointsCollection;
-		typedef std::vector<Math::ivec3> FacesCollection;
-		typedef std::vector<Math::vec3> NormalsCollection;
+            namespace __private {
+                struct ConvexShapeMeshImpl;
+            }
 
-	public:
+            class vec3;
+            class ivec3;
+            class BoundingBox;
+            class BoundingSphere;
 
-		void SetPoints(const PointsCollection& value);
-		void SetFaces(const FacesCollection& value) { m_faces = value; }
-		void SetNormals(const NormalsCollection& value) { m_normals = value; }
+            class PUNK_ENGINE_API ConvexShapeMesh
+            {
+            public:
+                ConvexShapeMesh();
+                ConvexShapeMesh(const ConvexShapeMesh& value);
+                ConvexShapeMesh& operator = (const ConvexShapeMesh& value);
+                ~ConvexShapeMesh();
 
-		const PointsCollection& GetPoints() const { return m_points; }		
-		PointsCollection& GetPoints() { return m_points; }		
-		const FacesCollection& GetFaces() const { return m_faces; }
-		FacesCollection& GetFaces() { return m_faces; }
-		const NormalsCollection& GetNormals() const { return m_normals; }
-		NormalsCollection& GetNormals() { return m_normals; }		
+                void SetPoints(const vec3* points, std::size_t count);
+                void SetFaces(const ivec3* faces, std::size_t count);
+                void SetNormals(const vec3* normals, std::size_t count);
 
-		bool UpdateBoundingVolumes();
+                const vec3& GetPoint(std::size_t index) const;
+                const ivec3& GetFace(std::size_t index) const;
+                const vec3& GetNormal(std::size_t index) const;
 
-		const Math::BoundingBox& GetBoundingBox() const { return m_bbox; }
-		const Math::BoundingSphere& GetBoundingSphere() const { return m_bsphere; }
+                std::size_t GetFaceCount() const;
+                std::size_t GetPointsCount() const;
+                std::size_t GetNormalsCount() const;
 
-	private:
-		Math::BoundingBox m_bbox;
-		Math::BoundingSphere m_bsphere;
+                void UpdateBoundingVolumes();
 
-		PointsCollection m_points;
-		FacesCollection m_faces;
-		NormalsCollection m_normals;
+                const Math::BoundingBox& GetBoundingBox() const;
+                const Math::BoundingSphere& GetBoundingSphere() const;
 
-//        friend void SaveBoundingBox(System::Buffer* buffer, const ConvexShapeMesh& value);
-//        friend void LoadBoundingBox(System::Buffer* buffer, ConvexShapeMesh& value);
-	};
+                __private::ConvexShapeMeshImpl* impl {nullptr};
 
-//    PUNK_ENGINE_API void SaveBoundingBox(System::Buffer* buffer, const ConvexShapeMesh& value);
-//    PUNK_ENGINE_API void LoadBoundingBox(System::Buffer* buffer, ConvexShapeMesh& value);
+            };
+
+            //    PUNK_ENGINE_API void SaveBoundingBox(System::Buffer* buffer, const ConvexShapeMesh& value);
+            //    PUNK_ENGINE_API void LoadBoundingBox(System::Buffer* buffer, ConvexShapeMesh& value);
+        }
+    }
 }
-
 #endif	//	_H_PUNK_MATH_SHAPE_MESH

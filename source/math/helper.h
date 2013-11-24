@@ -25,16 +25,6 @@ namespace Math
 	PUNK_ENGINE_API const mat3 NormalMatrixFromWorldView(const mat4& worldView);
 
 	//	used to find ceter of the mass of the object
-    PUNK_ENGINE_API const vec3 CalculateAverage(const std::vector<vec3>& points);
-    PUNK_ENGINE_API const mat3 CreateCovarianceMatrix(const std::vector<vec3>& points);
-	PUNK_ENGINE_API bool DiagonalizeMatrix(const mat3& m, mat3& res);
-	PUNK_ENGINE_API bool EigenValues(const mat3& m, vec3& res);
-	PUNK_ENGINE_API bool EigenVectors(const mat3& m, const vec3& value, vec3 res[3]);
-
-	PUNK_ENGINE_API bool SymmetricEigenSystem(const mat3& m, vec3& value, mat3& r);
-
-	//	used to find native axis of the point set
-    PUNK_ENGINE_API bool CalculateNativeAxis(const std::vector<vec3>& points, vec3& r, vec3& s, vec3& t);
 	PUNK_ENGINE_API bool YawPitchRollToUpDirection(float yaw, float pitch, float roll, vec3& up, vec3& dir);
 
 	template<class T>
@@ -102,30 +92,6 @@ namespace Math
 			return value;
 		else
 			return value + ratio - rest;
-	}
-
-	template<class T>
-	inline T Min(T x, T y)
-	{
-		return x < y ? x : y;
-	}
-
-	template<class T>
-	inline T Max(T x, T y)
-	{
-		return x > y ? x : y;
-	}
-
-	template<class T>
-	inline T Min(T a, T b, T c)
-	{
-		return Min(a, Min(b, c));
-	}
-
-	template<class T>
-	inline T Max(T a, T b, T c)
-	{
-		return Max(a, Max(b, c));
 	}
 
 	template<class T>

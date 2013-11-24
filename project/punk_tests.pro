@@ -22,7 +22,8 @@ SOURCES += \
     ../source/tests/punk/engine/math/vec4_test.cpp \
     ../source/tests/punk/engine/math/mat2_test.cpp \
     ../source/tests/punk/engine/math/mat3_test.cpp \
-    ../source/tests/punk/engine/math/mat4_test.cpp
+    ../source/tests/punk/engine/math/mat4_test.cpp \
+    ../source/tests/punk/engine/math/matrix_helper_test.cpp
 
 
 win32 {
@@ -50,4 +51,5 @@ HEADERS += \
     ../source/tests/punk/engine/math/vec4_test.h \
     ../source/tests/punk/engine/math/mat2_test.h \
     ../source/tests/punk/engine/math/mat3_test.h \
-    ../source/tests/punk/engine/math/mat4_test.h
+    ../source/tests/punk/engine/math/mat4_test.h \
+    ../source/tests/punk/engine/math/matrix_helper_test.h

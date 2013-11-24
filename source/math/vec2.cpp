@@ -101,11 +101,11 @@ namespace Punk {
                 return res.Normalize();
             }
 
-            float vec2::Length() {
-                return (float)sqrtf(float(m_v[0] * m_v[0] + m_v[1] * m_v[1]));
+            float vec2::Length() const {
+                return sqrtf(float(m_v[0] * m_v[0] + m_v[1] * m_v[1]));
             }
 
-            float vec2::SqrLength() {
+            float vec2::SqrLength() const {
                 return m_v[0] * m_v[0] + m_v[1] * m_v[1];
             }
 

@@ -1,46 +1,35 @@
-﻿/*
-File: AxisAlignedBox.h
-Author: Abramaŭ Mikałaj
-Description: A bounding box
-*/
-
-#ifndef _H_PUNK_MATH_AABB
+﻿#ifndef _H_PUNK_MATH_AABB
 #define _H_PUNK_MATH_AABB
 
-#include <iosfwd>
-#include "../config.h"
-#include "mat4.h"
+#include "config.h"
 #include "vec3.h"
 
-namespace Math
-{
-	class Line3D;
+namespace Punk {
+    namespace Engine {
+        namespace Math {
+            class mat4;
 
-	class PUNK_ENGINE_API AxisAlignedBox
-	{
-	public:
-		
-		void Create(const float* data, unsigned offset, int count);
+            class PUNK_ENGINE_API AxisAlignedBox
+            {
+            public:
 
-		const vec3& MinPoint() const;
-		const vec3& MaxPoint() const;
-		vec3& MinPoint();
-		vec3& MaxPoint();		
+                void Create(const float* data, unsigned offset, int count);
 
-        void Set(const vec3& min_point, const vec3& max_point);
+                const vec3& MinPoint() const;
+                const vec3& MaxPoint() const;
+                vec3& MinPoint();
+                vec3& MaxPoint();
 
-    private:
-        vec3 m_min;
-        vec3 m_max;
-	};
+                void Set(const vec3& min_point, const vec3& max_point);
 
-	PUNK_ENGINE_API AxisAlignedBox Merge(const AxisAlignedBox* b1, const AxisAlignedBox* b2);
+            private:
+                vec3 m_min;
+                vec3 m_max;
+            };
 
-
-//    PUNK_ENGINE_API void SaveBoundingBox(System::Buffer* buffer, const AxisAlignedBox& value);
-//    PUNK_ENGINE_API void LoadBoundingBox(System::Buffer* buffer, AxisAlignedBox& value);
-
-
+            PUNK_ENGINE_API AxisAlignedBox Merge(const AxisAlignedBox* b1, const AxisAlignedBox* b2);
+        }
+    }
 }
 
 #endif	//	_H_PUNK_MATH_AABB
