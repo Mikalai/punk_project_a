@@ -22,6 +22,8 @@ namespace Punk
 			public:
 
 				Buffer();
+                Buffer(const Buffer& value);
+                Buffer& operator = (const Buffer& value);
 				Buffer(std::uint32_t size);
 				~Buffer();
 				void SetPosition(std::uint32_t pos);

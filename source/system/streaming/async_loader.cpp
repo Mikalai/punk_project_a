@@ -1,6 +1,7 @@
 #include "engine_objects.h"
 #include "async_loader.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
     PUNK_OBJECT_REG(AsyncLoader, "System.AsyncLoader", PUNK_ASYNC_LOADER, nullptr, nullptr, &Object::Info.Type);
@@ -15,3 +16,5 @@ namespace System
         Info.Remove(this);
     }
 }
+PUNK_ENGINE_END
+b

@@ -3,6 +3,7 @@
 
 #include "event.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
     class PUNK_ENGINE_API MouseEvent : public Event
@@ -19,8 +20,9 @@ namespace System
         bool xbutton1 : 1;
         bool xbutton2 : 1;
 
-        const string ToString() override;
+        const Core::String ToString() const override;
     };
 }
+PUNK_ENGINE_END
 
 #endif // MOUSE_EVENT_H

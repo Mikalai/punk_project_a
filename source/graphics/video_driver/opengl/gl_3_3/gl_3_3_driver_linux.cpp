@@ -21,6 +21,7 @@
 #include "../render_targets/module.h"
 #include "../textures/module.h"
 
+PUNK_ENGINE_BEGIN
 namespace Gpu
 {
     namespace OpenGL
@@ -1382,3 +1383,4 @@ namespace Gpu
 
 //    printf( "Making context current\n" );
 //    glXMakeCurrent( display, window, ctx );
+PUNK_ENGINE_END

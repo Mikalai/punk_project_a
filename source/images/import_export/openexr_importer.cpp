@@ -1,10 +1,10 @@
 #include "openexr_importer.h"
 
-namespace ImageModule
+PUNK_ENGINE_BEGIN
+namespace Image
 {
-
-OpenEXRImporter::OpenEXRImporter()
-{
+    OpenEXRImporter::OpenEXRImporter()
+    {
+    }
 }
-
-}
+PUNK_ENGINE_END

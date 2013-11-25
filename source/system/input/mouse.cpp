@@ -1,37 +1,41 @@
 #include <memory.h>
 #include "mouse.h"
 #include "system/window/module.h"
+#include "system/logger/module.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
-    PUNK_OBJECT_REG(Mouse, "System.Mouse", typeid(Mouse).hash_code(), nullptr, nullptr, &Object::Info.Type);
+    Core::Rtti Mouse::Type {"Punk.Engine.System.Mouse", typeid(Mouse).hash_code(), {&Core::Object::Type}};
 
-    struct MouseImpl
-    {
-        MouseImpl()
-            : m_region(0)
-        {
-            memset(m_buttons, 0, sizeof(m_buttons));
-        }
+    namespace __private {
+        struct MouseImpl {
+            MouseImpl()
+                : m_region(0) {
+                memset(m_buttons, 0, sizeof(m_buttons));
+            }
 
-        static const int MAX_MOUSE_BUTTONS = 3;
-        bool m_buttons[MAX_MOUSE_BUTTONS];
-        bool m_locked;
-        bool m_visible;
-        Window* m_region;
-    };
+            static const int MAX_MOUSE_BUTTONS = 3;
+            bool m_buttons[MAX_MOUSE_BUTTONS];
+            bool m_locked;
+            bool m_visible;
+            Window* m_region;
+        };
+    }
 
     Mouse::Mouse()
-        : impl(new MouseImpl)
+        : impl(new __private::MouseImpl)
 	{
-        Info.Add(this);		
+        CREATE_INSTANCE(Mouse);
+        out_message().Write("Mouse created");
 	}
 
     Mouse::~Mouse()
     {
+        DESTROY_INSTANCE();
         delete impl;
-        impl = nullptr;
-        Info.Remove(this);
+        impl = nullptr;        
+        out_message().Write("Mouse destroyed");
     }
 
     void Mouse::SetButtonState(MouseButtons button, bool state)
@@ -56,6 +60,7 @@ namespace System
 
 	void Mouse::Show(bool value)
 	{
+        (void)value;
 #ifdef _WIN32
         ShowCursor(impl->m_visible = value);
 #endif
@@ -84,6 +89,7 @@ namespace System
 		return p.x;
 #endif
 #ifdef __gnu_linux__
+        return 0;
 #endif
 	}
 
@@ -94,6 +100,7 @@ namespace System
 		GetCursorPos(&p);
 		return p.y;
 #endif
+        return 0;
 	}
 
 	int Mouse::GetLocalX() const
@@ -105,6 +112,7 @@ namespace System
 			return p.x;
         return p.x - impl->m_region->GetX();
 #endif
+        return 0;
 	}
 
 	int Mouse::GetLocalY() const
@@ -116,5 +124,7 @@ namespace System
 			return p.y;
         return p.y - impl->m_region->GetY();
 #endif
+        return 0;
 	}
 }
+PUNK_ENGINE_END

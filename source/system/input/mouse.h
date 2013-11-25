@@ -1,14 +1,17 @@
 #ifndef _H_PUNK_SYSTEM_MOUSE
 #define _H_PUNK_SYSTEM_MOUSE
 
-#include "system/core/object.h"
+#include "core/object.h"
 #include "mouse_interface.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
-    struct MouseImpl;
+    namespace __private {
+        struct MouseImpl;
+    }
 
-    class PUNK_ENGINE_API Mouse : public IMouse, public Object
+    class PUNK_ENGINE_API Mouse : public IMouse, public Core::Object
 	{
 	public:        
 
@@ -31,10 +34,11 @@ namespace System
         bool IsVisible() const override;
         Window* GetBoundedWindow() const override;
 
-        MouseImpl* impl;
+        __private::MouseImpl* impl;
 
         PUNK_OBJECT(Mouse)
 	};
 }
+PUNK_ENGINE_END
 
 #endif

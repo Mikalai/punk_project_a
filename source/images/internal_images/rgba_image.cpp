@@ -1,7 +1,8 @@
 #include "rgba_image.h"
 #include "image_impl.h"
 
-namespace ImageModule
+PUNK_ENGINE_BEGIN
+namespace Image
 {
 	RGBAImage::RGBAImage()
 		: Image()
@@ -22,3 +23,4 @@ namespace ImageModule
 		return *this;
 	}
 }
+PUNK_ENGINE_END

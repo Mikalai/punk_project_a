@@ -1,17 +1,19 @@
 #include "warning_logger.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
-    WarningLogger::WarningLogger(const string &filename)
+    WarningLogger::WarningLogger(const Core::String &filename)
         : FileLogger(filename)
     {}
 
     WarningLogger::~WarningLogger() {}
 
-    void WarningLogger::Write(const string &value)
+    void WarningLogger::Write(const Core::String &value)
     {
-        string s = string("Warning: {0}").arg(value);
+        Core::String s = Core::String("Warning: {0}").arg(value);
         ConsoleLogger::Write(s);
         FileLogger::Write(s);
     }
 }
+PUNK_ENGINE_END

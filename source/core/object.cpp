@@ -1,13 +1,13 @@
 #include <sstream>
+#include "object.h"
 #include "string/module.h"
-#include "meta_class.h"
 
 namespace Punk {
     namespace Engine {
         namespace Core {
 
             unsigned m_id_next = 0;
-            Rtti Object::Type("System.Object", typeid(Object).hash_code(), {});
+            Rtti Object::Type("Punk.Engine.Core.Object", typeid(Object).hash_code(), {});
 
             Object::Object()
                 : m_owner{nullptr}
@@ -54,10 +54,21 @@ namespace Punk {
                 String original = GetName();
                 String name = original;
                 int i = 1;
-                while (HasInstance(GetMetaClass(), name))
+                while (HasInstance(GetType(), name))
                     name = original + String(L"_{0}").arg(i);
                 o->SetName(name);
                 return o;
+            }
+
+            unsigned Object::Acquire() {
+                m_ref_count++;
+                return m_ref_count;
+            }
+
+            unsigned Object::Release() {
+                if (--m_ref_count == 0)
+                    delete this;
+                return m_ref_count;
             }
 
 //            void SaveObject(Buffer *buffer, const Object *o) {

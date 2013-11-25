@@ -4,7 +4,8 @@
 
 #include "importer.h"
 
-namespace ImageModule
+PUNK_ENGINE_BEGIN
+namespace Image
 {
     class Image;
 
@@ -13,12 +14,13 @@ namespace ImageModule
     public:
         TiffImporter();
 
-        virtual bool Load(const System::string& filename);
+        virtual bool Load(const Core::String& filename);
         virtual bool Load(std::istream& stream, Image* image);
 
         friend class Importer;
     };
 }
+PUNK_ENGINE_END
 
 #endif  //  _H_PUNK_IMAGE_MODULE_TIFF_IMPORTER
 #endif  //  USE_LIB_TIFF

@@ -1,9 +1,10 @@
 #ifndef _H_PUNK_SYSTEM_ASSERT
 #define _H_PUNK_SYSTEM_ASSERT
 
-#include "../../config.h"
-#include "../../string/string.h"
+#include "config.h"
+#include "string/string.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
 	//	Redefinition of assertion function with smart stack tracer
@@ -31,5 +32,6 @@ namespace System
 #endif
 
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_SYSTEM_ASSERT

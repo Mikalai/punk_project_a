@@ -1,9 +1,11 @@
-#include "errors/module.h"
+#include "system/errors/module.h"
+#include "system/events/key_event.h"
 #include "keymap.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
-    PUNK_OBJECT_REG(KeyMap, "System.KeyMap", typeid(KeyMap).hash_code(), nullptr, nullptr, &Object::Info.Type);
+    Core::Rtti KeyMap::Type {"Punk.Engine.System.KeyMap", typeid(KeyMap).hash_code(), {&Core::Object::Type}};
 
     struct KeyMapImpl
     {
@@ -48,20 +50,27 @@ namespace System
     {
         auto it = impl->m_actions.find(key);
         if (it == impl->m_actions.end())
-            throw PunkException("Key was not found");
+            throw Error::SystemException("Key was not found");
         return it->second;
+    }
+
+    void KeyMap::OnKeyEvent(const KeyEvent &event) {
+        for (auto action : impl->m_actions[event.key]) {
+            (*action)(event);
+        }
     }
 
     KeyMap::KeyMap()
         : impl(new KeyMapImpl)
     {
-        Info.Add(this);
+        CREATE_INSTANCE(KeyMap);
     }
 
     KeyMap::~KeyMap()
     {        
+        DESTROY_INSTANCE();
         delete impl;
-        impl = nullptr;
-        Info.Remove(this);
+        impl = nullptr;        
     }
 }
+PUNK_ENGINE_END

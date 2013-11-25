@@ -1,6 +1,8 @@
 #include "environment.h"
+#include "string/string.h"
 #include "folder.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
 	Environment* Environment::m_instance;
@@ -110,3 +112,4 @@ namespace System
 		//return GetCurrentFolder() + L"weapons\\";
 	}
 }
+PUNK_ENGINE_END

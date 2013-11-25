@@ -5,6 +5,7 @@ CONFIG += dll
 TEMPLATE = lib
 TARGET = punk_string
 
+LIBS += -L$${LIBDIR} -lpunk_error
 INCLUDEPATH += ../../../source
 
 HEADERS += \
@@ -22,12 +23,3 @@ SOURCES += \
     ../../../source/string/string.cpp \
     ../../../source/string/string_list.cpp
 
-CONFIG(debug, debug|release)
-{
-LIBS += -L../../../bin/debug/ -lpunk_error
-}
-
-CONFIG(release, debug|release)
-{
-LIBS += -L../../../bin/release/ -lpunk_error
-}

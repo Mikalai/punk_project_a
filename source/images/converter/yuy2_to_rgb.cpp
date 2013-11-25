@@ -1,6 +1,5 @@
 #include "yuy2_to_rgb.h"
-#include "../../system/logger.h"
-#include "../../math/helper.h"
+#include "system/logger/module.h"
 
 namespace ImageModule
 {

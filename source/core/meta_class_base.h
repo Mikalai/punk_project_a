@@ -16,9 +16,7 @@ namespace Punk {
                 virtual Object* GetInstance(size_t index) const = 0;
                 virtual void Add(Object*) = 0;
                 virtual void Remove(Object*) = 0;
-            };
-
-            PUNK_ENGINE_API Object* HasInstance(const ClassBase* meta_class, const String& name);
+            };            
         }
     }
 }

@@ -3,17 +3,19 @@
 
 #include "event.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
-	class PUNK_ENGINE_API MouseHooverEvent : public Event, public Poolable<MouseHooverEvent>
+    class PUNK_ENGINE_API MouseHooverEvent : public Event
     {        
         MouseHooverEvent(const MouseHooverEvent&);
     public:
 		MouseHooverEvent();
         int x, y;
 		int x_prev, y_prev;
-		virtual string ToString();
+        const Core::String ToString() const override;
     };
 }
+PUNK_ENGINE_END
 
 #endif // KEY_CHAR_EVENT_H

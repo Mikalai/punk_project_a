@@ -1,7 +1,10 @@
 #ifndef _H_PUNK_IMAGE_FORMATS
 #define _H_PUNK_IMAGE_FORMATS
 
-namespace ImageModule
+#include "config.h"
+
+PUNK_ENGINE_BEGIN
+namespace Image
 {
     enum DataType : unsigned {
         IMAGE_DATA_TYPE_BYTE,
@@ -174,4 +177,6 @@ namespace ImageModule
 		IMAGE_FORMAT_RED, 
 		IMAGE_FORMAT_BAD};
 }
+PUNK_ENGINE_END
+
 #endif

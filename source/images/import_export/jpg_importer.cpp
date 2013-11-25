@@ -1,21 +1,22 @@
 #include <fstream>
 #include <istream>
 #include <ostream>
-#include "../../system/buffer.h"
-#include "../../system/logger.h"
+#include "string/module.h"
+#include "system/logger/module.h"
 
 #include "jpg_importer.h"
-#include "../internal_images/image_impl.h"
+#include "images/internal_images/image_impl.h"
 #include <stdio.h>
 #include <memory.h>
 
-#ifdef USE_JPEG
+#ifdef USE_LIB_JPEG
 #include <jpeglib.h>
 #include <jerror.h>
 #include <setjmp.h>
-#endif  //  USE_JPEG
+#endif  //  USE_LIB_JPEG
 
-namespace ImageModule
+PUNK_ENGINE_BEGIN
+namespace Image
 {
 	JpgImporter::JpgImporter()
 		: Importer()
@@ -24,7 +25,7 @@ namespace ImageModule
         s.src = nullptr;
     }
 
-#ifdef USE_JPEG
+#ifdef USE_LIB_JPEG
 	struct my_error_mgr {
 		struct jpeg_error_mgr pub;	/* "public" fields */
 
@@ -295,12 +296,12 @@ namespace ImageModule
 //		src->bytes_in_buffer = (size_t) insize;
 //		src->next_input_byte = (JOCTET *) inbuffer;
 //	}
-#endif  //  USE_JPEG
+#endif  //  USE_LIB_JPEG
 
 	bool JpgImporter::Load(std::istream& stream, Image* image)
 	{
         jpeg_decompress_struct cinfo;
-	    #ifdef USE_JPEG
+        #ifdef USE_LIB_JPEG
         my_error_mgr jerr;
 
 		jpeg_create_decompress(&cinfo);
@@ -325,7 +326,8 @@ namespace ImageModule
 		else
 		{
 			jpeg_destroy_decompress(&cinfo);
-			return (out_error() << "Bad image format" << std::endl, false);
+            out_error().Write("Bad image format");
+            return false;
 		}
 
         image->Create(output_width, output_height, output_components, ComponentType::UnsignedByte, format);
@@ -350,20 +352,20 @@ namespace ImageModule
 		#else
         (void)stream; (void)image;
 		throw System::PunkNotImplemented(L"Can't work with jpeg files, cause jpeg lib was not used");
-		#endif  //  USE_JPEG
+        #endif  //  USE_LIB_JPEG
     }
 
-    bool JpgImporter::Load(System::Buffer *mem, Image *image)
+    bool JpgImporter::Load(Core::Buffer *mem, Image *image)
     {
         jpeg_decompress_struct cinfo;
-        #ifdef USE_JPEG
+        #ifdef USE_LIB_JPEG
         my_error_mgr jerr;
 
         jpeg_create_decompress(&cinfo);
         cinfo.err = jpeg_std_error(&jerr.pub);
         jerr.pub.error_exit = my_error_exit;
 
-        jpeg_mem_src(&cinfo, (unsigned char*)mem->StartPointer(), (unsigned long)mem->GetSize());
+        jpeg_mem_src(&cinfo, (unsigned char*)mem->Data(), (unsigned long)mem->GetSize());
         jpeg_read_header(&cinfo, TRUE);
         jpeg_start_decompress(&cinfo);
 
@@ -381,7 +383,8 @@ namespace ImageModule
         else
         {
             jpeg_destroy_decompress(&cinfo);
-            return (out_error() << "Bad image format" << std::endl, false);
+            out_error().Write("Bad image format");
+            return false;
         }
 
         image->Create(output_width, output_height, output_components, ComponentType::UnsignedByte, format);
@@ -406,15 +409,15 @@ namespace ImageModule
         #else
         (void)stream; (void)image;
         throw System::PunkNotImplemented(L"Can't work with jpeg files, cause jpeg lib was not used");
-        #endif  //  USE_JPEG
+        #endif  //  USE_LIB_JPEG
     }
 
-	bool JpgImporter::Load(const System::string& file)
+    bool JpgImporter::Load(const Core::String& file)
 	{
-		std::ifstream stream(file.ToStdString().c_str(), std::ios_base::binary);
+        std::ifstream stream((char*)file.ToUtf8().Data(), std::ios_base::binary);
 		if (!stream.is_open())
 		{
-			out_error() << L"Can't open file: " + file << std::endl;
+            out_error().Write(L"Can't open file: " + file);
 			return false;
 		}
 		Load(stream, this);
@@ -422,4 +425,4 @@ namespace ImageModule
 		return true;
 	}
 }
-
+PUNK_ENGINE_END

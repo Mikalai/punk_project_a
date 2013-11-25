@@ -1,18 +1,19 @@
 #include <stdio.h>
+#include "string/module.h"
 #include "png_exporter.h"
-#include "../internal_images/image.h"
-#include "../../string/string.h"
-#include "../error/module.h"
+#include "images/internal_images/image.h"
+#include "images/error/module.h"
 
-#ifdef USE_PNG
+#ifdef USE_LIB_PNG
 #include "png.h"
-#endif // USE_PNG
+#endif // USE_LIB_PNG
 
-namespace ImageModule
+PUNK_ENGINE_BEGIN
+namespace Image
 {
-	void PngExporter::Export(const System::string& filename, const Image& image)
+    void PngExporter::Export(const Core::String& filename, const Image& image)
 	{
-	    #ifdef USE_PNG
+        #ifdef USE_LIB_PNG
 		FILE *fp;
 		png_structp png_ptr;
 		png_infop info_ptr;
@@ -21,10 +22,10 @@ namespace ImageModule
 #ifdef _WIN32
 		_wfopen_s(&fp, filename.Data(), L"wb");
 #elif defined __gnu_linux__
-        fp = fopen(&filename.ToUtf8()[0], "wb");
+        fp = fopen((char*)filename.ToUtf8().Data(), "wb");
 #endif
 		if (fp == NULL)
-			throw ImageException(L"Can't open file");
+            throw Error::ImageException(L"Can't open file");
 
 		/* Create and initialize the png_struct with the desired error handler
 		* functions.  If you want to use the default stderr and longjump method,
@@ -37,7 +38,7 @@ namespace ImageModule
 		if (png_ptr == NULL)
 		{
 			fclose(fp);
-			throw ImageException(L"Can't create png structure");
+            throw Error::ImageException(L"Can't create png structure");
 		}
 
 		/* Allocate/initialize the image information data.  REQUIRED */
@@ -46,7 +47,7 @@ namespace ImageModule
 		{
 			fclose(fp);
 			png_destroy_write_struct(&png_ptr,  NULL);
-			throw ImageException(L"Can't create png info structure");
+            throw Error::ImageException(L"Can't create png info structure");
 		}
 
 		/* Set error handling.  REQUIRED if you aren't supplying your own
@@ -57,7 +58,7 @@ namespace ImageModule
 			/* If we get here, we had a problem reading the file */
 			fclose(fp);
 			png_destroy_write_struct(&png_ptr, &info_ptr);
-			throw ImageException(L"Error reading file");
+            throw Error::ImageException(L"Error reading file");
 		}
 
 		/* set up the output control if you are using standard C streams */
@@ -153,6 +154,7 @@ namespace ImageModule
 #else
         (void)filename; (void)image;
 		throw System::PunkNotImplemented(L"PNG image can't be handled");
-#endif  //  USE_PNG
+#endif  //  USE_LIB_PNG
 	}
 }
+PUNK_ENGINE_END

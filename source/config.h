@@ -43,4 +43,7 @@
 
 #endif
 
+#define PUNK_ENGINE_BEGIN namespace Punk { namespace Engine {
+#define PUNK_ENGINE_END } }
+
 #endif	//	_H_PUNK_IMAGE_CONFIG

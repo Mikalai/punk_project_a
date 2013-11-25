@@ -1,16 +1,13 @@
 #ifndef _H_PUNK_IMAGE_RGBA_IMAGE
 #define _H_PUNK_IMAGE_RGBA_IMAGE
 
-#include "../../config.h"
+#include "config.h"
 #include "image.h"
 #include <memory>
 
-namespace System
-{
-	class string;
-}
-
-namespace ImageModule
+PUNK_ENGINE_BEGIN
+namespace Core { class String; }
+namespace Image
 {
 	class PUNK_ENGINE_API RGBAImage : public Image
 	{
@@ -20,8 +17,9 @@ namespace ImageModule
 		RGBAImage& operator = (const RGBAImage& image);
 	};
 
-	std::unique_ptr<RGBAImage> ImportRGBAImage(const System::string& filename);
-	void ExportRGBAImage(const RGBAImage& image, const System::string& filename);
+    std::unique_ptr<RGBAImage> ImportRGBAImage(const Core::String& filename);
+    void ExportRGBAImage(const RGBAImage& image, const Core::String& filename);
 }
+PUNK_ENGINE_END
 
 #endif

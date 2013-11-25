@@ -4,17 +4,18 @@
 #include <set>
 #include <map>
 #include <array>
-#include "system/action.h"
-#include "system/core/object.h"
+#include "core/action.h"
+#include "core/object.h"
 #include "keymap_interface.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
     class KeyEvent;
 
     struct KeyMapImpl;
 
-    class KeyMap final : public IKeyMap, public Object
+    class KeyMap final : public IKeyMap, public Core::Object
     {
     public:
         KeyMap();
@@ -31,5 +32,6 @@ namespace System
         KeyMapImpl* impl;
     };
 }
+PUNK_ENGINE_END
 
 #endif // KEYMAP_H

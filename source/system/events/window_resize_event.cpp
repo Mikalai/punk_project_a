@@ -1,5 +1,6 @@
 #include "window_resize_event.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
 
@@ -11,9 +12,10 @@ namespace System
 	WindowResizeEvent::~WindowResizeEvent()
 	{}
 
-	string WindowResizeEvent::ToString()
+    const Core::String WindowResizeEvent::ToString() const
 	{
-        return string("Code: {0}; Type: RESIZE; Width: {1}; Height: {2}; Minimized: {3}; Restored: {4}")
+        return Core::String("Code: {0}; Type: RESIZE; Width: {1}; Height: {2}; Minimized: {3}; Restored: {4}")
                 .arg(eventCode).arg(width).arg(height).arg(minimized ? L"TRUE" : L"FALSE").arg(restored ? L"TRUE" : L"FALSE");
 	}
 }
+PUNK_ENGINE_END

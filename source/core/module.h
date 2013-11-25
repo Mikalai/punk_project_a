@@ -11,5 +11,6 @@
 #include "poolable.h"
 #include "rtti.h"
 #include "static_information.h"
+#include "component/module.h"
 
 #endif // MODULE_H

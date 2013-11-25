@@ -1,32 +1,28 @@
 #ifndef LOGGER_COMPONENT_H
 #define LOGGER_COMPONENT_H
 
-#include "system/component/module.h"
+#include "core/component/module.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
     class MessageLogger;
     class WarningLogger;
     class ErrorLogger;
 
-    class LoggerComponent : public Component
+    class PUNK_ENGINE_LOCAL LoggerComponent : public Core::Component
     {
     public:
-        virtual ~LoggerComponent();
+        LoggerComponent();
 
     protected:
-        void OnDetach() override;
-        void OnInitialize() override;
-        Object* OnGetService(const string &);
+        Core::Object* OnCreate(const Core::String &name, const Core::String &type, Core::Object **params) override;
 
-    private:
-        void Clear();
-        void Create();
-
-        MessageLogger* m_msg_logger;
-        WarningLogger* m_wrn_logger;
-        ErrorLogger* m_err_logger;
+        MessageLogger* m_msg_logger {nullptr};
+        WarningLogger* m_wrn_logger {nullptr};
+        ErrorLogger* m_err_logger {nullptr};
     };
 }
+PUNK_ENGINE_END
 
 #endif // LOGGER_COMPONENT_H

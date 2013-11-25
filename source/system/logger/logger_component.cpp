@@ -3,69 +3,48 @@
 #include "message_logger.h"
 #include "warning_logger.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
-#ifdef USE_LOGGER_MODULE
-    REGISTER_COMPONENT(LoggerComponent, new LoggerComponent, {"cofig"})
-#endif
+    REGISTER_COMPONENT(LoggerComponent);
 
+#define LOGGER_COMPONENT Core::String(L"logger")
+#define MESSAGE_LOGGER_SERVICE Core::String(L"message")
+#define WARNING_LOGGER_SERVICE Core::String(L"warning")
+#define ERROR_LOGGER_SERVICE Core::String(L"error")
 
-#define LOGGER_COMPONENT string(L"logger")
-#define MESSAGE_LOGGER_SERVICE string(L"message")
-#define WARNING_LOGGER_SERVICE string(L"warning")
-#define ERROR_LOGGER_SERVICE string(L"error")
+    LoggerComponent::LoggerComponent()
+        : Core::Component(LOGGER_COMPONENT, {MESSAGE_LOGGER_SERVICE, WARNING_LOGGER_SERVICE, ERROR_LOGGER_SERVICE}) {}
 
-    LoggerComponent::~LoggerComponent()
+    Core::Object* LoggerComponent::OnCreate(const Core::String& name, const Core::String& type, Core::Object** params)
     {
-        Clear();
-    }
-
-    void LoggerComponent::Create()
-    {
-        const string filename = "log";  // TODO: should be read from config
-        m_msg_logger = new MessageLogger(filename);
-        m_wrn_logger = new WarningLogger(filename);
-        m_err_logger = new ErrorLogger(filename);
-    }
-
-    void LoggerComponent::Clear()
-    {
-        delete m_msg_logger;
-        m_msg_logger = nullptr;
-        delete m_wrn_logger;
-        m_wrn_logger = nullptr;
-        delete m_err_logger;
-        m_err_logger = nullptr;
-    }
-
-    void LoggerComponent::OnDetach()
-    {
-        Clear();
-    }
-
-    Object* LoggerComponent::OnGetService(const string& value)
-    {
-        if (value == MESSAGE_LOGGER_SERVICE)
-            return m_msg_logger;
-        if (value == WARNING_LOGGER_SERVICE)
-            return m_wrn_logger;
-        if (value == ERROR_LOGGER_SERVICE)
-            return m_err_logger;
-        return nullptr;
+        (void)params;
+        Core::Object* o {nullptr};
+        if (type == MESSAGE_LOGGER_SERVICE)
+            o = new MessageLogger(name + ".log");
+        if (type == WARNING_LOGGER_SERVICE)
+            o = new WarningLogger(name + ".log");
+        if (type == ERROR_LOGGER_SERVICE)
+            o = new ErrorLogger(name + ".log");
+        if (o)
+            o->SetName(name);
+        return o;
     }
 }
+PUNK_ENGINE_END
 
-System::ILogger& out_error()
+Punk::Engine::System::ILogger& out_error()
 {
-    return *System::GetService<System::ILogger>(L"logger", L"error");
+    return *Punk::Engine::Core::Acquire<Punk::Engine::System::ILogger>("logger", L"errors", L"error");
 }
 
-System::ILogger& out_message()
+Punk::Engine::System::ILogger& out_message()
 {
-    return *System::GetService<System::ILogger>("logger", "message");
+    return *Punk::Engine::Core::Acquire<Punk::Engine::System::ILogger>("logger", "messages", "message");
 }
 
-System::ILogger& out_warning()
+Punk::Engine::System::ILogger& out_warning()
 {
-    return *System::GetService<System::ILogger>("logger", "warning");
+    return *Punk::Engine::Core::Acquire<Punk::Engine::System::ILogger>("logger", "warnings", "warning");
 }
+

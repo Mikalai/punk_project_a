@@ -2,11 +2,11 @@
 #define _H_PUNK_WINDOW_RESIZE
 
 #include "event.h"
-#include "../poolable.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
-	class PUNK_ENGINE_API WindowResizeEvent : public Event, public Poolable<WindowResizeEvent>
+    class PUNK_ENGINE_API WindowResizeEvent : public Event
     {        
         WindowResizeEvent(const WindowResizeEvent&);
     public:
@@ -17,8 +17,9 @@ namespace System
 		bool restored;
         int width, height;
 		
-		virtual string ToString();
+        const Core::String ToString() const override;
     };
 }
+PUNK_ENGINE_END
 
 #endif

@@ -1,9 +1,10 @@
 #ifndef FONT_BUILDER_INTERFACE_H
 #define FONT_BUILDER_INTERFACE_H
 
-namespace System { class string; }
+#include "config.h"
 
-namespace Utility
+PUNK_ENGINE_BEGIN
+namespace Font
 {
     class IFontBuilder
     {
@@ -22,4 +23,6 @@ namespace Utility
         virtual int GetMinOffset(wchar_t s) = 0;
     };
 }
+PUNK_ENGINE_END
+
 #endif // FONT_BUILDER_INTERFACE_H

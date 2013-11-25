@@ -1,10 +1,11 @@
 #ifndef _H_PUNK_IMAGE_MODULE_GRAY
 #define _H_PUNK_IMAGE_MODULE_GRAY
 
-#include "../../config.h"
+#include "config.h"
 #include "image.h"
 
-namespace ImageModule
+PUNK_ENGINE_BEGIN
+namespace Image
 {
 	class PUNK_ENGINE_API GrayImage : public Image
 	{
@@ -14,5 +15,6 @@ namespace ImageModule
 		GrayImage& operator = (const GrayImage& image);
 	};
 }
+PUNK_ENGINE_END
 
 #endif

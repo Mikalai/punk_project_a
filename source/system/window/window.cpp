@@ -2,18 +2,19 @@
 #include "win32_window.h"
 #include "x11_window.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
-    PUNK_OBJECT_REG(Window, "System.Object", typeid(Window).hash_code(), nullptr, nullptr, &Object::Info.Type);
+    Core::Rtti Window::Type{"Punk.Engine.System.Window", typeid(Window).hash_code(), {&Core::Object::Type}};
 
     Window::Window()
     {
-        Info.Add(this);
+        CREATE_INSTANCE(Window);
     }
 
     Window::~Window()
     {
-        Info.Remove(this);
+        DESTROY_INSTANCE();
     }
 
     Window* CreateRootWindow(const WindowDesc &desc)
@@ -28,3 +29,4 @@ namespace System
         return nullptr;
     }
 }
+PUNK_ENGINE_END

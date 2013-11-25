@@ -7,25 +7,13 @@
 #include <stdio.h>
 #include <string.h>
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
-	Clock* Clock::m_instance;
-
-	Clock* Clock::Instance()
-	{
-		if (!m_instance)
-			m_instance = new Clock;
-		return m_instance;
-	}
-
-	void Clock::Destroy()
-	{
-		delete m_instance;
-        m_instance = 0;
-	}
+    Core::Rtti Clock::Type{"Punk.Engine.System.Clock", typeid(Clock).hash_code(), {&Core::Object::Type}};
 
 	Clock::Clock()
-	{
+	{                
         m_time = 0;
         m_us = 0;
 
@@ -34,21 +22,26 @@ namespace System
 #elif defined _WIN32
         _localtime64_s(&m_date, &m_time);
 #endif
-
+        CREATE_INSTANCE(Clock);
 	}
 
-	const string Clock::ToString() const
+    Clock::~Clock()
+    {
+        DESTROY_INSTANCE();
+    }
+
+    const Core::String Clock::ToString() const
 	{
 #ifdef _WIN32
 		wchar_t buffer[256];
 		_wasctime_s(buffer, 256, &m_date);
 		buffer[24] = 0;
-		return string(buffer);
+        return Core::String(buffer);
 #elif defined __linux__
-        string str(asctime(&m_date));
+        Core::String str(asctime(&m_date));
         str[24] = 0;
         return str;
-#endif
+#endif        
 	}
 
 	int Clock::Hour() const
@@ -65,6 +58,11 @@ namespace System
 	{
 		return m_date.tm_sec;
 	}
+
+    int Clock::Month() const
+    {
+        return m_date.tm_mon;
+    }
 
 	int Clock::MonthDay() const
 	{
@@ -115,7 +113,7 @@ namespace System
 		return t;
 	}
 
-	const string Clock::SysTimeAsUTC()
+    const Core::String Clock::SysTimeAsUTC()
 	{
 #ifdef _WIN32
 		char buffer[32];
@@ -124,21 +122,21 @@ namespace System
 		tm _tm;
 		_gmtime32_s(&_tm, &t);
 		asctime_s(buffer, 32, &_tm);
-		// replace new line in the time string. 24 because total length 26 and it is STANDARD
+        // replace new line in the time Core::String. 24 because total length 26 and it is STANDARD
 		buffer[24] = '\0';
-		return string(buffer);
+        return Core::String(buffer);
 #elif defined __linux__
         time_t t;
         time(&t);
         tm _tm = *gmtime(&t);
-        string str(asctime(&_tm));
-        // replace new line in the time string. 24 because total length 26 and it is STANDARD
+        Core::String str(asctime(&_tm));
+        // replace new line in the time Core::String. 24 because total length 26 and it is STANDARD
         str[24] = L'\0';
         return str;
 #endif
 	}
 
-	const string Clock::SysTimeNowAsLocal()
+    const Core::String Clock::SysTimeNowAsLocal()
 	{
 #ifdef _WIN32
 		char buffer[32];
@@ -147,17 +145,17 @@ namespace System
 		tm _tm;
 		_localtime32_s(&_tm, &t);
 		asctime_s(buffer, 32, &_tm);
-		// replace new line in the time string. 24 because total length 26 and it is STANDARD
+        // replace new line in the time Core::String. 24 because total length 26 and it is STANDARD
 		buffer[24] = '\0';
-		return string(buffer);
+        return Core::String(buffer);
 #elif defined __linux__
         time_t t;
         time(&t);
         tm _tm = *localtime(&t);
-        string str(asctime(&_tm));
-        // replace new line in the time string. 24 because total length 26 and it is STANDARD
+        Core::String str(asctime(&_tm));
+        // replace new line in the time Core::String. 24 because total length 26 and it is STANDARD
         str[19] = 0;
-        return string(&str[11], &str[19] - &str[11]);
+        return Core::String(&str[11], &str[19] - &str[11]);
 #endif
 	}
 
@@ -193,3 +191,4 @@ namespace System
 		_gmtime64_s(&m_date, &m_time);
 	}*/
 }
+PUNK_ENGINE_END

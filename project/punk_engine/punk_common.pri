@@ -1,4 +1,5 @@
 CONFIG += debug_and_release
+CONFIG -= QT
 
 QMAKE_CXXFLAGS += -std=c++11 -pipe
 
@@ -12,9 +13,12 @@ unix {
 
 DEFINES += PUNK_ENGINE_EXPORTS
 
+
 CONFIG(debug, debug|release) {
-    DESTDIR = ../../../bin/debug
+    DESTDIR = ../../../../bin/debug
+    LIBDIR = ../../../../bin/debug
 }
 else {
-    DESTDIR = ../../../bin/release
+    DESTDIR = ../../../../bin/release
+    LIBDIR = ../../../../bin/release
 }

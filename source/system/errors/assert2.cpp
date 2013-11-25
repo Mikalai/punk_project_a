@@ -2,6 +2,7 @@
 #include "assert2.h"
 #include "stack_trace.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
 
@@ -51,5 +52,5 @@ namespace System
 	}
 #endif	//	_DEBUG
 #endif	//	WIN32
-
 }
+PUNK_ENGINE_END

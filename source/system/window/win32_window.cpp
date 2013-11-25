@@ -197,7 +197,7 @@ namespace System
         printf("Creating window\n");
         m_window = XCreateWindow(m_display, DefaultRootWindow(m_display),
                                  desc.m_x, desc.m_y, desc.m_width, desc.m_height,
-                                 0, DefaultDepth(m_display, screen), CopyFromParent, CopyFromParent, CWBackPixel|CWBorderPixel/*|CWColormap/*|CWEventMask*/, &m_swa);
+                                 0, DefaultDepth(m_display, screen), CopyFromParent, CopyFromParent, CWBackPixel|CWBorderPixel, &m_swa);
 
         XStoreName(m_display, m_window, "PunkEngine");
         XSetIconName(m_display, m_window, "PunkEngine");

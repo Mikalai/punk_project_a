@@ -1,5 +1,6 @@
 #include "idle_event.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
     IdleEvent::IdleEvent()
@@ -7,8 +8,9 @@ namespace System
         eventCode = EVENT_IDLE;
     }
 
-	string IdleEvent::ToString()
+    const Core::String IdleEvent::ToString() const
 	{
-		return string("Code: %d; Type: IDLE", eventCode);
+        return Core::String("Code: %d; Type: IDLE", eventCode);
 	}
 }
+PUNK_ENGINE_END

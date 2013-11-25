@@ -1,7 +1,8 @@
 #include "gray_image.h"
 #include "image_impl.h"
 
-namespace ImageModule
+PUNK_ENGINE_BEGIN
+namespace Image
 {
 	GrayImage::GrayImage()
 		: Image()
@@ -21,3 +22,4 @@ namespace ImageModule
 		return *this;
 	}
 }
+PUNK_ENGINE_END

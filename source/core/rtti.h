@@ -1,20 +1,25 @@
 #ifndef PUNK_SYSTEM_RTTI_H
 #define PUNK_SYSTEM_RTTI_H
 
+#include <initializer_list>
+#include <cstdint>
 #include "config.h"
-#include <vector>
-#include "string/string.h"
 
 namespace Punk {
     namespace Engine {
         namespace Core {
 
+            namespace __private {
+                struct RttiImpl;
+            }
+
+            class String;
             class Object;
 
             class PUNK_ENGINE_API Rtti
             {
             public:
-                Rtti(const String& name, unsigned uid, std::initializer_list<const Rtti*> parents);
+                Rtti(const String& name, std::uint64_t uid, std::initializer_list<const Rtti*> parents);
                 ~Rtti();
                 const String& GetName() const;
                 unsigned GetId() const;
@@ -23,11 +28,17 @@ namespace Punk {
                 bool IsEqual(const Rtti* value) const;
                 bool IsDerived(const Rtti* value) const;
                 const String ToString() const;
-            private:
-                String m_name;
-                std::vector<const Rtti*> m_parent;
-                unsigned m_id;
+
+                std::size_t GetInstanceCount() const;
+                Object* GetInstance(std::size_t index);
+                const Object* GetInstance(std::size_t index) const;
+                void Add(Object* value);
+                void Remove(Object* value);
+
+                __private::RttiImpl* impl {nullptr};
             };
+
+            PUNK_ENGINE_API const Object* HasInstance(const Rtti* type, const String& name);
         }
     }
 }

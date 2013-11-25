@@ -4,15 +4,17 @@
 #include "console_logger.h"
 #include "file_logger.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
-    class ErrorLogger : public ConsoleLogger, public FileLogger
+    class PUNK_ENGINE_LOCAL ErrorLogger : public ConsoleLogger, public FileLogger
     {
     public:
-        ErrorLogger(const string& filename);
+        ErrorLogger(const Core::String& filename);
         virtual ~ErrorLogger();
-        void Write(const string &value) override;
+        void Write(const Core::String &value) override;
     };
 }
+PUNK_ENGINE_END
 
 #endif // ERROR_LOGGER_H

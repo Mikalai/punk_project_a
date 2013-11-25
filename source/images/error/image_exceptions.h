@@ -1,16 +1,17 @@
 #ifndef _H_PUNK_IMAGE_EXCEPTIONS
 #define _H_PUNK_IMAGE_EXCEPTIONS
 
-#include "../../system/errors/module.h"
+#include "system/errors/module.h"
 
-namespace ImageModule
+PUNK_ENGINE_BEGIN
+namespace Image
 {
-	class PUNK_ENGINE_API ImageException : public System::PunkException
-	{
-	public:
-		ImageException() : System::PunkException(L"ImageException") {}
-		ImageException(const System::string& msg) : System::PunkException(L"ImageException: " + msg) {}
-	};
+    namespace Error {
+        class PUNK_ENGINE_API ImageException : public System::Error::SystemException {
+            using System::Error::SystemException::SystemException;
+        };
+    }
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_IMAGE_EXCEPTIONS

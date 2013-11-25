@@ -6,8 +6,9 @@ namespace Punk {
         namespace System {
             namespace Error {
 
-                SystemException::SystemException(std::uint64_t code)
+                SystemException::SystemException(const Core::String& msg, std::uint64_t code)
                     : Core::Error::Exception(code)
+                    , m_message(msg)
                 {
                     Stack stack;
                     m_stack = stack.GetStackTrace();

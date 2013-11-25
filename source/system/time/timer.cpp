@@ -11,9 +11,12 @@
 #include <sys/time.h>
 #endif
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
-	struct Timer::Impl
+    Core::Rtti Timer::Type {"Punk.Engine.System.Timer", typeid(Timer).hash_code(), {&Core::Object::Type}};
+
+    struct TimerImpl
 	{
         double m_last_check;
 
@@ -80,21 +83,23 @@ namespace System
             return m_last_check;
 		}
 
-		Impl()
+        TimerImpl()
         {}
 
-		Impl(const Impl& v)
+        TimerImpl(const TimerImpl& v)
             : m_last_check(v.m_last_check)
 		{}
 	};
 
     Timer::Timer()
-		: impl(new Impl)
+        : impl(new TimerImpl)
     {
+        CREATE_INSTANCE(Timer);
     }
 
 	Timer::~Timer()
 	{
+        DESTROY_INSTANCE();
 		delete impl;
 		impl = nullptr;
 	}
@@ -119,3 +124,4 @@ namespace System
         return impl->GetCurrentTime();
     }
 }
+PUNK_ENGINE_END

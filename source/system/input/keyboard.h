@@ -1,14 +1,15 @@
 #ifndef _H_PUNK_KEYBOARD_WIN32
 #define _H_PUNK_KEYBOARD_WIN32
 
-#include "system/core/object.h"
+#include "core/object.h"
 #include "keyboard_interface.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
     struct KeyboardImpl;
 
-    class PUNK_ENGINE_API Keyboard final : public IKeyBoard, public Object
+    class PUNK_ENGINE_API Keyboard final : public IKeyBoard, public Core::Object
 	{	
 	public:
 		Keyboard();
@@ -23,5 +24,6 @@ namespace System
         PUNK_OBJECT(Keyboard)
 	};
 }
+PUNK_ENGINE_END
 
 #endif

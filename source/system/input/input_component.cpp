@@ -3,58 +3,32 @@
 #include "mouse.h"
 #include "keymap.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
-    REGISTER_COMPONENT(InputComponent, new InputComponent, {"window"})
+    REGISTER_COMPONENT(InputComponent);
 
-#define INPUT_COMPONENT string(L"input")
-#define SERVICE_MOUSE string(L"mouse")
-#define SERVICE_KEYBOARD string(L"keyboard")
-#define SERVICE_KEY_MAP string(L"key_map")
+#define INPUT_COMPONENT Core::String(L"input")
+#define SERVICE_MOUSE Core::String(L"mouse")
+#define SERVICE_KEYBOARD Core::String(L"keyboard")
+#define SERVICE_KEY_MAP Core::String(L"key_map")
 
     InputComponent::InputComponent()
-    {
-        SetName(INPUT_COMPONENT);
-        AddService(SERVICE_MOUSE);
-        AddService(SERVICE_KEYBOARD);
-        AddService(SERVICE_KEY_MAP);
-    }
+        : Core::Component(INPUT_COMPONENT, {SERVICE_MOUSE, SERVICE_KEYBOARD, SERVICE_KEY_MAP}) {}
 
-    void InputComponent::Clear()
+    Core::Object* InputComponent::OnCreate(const Core::String &name, const Core::String &type, Core::Object **params)
     {
-        delete m_mouse;
-        m_mouse = nullptr;
-        delete m_keyboard;
-        m_keyboard = nullptr;
-        delete m_key_map;
-        m_key_map = nullptr;
-    }
-
-    void InputComponent::Create()
-    {
-        m_mouse = new Mouse;
-        m_keyboard = new Keyboard;
-        m_key_map = new KeyMap;
-    }
-
-    void InputComponent::OnInitialize()
-    {
-        Create();
-    }
-
-    void InputComponent::OnDetach()
-    {
-        Clear();
-    }
-
-    Object* InputComponent::OnGetService(const string &name)
-    {
-        if (name == SERVICE_MOUSE)
-            return m_mouse;
-        if (name == SERVICE_KEYBOARD)
-            return m_keyboard;
-        if (name == SERVICE_KEY_MAP)
-            return m_key_map;
-        return nullptr;
+        (void)params;
+        Core::Object* o{nullptr};
+        if (type == SERVICE_MOUSE)
+            o = new Mouse;
+        if (type == SERVICE_KEYBOARD)
+            o = new Keyboard;
+        if (type == SERVICE_KEY_MAP)
+            o = new KeyMap;
+        if (o)
+            o->SetName(name);
+        return o;
     }
 }
+PUNK_ENGINE_END

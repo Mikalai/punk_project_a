@@ -1,7 +1,10 @@
 #ifndef _H_PUNK_IMAGE_MODULE_COMPONENT
 #define _H_PUNK_IMAGE_MODULE_COMPONENT
 
-namespace ImageModule
+#include "config.h"
+
+PUNK_ENGINE_BEGIN
+namespace Image
 {
     enum class ComponentType { UnsignedByte, SignedByte, Float };
 
@@ -19,5 +22,6 @@ namespace ImageModule
         }
     }
 }
+PUNK_ENGINE_END
 
 #endif

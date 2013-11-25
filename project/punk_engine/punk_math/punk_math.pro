@@ -10,11 +10,7 @@ TARGET = punk_math
 
 INCLUDEPATH += ../../../source
 
-CONFIG(debug, debug|release) {
-    LIBS += -L../../../bin/debug/ -lpunk_error -lpunk_string
-} else {
-    LIBS += -L../../../bin/release/ -lpunk_error -lpunk_string
-}
+LIBS += -L$${LIBDIR} -lpunk_error -lpunk_string
 
 SOURCES += \    
     ../../../source/math/vec4.cpp \

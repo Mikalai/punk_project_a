@@ -1,6 +1,9 @@
 #ifndef EVENT_TYPE_H
 #define EVENT_TYPE_H
 
+#include "config.h"
+
+PUNK_ENGINE_BEGIN
 namespace System
 {
 
@@ -130,5 +133,6 @@ namespace System
 //	const long EVENT_MODEL_TIME_STEP	= 0x0018;
 //	const long EVENT_MODULE_LOGIC_EVENTS = 0x0100;
 }
+PUNK_ENGINE_END
 
 #endif // EVENT_TYPE_H

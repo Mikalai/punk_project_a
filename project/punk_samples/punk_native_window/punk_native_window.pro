@@ -14,11 +14,11 @@ TARGET = punk_native_window
 
 unix {
 CONFIG(debug, debug|release) {
-    LIBS += -L../../../bin/debug/ -lpunk_error -lpunk_string -lpunk_math
-    DESTDIR = ../../../bin/debug
+    LIBS += -L../../../../bin/debug/ -lpunk_error -lpunk_string -lpunk_math -lpunk_core -lpunk_system
+    DESTDIR = ../../../../bin/debug
 } else {
-    LIBS += -L../../../bin/release/ -lpunk_error -lpunk_string -lpunk_math
-    DESTDIR = ../../../bin/release
+    LIBS += -L../../../../bin/release/ -lpunk_error -lpunk_string -lpunk_math -lpunk_core -lpunk_system
+    DESTDIR = ../../../../bin/release
 }
 }
 

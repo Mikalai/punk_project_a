@@ -6,9 +6,10 @@
 #include "image.h"
 #include "image_impl.h"
 
-#include "../error/module.h"
+#include "images/error/module.h"
 
-namespace ImageModule
+PUNK_ENGINE_BEGIN
+namespace Image
 {
 	Image::Image()
         : impl_image(nullptr)
@@ -34,12 +35,12 @@ namespace ImageModule
 		impl_image.reset(0);
 	}
 
-    void Image::Save(System::Buffer *buffer) const
+    void Image::Save(Core::Buffer *buffer) const
 	{
         impl_image->Save(buffer);
 	}
 
-    void Image::Load(System::Buffer *buffer)
+    void Image::Load(Core::Buffer *buffer)
 	{
 		char header[16];
         buffer->ReadBuffer(header, sizeof(header));
@@ -194,3 +195,4 @@ namespace ImageModule
         return impl_image->m_component_type;
     }
 }
+PUNK_ENGINE_END

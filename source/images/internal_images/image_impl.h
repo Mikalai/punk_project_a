@@ -3,24 +3,26 @@
 
 #include <ostream>
 #include <istream>
+#include <vector>
 
-#include "../error/module.h"
-#include "../formats.h"
+#include "images/error/module.h"
+#include "images/formats.h"
+#include "images/import_export/png_importer.h"
+#include "images/import_export/jpg_importer.h"
+#include "string/buffer.h"
 #include "component.h"
-#include "../../system/buffer.h"
-#include "../import_export/png_importer.h"
-#include "../import_export/jpg_importer.h"
 
-namespace ImageModule
+PUNK_ENGINE_BEGIN
+namespace Image
 {
 	struct ImageImpl
 	{
 		unsigned m_width;
 		unsigned m_height;
         unsigned m_channels;
-		unsigned m_size;	        
-		ImageFormat m_format;
         ComponentType m_component_type;
+		unsigned m_size;	        
+		ImageFormat m_format;        
         std::vector<unsigned char> m_data;
 
 //		ImageImpl()
@@ -76,7 +78,7 @@ namespace ImageModule
 
         void PutLine(int y, unsigned width_in_pixel, unsigned components_per_pixel, void* data)
 		{
-            throw System::PunkException(L"Not implemented");
+            throw Error::ImageException("Not implemented");
 //			if (!m_data.empty())
 //				throw ImageException(L"Data is not allocated");
 //			if (width_in_pixel != m_width)
@@ -87,7 +89,7 @@ namespace ImageModule
 //            std::copy(data, data + width_in_pixel*components_per_pixel*GetComponentSize(m_component_type), m_data.begin() + y*m_width*m_channels*GetComponentSize(m_component_type));
 		}
 
-        void Save(System::Buffer* buffer) const
+        void Save(Core::Buffer* buffer) const
 		{
             buffer->WriteUnsigned32(m_width);
             buffer->WriteUnsigned32(m_height);
@@ -96,7 +98,7 @@ namespace ImageModule
             buffer->WriteBuffer(&m_data[0], m_size);
 		}
 
-        void Load(System::Buffer* buffer)
+        void Load(Core::Buffer* buffer)
 		{			
             m_width = buffer->ReadSigned32();
             m_height = buffer->ReadSigned32();
@@ -152,17 +154,17 @@ namespace ImageModule
                 *(float*)pos = *(const float*)value;
                 break;
             default:
-                throw System::PunkException(L"Can't copy sub image, becuse component type is not supported");
+                throw Error::ImageException(L"Can't copy sub image, becuse component type is not supported");
             }
         }
 
 		void SetSubImage(unsigned x, unsigned y, const ImageImpl& impl)
 		{
             if (m_channels != impl.m_channels)
-				throw ImageException(L"Can't set sub image due to different components number");
+                throw Error::ImageException(L"Can't set sub image due to different components number");
 
             if (m_component_type != impl.m_component_type)
-                throw ImageException(L"Can't set sub image due to different components type");
+                throw Error::ImageException(L"Can't set sub image due to different components type");
 
             for (unsigned y_dst = y, y_org = 0; y_dst < m_height && y_org < impl.m_height; ++y_dst, ++y_org)
 			{
@@ -177,5 +179,6 @@ namespace ImageModule
 		}
 	};
 }
+PUNK_ENGINE_END
 
 #endif

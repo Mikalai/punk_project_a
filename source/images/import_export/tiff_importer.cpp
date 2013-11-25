@@ -1,17 +1,18 @@
 #ifdef USE_LIB_TIFF
 #include <tiffio.h>
 #include <fstream>
-#include "../../string/string.h"
-#include "../../system/module.h"
-
+#include <string.h>
+#include "images/error/module.h"
+#include "string/module.h"
 #include "tiff_importer.h"
 
-namespace ImageModule
+PUNK_ENGINE_BEGIN
+namespace Image
 {
     struct PunkTiffHandle
     {
         std::istream* stream;
-        System::string filename;
+        Core::String filename;
     };
 
     TiffImporter::TiffImporter()
@@ -65,11 +66,11 @@ namespace ImageModule
 
     }
 
-    bool TiffImporter::Load(const System::string &filename)
+    bool TiffImporter::Load(const Core::String &filename)
     {
-        std::ifstream stream(filename.ToStdString().c_str());
+        std::ifstream stream((char*)filename.ToUtf8().Data(), std::ios_base::binary);
         if (!stream.is_open())
-            throw System::PunkException(L"File not found: " + filename);
+            throw Error::ImageException(L"File not found: " + filename);
 
         return Load(stream, this);
     }
@@ -110,4 +111,6 @@ namespace ImageModule
         return true;
     }
 }
+PUNK_ENGINE_END
+
 #endif  /  /    USE_LIB_TIFF

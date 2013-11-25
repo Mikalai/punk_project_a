@@ -1,7 +1,10 @@
 #ifndef VIDEO_DRIVER_CAPS_H
 #define VIDEO_DRIVER_CAPS_H
 
-namespace Gpu
+#include "config.h"
+
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
     struct VideoDriverSettings
     {
@@ -10,5 +13,6 @@ namespace Gpu
         unsigned ShadowMapSize {512};
     };
 }
+PUNK_ENGINE_END
 
 #endif // VIDEO_DRIVER_CAPS_H

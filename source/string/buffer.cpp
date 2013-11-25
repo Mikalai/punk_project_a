@@ -5,6 +5,7 @@
 #include <Windows.h>
 #endif	//	_WIN32
 
+#include <algorithm>
 #include <memory.h>
 #include "buffer.h"
 #include "string.h"
@@ -29,6 +30,12 @@ namespace Punk
                         : m_capacity(size)
                         , m_buffer(new std::uint8_t[m_capacity])
 						, m_current(m_buffer) {}
+
+                    BufferImpl(const BufferImpl& value) {
+                        m_capacity = value.m_capacity;
+                        Resize(value.GetSize());
+                        memcpy(m_buffer, value.m_buffer, value.GetSize());
+                    }
 
 					~BufferImpl() {
 						delete m_buffer;
@@ -128,11 +135,14 @@ namespace Punk
 					
 					void Resize(std::uint32_t value) {
                         std::uint8_t* tmp = new std::uint8_t[value];
+                        if (m_buffer)
+                        {
 #ifdef _WIN32
-                        memcpy_s(tmp, value, m_buffer, m_capacity);
+                            memcpy_s(tmp, value, m_buffer, m_capacity);
 #elif defined __gnu_linux__
-                        memcpy(tmp, m_buffer, m_capacity);
+                            memcpy(tmp, m_buffer, m_capacity);
 #endif
+                        }
 						m_current = tmp + (m_current - m_buffer);
 						delete[] m_buffer;
 						m_buffer = tmp;
@@ -169,6 +179,15 @@ namespace Punk
 
 			Buffer::Buffer(std::uint32_t size)
 				: impl(new __private::BufferImpl(size)){}
+
+            Buffer::Buffer(const Buffer& value)
+                : impl(new __private::BufferImpl(*value.impl)) {}
+
+            Buffer& Buffer::operator = (const Buffer& value) {
+                Buffer temp(value);
+                std::swap(impl, temp.impl);
+                return *this;
+            }
 
 			Buffer::~Buffer() {
 				delete impl;

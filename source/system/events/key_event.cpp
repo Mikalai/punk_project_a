@@ -1,5 +1,6 @@
 #include "key_event.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
     KeyEvent::KeyEvent()
@@ -7,8 +8,9 @@ namespace System
         eventCode = EVENT_KEY_CHAR;
     }
 
-    string KeyEvent::ToString()
+    const Core::String KeyEvent::ToString() const
 	{
-		return string("Code: %d; Type: KEY_CHAR", eventCode);
+        return Core::String("Code: %d; Type: KEY_CHAR", eventCode);
 	}
 }
+PUNK_ENGINE_END

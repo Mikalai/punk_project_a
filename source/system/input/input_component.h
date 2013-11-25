@@ -1,32 +1,24 @@
 #ifndef INPUT_COMPONENT_H
 #define INPUT_COMPONENT_H
 
-#include "system/component/module.h"
+#include "core/component/module.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
     class Mouse;
     class Keyboard;
     class KeyMap;
 
-    class PUNK_ENGINE_LOCAL InputComponent : public Component
+    class PUNK_ENGINE_LOCAL InputComponent : public Core::Component
     {
     public:
         InputComponent();
-        virtual ~InputComponent();
 
     protected:
-        virtual void OnDetach();
-        virtual void OnInitialize();
-        Object* OnGetService(const string& name) override;
-
-    private:
-        void Create();
-        void Clear();
-        Mouse* m_mouse {nullptr};
-        Keyboard* m_keyboard {nullptr};
-        KeyMap* m_key_map {nullptr};
+        Core::Object* OnCreate(const Core::String &name, const Core::String &type, Core::Object **params) override;
     };
 }
+PUNK_ENGINE_END
 
 #endif // INPUT_COMPONENT_H

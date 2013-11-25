@@ -1,7 +1,9 @@
 #include <memory.h>
+#include "string/buffer.h"
 #include "image_file.h"
 
-namespace ImageModule
+PUNK_ENGINE_BEGIN
+namespace Image
 {
 	ImageFile::Rep::Rep() : m_data(0), 
 		m_width(0), 
@@ -74,7 +76,7 @@ namespace ImageModule
 	{
 	}
 
-	ImageFile::ImageFile(const ImageModule::ImageFile &file)
+    ImageFile::ImageFile(const ImageFile &file)
 	{
 		m_rep = file.m_rep;
 		m_rep->m_used_count++;
@@ -143,7 +145,7 @@ namespace ImageModule
 		}			
 	}
 
-	void ImageFile::Store(System::Buffer& buffer)
+    void ImageFile::Store(Core::Buffer& buffer)
 	{
 		buffer.WriteUnsigned32(m_rep->m_size);
 		buffer.WriteBuffer((void*)m_rep->m_data, m_rep->m_size);
@@ -154,7 +156,7 @@ namespace ImageModule
 		buffer.WriteBuffer(&m_rep->m_format, sizeof(m_rep->m_format));
 	}
 
-	void ImageFile::Restore(System::Buffer& buffer)
+    void ImageFile::Restore(Core::Buffer& buffer)
 	{
 		m_rep = m_rep->GetOwnCopy();
 		m_rep->m_size = buffer.ReadUnsigned32();
@@ -221,3 +223,4 @@ namespace ImageModule
 		return;
 	}
 }
+PUNK_ENGINE_END

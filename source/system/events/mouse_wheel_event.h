@@ -3,9 +3,10 @@
 
 #include "event.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
-	class PUNK_ENGINE_API MouseWheelEvent : public Event, public Poolable<MouseWheelEvent>
+    class PUNK_ENGINE_API MouseWheelEvent : public Event
     {        
         MouseWheelEvent(const MouseWheelEvent&);
     public:       
@@ -21,8 +22,9 @@ namespace System
         bool xbutton1 : 1;
         bool xbutton2 : 1;
 
-		virtual string ToString();
+        const Core::String ToString() const override;
     };
 }
+PUNK_ENGINE_END
 
 #endif // MOUSE_WHEEL_EVENT_H

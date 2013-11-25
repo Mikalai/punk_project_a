@@ -3,13 +3,15 @@
 
 #include "exporter.h"
 
-namespace ImageModule
+PUNK_ENGINE_BEGIN
+namespace Image
 {
 	class PngExporter : public Exporter
 	{
 	public:
-		virtual void Export(const System::string& filename, const Image& image);		
+        virtual void Export(const Core::String& filename, const Image& image);
 	};
 }
+PUNK_ENGINE_END
 
 #endif

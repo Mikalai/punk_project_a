@@ -1,27 +1,28 @@
 #ifndef EVENT_H
 #define EVENT_H
 
+#include "config.h"
 #include "event_type.h"
-#include <queue>
-#include "../../config.h"
-#include "../../string/string.h"
+#include "string/string.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
-	class PUNK_ENGINE_API Event
+    class PUNK_ENGINE_API Event
     {
     public:
-        int eventCode;        
-		void* anyData;
-		void* reciever;
+        int eventCode;
+        void* anyData;
+        void* reciever;
 
-		virtual ~Event() {}
+        virtual ~Event() {}
 
-        virtual const string ToString()
-		{
-            return string("Code: {0}; NO_DESCRIPTION").arg(eventCode);
-		}
+        virtual const Core::String ToString() const
+        {
+            return Core::String("Code: {0}; NO_DESCRIPTION").arg(eventCode);
+        }
     };
 }
+PUNK_ENGINE_END
 
 #endif // EVENT_H

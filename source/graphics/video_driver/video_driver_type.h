@@ -1,7 +1,10 @@
 #ifndef VIDEO_DRIVER_TYPE_H
 #define VIDEO_DRIVER_TYPE_H
 
-namespace Gpu
+#include "config.h"
+
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
     enum class VideoDriverType {
         OPENGL,
@@ -14,5 +17,6 @@ namespace Gpu
         DIRECT3D_11
     };
 }
+PUNK_ENGINE_END
 
 #endif // VIDEO_DRIVER_TYPE_H

@@ -1,18 +1,23 @@
 #ifndef MESSAGE_LOGGER_H
 #define MESSAGE_LOGGER_H
 
+#include "system/time/module.h"
 #include "file_logger.h"
 #include "console_logger.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
-    class MessageLogger: public ConsoleLogger, public FileLogger
+    class PUNK_ENGINE_LOCAL MessageLogger: public ConsoleLogger, public FileLogger
     {
     public:
-        MessageLogger(const string& filename);
+        MessageLogger(const Core::String& filename);
         virtual ~MessageLogger();
-        void Write(const string &value) override;
+        void Write(const Core::String &value) override;
+    private:
+        IClock* m_clock;
     };
 }
+PUNK_ENGINE_END
 
 #endif // MESSAGE_LOGGER_H

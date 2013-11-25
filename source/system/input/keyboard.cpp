@@ -1,9 +1,11 @@
 #include "keyboard.h"
+#include "system/logger/module.h"
 #include <memory.h>
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
-    PUNK_OBJECT_REG(Keyboard, "System.Keyboard", typeid(Keyboard).hash_code(), nullptr, nullptr, &Object::Info.Type);
+    Core::Rtti Keyboard::Type {"Punk.Engine.System.Keyboard", typeid(Keyboard).hash_code(), {&Core::Object::Type}};
 
     struct KeyboardImpl
     {
@@ -18,14 +20,16 @@ namespace System
 	Keyboard::Keyboard() 
         : impl(new KeyboardImpl)
     {
-        Info.Add(this);
+        CREATE_INSTANCE(Keyboard);
+        OUT_MESSAGE("Keyboard created");
     }
 
     Keyboard::~Keyboard()
     {
-        Info.Remove(this);
+        DESTROY_INSTANCE();
         delete impl;
         impl = nullptr;
+        OUT_MESSAGE("Keyboard destroyed");
     }
 
 	bool& Keyboard::operator[] (int key)
@@ -53,3 +57,4 @@ namespace System
         return &impl->m_keys;
     }
 }
+PUNK_ENGINE_END

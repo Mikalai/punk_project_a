@@ -10,9 +10,11 @@ namespace Punk {
             namespace Error {
                 class PUNK_ENGINE_API SystemException : public Core::Error::Exception {
                 public:
-                    SystemException(std::uint64_t code);
+                    SystemException(const Core::String& msg, std::uint64_t code = 0);
                     const Core::String& GetStack() const { return m_stack; }
+                    const Core::String& GetMessage() const { return m_message; }
                 private:
+                    Core::String m_message;
                     Core::String m_stack;
                 };
 

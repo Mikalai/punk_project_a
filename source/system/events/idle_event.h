@@ -2,19 +2,18 @@
 #define IDLE_EVENT_H
 
 #include "event.h"
-#include "../poolable.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
-
-    class PUNK_ENGINE_API IdleEvent : public Event, public Poolable<IdleEvent>
+    class PUNK_ENGINE_API IdleEvent : public Event
     {        
         IdleEvent(IdleEvent&);
     public:
 		IdleEvent();		
 		double elapsed_time_s;
-		virtual string ToString();
+        const Core::String ToString() const override;
     };	
 }
-
+PUNK_ENGINE_END
 #endif // IDLE_EVENT_H

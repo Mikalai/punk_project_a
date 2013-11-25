@@ -1,10 +1,11 @@
 #ifndef _H_PUNK_OPENGL_DRIVER_LINUX
 #define _H_PUNK_OPENGL_DRIVER_LINUX
 
-#include "../../../../config.h"
-#include "../common/gl_video_driver.h"
+#include "config.h"
+#include "graphics/video_driver/opengl/gl_video_driver.h"
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
     class FrameBufferConfig;
     class Texture2DArray;
@@ -56,5 +57,6 @@ namespace Gpu
         };
     }
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_OPENGL_DRIVER_LINUX

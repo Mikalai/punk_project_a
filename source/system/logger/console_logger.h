@@ -3,6 +3,7 @@
 
 #include "logger.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
     class PUNK_ENGINE_LOCAL ConsoleLogger : public virtual Logger
@@ -10,8 +11,9 @@ namespace System
     public:
         ConsoleLogger();
         virtual ~ConsoleLogger();
-        void Write(const string &value) override;
+        void Write(const Core::String &value) override;
     };
 }
+PUNK_ENGINE_END
 
 #endif // CONSOLE_LOGGER_H

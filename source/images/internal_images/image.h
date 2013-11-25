@@ -3,17 +3,13 @@
 
 #include <memory>
 #include <iosfwd>
-#include "../../config.h"
-#include "../formats.h"
+#include "config.h"
+#include "images/formats.h"
 #include "component.h"
 
-namespace System
-{
-	class Buffer;
-	class Descriptor;
-}
-
-namespace ImageModule
+PUNK_ENGINE_BEGIN
+namespace Core { class Buffer; }
+namespace Image
 {
 	struct ImageImpl;
 
@@ -27,8 +23,8 @@ namespace ImageModule
 		Image& operator = (const Image& image);
 		~Image();
 
-		void Save(System::Buffer* buffer) const;
-		void Load(System::Buffer* buffer);
+        void Save(Core::Buffer* buffer) const;
+        void Load(Core::Buffer* buffer);
 		unsigned GetSizeInBytes() const;
 		unsigned GetComponentsCount() const;
 		unsigned GetWidth() const;
@@ -52,5 +48,6 @@ namespace ImageModule
 
 	};
 }
+PUNK_ENGINE_END
 
 #endif

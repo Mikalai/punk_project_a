@@ -1,17 +1,26 @@
 #include <fstream>
+#include "string/buffer.h"
 #include "file_logger.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
-    FileLogger::FileLogger(const string& filename)
+    FileLogger::FileLogger(const Core::String& filename)
         : m_filename(filename)
     {}
 
-    void FileLogger::Write(const string &value)
+    FileLogger::~FileLogger()
+    {}
+
+    void FileLogger::Write(const Core::String &value)
     {
         Logger::Write(value);
-        std::wofstream stream(m_filename.ToStdString(), std::ios_base::ate);
+        std::wofstream stream((char*)m_filename.ToAscii().Data(), std::ios_base::ate);
         if (stream.is_open())
-            stream << value;
+        {
+            Core::Buffer buffer = value.ToUtf8();
+            stream.write((const wchar_t*)buffer.Data(), (std::streamsize)buffer.GetSize());
+        }
     }
 }
+PUNK_ENGINE_END

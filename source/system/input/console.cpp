@@ -14,6 +14,7 @@
 #include <clocale>
 #include "console.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
 	struct Console::Impl
@@ -440,3 +441,4 @@ namespace System
 
 	std::unique_ptr<Console> Console::m_instance;
 }
+PUNK_ENGINE_END

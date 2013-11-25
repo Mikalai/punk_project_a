@@ -1,5 +1,6 @@
 #include "model_time_step_event.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
 	ModelTimeStepEvent::ModelTimeStepEvent()
@@ -7,8 +8,9 @@ namespace System
 //		eventCode = EVENT_MODEL_TIME_STEP;
     }
 
-	string ModelTimeStepEvent::ToString()
+    const Core::String ModelTimeStepEvent::ToString() const
 	{
-        return string("Code: {0}; Type: MODEL_TIME_STEP; Step: {1}").arg(eventCode).arg(elapsed_time_ms);
+        return Core::String("Code: {0}; Type: MODEL_TIME_STEP; Step: {1}").arg(eventCode).arg(elapsed_time_ms);
 	}
 }
+PUNK_ENGINE_END

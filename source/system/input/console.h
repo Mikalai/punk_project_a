@@ -2,9 +2,10 @@
 #define _H_SYSTEM_CONSOLE
 
 #include <memory>
-#include "../../string/string.h"
-#include "../../config.h"
+#include "string/string.h"
+#include "config.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
 	class PUNK_ENGINE_API Console
@@ -67,5 +68,6 @@ namespace System
 		static std::unique_ptr<Console> m_instance;
 	};
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_SYSTEM_CONSOLE

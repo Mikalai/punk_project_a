@@ -1,17 +1,20 @@
 #ifndef KEYMAP_INTERFACE_H
 #define KEYMAP_INTERFACE_H
 
+#include <map>
 #include <set>
+#include "config.h"
+#include "core/action.h"
 
-namespace System
-{
+PUNK_ENGINE_BEGIN
+namespace System {
     class KeyEvent;
 
     using Key = int;
-    using KeyboardAction = ActionBasePtr<const KeyEvent&>;
+    using KeyboardAction = Core::ActionBasePtr<const KeyEvent&>;
     using KeyboardActionsCollection = std::map<Key, std::set<KeyboardAction>>;
 
-    class IKeyMap
+    class PUNK_ENGINE_API IKeyMap
     {
     public:
         virtual void OnKeyEvent(const KeyEvent& event) = 0;
@@ -21,5 +24,6 @@ namespace System
         virtual const std::set<KeyboardAction>& GetActions(Key key) const = 0;
     };
 }
+PUNK_ENGINE_END
 
 #endif // KEYMAP_INTERFACE_H

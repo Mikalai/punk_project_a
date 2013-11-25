@@ -1,6 +1,7 @@
 #include "gpu_config.h"
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
 	Config::Config()   
         : disable_3d_graphics(false)
@@ -19,3 +20,4 @@ namespace Gpu
         , coverage_depth(4)
 	{}
 }
+PUNK_ENGINE_END

@@ -4,7 +4,8 @@
 #include "../../config.h"
 #include "image.h"
 
-namespace ImageModule
+PUNK_ENGINE_BEGIN
+namespace Image
 {
 	class PUNK_ENGINE_API RGBImage : public Image
 	{
@@ -14,5 +15,6 @@ namespace ImageModule
 		RGBImage& operator = (const RGBImage& image);
 	};
 }
+PUNK_ENGINE_END
 
 #endif

@@ -2,8 +2,9 @@
 #define ASYNC_LOADER_H
 
 #include "config.h"
-#include "system/core/object.h"
+#include "core/object.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
     class AbstractDataLoader;
@@ -17,8 +18,9 @@ namespace System
         virtual int AddWorkItem(AbstractDataLoader* loader, AbstractDataProcessor* processor, unsigned* result) = 0;
         virtual unsigned MainThreadProc(unsigned num_to_process) = 0;
 
-        PUNK_OBJECT_ABSTRACT(AsyncLoader)
+        PUNK_OBJECT(AsyncLoader)
     };
 }
+PUNK_ENGINE_END
 
 #endif // ASYNC_LOADER_H

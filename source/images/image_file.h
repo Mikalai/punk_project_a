@@ -1,18 +1,13 @@
-/*
-	File: ImageFile.h
-	Author: Mikalaj Abramau
-	Desc: Class that represents an image file
-*/
-
 #ifndef _H_PUNK_IMAGE_FILE
 #define _H_PUNK_IMAGE_FILE
 
-#include "../config.h"
+#include "config.h"
 #include "formats.h"
-#include "../system/buffer.h"
 
-namespace ImageModule
-{
+PUNK_ENGINE_BEGIN
+namespace Core { class Buffer; }
+namespace Image {
+
 	class PUNK_ENGINE_API ImageFile
 	{
 	protected:
@@ -49,8 +44,8 @@ namespace ImageModule
         virtual bool Save(const wchar_t*) const { return false; }
         virtual bool Load(const wchar_t*) { return false; }
 
-		virtual void Store(System::Buffer& buffer);
-		virtual void Restore(System::Buffer& buffer);
+        virtual void Store(Core::Buffer& buffer);
+        virtual void Restore(Core::Buffer& buffer);
 
 		unsigned GetWidth() const;
 		unsigned GetHeight() const;
@@ -70,5 +65,5 @@ namespace ImageModule
 		
 	};
 }
-
+PUNK_ENGINE_END
 #endif

@@ -4,7 +4,6 @@
 #include <typeinfo>
 #include "string/string.h"
 #include "core_error.h"
-#include "meta_class_base.h"
 #include "rtti.h"
 
 #define PUNK_OBJECT(TYPE) \
@@ -15,13 +14,11 @@
     private:\
     unsigned m_local_index {0};\
     public:\
-    static Rtti Type;
+    static Punk::Engine::Core::Rtti Type;
 
-#define CREATE_INSTANCE(TYPE)\
-    SetMetaClass(Punk::Engine::Core::Class<TYPE>::Instance());\
-    GetMetaClass()->Add(this)
+#define CREATE_INSTANCE(TYPE) Type.Add(this)
 
-#define DESTROY_INSTANCE() GetMetaClass()->Remove(this);
+#define DESTROY_INSTANCE() Type.Remove(this)
 
 namespace Punk {
     namespace Engine {
@@ -43,12 +40,10 @@ namespace Punk {
                 const String& GetName() const;
                 void SetName(const String& value);
 
-
-                ClassBase* GetMetaClass() const { return m_meta_class; }
                 virtual Object* Clone() const;
 
-            protected:
-                void SetMetaClass(ClassBase* value) { m_meta_class = value; }
+                unsigned Acquire();
+                unsigned Release();
 
             private:
                 Object(const Object& o) = delete;
@@ -56,8 +51,8 @@ namespace Punk {
 
                 Object* m_owner {nullptr};
                 unsigned m_id {0};
-                String m_name;
-                ClassBase* m_meta_class;
+                unsigned m_ref_count {1};
+                String m_name;                
 
                 PUNK_OBJECT(Object)
             };

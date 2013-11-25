@@ -1,6 +1,9 @@
 #ifndef MOUSE_INTERFACE_H
 #define MOUSE_INTERFACE_H
 
+#include "config.h"
+
+PUNK_ENGINE_BEGIN
 namespace System
 {
     class Window;
@@ -25,5 +28,6 @@ namespace System
         virtual Window* GetBoundedWindow() const = 0;
     };
 }
+PUNK_ENGINE_END
 
 #endif // MOUSE_INTERFACE_H

@@ -7,15 +7,16 @@
 //#include <OpenEXR/Iex.h>
 #endif
 
-namespace ImageModule
+PUNK_ENGINE_BEGIN
+namespace Image
 {
 
-class OpenEXRImporter : public Importer
-{
-public:
-    OpenEXRImporter();
-};
-
+    class OpenEXRImporter : public Importer
+    {
+    public:
+        OpenEXRImporter();
+    };
 }
+PUNK_ENGINE_END
 
 #endif // OPENEXR_IMPORTER_H

@@ -138,14 +138,15 @@ namespace Punk
                     res.WriteUnsigned8(0);
                     return res;
                 }
-
+                std::vector<wchar_t> v(impl->begin(), impl->end());
                 size_t outp_size;
-                void* inp = (void*)impl->c_str();
+                void* inp = (void*)&v[0];
                 if (!ConvertByteArray("WCHAR_T", "ASCII", inp, inp_size, nullptr, &outp_size))
                     throw Error::StringConversionError(Error::STR_ERR_CONV_WCHAR_TO_ASCII);
                 Buffer buffer(outp_size);
                 if (!ConvertByteArray("WCHAR_T", "ASCII", inp, inp_size, buffer.Data(), &outp_size))
                     throw Error::StringConversionError(Error::STR_ERR_CONV_WCHAR_TO_ASCII);
+                buffer.WriteUnsigned8(0);
                 return buffer;
             }
 
@@ -157,7 +158,8 @@ namespace Punk
                     return res;
                 }
                 size_t outp_size;
-                void* inp = (void*)impl->c_str();
+                std::vector<wchar_t> v((*impl).begin(), (*impl).end());
+                void* inp = (void*)&v[0];
                 if (!ConvertByteArray("WCHAR_T", "UTF8", inp, inp_size, nullptr, &outp_size))
                     throw Error::StringConversionError(Error::STR_ERR_CONV_WCHAR_TO_UTF8);
                 Buffer buffer(outp_size);

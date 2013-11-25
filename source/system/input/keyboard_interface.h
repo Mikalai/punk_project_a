@@ -1,9 +1,12 @@
 #ifndef KEYBOARD_INTERFACE_H
 #define KEYBOARD_INTERFACE_H
 
+#include "config.h"
+
+PUNK_ENGINE_BEGIN
 namespace System
 {
-    class IKeyBoard
+    class PUNK_ENGINE_API IKeyBoard
     {
     public:
         virtual const bool& operator[] (int key) const = 0;
@@ -13,5 +16,6 @@ namespace System
         virtual bool (*GetKeyStates())[256] = 0;
     };
 }
+PUNK_ENGINE_END
 
 #endif // KEYBOARD_INTERFACE_H

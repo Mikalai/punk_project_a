@@ -4,18 +4,15 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <string.h>
 #include <algorithm>
 
+#include "core/component/module.h"
+#include "system/errors/module.h"
+#include "system/events/module.h"
+#include "system/logger/module.h"
+#include "system/time/module.h"
 #include "x11_window.h"
-#include "../../math/helper.h"
-#include "window.h"
-#include "../errors/module.h"
-#include "../event_manager.h"
-#include "../events/module.h"
-#include "../logger.h"
-#include "../input/module.h"
-#include "../timer.h"
-#include "../concurrency/module.h"
 
 typedef struct __GLXcontextRec *GLXContext;
 typedef XID GLXPbuffer;
@@ -26,10 +23,18 @@ typedef XID GLXDrawable;
 typedef XID GLXContextID;
 
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
+    Core::Rtti WindowX11::Type{"Punk.Engine.System.WindowX11", typeid(WindowX11).hash_code(), { &Window::Type}};
+
     WindowX11::WindowX11(const WindowDesc &desc)
     {
+        CREATE_INSTANCE(WindowX11);
+        OUT_MESSAGE("Window created");
+        m_keyboard = Core::Acquire<IKeyBoard>("input", "default_keyboard", "keyboard");
+        m_mouse = Core::Acquire<IMouse>("input", "default_mouse", "mouse");
+
         m_display = XOpenDisplay(NULL);
 
         if (m_display == NULL) {
@@ -45,7 +50,8 @@ namespace System
         printf("Creating window\n");
         m_window = XCreateWindow(m_display, DefaultRootWindow(m_display),
                                  desc.m_x, desc.m_y, desc.m_width, desc.m_height,
-                                 0, DefaultDepth(m_display, screen), CopyFromParent, CopyFromParent, CWBackPixel|CWBorderPixel/*|CWColormap/*|CWEventMask*/, &m_swa);
+                                 0, DefaultDepth(m_display, screen),
+                                 CopyFromParent, CopyFromParent, CWBackPixel|CWBorderPixel, &m_swa);
 
         XStoreName(m_display, m_window, "PunkEngine");
         XSetIconName(m_display, m_window, "PunkEngine");
@@ -54,7 +60,13 @@ namespace System
 
         //        XSetStandardProperties(m_display, m_window, "PunkEngine", "Icon", None, 0, 0, 0);
         XMapWindow(m_display, m_window);
-        int eventMask = ButtonPressMask|ButtonReleaseMask|KeyPressMask|ExposureMask|StructureNotifyMask;
+        int eventMask = ButtonPressMask
+                |ButtonReleaseMask
+                |KeyPressMask
+                |ExposureMask
+                |StructureNotifyMask
+                |PointerMotionMask;
+
         XSelectInput(m_display, m_window, eventMask); // override prev
 
         wmDeleteWindow = XInternAtom(m_display, "WM_DELETE_WINDOW", False);
@@ -63,10 +75,13 @@ namespace System
 
     WindowX11::~WindowX11()
     {
+        DESTROY_INSTANCE();
+        Core::Release("input", "default_mouse");
+        Core::Release("input", "default_keyboard");
         XDestroyWindow(m_display, m_window);
         XSetCloseDownMode(m_display, DestroyAll );
         XCloseDisplay(m_display);
-        std::cout << "Window destroyed" << std::endl;
+        OUT_MESSAGE("Window destroyed");
     }
 
     int WindowX11::GetDesktopWidth() const
@@ -82,13 +97,13 @@ namespace System
     int WindowX11::GetDesktopBitsPerPixel() const
     {
         auto screen = XDefaultScreenOfDisplay(m_display);
-        screen->root_visual->bits_per_rgb;
+        return screen->root_visual->bits_per_rgb;
     }
 
     int WindowX11::GetDesktopRefreshRate() const
     {
-        auto screen = XDefaultScreenOfDisplay(m_display);
-        screen;
+        //auto screen = XDefaultScreenOfDisplay(m_display);
+        return 0;
     }
 
     int WindowX11::GetWidth() const
@@ -137,7 +152,7 @@ namespace System
 
     int WindowX11::DecodeKey(KeySym keysym, int& charKey, bool press)
     {
-        bool (*buttons)[256] = System::Keyboard::Instance()->GetKeyStates();    //  TODO: Something better should be here
+        bool (*buttons)[256] = m_keyboard->GetKeyStates();    //  TODO: Something better should be here
         bool* m_buttons = *buttons;
         int key;
         switch (keysym)
@@ -527,107 +542,91 @@ namespace System
 
     void WindowX11::OnKeyPressRelease(XKeyEvent* event)
     {
-        bool press = event->type == KeyPress;
-        int charKey = 0;
-        int key = 0;
-        KeySym keysym;
-        char buffer[1];
-        /* It is necessary to convert the keycode to a
-* keysym before checking if it is an escape */
-        keysym = XLookupKeysym(event, 0);
+        //  It is necessary to convert the keycode to a
+        //  keysym before checking if it is an escape
+        KeySym keysym = XLookupKeysym(event, 0);
         if (keysym != NoSymbol)//if (XLookupString(event,buffer,1, &keysym,NULL) == 1)
         {
-            key = DecodeKey(keysym, charKey, press);
-            if (press)
-            {
-                if (m_adapter)
-                {
-                    KeyDownEvent* e = new KeyDownEvent;
-                    e->key = key;
-                    m_adapter->WndOnKeyDownEvent(e);
-                }
-            }
-            else
-            {
-                if (m_adapter)
-                {
-                    KeyUpEvent* e = new KeyUpEvent;
-                    e->key = key;
-                    m_adapter->WndOnKeyUpEvent(e);
-                }
-            }
-
+            bool press = event->type == KeyPress;
+            int charKey;
+            int key = DecodeKey(keysym, charKey, press);
+            KeyEvent e;
+            e.key = key;
+            e.transitionState = press;
+            OnKeyEvent(e);
             if (charKey != 0 && press)
-            {
-                if (m_adapter)
-                {
-                    KeyEvent* e = new KeyEvent;
-                    e->key = key;
-                    m_adapter->WndOnCharEvent(e);
-                }
-            }
+                OnCharEvent(e);
         }
     }
 
     void WindowX11::OnMousePressRelease(XEvent* event)
     {
-        int delta = 0;
         bool press = event->type == ButtonPress;
+
+        MouseEvent mouse_event;
+        mouse_event.x = event->xbutton.x;
+        mouse_event.y = GetHeight() - event->xbutton.y;
+        mouse_event.x_prev = x_prev;
+        mouse_event.y_prev = y_prev;
+        x_prev = mouse_event.x;
+        y_prev = GetHeight() - event->xbutton.y;
+        mouse_event.leftButton = m_left_button;
+        mouse_event.middleButton = m_middle_button;
+        mouse_event.rightButton = m_right_button;
+
+        MouseWheelEvent wheel_event;
+        wheel_event.x = event->xbutton.x;
+        wheel_event.y = GetHeight() - event->xbutton.y;
+        wheel_event.delta = 1;
+        wheel_event.leftButton = m_left_button;
+        wheel_event.middleButton = m_middle_button;
+        wheel_event.rightButton = m_right_button;
+
         switch (event->xbutton.button)
         {
         case 1: //LEFT
         {
-            m_left_button = press;
-            Mouse::Instance()->SetButtonState(Mouse::LEFT_BUTTON, press);
+            mouse_event.leftButton = m_left_button = press;
+            m_mouse->SetButtonState(MouseButtons::LeftButton, press);
+            OnMouseEvent(mouse_event);
+            break;
         }
         case 2: //MIDDLE
         {
-            m_middle_button = press;
-            Mouse::Instance()->SetButtonState(Mouse::MIDDLE_BUTTON, press);
+            mouse_event.middleButton = m_middle_button = press;
+            m_mouse->SetButtonState(MouseButtons::MiddleButton, press);
+            OnMouseEvent(mouse_event);
+            break;
         }
         case 3: //RIGHT
         {
-            m_right_button = press;
-            Mouse::Instance()->SetButtonState(Mouse::RIGHT_BUTTON, press);
-            MouseEvent e;
-            e.x = event->xbutton.x;
-            e.y = GetHeight() - event->xbutton.y;
-            e.x_prev = x_prev;
-            e.y_prev = y_prev;
-            x_prev = e->x;
-            y_prev = GetHeight() - event->xbutton.y;
-            //event->controlKey = (wParam & MK_CONTROL) != 0;
-            e.leftButton = m_left_button = true;
-            e.middleButton = m_middle_button;
-            e.rightButton = m_right_button;
-            OnMouseEvent(e);
+            mouse_event.rightButton = m_right_button = press;
+            m_mouse->SetButtonState(MouseButtons::RightButton, press);
+            OnMouseEvent(mouse_event);
+            break;
         }
-        break;
+            break;
         case 4: //Wheel +
         {
-            delta = 1;
+            wheel_event.delta = 1;
+            OnMouseWheelEvent(wheel_event);
+            break;
         }
         case 5: //Wheel -
         {
-            delta = -1
-            MouseWheelEvent e;
-            e.x = event->xbutton.x;
-            e.y = GetHeight() - event->xbutton.y;
-            e.delta = 1;
-            e.leftButton = m_left_button;
-            e.middleButton = m_middle_button;
-            e.rightButton = m_right_button;
-            OnMouseWheelEvent(e);
-        }        
+            wheel_event.delta = -1;
+            OnMouseWheelEvent(wheel_event);
+            break;
+        }
+        }
     }
 
     int WindowX11::Loop()
     {
-        Event* e = nullptr;
         XEvent event;
 
-        Timer timer;
-        timer.Reset();
+        ITimer* timer = Core::Acquire<ITimer>("time", "main_loop_timer", "timer");
+        timer->Reset();
 
         while (!IsClosed())
         {
@@ -637,25 +636,18 @@ namespace System
                 switch (event.type)
                 {
                 case CreateNotify:
-                {
-                    if (m_adapter)
-                        m_adapter->WndOnCreateEvent();
+                    OnWindowCreated();
                     break;
-                }
                 case ClientMessage:
-                {
-                    if (event.xclient.data.l[0] = wmDeleteWindow)
-                    {
+                    if (event.xclient.data.l[0] == (long)wmDeleteWindow)
                         BreakMainLoop();
-                    }
-                }
                     break;
                 case ConfigureNotify:
                 {
-                    WindowResizeEvent* e = new WindowResizeEvent();
-                    e->width = event.xconfigure.width;
-                    e->height = event.xconfigure.height;
-                    WindowResizeProc(e);
+                    WindowResizeEvent e;
+                    e.width = event.xconfigure.width;
+                    e.height = event.xconfigure.height;
+                    OnResizeEvent(e);
                     break;
                 }
                 case KeyPress:
@@ -666,24 +658,17 @@ namespace System
                 }
                 case MotionNotify:
                 {
-                    MouseMoveEvent* e = new MouseMoveEvent;
-                    e->x_prev = x_prev;
-                    e->y_prev = y_prev;
-                    e->x = event.xmotion.x;
-                    e->y = GetHeight() - event.xmotion.y;
+                    MouseEvent e;
+                    e.x_prev = x_prev;
+                    e.y_prev = y_prev;
+                    e.x = event.xmotion.x;
+                    e.y = GetHeight() - event.xmotion.y;
                     x_prev = event.xmotion.x;
                     y_prev = GetHeight() - event.xmotion.y;
-                    e->leftButton = m_left_button;
-                    e->middleButton = m_middle_button;
-                    e->rightButton = m_right_button;
-                    /*event->controlKey = (bool)(wParam & MK_CONTROL);
-event->leftButton = (bool)(wParam & MK_LBUTTON);
-event->middleButton = (bool)(wParam & MK_MBUTTON);
-event->rightButton = (bool)(wParam & MK_RBUTTON);
-event->shiftButton = (bool)(wParam & MK_SHIFT);
-event->xbutton1 = (bool)(wParam & MK_XBUTTON1);
-event->xbutton2 = (bool)(wParam & MK_XBUTTON2);*/
-                    //                    m_adapter->WndOnMouseMoveEvent(e);
+                    e.leftButton = m_left_button;
+                    e.middleButton = m_middle_button;
+                    e.rightButton = m_right_button;
+                    OnMouseMoveEvent(e);
                     MouseMoveProc(e);
                 }
                     break;
@@ -694,16 +679,12 @@ event->xbutton2 = (bool)(wParam & MK_XBUTTON2);*/
                     break;
                 }
                 }
-            }
-            double dt;
-            IdleEvent* idle_event = new IdleEvent;
-            dt = idle_event->elapsed_time_s = timer.GetElapsedSeconds();
-            timer.Reset();
-            IdleEventProc(idle_event);
-            idle_event = nullptr;
+            }            
+            IdleEvent idle_event;
+            idle_event.elapsed_time_s = timer->GetElapsedSeconds();
+            timer->Reset();
+            OnIdleEvent(idle_event);
         }
-
-        WindowCloseProc();
         return 0;
     }
 
@@ -718,12 +699,15 @@ event->xbutton2 = (bool)(wParam & MK_XBUTTON2);*/
         return res;
     }
 
-    void WindowX11::SetTitle(const string& text)
+    void WindowX11::SetTitle(const Core::String& text)
     {
+        (void)text;
+        // TODO: Implementation
     }
 
-    const string WindowX11::GetTitle() const
+    const Core::String WindowX11::GetTitle() const
     {
+        return Core::String();
     }
 
 
@@ -742,8 +726,8 @@ event->xbutton2 = (bool)(wParam & MK_XBUTTON2);*/
                                                       cursorNoneBits, 16, 16 );
             if( cursorNonePixmap != None ) {
                 invisible_cursor = XCreatePixmapCursor(m_display,
-                                                 cursorNonePixmap, cursorNonePixmap,
-                                                  &dontCare, &dontCare, 0, 0 );
+                                                       cursorNonePixmap, cursorNonePixmap,
+                                                       &dontCare, &dontCare, 0, 0 );
                 XFreePixmap(m_display, cursorNonePixmap);
             }
         }
@@ -764,365 +748,74 @@ event->xbutton2 = (bool)(wParam & MK_XBUTTON2);*/
 
     void WindowX11::DrawPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b, unsigned char a)
     {
-        unsigned char rr = Math::Max((int)r - int(255 - a), 0);
-        unsigned char gg = Math::Max((int)g - int(255 - a), 0);
-        unsigned char bb = Math::Max((int)b - int(255 - a), 0);
+        (void)x;
+        (void)y;
+        (void)r;
+        (void)g;
+        (void)b;
+        (void)a;
+//        unsigned char rr = (unsigned char)std::max((int)r - int(255 - a), 0);
+//        unsigned char gg = (unsigned char)std::max((int)g - int(255 - a), 0);
+//        unsigned char bb = (unsigned char)std::max((int)b - int(255 - a), 0);
     }
 
     void WindowX11::DrawLine(int x1, int y1, int x2, int y2)
     {
+        (void)x1;
+        (void)y1;
+        (void)x2;
+        (void)y2;
     }
 
-    Window::Window(WindowAdapter* adapter, const WindowDesc& desc)
-        : impl(new Impl(adapter, desc))
-    {}
-
-    void Window::SetTitle(const string& text)
+    Display* WindowX11::GetDisplay()
     {
-        impl->SetTitle(text);
+        return m_display;
     }
 
-    const string Window::GetTitle() const
+    void WindowX11::SetDisplay(Display *display)
     {
-        return impl->GetTitle();
-    }
-
-    void Window::DrawPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b, unsigned char a)
-    {
-        impl->DrawPixel(x, y, r, g, b, a);
-    }
-
-    int Window::GetDesktopBitsPerPixel() const
-    {
-        return impl->GetDesktopBitsPerPixel();
-    }
-
-    int Window::GetDesktopHeight() const
-    {
-        return impl->GetDesktopHeight();
-    }
-
-    int Window::GetDesktopRefreshRate() const
-    {
-        return impl->GetDesktopRefreshRate();
-    }
-
-    int Window::GetDesktopWidth() const
-    {
-        return impl->GetDesktopWidth();
-    }
-
-    void Window::BreakMainLoop()
-    {
-        impl->BreakMainLoop();
-    }
-
-    int Window::Loop()
-    {
-        return impl->Loop();
-    }
-
-    void Window::DrawLine(int x1, int y1, int x2, int y2)
-    {
-        impl->DrawLine(x1, y1, x2, y2);
-    }
-
-    void Window::Quite()
-    {
-        impl->Quite();
-    }
-
-    void Window::SetSize(int width, int height)
-    {
-        impl->SetSize(width, height);
-    }
-
-    void Window::SetPosition(int x, int y)
-    {
-        impl->SetPosition(x, y);
-    }
-
-    int Window::GetX() const
-    {
-        return impl->GetX();
-    }
-
-    int Window::GetY() const
-    {
-        return impl->GetY();
-    }
-
-    int Window::GetWidth() const
-    {
-        return impl->GetWidth();
-    }
-
-    int Window::GetHeight() const
-    {
-        return impl->GetHeight();
-    }
-
-    Window::~Window()
-    {
-        delete impl;
-        impl = nullptr;
-    }
-
-    Display* Window::GetDisplay()
-    {
-        return impl->m_display;
-    }
-
-    void Window::SetDisplay(Display *display)
-    {
-        if (impl->m_display)
+        if (m_display)
         {
             //XDestroyWindow(impl->m_display, impl->m_window);
             //XCloseDisplay(impl->m_display);
-            impl->m_display = 0;
-            impl->m_window = 0;
+            m_display = 0;
+            m_window = 0;
         }
-        impl->m_display = display;
+        m_display = display;
     }
 
-    void Window::SetWindow(::Window value)
+    void WindowX11::SetWindow(::Window value)
     {
-        if (impl->m_window)
-            XDestroyWindow(impl->m_display, impl->m_window);
-        impl->m_window = value;
-        XSetWMProtocols(impl->m_display, impl->m_window, &impl->wmDeleteWindow, 1);
+        if (m_window)
+            XDestroyWindow(m_display, m_window);
+        m_window = value;
+        XSetWMProtocols(m_display, m_window, &wmDeleteWindow, 1);
     }
 
-    ::Window Window::GetWindow()
+    ::Window WindowX11::GetWindow()
     {
-        return impl->m_window;
+        return m_window;
     }
 
-    void WindowX11::MouseMoveProc(Event* e)
+    void WindowX11::MouseMoveProc(const MouseEvent& e)
     {
-        if (Mouse::Instance()->IsLocked())
+        if (m_mouse->IsLocked())
         {
-            MouseMoveEvent* event = (MouseMoveEvent*)e;
             int w = GetWidth();
             int h = GetHeight();
             int w2 = w / 2;
             int h2 = h / 2;
             int w4 = w2 / 2;
             int h4 = h2 / 2;
-            if (abs(event->x - w2) > w4 || abs(event->y - h2) > h4)
+            if (abs(e.x - w2) > w4 || abs(e.y - h2) > h4)
             {
                 x_prev = w2;
                 y_prev = h2;
                 x = w2;
                 y = h2;
-                event->x = event->x_prev = w2;
-                event->y = event->y_prev = h2;
                 XWarpPointer(m_display, m_window, m_window, 0, 0, 0, 0, w2, h2);
             }
         }
-        if (m_adapter)
-        {
-            m_adapter->WndOnMouseMoveEvent((MouseMoveEvent*)e);
-        }
-        else
-        {
-            delete (MouseMoveEvent*)e;
-        }
-    }
-
-    void WindowX11::KeyDownProc(Event* e)
-    {
-        if (m_adapter)
-        {
-            m_adapter->WndOnKeyDownEvent((KeyDownEvent*)e);
-        }
-        else
-        {
-            delete (KeyDownEvent*)e;
-        }
-    }
-
-    void WindowX11::MouseWheelProc(Event* e)
-    {
-        if (m_adapter)
-        {
-            m_adapter->WndOnMouseWheelEvent((MouseWheelEvent*)e);
-        }
-        else
-        {
-            delete (MouseWheelEvent*)e;
-        }
-    }
-
-    void WindowX11::KeyUpProc(Event* e)
-    {
-        if (m_adapter)
-        {
-            m_adapter->WndOnKeyUpEvent((KeyUpEvent*)e);
-        }
-        else
-        {
-            delete (KeyUpEvent*)e;
-        }
-    }
-
-    void WindowX11::KeyCharProc(Event* e)
-    {
-        if (m_adapter)
-        {
-            m_adapter->WndOnCharEvent((KeyEvent*)e);
-        }
-        else
-        {
-            delete (KeyEvent*)e;
-        }
-    }
-
-    void WindowX11::MouseLeftButtonDownProc(Event* e)
-    {
-        if (m_adapter)
-        {
-            m_adapter->WndOnMouseLeftButtonDownEvent((MouseLeftButtonDownEvent*)e);
-        }
-        else
-        {
-            delete (MouseLeftButtonDownEvent*)e;
-        }
-    }
-
-    void WindowX11::MouseLeftButtonUpProc(Event* e)
-    {
-        if (m_adapter)
-        {
-            m_adapter->WndOnMouseLeftButtonUpEvent((MouseLeftButtonUpEvent*)e);
-        }
-        else
-        {
-            delete (MouseLeftButtonUpEvent*)e;
-        }
-    }
-    void WindowX11::MouseRightButtonDownProc(Event* e)
-    {
-        if (m_adapter)
-        {
-            m_adapter->WndOnMouseRightButtonDownEvent((MouseRightButtonDownEvent*)e);
-        }
-        else
-        {
-            delete (MouseRightButtonDownEvent*)e;
-        }
-    }
-    void WindowX11::MouseRightButtonUpProc(Event* e)
-    {
-        if (m_adapter)
-        {
-            m_adapter->WndOnMouseRightButtonUpEvent((MouseRightButtonUpEvent*)e);
-        }
-        else
-        {
-            delete (MouseRightButtonUpEvent*)e;
-        }
-    }
-    void WindowX11::MouseMiddleButtonDownProc(Event* e)
-    {
-        if (m_adapter)
-        {
-            m_adapter->WndOnMouseMiddleButtonDownEvent((MouseMiddleButtonDownEvent*)e);
-        }
-        else
-        {
-            delete (MouseMiddleButtonDownEvent*)e;
-        }
-    }
-    void WindowX11::MouseMiddleButtonUpProc(Event* e)
-    {
-        if (m_adapter)
-        {
-            m_adapter->WndOnMouseMiddleButtonUpEvent((MouseMiddleButtonUpEvent*)e);
-        }
-        else
-        {
-            delete (MouseMiddleButtonUpEvent*)e;
-        }
-    }
-    void WindowX11::WindowResizeProc(Event* e)
-    {
-        if (m_adapter)
-        {
-            m_adapter->WndOnResizeEvent((WindowResizeEvent*)e);
-        }
-        else
-        {
-            delete (WindowResizeEvent*)e;
-        }
-    }
-
-    void WindowX11::MouseEnterProc(Event* e)
-    {
-        delete e;
-    }
-
-    void WindowX11::MouseLeaveProc(Event* e)
-    {
-        delete e;
-    }
-
-    void WindowX11::SetFocusedProc(Event* e)
-    {
-        delete e;
-    }
-
-    void WindowX11::SetUnfocusedProc(Event* e)
-    {
-        delete e;
-    }
-
-    void WindowX11::KeyWcharProc(Event* e)
-    {
-        if (m_adapter)
-        {
-            m_adapter->WndOnWideCharEvent((KeyWCharEvent*)e);
-        }
-        else
-        {
-            delete (KeyWCharEvent*)e;
-        }
-    }
-
-    void WindowX11::MouseHooverProc(Event* e)
-    {
-        if (m_adapter)
-        {
-            m_adapter->WndOnMouseHooverEvent((MouseHooverEvent*)e);
-        }
-        else
-        {
-            delete (MouseHooverEvent*)e;
-        }
-    }
-
-    void WindowX11::IdleEventProc(Event* e)
-    {
-        if (m_adapter)
-        {
-            m_adapter->WndOnIdleEvent((IdleEvent*)e);
-        }
-        else
-        {
-            delete (IdleEvent*)e;
-        }
-    }
-
-    void WindowX11::WindowCloseProc()
-    {
-        if (m_adapter)
-        {
-            m_adapter->WndOnDestroyEvent();
-        }
-    }
-
-    void Window::ShowCursor(bool value)
-    {
-        impl->ShowCursor(value);
     }
 }
+PUNK_ENGINE_END

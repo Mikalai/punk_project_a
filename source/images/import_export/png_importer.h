@@ -3,7 +3,8 @@
 
 #include "importer.h"
 
-namespace ImageModule
+PUNK_ENGINE_BEGIN
+namespace Image
 {
 	class Image;
 
@@ -12,12 +13,13 @@ namespace ImageModule
 	public:
 		PngImporter();
 
-		virtual bool Load(const System::string& filename);
+        virtual bool Load(const Core::String& filename);
 		virtual bool Load(std::istream& stream, Image* image);
-        virtual void Load(System::Buffer* buffer, Image* image);
+        virtual void Load(Core::Buffer* buffer, Image* image);
 
 		friend class Importer;
 	};
 }
+PUNK_ENGINE_END
 
 #endif

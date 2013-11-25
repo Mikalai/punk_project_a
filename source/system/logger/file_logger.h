@@ -3,17 +3,19 @@
 
 #include "logger.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
     class FileLogger : public virtual Logger
     {
     public:
-        FileLogger(const string& filename);
+        FileLogger(const Core::String& filename);
         virtual ~FileLogger();
-        void Write(const string &value) override;
+        void Write(const Core::String &value) override;
     private:
-        const string m_filename;
+        const Core::String m_filename;
     };
 }
+PUNK_ENGINE_END
 
 #endif // FILE_LOGGER_H

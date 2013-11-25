@@ -1,16 +1,15 @@
 #ifndef _H_PUNK_VIDEO_DRIVER
 #define _H_PUNK_VIDEO_DRIVER
 
-#include "../../config.h"
-#include "../gpu_config.h"
-#include "../../system/window/module.h"
-#include "../../system/event_manager.h"
-#include "../../images/module.h"
+#include "config.h"
+#include "gpu_config.h"
+#include "system/window/module.h"
+#include "images/module.h"
 
+PUNK_ENGINE_BEGIN
 namespace Math { class vec4; }
 namespace Utility { class FontBuilder; }
-
-namespace Gpu
+namespace Graphics
 {
 	struct VideoDriverDesc
 	{
@@ -78,5 +77,6 @@ namespace Gpu
         VideoDriver& operator = (const VideoDriver&) = delete;
 	};
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_VIDEO_DRIVER

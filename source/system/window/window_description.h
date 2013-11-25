@@ -12,7 +12,10 @@
 #include <X11/Xutil.h>
 #include <X11/Xutil.h>
 #endif
+#include "config.h"
+#include "string/string.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
     enum class WindowSystem { Windows, X11 };
@@ -26,10 +29,13 @@ namespace System
 #elif defined __gnu_linux__
         WindowSystem system {WindowSystem::X11};
 #endif
+        Core::String m_name;
         unsigned m_x {100};
         unsigned m_y {100};
         unsigned m_width {1024};
         unsigned m_height {768};
     };
 }
+PUNK_ENGINE_END
+
 #endif // WINDOW_DESCRIPTION_H

@@ -1,12 +1,13 @@
 #include "exporter.h"
 #include "png_exporter.h"
-#include "../error/module.h"
-#include "../internal_images/image.h"
-#include "../../string/string.h"
+#include "images/error/module.h"
+#include "images/internal_images/image.h"
+#include "string/string.h"
 
-namespace ImageModule
+PUNK_ENGINE_BEGIN
+namespace Image
 {
-	void Exporter::Export(const System::string& filename, const Image& image)
+    void Exporter::Export(const Core::String& filename, const Image& image)
     {
         if (filename.EndWith(".png"))
 		{
@@ -14,6 +15,7 @@ namespace ImageModule
 			importer.Export(filename, image);			
 		}
 		else
-			throw ImageException(L"Unsupported file format");
+            throw Error::ImageException(L"Unsupported file format");
 	}
 }
+PUNK_ENGINE_END

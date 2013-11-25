@@ -2,23 +2,23 @@
 #include <istream>
 #include <ostream>
 
-#include "../../system/logger.h"
-
+#include "system/logger/module.h"
 #include "png_importer.h"
-#include "../internal_images/image_impl.h"
+#include "images/internal_images/image_impl.h"
 #include <stdio.h>
 
-#ifdef USE_PNG
+#ifdef USE_LIB_PNG
 #include <png.h>
-#endif // USE_PNG
+#endif // USE_LIB_PNG
 
-namespace ImageModule
+PUNK_ENGINE_BEGIN
+namespace Image
 {
 	PngImporter::PngImporter()
 		: Importer()
 	{}
 
-#ifdef USE_PNG
+#ifdef USE_LIB_PNG
 	void read(png_structp png, png_bytep data, png_size_t size)
 	{
 		std::istream& stream = *(std::istream*)(png_get_io_ptr(png));
@@ -27,20 +27,20 @@ namespace ImageModule
 
     void read2(png_structp png, png_bytep data, png_size_t size)
     {
-        System::Buffer* buffer = (System::Buffer*)(png_get_io_ptr(png));
+        Core::Buffer* buffer = (Core::Buffer*)(png_get_io_ptr(png));
         buffer->ReadBuffer(data, size);
     }
-#endif  //  USE_PNG
+#endif  //  USE_LIB_PNG
 
-    void PngImporter::Load(System::Buffer *buffer, Image *image)
+    void PngImporter::Load(Core::Buffer *buffer, Image *image)
     {
-#ifdef USE_PNG
+#ifdef USE_LIB_PNG
         const int bytesToCheck = 8;
 
         char sig[bytesToCheck];
         buffer->ReadBuffer(sig, bytesToCheck);
         if ( png_sig_cmp((png_bytep)sig, (png_size_t)0, bytesToCheck) )
-            throw System::PunkException(L"It is not a png file");
+            throw Error::ImageException(L"It is not a png file");
 
         png_structp png_ptr;
         png_infop info_ptr;
@@ -48,21 +48,21 @@ namespace ImageModule
         png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 
         if (png_ptr == NULL)
-            throw System::PunkException(L"It is not a png file");
+            throw Error::ImageException(L"It is not a png file");
 
         info_ptr = png_create_info_struct(png_ptr);
 
         if (info_ptr == NULL)
         {
             png_destroy_read_struct ( &png_ptr, (png_infopp) NULL, (png_infopp)NULL );
-            throw System::PunkException(L"It is not a png file");
+            throw Error::ImageException(L"It is not a png file");
         }
 
         png_infop end_info = png_create_info_struct(png_ptr);
         if (!end_info)
         {
             png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
-            throw System::PunkException(L"It is not a png file");
+            throw Error::ImageException(L"It is not a png file");
         }
 
         png_set_read_fn(png_ptr, buffer, read2);
@@ -117,7 +117,7 @@ namespace ImageModule
         if ( channels == 0 )
         {
             png_destroy_read_struct ( &png_ptr, &info_ptr, (png_infopp) NULL );
-            throw ImageException(L"Can't load file: ");
+            throw Error::ImageException(L"Can't load file: ");
         }
 
         image->Create(width, height, channels, ComponentType::UnsignedByte, format);
@@ -226,24 +226,21 @@ namespace ImageModule
         png_read_end            ( png_ptr, end_info );
         png_destroy_read_struct ( &png_ptr, &info_ptr, &end_info );
 
-#else   //  USE_PNG
+#else   //  USE_LIB_PNG
         (void)stream; (void)image;
         throw System::PunkNotImplemented(L"Can't import png, because png lib was not included in the project");
-#endif  //  USE_PNG
+#endif  //  USE_LIB_PNG
     }
 
 	bool PngImporter::Load(std::istream& stream, Image* image)
 	{
-#ifdef USE_PNG
+#ifdef USE_LIB_PNG
 		const int bytesToCheck = 8;
 
 		char sig[bytesToCheck];
 		stream.read(sig, bytesToCheck);
-		if ( png_sig_cmp((png_bytep)sig, (png_size_t)0, bytesToCheck) )
-		{
-			out_error() << L"It is not a png file: " << std::endl;
-			return false;
-		}
+        if ( png_sig_cmp((png_bytep)sig, (png_size_t)0, bytesToCheck) )
+            throw Error::ImageException(L"It is not a png file stream");
 
 		png_structp png_ptr;
 		png_infop info_ptr;
@@ -251,26 +248,19 @@ namespace ImageModule
 		png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 
 		if (png_ptr == NULL)
-		{
-			out_error() << L"Can't load file: " << std::endl;
-			return false;
-		}
+            throw Error::ImageException(L"It is not a png file stream");
 
 		info_ptr = png_create_info_struct(png_ptr);
 
-		if (info_ptr == NULL)
-		{
+        if (info_ptr == NULL) {
 			png_destroy_read_struct ( &png_ptr, (png_infopp) NULL, (png_infopp)NULL );
-			out_error() <<  L"Can't load file: " << std::endl;
-			return false;
+            throw Error::ImageException(L"It is not a png file stream");
 		}
 
 		png_infop end_info = png_create_info_struct(png_ptr);
-		if (!end_info)
-		{
+        if (!end_info) {
 			png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
-			out_error() << L"Can't load file: " << std::endl;
-			return false;
+            throw Error::ImageException(L"It is not a png file stream");
 		}
 
 		png_set_read_fn(png_ptr, &stream, read);
@@ -325,7 +315,7 @@ namespace ImageModule
 		if ( channels == 0 )
 		{
 			png_destroy_read_struct ( &png_ptr, &info_ptr, (png_infopp) NULL );
-			throw ImageException(L"Can't load file: ");
+            throw Error::ImageException(L"Can't load file: ");
 		}
 
         image->Create(width, height, channels, ComponentType::UnsignedByte, format);
@@ -435,23 +425,20 @@ namespace ImageModule
 		png_destroy_read_struct ( &png_ptr, &info_ptr, &end_info );
 
 		return true;
-#else   //  USE_PNG
+#else   //  USE_LIB_PNG
         (void)stream; (void)image;
         throw System::PunkNotImplemented(L"Can't import png, because png lib was not included in the project");
-#endif  //  USE_PNG
+#endif  //  USE_LIB_PNG
 	}
 
-	bool PngImporter::Load(const System::string& file)
+    bool PngImporter::Load(const Core::String& file)
 	{
-		std::ifstream stream(file.ToStdString().c_str(), std::ios_base::binary);
+        std::ifstream stream((char*)file.ToUtf8().Data(), std::ios_base::binary);
 		if (!stream.is_open())
-		{
-			out_error() << L"Can't open file: " + file << std::endl;
-			return false;
-		}
+            throw Error::ImageException(L"Can't open file: " + file);
 		Load(stream, this);
 		stream.close();
 		return true;
 	}
 }
-
+PUNK_ENGINE_END
