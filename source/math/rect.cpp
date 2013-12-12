@@ -1,5 +1,6 @@
 #include "rect.h"
 
+PUNK_ENGINE_BEGIN
 namespace Math
 {
 	Rect::Rect()
@@ -30,3 +31,4 @@ namespace Math
 		, m_height(rect.W())
 	{}
 }
+PUNK_ENGINE_END

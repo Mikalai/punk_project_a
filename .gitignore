@@ -11,11 +11,20 @@
 *.lai
 *.la
 *.a
-
+*.obj
+*.lib
+*.sdf
+*.suo
+*.opensdf
 *.dll
 *.user
+*.dblite
+*.filters
 
 bin
+obj
+Debug
+Release
 *.Debug
 *.Release
 *Makefile*

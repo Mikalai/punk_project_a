@@ -2,7 +2,9 @@
 #define H_PUNK_MATH_SPHERICAL_H
 
 #include <array>
+#include "config.h"
 
+PUNK_ENGINE_BEGIN
 namespace Math
 {
     class SphericalCoordinate
@@ -57,5 +59,6 @@ namespace Math
     }
 
 }
+PUNK_ENGINE_END
 
 #endif // H_PUNK_MATH_SPHERICAL_H

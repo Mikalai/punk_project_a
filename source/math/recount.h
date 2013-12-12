@@ -4,6 +4,7 @@
 #include "vec3.h"
 #include "spherical.h"
 
+PUNK_ENGINE_BEGIN
 namespace Math
 {
     class Recount
@@ -18,5 +19,6 @@ namespace Math
         static float RadToDeg(float value);
     };
 }
+PUNK_ENGINE_END
 
 #endif // RECOUNT_H

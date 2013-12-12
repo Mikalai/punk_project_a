@@ -1,6 +1,7 @@
 #include <memory.h>
-#include <math.h>
 #include "string/module.h"
+#include "math/square_root.h"
+#include "math/absolute_value.h"
 #include "vec2.h"
 #include "vec3.h"
 
@@ -19,9 +20,9 @@ namespace Punk {
             }
 
             vec3::vec3(const vec3& vec) {
-#ifdef _WIN32
+#ifdef MSVS
                 memcpy_s(m_v, sizeof(m_v), vec.m_v, sizeof(m_v));
-#elif defined __gnu_linux__
+#else
                 memcpy(m_v, vec.m_v, sizeof(m_v));
 #endif
             }
@@ -52,7 +53,7 @@ namespace Punk {
 
             float vec3::Length() const {
                 auto sqr_l = m_v[0]*m_v[0] + m_v[1]*m_v[1] + m_v[2]*m_v[2];
-                auto res = sqrtf(sqr_l);
+                auto res = Sqrt(sqr_l);
                 return res;
             }
 
@@ -98,7 +99,7 @@ namespace Punk {
 
             vec3& vec3::Chop(float eps) {
                 for (int i = 0; i != 3; ++i)
-                    if (fabs(float(m_v[i])) < eps)
+                    if (Abs(float(m_v[i])) < eps)
                         m_v[i] = float(0);
                 return *this;
             }

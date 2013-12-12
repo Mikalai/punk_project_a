@@ -5,6 +5,7 @@
 #include "vec2.h"
 #include "vec4.h"
 
+PUNK_ENGINE_BEGIN
 namespace Math
 {
 	class PUNK_ENGINE_API Rect
@@ -38,5 +39,6 @@ namespace Math
 		m_height = height;
 	}
 };
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_MATH_RECT

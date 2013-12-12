@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\SConstruct" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\math\aabb.cpp" />
+    <ClCompile Include="..\..\..\source\math\absolute_value.cpp" />
+    <ClCompile Include="..\..\..\source\math\array.cpp" />
+    <ClCompile Include="..\..\..\source\math\astar.cpp" />
+    <ClCompile Include="..\..\..\source\math\bounding_box.cpp" />
+    <ClCompile Include="..\..\..\source\math\bounding_sphere.cpp" />
+    <ClCompile Include="..\..\..\source\math\clip_space.cpp" />
+    <ClCompile Include="..\..\..\source\math\convex_shape_mesh.cpp" />
+    <ClCompile Include="..\..\..\source\math\curve.cpp" />
+    <ClCompile Include="..\..\..\source\math\ellipsoid.cpp" />
+    <ClCompile Include="..\..\..\source\math\frustum.cpp" />
+    <ClCompile Include="..\..\..\source\math\frustum_plane.cpp" />
+    <ClCompile Include="..\..\..\source\math\graham.cpp" />
+    <ClCompile Include="..\..\..\source\math\helper.cpp" />
+    <ClCompile Include="..\..\..\source\math\line2d.cpp" />
+    <ClCompile Include="..\..\..\source\math\line3d.cpp" />
+    <ClCompile Include="..\..\..\source\math\mat2.cpp" />
+    <ClCompile Include="..\..\..\source\math\mat3.cpp" />
+    <ClCompile Include="..\..\..\source\math\mat4.cpp" />
+    <ClCompile Include="..\..\..\source\math\math.cpp" />
+    <ClCompile Include="..\..\..\source\math\math_error.cpp" />
+    <ClCompile Include="..\..\..\source\math\matrix_helper.cpp" />
+    <ClCompile Include="..\..\..\source\math\min_max.cpp" />
+    <ClCompile Include="..\..\..\source\math\noise.cpp" />
+    <ClCompile Include="..\..\..\source\math\noiseutils.cpp" />
+    <ClCompile Include="..\..\..\source\math\perspective_decoder.cpp" />
+    <ClCompile Include="..\..\..\source\math\plane.cpp" />
+    <ClCompile Include="..\..\..\source\math\polygon3d.cpp" />
+    <ClCompile Include="..\..\..\source\math\portal.cpp" />
+    <ClCompile Include="..\..\..\source\math\power.cpp" />
+    <ClCompile Include="..\..\..\source\math\quat.cpp" />
+    <ClCompile Include="..\..\..\source\math\random.cpp" />
+    <ClCompile Include="..\..\..\source\math\recount.cpp" />
+    <ClCompile Include="..\..\..\source\math\rect.cpp" />
+    <ClCompile Include="..\..\..\source\math\relations.cpp" />
+    <ClCompile Include="..\..\..\source\math\root_find.cpp" />
+    <ClCompile Include="..\..\..\source\math\sphere.cpp" />
+    <ClCompile Include="..\..\..\source\math\spherical.cpp" />
+    <ClCompile Include="..\..\..\source\math\spline.cpp" />
+    <ClCompile Include="..\..\..\source\math\square_root.cpp" />
+    <ClCompile Include="..\..\..\source\math\triangle2d.cpp" />
+    <ClCompile Include="..\..\..\source\math\triangle3d.cpp" />
+    <ClCompile Include="..\..\..\source\math\trigonometry.cpp" />
+    <ClCompile Include="..\..\..\source\math\vec2.cpp" />
+    <ClCompile Include="..\..\..\source\math\vec3.cpp" />
+    <ClCompile Include="..\..\..\source\math\vec4.cpp" />
+    <ClCompile Include="..\..\..\source\math\volume_construction.cpp" />
+    <ClCompile Include="..\..\..\source\math\weighted_point.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\source\math\aabb.h" />
+    <ClInclude Include="..\..\..\source\math\absolute_value.h" />
+    <ClInclude Include="..\..\..\source\math\array.h" />
+    <ClInclude Include="..\..\..\source\math\astar.h" />
+    <ClInclude Include="..\..\..\source\math\bounding_box.h" />
+    <ClInclude Include="..\..\..\source\math\bounding_sphere.h" />
+    <ClInclude Include="..\..\..\source\math\catmull_rom_spline.h" />
+    <ClInclude Include="..\..\..\source\math\clip_space.h" />
+    <ClInclude Include="..\..\..\source\math\complex.h" />
+    <ClInclude Include="..\..\..\source\math\constants.h" />
+    <ClInclude Include="..\..\..\source\math\convex_shape_mesh.h" />
+    <ClInclude Include="..\..\..\source\math\curve.h" />
+    <ClInclude Include="..\..\..\source\math\ellipsoid.h" />
+    <ClInclude Include="..\..\..\source\math\frustum.h" />
+    <ClInclude Include="..\..\..\source\math\frustum_plane.h" />
+    <ClInclude Include="..\..\..\source\math\frustum_points.h" />
+    <ClInclude Include="..\..\..\source\math\graham.h" />
+    <ClInclude Include="..\..\..\source\math\header_matrix.h" />
+    <ClInclude Include="..\..\..\source\math\helper.h" />
+    <ClInclude Include="..\..\..\source\math\interpolation.h" />
+    <ClInclude Include="..\..\..\source\math\line2d.h" />
+    <ClInclude Include="..\..\..\source\math\line3d.h" />
+    <ClInclude Include="..\..\..\source\math\low_level_math.h" />
+    <ClInclude Include="..\..\..\source\math\mat2.h" />
+    <ClInclude Include="..\..\..\source\math\mat3.h" />
+    <ClInclude Include="..\..\..\source\math\mat4.h" />
+    <ClInclude Include="..\..\..\source\math\math.h" />
+    <ClInclude Include="..\..\..\source\math\math_error.h" />
+    <ClInclude Include="..\..\..\source\math\matrix.h" />
+    <ClInclude Include="..\..\..\source\math\matrix_helper.h" />
+    <ClInclude Include="..\..\..\source\math\min_max.h" />
+    <ClInclude Include="..\..\..\source\math\module.h" />
+    <ClInclude Include="..\..\..\source\math\noise.h" />
+    <ClInclude Include="..\..\..\source\math\noiseutils.h" />
+    <ClInclude Include="..\..\..\source\math\nrm.h" />
+    <ClInclude Include="..\..\..\source\math\perspective_decoder.h" />
+    <ClInclude Include="..\..\..\source\math\plane.h" />
+    <ClInclude Include="..\..\..\source\math\polygon.h" />
+    <ClInclude Include="..\..\..\source\math\polygon3d.h" />
+    <ClInclude Include="..\..\..\source\math\portal.h" />
+    <ClInclude Include="..\..\..\source\math\power.h" />
+    <ClInclude Include="..\..\..\source\math\quat.h" />
+    <ClInclude Include="..\..\..\source\math\random.h" />
+    <ClInclude Include="..\..\..\source\math\ray.h" />
+    <ClInclude Include="..\..\..\source\math\recount.h" />
+    <ClInclude Include="..\..\..\source\math\rect.h" />
+    <ClInclude Include="..\..\..\source\math\region.h" />
+    <ClInclude Include="..\..\..\source\math\relations.h" />
+    <ClInclude Include="..\..\..\source\math\root_find.h" />
+    <ClInclude Include="..\..\..\source\math\smart_matrix.h" />
+    <ClInclude Include="..\..\..\source\math\sphere.h" />
+    <ClInclude Include="..\..\..\source\math\spherical.h" />
+    <ClInclude Include="..\..\..\source\math\spline.h" />
+    <ClInclude Include="..\..\..\source\math\square_root.h" />
+    <ClInclude Include="..\..\..\source\math\triangle2d.h" />
+    <ClInclude Include="..\..\..\source\math\triangle3d.h" />
+    <ClInclude Include="..\..\..\source\math\trigonometry.h" />
+    <ClInclude Include="..\..\..\source\math\type.h" />
+    <ClInclude Include="..\..\..\source\math\vec2.h" />
+    <ClInclude Include="..\..\..\source\math\vec3.h" />
+    <ClInclude Include="..\..\..\source\math\vec4.h" />
+    <ClInclude Include="..\..\..\source\math\volume_construction.h" />
+    <ClInclude Include="..\..\..\source\math\weighted_point.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{2B331FCD-7A31-49A8-8C75-E8D18085C37A}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+    <ProjectName>punk_math</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <NMakeBuildCommandLine>scons -D punk_math=1</NMakeBuildCommandLine>
+    <NMakeOutput>punk_engine.exe</NMakeOutput>
+    <NMakeCleanCommandLine>scons -D -c punk_math=1</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <IncludePath>$(SolutionDir)..\..\source;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <NMakeBuildCommandLine>scons -D punk_math=1</NMakeBuildCommandLine>
+    <NMakeOutput>punk_engine.exe</NMakeOutput>
+    <NMakeCleanCommandLine>scons -D -c punk_math=1</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <IncludePath>$(SolutionDir)..\..\source;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

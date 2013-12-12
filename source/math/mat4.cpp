@@ -33,9 +33,9 @@ namespace Punk {
             }
 
             mat4::mat4(const mat4& mm) {
-#ifdef _WIN32
+#ifdef MSVS
                 memcpy_s(m, sizeof(m), mm.m, sizeof(m));
-#elif defined __gnu_linux__
+#else
                 memcpy(m, mm.m, sizeof(m));
 #endif
             }

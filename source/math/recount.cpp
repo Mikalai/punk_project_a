@@ -1,7 +1,9 @@
 #include <math.h>
 #include <limits>
 #include "recount.h"
+#include "constants.h"
 
+PUNK_ENGINE_BEGIN
 namespace Math
 {
     const vec3 Recount::SphericalToCartesian(float phi, float theta)
@@ -41,11 +43,12 @@ namespace Math
 
     float Recount::DegToRad(float value)
     {
-        return value / 180.0f * M_PI;
+        return value / 180.0f * PI;
     }
 
     float Recount::RadToDeg(float value)
     {
-        return value / M_PI * 180.0f;
+        return value / PI * 180.0f;
     }
 }
+PUNK_ENGINE_END

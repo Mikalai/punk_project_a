@@ -1,6 +1,7 @@
-#include "../system/buffer.h"
 #include "spline.h"
+#include <cstdint>
 
+PUNK_ENGINE_BEGIN
 namespace Math
 {
     Spline::Spline()
@@ -28,7 +29,7 @@ namespace Math
     void Spline::UpdateTotalLength()
     {
         m_total_length = 0;
-        for (size_t i = 0, max_i = m_points.size()-1; i != max_i; ++i)
+        for (std::size_t i = 0, max_i = m_points.size()-1; i != max_i; ++i)
         {
             const auto& p0 = m_points[i];
             const auto& p1 = m_points[i+1];
@@ -46,7 +47,7 @@ namespace Math
             return m_points.back();
         float req_length = m_total_length * t;
         float cur_length = 0;
-        size_t index = 0;
+        std::size_t index = 0;
         while (cur_length < req_length && index != m_points.size() - 1)
         {
             const auto& p0 = m_points[index];
@@ -81,3 +82,4 @@ namespace Math
 //        }
 //    }
 }
+PUNK_ENGINE_END

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string.h>
+#include <stdlib.h>
 #include "pool_manager.h"
 #include "pool.h"
 

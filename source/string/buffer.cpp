@@ -10,16 +10,11 @@
 #include "buffer.h"
 #include "string.h"
 
-namespace Punk
-{
-	namespace Engine
-	{
-		namespace Core
-		{
-			namespace __private
-			{
-				struct BufferImpl
-				{
+namespace Punk {
+	namespace Engine {
+		namespace Core {
+			namespace __private {
+				struct BufferImpl {
                     std::uint32_t m_capacity{ 0 };
 					std::uint8_t* m_buffer{ nullptr };
 					std::uint8_t* m_current{ nullptr };
@@ -137,9 +132,9 @@ namespace Punk
                         std::uint8_t* tmp = new std::uint8_t[value];
                         if (m_buffer)
                         {
-#ifdef _WIN32
+#ifdef MSVS
                             memcpy_s(tmp, value, m_buffer, m_capacity);
-#elif defined __gnu_linux__
+#else
                             memcpy(tmp, m_buffer, m_capacity);
 #endif
                         }
@@ -158,9 +153,9 @@ namespace Punk
 
                         if (m_current + size > m_buffer + m_capacity)
                             Resize(m_capacity + size);
-#ifdef _WIN32
+#ifdef MSVS
                         memcpy_s(m_current, size, data, size);
-#elif defined __gnu_linux__
+#else
                         memcpy(m_current, data, size);
 #endif	//	_WIN32
                         m_current += size;

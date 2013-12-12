@@ -3,103 +3,107 @@
 #include "relations.h"
 #include "graham.h"
 
-namespace Math
-{
-    bool operator < (const vec2& l, const vec2& r)
-    {
-        if (l.Y() < r.Y())
-            return true;
-        if (l.Y() == r.Y())
-            if (l.X() < r.X())
-                return true;
-            else
-                return false;
-        return false;
-    }
+namespace Punk {
+	namespace Engine {
+		namespace Math {
 
-    struct Sort
-    {
-        Sort(vec2 p0)
-            : m_p0(p0)
-        {}
+			bool operator < (const vec2& l, const vec2& r)
+			{
+				if (l.Y() < r.Y())
+					return true;
+				if (l.Y() == r.Y())
+				if (l.X() < r.X())
+					return true;
+				else
+					return false;
+				return false;
+			}
 
-        float theta(const vec2& p)
-        {
-            float dx = p.X() - m_p0.X();
-            float dy = p.Y() - m_p0.Y();
-            return atan2f(dy, dx);
-        }
+			struct Sort
+			{
+				Sort(vec2 p0)
+				: m_p0(p0)
+				{}
 
-        float distance(const vec2& p)
-        {
-            float dx = p.X() - m_p0.X();
-            float dy = p.Y() - m_p0.Y();
-            return dx * sqrtf(1.0f + powf(dy/dx, 2.0f));
-        }
+				float theta(const vec2& p)
+				{
+					float dx = p.X() - m_p0.X();
+					float dy = p.Y() - m_p0.Y();
+					return atan2f(dy, dx);
+				}
 
-        bool operator () (const vec2& l, const vec2& r)
-        {
-            float theta1 = theta(l);
-            float theta2 = theta(r);
-            if (theta1 < theta2)
-                return true;
-            if (theta1 == theta2)
-            {
-                float dst1 = distance(l);
-                float dst2 = distance(r);
-                return dst1 < dst2;
-            }
-            return false;
-        }
+				float distance(const vec2& p)
+				{
+					float dx = p.X() - m_p0.X();
+					float dy = p.Y() - m_p0.Y();
+					return dx * sqrtf(1.0f + powf(dy / dx, 2.0f));
+				}
 
-        vec2 m_p0;
-    };
+				bool operator () (const vec2& l, const vec2& r)
+				{
+					float theta1 = theta(l);
+					float theta2 = theta(r);
+					if (theta1 < theta2)
+						return true;
+					if (theta1 == theta2)
+					{
+						float dst1 = distance(l);
+						float dst2 = distance(r);
+						return dst1 < dst2;
+					}
+					return false;
+				}
 
-    void SortPointsForGrahamAlgorithm(std::vector<vec2> &points)
-    {
-        //	find min p
-        int min = 0;
-        for (int i = 1, max_i = points.size(); i != max_i; ++i)
-        {
-            if (points[i].y < points[min].y)
-                min = i;
-            else
-                if (points[i].y == points[min].y)
-                    if (points[i].x < points[min].x)
-                        min = i;
-        }
+				vec2 m_p0;
+			};
 
-        std::swap(points[min], points[0]);
+			void SortPointsForGrahamAlgorithm(std::vector<vec2> &points)
+			{
+				//	find min p
+				int min = 0;
+				for (int i = 1, max_i = points.size(); i != max_i; ++i)
+				{
+					if (points[i].Y() < points[min].Y())
+						min = i;
+					else
+					if (points[i].Y() == points[min].Y())
+					if (points[i].X() < points[min].X())
+						min = i;
+				}
 
-        //	sort
-        std::sort(points.begin()+1, points.end(), Sort(points[0]));
-    }
+				std::swap(points[min], points[0]);
 
-    void CreateConvexHullFromSortedPoint(const std::vector<vec2> &points, std::vector<vec2> &stack)
-    {
-        stack.clear();
-        stack.push_back(points[0]);
-        stack.push_back(points[1]);
+				//	sort
+				std::sort(points.begin() + 1, points.end(), Sort(points[0]));
+			}
 
-        for (int i = 2, max_i = points.size(); i < max_i; ++i)
-        {
-            const Point* a = &stack[stack.size()-2];
-            const Point* b = &stack[stack.size()-1];
-            const Point* c = &points[i];
-            while (!IsLeftRotation(*a, *b, *c))
-            {
-                stack.pop_back();
-                a = &stack[stack.size()-2];
-                b = &stack[stack.size()-1];
-                c = &points[i];
-            }
-            stack.push_back(points[i]);
-        }
-    }
+			void CreateConvexHullFromSortedPoint(const std::vector<vec2> &points, std::vector<vec2> &stack)
+			{
+				stack.clear();
+				stack.push_back(points[0]);
+				stack.push_back(points[1]);
 
-    void CreateConvexHull(std::vector<vec2> points, std::vector<vec2> &result)
-    {
-        SortPointsForGrahamAlgorithm(points);
-        CreateConvexHullFromSortedPoint(points, result);
-    }
+				for (int i = 2, max_i = points.size(); i < max_i; ++i)
+				{
+					const vec2* a = &stack[stack.size() - 2];
+					const vec2* b = &stack[stack.size() - 1];
+					const vec2* c = &points[i];
+					while (!IsLeftRotation(*a, *b, *c))
+					{
+						stack.pop_back();
+						a = &stack[stack.size() - 2];
+						b = &stack[stack.size() - 1];
+						c = &points[i];
+					}
+					stack.push_back(points[i]);
+				}
+			}
+
+			void CreateConvexHull(std::vector<vec2> points, std::vector<vec2> &result)
+			{
+				SortPointsForGrahamAlgorithm(points);
+				CreateConvexHullFromSortedPoint(points, result);
+			}
+		}
+	}
 }

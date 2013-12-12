@@ -1,7 +1,6 @@
-#include <math.h>
 #include <memory.h>
-#include "relations.h"
 #include "string/string.h"
+#include "math/square_root.h"
 #include "vec2.h"
 
 namespace Punk {
@@ -50,9 +49,9 @@ namespace Punk {
             }
 
             vec2& vec2::operator = (const vec2& vec) {
-#ifdef _WIN32
+#ifdef MSVS
                 memcpy_s(m_v, sizeof(m_v), vec.m_v, sizeof(m_v));
-#elif defined __gnu_linux__
+#else
                 memcpy(m_v, vec.m_v, sizeof(m_v));
 #endif
                 return *this;
@@ -76,9 +75,9 @@ namespace Punk {
             }
 
             vec2::vec2(const vec2& vec) {
-#ifdef _WIN32
+#ifdef MSVS
                 memcpy_s(m_v, sizeof(m_v), vec.m_v, sizeof(m_v));
-#elif defined __gnu_linux__
+#else
                 memcpy(m_v, vec.m_v, sizeof(m_v));
 #endif
             }
@@ -89,7 +88,7 @@ namespace Punk {
             }
 
             vec2& vec2::Normalize() {
-                float t = (float)sqrtf(float(m_v[0] * m_v[0] + m_v[1] * m_v[1]));
+                float t = (float)Sqrt(float(m_v[0] * m_v[0] + m_v[1] * m_v[1]));
                 m_v[0] /= t;
                 m_v[1] /= t;
                 return *this;
@@ -102,7 +101,7 @@ namespace Punk {
             }
 
             float vec2::Length() const {
-                return sqrtf(float(m_v[0] * m_v[0] + m_v[1] * m_v[1]));
+                return Sqrt(float(m_v[0] * m_v[0] + m_v[1] * m_v[1]));
             }
 
             float vec2::SqrLength() const {
@@ -218,9 +217,9 @@ namespace Punk {
             }
 
             ivec2& ivec2::operator = (const ivec2& vec) {
-#ifdef _WIN32
+#ifdef MSVS
                 memcpy_s(m_v, sizeof(m_v), vec.m_v, sizeof(m_v));
-#elif defined __gnu_linux__
+#else
                 memcpy(m_v, vec.m_v, sizeof(m_v));
 #endif
                 return *this;
@@ -235,9 +234,9 @@ namespace Punk {
             }
 
             ivec2::ivec2(const ivec2& vec) {
-#ifdef _WIN32
+#ifdef MSVS
                 memcpy_s(m_v, sizeof(m_v), vec.m_v, sizeof(m_v));
-#elif defined __gnu_linux__
+#else
                 memcpy(m_v, vec.m_v, sizeof(m_v));
 #endif
             }

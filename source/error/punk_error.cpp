@@ -10,6 +10,7 @@ namespace Punk {
 
                 std::uint64_t Exception::GetCode() const {
                     return m_code;
+					
                 }
             }
         }

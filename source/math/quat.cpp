@@ -33,9 +33,9 @@ namespace Punk {
                 : m_v{w, x, y, z} {}
 
             quat::quat(const quat &q) {
-#ifdef _WIN32
+#ifdef MSVS
                 memcpy_s(m_v, sizeof(m_v), q.m_v, sizeof(m_v));
-#elif defined __gnu_linux__
+#else
                 memcpy(m_v, q.m_v, sizeof(m_v));
 #endif
             }

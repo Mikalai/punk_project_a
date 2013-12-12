@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\SConstruct" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\source\core\action.h" />
+    <ClInclude Include="..\..\..\source\core\atomicint.h" />
+    <ClInclude Include="..\..\..\source\core\component\component.h" />
+    <ClInclude Include="..\..\..\source\core\component\components_pool.h" />
+    <ClInclude Include="..\..\..\source\core\component\components_pool_impl.h" />
+    <ClInclude Include="..\..\..\source\core\component\component_interface.h" />
+    <ClInclude Include="..\..\..\source\core\component\module.h" />
+    <ClInclude Include="..\..\..\source\core\compound_object.h" />
+    <ClInclude Include="..\..\..\source\core\core_error.h" />
+    <ClInclude Include="..\..\..\source\core\decl_property.h" />
+    <ClInclude Include="..\..\..\source\core\meta_class.h" />
+    <ClInclude Include="..\..\..\source\core\meta_class_base.h" />
+    <ClInclude Include="..\..\..\source\core\module.h" />
+    <ClInclude Include="..\..\..\source\core\object.h" />
+    <ClInclude Include="..\..\..\source\core\pool.h" />
+    <ClInclude Include="..\..\..\source\core\poolable.h" />
+    <ClInclude Include="..\..\..\source\core\pool_manager.h" />
+    <ClInclude Include="..\..\..\source\core\rtti.h" />
+    <ClInclude Include="..\..\..\source\core\static_information.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\core\component\component.cpp" />
+    <ClCompile Include="..\..\..\source\core\component\components_pool.cpp" />
+    <ClCompile Include="..\..\..\source\core\component\components_pool_impl.cpp" />
+    <ClCompile Include="..\..\..\source\core\compound_object.cpp" />
+    <ClCompile Include="..\..\..\source\core\core_error.cpp" />
+    <ClCompile Include="..\..\..\source\core\meta_class_base.cpp" />
+    <ClCompile Include="..\..\..\source\core\object.cpp" />
+    <ClCompile Include="..\..\..\source\core\pool.cpp" />
+    <ClCompile Include="..\..\..\source\core\pool_manager.cpp" />
+    <ClCompile Include="..\..\..\source\core\rtti.cpp" />
+    <ClCompile Include="..\..\..\source\core\static_information.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{FE92BCC4-059B-4788-BEC2-1280C6A6E4DF}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+    <ProjectName>punk_core</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <NMakeBuildCommandLine>scons -D punk_core=1</NMakeBuildCommandLine>
+    <NMakeOutput>punk_engine.exe</NMakeOutput>
+    <NMakeCleanCommandLine>scons -D -c punk_core=1</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <IncludePath>$(SolutionDir)..\..\source;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <NMakeBuildCommandLine>scons -D punk_core=1</NMakeBuildCommandLine>
+    <NMakeOutput>punk_engine.exe</NMakeOutput>
+    <NMakeCleanCommandLine>scons -D -c punk_core=1</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <IncludePath>$(SolutionDir)..\..\source;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

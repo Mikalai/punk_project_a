@@ -4,6 +4,7 @@
 #include "../config.h"
 #include "vec3.h"
 
+PUNK_ENGINE_BEGIN
 namespace Math
 {
 	class PUNK_ENGINE_API Ray
@@ -17,5 +18,6 @@ namespace Math
 
 	
 }
+PUNK_ENGINE_END
 
 #endif

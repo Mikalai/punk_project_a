@@ -2,6 +2,7 @@
 #include <array>
 #include "spherical.h"
 
+PUNK_ENGINE_BEGIN
 namespace Math
 {
     SphericalCoordinate::SphericalCoordinate()
@@ -16,3 +17,4 @@ namespace Math
         : m_v{{phi, theta, r}}
     {}
 }
+PUNK_ENGINE_END

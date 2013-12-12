@@ -54,9 +54,9 @@ namespace Punk {
 
             mat2& mat2::operator = (const mat2& v)
             {
-#ifdef _WIN32
+#ifdef MSVS
                 memcpy_s(m, sizeof(m), v.m, sizeof(m));
-#elif defined __gnu_linux__
+#else
                 memcpy(m, v.m, sizeof(m));
 #endif
                 return *this;

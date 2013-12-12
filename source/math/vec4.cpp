@@ -1,6 +1,7 @@
 #include <memory.h>
 #include <math.h>
 #include "string/string.h"
+#include "math/square_root.h"
 #include "vec2.h"
 #include "vec3.h"
 #include "vec4.h"
@@ -83,7 +84,7 @@ namespace Punk {
             }
 
             vec4& vec4::operator = (const vec4& vec) {
-#ifdef _WIN32
+#ifdef MSVS
                 memcpy_s(m_v, sizeof(m_v), vec.m_v, sizeof(m_v));
 #else
                 memcpy(m_v, vec.m_v, sizeof(m_v));
@@ -122,7 +123,7 @@ namespace Punk {
             }
 
             float vec4::Length() const {
-                return sqrtf(m_v[0]*m_v[0]+m_v[1]*m_v[1]+m_v[2]*m_v[2]+m_v[3]*m_v[3]);
+                return Sqrt(m_v[0]*m_v[0]+m_v[1]*m_v[1]+m_v[2]*m_v[2]+m_v[3]*m_v[3]);
             }
 
             const vec4 vec4::Normalized() const {

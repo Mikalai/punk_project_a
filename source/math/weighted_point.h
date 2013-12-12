@@ -3,14 +3,10 @@
 
 #include "vec4.h"
 
-namespace Punk
-{
-    namespace Engine
-    {
-        namespace Math
-        {
-            class PUNK_ENGINE_API WeightedPoint
-            {
+namespace Punk {
+    namespace Engine {
+        namespace Math {
+            class PUNK_ENGINE_API WeightedPoint {
             public:
                 WeightedPoint();
                 WeightedPoint(const vec4& value, float weight = 1);
