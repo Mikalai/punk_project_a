@@ -1,5 +1,5 @@
 #ifdef USE_LIB_TIFF
-#include <tiffio.h>
+#include <tiff/tiffio.h>
 #include <fstream>
 #include <string.h>
 #include "images/error/module.h"

@@ -1,28 +1,22 @@
 #ifndef COMPONENT_INTERFACE_H
 #define COMPONENT_INTERFACE_H
 
-#include "config.h"
+#include <config.h>
 
-namespace Punk {
-    namespace Engine {
-        namespace Core {
+PUNK_ENGINE_BEGIN
+namespace Core {
 
-            class Object;
-            class String;
-            class StringList;
+	class Object;
+	class String;
+	class StringList;
 
-            class PUNK_ENGINE_API IComoponent {
-            public:
-                virtual ~IComoponent() {}
-                virtual const String GetName() const = 0;
-                virtual const StringList GetServicesList() const = 0;
-                virtual Object* Create(const String& name, const String& type, Object** dependency = nullptr) = 0;
-                virtual Object* Acquire(const String& name) = 0;
-                virtual Object* Acquire(const String& name, const String& type, Object** dependency = nullptr) = 0;
-                virtual void Release(const String& name) = 0;
-                virtual void Release(Object* instance) = 0;
-            };
-        }
-    }
+	class PUNK_ENGINE_API IComponent {
+	public:
+		virtual ~IComponent() {}
+		virtual Object* Execute(const String& command, Object** parameters) = 0;
+		virtual const String Execute(const String& command) = 0;
+	};
 }
+PUNK_ENGINE_END
+
 #endif // COMPONENT_INTERFACE_H

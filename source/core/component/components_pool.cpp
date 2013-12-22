@@ -46,7 +46,7 @@ namespace Punk {
 
             void RegisterComponent(Component *value)
             {
-                ComponentsPool::Instance()->RegisterComponent(value->GetName(), value);
+                ComponentsPool::Instance()->RegisterComponent(value->Execute("get_name"), value);
             }
 
             void UnregisterComponent(Component *value)

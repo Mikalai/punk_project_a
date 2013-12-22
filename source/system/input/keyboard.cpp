@@ -52,6 +52,13 @@ namespace System
         return impl->m_keys[key];
 	}
 
+    IKeyBoard* GetKeyboard() {
+        static Keyboard* keyboard = nullptr;
+        if (!keyboard)
+            keyboard = new Keyboard;
+        return keyboard;
+    }
+
     bool (*Keyboard::GetKeyStates())[256]
     {
         return &impl->m_keys;

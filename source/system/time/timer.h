@@ -19,7 +19,7 @@ namespace System
         Timer();
 		~Timer();
 
-        double GetCurrentTime() const override;
+        double GetTime() const override;
         double GetElapsedSeconds() const override;
         double GetElapsedMiliseconds() const override;
         double Reset() override;

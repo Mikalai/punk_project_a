@@ -1,3 +1,4 @@
+#ifdef __gnu_linux__
 #ifndef X11_WINDOW_H
 #define X11_WINDOW_H
 
@@ -72,3 +73,4 @@ namespace System
 PUNK_ENGINE_END
 
 #endif // X11_WINDOW_H
+#endif  //__gnu_linux__

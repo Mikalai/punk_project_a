@@ -40,8 +40,8 @@
 #define PUNK_STDCALL
 #define PUNK_CDECL __attribute__((__cdecl__))
 #define PUNK_INFINITE ~0u
-
 #endif
+
 
 #define PUNK_ENGINE_BEGIN namespace Punk { namespace Engine {
 #define PUNK_ENGINE_END } }

@@ -13,6 +13,17 @@
   <ItemGroup>
     <None Include="..\..\..\SConstruct" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\source\terminal\command.h" />
+    <ClInclude Include="..\..\..\source\terminal\command_processor.h" />
+    <ClInclude Include="..\..\..\source\terminal\module.h" />
+    <ClInclude Include="..\..\..\source\terminal\terminal_commands\cmd_help.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\terminal\command.cpp" />
+    <ClCompile Include="..\..\..\source\terminal\command_processor.cpp" />
+    <ClCompile Include="..\..\..\source\terminal\terminal_commands\cmd_help.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CBF2C07B-E258-4D72-B5C5-54AA1BE98F74}</ProjectGuid>
     <Keyword>MakeFileProj</Keyword>

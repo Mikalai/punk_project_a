@@ -16,14 +16,14 @@ namespace System
 
 #ifdef _DEBUG
 
-	int CustomAssertFunction(bool exp, const System::string& description, char* func, int line, char* file)
+	int CustomAssertFunction(bool exp, const Core::String& description, char* func, int line, char* file)
 	{
 		Stack walker;
 		if (exp)
 			return 0;
 
 		std::wstringstream stream;
-		stream << description.Data() << L" at " << System::string(file).Data() << L"(" << line << L") : " << System::string(func).Data() << std::endl;	
+		stream << description.Data() << L" at " << Core::String(file).Data() << L"(" << line << L") : " << Core::String(func).Data() << std::endl;	
 		walker.Print(stream);
 		//
 		//	copy information in the clipboard

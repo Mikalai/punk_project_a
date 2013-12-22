@@ -18,7 +18,7 @@ namespace Punk {
 
             Component* ComponentsPoolImpl::FindComponent(const String &name) {
                 auto it = std::find_if(m_components.begin(), m_components.end(),
-                                       [&name](Component* c) -> bool { return c->GetName() == name; }
+                                       [&name](Component* c) -> bool { return c->Execute("get_name") == name; }
                         );
                 if (it == m_components.end())
                     return nullptr;

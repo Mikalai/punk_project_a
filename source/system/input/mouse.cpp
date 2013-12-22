@@ -126,5 +126,12 @@ namespace System
 #endif
         return 0;
 	}
+
+    IMouse* GetMouse() {
+        static Mouse* g_mouse;
+        if (!g_mouse)
+            g_mouse = new Mouse;
+        return g_mouse;
+    }
 }
 PUNK_ENGINE_END

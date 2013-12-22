@@ -34,7 +34,7 @@ namespace Punk {
             const String Object::ToString() const {
                 StringList stream;
                 stream << L"[" << String::Convert(GetLocalIndex()) << " " << Type.GetName() << "]";
-                return stream.ToString();
+                return stream.ToString("");
             }
 
             unsigned Object::GetId() const {

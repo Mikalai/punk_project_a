@@ -3,59 +3,61 @@
 #define NOMINMAX
 #endif
 #include <Windows.h>
-#include "error.h"
+#include "string/string.h"
+#include "error/module.h"
 #include "exceptions.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
-	void CheckOSError(const System::string& msg)
+    void CheckOSError(const Core::String& msg)
 	{
 #ifdef _WIN32
-		string error;
+        Core::String error;
 
 		DWORD id = GetLastError();
 		if (id != S_OK)
 		{
-			HLOCAL hLocal override;
-			if (FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_IGNORE_INSERTS,
+            HLOCAL hLocal = 0;
+            if (FormatMessageW(FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_IGNORE_INSERTS,
 				0, id, MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL), (PTSTR)&hLocal, 0, 0))
 			{
 				LPVOID p = LocalLock(hLocal);
-                error = msg + L" " + string((wchar_t*)p) + string("(Code: 0x%X) (MS Windows)", id);
+                error = msg + L" " + Core::String((wchar_t*)p) + Core::String("(Code: {0}) (MS Windows)").arg((int)id);
 				LocalFree(hLocal);
 			}
 			else
 			{
                 error = msg + L"Unknown error from GetLastError()";
 			}
-			throw OSException(error);
+            throw Error::OSException(error);
 		}	
 #endif
 	}
 
-	void CheckOSError(LONG code, const System::string& msg)
+    void CheckOSError(LONG code, const Core::String& msg)
 	{
-		string error;
+        Core::String error;
 #ifdef _WIN32
 		if (code != S_OK)
 		{
-			HLOCAL hLocal override;
-			if (FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_IGNORE_INSERTS,
+            HLOCAL hLocal = 0;
+            if (FormatMessageW(FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_IGNORE_INSERTS,
 				0, code, MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL), (PTSTR)&hLocal, 0, 0))
 			{
 				LPVOID p = LocalLock(hLocal);
-                error = msg + L" " +string((wchar_t*)p) + string("(Code: 0x%X) (MS Windows)", code);
+                error = msg + L" " + Core::String((wchar_t*)p) + Core::String("(Code: 0x{0}) (MS Windows)").arg(int(code));
 				LocalFree(hLocal);
 			}
 			else
 			{
                 error = msg + L" .Unknown error from GetLastError()";
 			}
-			throw OSException(error);
+            throw Error::OSException(error);
 		}		
 #endif
 	}
-
 }
+PUNK_ENGINE_END
 
 #endif

@@ -1,4 +1,4 @@
-#ifdef _WIN32
+#ifdef MSVS
 
 // ATTENTION: under construction
 

@@ -1,4 +1,4 @@
-#ifdef _WIN32
+#ifdef MSVS
 #include "camera_capture.h"
 #include "../window/module.h"
 #include "../logger.h"

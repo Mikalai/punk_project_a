@@ -42,7 +42,7 @@ namespace System
         }
 
         //  returns time in seconds
-        double GetCurrentTime() const
+        double GetTime() const
         {
 #ifdef _WIN32
             auto current = GetTickCount()/(double)GetFrequency();
@@ -119,9 +119,18 @@ namespace System
 		return impl->Reset();
     }
 
-    double Timer::GetCurrentTime() const
+    double Timer::GetTime() const
     {
-        return impl->GetCurrentTime();
+        return impl->GetTime();
+    }
+
+    ITimer* CreateTimer() {
+        return new Timer();
+    }
+
+    void DestroyTimer(ITimer* value) {
+        Timer* timer = (Timer*)value;
+        delete timer;
     }
 }
 PUNK_ENGINE_END

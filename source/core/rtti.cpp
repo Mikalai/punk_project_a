@@ -81,7 +81,7 @@ namespace Punk {
                 else {
                     stream << L"]";
                 }
-                return stream.ToString();
+                return stream.ToString("");
             }
 
             Object* Rtti::GetInstance(std::size_t index) {

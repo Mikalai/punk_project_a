@@ -10,8 +10,8 @@
 #include <memory.h>
 
 #ifdef USE_LIB_JPEG
-#include <jpeglib.h>
-#include <jerror.h>
+#include <jpeg/jpeglib.h>
+#include <jpeg/jerror.h>
 #include <setjmp.h>
 #endif  //  USE_LIB_JPEG
 
@@ -326,7 +326,7 @@ namespace Image
 		else
 		{
 			jpeg_destroy_decompress(&cinfo);
-            out_error().Write("Bad image format");
+            throw Error::ImageException("Bad image format");
             return false;
 		}
 

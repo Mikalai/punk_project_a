@@ -25,6 +25,7 @@ namespace System
         Core::ActionSlot<const MouseHooverEvent&> OnMouseHooverEvent;
         Core::ActionSlot<const MouseWheelEvent&> OnMouseWheelEvent;
         Core::ActionSlot<void> OnWindowCreated;
+        Core::ActionSlot<void> OnWindowDestroy;
         Core::ActionSlot<const IdleEvent&> OnIdleEvent;
 
         virtual ~Window();
@@ -43,8 +44,6 @@ namespace System
         virtual void SetTitle(const Core::String& text) = 0;
         virtual const Core::String GetTitle() const = 0;
         virtual void Quite() = 0;
-        virtual void DrawPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b, unsigned char a) = 0;
-        virtual void DrawLine(int x1, int y1, int x2, int y2) = 0;
         virtual void ShowCursor(bool value) = 0;
 
         PUNK_OBJECT(Window)

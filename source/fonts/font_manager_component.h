@@ -15,7 +15,7 @@ namespace Utility
     protected:
         void OnInitialize() override;
         void OnDetach();
-        System::Object* OnGetService(const System::string &) override;
+        System::Object* OnGetService(const Core::String &) override;
 
     private:
         System::Object* Clone() const;

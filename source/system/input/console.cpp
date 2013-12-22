@@ -366,8 +366,8 @@ namespace System
 			char buf[SIZE];
 			memset(buf, ' ', sizeof(buf)/sizeof(buf[0]));
 			int to_fill = m_screen_info.dwSize.X*m_screen_info.dwSize.Y;
-			int res override;
-			DWORD written override;
+            int res = 0;
+            DWORD written = 0;
 			SetPosition(0,0);
 			while (to_fill > 0)
 			{

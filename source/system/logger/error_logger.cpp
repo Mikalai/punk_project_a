@@ -20,3 +20,10 @@ namespace System
     }
 }
 PUNK_ENGINE_END
+
+Punk::Engine::System::ILogger& out_error() {
+    static Punk::Engine::System::ErrorLogger* logger = nullptr;
+    if (!logger)
+        logger = new Punk::Engine::System::ErrorLogger("log");
+    return *logger;
+}

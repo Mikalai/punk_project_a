@@ -1,3 +1,4 @@
+#ifdef __gnu_linux__
 #include <GL/glx.h>
 #include <X11/keysym.h>
 #include <time.h>
@@ -819,3 +820,4 @@ namespace System
     }
 }
 PUNK_ENGINE_END
+#endif  //  __gnu_linux

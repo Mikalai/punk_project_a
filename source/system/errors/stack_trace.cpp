@@ -1,12 +1,14 @@
 #include <ostream>
 
-#ifdef _WIN32
+#ifdef MSVS
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif	//	NOMINMAX
 #include <Windows.h>
+#ifdef MSVS
 #include <DbgHelp.h>
-#endif	//	_WIN32
+#endif
+#endif	//	MSVS
 #ifdef __gnu_linux__
 #include <execinfo.h>
 #endif  //  __gnu_linux__
@@ -20,23 +22,23 @@ namespace Punk {
 
             Stack::Stack()
             {
-#ifdef _WIN32
+#ifdef MSVS
                 if (!SymInitialize(GetCurrentProcess(), NULL, TRUE))
                     throw PunkException(L"Unable to find initialize debug info");
-#endif	//	_WIN32
+#endif	//	MSVS
             }
 
             Stack::~Stack()
             {
-#ifdef _WIN32
+#ifdef MSVS
                 SymCleanup(GetCurrentProcess());
-#endif	//	_WIN32
+#endif	//	MSVS
             }
 
             Core::String Stack::GetStackTrace()
             {
                 Core::String result;
-#ifdef _WIN32
+#ifdef MSVS
                 CONTEXT c;
                 memset(&c, 0, sizeof(c));
                 RtlCaptureContext(&c);
@@ -130,7 +132,7 @@ namespace Punk {
                 free(pSym);
 
 #endif	//	_M_IX86
-#endif //	_WIN32
+#endif //	MSVS
 
                 return result;
             }
@@ -139,7 +141,7 @@ namespace Punk {
             Core::String Print()
             {
                 Core::String res;
-#ifdef _WIN32
+#ifdef MSVS
                 CONTEXT c;
                 memset(&c, 0, sizeof(c));
                 RtlCaptureContext(&c);
@@ -203,7 +205,7 @@ namespace Punk {
                 }
                 free(pSym);
 #endif	//	_M_IX86
-#endif	//	_WIN32
+#endif	//	MSVS
 #ifdef __gnu_linux__
                 const int s = 100;
                 void *array[s];

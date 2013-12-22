@@ -14,6 +14,7 @@ Desc: Contains at least system based events
 #include "mouse_wheel_event.h"
 #include "window_resize_event.h"
 #include "mouse_hoover_event.h"
+#include "mouse_move_event.h"
 #include "model_time_step_event.h"
 
 #endif // _H_PUNK_EVENTS

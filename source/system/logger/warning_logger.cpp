@@ -17,3 +17,10 @@ namespace System
     }
 }
 PUNK_ENGINE_END
+
+PUNK_ENGINE_API Punk::Engine::System::ILogger& out_warning() {
+    static Punk::Engine::System::WarningLogger* logger = nullptr;
+    if (!logger)
+        logger = new Punk::Engine::System::WarningLogger("log");
+    return *logger;
+}

@@ -3,19 +3,23 @@
 #define WIN32_WINDOW_H
 
 #include "window.h"
+#include "core/action.h"
+
+PUNK_ENGINE_BEGIN
+namespace Core { class String; }
 namespace System
 {
-    class PUNK_ENGINE_API WindowWin
+    class PUNK_ENGINE_API WindowWin : public Window
     {
     public:
-        Window(const WindowDesc& desc = WindowDesc());
-        ~Window();
+        WindowWin(const WindowDesc& desc = WindowDesc());
+        ~WindowWin();
 
-        ActionSlot<const WindowResizeEvent&> OnResizeEvent;
-        ActionSlot<const KeyEvent&> OnKeyEvent;
-        ActionSlot<const MouseEvent&> OnMouseEvent;
-        ActionSlot<const MouseHooverEvent&> OnMouseHooverEvent;
-        ActionSlot<const MouseWheelEvent&> OnMouseWheelEvent;
+        Core::ActionSlot<const WindowResizeEvent&> OnResizeEvent;
+        Core::ActionSlot<const KeyEvent&> OnKeyEvent;
+        Core::ActionSlot<const MouseEvent&> OnMouseEvent;
+        Core::ActionSlot<const MouseHooverEvent&> OnMouseHooverEvent;
+        Core::ActionSlot<const MouseWheelEvent&> OnMouseWheelEvent;
 
         int GetDesktopWidth() const;
         int GetDesktopHeight() const;
@@ -29,25 +33,19 @@ namespace System
         void SetPosition(int x, int y);
         int Loop();
         void BreakMainLoop();
-        void SetTitle(const string& text);
-        const string GetTitle() const;
+        void SetTitle(const Core::String& text);
+        const Core::String GetTitle() const;
         void Quite();
-        void DrawPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b, unsigned char a);
-        void DrawLine(int x1, int y1, int x2, int y2);
         void ShowCursor(bool value);
-#ifdef _WIN32
-        LRESULT CustomDefWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
         operator HWND ();
-#elif defined __gnu_linux__
-        Display* GetDisplay();
-        void SetDisplay(Display* display);
-        ::Window GetWindow();
-        void SetWindow(::Window value);
-#endif
-        struct Impl;
-        Impl* impl;
+
+    private:
+        HWND m_hwindow;
+        bool m_use_parent_window;
+
     };
 }
+PUNK_ENGINE_END
 
 #endif // WIN32_WINDOW_H
 #endif //_win32

@@ -7,11 +7,13 @@ namespace System
     MessageLogger::MessageLogger(const Core::String &filename)
         : FileLogger(filename)
     {
-        m_clock = Core::Acquire<IClock>("time", "default_clock", "clock");
+        m_clock = System::CreateClock();
     }
 
     MessageLogger::~MessageLogger()
-    {}
+    {
+        System::DestroyClock(m_clock);
+    }
 
     void MessageLogger::Write(const Core::String &value)
     {
@@ -21,3 +23,10 @@ namespace System
     }
 }
 PUNK_ENGINE_END
+
+PUNK_ENGINE_API Punk::Engine::System::ILogger& out_message() {
+    static Punk::Engine::System::MessageLogger* logger = nullptr;
+    if (!logger)
+        logger = new Punk::Engine::System::MessageLogger("log");
+    return *logger;
+}

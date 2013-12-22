@@ -26,7 +26,10 @@ namespace System
         virtual int64_t SysTimeAsSecondsFromJanuary_1970_1() = 0;
         virtual const Core::String SysTimeAsUTC() = 0;
         virtual const Core::String SysTimeNowAsLocal() = 0;
-    };
+   };
+
+    PUNK_ENGINE_API IClock* CreateClock();
+    PUNK_ENGINE_API void DestroyClock(IClock* value);
 }
 PUNK_ENGINE_END
 

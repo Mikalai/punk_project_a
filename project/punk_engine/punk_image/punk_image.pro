@@ -15,11 +15,18 @@ DEFINES += USE_LIB_JPEG
 DEFINES += USE_LIB_PNG
 
 contains(DEFINES, USE_LIB_TIFF) {
-LIBS += -ltiff
+LIBS += -L$${LIB_3RD} -ltiff.dll
 }
 
+contains(DEFINES, USE_LIB_JPEG) {
+LIBS += -L$${LIB_3RD} -ljpeg
+}
 
-LIBS += -L$${LIBDIR} -lpunk_error -lpunk_string
+contains(DEFINES, USE_LIB_PNG) {
+LIBS += -L$${LIB_3RD} -lpng -lz
+}
+
+LIBS += -L$${LIBDIR} -lpunk_error -lpunk_string -lpunk_system
 
 HEADERS += \
     ../../../source/images/png_file.h \

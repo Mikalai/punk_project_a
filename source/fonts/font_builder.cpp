@@ -28,7 +28,7 @@ namespace Utility
     {
         FT_Library library;
 
-        std::map<System::string, FT_Face> fontFace;
+        std::map<Core::String, FT_Face> fontFace;
 
         FT_Face curFace;
         int curSize;
@@ -40,16 +40,16 @@ namespace Utility
         void CacheSymbol(wchar_t symb);
         void Init();
         void Clear();
-		void SetCurrentFace(const System::string& fontName);
+		void SetCurrentFace(const Core::String& fontName);
 		void RenderChar(char symbol, int* width, int* height, int* x_offset, int* y_offset, int* x_advance, int* y_advance, unsigned char** buffer);
 		void SetCharSize(int width, int height);
 		void RenderChar(wchar_t symbol, int* width, int* height, int* x_offset, int* y_offset, int* x_advance, int* y_advance, unsigned char** buffer);
-		int CalculateLength(const System::string& text);
-		int CalculateHeight(const System::string& text);
+		int CalculateLength(const Core::String& text);
+		int CalculateHeight(const Core::String& text);
 		int GetHeight(wchar_t s);
 		int GetWidth(wchar_t s);
-		int GetMaxOffset(const System::string& s);
-		int GetMinOffset(const System::string& s);
+		int GetMaxOffset(const Core::String& s);
+		int GetMinOffset(const Core::String& s);
 		int GetMaxOffset(wchar_t s);
 		int GetMinOffset(wchar_t s);
     };
@@ -72,8 +72,8 @@ namespace Utility
 
     void FontBuilder::FontBuilderImpl::Init()
 	{
-		System::string iniFontsFile;
-		System::string pathToFonts = System::Environment::Instance()->GetFontFolder();
+		Core::String iniFontsFile;
+		Core::String pathToFonts = System::Environment::Instance()->GetFontFolder();
 
         //System::ConfigFile conf;
 
@@ -91,8 +91,8 @@ namespace Utility
 
 		while(!buffer.IsEnd())
 		{
-			System::string name = buffer.ReadWord();
-			System::string path = pathToFonts + buffer.ReadWord();
+			Core::String name = buffer.ReadWord();
+			Core::String path = pathToFonts + buffer.ReadWord();
 			out_message() << L"Loading font " + path << std::endl;
 
 			FT_Face face;
@@ -119,15 +119,15 @@ namespace Utility
 				out_error() << L"Can't set char size" << std::endl;
 			}
 
-            out_message() << System::string("Font style: {0}").arg(face->style_name) << std::endl;
-            out_message() << System::string("Num glyphs: {0}").arg(face->num_glyphs) << std::endl;
+            out_message() << Core::String("Font style: {0}").arg(face->style_name) << std::endl;
+            out_message() << Core::String("Num glyphs: {0}").arg(face->num_glyphs) << std::endl;
 
 			curFace = face;
 			fontFace[name] = face;
 		}
 	}
 
-	void FontBuilder::FontBuilderImpl::SetCurrentFace(const System::string& fontName)
+	void FontBuilder::FontBuilderImpl::SetCurrentFace(const Core::String& fontName)
 	{
 		FT_Face f = fontFace[fontName];
 		if (f != 0)
@@ -178,7 +178,7 @@ namespace Utility
 		}
 	}
 
-	int FontBuilder::FontBuilderImpl::CalculateLength(const System::string& text)
+	int FontBuilder::FontBuilderImpl::CalculateLength(const Core::String& text)
 	{
         int res = 0;
 		for (auto it = text.begin(); it != text.end(); ++it)
@@ -196,7 +196,7 @@ namespace Utility
 		return res;
 	}
 
-	int FontBuilder::FontBuilderImpl::CalculateHeight(const System::string& text)
+	int FontBuilder::FontBuilderImpl::CalculateHeight(const Core::String& text)
 	{
         int res = 0;
         int min_h = 0;
@@ -237,7 +237,7 @@ namespace Utility
 		return data->height + abs(data->y_offset);
 	}
 
-	int FontBuilder::FontBuilderImpl::GetMaxOffset(const System::string& s)
+	int FontBuilder::FontBuilderImpl::GetMaxOffset(const Core::String& s)
 	{
         int res = 0;
 		for (int i = 0, max_i = s.Length(); i < max_i; ++i)
@@ -250,7 +250,7 @@ namespace Utility
 		return res;
 	}
 
-	int FontBuilder::FontBuilderImpl::GetMinOffset(const System::string& s)
+	int FontBuilder::FontBuilderImpl::GetMinOffset(const Core::String& s)
 	{
         int res = 0;
 		for (int i = 0, max_i = s.Length(); i < max_i; ++i)
@@ -364,7 +364,7 @@ namespace Utility
         impl = nullptr;
         #endif // USE_FREETYPE
     }
-	void FontBuilder::SetCurrentFace(const System::string& fontName)
+	void FontBuilder::SetCurrentFace(const Core::String& fontName)
 	{
 	    #ifdef USE_FREETYPE
 	    impl->SetCurrentFace(fontName);
@@ -384,7 +384,7 @@ namespace Utility
 	    #endif // USE_FREETYPE
 	}
 
-	int FontBuilder::CalculateLength(const System::string& text)
+	int FontBuilder::CalculateLength(const Core::String& text)
 	{
         #ifdef USE_FREETYPE
 	    impl->CalculateLength(text);
@@ -394,7 +394,7 @@ namespace Utility
 	    #endif // USE_FREETYPE
 	}
 
-	int FontBuilder::CalculateHeight(const System::string& text)
+	int FontBuilder::CalculateHeight(const Core::String& text)
 	{
         #ifdef USE_FREETYPE
 	    impl->CalculateHeight(text);
@@ -424,7 +424,7 @@ namespace Utility
 	    #endif // USE_FREETYPE
 	}
 
-	int FontBuilder::GetMaxOffset(const System::string& s)
+	int FontBuilder::GetMaxOffset(const Core::String& s)
 	{
         #ifdef USE_FREETYPE
 	    impl->GetMaxOffset(s);
@@ -434,7 +434,7 @@ namespace Utility
 	    #endif // USE_FREETYPE
 	}
 
-	int FontBuilder::GetMinOffset(const System::string& s)
+	int FontBuilder::GetMinOffset(const Core::String& s)
     {
         #ifdef USE_FREETYPE
 	    impl->GetMinOffset(s);

@@ -108,7 +108,7 @@ namespace Punk {
                 {
                     stream << o->ToString() << L"\n";
                 }
-                return stream.ToString();
+                return stream.ToString("");
             }
         }
     }

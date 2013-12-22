@@ -5,7 +5,7 @@
 #include "images/error/module.h"
 
 #ifdef USE_LIB_PNG
-#include "png.h"
+#include <png/png.h>
 #endif // USE_LIB_PNG
 
 PUNK_ENGINE_BEGIN
@@ -19,9 +19,9 @@ namespace Image
 		png_infop info_ptr;
 
 		/* open the file */
-#ifdef _WIN32
+#ifdef MSVS
 		_wfopen_s(&fp, filename.Data(), L"wb");
-#elif defined __gnu_linux__
+#else
         fp = fopen((char*)filename.ToUtf8().Data(), "wb");
 #endif
 		if (fp == NULL)

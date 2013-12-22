@@ -8,9 +8,11 @@ CONFIG += dll
 TEMPLATE = lib
 TARGET = punk_system
 
-LIBS += -lX11
+unix {
+    LIBS += -lX11
+}
 
-LIBS += -L$${LIBDIR} -lpunk_error -lpunk_string -lpunk_core
+LIBS += -L$${LIBDIR} -lpunk_error -lpunk_string -lpunk_core -lpunk_terminal
 
 INCLUDEPATH += ../../../source
 
@@ -63,7 +65,9 @@ HEADERS += \
     ../../../source/system/logger/logger.h \
     ../../../source/system/logger/message_logger.h \
     ../../../source/system/logger/module.h \
-    ../../../source/system/logger/warning_logger.h
+    ../../../source/system/logger/warning_logger.h \
+    ../../../source/system/events/mouse_move_event.h \
+    ../../../source/system/commands/cmd_create_timer.h
 
 SOURCES += \
     ../../../source/system/window/win32_window.cpp \
@@ -96,4 +100,6 @@ SOURCES += \
     ../../../source/system/logger/logger_component.cpp \
     ../../../source/system/logger/logger.cpp \
     ../../../source/system/logger/message_logger.cpp \
-    ../../../source/system/logger/warning_logger.cpp
+    ../../../source/system/logger/warning_logger.cpp \
+    ../../../source/system/events/mouse_move_event.cpp \
+    ../../../source/system/commands/cmd_create_timer.cpp

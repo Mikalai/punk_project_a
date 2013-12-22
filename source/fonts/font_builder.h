@@ -11,7 +11,7 @@ namespace Font
 {
     struct FontBuilderImpl;
 
-    class PUNK_ENGINE_LOCAL FontBuilder : public IFontBuilder, public System::Object
+    class PUNK_ENGINE_LOCAL FontBuilder : public IFontBuilder, public Core::Object
 	{
 	public:
 		FontBuilder();

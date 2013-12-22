@@ -19,7 +19,7 @@ namespace System
 
 #ifdef __linux__
         m_date = *localtime(&m_time);
-#elif defined _WIN32
+#elif defined MSVS
         _localtime64_s(&m_date, &m_time);
 #endif
         CREATE_INSTANCE(Clock);
@@ -32,7 +32,7 @@ namespace System
 
     const Core::String Clock::ToString() const
 	{
-#ifdef _WIN32
+#ifdef MSVS
 		wchar_t buffer[256];
 		_wasctime_s(buffer, 256, &m_date);
 		buffer[24] = 0;
@@ -99,7 +99,7 @@ namespace System
 		m_us += dt;
 		m_time += m_us / 1000000;
 		m_us %= 1000000;
-#ifdef _WIN32
+#ifdef MSVS
 		_gmtime64_s(&m_date, &m_time);
 #elif defined __linux__
         m_date = *gmtime(&m_time);
@@ -115,7 +115,7 @@ namespace System
 
     const Core::String Clock::SysTimeAsUTC()
 	{
-#ifdef _WIN32
+#ifdef MSVS
 		char buffer[32];
 		__time32_t t;
 		time(&t);
@@ -138,7 +138,7 @@ namespace System
 
     const Core::String Clock::SysTimeNowAsLocal()
 	{
-#ifdef _WIN32
+#ifdef MSVS
 		char buffer[32];
 		time_t t;
 		time(&t);
@@ -169,7 +169,7 @@ namespace System
 		m_date.tm_min = Min;
 		m_date.tm_sec = Sec;
 
-#ifdef _WIN32
+#ifdef MSVS
 		m_time = _mktime64(&m_date);
 		_gmtime64_s(&m_date, &m_time);
 #elif defined __linux__
@@ -177,18 +177,27 @@ namespace System
         m_date = *gmtime(&m_time);
 #endif
 	}
-/*
-	void Clock::Store(Buffer& buffer)
-	{
-		buffer.WriteSigned64(m_time);
-		buffer.WriteSigned64(m_us);
-	}
+    /*
+        void Clock::Store(Buffer& buffer)
+        {
+            buffer.WriteSigned64(m_time);
+            buffer.WriteSigned64(m_us);
+        }
 
-	void Clock::Restore(Buffer& buffer)
-	{
-		m_time = buffer.ReadSigned64();
-		m_us = buffer.ReadSigned64();
-		_gmtime64_s(&m_date, &m_time);
-	}*/
+        void Clock::Restore(Buffer& buffer)
+        {
+            m_time = buffer.ReadSigned64();
+            m_us = buffer.ReadSigned64();
+            _gmtime64_s(&m_date, &m_time);
+        }*/
+
+    IClock* CreateClock() {
+        return new Clock();
+    }
+
+    void DestroyClock(IClock* value) {
+        Clock* clock = dynamic_cast<Clock*>(value);
+        delete clock;
+    }
 }
 PUNK_ENGINE_END

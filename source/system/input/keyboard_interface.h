@@ -15,6 +15,8 @@ namespace System
         virtual bool GetKeyState(int key) const = 0;
         virtual bool (*GetKeyStates())[256] = 0;
     };
+
+    PUNK_ENGINE_API IKeyBoard* GetKeyboard();
 }
 PUNK_ENGINE_END
 

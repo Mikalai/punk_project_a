@@ -5,8 +5,8 @@ namespace Utility
 {
     REGISTER_COMPONENT(FontManagerComponent, new FontManagerComponent, {""})
 
-#define FONT_MANAGER_COMPONENT System::string(L"font_manager")
-#define FONT_BUILDER_SERVICE System::string(L"font_builder")
+#define FONT_MANAGER_COMPONENT Core::String(L"font_manager")
+#define FONT_BUILDER_SERVICE Core::String(L"font_builder")
 
     FontManagerComponent::FontManagerComponent()
     {
@@ -40,7 +40,7 @@ namespace Utility
         m_font_builder->Clone();
     }
 
-    System::Object* FontManagerComponent::OnGetService(const System::string & name)
+    System::Object* FontManagerComponent::OnGetService(const Core::String & name)
     {
         if (name == FONT_BUILDER_SERVICE)
             return m_font_builder;

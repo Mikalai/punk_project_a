@@ -27,6 +27,8 @@ namespace System
         virtual bool IsVisible() const = 0;
         virtual Window* GetBoundedWindow() const = 0;
     };
+
+    IMouse* GetMouse();
 }
 PUNK_ENGINE_END
 

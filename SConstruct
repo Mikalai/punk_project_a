@@ -44,3 +44,13 @@ punk_core_env['LIBPATH'] = ['./bin/']
 flag = ARGUMENTS.get('punk_core', 0)
 if int(flag):
 	punk_core_env.SharedLibrary(punk_core, Glob('build/core/*.cpp'))
+
+punk_terminal_env = env.Clone();
+punk_terminal = 'bin/punk_terminal'
+VariantDir('build/terminal', 'source/terminal', duplicate = 0)
+punk_terminal_env['LIBS'] = ['punk_error', 'punk_string', 'punk_core']
+punk_terminal_env['LIBPATH'] = ['./bin/']
+flag = ARGUMENTS.get('punk_terminal', 0)
+if int(flag):
+	punk_terminal_env.SharedLibrary(punk_terminal, Glob('build/terminal/*.cpp'))
+
