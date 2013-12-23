@@ -1,6 +1,3 @@
-#ifdef USE_SYSTEM_MODULE
-#ifdef USE_CONCURRENCY_COMPONENTS
-
 #ifndef PUNK_SYSTEM_MONITOR
 #define PUNK_SYSTEM_MONITOR
 
@@ -9,7 +6,20 @@
 #elif defined __gnu_linux__
 #include <pthread.h>
 #endif
+#include <mutex>
+#include <condition_variable>
 
+#include <config.h>
+
+#ifdef _WIN32
+struct CONDITION_VARIABLE {
+    char data[4096];
+};
+
+typedef CONDITION_VARIABLE* PCONDITION_VARIABLE;
+#endif
+
+PUNK_ENGINE_BEGIN
 namespace System
 {
     class Monitor
@@ -26,6 +36,8 @@ namespace System
 
     private:
 #ifdef _WIN32
+    CONDITION_VARIABLE m_conditional_variable;
+    CRITICAL_SECTION m_mutex;
 #elif defined __gnu_linux__
     pthread_cond_t m_condition_variable;
     pthread_mutex_t m_mutex;
@@ -33,7 +45,6 @@ namespace System
 
     };
 }
+PUNK_ENGINE_END
 
 #endif  //  PUNK_SYSTEM_MONITOR
-#endif  //  USE_CONCURRENCY_COMPONENTS
-#endif  //  USE_SYSTEM_MODULE

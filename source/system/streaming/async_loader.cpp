@@ -4,17 +4,17 @@
 PUNK_ENGINE_BEGIN
 namespace System
 {
-    PUNK_OBJECT_REG(AsyncLoader, "System.AsyncLoader", PUNK_ASYNC_LOADER, nullptr, nullptr, &Object::Info.Type);
+    Core::Rtti AsyncLoader::Type{"System.AsyncLoader", typeid(AsyncLoader).hash_code(), {&Core::Object::Type}};
 
     AsyncLoader::AsyncLoader()
     {
-        Info.Add(this);
+        CREATE_INSTANCE(AsyncLoader);
     }
 
     AsyncLoader::~AsyncLoader()
     {
-        Info.Remove(this);
+        DESTROY_INSTANCE();
     }
 }
 PUNK_ENGINE_END
-b
+

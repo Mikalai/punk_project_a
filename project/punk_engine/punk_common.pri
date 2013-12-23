@@ -14,7 +14,8 @@ unix {
 DEFINES += PUNK_ENGINE_EXPORTS
 
 LIB_3RD = ../../../../../3rd/lib
-INCLUDEPATH += ../../../../3rd/include
+INCLUDE_3RD = ../../../../3rd/include
+INCLUDEPATH += $${INCLUDE_3RD}
 
 CONFIG(debug, debug|release) {
     DESTDIR = ../../../../bin/debug

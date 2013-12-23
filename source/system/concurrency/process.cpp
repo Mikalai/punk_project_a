@@ -1,5 +1,7 @@
+#include <string/module.h>
 #include "process.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
 	Process::Process()
@@ -7,7 +9,7 @@ namespace System
 
 #ifdef _WIN32
 		memset(&m_startup_info, 0, sizeof(m_startup_info));
-		m_startup_info.StartupInfo.cb = sizeof(m_startup_info);
+        m_startup_info.cb = sizeof(m_startup_info);
 #endif	//	_WIN32
 
 	}
@@ -20,12 +22,12 @@ namespace System
 #endif	//	_WIN32
 	}
 
-    bool Process::Start(string&)
+    bool Process::Start(const Core::String& cmd_line)
 	{
 #ifdef _WIN32
         wchar_t buf[MAX_PATH];
-        wcscpy_s(buf, MAX_PATH, cmd_line.ToStdWString().c_str());
-        return m_is_launched = (TRUE == CreateProcessW(NULL, buf, NULL, NULL, TRUE, 0, 0, 0, &m_startup_info.StartupInfo, &m_process_info));
+        wcsncpy(buf, (const wchar_t*)cmd_line.ToWchar().Data(), MAX_PATH);
+        return m_is_launched = (TRUE == CreateProcessW(NULL, buf, NULL, NULL, TRUE, 0, 0, 0, &m_startup_info, &m_process_info));
 #elif defined __gnu_linux__
         return false;
 #endif
@@ -42,3 +44,4 @@ namespace System
 		}
 	}
 }
+PUNK_ENGINE_END

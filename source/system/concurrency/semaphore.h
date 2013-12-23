@@ -1,11 +1,11 @@
 #ifndef _H_PUNK_SYSTEM_SEMAPTHORE_WIN32
 #define _H_PUNK_SYSTEM_SEMAPTHORE_WIN32
 
-#include "../../config.h"
+#include <config.h>
 #include "os_handle.h"
 
-namespace System
-{
+PUNK_ENGINE_BEGIN
+namespace System {
 	class PUNK_ENGINE_API Semaphore : public OsHandle
 	{
 	public:		
@@ -21,5 +21,6 @@ namespace System
 		~Semaphore();
 	};
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_SYSTEM_SEMAPTHORE_WIN32

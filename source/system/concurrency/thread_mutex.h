@@ -11,8 +11,9 @@
 #include <errno.h>
 #endif
 
-#include "../../config.h"
+#include <config.h>
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
 	class PUNK_ENGINE_API ThreadMutex
@@ -55,5 +56,6 @@ namespace System
         ThreadMutex& m_mutex;
     };
 }
+PUNK_ENGINE_END
 
 #endif // _H_PUNK_SYSMTE_THREAD_MUTEX

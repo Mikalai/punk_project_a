@@ -6,23 +6,24 @@
 
 #include "thread.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
-	Thread::~Thread()
-	{
-		Destroy();
-	}
+    Thread::~Thread()
+    {
+        Destroy();
+    }
 
 #ifdef _WIN32
     bool Thread::Create(unsigned (PUNK_STDCALL *thread_func)(void*), void* data, unsigned stack)
-	{
-		if (Handle() != NULL)
-			return false;
-		Handle() = (HANDLE)_beginthreadex(0, stack, thread_func, data, CREATE_SUSPENDED, 0);
-		if (Handle() != INVALID_HANDLE_VALUE)
-			return true;
-		return false;
-	}
+    {
+        if (Handle() != NULL)
+            return false;
+        Handle() = (HANDLE)_beginthreadex(0, stack, thread_func, data, CREATE_SUSPENDED, 0);
+        if (Handle() != INVALID_HANDLE_VALUE)
+            return true;
+        return false;
+    }
 #endif	//	_WIN32
 
 #ifdef __gnu_linux__
@@ -35,42 +36,42 @@ namespace System
         result = pthread_create(ThreadHandle(), &attr, thread_func, data) != 0;
         pthread_attr_destroy(&attr);
         return result;
-   }
+    }
 #endif
 
-	bool Thread::Join()
-	{
+    bool Thread::Join()
+    {
 #ifdef _WIN32
-		return WaitForSingleObject(Handle(), INFINITE) != WAIT_FAILED;
+        return WaitForSingleObject(Handle(), INFINITE) != WAIT_FAILED;
 #elif defined __gnu_linux__
         void* result;
         return pthread_join(*ThreadHandle(), &result) == 0;
 #endif
-	}
+    }
 
-	bool Thread::Resume()
-	{
+    bool Thread::Resume()
+    {
 #ifdef _WIN32
-		return ResumeThread(Handle()) != (DWORD)-1;
+        return ResumeThread(Handle()) != (DWORD)-1;
 #elif   defined __gnu_linux__
         return false;
 #endif
-	}
+    }
 
-	bool Thread::Destroy()
-	{
+    bool Thread::Destroy()
+    {
 #ifdef _WIN32
-		if (Handle())
-		{
-			CloseHandle(Handle());
-			Handle() = NULL;
-		}
-		return true;
+        if (Handle())
+        {
+            CloseHandle(Handle());
+            Handle() = NULL;
+        }
+        return true;
 #elif defined __gnu_linux__
         //  TODO: seems nothing should be placed here
         return false;
 #endif
-	}
+    }
 
     Thread Thread::GetOwnThread()
     {
@@ -97,3 +98,4 @@ namespace System
 #endif
     }
 }
+PUNK_ENGINE_END

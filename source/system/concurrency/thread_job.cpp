@@ -1,6 +1,7 @@
 #include "thread_job.h"
 #include "thread_pool.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
 	ThreadJob::ThreadJob()
@@ -21,3 +22,4 @@ namespace System
 		RunThread();
 	}
 }
+PUNK_ENGINE_END

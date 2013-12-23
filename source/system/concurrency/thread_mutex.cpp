@@ -1,5 +1,6 @@
 #include "thread_mutex.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
 	ThreadMutex::ThreadMutex()
@@ -58,3 +59,4 @@ namespace System
 #endif
 	}
 }
+PUNK_ENGINE_END

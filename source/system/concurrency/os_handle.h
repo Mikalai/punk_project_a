@@ -1,6 +1,3 @@
-#ifdef USE_SYSTEM_MODULE
-#ifdef USE_CONCURRENCY_COMPONENTS
-
 #ifndef _H_PUNK_SYSTEM_CONCURRENCY_OS_HANDLE
 #define _H_PUNK_SYSTEM_CONCURRENCY_OS_HANDLE
 
@@ -11,8 +8,9 @@
 #include <semaphore.h>
 #endif
 
-#include "../../config.h"
+#include <config.h>
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
 
@@ -46,9 +44,7 @@ namespace System
 
     };
 #endif  //  __linux__
-
 }
+PUNK_ENGINE_END
 
 #endif	//	 _H_PUNK_SYSTEM_CONCURRENCY_OS_HANDLE
-#endif
-#endif

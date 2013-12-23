@@ -4,6 +4,7 @@
 
 #include "semaphore.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
 	Semaphore::~Semaphore()
@@ -70,4 +71,4 @@ namespace System
 #endif
 	}
 }
-
+PUNK_ENGINE_END

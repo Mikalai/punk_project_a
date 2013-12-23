@@ -1,6 +1,7 @@
 #include "atomic.h"
 #include "thread_pool.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
 
@@ -127,3 +128,4 @@ namespace System
 	}
 
 }
+PUNK_ENGINE_END

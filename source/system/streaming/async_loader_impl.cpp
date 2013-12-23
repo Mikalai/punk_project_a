@@ -1,5 +1,8 @@
 #ifdef __gnu_linux__
 #include <limits.h>
+#else
+#include <limits>
+#define LONG_MAX std::numeric_limits<long>::max()
 #endif
 
 #include "engine_objects.h"
@@ -7,23 +10,22 @@
 #include "data_loader.h"
 #include "data_processor.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
-    PUNK_OBJECT_REG(AsyncLoaderImpl, "System.AsyncLoaderImpl", typeid(AsyncLoaderImpl).hash_code(), nullptr, nullptr, &AsyncLoader::Info.Type);
-
 #ifdef _WIN32
     unsigned PUNK_STDCALL IOThread(void* data)
     {
         if (data == nullptr)
             return 0;
-        return reinterpret_cast<AsyncLoader*>(data)->FileIOThreadProc();
+        return reinterpret_cast<AsyncLoaderImpl*>(data)->FileIOThreadProc();
     }
 
 	unsigned PUNK_STDCALL ProcessThread(void* data)
 	{
 		if (data == nullptr)
 			return 0;
-		return reinterpret_cast<AsyncLoader*>(data)->ProcessingThreadProc();
+        return reinterpret_cast<AsyncLoaderImpl*>(data)->ProcessingThreadProc();
 	}
 #elif defined __gnu_linux__
     void* ProcessThread(void* data)
@@ -392,4 +394,14 @@ namespace System
 		//	destroy io thread
 		m_io_thread.Destroy();
 	}
+
+    IAsyncLoader* CreateAsyncLoader(int num_threads) {
+        return new AsyncLoaderImpl(num_threads);
+    }
+
+    PUNK_ENGINE_API void DestroyAsyncLoader(IAsyncLoader* value) {
+        AsyncLoaderImpl* v = dynamic_cast<AsyncLoaderImpl*>(value);
+        delete v;
+    }
 }
+PUNK_ENGINE_END

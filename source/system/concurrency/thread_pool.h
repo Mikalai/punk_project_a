@@ -16,12 +16,13 @@
 #include <stack>
 #include <queue>
 
-#include "../../config.h"
+#include <config.h>
 #include "thread_job.h"
 #include "thread.h"
 #include "monitor.h"
 #include "atomicint.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
 	class PUNK_ENGINE_API ThreadPool
@@ -62,5 +63,6 @@ namespace System
 #endif
 	};
 }
+PUNK_ENGINE_END
 
 #endif

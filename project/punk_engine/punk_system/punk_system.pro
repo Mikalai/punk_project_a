@@ -67,7 +67,32 @@ HEADERS += \
     ../../../source/system/logger/module.h \
     ../../../source/system/logger/warning_logger.h \
     ../../../source/system/events/mouse_move_event.h \
-    ../../../source/system/commands/cmd_create_timer.h
+    ../../../source/system/commands/cmd_create_timer.h \
+    ../../../source/system/filesystem/binary_file.h \
+    ../../../source/system/filesystem/folder.h \
+    ../../../source/system/filesystem/module.h \
+    ../../../source/system/filesystem/mapped_buffer.h \
+    ../../../source/system/concurrency/atomic.h \
+    ../../../source/system/concurrency/atomicint.h \
+    ../../../source/system/concurrency/module.h \
+    ../../../source/system/concurrency/monitor.h \
+    ../../../source/system/concurrency/monitor_scope.h \
+    ../../../source/system/concurrency/os_handle.h \
+    ../../../source/system/concurrency/process.h \
+    ../../../source/system/concurrency/semaphore.h \
+    ../../../source/system/concurrency/thread.h \
+    ../../../source/system/concurrency/thread_job.h \
+    ../../../source/system/concurrency/thread_mutex.h \
+    ../../../source/system/concurrency/thread_pool.h \
+    ../../../source/system/streaming/async_loader.h \
+    ../../../source/system/streaming/async_loader_impl.h \
+    ../../../source/system/streaming/data_loader.h \
+    ../../../source/system/streaming/data_processor.h \
+    ../../../source/system/streaming/module.h \
+    ../../../source/system/streaming/resource_request.h \
+    ../../../source/system/streaming/streaming_component.h \
+    ../../../source/system/streaming/async_loader_interface.h \
+    ../../../source/system/streaming/streaming_result.h
 
 SOURCES += \
     ../../../source/system/window/win32_window.cpp \
@@ -102,4 +127,17 @@ SOURCES += \
     ../../../source/system/logger/message_logger.cpp \
     ../../../source/system/logger/warning_logger.cpp \
     ../../../source/system/events/mouse_move_event.cpp \
-    ../../../source/system/commands/cmd_create_timer.cpp
+    ../../../source/system/commands/cmd_create_timer.cpp \
+    ../../../source/system/filesystem/binary_file.cpp \
+    ../../../source/system/filesystem/folder.cpp \
+    ../../../source/system/filesystem/mapped_buffer.cpp \
+    ../../../source/system/concurrency/monitor.cpp \
+    ../../../source/system/concurrency/process.cpp \
+    ../../../source/system/concurrency/semaphore.cpp \
+    ../../../source/system/concurrency/thread.cpp \
+    ../../../source/system/concurrency/thread_job.cpp \
+    ../../../source/system/concurrency/thread_mutex.cpp \
+    ../../../source/system/concurrency/thread_pool.cpp \
+    ../../../source/system/streaming/async_loader.cpp \
+    ../../../source/system/streaming/async_loader_impl.cpp \
+    ../../../source/system/streaming/streaming_component.cpp

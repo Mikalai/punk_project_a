@@ -2,6 +2,7 @@
 #define ASYNC_LOADER_H
 
 #include "config.h"
+#include "async_loader_interface.h"
 #include "core/object.h"
 
 PUNK_ENGINE_BEGIN
@@ -10,7 +11,7 @@ namespace System
     class AbstractDataLoader;
     class AbstractDataProcessor;
 
-    class PUNK_ENGINE_API AsyncLoader : public Object
+    class PUNK_ENGINE_LOCAL AsyncLoader : public IAsyncLoader, public Core::Object
     {
     public:
         AsyncLoader();

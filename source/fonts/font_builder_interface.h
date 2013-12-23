@@ -22,6 +22,9 @@ namespace Font
         virtual int GetMaxOffset(wchar_t s) = 0;
         virtual int GetMinOffset(wchar_t s) = 0;
     };
+
+    extern "C" PUNK_ENGINE_API IFontBuilder* CreateFontBuilder(const Core::String& path);
+    extern "C" PUNK_ENGINE_API void DestroyFontBuilder(IFontBuilder* value);
 }
 PUNK_ENGINE_END
 

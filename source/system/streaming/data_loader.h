@@ -1,9 +1,10 @@
 #ifndef _H_PUNK_SYSTEM_STREAM_ABSTRACT_DATA_LOADER
 #define _H_PUNK_SYSTEM_STREAM_ABSTRACT_DATA_LOADER
 
-#include "../../config.h"
-#include "resource_request.h"
+#include <config.h>
+#include "streaming_result.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
 	class PUNK_ENGINE_API AbstractDataLoader
@@ -27,5 +28,6 @@ namespace System
         virtual StreamingStepResult Destroy() = 0;
 	};
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_SYSTEM_STREAM_ABSTRACT_DATA_LOADER

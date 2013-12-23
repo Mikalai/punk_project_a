@@ -7,14 +7,14 @@
 
 PUNK_ENGINE_BEGIN
 namespace Core { class String; }
-namespace Font
-{
+namespace Font {
+
     struct FontBuilderImpl;
 
     class PUNK_ENGINE_LOCAL FontBuilder : public IFontBuilder, public Core::Object
 	{
 	public:
-		FontBuilder();
+        FontBuilder(const Core::String& path);
 		~FontBuilder();
 		void Init();
         void SetCurrentFace(const Core::String& fontName);

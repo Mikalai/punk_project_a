@@ -1,8 +1,9 @@
 #ifndef _H_THREAD_JOB
 #define _H_THREAD_JOB
 
-#include "../../config.h"
+#include <config.h>
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
 	class ThreadPool;
@@ -21,5 +22,6 @@ namespace System
         virtual void RunThread() = 0;
 	};
 }
+PUNK_ENGINE_END
 
 #endif

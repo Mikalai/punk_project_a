@@ -4,16 +4,17 @@
 #include <memory>
 #include <deque>
 #include <vector>
-#include "async_loader.h"
-#include "../../config.h"
-#include "../concurrency/thread_mutex.h"
-#include "../concurrency/semaphore.h"
-#include "../concurrency/thread.h"
+#include <config.h>
+#include <system/concurrency/thread_mutex.h>
+#include <system/concurrency/semaphore.h>
+#include <system/concurrency/thread.h>
 #include "resource_request.h"
+#include "async_loader.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
-    class AsyncLoaderImpl : public AsyncLoader
+    class PUNK_ENGINE_LOCAL AsyncLoaderImpl : public AsyncLoader
 	{
 	public:
         AsyncLoaderImpl(int num_process_threads);
@@ -39,9 +40,8 @@ namespace System
 		std::vector<Thread> m_process_threads;
 		unsigned m_num_io_requests;
 		unsigned m_num_process_requests;
-
-        PUNK_OBJECT_ABSTRACT(AsyncLoaderImpl)
 	};
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_SYSTEM_ASYNC_LOADER
