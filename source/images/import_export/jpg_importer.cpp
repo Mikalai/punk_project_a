@@ -10,8 +10,8 @@
 #include <memory.h>
 
 #ifdef USE_LIB_JPEG
-#include <jpeg/jpeglib.h>
-#include <jpeg/jerror.h>
+#include "libjpeg/jpeglib.h"
+#include "libjpeg/jerror.h"
 #include <setjmp.h>
 #endif  //  USE_LIB_JPEG
 
@@ -21,8 +21,10 @@ namespace Image
 	JpgImporter::JpgImporter()
 		: Importer()
     {
+#ifdef USE_LIB_JPEG
         jpeg_decompress_struct s;
         s.src = nullptr;
+#endif
     }
 
 #ifdef USE_LIB_JPEG
@@ -300,8 +302,8 @@ namespace Image
 
 	bool JpgImporter::Load(std::istream& stream, Image* image)
 	{
-        jpeg_decompress_struct cinfo;
-        #ifdef USE_LIB_JPEG
+#ifdef USE_LIB_JPEG
+        jpeg_decompress_struct cinfo;        
         my_error_mgr jerr;
 
 		jpeg_create_decompress(&cinfo);
@@ -351,14 +353,14 @@ namespace Image
 		return true;
 		#else
         (void)stream; (void)image;
-		throw System::PunkNotImplemented(L"Can't work with jpeg files, cause jpeg lib was not used");
+        throw System::Error::PunkNotImplemented(L"Can't work with jpeg files, cause jpeg lib was not used");
         #endif  //  USE_LIB_JPEG
     }
 
     bool JpgImporter::Load(Core::Buffer *mem, Image *image)
     {
-        jpeg_decompress_struct cinfo;
-        #ifdef USE_LIB_JPEG
+#ifdef USE_LIB_JPEG
+        jpeg_decompress_struct cinfo;        
         my_error_mgr jerr;
 
         jpeg_create_decompress(&cinfo);
@@ -407,8 +409,8 @@ namespace Image
 
         return true;
         #else
-        (void)stream; (void)image;
-        throw System::PunkNotImplemented(L"Can't work with jpeg files, cause jpeg lib was not used");
+        (void)mem; (void)image;
+        throw System::Error::PunkNotImplemented(L"Can't work with jpeg files, cause jpeg lib was not used");
         #endif  //  USE_LIB_JPEG
     }
 

@@ -5,8 +5,8 @@
 #include <iostream>
 #include <core/core_error.h>
 #include <core/object.h>
-#include "string/string.h"
-#include "string/string_list.h"
+#include <string/string.h>
+#include <string/string_list.h>
 #include "component.h"
 #include "components_pool.h"
 

@@ -465,15 +465,9 @@ namespace Core {
 
     const String String::Convert(void* value)
     {
-#ifdef _WIN64
-        char buf[128];
-        _ui64tow_s((int64_t)value, buf, 128, 16);
-        return String(buf);
-#else
         std::wstringstream stream;
         stream << value;
         return String(stream.str().c_str());
-#endif
     }
 
     wchar_t& String::operator [] (std::uint32_t index)

@@ -79,7 +79,7 @@ namespace System {
                                        0, 0, rect.right-rect.left, rect.bottom-rect.top, 0, 0,
                                        GetModuleHandle(0), (void*)this);
 
-            SetWindowLongPtr(m_hwindow, GWLP_USERDATA, (LONG)this);
+            SetWindowLongPtr(m_hwindow, GWLP_USERDATA, (LONG_PTR)this);
 
             if (!m_hwindow)
                 throw Error::PunkInvalidArgumentException(L"Can't create window");

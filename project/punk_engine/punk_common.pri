@@ -1,5 +1,5 @@
 CONFIG += debug_and_release
-CONFIG -= QT
+CONFIG -= qt
 
 QMAKE_CXXFLAGS += -std=c++11 -pipe
 
@@ -13,7 +13,7 @@ unix {
 
 DEFINES += PUNK_ENGINE_EXPORTS
 
-LIB_3RD = ../../../../../3rd/lib
+LIB_3RD="c:/Users/mikal_000/SkyDrive/projects/game/dev/3rd/lib"
 INCLUDE_3RD = ../../../../3rd/include
 INCLUDEPATH += $${INCLUDE_3RD}
 

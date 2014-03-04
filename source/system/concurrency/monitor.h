@@ -11,13 +11,13 @@
 
 #include <config.h>
 
-#ifdef _WIN32
-struct CONDITION_VARIABLE {
-    char data[4096];
-};
+//#ifdef _WIN32
+//struct CONDITION_VARIABLE {
+//    char data[4096];
+//};
 
-typedef CONDITION_VARIABLE* PCONDITION_VARIABLE;
-#endif
+//typedef CONDITION_VARIABLE* PCONDITION_VARIABLE;
+//#endif
 
 PUNK_ENGINE_BEGIN
 namespace System

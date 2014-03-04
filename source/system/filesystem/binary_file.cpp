@@ -26,11 +26,11 @@ namespace System
         DWORD high;
         DWORD low = ::GetFileSize((HANDLE)hFile, &high);
 #ifdef _WIN64
-        size_t result = (size_t)hight << 32 || low;
+        size_t result = (size_t)high << 32 || low;
         return result;
 #elif defined _WIN32
         return low;
-#endif
+#endif  //  _WIN64
     }
 
     std::intptr_t OpenReadFile(const Core::String& filename)

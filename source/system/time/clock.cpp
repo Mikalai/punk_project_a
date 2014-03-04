@@ -89,12 +89,12 @@ namespace System
 		return (int)m_us;
 	}
 
-	int64_t Clock::Now()
+    std::int64_t Clock::Now()
 	{
 		return m_time;
 	}
 
-	void Clock::Advance(int64_t dt)
+    void Clock::Advance(std::int64_t dt)
 	{
 		m_us += dt;
 		m_time += m_us / 1000000;

@@ -47,7 +47,8 @@ SOURCES += \
     ../../../source/math/frustum_plane.cpp \
     ../../../source/math/frustum.cpp \
     ../../../source/math/perspective_decoder.cpp \
-    ../../../source/math/min_max.cpp
+    ../../../source/math/min_max.cpp \
+    ../../../source/math/metric/value.cpp
 
 
 HEADERS += \
@@ -86,4 +87,5 @@ HEADERS += \
     ../../../source/math/frustum_points.h \
     ../../../source/math/frustum.h \
     ../../../source/math/perspective_decoder.h \
-    ../../../source/math/min_max.h
+    ../../../source/math/min_max.h \
+    ../../../source/math/metric/value.h

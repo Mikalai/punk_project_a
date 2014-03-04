@@ -2,17 +2,16 @@
 #include "assert2.h"
 #include "stack_trace.h"
 
-PUNK_ENGINE_BEGIN
-namespace System
-{
-
 #ifdef WIN32
-
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif	//	NOMINMAX
-
 #include <Windows.h>
+#endif  //  WIN32
+
+PUNK_ENGINE_BEGIN
+namespace System
+{
 
 #ifdef _DEBUG
 
@@ -51,6 +50,5 @@ namespace System
 		return MessageBox(0, stream.str().c_str(), L"Assert failed", MB_ICONERROR|MB_ABORTRETRYIGNORE);
 	}
 #endif	//	_DEBUG
-#endif	//	WIN32
 }
 PUNK_ENGINE_END

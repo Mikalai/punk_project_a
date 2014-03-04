@@ -1,23 +1,12 @@
-bl_info = {
-    "name":         "PunkEngine Middle Format",
-    "author":       "Mikalaj Abramau",
-    "blender":      (2,6,2),
-    "version":      (0,0,1),
-    "location":     "File > Import-Export",
-    "description":  "Export PunkEngine (.pmd)",
-    "category":     "Import-Export"
-}
-
-#mesh.materials['Material'].texture_slots['bump].texture.image.name
 import bpy
-import punk_export
+import punk_export_base
 import os
 
 # ExportHelper is a helper class, defines filename and
 # invoke() function which calls the file selector.
 from bpy_extras.io_utils import ExportHelper
 from bpy.props import StringProperty, BoolProperty, EnumProperty
-from punk_export import *
+from punk_export_base import *
 
 #   export local matrix
 #
@@ -503,6 +492,7 @@ def export_object(f, object):
 def export_model(context, filepath, anim_in_separate_file):
     print(filepath)   
     path = filepath.replace(filepath[filepath.rfind("/"):], "")
+    print(path)
     cur_dir = os.getcwd()
     try:
         f = open(filepath, 'w')
@@ -528,51 +518,3 @@ def export_model(context, filepath, anim_in_separate_file):
     finally:
         os.chdir(path)
     
-    
-class ExportPunkModel(bpy.types.Operator, ExportHelper):
-    'Exports mesh for Punk Engine'
-    bl_idname = "export.punk_model"  
-    bl_label = "Export PunkEngine Scene"
-
-    # ExportHelper Mixin classed uses this
-    filename_ext = ".pmd"
-
-    filter_glob = StringProperty(default="*.pmd", options = {'HIDDEN'})
-
-    # List of operator properties, the attributes will be assigned
-    # to the class instance from the operator settings before calling.
-    export_animation = BoolProperty(name="Export animation", description="Export animation in separate .pan animation file", default=True)
-    export_type = EnumProperty \
-        (name = "Export type", description = "Define what output format is prefered", \
-        items = [ ("INDOOR_LOCATION", "Indoor location", "Indoor location", 1), \
-                  ("ARMATURE", "Armature", "Armature", 2)])
-
-    @classmethod
-    def poll(cls, context):
-        return context.active_object != None
-
-    def execute(self, context):
-        print("*** Punk Engine Blender Exporter ***")
-        return export_model(context, self.filepath, self.export_animation)
-
-
-# Only needed if you want to add into a dynamic menu
-def menu_func_export(self, context):
-    self.layout.operator(ExportPunkModel.bl_idname, text="Export Punk Model")
-
-
-def register():
-    bpy.utils.register_class(ExportPunkModel)
-    bpy.types.INFO_MT_file_export.append(menu_func_export)
-
-
-def unregister():
-    bpy.utils.unregister_class(ExportPunkModel)
-    bpy.types.INFO_MT_file_export.remove(menu_func_export)
-
-
-if __name__ == "__main__":
-    register()
-
-    # test call
-bpy.ops.export.punk_model('INVOKE_DEFAULT')

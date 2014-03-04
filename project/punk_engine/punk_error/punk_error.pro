@@ -5,6 +5,7 @@
 include(../punk_common.pri)
 
 CONFIG += dll
+CONFIG -= qt
 TEMPLATE = lib
 TARGET = punk_error
 

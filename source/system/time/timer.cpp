@@ -68,7 +68,7 @@ namespace System
 
 		double GetElapsedSeconds() const
 		{
-            double res = GetCurrentTime() - m_last_check;
+            double res = ::GetCurrentTime() - m_last_check;
             return res;
 		}
 

@@ -1,15 +1,17 @@
 #ifndef _H_PUNK_SYSTEM_CLOCK
 #define _H_PUNK_SYSTEM_CLOCK
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #include <time.h>
 #include "core/object.h"
 #include "clock_interface.h"
 
 PUNK_ENGINE_BEGIN
-namespace System
-{
-    class PUNK_ENGINE_LOCAL Clock : public IClock, public Core::Object
-    {	
+namespace System {
+    class PUNK_ENGINE_LOCAL Clock : public IClock, public Core::Object {
     public:
 		Clock();
         virtual ~Clock();
@@ -43,13 +45,13 @@ namespace System
 	private:
 
         static const int timeSize = 64;
-        wchar_t the_time[timeSize];
+        wchar_t the_time[timeSize];        
 #ifdef _WIN32
         __time64_t m_time;
 #elif defined __linux__
         time_t m_time;
 #endif
-        int64_t m_us;
+        std::int64_t m_us;
 		tm m_date;
 
         PUNK_OBJECT(Clock)
