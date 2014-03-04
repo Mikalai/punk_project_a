@@ -13,7 +13,6 @@ unix {
 
 DEFINES += PUNK_ENGINE_EXPORTS
 
-LIB_3RD="c:/Users/mikal_000/SkyDrive/projects/game/dev/3rd/lib"
 INCLUDE_3RD = ../../../../3rd/include
 INCLUDEPATH += $${INCLUDE_3RD}
 

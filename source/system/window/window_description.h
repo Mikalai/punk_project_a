@@ -20,7 +20,7 @@ namespace System
 {
     enum class WindowSystem { Windows, X11 };
 
-    struct WindowDesc
+    struct PUNK_ENGINE_API WindowDescription
     {
 #ifdef _WIN32
         WindowSystem system {WindowSystem::Windows};

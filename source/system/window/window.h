@@ -9,24 +9,15 @@
 #include "core/object.h"
 #include "system/events/interface.h"
 #include "window_description.h"
+#include "window_interface.h"
 
 PUNK_ENGINE_BEGIN
 namespace System
 {
-    class PUNK_ENGINE_API Window : public Core::Object
+    class PUNK_ENGINE_API Window : public IWindow, public Core::Object
 	{	
     public:
-        Window();
-        Core::ActionSlot<const WindowResizeEvent&> OnResizeEvent;
-        Core::ActionSlot<const KeyEvent&> OnKeyEvent;
-        Core::ActionSlot<const KeyEvent&> OnCharEvent;
-        Core::ActionSlot<const MouseEvent&> OnMouseEvent;
-        Core::ActionSlot<const MouseEvent&> OnMouseMoveEvent;
-        Core::ActionSlot<const MouseHooverEvent&> OnMouseHooverEvent;
-        Core::ActionSlot<const MouseWheelEvent&> OnMouseWheelEvent;
-        Core::ActionSlot<void> OnWindowCreated;
-        Core::ActionSlot<void> OnWindowDestroy;
-        Core::ActionSlot<const IdleEvent&> OnIdleEvent;
+        Window();        
 
         virtual ~Window();
         virtual int GetDesktopWidth() const = 0;
@@ -44,12 +35,57 @@ namespace System
         virtual void SetTitle(const Core::String& text) = 0;
         virtual const Core::String GetTitle() const = 0;
         virtual void Quite() = 0;
-        virtual void ShowCursor(bool value) = 0;
+        virtual void ShowCursor(bool value) = 0;        
 
-        PUNK_OBJECT(Window)
+        virtual void SubscribeResizeEvent(ResizeEventDelegate) override;
+        virtual void UnsubscribeResizeEvent(ResizeEventDelegate) override;
+        virtual void SubscribeKeyEvent(KeyEventDelegate) override;
+        virtual void UnsubscribeKeyEvent(KeyEventDelegate) override;
+        virtual void SubscribeCharEvent(CharEventDelegate) override;
+        virtual void UnsubscribeCharEvent(CharEventDelegate) override;
+        virtual void SubscribeMouseEvent(MouseEventDelegate) override;
+        virtual void UnsubscribeMouseEvent(MouseEventDelegate) override;
+        virtual void SubscribeMouseEvent(void (*Delegate)(const MouseEvent&)) override;
+        virtual void UnsubscribeMouseEvent(void (*Delegate)(const MouseEvent&)) override;
+        virtual void SubscribeMouseMoveEvent(MouseMoveEventDelegate) override;
+        virtual void UnsubscribeMouseMoveEvent(MouseMoveEventDelegate) override;
+        virtual void SubscribeMouseHooverEvent(MouseHooverEventDelegate) override;
+        virtual void UnsubscribeMouseHooverEvent(MouseHooverEventDelegate) override;
+        virtual void SubscribeMouseWheelEvent(MouseWheelEventDelegate) override;
+        virtual void UnsubscribeMouseWheelEvent(MouseWheelEventDelegate) override;
+        virtual void SubscribeWindowCreatedEvent(WindowCreatedDelegate) override;
+        virtual void UnsubscribeWindowCreatedEvent(WindowCreatedDelegate) override;
+        virtual void SubscribeWindowDestroyEvent(WindowDestroyDelegate) override;
+        virtual void UnsubscribeWindowDestroyEvent(WindowDestroyDelegate) override;
+        virtual void SubscribeIdleEvent(IdleEventDelegate) override;
+        virtual void UnsubscribeIdleEvent(IdleEventDelegate) override;
+
+        virtual void Open() override;
+        virtual void Close() override;
+
+    protected:
+
+        virtual void InternalCreate() = 0;
+        virtual void InternalDestroy() = 0;
+
+    protected:
+
+        Core::ActionSlot<const WindowResizeEvent&> OnResizeEvent;
+        Core::ActionSlot<const KeyEvent&> OnKeyEvent;
+        Core::ActionSlot<const KeyEvent&> OnCharEvent;
+        Core::ActionSlot<const MouseEvent&> OnMouseEvent;
+        Core::ActionSlot<const MouseEvent&> OnMouseMoveEvent;
+        Core::ActionSlot<const MouseHooverEvent&> OnMouseHooverEvent;
+        Core::ActionSlot<const MouseWheelEvent&> OnMouseWheelEvent;
+        Core::ActionSlot<void> OnWindowCreated;
+        Core::ActionSlot<void> OnWindowDestroy;
+        Core::ActionSlot<const IdleEvent&> OnIdleEvent;
+        bool m_initialized = false;
+
+        PUNK_OBJECT(Window)                               
 	};
 
-    PUNK_ENGINE_API Window* CreateRootWindow(const WindowDesc& desc);
+    PUNK_ENGINE_API Window* CreateRootWindow(const WindowDescription& desc);
 }
 PUNK_ENGINE_END
 

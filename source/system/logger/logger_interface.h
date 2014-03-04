@@ -8,29 +8,24 @@ PUNK_ENGINE_BEGIN
 namespace Core { class String; }
 namespace System
 {    
-    using LogEvent = Core::ActionBasePtr<const Core::String&>;
+    class ILogConsumer;
 
     class ILogger
     {
     public:
+        virtual void Message(const Core::String& value) = 0;
+        virtual void Warning(const Core::String& value) = 0;
+        virtual void Error(const Core::String& value) = 0;
+        virtual void Info(const Core::String& value) = 0;
         virtual void Write(const Core::String& value) = 0;
-        virtual void Connect(LogEvent event) = 0;
+        virtual void Debug(const Core::String& value) = 0;
+        virtual void AddConsumer(ILogConsumer* consumer) = 0;
+        virtual void RemoveConsumer(ILogConsumer* consumer) = 0;
     };
+
+    extern "C" PUNK_ENGINE_API ILogger* GetDefaultLogger();
+    extern "C" PUNK_ENGINE_API void DestroyDefaultLogger();
 }
 PUNK_ENGINE_END
-
-PUNK_ENGINE_API Punk::Engine::System::ILogger& out_error();
-PUNK_ENGINE_API Punk::Engine::System::ILogger& out_message();
-PUNK_ENGINE_API Punk::Engine::System::ILogger& out_warning();
-
-#ifdef _DEBUG
-#define OUT_MESSAGE(X) out_message().Write(X);
-#define OUT_WARNING(X) out_warning().Write(X);
-#define OUT_ERROR(X)   out_error().Write(X);
-#else
-#define OUT_MESSAGE(X) out_message().Write(X);
-#define OUT_WARNING(X) out_warning().Write(X);
-#define OUT_ERROR(X)   out_error().Write(X);
-#endif
 
 #endif // LOGGER_INTERFACE_H

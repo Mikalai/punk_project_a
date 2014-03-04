@@ -12,9 +12,7 @@
 #include "string/module.h"
 
 PUNK_ENGINE_BEGIN
-namespace System {
-
-    LRESULT CALLBACK WindowCallBack(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+namespace System {    
     typedef LRESULT WINAPI (*TWindowCallBack)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
     int GetX(HWND handle) {
@@ -41,54 +39,9 @@ namespace System {
         return rect.bottom - rect.top;
     }
 
-    WindowWin::WindowWin(const WindowDesc& desc) {
-        if (desc.parent_wnd) {
-            m_use_parent_window = true;
-            m_hwindow = desc.parent_wnd;
-        }
-        else {
-            m_use_parent_window = false;
-            WNDCLASS wc;
-            wc.cbClsExtra = 0;
-            wc.cbWndExtra = 0;
-            wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-            wc.hCursor = LoadCursor(0, IDC_ARROW);
-            wc.hIcon = LoadIcon(0, IDI_APPLICATION);
-            wc.hInstance = GetModuleHandle(0);
-            wc.lpfnWndProc = WindowCallBack;
-            wc.lpszClassName = TEXT("Punk Render");
-            wc.lpszMenuName = 0;
-            wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-
-            if (!RegisterClass(&wc))
-                throw Error::PunkInvalidArgumentException(L"Can't register window class");
-
-            RECT rect;
-            rect.left = desc.m_x;
-            rect.right = desc.m_x + desc.m_width;
-            rect.top = desc.m_y;
-            rect.bottom = desc.m_y + desc.m_height;
-
-
-            DWORD style = WS_OVERLAPPEDWINDOW;
-            DWORD styleEx = 0;
-
-            AdjustWindowRectEx(&rect, style, false, styleEx);
-
-            m_hwindow = CreateWindowEx(styleEx, TEXT("Punk Render"), TEXT("Punk Engine"), style,
-                                       0, 0, rect.right-rect.left, rect.bottom-rect.top, 0, 0,
-                                       GetModuleHandle(0), (void*)this);
-
-            SetWindowLongPtr(m_hwindow, GWLP_USERDATA, (LONG_PTR)this);
-
-            if (!m_hwindow)
-                throw Error::PunkInvalidArgumentException(L"Can't create window");
-
-            GetClientRect(m_hwindow, &rect);
-            ShowWindow(m_hwindow, SW_SHOW);
-            UpdateWindow(m_hwindow);
-        }
-    }
+    WindowWin::WindowWin(const WindowDescription& desc)
+    : m_window_description(desc)
+    {}
 
     WindowWin::~WindowWin()
     {
@@ -151,7 +104,7 @@ namespace System {
     {
         RECT rect;;
         if (!GetClientRect(m_hwindow, &rect))
-            throw Error::PunkInvalidArgumentException(L"Can't get window height");
+            throw Error::InvalidArgumentException(L"Can't get window height");
         //GetWindowRect(m_hwindow, &rect);
         return rect.bottom - rect.top;
     }
@@ -460,6 +413,59 @@ namespace System {
 
     void WindowWin::ShowCursor(bool value) {
         ::ShowCursor(value);
+    }
+
+    void WindowWin::InternalCreate() {
+        if (m_window_description.parent_wnd) {
+            m_use_parent_window = true;
+            m_hwindow = m_window_description.parent_wnd;
+        }
+        else {
+            m_use_parent_window = false;
+            WNDCLASS wc;
+            wc.cbClsExtra = 0;
+            wc.cbWndExtra = 0;
+            wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+            wc.hCursor = LoadCursor(0, IDC_ARROW);
+            wc.hIcon = LoadIcon(0, IDI_APPLICATION);
+            wc.hInstance = GetModuleHandle(0);
+            wc.lpfnWndProc = WindowCallBack;
+            wc.lpszClassName = TEXT("Punk Render");
+            wc.lpszMenuName = 0;
+            wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+
+            if (!RegisterClass(&wc))
+                throw Error::InvalidArgumentException(L"Can't register window class");
+
+            RECT rect;
+            rect.left = m_window_description.m_x;
+            rect.right = m_window_description.m_x + m_window_description.m_width;
+            rect.top = m_window_description.m_y;
+            rect.bottom = m_window_description.m_y + m_window_description.m_height;
+
+
+            DWORD style = WS_OVERLAPPEDWINDOW;
+            DWORD styleEx = 0;
+
+            AdjustWindowRectEx(&rect, style, false, styleEx);
+
+            m_hwindow = CreateWindowEx(styleEx, TEXT("Punk Render"), TEXT("Punk Engine"), style,
+                                       0, 0, rect.right-rect.left, rect.bottom-rect.top, 0, 0,
+                                       GetModuleHandle(0), (void*)this);
+
+            SetWindowLongPtr(m_hwindow, GWLP_USERDATA, (LONG_PTR)this);
+
+            if (!m_hwindow)
+                throw Error::InvalidArgumentException(L"Can't create window");
+
+            GetClientRect(m_hwindow, &rect);
+            ShowWindow(m_hwindow, SW_SHOW);
+            UpdateWindow(m_hwindow);
+        }
+    }
+
+    void WindowWin::InternalDestroy() {
+        PostQuitMessage(0);
     }
 }
 PUNK_ENGINE_END

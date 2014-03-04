@@ -5,6 +5,7 @@
 #include "window/module.h"
 #include "input/module.h"
 #include "events/module.h"
+#include "logger/module.h"
 //#include "concurrency/module.h"
 //#include "streaming/module.h"
 //#include "smart_pointers/module.h"

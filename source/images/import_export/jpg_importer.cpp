@@ -385,7 +385,7 @@ namespace Image
         else
         {
             jpeg_destroy_decompress(&cinfo);
-            out_error().Write("Bad image format");
+            System::GetDefaultLogger()->Error("Bad image format");
             return false;
         }
 
@@ -419,7 +419,7 @@ namespace Image
         std::ifstream stream((char*)file.ToUtf8().Data(), std::ios_base::binary);
 		if (!stream.is_open())
 		{
-            out_error().Write(L"Can't open file: " + file);
+            System::GetDefaultLogger()->Error(L"Can't open file: " + file);
 			return false;
 		}
 		Load(stream, this);

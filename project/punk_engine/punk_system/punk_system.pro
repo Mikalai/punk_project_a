@@ -57,15 +57,12 @@ HEADERS += \
     ../../../source/system/time/time_component.h \
     ../../../source/system/time/timer_interface.h \
     ../../../source/system/time/timer.h \
-    ../../../source/system/logger/console_logger.h \
     ../../../source/system/logger/error_logger.h \
     ../../../source/system/logger/file_logger.h \
-    ../../../source/system/logger/logger_component.h \
     ../../../source/system/logger/logger_interface.h \
     ../../../source/system/logger/logger.h \
     ../../../source/system/logger/message_logger.h \
     ../../../source/system/logger/module.h \
-    ../../../source/system/logger/warning_logger.h \
     ../../../source/system/events/mouse_move_event.h \
     ../../../source/system/commands/cmd_create_timer.h \
     ../../../source/system/filesystem/binary_file.h \
@@ -92,7 +89,10 @@ HEADERS += \
     ../../../source/system/streaming/resource_request.h \
     ../../../source/system/streaming/streaming_component.h \
     ../../../source/system/streaming/async_loader_interface.h \
-    ../../../source/system/streaming/streaming_result.h
+    ../../../source/system/streaming/streaming_result.h \
+    ../../../source/system/logger/log_consumer.h \
+    ../../../source/system/logger/default_logger.h \
+    ../../../source/system/logger/console_consumer.h
 
 SOURCES += \
     ../../../source/system/window/win32_window.cpp \
@@ -119,13 +119,10 @@ SOURCES += \
     ../../../source/system/time/clock.cpp \
     ../../../source/system/time/time_component.cpp \
     ../../../source/system/time/timer.cpp \
-    ../../../source/system/logger/console_logger.cpp \
     ../../../source/system/logger/error_logger.cpp \
     ../../../source/system/logger/file_logger.cpp \
-    ../../../source/system/logger/logger_component.cpp \
     ../../../source/system/logger/logger.cpp \
     ../../../source/system/logger/message_logger.cpp \
-    ../../../source/system/logger/warning_logger.cpp \
     ../../../source/system/events/mouse_move_event.cpp \
     ../../../source/system/commands/cmd_create_timer.cpp \
     ../../../source/system/filesystem/binary_file.cpp \
@@ -140,4 +137,7 @@ SOURCES += \
     ../../../source/system/concurrency/thread_pool.cpp \
     ../../../source/system/streaming/async_loader.cpp \
     ../../../source/system/streaming/async_loader_impl.cpp \
-    ../../../source/system/streaming/streaming_component.cpp
+    ../../../source/system/streaming/streaming_component.cpp \
+    ../../../source/system/logger/log_consumer.cpp \
+    ../../../source/system/logger/default_logger.cpp \
+    ../../../source/system/logger/console_consumer.cpp

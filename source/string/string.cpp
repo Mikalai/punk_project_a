@@ -65,6 +65,17 @@ namespace Core {
                 return true;
             }
         }
+        else if (!strcmp(from, "ASCII") && !strcmp(to, "WCHAR_T")) {
+            if (!outp) {
+                *outp_size = MultiByteToWideChar(CP_ACP, 0, (LPCSTR)inp, inp_size, 0, 0) * sizeof(wchar_t);
+                return true;
+            }
+            else {
+                int output_size = (int)(*outp_size);
+                MultiByteToWideChar(CP_ACP, 0, (LPCSTR)inp, inp_size, (LPWSTR)outp, output_size / sizeof(wchar_t));
+                return true;
+            }
+        }
         return false;
 #elif defined __gnu_linux__
         if (!outp)

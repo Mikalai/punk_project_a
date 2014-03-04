@@ -1,16 +1,7 @@
-#ifndef _H_GPU_H
-#define _H_GPU_H
+#ifndef _H_PUNK_GRAPHICS
+#define _H_PUNK_GRAPHICS
 
-#include "common/module.h"
-//#include "opengl/module.h"
-#include "opencl/module.h"
-#include "painter/module.h"
-#include "gpu_config.h"
+#include "error/module.h"
+#include "canvas/module.h"
 
-namespace Gpu
-{
-    extern VideoDriver* Init(const VideoDriverDesc& data);
-    extern void Destroy(VideoDriver* driver);
-}
-
-#endif	//	_H_GPU_H
+#endif  //  _H_PUNK_GRAPHICS

@@ -11,25 +11,25 @@ namespace System {
         public:
             SystemException(const Core::String& msg, std::uint64_t code = 0);
             const Core::String& GetStack() const { return m_stack; }
-            const Core::String& GetMessage() const { return m_message; }
+            const Core::String& Message() const { return m_message; }
         private:
             Core::String m_message;
             Core::String m_stack;
         };
 
-        class PUNK_ENGINE_API PunkInvalidArgumentException : public SystemException {
+        class PUNK_ENGINE_API InvalidArgumentException : public SystemException {
             using SystemException::SystemException;
         };
 
-        class PUNK_ENGINE_API PunkInvalidCastException : public SystemException {
+        class PUNK_ENGINE_API InvalidCastException : public SystemException {
             using SystemException::SystemException;
         };
 
-        class PUNK_ENGINE_API PunkNotInitializedException : public SystemException {
+        class PUNK_ENGINE_API NotInitializedException : public SystemException {
             using SystemException::SystemException;
         };
 
-        class PUNK_ENGINE_API PunkNotImplemented : public SystemException {
+        class PUNK_ENGINE_API NotImplemented : public SystemException {
             using SystemException::SystemException;
         };
 

@@ -148,7 +148,7 @@ namespace System
         // replace new line in the time Core::String. 24 because total length 26 and it is STANDARD
 		buffer[24] = '\0';
         return Core::String(buffer);
-#elif defined __linux__
+#else
         time_t t;
         time(&t);
         tm _tm = *localtime(&t);

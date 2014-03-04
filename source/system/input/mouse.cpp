@@ -27,7 +27,7 @@ namespace System
         : impl(new __private::MouseImpl)
 	{
         CREATE_INSTANCE(Mouse);
-        out_message().Write("Mouse created");
+        GetDefaultLogger()->Info("Mouse created");
 	}
 
     Mouse::~Mouse()
@@ -35,7 +35,7 @@ namespace System
         DESTROY_INSTANCE();
         delete impl;
         impl = nullptr;        
-        out_message().Write("Mouse destroyed");
+        GetDefaultLogger()->Info("Mouse destroyed");
     }
 
     void Mouse::SetButtonState(MouseButtons button, bool state)

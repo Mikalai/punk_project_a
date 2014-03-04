@@ -7,19 +7,17 @@ QMAKE_CXXFLAGS += -std=c++11 -pipe
 
 INCLUDEPATH += ../../../source
 
-CONFIG -= QT
+CONFIG -= qt
 
 TEMPLATE = app
 TARGET = punk_native_window
 
-unix {
 CONFIG(debug, debug|release) {
     LIBS += -L../../../../bin/debug/ -lpunk_error -lpunk_string -lpunk_math -lpunk_core -lpunk_system
     DESTDIR = ../../../../bin/debug
 } else {
     LIBS += -L../../../../bin/release/ -lpunk_error -lpunk_string -lpunk_math -lpunk_core -lpunk_system
     DESTDIR = ../../../../bin/release
-}
 }
 
 SOURCES += \

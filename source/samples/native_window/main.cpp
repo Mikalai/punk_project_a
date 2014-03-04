@@ -1,22 +1,27 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <unistd.h>
-#include "system/module.h"
-#include "core/module.h"
+#include <string/module.h>
+#include <system/module.h>
+#include <core/module.h>
+#include <error/module.h>
 
 using namespace Punk::Engine;
 
-void f(const System::MouseEvent& e) {
-    if (e.leftButton)
-        system("notify-send [\"MouseEvent\"] \"This is a mouse event\"");
+void f(const System::MouseEvent& e) {    
+    System::GetDefaultLogger()->Info(e.ToString());
 }
 
 int main() {
-    f(System::MouseEvent());
-    System::Window* wnd = Core::Acquire<System::Window>("window", "default_window", "window");
-    wnd->OnMouseEvent.Add(f);
-    wnd->Loop();
-    System::IKeyBoard* keyboard = Core::Acquire<System::IKeyBoard>("input", "default_keyboard", "keyboard");
-    Core::Release("input", "default_keyboard");
-    Core::Release("window", "default_window");
+    try {
+        f(System::MouseEvent());
+        System::WindowDescription desc;
+        auto wnd = System::CreateRootWindow(desc);
+        wnd->SubscribeMouseEvent(f);
+        wnd->Open();
+        wnd->Loop();
+        delete wnd;
+    }
+    catch(System::Error::SystemException& e) {
+        MessageBoxW(0, (LPCWSTR)e.Message().ToWchar().Data(), L"Error", MB_OK|MB_ICONERROR);
+    }
 }

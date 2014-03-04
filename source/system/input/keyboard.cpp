@@ -3,52 +3,42 @@
 #include <memory.h>
 
 PUNK_ENGINE_BEGIN
-namespace System
-{
+namespace System {
     Core::Rtti Keyboard::Type {"Punk.Engine.System.Keyboard", typeid(Keyboard).hash_code(), {&Core::Object::Type}};
 
-    struct KeyboardImpl
-    {
-        KeyboardImpl()
-        {
+    struct KeyboardImpl {
+        KeyboardImpl() {
             memset(m_keys, 0, sizeof(m_keys));
         }
-
         bool m_keys[256];
     };
 
 	Keyboard::Keyboard() 
-        : impl(new KeyboardImpl)
-    {
+        : impl(new KeyboardImpl) {
         CREATE_INSTANCE(Keyboard);
-        OUT_MESSAGE("Keyboard created");
+        GetDefaultLogger()->Info("Keyboard created");
     }
 
-    Keyboard::~Keyboard()
-    {
+    Keyboard::~Keyboard() {
         DESTROY_INSTANCE();
         delete impl;
         impl = nullptr;
-        OUT_MESSAGE("Keyboard destroyed");
+        GetDefaultLogger()->Info("Keyboard destroyed");
     }
 
-	bool& Keyboard::operator[] (int key)
-	{
+    bool& Keyboard::operator[] (int key) {
         return impl->m_keys[key];
 	}
 
-	const bool& Keyboard::operator[] (int key) const
-	{
+    const bool& Keyboard::operator[] (int key) const {
         return impl->m_keys[key];
 	}
 
-	void Keyboard::SetKeyState(int key, bool state)
-	{
+	void Keyboard::SetKeyState(int key, bool state)	{
         impl->m_keys[key] = state;
 	}
 
-	bool Keyboard::GetKeyState(int key) const
-	{		
+    bool Keyboard::GetKeyState(int key) const {
         return impl->m_keys[key];
 	}
 
@@ -59,8 +49,7 @@ namespace System
         return keyboard;
     }
 
-    bool (*Keyboard::GetKeyStates())[256]
-    {
+    bool (*Keyboard::GetKeyStates())[256] {
         return &impl->m_keys;
     }
 }

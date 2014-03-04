@@ -51,8 +51,17 @@ SOURCES += \
     ../source/tests/punk/engine/math/aabb_test.cpp
 
 
+CONFIG(debug, debug|release) {
+    DESTDIR = ../../../../bin/debug
+    LIBDIR = ../../../../bin/debug
+}
+else {
+    DESTDIR = ../../../../bin/release
+    LIBDIR = ../../../../bin/release
+}
+
 win32 {
-    INCLUDEPATH += D:\sdk\cppunit-1.12.1\include\
+    LIBS += -L$${LIBDIR} -lpunk_error -lpunk_string -lpunk_math -lpunk_graphics -lpunk_image -lpunk_system
 }
 
 unix {

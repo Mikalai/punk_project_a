@@ -9,17 +9,13 @@ PUNK_ENGINE_BEGIN
 namespace Core { class String; }
 namespace System
 {
+    LRESULT CALLBACK WindowCallBack(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
     class PUNK_ENGINE_API WindowWin : public Window
     {
     public:
-        WindowWin(const WindowDesc& desc = WindowDesc());
-        ~WindowWin();
-
-        Core::ActionSlot<const WindowResizeEvent&> OnResizeEvent;
-        Core::ActionSlot<const KeyEvent&> OnKeyEvent;
-        Core::ActionSlot<const MouseEvent&> OnMouseEvent;
-        Core::ActionSlot<const MouseHooverEvent&> OnMouseHooverEvent;
-        Core::ActionSlot<const MouseWheelEvent&> OnMouseWheelEvent;
+        WindowWin(const WindowDescription& desc = WindowDescription());
+        ~WindowWin();        
 
         int GetDesktopWidth() const;
         int GetDesktopHeight() const;
@@ -39,10 +35,17 @@ namespace System
         void ShowCursor(bool value);
         operator HWND ();
 
+    protected:
+
+        void InternalCreate() override;
+        void InternalDestroy() override;
+
     private:
         HWND m_hwindow;
         bool m_use_parent_window;
+        WindowDescription m_window_description;
 
+        friend LRESULT CALLBACK WindowCallBack(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
     };
 }
 PUNK_ENGINE_END
