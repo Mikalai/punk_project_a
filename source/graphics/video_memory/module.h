@@ -1,0 +1,6 @@
+#ifndef _H_PUNK_OPENGL_VIDEO_MEMORY_MODULE
+#define _H_PUNK_OPENGL_VIDEO_MEMORY_MODULE
+
+#include "ivideo_memory.h"
+
+#endif	//	_H_PUNK_OPENGL_VIDEO_MEMORY_MODULE

@@ -1,15 +1,21 @@
+#include <graphics/texture/module.h>
+#include <graphics/video_driver/module.h>
+#include "gl_texture_convert.h"
 #include "gl_texture2d_array.h"
-#include "texture_convert.h"
-#include "../../common/texture/module.h"
-#include "../driver/module.h"
 
-namespace Gpu
-{
-    namespace OpenGL
-    {
-        Texture2DArrayImpl::Texture2DArrayImpl(int width, int height, int size, ImageModule::ImageFormat internal_format,
-                                               ImageModule::ImageFormat format, ImageModule::DataType type, const void *data,
-                                               bool use_mipmaps, GlVideoDriver_3_3 *driver)
+PUNK_ENGINE_BEGIN
+namespace Graphics {
+    namespace OpenGL {
+
+        GlTexture2DArray::GlTexture2DArray(std::uint32_t width,
+                                           std::uint32_t height,
+                                           std::uint32_t size,
+                                           Image::ImageFormat internal_format,
+                                           Image::ImageFormat format,
+                                           Image::DataType type,
+                                           const void* data,
+                                           bool use_mipmaps,
+                                           IVideoDriver* driver)
             : m_video_driver(driver)
             , m_width(width)
             , m_height(height)
@@ -19,91 +25,96 @@ namespace Gpu
             , m_type(Convert(type))
             , m_use_mip_maps(use_mipmaps)
             , m_texture_id(0)
-            , m_slot(0)
-        {
+            , m_slot(0) {
             GL_CALL(glGenTextures(1, &m_texture_id));
             Bind();
             GL_CALL(glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, m_internal_format, m_width, m_height, m_depth, 0, m_format, m_type, data));
             Unbind();
         }
 
-        Texture2DArrayImpl::~Texture2DArrayImpl()
-        {
+        GlTexture2DArray::~GlTexture2DArray() {
             GL_CALL(glDeleteTextures(1, &m_texture_id));
             m_texture_id = 0;
         }
 
-        bool Texture2DArrayImpl::IsValid() const
-        {
+        bool GlTexture2DArray::IsValid() const {
             return m_texture_id != 0;
         }
 
-        size_t Texture2DArrayImpl::GetMemoryUsage() const
-        {
+        std::uint32_t GlTexture2DArray::GetMemoryUsage() const {
             return m_width * m_height * m_depth * 4;    //  TODO: Should be something better
         }
 
-        void Texture2DArrayImpl::SetMinFilter(TextureFilter value)
-        {
+        void GlTexture2DArray::SetMinFilter(TextureFilter value) {
             Bind();
             GL_CALL(glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, Convert(value)));
             Unbind();
         }
 
-        void Texture2DArrayImpl::SetMagFilter(TextureFilter value)
-        {
+        void GlTexture2DArray::SetMagFilter(TextureFilter value) {
             Bind();
             GL_CALL(glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, Convert(value)));
             Unbind();
         }
 
-        void Texture2DArrayImpl::SetWrapMode(TextureWrapDirection dir, TextureWrapMode mode)
-        {
+        void GlTexture2DArray::SetWrapMode(TextureWrapDirection dir, TextureWrapMode mode) {
             Bind();
             GL_CALL(glTexParameteri(GL_TEXTURE_2D_ARRAY, Convert(dir), Convert(mode)));
             Unbind();
         }
 
-        void Texture2DArrayImpl::SetCompareFunction(TextureCompareFunc value)
-        {
+        void GlTexture2DArray::SetCompareFunction(TextureCompareFunc value) {
             Bind();
             GL_CALL(glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_COMPARE_FUNC, Convert(value)));
             Unbind();
         }
 
-        void Texture2DArrayImpl::SetCompareMode(TextureCompareMode value)
+        void GlTexture2DArray::SetCompareMode(TextureCompareMode value)
         {
             Bind();
             GL_CALL(glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_COMPARE_MODE, Convert(value)));
             Unbind();
         }
 
-        void Texture2DArrayImpl::Bind()
+        void GlTexture2DArray::Bind()
         {
             GL_CALL(glBindTexture(GL_TEXTURE_2D_ARRAY, m_texture_id));
         }
 
-        void Texture2DArrayImpl::Bind(int slot)
+        void GlTexture2DArray::Bind(int slot)
         {
             m_slot = slot;
             GL_CALL(glActiveTexture(GL_TEXTURE0 + m_slot));
             Bind();
         }
 
-        void Texture2DArrayImpl::Unbind()
+        void GlTexture2DArray::Unbind()
         {
             GL_CALL(glActiveTexture(GL_TEXTURE0 + m_slot));
             GL_CALL(glBindTexture(GL_TEXTURE_2D_ARRAY, 0));
         }
 
-        VideoDriver* Texture2DArrayImpl::GetVideoDriver()
+        IVideoDriver* GlTexture2DArray::GetVideoDriver()
         {
             return m_video_driver;
         }
 
-        GLuint Texture2DArrayImpl::GetId() const
+        GLuint GlTexture2DArray::GetId() const
         {
             return m_texture_id;
         }
     }
+
+    namespace Constructor {
+        extern "C" PUNK_ENGINE_API ITexture2DArray* CreateTexture2DArray(std::uint32_t width, std::uint32_t height, std::uint32_t size, Image::ImageFormat internal_format, Image::ImageFormat format, Image::DataType type, const void *data, bool use_mipmaps, IVideoDriver *driver) {
+            return new OpenGL::GlTexture2DArray(width, height, size, internal_format, format, type, data, use_mipmaps, driver);
+        }
+
+        extern "C" PUNK_ENGINE_API void DestroyTexture2DArray(ITexture2DArray* value) {
+            OpenGL::GlTexture2DArray* texture = dynamic_cast<OpenGL::GlTexture2DArray*>(value);
+            delete texture;
+        }
+    }
 }
+PUNK_ENGINE_END
+

@@ -20,5 +20,4 @@ CONFIG(debug, debug|release) {
     DESTDIR = ../../../../bin/release
 }
 
-SOURCES += \
-    ../../../source/samples/simple_canvas/main.cpp
+SOURCES += ../../../source/samples/simple_canvas/main.cpp

@@ -1,9 +1,9 @@
+#include <graphics/opengl/module.h>
 #include "gl_exceptions.h"
-#include "../../../../../system/errors/module.h"
 #include "gl_error_check.h"
-#include "../extensions.h"
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
 	namespace OpenGL
 	{
@@ -47,3 +47,4 @@ namespace Gpu
 		}
 	}
 }
+PUNK_ENGINE_END

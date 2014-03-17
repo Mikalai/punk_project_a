@@ -4,7 +4,7 @@
 #include "../../common/blending/module.h"
 #include "extensions.h"
 
-namespace Gpu
+namespace Graphics
 {
 	namespace OpenGL
 	{

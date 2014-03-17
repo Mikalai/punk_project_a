@@ -1,7 +1,10 @@
 #ifndef TEXTURE_FILTER_H
 #define TEXTURE_FILTER_H
 
-namespace Gpu
+#include <config.h>
+
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
     enum class TextureFilter { Nearest,
                                Linear,
@@ -11,5 +14,6 @@ namespace Gpu
                                LinearMipmapLinear
                              };
 }
+PUNK_ENGINE_END
 
 #endif // TEXTURE_FILTER_H

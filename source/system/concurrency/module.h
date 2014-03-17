@@ -1,6 +1,3 @@
-#ifdef USE_SYSTEM_MODULE
-#ifdef USE_CONCURRENCY_COMPONENTS
-
 #ifndef _H_SYSTEM_CONCURRENCY_MODULE
 #define _H_SYSTEM_CONCURRENCY_MODULE
 
@@ -11,5 +8,3 @@
 #include "process.h"
 
 #endif	//	_H_SYSTEM_CONCURRENCY_MODULE
-#endif
-#endif

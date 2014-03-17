@@ -1,10 +1,11 @@
 #ifndef _H_PUNK_GPU_MATERIAL
 #define _H_PUNK_GPU_MATERIAL
 
-#include "../../../config.h"
-#include "../../../math/vec4.h"
+#include <config.h>
+#include <math/vec4.h>
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
 	class PUNK_ENGINE_API Material
 	{	
@@ -32,5 +33,6 @@ namespace Gpu
 		float m_darkness;
 	};
 }
+PUNK_ENGINE_END
 
 #endif	//	H_PUNK_GPU_MATERIAL

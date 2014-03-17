@@ -1107,7 +1107,7 @@ gtStripSeparate(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
 #define	PACKW4(r,g,b,a)	\
 	((uint32)W2B(r)|((uint32)W2B(g)<<8)|((uint32)W2B(b)<<16)|((uint32)W2B(a)<<24))
 
-#define	DECLAREContigPutFunc(name) \
+#define	DECLAREContiGraphicstFunc(name) \
 static void name(\
     TIFFRGBAImage* img, \
     uint32* cp, \
@@ -1120,7 +1120,7 @@ static void name(\
 /*
  * 8-bit palette => colormap/RGB
  */
-DECLAREContigPutFunc(put8bitcmaptile)
+DECLAREContiGraphicstFunc(put8bitcmaptile)
 {
     uint32** PALmap = img->PALmap;
     int samplesperpixel = img->samplesperpixel;
@@ -1140,7 +1140,7 @@ DECLAREContigPutFunc(put8bitcmaptile)
 /*
  * 4-bit palette => colormap/RGB
  */
-DECLAREContigPutFunc(put4bitcmaptile)
+DECLAREContiGraphicstFunc(put4bitcmaptile)
 {
     uint32** PALmap = img->PALmap;
 
@@ -1157,7 +1157,7 @@ DECLAREContigPutFunc(put4bitcmaptile)
 /*
  * 2-bit palette => colormap/RGB
  */
-DECLAREContigPutFunc(put2bitcmaptile)
+DECLAREContiGraphicstFunc(put2bitcmaptile)
 {
     uint32** PALmap = img->PALmap;
 
@@ -1174,7 +1174,7 @@ DECLAREContigPutFunc(put2bitcmaptile)
 /*
  * 1-bit palette => colormap/RGB
  */
-DECLAREContigPutFunc(put1bitcmaptile)
+DECLAREContiGraphicstFunc(put1bitcmaptile)
 {
     uint32** PALmap = img->PALmap;
 
@@ -1191,7 +1191,7 @@ DECLAREContigPutFunc(put1bitcmaptile)
 /*
  * 8-bit greyscale => colormap/RGB
  */
-DECLAREContigPutFunc(putgreytile)
+DECLAREContiGraphicstFunc(putgreytile)
 {
     int samplesperpixel = img->samplesperpixel;
     uint32** BWmap = img->BWmap;
@@ -1211,7 +1211,7 @@ DECLAREContigPutFunc(putgreytile)
 /*
  * 8-bit greyscale with associated alpha => colormap/RGBA
  */
-DECLAREContigPutFunc(putagreytile)
+DECLAREContiGraphicstFunc(putagreytile)
 {
     int samplesperpixel = img->samplesperpixel;
     uint32** BWmap = img->BWmap;
@@ -1231,7 +1231,7 @@ DECLAREContigPutFunc(putagreytile)
 /*
  * 16-bit greyscale => colormap/RGB
  */
-DECLAREContigPutFunc(put16bitbwtile)
+DECLAREContiGraphicstFunc(put16bitbwtile)
 {
     int samplesperpixel = img->samplesperpixel;
     uint32** BWmap = img->BWmap;
@@ -1256,7 +1256,7 @@ DECLAREContigPutFunc(put16bitbwtile)
 /*
  * 1-bit bilevel => colormap/RGB
  */
-DECLAREContigPutFunc(put1bitbwtile)
+DECLAREContiGraphicstFunc(put1bitbwtile)
 {
     uint32** BWmap = img->BWmap;
 
@@ -1273,7 +1273,7 @@ DECLAREContigPutFunc(put1bitbwtile)
 /*
  * 2-bit greyscale => colormap/RGB
  */
-DECLAREContigPutFunc(put2bitbwtile)
+DECLAREContiGraphicstFunc(put2bitbwtile)
 {
     uint32** BWmap = img->BWmap;
 
@@ -1290,7 +1290,7 @@ DECLAREContigPutFunc(put2bitbwtile)
 /*
  * 4-bit greyscale => colormap/RGB
  */
-DECLAREContigPutFunc(put4bitbwtile)
+DECLAREContiGraphicstFunc(put4bitbwtile)
 {
     uint32** BWmap = img->BWmap;
 
@@ -1307,7 +1307,7 @@ DECLAREContigPutFunc(put4bitbwtile)
 /*
  * 8-bit packed samples, no Map => RGB
  */
-DECLAREContigPutFunc(putRGBcontig8bittile)
+DECLAREContiGraphicstFunc(putRGBcontig8bittile)
 {
     int samplesperpixel = img->samplesperpixel;
 
@@ -1326,7 +1326,7 @@ DECLAREContigPutFunc(putRGBcontig8bittile)
  * 8-bit packed samples => RGBA w/ associated alpha
  * (known to have Map == NULL)
  */
-DECLAREContigPutFunc(putRGBAAcontig8bittile)
+DECLAREContiGraphicstFunc(putRGBAAcontig8bittile)
 {
     int samplesperpixel = img->samplesperpixel;
 
@@ -1345,7 +1345,7 @@ DECLAREContigPutFunc(putRGBAAcontig8bittile)
  * 8-bit packed samples => RGBA w/ unassociated alpha
  * (known to have Map == NULL)
  */
-DECLAREContigPutFunc(putRGBUAcontig8bittile)
+DECLAREContiGraphicstFunc(putRGBUAcontig8bittile)
 {
 	int samplesperpixel = img->samplesperpixel;
 	(void) y;
@@ -1370,7 +1370,7 @@ DECLAREContigPutFunc(putRGBUAcontig8bittile)
 /*
  * 16-bit packed samples => RGB
  */
-DECLAREContigPutFunc(putRGBcontig16bittile)
+DECLAREContiGraphicstFunc(putRGBcontig16bittile)
 {
 	int samplesperpixel = img->samplesperpixel;
 	uint16 *wp = (uint16 *)pp;
@@ -1392,7 +1392,7 @@ DECLAREContigPutFunc(putRGBcontig16bittile)
  * 16-bit packed samples => RGBA w/ associated alpha
  * (known to have Map == NULL)
  */
-DECLAREContigPutFunc(putRGBAAcontig16bittile)
+DECLAREContiGraphicstFunc(putRGBAAcontig16bittile)
 {
 	int samplesperpixel = img->samplesperpixel;
 	uint16 *wp = (uint16 *)pp;
@@ -1415,7 +1415,7 @@ DECLAREContigPutFunc(putRGBAAcontig16bittile)
  * 16-bit packed samples => RGBA w/ unassociated alpha
  * (known to have Map == NULL)
  */
-DECLAREContigPutFunc(putRGBUAcontig16bittile)
+DECLAREContiGraphicstFunc(putRGBUAcontig16bittile)
 {
 	int samplesperpixel = img->samplesperpixel;
 	uint16 *wp = (uint16 *)pp;
@@ -1443,7 +1443,7 @@ DECLAREContigPutFunc(putRGBUAcontig16bittile)
  *
  * NB: The conversion of CMYK->RGB is *very* crude.
  */
-DECLAREContigPutFunc(putRGBcontig8bitCMYKtile)
+DECLAREContiGraphicstFunc(putRGBcontig8bitCMYKtile)
 {
     int samplesperpixel = img->samplesperpixel;
     uint16 r, g, b, k;
@@ -1468,7 +1468,7 @@ DECLAREContigPutFunc(putRGBcontig8bitCMYKtile)
  *
  * NB: The conversion of CMYK->RGB is *very* crude.
  */
-DECLAREContigPutFunc(putRGBcontig8bitCMYKMaptile)
+DECLAREContiGraphicstFunc(putRGBcontig8bitCMYKMaptile)
 {
     int samplesperpixel = img->samplesperpixel;
     TIFFRGBValue* Map = img->Map;
@@ -1637,7 +1637,7 @@ DECLARESepPutFunc(putRGBUAseparate16bittile)
 /*
  * 8-bit packed CIE L*a*b 1976 samples => RGB
  */
-DECLAREContigPutFunc(putcontig8bitCIELab)
+DECLAREContiGraphicstFunc(putcontig8bitCIELab)
 {
 	float X, Y, Z;
 	uint32 r, g, b;
@@ -1748,7 +1748,7 @@ static void putcontig8bitYCbCrGenericTile(
 /*
  * 8-bit packed YCbCr samples w/ 4,4 subsampling => RGB
  */
-DECLAREContigPutFunc(putcontig8bitYCbCr44tile)
+DECLAREContiGraphicstFunc(putcontig8bitYCbCr44tile)
 {
     uint32* cp1 = cp+w+toskew;
     uint32* cp2 = cp1+w+toskew;
@@ -1845,7 +1845,7 @@ DECLAREContigPutFunc(putcontig8bitYCbCr44tile)
 /*
  * 8-bit packed YCbCr samples w/ 4,2 subsampling => RGB
  */
-DECLAREContigPutFunc(putcontig8bitYCbCr42tile)
+DECLAREContiGraphicstFunc(putcontig8bitYCbCr42tile)
 {
     uint32* cp1 = cp+w+toskew;
     int32 incr = 2*toskew+w;
@@ -1923,7 +1923,7 @@ DECLAREContigPutFunc(putcontig8bitYCbCr42tile)
 /*
  * 8-bit packed YCbCr samples w/ 4,1 subsampling => RGB
  */
-DECLAREContigPutFunc(putcontig8bitYCbCr41tile)
+DECLAREContiGraphicstFunc(putcontig8bitYCbCr41tile)
 {
     (void) y;
     /* XXX adjust fromskew */
@@ -1967,7 +1967,7 @@ DECLAREContigPutFunc(putcontig8bitYCbCr41tile)
 /*
  * 8-bit packed YCbCr samples w/ 2,2 subsampling => RGB
  */
-DECLAREContigPutFunc(putcontig8bitYCbCr22tile)
+DECLAREContiGraphicstFunc(putcontig8bitYCbCr22tile)
 {
 	uint32* cp2;
 	int32 incr = 2*toskew+w;
@@ -2025,7 +2025,7 @@ DECLAREContigPutFunc(putcontig8bitYCbCr22tile)
 /*
  * 8-bit packed YCbCr samples w/ 2,1 subsampling => RGB
  */
-DECLAREContigPutFunc(putcontig8bitYCbCr21tile)
+DECLAREContiGraphicstFunc(putcontig8bitYCbCr21tile)
 {
 	(void) y;
 	fromskew = (fromskew * 4) / 2;
@@ -2061,7 +2061,7 @@ DECLAREContigPutFunc(putcontig8bitYCbCr21tile)
 /*
  * 8-bit packed YCbCr samples w/ 1,2 subsampling => RGB
  */
-DECLAREContigPutFunc(putcontig8bitYCbCr12tile)
+DECLAREContiGraphicstFunc(putcontig8bitYCbCr12tile)
 {
 	uint32* cp2;
 	int32 incr = 2*toskew+w;
@@ -2099,7 +2099,7 @@ DECLAREContigPutFunc(putcontig8bitYCbCr12tile)
 /*
  * 8-bit packed YCbCr samples w/ no subsampling => RGB
  */
-DECLAREContigPutFunc(putcontig8bitYCbCr11tile)
+DECLAREContiGraphicstFunc(putcontig8bitYCbCr11tile)
 {
 	(void) y;
 	fromskew *= 3;

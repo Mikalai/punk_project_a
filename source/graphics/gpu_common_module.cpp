@@ -1,8 +1,8 @@
 //#include "module.h"
 
-//namespace Gpu
+//namespace Graphics
 //{
-//    bool GPU_COMMON_INIT(const Config&)
+//    bool Graphics_COMMON_INIT(const Config&)
 //	{
 //		return true;
 //	}

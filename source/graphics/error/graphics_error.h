@@ -1,5 +1,5 @@
-#ifndef _H_PUNK_GPU_EXCPETION
-#define _H_PUNK_GPU_EXCPETION
+#ifndef _H_PUNK_Graphics_EXCPETION
+#define _H_PUNK_Graphics_EXCPETION
 
 #include <system/errors/exceptions.h>
 
@@ -17,21 +17,17 @@ namespace Graphics {
 
         class PUNK_ENGINE_API SetPixelFormatError : public GraphicsException {
             using GraphicsException::GraphicsException;
-        };
+        };        
 
-        class PUNK_ENGINE_API CreateOpenGLContextError : public GraphicsException {
+        class PUNK_ENGINE_API CantSetFullscreenError : public GraphicsException {
             using GraphicsException::GraphicsException;
-        };
+        };        
 
-        class PUNK_ENGINE_API OpenGLContextMakeCurrentError : public GraphicsException {
-            using GraphicsException::GraphicsException;
-        };
-
-        class PUNK_ENGINE_API OpenGLCreateContextError : public GraphicsException {
+        class PUNK_ENGINE_API InvalidFrameBufferTarget : public GraphicsException {
             using GraphicsException::GraphicsException;
         };
     }
 }
 PUNK_ENGINE_END
 
-#endif	//	_H_PUNK_GPU_EXCPETION
+#endif	//	_H_PUNK_Graphics_EXCPETION

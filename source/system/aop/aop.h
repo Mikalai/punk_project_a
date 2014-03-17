@@ -2,8 +2,9 @@
 #define _H_PUNK_SYSTEM_ASPECT_ORIENTED_CLASS
 
 #include <map>
-#include "../errors/module.h"
+#include <system/errors/module.h>
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
 	template<class T, typename Key>
@@ -33,7 +34,7 @@ namespace System
 	void Aspect<T, Key>::add(Key key, T value) 
 	{ 
         if (m_items.find(key) != m_items.end())
-            throw PunkInvalidArgumentException(L"Item already in collection");
+            throw Error::SystemException(L"Item already in collection");
 		m_items[key]  = value; 
 	}
 
@@ -88,7 +89,7 @@ namespace System
     inline typename Aspect<T, Key>::iterator Aspect<T, Key>::_begin()
 	{ 
 		if (!m_init)
-			throw PunkNotInitializedException(L"Aspects were not initialized");
+            throw Error::SystemException(L"Aspects were not initialized");
         return m_items.begin();
 	}
 	
@@ -96,12 +97,13 @@ namespace System
     inline typename Aspect<T, Key>::iterator Aspect<T, Key>::_end()
 	{ 
 		if (!m_init)
-			throw PunkNotInitializedException(L"Aspects were not initialized");
+            throw Error::SystemException(L"Aspects were not initialized");
 		return m_items.end(); 
 	}
 
 	template<class T, typename Key> typename Aspect<T, Key>::Collection Aspect<T, Key>::m_items;
 	template<class T, typename Key> bool Aspect<T, Key>::m_init = false;
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_SYSTEM_ASPECT_ORIENTED_CLASS

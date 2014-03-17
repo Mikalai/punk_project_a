@@ -1,6 +1,6 @@
-#ifndef _H_PUNK_GPU_ERROR_MODULE
-#define _H_PUNK_GPU_ERROR_MODULE
+#ifndef _H_PUNK_Graphics_ERROR_MODULE
+#define _H_PUNK_Graphics_ERROR_MODULE
 
 #include "graphics_error.h"
 
-#endif	//	_H_PUNK_GPU_ERROR_MODULE
+#endif	//	_H_PUNK_Graphics_ERROR_MODULE

@@ -1,26 +1,30 @@
 #ifndef _H_PUNK_OPENGL_POINTS_VAO
 #define _H_PUNK_OPENGL_POINTS_VAO
 
-#include "../renderable.h"
-#include "../vertex.h"
+#include "renderable.h"
+#include "vertex.h"
+#include "ipoints.h"
 
 #define CreatePointInterface(VertexType) \
 template<>\
-class PUNK_ENGINE_API Points<VertexType> : public Renderable {\
+class PUNK_ENGINE_LOCAL Points<VertexType> : public Renderable, public IPoints {\
 public:\
-    Points<VertexType>(VideoDriver* driver);\
+    Points<VertexType>(IVideoDriver* driver);\
     virtual ~Points<VertexType>();\
-    void Cook(const std::vector<VertexType>& value);\
-    virtual void Bind(int64_t) override;\
+    void Cook(const IVertexArray* value);\
+    virtual void Bind(std::int64_t) override;\
     virtual void Unbind() override;\
     virtual void Render() override;\
+    virtual std::uint64_t GetMemoryUsage() override; \
+    virtual bool HasData() const override; \
 private:\
     Renderable* impl;\
 }
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
-    class VideoDriver;
+    class IVideoDriver;
 
     template<typename VertexType> class Points;
 
@@ -53,5 +57,6 @@ namespace Gpu
 #undef VERTEX_1
 
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_OPENGL_POINTS_VAO

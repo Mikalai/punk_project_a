@@ -1,13 +1,14 @@
 #ifndef _H_PUNK_GPU_VERTEX
 #define _H_PUNK_GPU_VERTEX
 
-#include <stddef.h>
-
-#include "../../config.h"
-#include "../../math/vec4.h"
+#include <cstdint>
+#include <cstddef>
+#include <config.h>
+#include <math/vec4.h>
 #include "vertex_component.h"
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
 	/**
 		Ubervertex:
@@ -32,12 +33,12 @@ namespace Gpu
 
 		Math::vec4 m_position;
 
-		static constexpr int64_t Value()
+        static constexpr std::int64_t Value()
 		{
 			return VertexComponent::Position::Value();
 		}
 
-		static constexpr size_t PositionOffset() { return offsetof(T, m_position); }
+        static constexpr size_t PositionOffset() { return offsetof(T, m_position); }
 	};
 
 	template<> struct Vertex<
@@ -51,14 +52,14 @@ namespace Gpu
 		Math::vec4 m_position;
 		Math::vec4 m_texture0;
 
-		static constexpr int64_t Value()
+        static constexpr std::int64_t Value()
 		{
 			return VertexComponent::Position::Value()
 				| VertexComponent::Texture0::Value();
 		}
 
-		static constexpr size_t PositionOffset() { return offsetof(T, m_position); }
-		static constexpr size_t Texture0Offset() { return offsetof(T, m_texture0); }
+        static constexpr std::size_t PositionOffset() { return offsetof(T, m_position); }
+        static constexpr std::size_t Texture0Offset() { return offsetof(T, m_texture0); }
 	};
 
 	template<> struct Vertex<
@@ -73,7 +74,7 @@ namespace Gpu
 		Math::vec4 m_position;
 		Math::vec4 m_normal;
 
-		static constexpr int64_t Value()
+        static constexpr std::int64_t Value()
 		{
 			return VertexComponent::Position::Value()
 				| VertexComponent::Normal::Value();
@@ -94,7 +95,7 @@ namespace Gpu
 		Math::vec4 m_position;
 		Math::vec4 m_color;
 
-		static constexpr int64_t Value()
+        static constexpr std::int64_t Value()
 		{
 			return VertexComponent::Position::Value()
 				| VertexComponent::Color::Value();
@@ -118,7 +119,7 @@ namespace Gpu
 		Math::vec4 m_bone_id;
 		Math::vec4 m_weight;
 
-		static constexpr int64_t Value()
+        static constexpr std::int64_t Value()
 		{
 			return VertexComponent::Position::Value()
 				| VertexComponent::BoneID::Value()
@@ -145,7 +146,7 @@ namespace Gpu
 		Math::vec4 m_normal;
 		Math::vec4 m_texture0;
 
-		static constexpr int64_t Value()
+        static constexpr std::int64_t Value()
 		{
 			return VertexComponent::Position::Value()
 				| VertexComponent::Normal::Value()
@@ -171,7 +172,7 @@ namespace Gpu
 		Math::vec4 m_color;
 		Math::vec4 m_texture0;
 
-		static constexpr int64_t Value()
+        static constexpr std::int64_t Value()
 		{
 			return VertexComponent::Position::Value()
 				| VertexComponent::Color::Value()
@@ -200,7 +201,7 @@ namespace Gpu
 		Math::vec4 m_texture0;
 		Math::vec4 m_flag;
 
-		static constexpr int64_t Value()
+        static constexpr std::int64_t Value()
 		{
 			return VertexComponent::Position::Value()
 				| VertexComponent::Normal::Value()
@@ -232,7 +233,7 @@ namespace Gpu
 		Math::vec4 m_bone_id;
 		Math::vec4 m_bone_weight;
 
-		static constexpr int64_t Value()
+        static constexpr std::int64_t Value()
 		{
 			return VertexComponent::Position::Value()
 				| VertexComponent::Texture0::Value()
@@ -264,7 +265,7 @@ namespace Gpu
 		Math::vec4 m_bone_id;
 		Math::vec4 m_bone_weight;
 
-		static constexpr int64_t Value()
+        static constexpr std::int64_t Value()
 		{
 			return VertexComponent::Position::Value()
 				| VertexComponent::Normal::Value()
@@ -296,7 +297,7 @@ namespace Gpu
 		Math::vec4 m_flag;
 		Math::vec4 m_color;
 
-		static constexpr int64_t Value()
+        static constexpr std::int64_t Value()
 		{
 			return VertexComponent::Position::Value()
 				| VertexComponent::Texture0::Value()
@@ -330,7 +331,7 @@ namespace Gpu
 		Math::vec4 m_bitangent;
 		Math::vec4 m_texture0;
 
-		static constexpr int64_t Value()
+        static constexpr std::int64_t Value()
 		{
 			return VertexComponent::Position::Value()
 				| VertexComponent::Normal::Value()
@@ -366,7 +367,7 @@ namespace Gpu
 		Math::vec4 m_bones_id;
 		Math::vec4 m_bone_weights;
 
-		static constexpr int64_t Value()
+        static constexpr std::int64_t Value()
 		{
 			return VertexComponent::Position::Value()
 				| VertexComponent::Normal::Value()
@@ -408,7 +409,7 @@ namespace Gpu
 		Math::vec4 m_bones_id;
 		Math::vec4 m_bone_weights;
 
-		static constexpr int64_t Value()
+        static constexpr std::int64_t Value()
 		{
 			return VertexComponent::Position::Value()
 				| VertexComponent::Normal::Value()
@@ -427,7 +428,7 @@ namespace Gpu
 		static constexpr size_t BoneIDOffset() { return offsetof(T, m_bones_id); }
 		static constexpr size_t BoneWeightOffset() { return offsetof(T, m_bone_weights); }
 	};
-
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_GPU_VERTEX

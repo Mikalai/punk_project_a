@@ -161,13 +161,13 @@ namespace Image
 
     const Image Image::ToAlpha() const
     {
-        if (GetImageFormat() == IMAGE_FORMAT_ALPHA)
+        if (GetImageFormat() == ImageFormat::ALPHA)
             return *this;
-        if (GetImageFormat() == IMAGE_FORMAT_RED)
+        if (GetImageFormat() == ImageFormat::RED)
             return *this;
-        if (GetImageFormat() == IMAGE_FORMAT_RGBA)
+        if (GetImageFormat() == ImageFormat::RGBA)
         {
-            Image result(GetWidth(), GetHeight(), 1, GetComponentType(), IMAGE_FORMAT_ALPHA);
+            Image result(GetWidth(), GetHeight(), 1, GetComponentType(), ImageFormat::ALPHA);
             ConvertRGBAtoAlpha(*this, result);
             return result;
         }
@@ -175,11 +175,11 @@ namespace Image
 
     const Image Image::ToRGBA() const
     {
-        if (GetImageFormat() == IMAGE_FORMAT_RGBA)
+        if (GetImageFormat() == ImageFormat::RGBA)
             return *this;
-        if (GetImageFormat() == IMAGE_FORMAT_RED || GetImageFormat() == IMAGE_FORMAT_ALPHA)
+        if (GetImageFormat() == ImageFormat::RED || GetImageFormat() == ImageFormat::ALPHA)
         {
-            Image result(GetWidth(), GetHeight(), 4, GetComponentType(), IMAGE_FORMAT_RGBA);
+            Image result(GetWidth(), GetHeight(), 4, GetComponentType(), ImageFormat::RGBA);
             ConvertAlphaToRGBA(*this, result);
             return result;
         }

@@ -109,7 +109,7 @@ namespace Image
             return false;
         }
 
-        image->Create(width, height, 4, ComponentType::UnsignedByte, ImageFormat::IMAGE_FORMAT_RGBA);
+        image->Create(width, height, 4, ComponentType::UnsignedByte, ImageFormat::ImageFormat::RGBA);
         memcpy(image->GetData(), raster, npixels*sizeof(uint32));
 
         _TIFFfree(raster);

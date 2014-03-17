@@ -1,27 +1,28 @@
 #ifndef RENDER_BUFFER_H
 #define RENDER_BUFFER_H
 
-#include "../../../config.h"
+#include "irender_buffer.h"
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
-    class VideoDriver;
+    class IVideoDriver;
 
-    class PUNK_ENGINE_API RenderBuffer
+    class PUNK_ENGINE_API RenderBuffer : public IRenderBuffer
     {
     public:
-        RenderBuffer(VideoDriver* driver);
+        RenderBuffer(IVideoDriver* driver);
         RenderBuffer(const RenderBuffer&) = delete;
         RenderBuffer& operator = (const RenderBuffer&) = delete;
         virtual ~RenderBuffer();
-        VideoDriver* GetVideDriver();
-
-        virtual void Bind();
-        virtual void Unbind();
+        IVideoDriver* GetVideDriver();
+        void Bind() override;
+        void Unbind() override;
 
     private:
-        VideoDriver* m_driver;
+        IVideoDriver* m_driver;
     };
 }
+PUNK_ENGINE_END
 
 #endif // RENDER_BUFFER_H

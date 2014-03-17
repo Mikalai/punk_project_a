@@ -56,8 +56,10 @@ namespace System {
         virtual void UnsubscribeWindowCreatedEvent(WindowCreatedDelegate) = 0;
         virtual void SubscribeWindowDestroyEvent(WindowDestroyDelegate) = 0;
         virtual void UnsubscribeWindowDestroyEvent(WindowDestroyDelegate) = 0;
-        virtual void SubscribeIdleEvent(IdleEventDelegate) = 0;
+        virtual void SubscribeIdleEvent(IdleEventDelegate) = 0;        
         virtual void UnsubscribeIdleEvent(IdleEventDelegate) = 0;
+        virtual void SubscribeIdleEvent(void (*Delegate)(const IdleEvent&)) = 0;
+        virtual void UnsubscribeIdleEvent(void (*Delegate)(const IdleEvent&)) = 0;
         virtual void Open() = 0;
         virtual void Close() = 0;
     };

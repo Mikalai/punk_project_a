@@ -1,50 +1,42 @@
 #ifndef _H_PUNK_OPENGL_BUFFER
 #define _H_PUNK_OPENGL_BUFFER
 
-#include "config.h"
-#include "../../gl/glcorearb.h"
+#include <graphics/opengl/module.h>
+#include "ibufffer_object.h"
 
-namespace Gpu
-{
-	namespace OpenGL
-	{
+PUNK_ENGINE_BEGIN
+namespace Graphics {
+    namespace OpenGL {
+
 		class VideoMemory;
 
-        class PUNK_ENGINE_LOCAL VertexBufferObject
+        class PUNK_ENGINE_LOCAL VertexBufferObject : public IBufferObject
 		{
 		public:
+            //	Only VideoMemory can create it
+            VertexBufferObject();
+            virtual ~VertexBufferObject();
+            VertexBufferObject(const VertexBufferObject&) = delete;
+            VertexBufferObject& operator = (const VertexBufferObject&) = delete;
+
+            void Create(const void* data, std::uint32_t m_size) override;
+            void Destroy() override;
+            void Bind() const override;
+            void Unbind() const override;
+            void* Map() override;
+            const void* Map() const override;
+            void Unmap() const override;
+            void CopyData(const void* data, std::uint32_t size) override;
+            bool IsValid() const override;
+            std::uint32_t GetSize() override;
+
+		private:					
 			
-			void Create(const void* data, size_t m_size);
-			void Destroy();			
-
-			void Bind() const;
-			void Unbind() const;
-
-			void* Map();
-			const void* Map() const;
-			void Unmap() const;
-
-			void CopyData(const void* data, size_t size);
-
-			bool IsValid() const;
-
-			size_t GetSize() const { return m_size; }
-
-		private:		
-
-			//	Only VideoMemory can create it
-			VertexBufferObject();
-			~VertexBufferObject();
-
-			VertexBufferObject(const VertexBufferObject&);
-			VertexBufferObject& operator = (const VertexBufferObject&);
-			
-			GLuint m_index;
-			size_t m_size;
-
-			friend class VideoMemory;
+            GLuint m_index;
+            std::uint32_t m_size;
 		};
 	}
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_OPENGL_BUFFER

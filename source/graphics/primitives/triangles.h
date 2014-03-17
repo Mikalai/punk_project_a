@@ -1,28 +1,32 @@
 #ifndef _H_PUNK_TRIANGLES
 #define _H_PUNK_TRIANGLES
 
-#include "../renderable.h"
-#include "../vertex.h"
+#include "itriangles.h"
+#include "renderable.h"
+#include "vertex.h"
 
 #define CreateTrianglesInterface(VertexType)\
 template<>\
-class PUNK_ENGINE_API Triangles<VertexType> : public Renderable {\
+class PUNK_ENGINE_LOCAL Triangles<VertexType> : public Renderable, public ITriangles {\
 public:\
-    Triangles<VertexType>(VideoDriver* driver);\
+    Triangles<VertexType>(IVideoDriver* driver);\
     virtual ~Triangles<VertexType>();\
-    void Cook(const std::vector<VertexType>& value);\
-    virtual void Bind(int64_t) override;\
+    void Cook(const IVertexArray* value);\
+    virtual void Bind(std::int64_t) override;\
     virtual void Unbind() override;\
     virtual void Render() override;\
+    virtual std::uint64_t GetMemoryUsage() override; \
+    virtual bool HasData() const override; \
 private:\
     Renderable* impl;\
 }
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
-    class VideoDriver;
+    class IVideoDriver;
 
-    template<typename VertexType>class PUNK_ENGINE_API Triangles;
+    template<typename VertexType> class PUNK_ENGINE_LOCAL Triangles;
 
 #define VERTEX_1 Vertex<VertexComponent::Position>
     CreateTrianglesInterface(VERTEX_1);
@@ -52,5 +56,6 @@ namespace Gpu
     CreateTrianglesInterface(VERTEX_1);
 #undef VERTEX_1
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_OPENGL_TRIANGLES

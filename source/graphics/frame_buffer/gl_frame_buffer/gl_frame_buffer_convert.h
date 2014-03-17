@@ -1,15 +1,15 @@
 #ifndef GL_FRAME_BUFFER_CONVERT_H
 #define GL_FRAME_BUFFER_CONVERT_H
 
-#include "../gl/module.h"
-#include "../../common/frame_buffer/frame_buffer_target.h"
+#include <graphics/opengl/module.h>
 
-namespace Gpu
-{
-    namespace OpenGL
-    {
+PUNK_ENGINE_BEGIN
+namespace Graphics {
+    enum class FrameBufferTarget;
+    namespace OpenGL {
         GLenum Convert(const FrameBufferTarget& target);
     }
 }
+PUNK_ENGINE_END
 
 #endif // GL_FRAME_BUFFER_CONVERT_H

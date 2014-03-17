@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <vector>
 #include "config.h"
-#include "atomicint.h"
+//#include <core/atomicint.h>
 
 PUNK_ENGINE_BEGIN
 namespace Core {
@@ -21,19 +21,19 @@ namespace Core {
     {
     public:
 
-        void AddRef()
-        {
-            m_ref_count.FetchAndAddAcquire(1);
-        }
+//        void AddRef()
+//        {
+//            m_ref_count.FetchAndAddAcquire(1);
+//        }
 
-        void Release()
-        {
-            if (!m_ref_count.FetchAndAddRelease(-1))
-                delete this;
-        }
+//        void Release()
+//        {
+//            if (!m_ref_count.FetchAndAddRelease(-1))
+//                delete this;
+//        }
 
-    private:
-        AtomicInt m_ref_count {1};
+//    private:
+//        AtomicInt m_ref_count {1};
     };
 
     template<typename... Types>
@@ -193,7 +193,7 @@ namespace Core {
         void Add(Action* action)
         {
             m_methods.push_back(action);
-            action->AddRef();
+            //action->AddRef();
         }
 
         void Add(Function f)
@@ -207,7 +207,7 @@ namespace Core {
             if (it == m_methods.end())
                 return;
             m_methods.erase(it);
-            action->Release();
+            //action->Release();
         }
 
         void Remove(Function f)
@@ -222,7 +222,7 @@ namespace Core {
         {
             while (!m_methods.empty())
             {
-                m_methods.back()->Release();
+              //  m_methods.back()->Release();
                 m_methods.pop_back();
             }
         }

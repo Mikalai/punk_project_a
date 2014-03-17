@@ -1,43 +1,48 @@
 #ifndef GL_FRAMEBUFFERIMPL_H
 #define GL_FRAMEBUFFERIMPL_H
 
-#include "../../../../common/frame_buffer/frame_buffer.h"
-#include "gl_color_render_buffer.h"
-#include "gl_depth_render_buffer.h"
-#include "../../gl/glcorearb.h"
+#include <graphics/frame_buffer/frame_buffer.h>
+#include <graphics/opengl/module.h>
 
-namespace Gpu
-{
-    class FrameBufferConfig;
+PUNK_ENGINE_BEGIN
+namespace Graphics {
 
-    namespace OpenGL
-    {
-        class GlFrameBuffer : public FrameBuffer
-        {
+    namespace OpenGL {
+
+        class GlVideoDriver;
+        class GlColorRenderBuffer;
+        class GlDepthRenderBuffer;
+
+        class GlFrameBuffer : public FrameBuffer {
         public:
             using FrameBuffer::Config;
 
         public:
-            GlFrameBuffer(VideoDriver *driver);
+            GlFrameBuffer(IVideoDriver *driver);
             virtual ~GlFrameBuffer();
-            virtual void Bind() override;
-            virtual void Unbind() override;
-            virtual void Config(FrameBufferConfig *config) override;
+            void Bind() override;
+            void Unbind() override;
+            void Config(const FrameBufferConfig& config) override;
+            void AttachColorTarget(std::uint32_t index, ITexture2D* buffer) override;
+            void AttachColorTarget(size_t index, IRenderBuffer* buffer) override;
+            void AttachDepthTarget(ITexture2D* buffer) override;
+            void AttachDepthTarget(IRenderBuffer* buffer) override;
+            void AttachDepthTarget(ITexture2DArray *buffer, size_t index) override;
+            void SetRenderTarget(FrameBufferTarget value) override;
+            void SetViewport(int x, int y, int width, int height) override;
+            void SetClearColor(float r, float g, float b, float a) override;
+            void SetClearColor(const Math::vec4& value) override;
+            void SetClearDepth(float depth) override;
+            void Clear(bool color, bool depth, bool stencil) override;
+            void SetPolygonOffset(float a, float b) override;
 
-            virtual void AttachColorTarget(size_t index, Texture2D* buffer) override;
-            virtual void AttachColorTarget(size_t index, ColorRenderBuffer* buffer) override;
-            virtual void AttachDepthTarget(Texture2D* buffer) override;
-            virtual void AttachDepthTarget(DepthRenderBuffer* buffer) override;
-            virtual void AttachDepthTarget(Texture2DArray *buffer, size_t index) override;
-            virtual void SetRenderTarget(FrameBufferTarget value) override;
-            virtual void SetViewport(int x, int y, int width, int height) override;
-            virtual void Clear(bool color, bool depth, bool stencil) override;
-            virtual void SetPolygonOffset(float a, float b) override;
+            static GlFrameBuffer Backbuffer;
 
         private:
             void Clear();
             void CheckConfigCompatibility();
             void Check();
+
         private:
             GlColorRenderBuffer* m_color_rb;
             GlDepthRenderBuffer* m_depth_rb;
@@ -47,5 +52,6 @@ namespace Gpu
         };
     }
 }
+PUNK_ENGINE_END
 
 #endif // GL_FRAMEBUFFERIMPL_H

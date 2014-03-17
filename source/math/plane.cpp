@@ -138,12 +138,12 @@ namespace Punk {
                 return *this;
             }
 
-            //    void SavePlane(System::Buffer *buffer, const Plane &value)
+            //    void SavePlane(Core::Buffer *buffer, const Plane &value)
             //    {
             //        SaveVector4f(buffer, value.m_plane);
             //    }
 
-            //    void LoadPlane(System::Buffer *buffer, Plane &value)
+            //    void LoadPlane(Core::Buffer *buffer, Plane &value)
             //    {
             //        LoadVector4f(buffer, value.m_plane);
             //    }

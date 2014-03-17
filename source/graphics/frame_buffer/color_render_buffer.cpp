@@ -1,11 +1,11 @@
 #include "color_render_buffer.h"
 
-namespace Gpu
-{
-    ColorRenderBuffer::ColorRenderBuffer(VideoDriver *driver)
-        : RenderBuffer(driver)
-    {}
+PUNK_ENGINE_BEGIN
+namespace Graphics {
 
-    ColorRenderBuffer::~ColorRenderBuffer()
-    {}
+    ColorRenderBuffer::ColorRenderBuffer(IVideoDriver *driver)
+        : RenderBuffer(driver) {}
+
+    ColorRenderBuffer::~ColorRenderBuffer() {}
 }
+PUNK_ENGINE_END

@@ -7,7 +7,7 @@
 #define GL_CALL(X) X;
 #endif
 
-namespace Gpu
+namespace Graphics
 {
 	namespace OpenGL
 	{

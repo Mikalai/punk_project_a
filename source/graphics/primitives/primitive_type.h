@@ -1,10 +1,11 @@
 #ifndef _H_PUNK_GPU_PRIMITIVE_TYPE
 #define _H_PUNK_GPU_PRIMITIVE_TYPE
 
-#include "../../config.h"
-#include "../../string/string.h"
+#include <config.h>
+#include <string/module.h>
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
 	enum class PrimitiveType { 
 		POINTS, 
@@ -22,7 +23,8 @@ namespace Gpu
 		POLYGON
 	};
 
-	extern PUNK_ENGINE_API const System::string AsString(const PrimitiveType& value);
+    extern PUNK_ENGINE_API const Core::String AsString(const PrimitiveType& value);
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_GPU_PRIMITIVE_TYPE

@@ -2,23 +2,24 @@
 #define _H_PUNK_RENDER_BATCH
 
 #include <list>
-#include "../../../system/poolable.h"
+#include <core/poolable.h>
 
-namespace Gpu
-{
+PUNK_ENGINE_BEGIN
+namespace Graphics {
 
     class CoreState;
-    class Renderable;
+    class IRenderable;
 
-    class Batch: public System::Poolable<Batch>
+    class Batch : public Core::Poolable<Batch>
     {
     public:
         ~Batch();
         CoreState* m_state;
-        Renderable* m_renderable;
+        IRenderable* m_renderable;
         bool m_destroy;
     };
 
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_RENDER_BATCH

@@ -69,12 +69,12 @@
 //		{
 //		case PNG_COLOR_TYPE_RGB:
 //			channels = 3;
-//			format = IMAGE_FORMAT_RGBA;
+//			format = ImageFormat::RGBA;
 //			break;
 //
 //		case PNG_COLOR_TYPE_RGB_ALPHA:
 //			channels = 4;
-//			format = IMAGE_FORMAT_RGBA;
+//			format = ImageFormat::RGBA;
 //			break;
 //
 //		case PNG_COLOR_TYPE_GRAY:
@@ -268,7 +268,7 @@
 //		case IMAGE_FORMAT_RGB:
 //			format = PNG_COLOR_TYPE_RGB;
 //			break;
-//		case IMAGE_FORMAT_RGBA:
+//		case ImageFormat::RGBA:
 //			format = PNG_COLOR_TYPE_RGBA;
 //			break;
 //		}

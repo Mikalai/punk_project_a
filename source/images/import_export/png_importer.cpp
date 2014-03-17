@@ -76,29 +76,29 @@ namespace Image
         int	colorType = png_get_color_type(png_ptr, info_ptr);
         int	rowBytes = png_get_rowbytes(png_ptr, info_ptr);
         unsigned channels = png_get_channels(png_ptr, info_ptr);
-        ImageFormat format = IMAGE_FORMAT_ALPHA;
+        ImageFormat format = ImageFormat::ALPHA;
 
         switch ( colorType )
         {
         case PNG_COLOR_TYPE_RGB:
             //channels = bpp / 8;
-            format = IMAGE_FORMAT_RGB;
+            format = ImageFormat::RGB;
             break;
 
         case PNG_COLOR_TYPE_RGB_ALPHA:
             //channels = bpp / 8;
-            format = IMAGE_FORMAT_RGBA;
+            format = ImageFormat::RGBA;
             break;
 
         case PNG_COLOR_TYPE_GRAY:
         case PNG_COLOR_TYPE_GRAY_ALPHA:
             //channels = bpp / 8;
-            format = IMAGE_FORMAT_ALPHA;
+            format = ImageFormat::ALPHA;
             break;
 
         case PNG_COLOR_TYPE_PALETTE:
             channels = 3;
-            format = IMAGE_FORMAT_RGB;
+            format = ImageFormat::RGB;
             break;
 
         default:
@@ -274,29 +274,29 @@ namespace Image
 		int	colorType = png_get_color_type(png_ptr, info_ptr);
 		int	rowBytes = png_get_rowbytes(png_ptr, info_ptr);
 		unsigned channels = png_get_channels(png_ptr, info_ptr);
-		ImageFormat format = IMAGE_FORMAT_ALPHA;
+        ImageFormat format = ImageFormat::ALPHA;
 
 		switch ( colorType )
 		{
 		case PNG_COLOR_TYPE_RGB:
 			//channels = bpp / 8;
-			format = IMAGE_FORMAT_RGB;
+            format = ImageFormat::RGB;
 			break;
 
 		case PNG_COLOR_TYPE_RGB_ALPHA:
 			//channels = bpp / 8;
-			format = IMAGE_FORMAT_RGBA;
+			format = ImageFormat::RGBA;
 			break;
 
 		case PNG_COLOR_TYPE_GRAY:
 		case PNG_COLOR_TYPE_GRAY_ALPHA:
 			//channels = bpp / 8;
-			format = IMAGE_FORMAT_ALPHA;
+            format = ImageFormat::ALPHA;
 			break;
 
 		case PNG_COLOR_TYPE_PALETTE:
 			channels = 3;
-			format = IMAGE_FORMAT_RGB;
+            format = ImageFormat::RGB;
 			break;
 
 		default:

@@ -1,11 +1,13 @@
 #include "depth_render_buffer.h"
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
-    DepthRenderBuffer::DepthRenderBuffer(VideoDriver *driver)
+    DepthRenderBuffer::DepthRenderBuffer(IVideoDriver *driver)
         : RenderBuffer(driver)
     {}
 
     DepthRenderBuffer::~DepthRenderBuffer()
     {}
 }
+PUNK_ENGINE_END

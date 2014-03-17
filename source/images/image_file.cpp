@@ -12,7 +12,7 @@ namespace Image
 		//m_channels(0),
 		m_size(0), 
 		m_bpp(0),
-		m_format(IMAGE_FORMAT_BAD), 
+        m_format(ImageFormat::BAD),
 		m_used_count(1) 
 	{}
 
@@ -121,11 +121,11 @@ namespace Image
 		m_rep = m_rep->GetOwnCopy();
 
 		unsigned char* p = &m_rep->m_data[(y*m_rep->m_width + x)*4];		//must be alligned
-		if (m_rep->m_format == IMAGE_FORMAT_ALPHA)
+        if (m_rep->m_format == ImageFormat::ALPHA)
 		{
 			p[0] = a;
 		}
-		else if (m_rep->m_format == IMAGE_FORMAT_RGBA)
+        else if (m_rep->m_format == ImageFormat::RGBA)
 		{
 			p[0] = r;
 			p[1] = g;

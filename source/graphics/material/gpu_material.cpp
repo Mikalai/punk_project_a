@@ -1,6 +1,7 @@
 #include "gpu_material.h"
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
 	Material::Material()
 		: m_diffuse_color(0.8f, 0.8f, 0.8f, 1.0f)
@@ -22,3 +23,4 @@ namespace Gpu
 		, m_translucency(0.0f)
 	{}
 }
+PUNK_ENGINE_END

@@ -34,6 +34,12 @@ namespace Font {
         FontBuilderImpl* impl;
         PUNK_OBJECT(FontBuilder)
 	};
+
+#ifdef USE_FREETYPE
+    PUNK_ENGINE_LOCAL void DestroyLibrary();
+    PUNK_ENGINE_LOCAL void* GetLibrary();
+#endif
+
 }
 PUNK_ENGINE_END
 

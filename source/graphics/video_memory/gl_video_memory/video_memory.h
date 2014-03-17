@@ -3,15 +3,21 @@
 
 #include <memory>
 #include <vector>
-#include "../../../../config.h"
+#include <config.h>
+#include <cstdint>
+#include <graphics/video_memory/ivideo_memory.h>
+#include <graphics/buffers/pbo.h>
+#include <graphics/buffers/vbo.h>
+#include <graphics/buffers/ibo.h>
 
-namespace Gpu
-{
-	namespace OpenGL
-	{
+PUNK_ENGINE_BEGIN
+namespace System { class ILogger; }
+namespace Graphics {
+    namespace OpenGL {
+
 		class PixelBufferObject;
 		class VertexBufferObject;
-		class IndexBufferObject;
+		class IndexBufferObject;        
 
 		/**
 		*	This class is responsible for video memory usage
@@ -19,31 +25,26 @@ namespace Gpu
 		*	textures and buffers.
 		*	This is a singletone class
 		*/
-        class PUNK_ENGINE_LOCAL VideoMemory final
-		{
+        class PUNK_ENGINE_LOCAL VideoMemory : public IVideoMemory {
 		public:
 
 			VideoMemory();
-			~VideoMemory();
+            virtual~VideoMemory();
 
-			void SetMaxMemoryUsage(size_t value);
-			size_t GetMaxMemoryUsage() const;
-			size_t GetMemoryUsage() const;
-			size_t GetMaxAvailableMemory() const;
-
-        //	static VideoMemory* Instance();
-        //	static void Destroy();
-
-			PixelBufferObject* AllocatePixelBuffer(size_t size);
-			void FreePixelBuffer(PixelBufferObject* value);
-			VertexBufferObject* AllocateVertexBuffer(size_t size);
-			void FreeVertexBuffer(VertexBufferObject* value);
-			IndexBufferObject* AllocateIndexBuffer(size_t size);
-			void FreeIndexBuffer(IndexBufferObject* value);
+            void SetMaxMemoryUsage(std::uint32_t value) override;
+            std::uint32_t GetMaxMemoryUsage() const override;
+            std::uint32_t GetMemoryUsage() const override;
+            std::uint32_t GetMaxAvailableMemory() const override;
+            PixelBufferObject* AllocatePixelBuffer(std::uint32_t size) override;
+            void FreePixelBuffer(IBufferObject* value) override;
+            VertexBufferObject* AllocateVertexBuffer(std::uint32_t size) override;
+            void FreeVertexBuffer(IBufferObject* value) override;
+            IndexBufferObject* AllocateIndexBuffer(std::uint32_t size) override;
+            void FreeIndexBuffer(IBufferObject* value) override;
 
 		private:
 
-			bool VerifyMemory(size_t size);
+            bool VerifyMemory(std::uint32_t size);
 
 			/**
 			*	This will use async procedures to find all invalid objects and
@@ -63,11 +64,13 @@ namespace Gpu
 
 			Core m_core;
 
-			std::vector<PixelBufferObject*> m_pbo_list;
+            std::vector<PixelBufferObject*> m_pbo_list;
 			std::vector<VertexBufferObject*> m_vbo_list;
 			std::vector<IndexBufferObject*> m_ibo_list;
+            System::ILogger* m_logger {nullptr};
 		};
 	}
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_OPENGL_VIDEO_MEMORY

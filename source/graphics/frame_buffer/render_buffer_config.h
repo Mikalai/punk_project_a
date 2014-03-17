@@ -1,30 +1,31 @@
 #ifndef RENDERBUFFERCONFIG_H
 #define RENDERBUFFERCONFIG_H
 
-#include "../../../string/string.h"
-#include "../../../images/formats.h"
+#include <string/module.h>
+#include <images/formats.h>
 
-namespace Gpu
-{
-    class RenderBufferConfig
-    {
+PUNK_ENGINE_BEGIN
+namespace Graphics {
+
+    class PUNK_ENGINE_API RenderBufferConfig {
     public:
         RenderBufferConfig();
 
-        void Name(const System::string& value);
-        const System::string& Name() const;
+        void Name(const Core::String& value);
+        const Core::String& Name() const;
 
-        void Format(ImageModule::ImageFormat value);
-        ImageModule::ImageFormat Format() const;
+        void Format(Image::ImageFormat value);
+        Image::ImageFormat Format() const;
 
         void Bits(int value);
         int Bits() const;
 
     private:
-        System::string m_name;
-        ImageModule::ImageFormat m_format;
+        Core::String m_name;
+        Image::ImageFormat m_format;
         int m_bits;
     };
 }
+PUNK_ENGINE_END
 
 #endif // RENDERBUFFERCONFIG_H

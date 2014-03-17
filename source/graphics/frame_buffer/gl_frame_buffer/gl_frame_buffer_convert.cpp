@@ -1,13 +1,13 @@
 #include "gl_frame_buffer_convert.h"
+#include <graphics/frame_buffer/frame_buffer_target.h>
+#include <graphics/error/module.h>
 
-namespace Gpu
-{
-    namespace OpenGL
-    {
-        GLenum Convert(const FrameBufferTarget& target)
-        {
-            switch(target)
-            {
+PUNK_ENGINE_BEGIN
+namespace Graphics {
+    namespace OpenGL {
+
+        GLenum Convert(const FrameBufferTarget& target) {
+            switch(target) {
             case FrameBufferTarget::TargetBack:
                 return GL_BACK;
             case FrameBufferTarget::TargetBackLeft:
@@ -29,7 +29,8 @@ namespace Gpu
             case FrameBufferTarget::TargetRight:
                 return GL_RIGHT;
             }
-            throw System::PunkException("Can't convert frame buffer target");
+            throw Error::InvalidFrameBufferTarget(L"Can't convert frame buffer target");
         }
     }
 }
+PUNK_ENGINE_END

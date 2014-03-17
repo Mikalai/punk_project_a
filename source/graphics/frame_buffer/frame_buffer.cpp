@@ -1,59 +1,51 @@
+#include <graphics/texture/module.h>
 #include "frame_buffer.h"
 #include "frame_buffer_config.h"
-#include "../texture/module.h"
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
-    FrameBuffer::FrameBuffer(VideoDriver *driver)
+    FrameBuffer::FrameBuffer(IVideoDriver *driver)
         : m_config{nullptr}
         , m_driver{driver}
         , m_color_texture{nullptr}
-        , m_depth_texture{nullptr}
-    {
-    }
+        , m_depth_texture{nullptr} {}
 
-    FrameBuffer::~FrameBuffer()
-    {
-        delete m_color_texture;
+    FrameBuffer::~FrameBuffer() {
+        Constructor::DestroyTexture2D(m_color_texture);
         m_color_texture = nullptr;
-        delete m_depth_texture;
+        Constructor::DestroyTexture2D(m_depth_texture);
         m_depth_texture = nullptr;
         delete m_config;
         m_config = nullptr;
     }
 
-    Texture2D* FrameBuffer::GetColorTexture()
-    {
+    ITexture2D* FrameBuffer::GetColorTexture() {
         return m_color_texture;
     }
 
-    Texture2D* FrameBuffer::GetDepthTexture()
-    {
+    ITexture2D* FrameBuffer::GetDepthTexture() {
         return m_depth_texture;
     }
 
-    void FrameBuffer::Bind()
-    {
+    void FrameBuffer::Bind() {
     }
 
-    void FrameBuffer::Unbind()
-    {
+    void FrameBuffer::Unbind() {
     }
 
-    VideoDriver* FrameBuffer::GetVideoDriver()
-    {
+    IVideoDriver* FrameBuffer::GetVideoDriver() {
         return m_driver;
     }
 
-    FrameBufferConfig* FrameBuffer::Config() const
-    {
+    FrameBufferConfig* FrameBuffer::Config() const {
         return m_config;
     }
 
-    void FrameBuffer::Config(FrameBufferConfig *config)
-    {
+    void FrameBuffer::Config(const FrameBufferConfig& config) {
         if (m_config)
             delete m_config;
-        m_config = new FrameBufferConfig(*config);
-    }       
+        m_config = new FrameBufferConfig(config);
+    }    
 }
+PUNK_ENGINE_END

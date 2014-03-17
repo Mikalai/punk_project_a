@@ -46,8 +46,8 @@ namespace Punk {
 
             };
 
-            //    PUNK_ENGINE_API void SaveBoundingBox(System::Buffer* buffer, const ConvexShapeMesh& value);
-            //    PUNK_ENGINE_API void LoadBoundingBox(System::Buffer* buffer, ConvexShapeMesh& value);
+            //    PUNK_ENGINE_API void SaveBoundingBox(Core::Buffer* buffer, const ConvexShapeMesh& value);
+            //    PUNK_ENGINE_API void LoadBoundingBox(Core::Buffer* buffer, ConvexShapeMesh& value);
         }
     }
 }

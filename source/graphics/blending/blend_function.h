@@ -1,10 +1,11 @@
 #ifndef BLEND_FUNCTION_H
 #define BLEND_FUNCTION_H
 
-#include "../../../config.h"
-#include "../../../string/string.h"
+#include <config.h>
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Core { class String; }
+namespace Graphics
 {
 	enum class BlendFunction {
 		SourceAlpha,
@@ -12,7 +13,8 @@ namespace Gpu
 		OneMinusSrcAlpha
 	};
 
-	extern PUNK_ENGINE_API const System::string AsString(BlendFunction value);
+    extern PUNK_ENGINE_API const Core::String AsString(BlendFunction value);
 }
+PUNK_ENGINE_END
 
 #endif // BLEND_FUNCTION_H

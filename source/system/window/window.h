@@ -59,6 +59,8 @@ namespace System
         virtual void UnsubscribeWindowDestroyEvent(WindowDestroyDelegate) override;
         virtual void SubscribeIdleEvent(IdleEventDelegate) override;
         virtual void UnsubscribeIdleEvent(IdleEventDelegate) override;
+        virtual void SubscribeIdleEvent(void (*Delegate)(const IdleEvent&)) override;
+        virtual void UnsubscribeIdleEvent(void (*Delegate)(const IdleEvent&)) override;
 
         virtual void Open() override;
         virtual void Close() override;

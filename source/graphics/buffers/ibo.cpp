@@ -1,8 +1,8 @@
-#include "../extensions.h"
-#include "../error/module.h"
+#include <graphics/opengl/module.h>
 #include "ibo.h"
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
 	namespace OpenGL
 	{
@@ -21,7 +21,7 @@ namespace Gpu
 			{}
 		}
 
-		void IndexBufferObject::Create(const void* data, size_t size)
+        void IndexBufferObject::Create(const void* data, std::uint32_t size)
 		{
 			if (IsValid())
 				Destroy();
@@ -86,13 +86,28 @@ namespace Gpu
 			Unbind();
 		}
 
-		void IndexBufferObject::CopyData(const void* data, size_t size)
+        void IndexBufferObject::CopyData(const void* data, std::uint32_t size)
 		{
 			if (m_size < size)
-				throw OpenGLOutOfMemoryException(L"Index buffer is to small " + System::string::Convert(m_size) + L" to hold " + System::string::Convert(size));
+				throw OpenGLOutOfMemoryException(L"Index buffer is to small " + Core::String::Convert(m_size) + L" to hold " + Core::String::Convert(size));
 			Bind();
             GL_CALL(glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, size, data));
 			Unbind();
 		}
+
+        std::uint32_t IndexBufferObject::GetSize() {
+            return m_size;
+        }
 	}
+    namespace Constructor {
+        extern "C" PUNK_ENGINE_API IBufferObject* CreateIndexBuffer(IVideoMemory* memory) {
+            return new OpenGL::IndexBufferObject();
+        }
+
+        extern "C" PUNK_ENGINE_API void DestroyIndexBuffer(IBufferObject* buffer) {
+            OpenGL::IndexBufferObject* object = dynamic_cast<OpenGL::IndexBufferObject*>(buffer);
+            delete object;
+        }
+    }
 }
+PUNK_ENGINE_END

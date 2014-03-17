@@ -1,26 +1,22 @@
 #ifndef GL_TEXTURE2D_ARRAY_H
 #define GL_TEXTURE2D_ARRAY_H
 
-#include "../gl/module.h"
-#include "../../common/texture/texture2d_array.h"
-#include "../../../images/formats.h"
+#include <graphics/texture/itexture2d_array.h>
+#include <graphics/opengl/module.h>
+#include <images/formats.h>
 
-namespace Gpu
-{
-    namespace OpenGL
-    {
-        class GlVideoDriver_3_3;
+PUNK_ENGINE_BEGIN
+namespace Graphics {
+    namespace OpenGL {
 
-        class PUNK_ENGINE_LOCAL Texture2DArrayImpl : public Texture2DArray
-        {
+        class PUNK_ENGINE_LOCAL GlTexture2DArray : public ITexture2DArray {
         public:
-            Texture2DArrayImpl(const Texture2DArrayImpl&) = delete;
-            Texture2DArrayImpl& operator = (const Texture2DArrayImpl&) = delete;
-            Texture2DArrayImpl(int width, int height, int size, ImageModule::ImageFormat internal_format, ImageModule::ImageFormat format,
-                               ImageModule::DataType type, const void* data, bool use_mipmaps, GlVideoDriver_3_3* driver);
-            virtual ~Texture2DArrayImpl();
+            GlTexture2DArray(const GlTexture2DArray&) = delete;
+            GlTexture2DArray& operator = (const GlTexture2DArray&) = delete;
+            GlTexture2DArray(std::uint32_t width, std::uint32_t height, std::uint32_t size, Image::ImageFormat internal_format, Image::ImageFormat format, Image::DataType type, const void* data, bool use_mipmaps, IVideoDriver* driver);
+            virtual ~GlTexture2DArray();
             virtual bool IsValid() const override;
-            virtual size_t GetMemoryUsage() const override;
+            virtual std::uint32_t GetMemoryUsage() const override;
             virtual void SetMinFilter(TextureFilter value) override;
             virtual void SetMagFilter(TextureFilter value) override;
             virtual void SetWrapMode(TextureWrapDirection dir, TextureWrapMode mode) override;
@@ -29,12 +25,11 @@ namespace Gpu
             virtual void Bind() override;
             virtual void Bind(int slot) override;
             virtual void Unbind() override;
-            virtual VideoDriver* GetVideoDriver() override;
+            virtual IVideoDriver* GetVideoDriver() override;
             GLuint GetId() const;
-        private:
 
         private:
-            GlVideoDriver_3_3* m_video_driver;
+            IVideoDriver* m_video_driver;
             GLuint m_texture_id;
             int m_width;
             int m_height;
@@ -47,5 +42,6 @@ namespace Gpu
         };
     }
 }
+PUNK_ENGINE_END
 
 #endif // GL_TEXTURE2D_ARRAY_H

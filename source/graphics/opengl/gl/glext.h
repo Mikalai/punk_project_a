@@ -851,7 +851,7 @@ extern "C" {
 /* reuse GL_SYNC_STATUS */
 /* reuse GL_SYNC_FLAGS */
 /* reuse GL_SYNC_FENCE */
-/* reuse GL_SYNC_GPU_COMMANDS_COMPLETE */
+/* reuse GL_SYNC_Graphics_COMMANDS_COMPLETE */
 /* reuse GL_UNSIGNALED */
 /* reuse GL_SIGNALED */
 /* reuse GL_ALREADY_SIGNALED */
@@ -931,14 +931,14 @@ extern "C" {
 /* Reuse tokens from ARB_draw_indirect */
 /* reuse GL_DRAW_INDIRECT_BUFFER */
 /* reuse GL_DRAW_INDIRECT_BUFFER_BINDING */
-/* Reuse tokens from ARB_gpu_shader5 */
+/* Reuse tokens from ARB_Graphics_shader5 */
 /* reuse GL_GEOMETRY_SHADER_INVOCATIONS */
 /* reuse GL_MAX_GEOMETRY_SHADER_INVOCATIONS */
 /* reuse GL_MIN_FRAGMENT_INTERPOLATION_OFFSET */
 /* reuse GL_MAX_FRAGMENT_INTERPOLATION_OFFSET */
 /* reuse GL_FRAGMENT_INTERPOLATION_OFFSET_BITS */
 /* reuse GL_MAX_VERTEX_STREAMS */
-/* Reuse tokens from ARB_gpu_shader_fp64 */
+/* Reuse tokens from ARB_Graphics_shader_fp64 */
 /* reuse GL_DOUBLE_VEC2 */
 /* reuse GL_DOUBLE_VEC3 */
 /* reuse GL_DOUBLE_VEC4 */
@@ -1801,7 +1801,7 @@ extern "C" {
 #define GL_SYNC_STATUS                    0x9114
 #define GL_SYNC_FLAGS                     0x9115
 #define GL_SYNC_FENCE                     0x9116
-#define GL_SYNC_GPU_COMMANDS_COMPLETE     0x9117
+#define GL_SYNC_Graphics_COMMANDS_COMPLETE     0x9117
 #define GL_UNSIGNALED                     0x9118
 #define GL_SIGNALED                       0x9119
 #define GL_ALREADY_SIGNALED               0x911A
@@ -1928,7 +1928,7 @@ extern "C" {
 #define GL_DRAW_INDIRECT_BUFFER_BINDING   0x8F43
 #endif
 
-#ifndef GL_ARB_gpu_shader5
+#ifndef GL_ARB_Graphics_shader5
 #define GL_GEOMETRY_SHADER_INVOCATIONS    0x887F
 #define GL_MAX_GEOMETRY_SHADER_INVOCATIONS 0x8E5A
 #define GL_MIN_FRAGMENT_INTERPOLATION_OFFSET 0x8E5B
@@ -1937,7 +1937,7 @@ extern "C" {
 /* reuse GL_MAX_VERTEX_STREAMS */
 #endif
 
-#ifndef GL_ARB_gpu_shader_fp64
+#ifndef GL_ARB_Graphics_shader_fp64
 /* reuse GL_DOUBLE */
 #define GL_DOUBLE_VEC2                    0x8FFC
 #define GL_DOUBLE_VEC3                    0x8FFD
@@ -4281,7 +4281,7 @@ extern "C" {
 #define GL_TIME_ELAPSED_EXT               0x88BF
 #endif
 
-#ifndef GL_EXT_gpu_program_parameters
+#ifndef GL_EXT_Graphics_program_parameters
 #endif
 
 #ifndef GL_APPLE_flush_buffer_range
@@ -4289,7 +4289,7 @@ extern "C" {
 #define GL_BUFFER_FLUSHING_UNMAP_APPLE    0x8A13
 #endif
 
-#ifndef GL_NV_gpu_program4
+#ifndef GL_NV_Graphics_program4
 #define GL_MIN_PROGRAM_TEXEL_OFFSET_NV    0x8904
 #define GL_MAX_PROGRAM_TEXEL_OFFSET_NV    0x8905
 #define GL_PROGRAM_ATTRIB_COMPONENTS_NV   0x8906
@@ -4346,7 +4346,7 @@ extern "C" {
 #define GL_VERTEX_ATTRIB_ARRAY_INTEGER_NV 0x88FD
 #endif
 
-#ifndef GL_EXT_gpu_shader4
+#ifndef GL_EXT_Graphics_shader4
 #define GL_SAMPLER_1D_ARRAY_EXT           0x8DC0
 #define GL_SAMPLER_2D_ARRAY_EXT           0x8DC1
 #define GL_SAMPLER_BUFFER_EXT             0x8DC2
@@ -4800,8 +4800,8 @@ extern "C" {
 #endif
 
 #ifndef GL_NV_shader_buffer_load
-#define GL_BUFFER_GPU_ADDRESS_NV          0x8F1D
-#define GL_GPU_ADDRESS_NV                 0x8F34
+#define GL_BUFFER_Graphics_ADDRESS_NV          0x8F1D
+#define GL_Graphics_ADDRESS_NV                 0x8F34
 #define GL_MAX_SHADER_BUFFER_ADDRESS_NV   0x8F35
 #endif
 
@@ -4920,7 +4920,7 @@ extern "C" {
 #define GL_DOUBLE_MAT4x3_EXT              0x8F4E
 #endif
 
-#ifndef GL_NV_gpu_program5
+#ifndef GL_NV_Graphics_program5
 #define GL_MAX_GEOMETRY_PROGRAM_INVOCATIONS_NV 0x8E5A
 #define GL_MIN_FRAGMENT_INTERPOLATION_OFFSET_NV 0x8E5B
 #define GL_MAX_FRAGMENT_INTERPOLATION_OFFSET_NV 0x8E5C
@@ -4931,7 +4931,7 @@ extern "C" {
 #define GL_MAX_PROGRAM_SUBROUTINE_NUM_NV  0x8F45
 #endif
 
-#ifndef GL_NV_gpu_shader5
+#ifndef GL_NV_Graphics_shader5
 #define GL_INT64_NV                       0x140E
 #define GL_UNSIGNED_INT64_NV              0x140F
 #define GL_INT8_NV                        0x8FE0
@@ -5892,8 +5892,8 @@ typedef void (APIENTRYP PFNGLVERTEXATTRIBDIVISORPROC) (GLuint index, GLuint divi
 /* OpenGL 4.0 also reuses entry points from these extensions: */
 /* ARB_texture_query_lod (no entry points) */
 /* ARB_draw_indirect */
-/* ARB_gpu_shader5 (no entry points) */
-/* ARB_gpu_shader_fp64 */
+/* ARB_Graphics_shader5 (no entry points) */
+/* ARB_Graphics_shader_fp64 */
 /* ARB_shader_subroutine */
 /* ARB_tessellation_shader */
 /* ARB_texture_buffer_object_rgb32 (no entry points) */
@@ -6963,12 +6963,12 @@ typedef void (APIENTRYP PFNGLDRAWARRAYSINDIRECTPROC) (GLenum mode, const GLvoid 
 typedef void (APIENTRYP PFNGLDRAWELEMENTSINDIRECTPROC) (GLenum mode, GLenum type, const GLvoid *indirect);
 #endif
 
-#ifndef GL_ARB_gpu_shader5
-#define GL_ARB_gpu_shader5 1
+#ifndef GL_ARB_Graphics_shader5
+#define GL_ARB_Graphics_shader5 1
 #endif
 
-#ifndef GL_ARB_gpu_shader_fp64
-#define GL_ARB_gpu_shader_fp64 1
+#ifndef GL_ARB_Graphics_shader_fp64
+#define GL_ARB_Graphics_shader_fp64 1
 #ifdef GL_GLEXT_PROTOTYPES
 GLAPI void APIENTRY glUniform1d (GLint location, GLdouble x);
 GLAPI void APIENTRY glUniform2d (GLint location, GLdouble x, GLdouble y);
@@ -9725,8 +9725,8 @@ typedef void (APIENTRYP PFNGLGETQUERYOBJECTI64VEXTPROC) (GLuint id, GLenum pname
 typedef void (APIENTRYP PFNGLGETQUERYOBJECTUI64VEXTPROC) (GLuint id, GLenum pname, GLuint64EXT *params);
 #endif
 
-#ifndef GL_EXT_gpu_program_parameters
-#define GL_EXT_gpu_program_parameters 1
+#ifndef GL_EXT_Graphics_program_parameters
+#define GL_EXT_Graphics_program_parameters 1
 #ifdef GL_GLEXT_PROTOTYPES
 GLAPI void APIENTRY glProgramEnvParameters4fvEXT (GLenum target, GLuint index, GLsizei count, const GLfloat *params);
 GLAPI void APIENTRY glProgramLocalParameters4fvEXT (GLenum target, GLuint index, GLsizei count, const GLfloat *params);
@@ -9745,8 +9745,8 @@ typedef void (APIENTRYP PFNGLBUFFERPARAMETERIAPPLEPROC) (GLenum target, GLenum p
 typedef void (APIENTRYP PFNGLFLUSHMAPPEDBUFFERRANGEAPPLEPROC) (GLenum target, GLintptr offset, GLsizeiptr size);
 #endif
 
-#ifndef GL_NV_gpu_program4
-#define GL_NV_gpu_program4 1
+#ifndef GL_NV_Graphics_program4
+#define GL_NV_Graphics_program4 1
 #ifdef GL_GLEXT_PROTOTYPES
 GLAPI void APIENTRY glProgramLocalParameterI4iNV (GLenum target, GLuint index, GLint x, GLint y, GLint z, GLint w);
 GLAPI void APIENTRY glProgramLocalParameterI4ivNV (GLenum target, GLuint index, const GLint *params);
@@ -9857,8 +9857,8 @@ typedef void (APIENTRYP PFNGLGETVERTEXATTRIBIIVEXTPROC) (GLuint index, GLenum pn
 typedef void (APIENTRYP PFNGLGETVERTEXATTRIBIUIVEXTPROC) (GLuint index, GLenum pname, GLuint *params);
 #endif
 
-#ifndef GL_EXT_gpu_shader4
-#define GL_EXT_gpu_shader4 1
+#ifndef GL_EXT_Graphics_shader4
+#define GL_EXT_Graphics_shader4 1
 #ifdef GL_GLEXT_PROTOTYPES
 GLAPI void APIENTRY glGetUniformuivEXT (GLuint program, GLint location, GLuint *params);
 GLAPI void APIENTRY glBindFragDataLocationEXT (GLuint program, GLuint color, const GLchar *name);
@@ -10865,8 +10865,8 @@ typedef void (APIENTRYP PFNGLGETVERTEXATTRIBLDVEXTPROC) (GLuint index, GLenum pn
 typedef void (APIENTRYP PFNGLVERTEXARRAYVERTEXATTRIBLOFFSETEXTPROC) (GLuint vaobj, GLuint buffer, GLuint index, GLint size, GLenum type, GLsizei stride, GLintptr offset);
 #endif
 
-#ifndef GL_NV_gpu_program5
-#define GL_NV_gpu_program5 1
+#ifndef GL_NV_Graphics_program5
+#define GL_NV_Graphics_program5 1
 #ifdef GL_GLEXT_PROTOTYPES
 GLAPI void APIENTRY glProgramSubroutineParametersuivNV (GLenum target, GLsizei count, const GLuint *params);
 GLAPI void APIENTRY glGetProgramSubroutineParameteruivNV (GLenum target, GLuint index, GLuint *param);
@@ -10875,8 +10875,8 @@ typedef void (APIENTRYP PFNGLPROGRAMSUBROUTINEPARAMETERSUIVNVPROC) (GLenum targe
 typedef void (APIENTRYP PFNGLGETPROGRAMSUBROUTINEPARAMETERUIVNVPROC) (GLenum target, GLuint index, GLuint *param);
 #endif
 
-#ifndef GL_NV_gpu_shader5
-#define GL_NV_gpu_shader5 1
+#ifndef GL_NV_Graphics_shader5
+#define GL_NV_Graphics_shader5 1
 #ifdef GL_GLEXT_PROTOTYPES
 GLAPI void APIENTRY glUniform1i64NV (GLint location, GLint64EXT x);
 GLAPI void APIENTRY glUniform2i64NV (GLint location, GLint64EXT x, GLint64EXT y);

@@ -1,39 +1,39 @@
 #include "frame_buffer_config.h"
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
     FrameBufferConfig::FrameBufferConfig()
         : m_width(256)
         , m_height(256)
-    {
-    }
+    {}
 
-    const System::string& FrameBufferConfig::Name() const
+    const Core::String& FrameBufferConfig::Name() const
     {
         return m_name;
     }
 
-    void FrameBufferConfig::Name(const System::string& value)
+    void FrameBufferConfig::Name(const Core::String& value)
     {
         m_name = value;
     }
 
-    ImageModule::ImageFormat FrameBufferConfig::ColorFormat() const
+    Image::ImageFormat FrameBufferConfig::ColorFormat() const
     {
         return m_color_format;
     }
 
-    void FrameBufferConfig::ColorFormat(ImageModule::ImageFormat value)
+    void FrameBufferConfig::ColorFormat(Image::ImageFormat value)
     {
         m_color_format = value;
     }
 
-    ImageModule::ImageFormat FrameBufferConfig::DepthFormat() const
+    Image::ImageFormat FrameBufferConfig::DepthFormat() const
     {
         return m_depth_format;
     }
 
-    void FrameBufferConfig::DepthFormat(ImageModule::ImageFormat value)
+    void FrameBufferConfig::DepthFormat(Image::ImageFormat value)
     {
         m_depth_format = value;
     }
@@ -98,3 +98,4 @@ namespace Gpu
         m_height = value;
     }
 }
+PUNK_ENGINE_END

@@ -1,21 +1,21 @@
 #ifndef PUNK_OPENGL_DEPTH_BUFFER_H
 #define PUNK_OPENGL_DEPTH_BUFFER_H
 
-#include "gpu/common/frame_buffer/depth_render_buffer.h"
-#include "opengl/gl/glcorearb.h"
+#include <graphics/frame_buffer/depth_render_buffer.h>
+#include <graphics/opengl/module.h>
 
-namespace Gpu
-{
+PUNK_ENGINE_BEGIN
+namespace Graphics {
+
     class FrameBufferConfig;
-    class GlVideoDriverProxy;
+    class GlVideoDriver;
 
-    namespace OpenGL
-    {
-        class GlDepthRenderBuffer : public DepthRenderBuffer
-        {
+    namespace OpenGL {
+
+        class PUNK_ENGINE_LOCAL GlDepthRenderBuffer : public DepthRenderBuffer {
         public:
 
-            GlDepthRenderBuffer(FrameBufferConfig* config, GlVideoDriverProxy* driver);
+            GlDepthRenderBuffer(const FrameBufferConfig& config, IVideoDriver* driver);
             virtual ~GlDepthRenderBuffer();
 
             virtual void Bind() override;
@@ -28,5 +28,6 @@ namespace Gpu
         };
     }
 }
+PUNK_ENGINE_END
 
 #endif // PUNK_OPENGL_GL_DEPTH_BUFFER_H

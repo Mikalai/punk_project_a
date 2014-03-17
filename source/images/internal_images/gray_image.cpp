@@ -8,7 +8,7 @@ namespace Image
 		: Image()
 	{
         impl_image->m_channels = 1;
-		impl_image->m_format = IMAGE_FORMAT_ALPHA;
+        impl_image->m_format = ImageFormat::ALPHA;
         impl_image->m_component_type = ComponentType::UnsignedByte;
 	}
 

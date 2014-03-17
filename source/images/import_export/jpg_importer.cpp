@@ -322,9 +322,9 @@ namespace Image
 
 		ImageFormat format;
 		if (output_components == 1)
-			format = ImageFormat::IMAGE_FORMAT_ALPHA;
+			format = ImageFormat::ALPHA;
 		else if (output_components == 3)
-			format = ImageFormat::IMAGE_FORMAT_RGB;
+			format = ImageFormat::RGB;
 		else
 		{
 			jpeg_destroy_decompress(&cinfo);
@@ -379,9 +379,9 @@ namespace Image
 
         ImageFormat format;
         if (output_components == 1)
-            format = ImageFormat::IMAGE_FORMAT_ALPHA;
+            format = ImageFormat::ALPHA;
         else if (output_components == 3)
-            format = ImageFormat::IMAGE_FORMAT_RGB;
+            format = ImageFormat::RGB;
         else
         {
             jpeg_destroy_decompress(&cinfo);

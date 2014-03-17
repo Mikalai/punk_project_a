@@ -1,14 +1,14 @@
 
-//#include "gpu_exceptions.h"
+//#include "Graphics_exceptions.h"
 
 //PUNK_ENGINE_BEGIN
 //namespace Graphics {
 //    namespace Error {
-//    GPUException::GPUException()
-//        : System::PunkException(L"GPUException")
+//    GraphicsException::GraphicsException()
+//        : System::PunkException(L"GraphicsException")
 //    {}
 
-//    GPUException::GPUException(const System::string& msg)
+//    GraphicsException::GraphicsException(const Core::String& msg)
 //        : System::PunkException(msg)
 //    {}
 //    }

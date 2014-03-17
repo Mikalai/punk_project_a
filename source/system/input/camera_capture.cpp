@@ -14,10 +14,10 @@
 #include "../../system/environment.h"
 #include "../../images/formats.h"
 #include "../../images/converter/yuy2_to_rgb.h"
-#include "../../gpu/common/texture2d.h"
-#include "../../gpu/opengl/gl/module.h"
+#include "../../Graphics/common/texture2d.h"
+#include "../../Graphics/opengl/gl/module.h"
 #include "../../system/timer.h"
-#include "../../gpu/opencl/module.h"
+#include "../../Graphics/opencl/module.h"
 
 
 namespace System
@@ -189,14 +189,14 @@ namespace System
 	}
 
 	//
-	Gpu::OpenCL::Platform g_platform;
-	Gpu::OpenCL::Device g_device;
-	Gpu::OpenCL::Context g_context;
-	Gpu::OpenCL::Program g_program;
-	Gpu::OpenCL::CommandQueue g_command;
-	Gpu::OpenCL::Buffer g_inp;
-	Gpu::OpenCL::Buffer g_out;
-	Gpu::OpenCL::Kernel g_kernel;
+	Graphics::OpenCL::Platform g_platform;
+	Graphics::OpenCL::Device g_device;
+	Graphics::OpenCL::Context g_context;
+	Graphics::OpenCL::Program g_program;
+	Graphics::OpenCL::CommandQueue g_command;
+	Graphics::OpenCL::Buffer g_inp;
+	Graphics::OpenCL::Buffer g_out;
+	Graphics::OpenCL::Kernel g_kernel;
 
 	//
 
@@ -210,8 +210,8 @@ namespace System
 		if (!g_program.CreateFromFile(System::Environment::Instance()->GetOpenCLFolder() + L"yuy2_to_rgb.cl"))
 			exit(-1);
 
-		g_inp.Init(g_context, g_command, Gpu::OpenCL::Buffer::READ_WRITE, 640*480*2);
-		g_out.Init(g_context, g_command, Gpu::OpenCL::Buffer::READ_WRITE, 640*480*4);
+		g_inp.Init(g_context, g_command, Graphics::OpenCL::Buffer::READ_WRITE, 640*480*2);
+		g_out.Init(g_context, g_command, Graphics::OpenCL::Buffer::READ_WRITE, 640*480*4);
 
 		if (!g_program.GetKernel(L"yuy2_to_rgb", g_kernel))
 			exit(-1);

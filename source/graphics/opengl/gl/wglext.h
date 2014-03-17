@@ -381,22 +381,22 @@ extern "C" {
 #ifndef WGL_NV_swap_group
 #endif
 
-#ifndef WGL_NV_gpu_affinity
+#ifndef WGL_NV_Graphics_affinity
 #define WGL_ERROR_INCOMPATIBLE_AFFINITY_MASKS_NV 0x20D0
 #define WGL_ERROR_MISSING_AFFINITY_MASK_NV 0x20D1
 #endif
 
-#ifndef WGL_AMD_gpu_association
-#define WGL_GPU_VENDOR_AMD             0x1F00
-#define WGL_GPU_RENDERER_STRING_AMD    0x1F01
-#define WGL_GPU_OPENGL_VERSION_STRING_AMD 0x1F02
-#define WGL_GPU_FASTEST_TARGET_GPUS_AMD 0x21A2
-#define WGL_GPU_RAM_AMD                0x21A3
-#define WGL_GPU_CLOCK_AMD              0x21A4
-#define WGL_GPU_NUM_PIPES_AMD          0x21A5
-#define WGL_GPU_NUM_SIMD_AMD           0x21A6
-#define WGL_GPU_NUM_RB_AMD             0x21A7
-#define WGL_GPU_NUM_SPI_AMD            0x21A8
+#ifndef WGL_AMD_Graphics_association
+#define WGL_Graphics_VENDOR_AMD             0x1F00
+#define WGL_Graphics_RENDERER_STRING_AMD    0x1F01
+#define WGL_Graphics_OPENGL_VERSION_STRING_AMD 0x1F02
+#define WGL_Graphics_FASTEST_TARGET_GraphicsS_AMD 0x21A2
+#define WGL_Graphics_RAM_AMD                0x21A3
+#define WGL_Graphics_CLOCK_AMD              0x21A4
+#define WGL_Graphics_NUM_PIPES_AMD          0x21A5
+#define WGL_Graphics_NUM_SIMD_AMD           0x21A6
+#define WGL_Graphics_NUM_RB_AMD             0x21A7
+#define WGL_Graphics_NUM_SPI_AMD            0x21A8
 #endif
 
 #ifndef WGL_NV_video_capture
@@ -437,17 +437,17 @@ DECLARE_HANDLE(HVIDEOOUTPUTDEVICENV);
 #ifndef WGL_NV_video_output
 DECLARE_HANDLE(HPVIDEODEV);
 #endif
-#ifndef WGL_NV_gpu_affinity
-DECLARE_HANDLE(HPGPUNV);
-DECLARE_HANDLE(HGPUNV);
+#ifndef WGL_NV_Graphics_affinity
+DECLARE_HANDLE(HPGraphicsNV);
+DECLARE_HANDLE(HGraphicsNV);
 
-typedef struct _GPU_DEVICE {
+typedef struct _Graphics_DEVICE {
     DWORD  cb;
     CHAR   DeviceName[32];
     CHAR   DeviceString[128];
     DWORD  Flags;
     RECT   rcVirtualScreen;
-} GPU_DEVICE, *PGPU_DEVICE;
+} Graphics_DEVICE, *PGraphics_DEVICE;
 #endif
 #ifndef WGL_NV_video_capture
 DECLARE_HANDLE(HVIDEOINPUTDEVICENV);
@@ -831,28 +831,28 @@ typedef BOOL (WINAPI * PFNWGLQUERYFRAMECOUNTNVPROC) (HDC hDC, GLuint *count);
 typedef BOOL (WINAPI * PFNWGLRESETFRAMECOUNTNVPROC) (HDC hDC);
 #endif
 
-#ifndef WGL_NV_gpu_affinity
-#define WGL_NV_gpu_affinity 1
+#ifndef WGL_NV_Graphics_affinity
+#define WGL_NV_Graphics_affinity 1
 #ifdef WGL_WGLEXT_PROTOTYPES
-extern BOOL WINAPI wglEnumGpusNV (UINT iGpuIndex, HGPUNV *phGpu);
-extern BOOL WINAPI wglEnumGpuDevicesNV (HGPUNV hGpu, UINT iDeviceIndex, PGPU_DEVICE lpGpuDevice);
-extern HDC WINAPI wglCreateAffinityDCNV (const HGPUNV *phGpuList);
-extern BOOL WINAPI wglEnumGpusFromAffinityDCNV (HDC hAffinityDC, UINT iGpuIndex, HGPUNV *hGpu);
+extern BOOL WINAPI wglEnumGraphicssNV (UINT iGraphicsIndex, HGraphicsNV *phGraphics);
+extern BOOL WINAPI wglEnumGraphicsDevicesNV (HGraphicsNV hGraphics, UINT iDeviceIndex, PGraphics_DEVICE lpGraphicsDevice);
+extern HDC WINAPI wglCreateAffinityDCNV (const HGraphicsNV *phGraphicsList);
+extern BOOL WINAPI wglEnumGraphicssFromAffinityDCNV (HDC hAffinityDC, UINT iGraphicsIndex, HGraphicsNV *hGraphics);
 extern BOOL WINAPI wglDeleteDCNV (HDC hdc);
 #endif /* WGL_WGLEXT_PROTOTYPES */
-typedef BOOL (WINAPI * PFNWGLENUMGPUSNVPROC) (UINT iGpuIndex, HGPUNV *phGpu);
-typedef BOOL (WINAPI * PFNWGLENUMGPUDEVICESNVPROC) (HGPUNV hGpu, UINT iDeviceIndex, PGPU_DEVICE lpGpuDevice);
-typedef HDC (WINAPI * PFNWGLCREATEAFFINITYDCNVPROC) (const HGPUNV *phGpuList);
-typedef BOOL (WINAPI * PFNWGLENUMGPUSFROMAFFINITYDCNVPROC) (HDC hAffinityDC, UINT iGpuIndex, HGPUNV *hGpu);
+typedef BOOL (WINAPI * PFNWGLENUMGraphicsSNVPROC) (UINT iGraphicsIndex, HGraphicsNV *phGraphics);
+typedef BOOL (WINAPI * PFNWGLENUMGraphicsDEVICESNVPROC) (HGraphicsNV hGraphics, UINT iDeviceIndex, PGraphics_DEVICE lpGraphicsDevice);
+typedef HDC (WINAPI * PFNWGLCREATEAFFINITYDCNVPROC) (const HGraphicsNV *phGraphicsList);
+typedef BOOL (WINAPI * PFNWGLENUMGraphicsSFROMAFFINITYDCNVPROC) (HDC hAffinityDC, UINT iGraphicsIndex, HGraphicsNV *hGraphics);
 typedef BOOL (WINAPI * PFNWGLDELETEDCNVPROC) (HDC hdc);
 #endif
 
-#ifndef WGL_AMD_gpu_association
-#define WGL_AMD_gpu_association 1
+#ifndef WGL_AMD_Graphics_association
+#define WGL_AMD_Graphics_association 1
 #ifdef WGL_WGLEXT_PROTOTYPES
-extern UINT WINAPI wglGetGPUIDsAMD (UINT maxCount, UINT *ids);
-extern INT WINAPI wglGetGPUInfoAMD (UINT id, int property, GLenum dataType, UINT size, void *data);
-extern UINT WINAPI wglGetContextGPUIDAMD (HGLRC hglrc);
+extern UINT WINAPI wglGetGraphicsIDsAMD (UINT maxCount, UINT *ids);
+extern INT WINAPI wglGetGraphicsInfoAMD (UINT id, int property, GLenum dataType, UINT size, void *data);
+extern UINT WINAPI wglGetContextGraphicsIDAMD (HGLRC hglrc);
 extern HGLRC WINAPI wglCreateAssociatedContextAMD (UINT id);
 extern HGLRC WINAPI wglCreateAssociatedContextAttribsAMD (UINT id, HGLRC hShareContext, const int *attribList);
 extern BOOL WINAPI wglDeleteAssociatedContextAMD (HGLRC hglrc);
@@ -860,9 +860,9 @@ extern BOOL WINAPI wglMakeAssociatedContextCurrentAMD (HGLRC hglrc);
 extern HGLRC WINAPI wglGetCurrentAssociatedContextAMD (void);
 extern VOID WINAPI wglBlitContextFramebufferAMD (HGLRC dstCtx, GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter);
 #endif /* WGL_WGLEXT_PROTOTYPES */
-typedef UINT (WINAPI * PFNWGLGETGPUIDSAMDPROC) (UINT maxCount, UINT *ids);
-typedef INT (WINAPI * PFNWGLGETGPUINFOAMDPROC) (UINT id, int property, GLenum dataType, UINT size, void *data);
-typedef UINT (WINAPI * PFNWGLGETCONTEXTGPUIDAMDPROC) (HGLRC hglrc);
+typedef UINT (WINAPI * PFNWGLGETGraphicsIDSAMDPROC) (UINT maxCount, UINT *ids);
+typedef INT (WINAPI * PFNWGLGETGraphicsINFOAMDPROC) (UINT id, int property, GLenum dataType, UINT size, void *data);
+typedef UINT (WINAPI * PFNWGLGETCONTEXTGraphicsIDAMDPROC) (HGLRC hglrc);
 typedef HGLRC (WINAPI * PFNWGLCREATEASSOCIATEDCONTEXTAMDPROC) (UINT id);
 typedef HGLRC (WINAPI * PFNWGLCREATEASSOCIATEDCONTEXTATTRIBSAMDPROC) (UINT id, HGLRC hShareContext, const int *attribList);
 typedef BOOL (WINAPI * PFNWGLDELETEASSOCIATEDCONTEXTAMDPROC) (HGLRC hglrc);

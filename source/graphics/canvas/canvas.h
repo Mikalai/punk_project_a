@@ -1,5 +1,5 @@
-#ifndef GPU_COMMON_CONFIG_H
-#define GPU_COMMON_CONFIG_H
+#ifndef Graphics_COMMON_CONFIG_H
+#define Graphics_COMMON_CONFIG_H
 
 #ifdef _WIN32
 #include <graphics/opengl/module.h>
@@ -8,7 +8,7 @@
 #include <config.h>
 #include <system/window/win32_window.h>
 #include "canvas_desciption.h"
-#include "canvas_interface.h"
+#include "icanvas.h"
 
 PUNK_ENGINE_BEGIN
 namespace System { class ILogger; }
@@ -16,8 +16,13 @@ namespace Graphics {
 
     class PUNK_ENGINE_LOCAL Canvas : public System::WindowWin, public ICanvas {
     public:
-        Canvas(const CanvasDescription& desc = CanvasDescription());        
+        Canvas(const CanvasDescription& desc = CanvasDescription());
+        virtual ~Canvas();
         void SetFullscreen(bool value) override;
+        System::IWindow* GetWindow() override;
+        const CanvasDescription& GetDescription() override;
+        IVideoDriver* GetVideoDriver() override;
+        void SwapBuffers() override;
 
     protected:
         void InternalCreate() override;
@@ -25,12 +30,14 @@ namespace Graphics {
 
     private:
         void OnResize(const System::WindowResizeEvent&);
+        void OnKeyDown(const System::KeyEvent&);
     private:
         CanvasDescription m_canvas_description;
         HGLRC m_opengl_context;
-        int m_shader_version = 0;
-        int m_opengl_version = 0;
-        System::ILogger* m_logger;
+        int m_shader_version {0};
+        int m_opengl_version {0};
+        System::ILogger* m_logger {nullptr};
+        IVideoDriver* m_video_driver {nullptr};
     };
 }
 PUNK_ENGINE_END

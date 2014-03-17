@@ -78,13 +78,13 @@ namespace Image
 		int format;
 		switch (image.GetImageFormat())
 		{
-		case IMAGE_FORMAT_ALPHA:
+        case ImageFormat::ALPHA:
 			format = PNG_COLOR_TYPE_GRAY;
 			break;
-		case IMAGE_FORMAT_RGB:
+        case ImageFormat::RGB:
 			format = PNG_COLOR_TYPE_RGB;
 			break;
-		case IMAGE_FORMAT_RGBA:
+		case ImageFormat::RGBA:
 			format = PNG_COLOR_TYPE_RGBA;
 			break;
 		}

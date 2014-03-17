@@ -117,6 +117,14 @@ namespace System
         OnIdleEvent.Remove(delegate);
     }
 
+    void Window::SubscribeIdleEvent(void (*Delegate)(const IdleEvent&)) {
+        OnIdleEvent.Add(Delegate);
+    }
+
+    void Window::UnsubscribeIdleEvent(void (*Delegate)(const IdleEvent&)) {
+        OnIdleEvent.Remove(Delegate);
+    }
+
     void Window::Open() {
         if (!m_initialized) {
             InternalCreate();

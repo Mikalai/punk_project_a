@@ -84,8 +84,8 @@ namespace Punk {
             PUNK_ENGINE_API const quat operator / (const quat& q, const float& s);
             PUNK_ENGINE_API const quat operator * (const quat& q1, const quat& q2);
 
-            //    PUNK_ENGINE_API void SaveQuaternion(System::Buffer* buffer, const quat& value);
-            //    PUNK_ENGINE_API void LoadQuaternion(System::Buffer* buffer, quat& value);
+            //    PUNK_ENGINE_API void SaveQuaternion(Core::Buffer* buffer, const quat& value);
+            //    PUNK_ENGINE_API void LoadQuaternion(Core::Buffer* buffer, quat& value);
         }
     }
 }

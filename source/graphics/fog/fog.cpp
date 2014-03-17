@@ -1,6 +1,7 @@
 #include "fog.h"
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
 
 	FogDescription::FogDescription()
@@ -87,3 +88,4 @@ namespace Gpu
         return m_scale;
     }
 }
+PUNK_ENGINE_END

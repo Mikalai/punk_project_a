@@ -24,9 +24,9 @@
 
 PUNK_ENGINE_BEGIN
 namespace Graphics {
-    namespace gl {
+    namespace OpenGL {
 
-    void* GetGPUProcAddress(const char* name);
+    void* GetGraphicsProcAddress(const char* name);
     void InitExtensions();
 
 #ifdef _WIN32
@@ -162,7 +162,7 @@ namespace Graphics {
 		extern PFNGLGETSTRINGIPROC glGetStringi;/**/
 		extern PFNGLGETERRORPROC glGetError;
 		extern PFNGLGETINTEGERVPROC glGetIntegerv;
-        //extern PFNGLVIEWPORTPROC glViewport;
+        extern PFNGLVIEWPORTPROC glViewport;
 		extern PFNGLCLEARCOLORPROC glClearColor;
 		extern PFNGLCLEARDEPTHFPROC glClearDepthf;
 		extern PFNGLCLEARDEPTHPROC glClearDepth;
@@ -176,6 +176,7 @@ namespace Graphics {
 		extern PFNGLTEXPARAMETERIPROC glTexParameteri;
 		extern PFNGLTEXPARAMETERFVPROC glTexParameterfv;
 		extern PFNGLTEXIMAGE2DPROC glTexImage2D;
+        extern PFNGLTEXIMAGE3DPROC glTexImage3D;
 		extern PFNGLFRAMEBUFFERTEXTURE2DPROC glFramebufferTexture2D;
 		extern PFNGLDELETETEXTURESPROC glDeleteTextures;
 		extern PFNGLDRAWBUFFERPROC glDrawBuffer;

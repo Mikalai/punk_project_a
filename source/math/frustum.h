@@ -9,6 +9,7 @@ namespace Punk {
         namespace Math {
             class ClipSpace;
             class mat4;
+            class Plane;
 
             struct FrustumCore
             {

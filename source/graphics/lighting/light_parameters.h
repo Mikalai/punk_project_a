@@ -1,11 +1,14 @@
 #ifndef LIGHT_PARAMETERS_H
 #define LIGHT_PARAMETERS_H
 
-#include "../../../math/vec4.h"
-#include "../../../math/mat4.h"
+#include <cstddef>
+#include <config.h>
+#include <math/vec4.h>
+#include <math/mat4.h>
 #include "light_model.h"
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
 	class PUNK_ENGINE_API LightParameters
 	{
@@ -100,5 +103,6 @@ namespace Gpu
         bool m_enabled;
 	};
 }
+PUNK_ENGINE_END
 
 #endif // LIGHT_PARAMETERS_H

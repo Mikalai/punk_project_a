@@ -929,7 +929,7 @@ typedef void GLvoid;
 /* reuse GL_SYNC_STATUS */
 /* reuse GL_SYNC_FLAGS */
 /* reuse GL_SYNC_FENCE */
-/* reuse GL_SYNC_GPU_COMMANDS_COMPLETE */
+/* reuse GL_SYNC_Graphics_COMMANDS_COMPLETE */
 /* reuse GL_UNSIGNALED */
 /* reuse GL_SIGNALED */
 /* reuse GL_ALREADY_SIGNALED */
@@ -1009,14 +1009,14 @@ typedef void GLvoid;
 /* Reuse tokens from ARB_draw_indirect */
 /* reuse GL_DRAW_INDIRECT_BUFFER */
 /* reuse GL_DRAW_INDIRECT_BUFFER_BINDING */
-/* Reuse tokens from ARB_gpu_shader5 */
+/* Reuse tokens from ARB_Graphics_shader5 */
 /* reuse GL_GEOMETRY_SHADER_INVOCATIONS */
 /* reuse GL_MAX_GEOMETRY_SHADER_INVOCATIONS */
 /* reuse GL_MIN_FRAGMENT_INTERPOLATION_OFFSET */
 /* reuse GL_MAX_FRAGMENT_INTERPOLATION_OFFSET */
 /* reuse GL_FRAGMENT_INTERPOLATION_OFFSET_BITS */
 /* reuse GL_MAX_VERTEX_STREAMS */
-/* Reuse tokens from ARB_gpu_shader_fp64 */
+/* Reuse tokens from ARB_Graphics_shader_fp64 */
 /* reuse GL_DOUBLE_VEC2 */
 /* reuse GL_DOUBLE_VEC3 */
 /* reuse GL_DOUBLE_VEC4 */
@@ -1739,7 +1739,7 @@ typedef void GLvoid;
 #define GL_SYNC_STATUS                    0x9114
 #define GL_SYNC_FLAGS                     0x9115
 #define GL_SYNC_FENCE                     0x9116
-#define GL_SYNC_GPU_COMMANDS_COMPLETE     0x9117
+#define GL_SYNC_Graphics_COMMANDS_COMPLETE     0x9117
 #define GL_UNSIGNALED                     0x9118
 #define GL_SIGNALED                       0x9119
 #define GL_ALREADY_SIGNALED               0x911A
@@ -1867,7 +1867,7 @@ typedef void GLvoid;
 #define GL_DRAW_INDIRECT_BUFFER_BINDING   0x8F43
 #endif
 
-#ifndef GL_ARB_gpu_shader5
+#ifndef GL_ARB_Graphics_shader5
 #define GL_GEOMETRY_SHADER_INVOCATIONS    0x887F
 #define GL_MAX_GEOMETRY_SHADER_INVOCATIONS 0x8E5A
 #define GL_MIN_FRAGMENT_INTERPOLATION_OFFSET 0x8E5B
@@ -1876,7 +1876,7 @@ typedef void GLvoid;
 /* reuse GL_MAX_VERTEX_STREAMS */
 #endif
 
-#ifndef GL_ARB_gpu_shader_fp64
+#ifndef GL_ARB_Graphics_shader_fp64
 /* reuse GL_DOUBLE */
 #define GL_DOUBLE_VEC2                    0x8FFC
 #define GL_DOUBLE_VEC3                    0x8FFD
@@ -3342,8 +3342,8 @@ typedef void (APIENTRYP PFNGLVERTEXATTRIBDIVISORPROC) (GLuint index, GLuint divi
 /* OpenGL 4.0 also reuses entry points from these extensions: */
 /* ARB_texture_query_lod (no entry points) */
 /* ARB_draw_indirect */
-/* ARB_gpu_shader5 (no entry points) */
-/* ARB_gpu_shader_fp64 */
+/* ARB_Graphics_shader5 (no entry points) */
+/* ARB_Graphics_shader_fp64 */
 /* ARB_shader_subroutine */
 /* ARB_tessellation_shader */
 /* ARB_texture_buffer_object_rgb32 (no entry points) */
@@ -3833,12 +3833,12 @@ typedef void (APIENTRYP PFNGLDRAWARRAYSINDIRECTPROC) (GLenum mode, const GLvoid 
 typedef void (APIENTRYP PFNGLDRAWELEMENTSINDIRECTPROC) (GLenum mode, GLenum type, const GLvoid *indirect);
 #endif
 
-#ifndef GL_ARB_gpu_shader5
-#define GL_ARB_gpu_shader5 1
+#ifndef GL_ARB_Graphics_shader5
+#define GL_ARB_Graphics_shader5 1
 #endif
 
-#ifndef GL_ARB_gpu_shader_fp64
-#define GL_ARB_gpu_shader_fp64 1
+#ifndef GL_ARB_Graphics_shader_fp64
+#define GL_ARB_Graphics_shader_fp64 1
 #ifdef GLCOREARB_PROTOTYPES
 GLAPI void APIENTRY glUniform1d (GLint location, GLdouble x);
 GLAPI void APIENTRY glUniform2d (GLint location, GLdouble x, GLdouble y);

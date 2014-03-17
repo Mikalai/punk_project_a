@@ -1,7 +1,10 @@
 #ifndef FRAME_BUFFER_TARGET_H
 #define FRAME_BUFFER_TARGET_H
 
-namespace Gpu
+#include <config.h>
+
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
     enum class FrameBufferTarget {
         TargetNone,
@@ -16,5 +19,6 @@ namespace Gpu
         TargetFrontBack
     };
 }
+PUNK_ENGINE_END
 
 #endif // FRAME_BUFFER_TARGET_H

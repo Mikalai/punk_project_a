@@ -1,26 +1,24 @@
 #ifndef GL_COLOR_RENDER_BUFFER_H
 #define GL_COLOR_RENDER_BUFFER_H
 
-#include "gpu/common/frame_buffer/color_render_buffer.h"
-#include "opengl/gl/glcorearb.h"
+#include <graphics/frame_buffer/color_render_buffer.h>
+#include <graphics/opengl/module.h>
 
-namespace Gpu
-{
+PUNK_ENGINE_BEGIN
+namespace Graphics {
     class FrameBufferConfig;
+    class IVideoDriver;
 
-    namespace OpenGL
-    {
-        class GlVideoDriverProxy;
+    namespace OpenGL {        
 
-        class GlColorRenderBuffer : public ColorRenderBuffer
-        {
+        class PUNK_ENGINE_LOCAL GlColorRenderBuffer : public ColorRenderBuffer {
         public:
             /**
              * @brief OpenGLColorRenderBuffer create an opengl color buffer, compatible with
              * frame buffer with current config
              * @param driver
              */
-            GlColorRenderBuffer(FrameBufferConfig* config, GlVideoDriverProxy* driver);
+            GlColorRenderBuffer(const FrameBufferConfig& config, IVideoDriver* driver);
             virtual ~GlColorRenderBuffer();
 
             virtual void Bind() override;
@@ -32,5 +30,6 @@ namespace Gpu
         };
     }
 }
+PUNK_ENGINE_END
 
 #endif // GL_COLOR_RENDER_BUFFER_H

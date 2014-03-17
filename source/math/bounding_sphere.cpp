@@ -55,12 +55,12 @@ namespace Punk {
                 SetRadius(radius);
             }
 
-            //    void SaveBoundingSphere(System::Buffer* buffer, const BoundingSphere& sphere)
+            //    void SaveBoundingSphere(Core::Buffer* buffer, const BoundingSphere& sphere)
             //    {
             //        SaveSphere(buffer, sphere);
             //    }
 
-            //    void LoadBoundingSphere(System::Buffer* buffer, BoundingSphere& sphere)
+            //    void LoadBoundingSphere(Core::Buffer* buffer, BoundingSphere& sphere)
             //    {
             //        LoadSphere(buffer, sphere);
             //    }

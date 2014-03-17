@@ -1,7 +1,9 @@
-#include "../../../math/vec3.h"
+#include <math/vec3.h>
+#include <math/matrix_helper.h>
 #include "light_parameters.h"
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
 
 	LightParameters::LightParameters()
@@ -142,19 +144,19 @@ namespace Gpu
     {
         if (m_light_type == LightType::Spot)
         {
-            Math::mat4 res = Math::mat4::CreatePerspectiveProjection(m_spot_exponent, 1, 1, 0.1, 100.0);
+            Math::mat4 res = Math::CreatePerspectiveProjection(m_spot_exponent, 1, 1, 0.1, 100.0);
             return res;
         }
         else
         {
-            Math::mat4 res = Math::mat4::CreateOrthographicProjection2(-16, 16, -16, 16, 0.1, 100.0);
+            Math::mat4 res = Math::CreateOrthographicProjection2(-16, 16, -16, 16, 0.1, 100.0);
             return res;
         }
     }
 
     const Math::mat4 LightParameters::GetViewMatrix() const
     {
-        Math::mat4 res = Math::mat4::CreateTargetCameraMatrix(m_position.XYZ(), (m_position + m_direction).XYZ(), Math::vec3(0, 0, 1));
+        Math::mat4 res = Math::CreateTargetCameraMatrix(m_position.XYZ(), (m_position + m_direction).XYZ(), Math::vec3(0, 0, 1));
         return res;
     }
 
@@ -257,5 +259,6 @@ namespace Gpu
     {
         return m_view_position;
     }
-
 }
+PUNK_ENGINE_END
+

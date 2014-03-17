@@ -2,8 +2,10 @@
 #define _PUNK_GPU_VERTEX_COMPONENT
 
 #include <stdint.h>
+#include <config.h>
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
 	/*
 	position	0
@@ -103,5 +105,6 @@ namespace Gpu
 	};
 
 }
+PUNK_ENGINE_END
 
 #endif	//	_PUNK_GPU_VERTEX_COMPONENT

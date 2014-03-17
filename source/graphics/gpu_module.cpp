@@ -1,7 +1,7 @@
 //#include "module.h"
 //#include "opengl/module.h"
 
-//namespace Gpu
+//namespace Graphics
 //{
 //    VideoDriver* Init(const VideoDriverDesc& data)
 //	{

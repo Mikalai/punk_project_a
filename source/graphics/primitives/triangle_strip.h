@@ -1,29 +1,34 @@
 #ifndef _H_PUNK_TRIANGLE_STRIPS
 #define _H_PUNK_TRIANGLE_STRIPS
 
-#include "../renderable.h"
+#include "itriangle_strip.h"
+#include "renderable.h"
+#include "vertex.h"
 
 #define CreateTriangleStripsInterface(VertexType)\
 template<>\
-class PUNK_ENGINE_API TriangleStrip<VertexType> : public Renderable {\
+class PUNK_ENGINE_LOCAL TriangleStrip<VertexType> : public Renderable, public ITriangleStrip {\
 public:\
-    TriangleStrip<VertexType>(VideoDriver* driver);\
+    TriangleStrip<VertexType>(IVideoDriver* driver);\
     virtual ~TriangleStrip<VertexType>();\
-    void Cook(const std::vector<VertexType>& value);\
-    virtual void Bind(int64_t) override;\
+    void Cook(const IVertexArray* value);\
+    virtual void Bind(std::int64_t) override;\
     virtual void Unbind() override;\
     virtual void Render() override;\
+    virtual std::uint64_t GetMemoryUsage() override; \
+    virtual bool HasData() const override; \
 private:\
     Renderable* impl;\
 }
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
-    class VideoDriver;
-
+    class IVideoDriver;
     template<typename VertexType> class TriangleStrip;
 
     CreateTriangleStripsInterface(Vertex<VertexComponent::Position>);
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_TRIANGLE_STRIPS

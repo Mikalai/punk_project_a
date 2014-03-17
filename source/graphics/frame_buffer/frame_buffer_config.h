@@ -1,24 +1,25 @@
 #ifndef FRAME_BUFFER_CONFIG_H
 #define FRAME_BUFFER_CONFIG_H
 
-#include "../../../string/string.h"
-#include "../../../images/formats.h"
+#include <string/module.h>
+#include <images/formats.h>
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
     class FrameBufferConfig
     {
     public:
         FrameBufferConfig();
 
-        const System::string& Name() const;
-        void Name(const System::string& value);
+        const Core::String& Name() const;
+        void Name(const Core::String& value);
 
-        ImageModule::ImageFormat ColorFormat() const;
-        void ColorFormat(ImageModule::ImageFormat value);
+        Image::ImageFormat ColorFormat() const;
+        void ColorFormat(Image::ImageFormat value);
 
-        ImageModule::ImageFormat DepthFormat() const;
-        void DepthFormat(ImageModule::ImageFormat value);
+        Image::ImageFormat DepthFormat() const;
+        void DepthFormat(Image::ImageFormat value);
 
         int RedBitsCount() const;
         void RedBitsCount(int value);
@@ -39,9 +40,9 @@ namespace Gpu
         void Height(unsigned value);
 
     private:
-        System::string m_name;
-        ImageModule::ImageFormat m_color_format;
-        ImageModule::ImageFormat m_depth_format;
+        Core::String m_name;
+        Image::ImageFormat m_color_format;
+        Image::ImageFormat m_depth_format;
         int m_red_bits;
         int m_depth_bits;
         int m_depth_samples;
@@ -50,5 +51,6 @@ namespace Gpu
         unsigned m_height;
     };
 }
+PUNK_ENGINE_END
 
 #endif // FRAME_BUFFER_CONFIG_H

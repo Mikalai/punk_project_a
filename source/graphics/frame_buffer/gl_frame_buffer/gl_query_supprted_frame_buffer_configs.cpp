@@ -1,6 +1,6 @@
 //#include "../../common/frame_buffer/module.h"
 
-//namespace Gpu
+//namespace Graphics
 //{
 //    class FrameBufferConfig;
 //    namespace OpenGL

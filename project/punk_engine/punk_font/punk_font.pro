@@ -27,7 +27,10 @@ HEADERS += \
     ../../../source/fonts/freetype/include/config/ftheader.h \
     ../../../source/fonts/freetype/include/config/ftmodule.h \
     ../../../source/fonts/freetype/include/config/ftoption.h \
-    ../../../source/fonts/freetype/include/config/ftstdlib.h
+    ../../../source/fonts/freetype/include/config/ftstdlib.h \
+    ../../../source/fonts/ifont.h \
+    ../../../source/fonts/font.h \
+    ../../../source/fonts/cache_data.h
 
 SOURCES += \
     ../../../source/fonts/font_builder.cpp \
@@ -71,4 +74,5 @@ SOURCES += \
     ../../../source/fonts/freetype/src/lzw/ftlzw.c \
     ../../../source/fonts/freetype/src/base/ftstroke.c \
     ../../../source/fonts/freetype/src/base/ftsystem.c \
-    ../../../source/fonts/freetype/src/smooth/smooth.c
+    ../../../source/fonts/freetype/src/smooth/smooth.c \
+    ../../../source/fonts/font.cpp

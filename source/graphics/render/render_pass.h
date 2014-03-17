@@ -1,35 +1,37 @@
 #ifndef _H_PUNK_RENDER_PASS
 #define _H_PUNK_RENDER_PASS
 
-#include "../../../config.h"
+#include <config.h>
 #include <map>
 #include <vector>
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
 	class Batch;    
-	class VideoDriver;
-	class Texture2D;
-	class Renderable;
-	class CoreState;
+    class CoreState;
+    class IVideoDriver;
+    class ITexture2D;
+    class IRenderable;
 
 	class RenderPass
 	{
 	public:
-		RenderPass(VideoDriver* driver, std::vector<Batch*> batches);
+        RenderPass(IVideoDriver* driver, std::vector<Batch*> batches);
 		~RenderPass();
 		void Run();
 
 	private:
-		VideoDriver* m_driver;
+        IVideoDriver* m_driver;
 		std::vector<Batch*> m_batches;
-		Texture2D* m_shadow_map;
+        ITexture2D* m_shadow_map;
 
 		void SetUpShadowMap();
 		void GenerateShadowMap(std::vector<Batch*>& batches);
-		void OnePass(Renderable* renderable, CoreState* state);
+        void OnePass(IRenderable* renderable, CoreState* state);
 	};
 
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_OPENGL_RENDEER

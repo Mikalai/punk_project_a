@@ -1,38 +1,33 @@
 #include "render_buffer_config.h"
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
     RenderBufferConfig::RenderBufferConfig()
-    {
-    }
+    {}
 
-    void RenderBufferConfig::Name(const System::string& value)
-    {
+    void RenderBufferConfig::Name(const Core::String& value) {
         m_name = value;
     }
 
-    const System::string& RenderBufferConfig::Name() const
-    {
+    const Core::String& RenderBufferConfig::Name() const {
         return m_name;
     }
 
-    void RenderBufferConfig::Format(ImageModule::ImageFormat value)
-    {
+    void RenderBufferConfig::Format(Image::ImageFormat value) {
         m_format = value;
     }
 
-    ImageModule::ImageFormat RenderBufferConfig::Format() const
-    {
+    Image::ImageFormat RenderBufferConfig::Format() const {
         return m_format;
     }
 
-    void RenderBufferConfig::Bits(int value)
-    {
+    void RenderBufferConfig::Bits(int value) {
         m_bits = value;
     }
 
-    int RenderBufferConfig::Bits() const
-    {
+    int RenderBufferConfig::Bits() const {
         return m_bits;
     }
 }
+PUNK_ENGINE_END

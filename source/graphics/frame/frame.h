@@ -1,34 +1,35 @@
 #ifndef _H_PUNK_COMMON_RENDER_FRAME
 #define _H_PUNK_COMMON_RENDER_FRAME
 
-#include "../../config.h"
-#include "gpu_state.h"
+#include <config.h>
+#include <graphics/state/module.h>
+#include <core/poolable.h>
 
-namespace Math
-{
+PUNK_ENGINE_BEGIN
+namespace Math {
 	class mat4;
 	class vec4;
 }
 
-namespace Gpu
+namespace Graphics
 {
-	class VideoDriver;
-	class Texture2D;
-    class TextSurface;
-	class Renderable;
-	class Batch;
-    class FrameBuffer;
+    class IVideoDriver;
+    class ITexture2D;
+    class ITextSurface;
+    class IRenderable;
+    class IFrameBuffer;
+	class Batch;    
 
-	class PUNK_ENGINE_API Frame : public System::Poolable<Frame>
+    class PUNK_ENGINE_API Frame : public Core::Poolable<Frame>
 	{
 	public:
 		
 		~Frame();
 
 		void BeginRendering();
-        //void BeginRendering(Texture2D* color_buffer, Texture2D* depth_buffer);
-        void BeginRendering(FrameBuffer* target);
-		void Submit(Renderable* value, bool destroy = false);		
+        //void BeginRendering(ITexture2D* color_buffer, ITexture2D* depth_buffer);
+        void BeginRendering(IFrameBuffer* target);
+        void Submit(IRenderable* value, bool destroy = false);
 
 		void SetClipSpace(const Math::ClipSpace& value);		
         const Math::ClipSpace& GetClipSpace() const;
@@ -62,16 +63,16 @@ namespace Gpu
         const Math::vec4& GetDiffuseColor() const;
 
         //  MAPS
-        void SetSpecularMap(Texture2D* value, int slot);
-        void SetBumpMap(Texture2D* value, int slot);
-        void SetDiffuseMap(int index, Texture2D* value, int slot);
-        void SetHeightMap(Texture2D* value, int slot);
-        void SetNormalMap(Texture2D* value, int slot);
-        void SetTextMap(Texture2D* value, int slot);
-        void SetFontMap(Texture2D* value, int slot);
-        const Texture2D* GetDiffuseMap(int index) const;
-		const Texture2D* GetSpecularMap() const;		
-		const Texture2D* GetBumpMap() const;				
+        void SetSpecularMap(ITexture2D* value, int slot);
+        void SetBumpMap(ITexture2D* value, int slot);
+        void SetDiffuseMap(int index, ITexture2D* value, int slot);
+        void SetHeightMap(ITexture2D* value, int slot);
+        void SetNormalMap(ITexture2D* value, int slot);
+        void SetTextMap(ITexture2D* value, int slot);
+        void SetFontMap(ITexture2D* value, int slot);
+        const ITexture2D* GetDiffuseMap(int index) const;
+        const ITexture2D* GetSpecularMap() const;
+        const ITexture2D* GetBumpMap() const;
 		
         void CastShadows(bool value);
 		void ReceiveShadow(bool value);
@@ -106,12 +107,12 @@ namespace Gpu
         void SetShadowModel(ShadowModel value);
         void SetShadowMapSize(const Math::ivec2& value);
         void SetShadowMapSize(int width, int height);
-        void SetTexture2DArray(Texture2DArray* value, int slot);
+        void SetTexture2DArray(ITexture2DArray* value, int slot);
         //  index in current texture 2d array
         void SetShadowMapIndex(int shadow_map, int index);
         void SetDiffuseMapIndex(int diffuse_map, int index);
         void SetNormalMapIndex(int index);
-        void SetShadowMaps(Texture2DArray* value);
+        void SetShadowMaps(ITexture2DArray* value);
 
 
         const Math::vec4 GetClearColor() const;
@@ -133,12 +134,12 @@ namespace Gpu
         void DrawCircleXY(const Math::vec3& c, float r);
         void DrawQuad(float x, float y, float width, float height);
         void DrawQuad(const Math::Rect& rect);
-        void DrawText2D(float x, float y, const System::string& value);
-        void DrawText2D(float x, float y, float width, float height, const System::string& value);
-        void DrawText2D(const Math::vec2& pos, const System::string& value);
-        void DrawText2D(const Math::vec2& pos, const Math::vec2& size, const System::string& value);
-        void DrawText3D(float x, float y, float z, const System::string& value);
-        void DrawText3D(const Math::vec3& pos, const System::string& value);
+        void DrawText2D(float x, float y, const Core::String& value);
+        void DrawText2D(float x, float y, float width, float height, const Core::String& value);
+        void DrawText2D(const Math::vec2& pos, const Core::String& value);
+        void DrawText2D(const Math::vec2& pos, const Math::vec2& size, const Core::String& value);
+        void DrawText3D(float x, float y, float z, const Core::String& value);
+        void DrawText3D(const Math::vec3& pos, const Core::String& value);
         void DrawAxis(float scale = 10);
 
 		void SetBlendColor(const Math::vec4& value);
@@ -166,7 +167,7 @@ namespace Gpu
 		void PushTextureState();
 		void PopTextureState();
 
-        VideoDriver* GetVideoDriver() const;
+        IVideoDriver* GetVideoDriver() const;
         std::vector<Batch*>& GetBatches();
         const std::vector<Batch*>& GetBatches() const;
 
@@ -177,26 +178,24 @@ namespace Gpu
 		CoreState* Top();
 		const CoreState* Top() const;
 
+    private:
 		//	next should be delete in destructor
 		std::stack<CoreState*> m_state;
 
-		//	next should not be deleted in destructor
-        FrameBuffer* m_current_frame_buffer;
-
-		VideoDriver* m_driver;
+        //	next should not be deleted in destructor
+        IFrameBuffer* m_current_frame_buffer;
+        IVideoDriver* m_driver;
 		std::vector<Batch*> m_batches;
-        std::vector<TextSurface*> m_texts;
-
-        Texture2DArray* m_shadow_maps;
+        std::vector<ITextSurface*> m_texts;
+        ITexture2DArray* m_shadow_maps;
 	private:
 		//	driver can create frames
-		Frame(VideoDriver* driver);
+        Frame(IVideoDriver* driver);
 
 		Frame(const Frame&) = delete;
 		Frame& operator = (const Frame&) = delete;
-
-		friend class VideoDriver;
 	};
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_COMMON_RENDER_FRAME

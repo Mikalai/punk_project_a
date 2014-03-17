@@ -1,9 +1,9 @@
+#include <memory.h>
 #include "texture_context.h"
-#include "texture2d.h"
-#include <string.h>
+#include "itexture.h"
 
-namespace Gpu
-{
+PUNK_ENGINE_BEGIN
+namespace Graphics {
 
     TextureContext::TextureContext()
     {
@@ -43,9 +43,11 @@ namespace Gpu
         }
     }
 
-    void TextureContext::SetTexture(int slot, Texture2D* map)
+    void TextureContext::SetTexture(int slot, ITexture* map)
     {
         m_textures[slot] = map;
     }
 
 }
+PUNK_ENGINE_END
+

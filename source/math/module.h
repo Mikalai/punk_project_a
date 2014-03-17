@@ -30,5 +30,6 @@
 #include "perspective_decoder.h"
 #include "recount.h"
 #include "spherical.h"
+#include "clip_space.h"
 
 #endif

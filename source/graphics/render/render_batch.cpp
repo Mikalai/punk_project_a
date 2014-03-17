@@ -1,17 +1,17 @@
+#include <graphics/state/module.h>
+#include <graphics/primitives/module.h>
 #include "render_batch.h"
-#include "../gpu_state.h"
-#include "../renderable.h"
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
-	Batch::~Batch()
-	{
+	Batch::~Batch()	{
 		delete m_state;
 		m_state = nullptr;
-		if (m_destroy)
-		{
-			delete m_renderable;
+        if (m_destroy) {
+            DestroyRenderable(m_renderable);
 			m_renderable = nullptr;
 		}
 	}
 }
+PUNK_ENGINE_END

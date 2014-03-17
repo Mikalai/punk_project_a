@@ -12,7 +12,7 @@
 #include <Windows.h>
 #include <dshow.h>
 
-namespace Gpu
+namespace Graphics
 {
 		class Texture2D;
 }

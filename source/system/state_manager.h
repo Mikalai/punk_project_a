@@ -3,14 +3,16 @@
 
 #include <vector>
 #include <stack>
+#include <core/poolable.h>
+#include <system/errors/module.h>
 #include "smart_pointers/proxy.h"
 #include "errors/module.h"
-#include "poolable.h"
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
 	template<class T>
-	class State : public Poolable<State<T>>
+    class State : public Core::Poolable<State<T>>
 	{
 	public:
 
@@ -51,7 +53,7 @@ namespace System
 		bool Pop()
 		{
 			if (m_states.empty())
-				throw System::PunkInvalidArgumentException(L"Error in render state stack");
+                throw Error::SystemException(L"Error in state stack");
 
 			delete m_current_state;
 			m_current_state = m_states.top();
@@ -64,5 +66,6 @@ namespace System
 		std::stack<State<T>*> m_states;
 	};
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_SYSTEM_STATE

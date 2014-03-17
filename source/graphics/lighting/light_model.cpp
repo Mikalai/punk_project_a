@@ -1,15 +1,18 @@
+#include <utility>
+#include <string/module.h>
 #include "light_model.h"
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
-	using LightModelDesc = std::pair<LightModel, System::string>;
+	using LightModelDesc = std::pair<LightModel, Core::String>;
 	static const LightModelDesc g_light_models[] = {
 		LightModelDesc(LightModel::PerVertexDiffuse, L"Per-vertex diffuse"),
 		LightModelDesc(LightModel::PerFragmentDiffuse, L"Per-pixel diffuse"),
         LightModelDesc(LightModel::BumpMappingDiffuse, L"Bump mapping diffuse"),
 	};
 
-	const System::string AsString(const LightModel& v)
+	const Core::String AsString(const LightModel& v)
 	{
 		for (size_t i = 0; i != std::extent<decltype(g_light_models)>::value; ++i)
 		{
@@ -19,14 +22,14 @@ namespace Gpu
 		return L"ERROR";
 	}
 
-	using LightAttenuationDesc = std::pair<LightAttenuation, System::string>;
+	using LightAttenuationDesc = std::pair<LightAttenuation, Core::String>;
 	static const LightAttenuationDesc g_light_attenuations[] = {
 		LightAttenuationDesc(LightAttenuation::Constant, L"Constant"),
 		LightAttenuationDesc(LightAttenuation::Linear, L"Linear"),
 		LightAttenuationDesc(LightAttenuation::Quadratic, L"Quadratic")
 	};
 
-	const System::string AsString(LightAttenuation value)
+	const Core::String AsString(LightAttenuation value)
 	{
 		for (size_t i = 0; i != std::extent<decltype(g_light_attenuations)>::value; ++i)
 		{
@@ -36,14 +39,14 @@ namespace Gpu
 		return L"ERROR";
 	}
 
-	using LightTypeDesc = std::pair<LightType, System::string>;
+	using LightTypeDesc = std::pair<LightType, Core::String>;
 	static const LightTypeDesc g_light_types[] = {
 		LightTypeDesc(LightType::Point, L"Point"),
         LightTypeDesc(LightType::Direction, L"Direction"),
 		LightTypeDesc(LightType::Spot, L"Spot")
 	};
 
-	const System::string AsString(LightType value)
+	const Core::String AsString(LightType value)
 	{
 		for (size_t i = 0; i != std::extent<decltype(g_light_types)>::value; ++i)
 		{
@@ -53,3 +56,4 @@ namespace Gpu
 		return L"ERROR";
 	}
 }
+PUNK_ENGINE_END

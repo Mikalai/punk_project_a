@@ -1,16 +1,21 @@
 #include <memory>
-#include "frame_buffer/module.h"
+#include <math/matrix_helper.h>
+#include <system/window/module.h>
+#include <graphics/text/module.h>
+#include <graphics/canvas/module.h>
+#include <graphics/error/module.h>
+#include <graphics/frame_buffer/module.h>
+#include <graphics/video_driver/module.h>
+#include <graphics/render/module.h>
+#include <graphics/renderable/module.h>
+#include <graphics/primitives/module.h>
+#include <graphics/texture/module.h>
 #include "frame.h"
-#include "video_driver.h"
-#include "render/module.h"
-#include "renderable_builder.h"
-#include "primitive_type.h"
-#include "texture/module.h"
-#include "texture/text_surface.h"
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
-    Frame::Frame(VideoDriver* driver)
+    Frame::Frame(IVideoDriver* driver)
     {
         m_driver = driver;
         m_state.push(new CoreState);
@@ -50,13 +55,10 @@ namespace Gpu
     void Frame::Clear(bool color, bool depth, bool stencil)
     {
         if (!Top()->m_active_rendering)
-            throw System::PunkException(L"Can't perform clear operation, because target is not specified");
-        GetVideoDriver()->SetClearColor(Top()->render_state->m_clear_color);
-        GetVideoDriver()->SetClearDepth(Top()->render_state->m_clear_depth);
-        GetVideoDriver()->Clear(color, depth, stencil);
-//        m_current_target->SetClearColor(Top()->render_state->m_clear_color);
-//        m_current_target->SetClearDepth(Top()->render_state->m_clear_depth);
-//        m_current_target->Clear(color, depth, stencil);
+            throw Error::GraphicsException(L"Can't perform clear operation, because target is not specified");
+        m_current_frame_buffer->SetClearColor(Top()->render_state->m_clear_color);
+        m_current_frame_buffer->SetClearDepth(Top()->render_state->m_clear_depth);
+        m_current_frame_buffer->Clear(color, depth, stencil);
     }
 
     const Math::vec4 Frame::GetClearColor() const
@@ -64,15 +66,16 @@ namespace Gpu
         return Top()->render_state->m_clear_color;
     }
 
-    void Frame::BeginRendering(FrameBuffer *target)
+    void Frame::BeginRendering(IFrameBuffer *target)
     {
         if (Top()->m_active_rendering)
-            throw System::PunkException(L"Rendering is already started. Call EndRendering() before");
+            throw Error::GraphicsException(L"Rendering is already started. Call EndRendering() before");
         Top()->m_active_rendering = true;
         m_current_frame_buffer = target;
         if (m_current_frame_buffer)
             m_current_frame_buffer->Bind();
-        GetVideoDriver()->SetViewport(0, 0, GetVideoDriver()->GetWindow()->GetWidth(), GetVideoDriver()->GetWindow()->GetHeight());
+        System::IWindow* canvas = GetVideoDriver()->GetCanvas()->GetWindow();
+        m_current_frame_buffer->SetViewport(0, 0, canvas->GetWidth(), canvas->GetHeight());
     }
 
     void Frame::BeginRendering()
@@ -80,7 +83,7 @@ namespace Gpu
         BeginRendering(nullptr);
     }
 
-//    void Frame::BeginRendering(Texture2D *color_buffer, Texture2D *depth_buffer)
+//    void Frame::BeginRendering(ITexture2D *color_buffer, ITexture2D *depth_buffer)
 //    {
 //        if (Top()->m_active_rendering)
 //            throw System::PunkException(L"Rendering is already started. Call EndRendering() before");
@@ -100,7 +103,7 @@ namespace Gpu
             m_current_frame_buffer->Unbind();
     }
 
-    void Frame::Submit(Renderable* value, bool destroy)
+    void Frame::Submit(IRenderable* value, bool destroy)
     {
         if (!value)
             return;
@@ -206,25 +209,25 @@ namespace Gpu
         Top()->batch_state->m_material.m_diffuse_color.Set(r, g, b, a);
     }
 
-    void Frame::SetDiffuseMap(int index, Texture2D *value, int slot)
+    void Frame::SetDiffuseMap(int index, ITexture2D *value, int slot)
     {
         Top()->texture_state->m_diffuse_map[index] = value;
         Top()->texture_state->m_diffuse_slot[index] = slot;
     }
 
-    void Frame::SetNormalMap(Texture2D* value, int slot)
+    void Frame::SetNormalMap(ITexture2D* value, int slot)
     {
         Top()->texture_state->m_normal_map = value;
         Top()->texture_state->m_normal_map_slot = slot;
     }
 
-    void Frame::SetTextMap(Texture2D *value, int slot)
+    void Frame::SetTextMap(ITexture2D *value, int slot)
     {
         Top()->texture_state->m_text_map = value;
         Top()->texture_state->m_text_map_slot = slot;
     }    
 
-    void Frame::SetFontMap(Texture2D* value, int slot)
+    void Frame::SetFontMap(ITexture2D* value, int slot)
     {
         Top()->texture_state->m_text_map = value;
         Top()->texture_state->m_text_map_slot = slot;
@@ -260,13 +263,13 @@ namespace Gpu
         Top()->batch_state->m_material.m_specular_color = value;
     }
 
-    void Frame::SetSpecularMap(Texture2D* value, int slot)
+    void Frame::SetSpecularMap(ITexture2D* value, int slot)
     {
         Top()->texture_state->m_specular_map = value;
         Top()->texture_state->m_specular_map_slot = slot;
     }
 
-    void Frame::SetBumpMap(Texture2D* value, int slot)
+    void Frame::SetBumpMap(ITexture2D* value, int slot)
     {
         Top()->texture_state->m_normal_map = value;
         Top()->texture_state->m_normal_map_slot = slot;
@@ -302,7 +305,7 @@ namespace Gpu
         return Top()->batch_state->m_material.m_diffuse_color;
     }
 
-    const Texture2D* Frame::GetDiffuseMap(int index) const
+    const ITexture2D* Frame::GetDiffuseMap(int index) const
     {
         return Top()->texture_state->m_diffuse_map[index];
     }
@@ -317,12 +320,12 @@ namespace Gpu
         return Top()->batch_state->m_material.m_specular_color;
     }
 
-    const Texture2D* Frame::GetSpecularMap() const
+    const ITexture2D* Frame::GetSpecularMap() const
     {
         return Top()->texture_state->m_specular_map;
     }
 
-    const Texture2D* Frame::GetBumpMap() const
+    const ITexture2D* Frame::GetBumpMap() const
     {
         return Top()->texture_state->m_normal_map;
     }
@@ -383,7 +386,7 @@ namespace Gpu
         Top()->render_state->m_shadow_model = value;
     }
 
-    void Frame::SetTexture2DArray(Texture2DArray *value, int slot)
+    void Frame::SetTexture2DArray(ITexture2DArray *value, int slot)
     {
         Top()->texture_state->m_texture_array = value;
         Top()->texture_state->m_texture_array_slot = slot;
@@ -459,7 +462,7 @@ namespace Gpu
         Top()->view_state->m_clip_space = value;
     }
 
-    void Frame::SetHeightMap(Texture2D* value, int slot)
+    void Frame::SetHeightMap(ITexture2D* value, int slot)
     {
         Top()->texture_state->m_height_map = value;
         Top()->texture_state->m_height_map_slot = slot;
@@ -552,9 +555,9 @@ namespace Gpu
 
     LightParameters& Frame::Light(int slot)
     {
-        if (slot < MAX_LIGHTS)
+        if (slot < BaseState::MAX_LIGHTS)
             return Top()->light_state->m_lights[slot];
-        throw System::PunkException(L"Too many light");
+        throw Error::GraphicsException(L"Too many light");
     }
 
     CoreState* Frame::Top()
@@ -572,12 +575,12 @@ namespace Gpu
         PushAllState();
         EnableLighting(false);
         EnableTexturing(false);
-        RenderableBuilder b(m_driver);
-        b.Begin(PrimitiveType::LINES);
-        b.Vertex3fv(start);
-        b.Vertex3fv(end);
-        b.End();
-        Renderable* r(b.ToRenderable());
+        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(m_driver);
+        b->Begin(PrimitiveType::LINES);
+        b->Vertex3fv(start);
+        b->Vertex3fv(end);
+        b->End();
+        IRenderable* r = b->ToRenderable();
         Submit(r, true);
         PopAllState();
     }
@@ -587,12 +590,12 @@ namespace Gpu
         PushAllState();
         EnableLighting(false);
         EnableTexturing(false);
-        SetProjectionMatrix(Math::mat4::CreateIdentity());
-        SetViewMatrix(Math::mat4::CreateIdentity());
-        SetWorldMatrix(Math::mat4::CreateIdentity());
+        SetProjectionMatrix(Math::CreateIdentity());
+        SetViewMatrix(Math::CreateIdentity());
+        SetWorldMatrix(Math::CreateIdentity());
 
-        float width = GetVideoDriver()->GetWindow()->GetWidth();
-        float height = GetVideoDriver()->GetWindow()->GetHeight();
+        float width = GetVideoDriver()->GetCanvas()->GetWindow()->GetWidth();
+        float height = GetVideoDriver()->GetCanvas()->GetWindow()->GetHeight();
 
         Math::vec3 p1;
         p1[0] = -1.0f + 2.0f * x1 / width;
@@ -604,12 +607,12 @@ namespace Gpu
         p2[1] = -1.0f + 2.0f * y2 / height;
         p2[2] = 0;
 
-        RenderableBuilder b(m_driver);
-        b.Begin(PrimitiveType::LINES);
-        b.Vertex3fv(p1);
-        b.Vertex3fv(p2);
-        b.End();
-        Renderable* r(b.ToRenderable());
+        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(m_driver);
+        b->Begin(PrimitiveType::LINES);
+        b->Vertex3fv(p1);
+        b->Vertex3fv(p2);
+        b->End();
+        IRenderable* r = b->ToRenderable();
         Submit(r, true);
         PopAllState();
     }
@@ -617,23 +620,23 @@ namespace Gpu
     void Frame::DrawPoint(float x, float y)
     {
         PushAllState();
-        SetProjectionMatrix(Math::mat4::CreateIdentity());
-        SetViewMatrix(Math::mat4::CreateIdentity());
-        SetWorldMatrix(Math::mat4::CreateIdentity());
+        SetProjectionMatrix(Math::CreateIdentity());
+        SetViewMatrix(Math::CreateIdentity());
+        SetWorldMatrix(Math::CreateIdentity());
 
-        float width = GetVideoDriver()->GetWindow()->GetWidth();
-        float height = GetVideoDriver()->GetWindow()->GetHeight();
+        float width = GetVideoDriver()->GetCanvas()->GetWindow()->GetWidth();
+        float height = GetVideoDriver()->GetCanvas()->GetWindow()->GetHeight();
 
         Math::vec3 p1;
         p1[0] = -1.0f + 2.0f * x / width;
         p1[1] = -1.0f + 2.0f * y / height;
         p1[2] = 0;
 
-        RenderableBuilder b(m_driver);
-        b.Begin(PrimitiveType::POINTS);
-        b.Vertex3fv(p1);
-        b.End();
-        Renderable* r(b.ToRenderable());
+        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(m_driver);
+        b->Begin(PrimitiveType::POINTS);
+        b->Vertex3fv(p1);
+        b->End();
+        IRenderable* r = b->ToRenderable();
         Submit(r, true);
         PopAllState();
     }
@@ -643,11 +646,11 @@ namespace Gpu
         PushAllState();
         EnableLighting(false);
         EnableTexturing(false);
-        RenderableBuilder b(m_driver);
-        b.Begin(PrimitiveType::POINTS);
-        b.Vertex3fv(Math::vec3(x, y, z));
-        b.End();
-        Renderable* r(b.ToRenderable());
+        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(m_driver);
+        b->Begin(PrimitiveType::POINTS);
+        b->Vertex3fv(Math::vec3(x, y, z));
+        b->End();
+        IRenderable* r = b->ToRenderable();
         Submit(r, true);
         PopAllState();
     }
@@ -657,11 +660,11 @@ namespace Gpu
         PushAllState();
         EnableLighting(false);
         EnableTexturing(false);
-        RenderableBuilder b(m_driver);
-        b.Begin(PrimitiveType::POINTS);
-        b.Vertex3fv(v);
-        b.End();
-        Renderable* r(b.ToRenderable());
+        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(m_driver);
+        b->Begin(PrimitiveType::POINTS);
+        b->Vertex3fv(v);
+        b->End();
+        IRenderable* r = b->ToRenderable();
         Submit(r, true);
         PopAllState();
     }
@@ -670,21 +673,22 @@ namespace Gpu
     {
         PushAllState();
         EnableLighting(false);
-        SetProjectionMatrix(Math::mat4::CreateOrthographicProjection2(0, GetVideoDriver()->GetWindow()->GetWidth(),
-                                                                     0, GetVideoDriver()->GetWindow()->GetHeight(),
+        System::IWindow* window = GetVideoDriver()->GetCanvas()->GetWindow();
+        SetProjectionMatrix(Math::CreateOrthographicProjection2(0, window->GetWidth(),
+                                                                      0, window->GetHeight(),
                                                                      -1, 1));
-        RenderableBuilder b(GetVideoDriver());
-        b.Begin(PrimitiveType::QUADS);
-        b.TexCoord2f(0,0);
-        b.Vertex3f(x, y, 0);
-        b.TexCoord2f(1, 0);
-        b.Vertex3f(x+width, y, 0);
-        b.TexCoord2f(1,1);
-        b.Vertex3f(x+width, y+height,0);
-        b.TexCoord2f(0, 1);
-        b.Vertex3f(x, y+height, 0);
-        b.End();
-        Renderable* r(b.ToRenderable());
+        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(GetVideoDriver());
+        b->Begin(PrimitiveType::QUADS);
+        b->TexCoord2f(0,0);
+        b->Vertex3f(x, y, 0);
+        b->TexCoord2f(1, 0);
+        b->Vertex3f(x+width, y, 0);
+        b->TexCoord2f(1,1);
+        b->Vertex3f(x+width, y+height,0);
+        b->TexCoord2f(0, 1);
+        b->Vertex3f(x, y+height, 0);
+        b->End();
+        IRenderable* r = b->ToRenderable();
         Submit(r, true);
         PopAllState();
     }
@@ -700,8 +704,8 @@ namespace Gpu
         EnableBlending(false);
         EnableLighting(false);
         EnableDepthTest(false);        
-        RenderableBuilder b(m_driver);
-        b.Begin(PrimitiveType::LINES);
+        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(m_driver);
+        b->Begin(PrimitiveType::LINES);
         int n = 32;
         float dphi = Math::PI / (float)n * 2.0f;
         for (int i = 0; i < n; ++i)
@@ -710,30 +714,31 @@ namespace Gpu
                 float xx = x + r * cos(dphi*(float)i);
                 float yy = y + r * sin(dphi*(float)i);
                 float zz = z;
-                b.Vertex3f(xx, yy, zz);
+                b->Vertex3f(xx, yy, zz);
             }
             {
                 float xx = x + r * cos(dphi*(float)(i+1));
                 float yy = y + r * sin(dphi*(float)(i+1));
                 float zz = z;
-                b.Vertex3f(xx, yy, zz);
+                b->Vertex3f(xx, yy, zz);
             }
         }
-        Submit(b.ToRenderable(), true);
+        Submit(b->ToRenderable(), true);
         PopAllState();
     }
 
-    void Frame::DrawText2D(const Math::vec2 &pos, const Math::vec2 &size, const System::string &value)
+    void Frame::DrawText2D(const Math::vec2 &pos, const Math::vec2 &size, const Core::String &value)
     {
     }
 
-    void Frame::DrawText2D(float x, float y, const System::string &value)
+    void Frame::DrawText2D(float x, float y, const Core::String &value)
     {
         PushAllState();
-        std::unique_ptr<TextSurface> surface(new TextSurface(GetVideoDriver()));
+        ITextSurfaceUniquePtr surface = CreateTextSurface(0, 0, GetVideoDriver());
         surface->SetText(value);
         int text_width = surface->GetTexture()->GetWidth();
         int text_height = surface->GetTexture()->GetHeight();
+        System::IWindow* wnd = GetVideoDriver()->GetCanvas()->GetWindow();
         SetTextMap(surface->GetTexture(), 0);
         EnableDepthTest(false);
         EnableBlending(true);
@@ -741,25 +746,25 @@ namespace Gpu
         EnableLighting(false);
         EnableFontRendering(true);
         SetBlendFunc(BlendFunction::SourceAlpha, BlendFunction::OneMinusSrcAlpha);
-        SetWorldMatrix(Math::mat4::CreateTranslate(x, y, 0));
-        int width = GetVideoDriver()->GetWindow()->GetWidth();
-        int height = GetVideoDriver()->GetWindow()->GetHeight();
-        SetProjectionMatrix(Math::mat4::CreateOrthographicProjection2(0, width, 0, height, -1, 1));
-        SetViewMatrix(Math::mat4::CreateIdentity());
+        SetWorldMatrix(Math::CreateTranslate(x, y, 0));
+        int width = wnd->GetWidth();
+        int height = wnd->GetHeight();
+        SetProjectionMatrix(Math::CreateOrthographicProjection2(0, width, 0, height, -1, 1));
+        SetViewMatrix(Math::CreateIdentity());
 
-        RenderableBuilder b(GetVideoDriver());
-        b.Begin(PrimitiveType::QUADS);
-        b.TexCoord2f(0, 0);
-        b.Vertex3f(x, y, 0);
-        b.TexCoord2f(1, 0);
-        b.Vertex3f(x+text_width, y, 0);
-        b.TexCoord2f(1, 1);
-        b.Vertex3f(x+text_width, y+text_height, 0);
-        b.TexCoord2f(0, 1);
-        b.Vertex3f(x, y+text_height, 0);
-        b.End();
+        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(GetVideoDriver());
+        b->Begin(PrimitiveType::QUADS);
+        b->TexCoord2f(0, 0);
+        b->Vertex3f(x, y, 0);
+        b->TexCoord2f(1, 0);
+        b->Vertex3f(x+text_width, y, 0);
+        b->TexCoord2f(1, 1);
+        b->Vertex3f(x+text_width, y+text_height, 0);
+        b->TexCoord2f(0, 1);
+        b->Vertex3f(x, y+text_height, 0);
+        b->End();
 
-        Submit(b.ToRenderable(), true);
+        Submit(b->ToRenderable(), true);
 
         PopAllState();
         m_texts.push_back(surface.release());
@@ -777,7 +782,7 @@ namespace Gpu
         return Top()->render_state->m_fog;
     }
 
-    VideoDriver* Frame::GetVideoDriver() const
+    IVideoDriver* Frame::GetVideoDriver() const
     {
         return m_driver;
     }
@@ -792,7 +797,7 @@ namespace Gpu
         return m_batches;
     }
 
-    void Frame::SetShadowMaps(Texture2DArray *value)
+    void Frame::SetShadowMaps(ITexture2DArray *value)
     {
         m_shadow_maps = value;
     }
@@ -826,3 +831,4 @@ namespace Gpu
         PopAllState();
     }
 }
+PUNK_ENGINE_END

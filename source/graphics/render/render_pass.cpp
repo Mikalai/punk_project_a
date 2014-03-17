@@ -1,14 +1,15 @@
+#include <graphics/renderable/module.h>
+#include <graphics/render/render_context/irender_context.h>
+#include <graphics/video_driver/module.h>
+#include <graphics/state/module.h>
+#include <graphics/texture/module.h>
 #include "render_pass.h"
-#include "../renderable.h"
 #include "render_batch.h"
-#include "../abstract_render_context_policy.h"
-#include "../video_driver.h"
-#include "../gpu_state.h"
-#include "../texture/module.h"
 
-namespace Gpu
-{
-	RenderPass::RenderPass(VideoDriver* driver, std::vector<Batch*> batches)
+PUNK_ENGINE_BEGIN
+namespace Graphics {
+
+    RenderPass::RenderPass(IVideoDriver* driver, std::vector<Batch*> batches)
 		: m_driver(driver)
 		, m_batches(batches)
 	{}
@@ -116,28 +117,28 @@ namespace Gpu
         return false;
     }
 
-    AbstractRenderPolicy* RenderDepth(CoreState* state)
+    IRenderContext* RenderDepth(CoreState* state)
     {
         if (state->render_state->m_enable_skinning)
         {
-            return AbstractRenderPolicy::find(RenderPolicySet::DepthRenderSkinning);
+            return IRenderContext::find(RenderPolicySet::DepthRenderSkinning);
         }
         else
         {
-            return AbstractRenderPolicy::find(RenderPolicySet::DepthRender);
+            return IRenderContext::find(RenderPolicySet::DepthRender);
         }
     }
 
-    AbstractRenderPolicy* RenderTerrain(CoreState* state)
+    IRenderContext* RenderTerrain(CoreState* state)
     {
         if (BindTexture(state))
             ;
         else
-            return AbstractRenderPolicy::find(RenderPolicySet::Terrain);
+            return IRenderContext::find(RenderPolicySet::Terrain);
         return nullptr;
     }
 
-    AbstractRenderPolicy* RenderLightingWithShadowsSimpleTextured(CoreState* state)
+    IRenderContext* RenderLightingWithShadowsSimpleTextured(CoreState* state)
     {
         BindTexture(state);
         if (state->render_state->m_enable_diffuse_shading)
@@ -147,16 +148,16 @@ namespace Gpu
                 if (state->render_state->m_enable_specular_shading)
                 {
                     if (state->render_state->m_enable_skinning)
-                        return AbstractRenderPolicy::find(RenderPolicySet::BumpMappingTextureDiffuseSpecularSkinningShadowingSimple);
+                        return IRenderContext::find(RenderPolicySet::BumpMappingTextureDiffuseSpecularSkinningShadowingSimple);
                     else
-                        return AbstractRenderPolicy::find(RenderPolicySet::BumpMappingTextureDiffuseSpecularShadowingSimple);
+                        return IRenderContext::find(RenderPolicySet::BumpMappingTextureDiffuseSpecularShadowingSimple);
                 }
                 else
                 {
                     if (state->render_state->m_enable_skinning)
-                        return AbstractRenderPolicy::find(RenderPolicySet::BumpMappingTextureDiffuseSkinningShadowingSimple);
+                        return IRenderContext::find(RenderPolicySet::BumpMappingTextureDiffuseSkinningShadowingSimple);
                     else
-                        return AbstractRenderPolicy::find(RenderPolicySet::BumpMappingTextureDiffuseShadowingSimple);
+                        return IRenderContext::find(RenderPolicySet::BumpMappingTextureDiffuseShadowingSimple);
                 }
             }
             else if (state->light_state->m_light_model == LightModel::PerFragmentDiffuse)
@@ -164,16 +165,16 @@ namespace Gpu
                 if (state->render_state->m_enable_specular_shading)
                 {
                     if (state->render_state->m_enable_skinning)
-                        return AbstractRenderPolicy::find(RenderPolicySet::LightPerFragmentTextureDiffuseSpecularSkinningShadowingSimple);
+                        return IRenderContext::find(RenderPolicySet::LightPerFragmentTextureDiffuseSpecularSkinningShadowingSimple);
                     else
-                        return AbstractRenderPolicy::find(RenderPolicySet::LightPerFragmentTextureDiffuseSpecularShadowingSimple);
+                        return IRenderContext::find(RenderPolicySet::LightPerFragmentTextureDiffuseSpecularShadowingSimple);
                 }
                 else
                 {
                     if (state->render_state->m_enable_skinning)
-                        return AbstractRenderPolicy::find(RenderPolicySet::LightPerFragmentTextureDiffuseSkinningShadowingSimple);
+                        return IRenderContext::find(RenderPolicySet::LightPerFragmentTextureDiffuseSkinningShadowingSimple);
                     else
-                        return AbstractRenderPolicy::find(RenderPolicySet::LightPerFragmentTextureDiffuseShadowingSimple);
+                        return IRenderContext::find(RenderPolicySet::LightPerFragmentTextureDiffuseShadowingSimple);
                 }
             }
             else if (state->light_state->m_light_model == LightModel::PerVertexDiffuse)
@@ -181,60 +182,60 @@ namespace Gpu
                 if (state->render_state->m_enable_specular_shading)
                 {
                     if (state->render_state->m_enable_skinning)
-                        return AbstractRenderPolicy::find(RenderPolicySet::LightPerVertexTextureDiffuseSpecularSkinningShadowingSimple);
+                        return IRenderContext::find(RenderPolicySet::LightPerVertexTextureDiffuseSpecularSkinningShadowingSimple);
                     else
-                        return AbstractRenderPolicy::find(RenderPolicySet::LightPerVertexTextureDiffuseSpecularShadowingSimple);
+                        return IRenderContext::find(RenderPolicySet::LightPerVertexTextureDiffuseSpecularShadowingSimple);
                 }
                 else
                 {
                     if (state->render_state->m_enable_skinning)
-                        return AbstractRenderPolicy::find(RenderPolicySet::LightPerVertexTextureDiffuseSkinningShadowingSimple);
+                        return IRenderContext::find(RenderPolicySet::LightPerVertexTextureDiffuseSkinningShadowingSimple);
                     else
-                        return AbstractRenderPolicy::find(RenderPolicySet::LightPerVertexTextureDiffuseShadowingSimple);
+                        return IRenderContext::find(RenderPolicySet::LightPerVertexTextureDiffuseShadowingSimple);
                 }
             }
         }
         return nullptr;
     }
 
-    AbstractRenderPolicy* RenderLightingWithShadowsSimpleSolid(CoreState* state)
+    IRenderContext* RenderLightingWithShadowsSimpleSolid(CoreState* state)
     {
         if (state->light_state->m_light_model == LightModel::PerVertexDiffuse)
         {
             if (state->render_state->m_shadow_model == ShadowModel::ShadowMapSimple)
             {
-                return AbstractRenderPolicy::find(RenderPolicySet::LightPerVertexDiffuseShadowingSimple);
+                return IRenderContext::find(RenderPolicySet::LightPerVertexDiffuseShadowingSimple);
             }
             else if (state->render_state->m_shadow_model == ShadowModel::ShadowMapCascade)
             {
-                return AbstractRenderPolicy::find(RenderPolicySet::LightPerVertexDiffuseShadowingCascade);
+                return IRenderContext::find(RenderPolicySet::LightPerVertexDiffuseShadowingCascade);
             }
         }
         else if (state->light_state->m_light_model == LightModel::PerFragmentDiffuse)
         {
             if (state->render_state->m_shadow_model == ShadowModel::ShadowMapSimple)
             {
-                return AbstractRenderPolicy::find(RenderPolicySet::LightPerFragmentDiffuseShadowingSimple);
+                return IRenderContext::find(RenderPolicySet::LightPerFragmentDiffuseShadowingSimple);
             }
             else if (state->render_state->m_shadow_model == ShadowModel::ShadowMapCascade)
             {
-                return AbstractRenderPolicy::find(RenderPolicySet::LightPerFragmentDiffuseShadowingCascade);
+                return IRenderContext::find(RenderPolicySet::LightPerFragmentDiffuseShadowingCascade);
             }
         }
         return nullptr;
     }
 
-    AbstractRenderPolicy* RenderLightingWithShadowsCascadeTextured(CoreState* state)
+    IRenderContext* RenderLightingWithShadowsCascadeTextured(CoreState* state)
     {
         return nullptr;
     }
 
-    AbstractRenderPolicy* RenderLightingWithShadowsCascadeSolid(CoreState* state)
+    IRenderContext* RenderLightingWithShadowsCascadeSolid(CoreState* state)
     {
         return nullptr;
     }
 
-    AbstractRenderPolicy* RenderLightingWithShadows(CoreState* state)
+    IRenderContext* RenderLightingWithShadows(CoreState* state)
     {
         if (state->render_state->m_shadow_model == ShadowModel::ShadowMapSimple)
         {
@@ -260,7 +261,7 @@ namespace Gpu
         }
     }
 
-    AbstractRenderPolicy* RenderLightingWithoutShadowsTextured(CoreState* state)
+    IRenderContext* RenderLightingWithoutShadowsTextured(CoreState* state)
     {
         BindTexture(state);
         if (state->light_state->m_light_model == LightModel::PerVertexDiffuse)
@@ -268,16 +269,16 @@ namespace Gpu
             if (state->render_state->m_enable_specular_shading)
             {
                 if (state->render_state->m_enable_skinning)
-                    return AbstractRenderPolicy::find(RenderPolicySet::LightPerVertexTextureDiffuseSpecularSkinning);
+                    return IRenderContext::find(RenderPolicySet::LightPerVertexTextureDiffuseSpecularSkinning);
                 else
-                    return AbstractRenderPolicy::find(RenderPolicySet::LightPerVertexTextureDiffuseSpecular);
+                    return IRenderContext::find(RenderPolicySet::LightPerVertexTextureDiffuseSpecular);
             }
             else
             {
                 if (state->render_state->m_enable_skinning)
-                    return AbstractRenderPolicy::find(RenderPolicySet::LightPerVertexTextureDiffuseSkinning);
+                    return IRenderContext::find(RenderPolicySet::LightPerVertexTextureDiffuseSkinning);
                 else
-                    return AbstractRenderPolicy::find(RenderPolicySet::LightPerVertexTextureDiffuse);
+                    return IRenderContext::find(RenderPolicySet::LightPerVertexTextureDiffuse);
             }
         }
         else if (state->light_state->m_light_model == LightModel::PerFragmentDiffuse)
@@ -285,16 +286,16 @@ namespace Gpu
             if (state->render_state->m_enable_specular_shading)
             {
                 if (state->render_state->m_enable_skinning)
-                    return AbstractRenderPolicy::find(RenderPolicySet::LightPerFragmentTextureDiffuseSpecularSkinning);
+                    return IRenderContext::find(RenderPolicySet::LightPerFragmentTextureDiffuseSpecularSkinning);
                 else
-                    return AbstractRenderPolicy::find(RenderPolicySet::LightPerFragmentTextureDiffuseSpecular);
+                    return IRenderContext::find(RenderPolicySet::LightPerFragmentTextureDiffuseSpecular);
             }
             else
             {
                 if (state->render_state->m_enable_skinning)
-                    return AbstractRenderPolicy::find(RenderPolicySet::LightPerFragmentTextureDiffuseSkinning);
+                    return IRenderContext::find(RenderPolicySet::LightPerFragmentTextureDiffuseSkinning);
                 else
-                    return AbstractRenderPolicy::find(RenderPolicySet::LightPerFragmentTextureDiffuse);
+                    return IRenderContext::find(RenderPolicySet::LightPerFragmentTextureDiffuse);
             }
         }
         else if (state->light_state->m_light_model == LightModel::BumpMappingDiffuse)
@@ -302,38 +303,38 @@ namespace Gpu
             if (state->render_state->m_enable_specular_shading)
             {
                 if (state->render_state->m_enable_skinning)
-                    return AbstractRenderPolicy::find(RenderPolicySet::BumpMappingTextureDiffuseSpecularSkinning);
+                    return IRenderContext::find(RenderPolicySet::BumpMappingTextureDiffuseSpecularSkinning);
                 else
-                    return AbstractRenderPolicy::find(RenderPolicySet::BumpMappingTextureDiffuseSpecular);
+                    return IRenderContext::find(RenderPolicySet::BumpMappingTextureDiffuseSpecular);
             }
             else
             {
                 if (state->render_state->m_enable_skinning)
-                    return AbstractRenderPolicy::find(RenderPolicySet::BumpMappingTextureDiffuseSkinning);
+                    return IRenderContext::find(RenderPolicySet::BumpMappingTextureDiffuseSkinning);
                 else
-                    return AbstractRenderPolicy::find(RenderPolicySet::BumpMappingTextureDiffuse);
+                    return IRenderContext::find(RenderPolicySet::BumpMappingTextureDiffuse);
             }
         }
         return nullptr;
     }
 
-    AbstractRenderPolicy* RenderLightingWithoutShadowsSolid(CoreState* state)
+    IRenderContext* RenderLightingWithoutShadowsSolid(CoreState* state)
     {
         if (state->light_state->m_light_model == LightModel::PerVertexDiffuse)
         {            
             if (state->render_state->m_enable_specular_shading)
             {
                 if (state->render_state->m_enable_skinning)
-                    return AbstractRenderPolicy::find(RenderPolicySet::LightPerVertexDiffuseSpecularSkinning);
+                    return IRenderContext::find(RenderPolicySet::LightPerVertexDiffuseSpecularSkinning);
                 else
-                    return AbstractRenderPolicy::find(RenderPolicySet::LightPerVertexDiffuseSpecular);
+                    return IRenderContext::find(RenderPolicySet::LightPerVertexDiffuseSpecular);
             }
             else
             {
             if (state->render_state->m_enable_skinning)
-                return AbstractRenderPolicy::find(RenderPolicySet::LightPerVertexDiffuseSkinning);
+                return IRenderContext::find(RenderPolicySet::LightPerVertexDiffuseSkinning);
             else
-                return AbstractRenderPolicy::find(RenderPolicySet::LightPerVertexDiffuse);
+                return IRenderContext::find(RenderPolicySet::LightPerVertexDiffuse);
             }
         }
         else if (state->light_state->m_light_model == LightModel::PerFragmentDiffuse)
@@ -341,16 +342,16 @@ namespace Gpu
             if (state->render_state->m_enable_specular_shading)
             {
                 if (state->render_state->m_enable_skinning)
-                    return AbstractRenderPolicy::find(RenderPolicySet::LightPerFragmentDiffuseSpecularSkinning);
+                    return IRenderContext::find(RenderPolicySet::LightPerFragmentDiffuseSpecularSkinning);
                 else
-                    return AbstractRenderPolicy::find(RenderPolicySet::LightPerFragmentDiffuseSpecular);
+                    return IRenderContext::find(RenderPolicySet::LightPerFragmentDiffuseSpecular);
             }
             else
             {
                 if (state->render_state->m_enable_skinning)
-                    return AbstractRenderPolicy::find(RenderPolicySet::LightPerFragmentDiffuseSkinning);
+                    return IRenderContext::find(RenderPolicySet::LightPerFragmentDiffuseSkinning);
                 else
-                    return AbstractRenderPolicy::find(RenderPolicySet::LightPerFragmentDiffuse);
+                    return IRenderContext::find(RenderPolicySet::LightPerFragmentDiffuse);
             }
         }
         else if (state->light_state->m_light_model == LightModel::BumpMappingDiffuse)
@@ -359,22 +360,22 @@ namespace Gpu
             if (state->render_state->m_enable_specular_shading)
             {
                 if (state->render_state->m_enable_skinning)
-                    return AbstractRenderPolicy::find(RenderPolicySet::BumpMappingDiffuseSpecularSkinning);
+                    return IRenderContext::find(RenderPolicySet::BumpMappingDiffuseSpecularSkinning);
                 else
-                    return AbstractRenderPolicy::find(RenderPolicySet::BumpMappingDiffuseSpecular);
+                    return IRenderContext::find(RenderPolicySet::BumpMappingDiffuseSpecular);
             }
             else
             {
                 if (state->render_state->m_enable_skinning)
-                    return AbstractRenderPolicy::find(RenderPolicySet::BumpMappingDiffuseSkinning);
+                    return IRenderContext::find(RenderPolicySet::BumpMappingDiffuseSkinning);
                 else
-                    return AbstractRenderPolicy::find(RenderPolicySet::BumpMappingDiffuse);
+                    return IRenderContext::find(RenderPolicySet::BumpMappingDiffuse);
             }
         }
         return nullptr;
     }
 
-    AbstractRenderPolicy* RenderLightingWithoutShadows(CoreState *state)
+    IRenderContext* RenderLightingWithoutShadows(CoreState *state)
     {
         if (state->render_state->m_enable_texture)
         {
@@ -392,7 +393,7 @@ namespace Gpu
         }
     }
 
-    AbstractRenderPolicy* RenderLighting(CoreState* state)
+    IRenderContext* RenderLighting(CoreState* state)
     {
         if (!state->render_state->m_enable_shadows || !state->batch_state->m_receive_shadows)
             //  shadow disabled
@@ -402,19 +403,19 @@ namespace Gpu
             return RenderLightingWithShadows(state);
     }
 
-    AbstractRenderPolicy* RenderSolidTextured(CoreState* state)
+    IRenderContext* RenderSolidTextured(CoreState* state)
     {
         if (state->render_state->m_enable_diffuse_shading)
         {
             if (BindTexture(state))
-                return AbstractRenderPolicy::find(RenderPolicySet::SolidTextured2DArray);
+                return IRenderContext::find(RenderPolicySet::SolidTextured2DArray);
             else
-                return AbstractRenderPolicy::find(RenderPolicySet::SolidTextured2D);
+                return IRenderContext::find(RenderPolicySet::SolidTextured2D);
         }
         throw System::PunkException(L"Render not found");
     }
 
-    AbstractRenderPolicy* RenderSolidColored(CoreState* state)
+    IRenderContext* RenderSolidColored(CoreState* state)
     {
         if (state->render_state->m_enable_font_rendering)
         {
@@ -423,21 +424,21 @@ namespace Gpu
             ;
             else
                 //  text map retrieved as sampler2d
-                return AbstractRenderPolicy::find(RenderPolicySet::TextSolidColor);
+                return IRenderContext::find(RenderPolicySet::TextSolidColor);
         }
         else if (state->render_state->m_enable_diffuse_shading)
         {
             if (state->render_state->m_enable_vertex_color)
                 //  use color from vertex attributes
-                return AbstractRenderPolicy::find(RenderPolicySet::SolidVertexColor);
+                return IRenderContext::find(RenderPolicySet::SolidVertexColor);
             else
                 //	use color from uniform parameters
-                return AbstractRenderPolicy::find(RenderPolicySet::Solid3D);
+                return IRenderContext::find(RenderPolicySet::Solid3D);
         }
         throw System::PunkException(L"Render not found");
     }
 
-    AbstractRenderPolicy* RenderSolid(CoreState* state)
+    IRenderContext* RenderSolid(CoreState* state)
     {
         if (state->render_state->m_enable_texture)
             return RenderSolidTextured(state);
@@ -445,7 +446,7 @@ namespace Gpu
             return RenderSolidColored(state);
     }
 
-    AbstractRenderPolicy* ChooseRender(CoreState* state)
+    IRenderContext* ChooseRender(CoreState* state)
     {
         if (state->render_state->m_render_depth)
             return RenderDepth(state);
@@ -461,7 +462,7 @@ namespace Gpu
 	void RenderPass::OnePass(Renderable* renderable, CoreState* state)
     {
         TextureContext tc;
-        AbstractRenderPolicy* policy = ChooseRender(state);
+        IRenderContext* policy = ChooseRender(state);
 
         if (policy)
         {
@@ -490,3 +491,4 @@ namespace Gpu
 		}
 	}
 }
+PUNK_ENGINE_END

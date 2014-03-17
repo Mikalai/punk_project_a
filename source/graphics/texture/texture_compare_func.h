@@ -1,7 +1,10 @@
 #ifndef TEXTURE_COMPARE_FUNC_H
 #define TEXTURE_COMPARE_FUNC_H
 
-namespace Gpu
+#include <config.h>
+
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
     enum class TextureCompareFunc { TextureLessEqual,
                                     TextureGreaterEqual,
@@ -12,5 +15,6 @@ namespace Gpu
                                     TextureAlways,
                                     TextureNever };
 }
+PUNK_ENGINE_END
 
 #endif // TEXTURE_COMPARE_FUNC_H

@@ -8,7 +8,7 @@ namespace Image
 		: Image()
 	{
         impl_image->m_channels = 3;
-		impl_image->m_format = IMAGE_FORMAT_RGB;
+        impl_image->m_format = ImageFormat::RGB;
         impl_image->m_component_type = ComponentType::UnsignedByte;
 	}
 

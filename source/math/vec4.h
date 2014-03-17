@@ -129,8 +129,8 @@ namespace Punk {
             PUNK_ENGINE_API const vec4 operator /(const vec4& a, double d);
             PUNK_ENGINE_API bool operator ==(const vec4& a, const vec4& b);
             PUNK_ENGINE_API bool operator !=(const vec4& a, const vec4& b);
-            //    PUNK_ENGINE_API void SaveVector4f(System::Buffer* buffer, const vec4& value);
-            //    PUNK_ENGINE_API void LoadVector4f(System::Buffer* buffer, vec4& value);
+            //    PUNK_ENGINE_API void SaveVector4f(Core::Buffer* buffer, const vec4& value);
+            //    PUNK_ENGINE_API void LoadVector4f(Core::Buffer* buffer, vec4& value);
 
             class PUNK_ENGINE_API ivec4
             {

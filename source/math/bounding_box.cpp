@@ -141,7 +141,7 @@ namespace Punk {
                 return m_plane[index];
             }
 
-            //    void SaveBoundingBox(System::Buffer *buffer, const BoundingBox& value)
+            //    void SaveBoundingBox(Core::Buffer *buffer, const BoundingBox& value)
             //    {
             //        SaveVector3f(buffer, value.m_center_of_mass);
             //        SaveVector3f(buffer, value.m_center);
@@ -152,7 +152,7 @@ namespace Punk {
             //            SavePlane(buffer, value.m_plane[i]);
             //    }
 
-            //    void LoadBoundingBox(System::Buffer *buffer, BoundingBox& value)
+            //    void LoadBoundingBox(Core::Buffer *buffer, BoundingBox& value)
             //    {
             //        LoadVector3f(buffer, value.m_center_of_mass);
             //        LoadVector3f(buffer, value.m_center);

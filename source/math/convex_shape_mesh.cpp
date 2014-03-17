@@ -103,7 +103,7 @@ namespace Punk {
                 return impl->m_normals.size();
             }
 
-            //    void SaveBoundingBox(System::Buffer* buffer, const ConvexShapeMesh& value)
+            //    void SaveBoundingBox(Core::Buffer* buffer, const ConvexShapeMesh& value)
             //    {
             //        if (value.m_points.empty() || value.m_faces.empty() || value.m_normals.empty())
             //            throw System::PunkException("Unable to save convex shape");
@@ -124,7 +124,7 @@ namespace Punk {
             //            SaveVector3f(buffer, p);
             //    }
 
-            //    void LoadBoundingBox(System::Buffer* buffer, ConvexShapeMesh& value)
+            //    void LoadBoundingBox(Core::Buffer* buffer, ConvexShapeMesh& value)
             //    {
             //        int size = buffer->ReadSigned32();
             //        value.m_points.resize(size);

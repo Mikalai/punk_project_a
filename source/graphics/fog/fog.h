@@ -1,10 +1,11 @@
 #ifndef FOG_H
 #define FOG_H
 
-#include "../../../math/vec4.h"
+#include <math/vec4.h>
 #include "fog_mode.h"
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
 	class PUNK_ENGINE_API FogDescription
 	{
@@ -38,5 +39,6 @@ namespace Gpu
         float m_scale;
 	};
 }
+PUNK_ENGINE_END
 
 #endif // FOG_H

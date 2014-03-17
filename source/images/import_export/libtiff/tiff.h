@@ -426,7 +426,7 @@ typedef enum {
 						   (untrapped=0, trapped=1) */
 #define TIFFTAG_IT8CMYKEQUIVALENT	34032	/* CMYK color equivalents */
 /* tags 34232-34236 are private tags registered to Texas Instruments */
-#define TIFFTAG_FRAMECOUNT              34232   /* Sequence Frame Count */
+#define TIFFTAG_FRAMECOUNT              34232   /* Sequence IFrame Count */
 /* tag 34377 is private tag registered to Adobe for PhotoShop */
 #define TIFFTAG_PHOTOSHOP		34377 
 /* tags 34665, 34853 and 40965 are documented in EXIF specification */

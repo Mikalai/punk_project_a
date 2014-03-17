@@ -423,17 +423,17 @@ extern "C" {
 #define GLX_COLOR_SAMPLES_NV               0x20B3
 #endif
 
-#ifndef GLX_AMD_gpu_association
-#define GLX_GPU_VENDOR_AMD                 0x1F00
-#define GLX_GPU_RENDERER_STRING_AMD        0x1F01
-#define GLX_GPU_OPENGL_VERSION_STRING_AMD  0x1F02
-#define GLX_GPU_FASTEST_TARGET_GPUS_AMD    0x21A2
-#define GLX_GPU_RAM_AMD                    0x21A3
-#define GLX_GPU_CLOCK_AMD                  0x21A4
-#define GLX_GPU_NUM_PIPES_AMD              0x21A5
-#define GLX_GPU_NUM_SIMD_AMD               0x21A6
-#define GLX_GPU_NUM_RB_AMD                 0x21A7
-#define GLX_GPU_NUM_SPI_AMD                0x21A8
+#ifndef GLX_AMD_Graphics_association
+#define GLX_Graphics_VENDOR_AMD                 0x1F00
+#define GLX_Graphics_RENDERER_STRING_AMD        0x1F01
+#define GLX_Graphics_OPENGL_VERSION_STRING_AMD  0x1F02
+#define GLX_Graphics_FASTEST_TARGET_GraphicsS_AMD    0x21A2
+#define GLX_Graphics_RAM_AMD                    0x21A3
+#define GLX_Graphics_CLOCK_AMD                  0x21A4
+#define GLX_Graphics_NUM_PIPES_AMD              0x21A5
+#define GLX_Graphics_NUM_SIMD_AMD               0x21A6
+#define GLX_Graphics_NUM_RB_AMD                 0x21A7
+#define GLX_Graphics_NUM_SPI_AMD                0x21A8
 #endif
 
 #ifndef GLX_EXT_create_context_es2_profile

@@ -468,12 +468,12 @@ namespace Punk {
                 return !(a == b);
             }
 
-            //    void SaveVector4f(System::Buffer *buffer, const vec4 &value)
+            //    void SaveVector4f(Core::Buffer *buffer, const vec4 &value)
             //    {
             //        buffer->WriteBuffer(&value[0], sizeof(value));
             //    }
 
-            //    void LoadVector4f(System::Buffer *buffer, vec4 &value)
+            //    void LoadVector4f(Core::Buffer *buffer, vec4 &value)
             //    {
             //        buffer->WriteBuffer(&value[0], sizeof(value));
             //    }

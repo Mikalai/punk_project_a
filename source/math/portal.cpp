@@ -84,7 +84,7 @@ namespace Punk {
                 return impl->m_points[index];
             }
 
-            //    void SaveBoundingBox(System::Buffer *buffer, const Portal& value)
+            //    void SaveBoundingBox(Core::Buffer *buffer, const Portal& value)
             //    {
             //        if (value.m_points.empty())
             //            throw System::PunkException("Can't save bad portal");
@@ -96,7 +96,7 @@ namespace Punk {
             //        SavePlane(buffer, value.m_plane);
             //    }
 
-            //    void LoadBoundingBox(System::Buffer *buffer, Portal& value)
+            //    void LoadBoundingBox(Core::Buffer *buffer, Portal& value)
             //    {
             //        int size = buffer->ReadSigned32();
             //        value.m_points.resize(size);

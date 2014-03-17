@@ -1,15 +1,16 @@
 #include "render_buffer.h"
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
-    RenderBuffer::RenderBuffer(VideoDriver *driver)
+    RenderBuffer::RenderBuffer(IVideoDriver *driver)
         : m_driver(driver)
     {}
 
     RenderBuffer::~RenderBuffer()
     {}
 
-    VideoDriver* RenderBuffer::GetVideDriver()
+    IVideoDriver* RenderBuffer::GetVideDriver()
     {
         return m_driver;
     }
@@ -20,3 +21,4 @@ namespace Gpu
     void RenderBuffer::Unbind()
     {}
 }
+PUNK_ENGINE_END

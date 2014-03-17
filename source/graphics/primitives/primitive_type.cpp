@@ -2,9 +2,10 @@
 #include <type_traits>
 #include "primitive_type.h"
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
-	using PrimitiveTypeDesc = std::pair<PrimitiveType, System::string>;
+    using PrimitiveTypeDesc = std::pair<PrimitiveType, Core::String>;
 	static const PrimitiveTypeDesc g_primitive_types[] = {
 		PrimitiveTypeDesc(PrimitiveType::POINTS, L"POINT"),
 		PrimitiveTypeDesc(PrimitiveType::LINE_STRIP, L"LINE_STRIP"),
@@ -20,7 +21,7 @@ namespace Gpu
 		PrimitiveTypeDesc(PrimitiveType::QUADS, L"QUADS")
 	};
 
-	const System::string AsString(const PrimitiveType& v)
+    extern PUNK_ENGINE_API const Core::String AsString(const PrimitiveType& v)
 	{
 		for (size_t i = 0; i != std::extent<decltype(g_primitive_types)>::value; ++i)
 		{
@@ -30,3 +31,4 @@ namespace Gpu
 		return L"ERROR";
 	}
 }
+PUNK_ENGINE_END

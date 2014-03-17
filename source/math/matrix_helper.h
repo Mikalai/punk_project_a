@@ -10,6 +10,7 @@ namespace Punk {
             class vec3;
             class quat;
             class mat4;
+            class FrustumCore;
 
             PUNK_ENGINE_API const mat4 CreateTargetCameraMatrix(const vec3& eye, const vec3& target, const vec3& up);
             PUNK_ENGINE_API const mat4 CreateFreeCameraMatrix(const vec3& eye, const vec3& dir, const vec3& up);

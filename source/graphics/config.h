@@ -1,7 +1,7 @@
-#ifndef GPU_COMMON_CONFIG_H
-#define GPU_COMMON_CONFIG_H
+#ifndef Graphics_COMMON_CONFIG_H
+#define Graphics_COMMON_CONFIG_H
 
-namespace Gpu
+namespace Graphics
 {
 	static const int MAX_LIGHTS = 8;
     static const int MAX_BONES = 64;

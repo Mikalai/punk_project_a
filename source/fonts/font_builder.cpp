@@ -7,8 +7,10 @@
 
 #include <string/module.h>
 #include <system/filesystem/binary_file.h>
+#include <system/concurrency/module.h>
 #include "font_builder.h"
 #include "font_error.h"
+#include "cache_data.h"
 
 PUNK_ENGINE_BEGIN
 namespace Font {
@@ -16,20 +18,26 @@ namespace Font {
     Core::Rtti FontBuilder::Type {"Punk.Engine.Font.FontBuilder", typeid(FontBuilder).hash_code(), {&Core::Object::Type}};
 
     #ifdef USE_FREETYPE
-	struct CacheData
-	{
-		unsigned char* buffer;
-		int width;
-		int height;
-		int x_offset;
-		int y_offset;
-		int x_advance;
-		int y_advance;
-	};
+
+    System::ThreadMutex g_library_mutex;
+    FT_Library g_library;
+
+    void* GetLibrary() {
+        System::ThreadMutexLock lock(g_library_mutex);
+        if (!g_library)
+            FT_Init_FreeType(&g_library);
+        return g_library;
+    }
+
+    void DestroyLibrary() {
+        System::ThreadMutexLock lock(g_library_mutex);
+        if (FT_Done_FreeType(g_library) != 0)
+            throw Error::CantDestroyFontBuilder(L"Can't destroy font builder");
+
+    }
 
     struct FontBuilderImpl
     {
-        FT_Library library;
 
         std::map<Core::String, FT_Face> fontFace;
 
@@ -69,8 +77,7 @@ namespace Font {
 
     void FontBuilderImpl::Clear()
     {
-        if (FT_Done_FreeType(library) != 0)
-            throw Error::CantDestroyFontBuilder(L"Can't destroy font builder");
+        DestroyLibrary();
     }
 
     void FontBuilderImpl::Init(const Core::String& fontfile)
@@ -80,7 +87,7 @@ namespace Font {
 
         iniFontsFile = pathToFonts + L"fonts.ini";
 
-		FT_Error error = FT_Init_FreeType(&library);
+        FT_Error error = FT_Init_FreeType(&GetLibrary());
 		if (error)
             throw Error::CantInitializeFontEngine(L"Can't initialize font builder");
 
@@ -267,32 +274,26 @@ namespace Font {
 		return data->y_offset - data->height;
 	}
 
-    void FontBuilderImpl::RenderChar(char symbol, int* width, int* height, int* x_offset, int* y_offset, int* x_advance, int* y_advance, unsigned char** buffer)
-	{
+    void FontBuilderImpl::RenderChar(char symbol, int* width, int* height, int* x_offset, int* y_offset, int* x_advance, int* y_advance, unsigned char** buffer) {
 		CacheData* data = cache[curSize][curFace][symbol];
-		if (!data)
-		{
+        if (!data) {
 			FT_UInt glyphIndex = FT_Get_Char_Index(curFace, symbol);
 			FT_Error error = FT_Load_Glyph(curFace, glyphIndex, 0);
 			if (error)
                 throw Error::CantLoadGlyph("Error occured while loading a glyph");
 
-			if (curFace->glyph->format != FT_GLYPH_FORMAT_BITMAP)
-			{
+            if (curFace->glyph->format != FT_GLYPH_FORMAT_BITMAP) {
 				error = FT_Render_Glyph(curFace->glyph, FT_RENDER_MODE_NORMAL);
 				if (error)
                     throw Error::CantRenderGlyph(L"Error occured while rendering a glyph");
 			}
-
-			//System::Logger::Instance()->WriteDebugMessage("bitmap (%d; %d)", curFace->glyph->bitmap.width, curFace->glyph->bitmap.rows);
 
 			FT_GlyphSlot slot = curFace->glyph;
 
 			data = new CacheData;
 			data->width = slot->bitmap.width;
 			data->height = slot->bitmap.rows;
-			if (data->width*data->height > 0)
-			{
+            if (data->width*data->height > 0) {
 				data->buffer = new unsigned char[data->width*data->height];
 				memcpy(data->buffer, slot->bitmap.buffer, data->width*data->height);
 			}
@@ -312,7 +313,6 @@ namespace Font {
 		*x_advance = data->x_advance;
 		*y_advance = data->y_advance;
 		*buffer = data->buffer;
-		//putchar('\n');/**/
 	}
 
     void FontBuilderImpl::RenderChar(wchar_t symbol, int* width, int* height, int* x_offset, int* y_offset, int* x_advance, int* y_advance, unsigned char** buffer)
