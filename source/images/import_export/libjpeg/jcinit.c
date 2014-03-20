@@ -58,7 +58,7 @@ jinit_compress_master (j_compress_ptr cinfo)
   (*cinfo->mem->realize_virt_arrays) ((j_common_ptr) cinfo);
 
   /* Write the datastream header (SOI) immediately.
-   * IFrame and scan headers are postponed till later.
+   * Frame and scan headers are postponed till later.
    * This lets application insert special markers after the SOI.
    */
   (*cinfo->marker->write_file_header) (cinfo);

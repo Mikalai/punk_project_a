@@ -6,12 +6,12 @@
 PUNK_ENGINE_BEGIN
 namespace Graphics
 {
-    class IFrame;
+    class Frame;
 
     class AbstractShadowMapDebugVisualizer
     {
     public:
-        virtual void Draw(IFrame* frame) = 0;
+        virtual void Draw(Frame* frame) = 0;
     };
 }
 PUNK_ENGINE_END

@@ -30,25 +30,29 @@ namespace Graphics {
             void AttachDepthTarget(ITexture2DArray *buffer, size_t index) override;
             void SetRenderTarget(FrameBufferTarget value) override;
             void SetViewport(int x, int y, int width, int height) override;
+            void SetClearFlag(bool color, bool depth, bool stencil) override;
             void SetClearColor(float r, float g, float b, float a) override;
             void SetClearColor(const Math::vec4& value) override;
             void SetClearDepth(float depth) override;
-            void Clear(bool color, bool depth, bool stencil) override;
+            void Clear() override;
             void SetPolygonOffset(float a, float b) override;
 
             static GlFrameBuffer Backbuffer;
 
         private:
-            void Clear();
+            void Destroy();
             void CheckConfigCompatibility();
             void Check();
 
         private:
-            GlColorRenderBuffer* m_color_rb;
-            GlDepthRenderBuffer* m_depth_rb;
-            GlFrameBuffer* m_resolve_rb;
-            GLuint m_fb;
-            GLuint m_prev_fb;
+            GlColorRenderBuffer* m_color_rb {nullptr};
+            GlDepthRenderBuffer* m_depth_rb {nullptr};
+            GlFrameBuffer* m_resolve_rb {nullptr};
+            GLuint m_fb {0};
+            GLuint m_prev_fb {0};
+            bool m_clear_depth {true};
+            bool m_clear_color {true};
+            bool m_clear_stencil {true};
         };
     }
 }

@@ -3,6 +3,7 @@
 #include "graph_edge.h"
 #include "graph_vertex.h"
 
+PUNK_ENGINE_BEGIN
 namespace Math
 {
 	Graph::Graph()
@@ -153,3 +154,4 @@ namespace Math
 	}
 
 }
+PUNK_ENGINE_END

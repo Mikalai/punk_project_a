@@ -29,7 +29,7 @@
  * This module implements the well-known Heckbert paradigm for color
  * quantization.  Most of the ideas used here can be traced back to
  * Heckbert's seminal paper
- *   Heckbert, Paul.  "Color Image Quantization for IFrame Buffer Display",
+ *   Heckbert, Paul.  "Color Image Quantization for Frame Buffer Display",
  *   Proc. SIGGRAPH '82, Computer Graphics v.16 #3 (July 1982), pp 297-304.
  *
  * In the first pass over the image, we accumulate a histogram showing the

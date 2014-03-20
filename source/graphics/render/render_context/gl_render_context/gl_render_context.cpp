@@ -1,24 +1,28 @@
 #include <sstream>
-#include "../../../system/environment.h"
+#include <system/environment.h>
+#include <graphics/shaders/gl_shaders/gl_shader.h>
+#include <graphics/error/module.h>
+#include <graphics/opengl/module.h>
+#include <graphics/blending/gl_blending.h>
 #include "gl_render_context.h"
-#include "shaders/shader.h"
-#include "../error/module.h"
-#include "../gl/module.h"
 
+PUNK_ENGINE_BEGIN
 namespace Graphics
 {
 	namespace OpenGL
 	{
-		OpenGLRenderContext::OpenGLRenderContext()
+        OpenGLRenderContext::OpenGLRenderContext(RenderPolicySet policy)
 			: m_program(0)
+            , m_policy{policy}
 		{
 			m_vertex_shader = nullptr;
 			m_fragment_shader = nullptr;
 			m_geometry_shader = nullptr;
 		}
 
-        OpenGLRenderContext::OpenGLRenderContext(ShaderCollection VS, ShaderCollection FS, ShaderCollection GS)
+        OpenGLRenderContext::OpenGLRenderContext(RenderPolicySet policy, ShaderCollection VS, ShaderCollection FS, ShaderCollection GS)
 			: m_program(0)
+            , m_policy{policy}
         {
 			m_vertex_shader = nullptr;
 			m_fragment_shader = nullptr;
@@ -50,6 +54,11 @@ namespace Graphics
             GL_CALL(glUseProgram(0));
 		}
 
+        RenderPolicySet OpenGLRenderContext::GetPolicy()
+        {
+            return m_policy;
+        }
+
 		void OpenGLRenderContext::Init()
 		{
 			try
@@ -67,7 +76,7 @@ namespace Graphics
 					}
 					else
 					{
-                        throw System::PunkException(L"Vertex shader not set");
+                        throw Error::GraphicsException(L"Vertex shader not set");
 					}
 
 					if (m_fragment_shader)
@@ -76,7 +85,7 @@ namespace Graphics
 					}
 					else
 					{
-                        throw System::PunkException(L"Fragment shader not set");
+                        throw Error::GraphicsException(L"Fragment shader not set");
 					}
 
 					if (m_geometry_shader)
@@ -94,13 +103,13 @@ namespace Graphics
                         GL_CALL(glGetProgramiv(m_program, GL_VALIDATE_STATUS, &status));
 						if (status != GL_TRUE)
 						{
-                            throw System::PunkException(L"Shader program validation failed");
+                            throw Error::GraphicsException(L"Shader program validation failed");
 						}
 
 					}
 					else
 					{
-                        throw System::PunkException(L"Unable to link shader program");
+                        throw Error::GraphicsException(L"Unable to link shader program");
 					}
 					m_was_modified = false;
 
@@ -560,8 +569,7 @@ namespace Graphics
 		{
 			if (index == -1)
 				return false;
-			glVertexAttrib4fv(index, value);
-			ValidateOpenGL(L"Unable to get attribute value");
+            GL_CALL(glVertexAttrib4fv(index, value));
 			return true;
 		}
 
@@ -774,3 +782,4 @@ namespace Graphics
         }
 	}
 }
+PUNK_ENGINE_END

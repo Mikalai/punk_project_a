@@ -1,11 +1,12 @@
-#include "rc_dynamic.h"
-#include "shaders/shader.h"
+#include "gl_rc_dynamic.h"
+#include <graphics/shaders/gl_shaders/gl_shader.h>
 
-namespace Graphics
-{
-	namespace OpenGL
-	{
-		DynamicRenderContext::DynamicRenderContext()
+PUNK_ENGINE_BEGIN
+namespace Graphics {
+    namespace OpenGL {
+
+        DynamicRenderContext::DynamicRenderContext(RenderPolicySet policy)
+            : OpenGLRenderContext(policy)
 		{}
 
 		void DynamicRenderContext::SetShaders(Shader *vs, Shader *fs, Shader *gs)
@@ -47,3 +48,4 @@ namespace Graphics
 		}
 	}
 }
+PUNK_ENGINE_END

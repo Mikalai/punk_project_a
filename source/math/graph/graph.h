@@ -1,10 +1,11 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
-#include "../../config.h"
+#include <config.h>
 #include <vector>
 #include <utility>
 
+PUNK_ENGINE_BEGIN
 namespace Math
 {
 	class GraphVertex;
@@ -41,5 +42,6 @@ namespace Math
 		std::vector<GraphEdge*> m_edge;
 	};
 }
+PUNK_ENGINE_END
 
 #endif // GRAPH_H

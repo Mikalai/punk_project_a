@@ -10,7 +10,7 @@
 PUNK_ENGINE_BEGIN
 namespace Graphics
 {
-    static int count = 0;    
+    static int count = 0;
     namespace OpenGL
     {
         GlFrameBuffer GlFrameBuffer::Backbuffer{nullptr};
@@ -34,15 +34,14 @@ namespace Graphics
             count++;
             GL_CALL(glGenFramebuffers(1, &m_fb));
 
-            m_color_texture = GetVideoDriver()->CreateTexture2D(
-                        config.Width(),
+            m_color_texture = CreateTexture2D(config.Width(),
                         config.Height(),
                         config.ColorFormat(),
-                        Image::ImageFormat::RGBA, Image::DataType::Float, 0, true);
+                        Image::ImageFormat::RGBA, Image::DataType::Float, 0, true, GetVideoDriver());
 
             if (GetVideoDriver()->GetSettings()->IsEnabledMultisampling()) {
                 m_resolve_rb = new GlFrameBuffer(GetVideoDriver());
-                m_resolve_rb->AttachColorTarget(0, m_color_texture);
+                m_resolve_rb->AttachColorTarget(0, m_color_texture.get());
 
                 //  Bind();
                 m_color_rb = new GlColorRenderBuffer(config, GetVideoDriver());
@@ -53,13 +52,14 @@ namespace Graphics
                 AttachDepthTarget(m_depth_rb);
             }
             else {
-                m_depth_texture = GetVideoDriver()->CreateTexture2D(
+                m_depth_texture = CreateTexture2D(
                             config.Width(),
                             config.Height(),
                             config.DepthFormat(),
-                            Image::ImageFormat::DepthComponent, Image::DataType::Float, 0, false);
-                AttachColorTarget(0, m_color_texture);
-                AttachDepthTarget(m_depth_texture);
+                            Image::ImageFormat::DepthComponent, Image::DataType::Float, 0, false,
+                            GetVideoDriver());
+                AttachColorTarget(0, m_color_texture.get());
+                AttachDepthTarget(m_depth_texture.get());
             }
             Bind();
             Check();
@@ -94,10 +94,29 @@ namespace Graphics
 
         GlFrameBuffer::~GlFrameBuffer()
         {
-            Clear();
+            Destroy();
+        }
+
+        void GlFrameBuffer::SetClearFlag(bool color, bool depth, bool stencil) {
+            m_clear_color = color;
+            m_clear_depth = depth;
+            m_clear_stencil = stencil;
         }
 
         void GlFrameBuffer::Clear()
+        {
+            GLenum flag = 0;
+            if (m_clear_color)
+                flag |= GL_COLOR_BUFFER_BIT;
+            if (m_clear_depth)
+                flag |= GL_DEPTH_BUFFER_BIT;
+            if (m_clear_stencil)
+                flag |= GL_STENCIL_BUFFER_BIT;
+            GL_CALL(glClearDepth(1));
+            GL_CALL(glClear(flag));
+        }
+
+        void GlFrameBuffer::Destroy()
         {
             if (m_color_rb)
             {
@@ -235,22 +254,7 @@ namespace Graphics
             Bind();
             GL_CALL(glViewport(x, y, width, height));
             Unbind();
-        }
-
-        void GlFrameBuffer::Clear(bool color, bool depth, bool stencil)
-        {
-            Bind();
-            GLenum flag = 0;
-            if (color)
-                flag |= GL_COLOR_BUFFER_BIT;
-            if (depth)
-                flag |= GL_DEPTH_BUFFER_BIT;
-            if (stencil)
-                flag |= GL_STENCIL_BUFFER_BIT;
-            GL_CALL(glClearDepth(1));
-            GL_CALL(glClear(flag));
-            Unbind();
-        }
+        }        
 
         void GlFrameBuffer::Check()
         {
@@ -293,20 +297,67 @@ namespace Graphics
         }
     }
 
-    namespace Constructor {
-        extern "C" PUNK_ENGINE_API IFrameBuffer* CreateFrameBuffer(IVideoDriver* driver) {
-            IFrameBuffer* buffer = new OpenGL::GlFrameBuffer(driver);
-            return buffer;
-        }
+    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(IVideoDriver* driver) {
+        IFrameBufferUniquePtr buffer{ new OpenGL::GlFrameBuffer(driver), DestroyFrameBuffer};
+        return buffer;
+    }
 
-        extern "C" PUNK_ENGINE_API IFrameBuffer* GetBackbuffer() {
-            return &OpenGL::GlFrameBuffer::Backbuffer;
-        }
+    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, IVideoDriver* driver)
+    {
+        auto fb = driver->GetSettings()->GetFrameBufferConfig(0);
+        fb.Width(width);
+        fb.Height(height);
+        auto buffer = CreateFrameBuffer(driver);
+        buffer->Config(fb);
+        return buffer;
+    }
 
-        extern "C" PUNK_ENGINE_API void DestroyFrameBuffer(IFrameBuffer* buffer) {
-            OpenGL::GlFrameBuffer* fb = dynamic_cast<OpenGL::GlFrameBuffer*>(buffer);
-            delete fb;
-        }
+    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, Image::ImageFormat color_format, Image::ImageFormat depth_format, IVideoDriver* driver)
+    {
+        auto fb = driver->GetSettings()->GetFrameBufferConfig(0);
+        fb.Width(width);
+        fb.Height(height);
+        fb.ColorFormat(color_format);
+        fb.DepthFormat(depth_format);
+        auto buffer = CreateFrameBuffer(driver);
+        buffer->Config(fb);
+        return buffer;
+    }
+
+    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, Image::ImageFormat color_format, Image::ImageFormat depth_format, int depth_samples, IVideoDriver* driver)
+    {
+        auto fb = driver->GetSettings()->GetFrameBufferConfig(0);
+        fb.Width(width);
+        fb.Height(height);
+        fb.ColorFormat(color_format);
+        fb.DepthFormat(depth_format);
+        fb.DepthSamples(depth_samples);
+        auto buffer = CreateFrameBuffer(driver);
+        buffer->Config(fb);
+        return buffer;
+    }
+
+    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, Image::ImageFormat color_format, Image::ImageFormat depth_format, int depth_samples, int coverage_samples, IVideoDriver* driver)
+    {
+        auto fb = driver->GetSettings()->GetFrameBufferConfig(0);
+        fb.Width(width);
+        fb.Height(height);
+        fb.ColorFormat(color_format);
+        fb.DepthFormat(depth_format);
+        fb.DepthSamples(depth_samples);
+        fb.CoverageSamples(coverage_samples);
+        auto buffer = CreateFrameBuffer(driver);
+        buffer->Config(fb);
+        return buffer;
+    }
+
+    extern PUNK_ENGINE_API IFrameBuffer* GetBackbuffer() {
+        return &OpenGL::GlFrameBuffer::Backbuffer;
+    }
+
+    extern PUNK_ENGINE_API void DestroyFrameBuffer(IFrameBuffer* buffer) {
+        OpenGL::GlFrameBuffer* fb = dynamic_cast<OpenGL::GlFrameBuffer*>(buffer);
+        delete fb;
     }
 }
 PUNK_ENGINE_END

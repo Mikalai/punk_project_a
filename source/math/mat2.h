@@ -15,7 +15,7 @@ namespace Punk {
 
             class vec2;
 
-            class  mat2
+            class PUNK_ENGINE_API mat2
             {
             protected:
                 float m[4];

@@ -2,9 +2,10 @@
 #include "cascade_shadow_map_render.h"
 #include "simple_shadowmap_render.h"
 
+PUNK_ENGINE_BEGIN
 namespace Graphics
 {
-    AbstractShadowMapRender* CreateShadowMapRender(const ShadowMapRenderType& value, VideoDriver* driver)
+    AbstractShadowMapRender* CreateShadowMapRender(const ShadowMapRenderType& value, IVideoDriver* driver)
     {
         switch(value)
         {
@@ -17,3 +18,4 @@ namespace Graphics
         }
     }
 }
+PUNK_ENGINE_END

@@ -92,7 +92,8 @@ HEADERS += \
     ../../../source/system/streaming/streaming_result.h \
     ../../../source/system/logger/log_consumer.h \
     ../../../source/system/logger/default_logger.h \
-    ../../../source/system/logger/console_consumer.h
+    ../../../source/system/logger/console_consumer.h \
+    ../../../source/system/environment.h
 
 SOURCES += \
     ../../../source/system/window/win32_window.cpp \
@@ -140,4 +141,5 @@ SOURCES += \
     ../../../source/system/streaming/streaming_component.cpp \
     ../../../source/system/logger/log_consumer.cpp \
     ../../../source/system/logger/default_logger.cpp \
-    ../../../source/system/logger/console_consumer.cpp
+    ../../../source/system/logger/console_consumer.cpp \
+    ../../../source/system/environment.cpp

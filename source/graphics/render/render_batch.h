@@ -18,7 +18,6 @@ namespace Graphics {
         IRenderable* m_renderable;
         bool m_destroy;
     };
-
 }
 PUNK_ENGINE_END
 

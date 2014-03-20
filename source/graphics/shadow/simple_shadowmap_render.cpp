@@ -1,24 +1,23 @@
-#include "simple_shadowmap_render.h"
-#include "../video_driver.h"
-#include "../video_driver_caps.h"
-#include "../texture/texture2d.h"
-#include "../frame_buffer/module.h"
+#include <graphics/video_driver/module.h>
+#include <graphics/texture/module.h>
+#include <graphics/frame_buffer/module.h>
+#include <graphics/render/module.h>
+#include <graphics/frame/module.h>
+#include <graphics/state/module.h>
+#include <graphics/primitives/module.h>
 #include "shadow_render_common.h"
-#include "render_batch.h"
-#include "../frame.h"
-#include "../gpu_state.h"
-#include "../abstract_render_context_policy.h"
-#include "../renderable.h"
+#include "simple_shadowmap_render.h"
 
+PUNK_ENGINE_BEGIN
 namespace Graphics
 {
-    SimpleShadowMapRender::SimpleShadowMapRender(VideoDriver *driver)
+    SimpleShadowMapRender::SimpleShadowMapRender(IVideoDriver *driver)
         : m_driver(driver)
     {
-        auto size = m_driver->GetCaps().ShadowMapSize;
-        m_shadow_map = m_driver->CreateTexture2D(size, size, ImageModule::IMAGE_FORMAT_DEPTH_COMPONENT32F,
-                                                 ImageModule::IMAGE_FORMAT_DEPTH_COMPONENT,
-                                                 ImageModule::IMAGE_DATA_TYPE_FLOAT, 0, false);
+        auto size = m_driver->GetSettings()->GetShadowMapSize();
+        m_shadow_map = CreateTexture2D(size, size, Image::ImageFormat::DEPTH_COMPONENT32F,
+                                                 Image::ImageFormat::DepthComponent,
+                                                 Image::DataType::Float, 0, false, m_driver);
 
         m_shadow_map->SetCompareFunction(TextureCompareFunc::TextureLessEqual);
         m_shadow_map->SetCompareMode(TextureCompareMode::TextureNone);
@@ -27,67 +26,68 @@ namespace Graphics
         m_shadow_map->SetWrapMode(TextureWrapDirection::S, TextureWrapMode::ClampToEdge);
         m_shadow_map->SetWrapMode(TextureWrapDirection::R, TextureWrapMode::ClampToEdge);
 
-        m_fb = m_driver->CreateFrameBuffer();
+        m_fb = CreateFrameBuffer(m_driver);
         m_fb->SetRenderTarget(FrameBufferTarget::TargetNone);
         m_fb->SetViewport(0, 0, size, size);
     }
 
     SimpleShadowMapRender::~SimpleShadowMapRender()
     {
-        safe_delete(m_shadow_map);
-        safe_delete(m_fb);
+        m_shadow_map.reset();
+        m_fb.reset();
     }
 
-    Texture* SimpleShadowMapRender::GetShadowMap()
+    ITexture2D* SimpleShadowMapRender::GetShadowMap()
     {
-        return m_shadow_map;
+        return m_shadow_map.get();
     }
 
-    void SimpleShadowMapRender::Run(IFrame* frame)
+    void SimpleShadowMapRender::Run(Batch** batches, std::uint32_t count)
     {
-        m_frame = frame;
-        auto batches = m_frame->GetBatches();
-        m_shadow_view = Math::mat4::CreateTargetCameraMatrix(m_light.GetPosition().XYZ(), m_light.GetPosition().XYZ() + m_light.GetDirection().XYZ(), {0, 0, 1});
+        IRenderUniquePtr render = CreateRender(m_driver);
+
+        m_shadow_view = Math::CreateTargetCameraMatrix(m_light.GetPosition().XYZ(), m_light.GetPosition().XYZ() + m_light.GetDirection().XYZ(), {0, 0, 1});
         Math::FrustumTransform(m_frustum, m_cam_pos, m_cam_dir, m_cam_up);
         FindZRange(m_frustum, m_shadow_view, m_frame, m_z_range);
-        m_shadow_proj = Math::mat4::CreateLightProjectionMatrix(m_z_range);
-        m_shadow_crop = Math::mat4::CreateCropMatrix(m_frustum, m_shadow_view, m_shadow_proj, m_min_x, m_max_x, m_min_y, m_max_y);
+        m_shadow_proj = Math::CreateLightProjectionMatrix(m_z_range);
+        m_shadow_crop = Math::CreateCropMatrix(m_frustum, m_shadow_view, m_shadow_proj, m_min_x, m_max_x, m_min_y, m_max_y);
 
-        m_fb->AttachDepthTarget(m_shadow_map);
-        m_fb->SetRenderTarget(Graphics::FrameBufferTarget::TargetNone);
-        m_fb->Clear(false, true, false);
-        m_fb->Bind();
-        // m_fb->SetPolygonOffset(1.0f, 4096.0f);
         auto policy = IRenderContext::find(RenderPolicySet::DepthRender);
         policy->Begin();
-        for (Batch* batch : batches)
+        for (int i = 0; i < count; ++i)
         {
+            Batch* b = batches[i];
+            if (b->m_state->batch_state->m_cast_shadows) {
+                //  create new batch
+                Batch* batch = new Batch;
+                batch->m_destroy = false;
+                batch->m_renderable = b->m_renderable;
+                batch->m_state = b->m_state->Clone(CoreState::ALL_STATES);
 
-            auto old_proj = batch->m_state->view_state->m_projection;
-            auto old_view = batch->m_state->view_state->m_view;
-            batch->m_state->view_state->m_projection = m_shadow_crop * m_shadow_proj;
-           // batch->m_state->view_state->m_projection = m_shadow_proj[i];
-            batch->m_state->view_state->m_view = m_shadow_view;
-            batch->m_state->light_state->m_lights[0].SetShadowMatrix(0, m_shadow_crop * m_shadow_proj * m_shadow_view);
-            //batch->m_state->light_state->m_lights[0].SetShadowMatrix(i, GetBiasMatrix() * m_shadow_proj[i] * m_shadow_view[i]);
-            batch->m_state->texture_state->m_shadow_map = m_shadow_map;
-            batch->m_state->texture_state->m_shadow_map_slot = 7;
-            batch->m_state->light_state->m_lights[0].SetPosition(m_light.GetPosition().XYZ());
-            batch->m_state->light_state->m_lights[0].SetDirection(m_light.GetDirection().XYZ());
-            batch->m_state->light_state->m_lights[0].SetFarZ(m_z_range[1]);
-            batch->m_state->light_state->m_lights[0].SetNearZ(m_z_range[0]);
+                //  setup batch
+                batch->m_state->render_state->m_render_shadow_map = true;
+                batch->m_state->render_state->m_shadow_model = ShadowModel::ShadowMapSimple;
+                batch->m_state->view_state->m_projection = m_shadow_crop * m_shadow_proj;
+                batch->m_state->view_state->m_view = m_shadow_view;
+                batch->m_state->light_state->m_lights[0].SetShadowMatrix(0, m_shadow_crop * m_shadow_proj * m_shadow_view);
+                //batch->m_state->light_state->m_lights[0].SetShadowMatrix(i, GetBiasMatrix() * m_shadow_proj[i] * m_shadow_view[i]);
+                batch->m_state->texture_state->m_shadow_map = m_shadow_map.get();
+                batch->m_state->texture_state->m_shadow_map_slot = 7;
+                batch->m_state->light_state->m_lights[0].SetPosition(m_light.GetPosition().XYZ());
+                batch->m_state->light_state->m_lights[0].SetDirection(m_light.GetDirection().XYZ());
+                batch->m_state->light_state->m_lights[0].SetFarZ(m_z_range[1]);
+                batch->m_state->light_state->m_lights[0].SetNearZ(m_z_range[0]);
+                render->SubmitBatch(batch);
+            }
+        }        
 
-            policy->BindParameters(*batch->m_state);
-            batch->m_renderable->Bind(policy->GetRequiredAttributesSet());
-            batch->m_renderable->Render();
-            batch->m_renderable->Unbind();
-
-            batch->m_state->view_state->m_projection = old_proj;
-            batch->m_state->view_state->m_view = old_view;
-        }
-        m_fb->SetPolygonOffset(0, 0);
-        policy->End();
-        m_fb->Unbind();
+        m_fb->AttachDepthTarget(m_shadow_map.get());
+        m_fb->SetRenderTarget(Graphics::FrameBufferTarget::TargetNone);
+        m_fb->SetClearFlag(false, true, false);
+        m_fb->Clear();
+        m_fb->SetPolygonOffset(1.0f, 4096.0f);
+        render->AsyncBeginRendering(m_fb.get());
+        render->WaitEndRendering();
     }
 
     void SimpleShadowMapRender::SetLight(const LightParameters& value)
@@ -112,8 +112,9 @@ namespace Graphics
         return nullptr;
     }
 
-    VideoDriver* SimpleShadowMapRender::GetVideoDriver()
+    IVideoDriver* SimpleShadowMapRender::GetVideoDriver()
     {
         return m_driver;
     }
 }
+PUNK_ENGINE_END

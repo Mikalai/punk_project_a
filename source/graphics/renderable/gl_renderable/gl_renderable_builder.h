@@ -9,7 +9,7 @@
 PUNK_ENGINE_BEGIN
 namespace Graphics {
     namespace OpenGL {
-        //class IFrame;
+        //class Frame;
 
         class GlRenderableBuilder : public RenderableBuilder
         {
@@ -29,7 +29,6 @@ namespace Graphics {
             IRenderable* BuildVertexBufferPTC(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& texcoord, const std::vector<Math::vec4>& color);
             IRenderable* BuildVertexBufferPN(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& normal);
             IRenderable* BuildVertexBufferPNT0(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& normal, const std::vector<Math::vec4>& texcoord);
-
         };
     }
 }

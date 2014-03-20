@@ -3,6 +3,6 @@
 
 #include "frame_buffer_config.h"
 #include "render_buffer_config.h"
-#include "frame_buffer.h"
+#include "iframe_buffer.h"
 
 #endif // PUNK_Graphics_FRAME_BUFFER_MODULE_H

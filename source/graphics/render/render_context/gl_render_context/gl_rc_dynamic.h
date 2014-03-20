@@ -3,14 +3,13 @@
 
 #include "gl_render_context.h"
 
-namespace Graphics
-{
-	namespace OpenGL
-	{
+PUNK_ENGINE_BEGIN
+namespace Graphics {
+    namespace OpenGL {
 		class DynamicRenderContext : public OpenGLRenderContext
 		{
 		public:
-			DynamicRenderContext();
+            DynamicRenderContext(RenderPolicySet policy);
 
 			void SetShaders(Shader* vs, Shader* fs, Shader* gs);
 			virtual void InitUniforms() override;
@@ -22,5 +21,6 @@ namespace Graphics
 		};
 	}
 }
+PUNK_ENGINE_END
 
 #endif // RC_DYNAMIC_H

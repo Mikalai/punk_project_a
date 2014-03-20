@@ -10,15 +10,7 @@ namespace System
     struct KeyMapImpl
     {
         ~KeyMapImpl()
-        {
-            for (auto key : m_actions)
-            {
-                for (auto action : key.second)
-                {
-                    action->Release();
-                }
-            }
-        }
+        {}
 
         KeyboardActionsCollection m_actions;
     };
@@ -26,7 +18,6 @@ namespace System
     void KeyMap::Add(Key key, KeyboardAction action)
     {
         impl->m_actions[key].insert(action);
-        action->AddRef();
     }
 
     void KeyMap::Remove(Key key, KeyboardAction action)
@@ -38,7 +29,6 @@ namespace System
         if (key_it->second.end() == action_it)
             return;
         key_it->second.erase(action_it);
-        action->Release();
     }
 
     std::set<KeyboardAction>& KeyMap::GetActions(Key key)

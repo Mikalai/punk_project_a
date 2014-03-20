@@ -1,6 +1,8 @@
 #include <graphics/frame/module.h>
-#include "../video_driver.h"
-#include "../texture/texture2d_array.h"
+#include <graphics/video_driver/module.h>
+#include <graphics/texture/module.h>
+#include <graphics/canvas/module.h>
+#include <system/window/module.h>
 #include "cascade_shadow_map_debug_visualizer.h"
 #include "cascade_shadow_map_render.h"
 
@@ -12,16 +14,17 @@ namespace Graphics
     {
     }
 
-    void CascadeShadowMapDebugVisualizer::Draw(IFrame *frame)
+    void CascadeShadowMapDebugVisualizer::Draw(Frame *frame)
     {
         //draw shadow maps
-        frame->BeginRendering();
+        //frame->BeginRendering();
         frame->PushAllState();
         frame->EnableTexturing(true);
-        frame->EnableLighting(false);
-        frame->SetTexture2DArray(dynamic_cast<Graphics::Texture2DArray*>(m_shadow_map_render->GetShadowMap()), 0);
-        frame->SetViewMatrix(Math::mat4::CreateIdentity());
-        frame->SetProjectionMatrix(Math::mat4::CreateOrthographicProjection(0, m_shadow_map_render->GetVideoDriver()->GetWindow()->GetWidth(), 0, m_shadow_map_render->GetVideoDriver()->GetWindow()->GetHeight(), -1, 1));
+        frame->EnableLighting(false);        
+        frame->SetTexture2DArray(dynamic_cast<Graphics::ITexture2DArray*>(m_shadow_map_render->GetShadowMap()), 0);
+        frame->SetViewMatrix(Math::CreateIdentity());
+        System::IWindow* wnd = m_shadow_map_render->GetVideoDriver()->GetCanvas()->GetWindow();
+        frame->SetProjectionMatrix(Math::CreateOrthographicProjection(0, wnd->GetWidth(), 0, wnd->GetHeight(), -1, 1));
         for (int i = 0; i < m_shadow_map_render->GetSplitCount(); ++i)
         {
             frame->SetDiffuseMapIndex(0, i);
@@ -29,7 +32,7 @@ namespace Graphics
             frame->DrawQuad(10 + 260*i, 10, 256, 256);
         }
         frame->PopAllState();
-        frame->EndRendering();
+      //  frame->EndRendering();
 
 //        frame->BeginRendering();
 //        frame->PushAllState();

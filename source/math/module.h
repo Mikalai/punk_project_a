@@ -7,6 +7,7 @@
 #include "mat2.h"
 #include "mat3.h"
 #include "mat4.h"
+#include "matrix_helper.h"
 #include "smart_matrix.h"
 #include "plane.h"
 #include "line3d.h"

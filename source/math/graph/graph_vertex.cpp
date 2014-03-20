@@ -3,6 +3,7 @@
 #include "graph.h"
 #include "graph_edge.h"
 
+PUNK_ENGINE_BEGIN
 namespace Math
 {
 
@@ -150,3 +151,4 @@ namespace Math
 		m_index = index;
 	}
 }
+PUNK_ENGINE_END

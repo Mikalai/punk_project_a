@@ -4,6 +4,8 @@
 #include <graphics/texture/module.h>
 #include <graphics/video_memory/module.h>
 #include <graphics/video_memory/gl_video_memory/module.h>
+#include <graphics/render/module.h>
+#include "gl_vfs.h"
 #include "gl_video_driver.h"
 
 PUNK_ENGINE_BEGIN
@@ -16,9 +18,12 @@ namespace Graphics {
             , m_memory(dynamic_cast<VideoMemory*>(Constructor::GetVideoMemory()))
         {
             m_caps->Load();
+            InitVfs(this);
+            InitRenderContexts(this);            
         }
 
         GlVideoDriver::~GlVideoDriver(){
+            DestroyRenderContexts();
             delete m_caps; m_caps = nullptr;
             Constructor::DestroyVideoMemory();
         }
@@ -68,12 +73,6 @@ namespace Graphics {
         const VirtualFileSystem* GlVideoDriver::GetVirtualFileSystem() const {
             return m_vfs;
         }
-
-        IFrameBuffer* GlVideoDriver::CreateFrameBuffer(const FrameBufferConfig& config) {
-            IFrameBuffer* buffer = Constructor::CreateFrameBuffer(this);
-            buffer->Config(config);
-            return buffer;
-        }        
 
         IVideoDriverSettings* GlVideoDriver::GetSettings()
         {

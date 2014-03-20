@@ -2,6 +2,7 @@
 #define FRAMEBUFFER_H
 
 #include <cstddef>
+#include <graphics/texture/module.h>
 #include "iframe_buffer.h"
 #include "frame_buffer_target.h"
 
@@ -25,8 +26,8 @@ namespace Graphics {
     protected:
         FrameBufferConfig* m_config {nullptr};
         IVideoDriver* m_driver {nullptr};
-        ITexture2D* m_color_texture {nullptr};
-        ITexture2D* m_depth_texture {nullptr};
+        ITexture2DUniquePtr m_color_texture {nullptr, DestroyTexture2D};
+        ITexture2DUniquePtr m_depth_texture {nullptr, DestroyTexture2D};
     };    
 }
 PUNK_ENGINE_END

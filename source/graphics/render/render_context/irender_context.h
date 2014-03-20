@@ -10,7 +10,8 @@ PUNK_ENGINE_BEGIN
 namespace Graphics
 {
 	enum class RenderPolicySet {
-		Solid3D,
+        Begin = 0,
+        Solid3D = 0,
         SolidTextured2D,
         SolidTextured2DArray,
 		GUI,
@@ -116,8 +117,14 @@ namespace Graphics
 
         TextSolidColor,
         DepthRender,
-        DepthRenderSkinning
+        DepthRenderSkinning,
+        Count = DepthRenderSkinning,
+        End
 	};
+
+    inline int GetIndex(RenderPolicySet policy) {
+        return (int)policy;
+    }
 
     class PUNK_ENGINE_API IRenderContext : public System::Aspect<IRenderContext*, RenderPolicySet>
 	{
@@ -129,11 +136,16 @@ namespace Graphics
         virtual void Begin() = 0;
         virtual void End() = 0;
         virtual void Init() = 0;
+        virtual RenderPolicySet GetPolicy() = 0;
         virtual ~IRenderContext();
 	protected:
 		bool m_was_modified;
 		int64_t  m_vertex_attributes;
 	};
+
+    IRenderContext* GetRenderContext(RenderPolicySet value);
+    bool InitRenderContexts(IVideoDriver* driver);
+    void DestroyRenderContexts();
 }
 PUNK_ENGINE_END
 

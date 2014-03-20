@@ -10,14 +10,15 @@
 #include <graphics/renderable/module.h>
 #include <graphics/primitives/module.h>
 #include <graphics/texture/module.h>
+#include <graphics/render/module.h>
 #include "frame.h"
 
 PUNK_ENGINE_BEGIN
 namespace Graphics
 {
-    Frame::Frame(IVideoDriver* driver)
+    Frame::Frame(IRender* render)
+        : m_render{render}
     {
-        m_driver = driver;
         m_state.push(new CoreState);
     }
 
@@ -52,56 +53,56 @@ namespace Graphics
         Top()->render_state->m_clear_depth = value;
     }
 
-    void Frame::Clear(bool color, bool depth, bool stencil)
-    {
-        if (!Top()->m_active_rendering)
-            throw Error::GraphicsException(L"Can't perform clear operation, because target is not specified");
-        m_current_frame_buffer->SetClearColor(Top()->render_state->m_clear_color);
-        m_current_frame_buffer->SetClearDepth(Top()->render_state->m_clear_depth);
-        m_current_frame_buffer->Clear(color, depth, stencil);
-    }
+//    void Frame::Clear(bool color, bool depth, bool stencil)
+//    {
+//        if (!Top()->m_active_rendering)
+//            throw Error::GraphicsException(L"Can't perform clear operation, because target is not specified");
+//        m_current_frame_buffer->SetClearColor(Top()->render_state->m_clear_color);
+//        m_current_frame_buffer->SetClearDepth(Top()->render_state->m_clear_depth);
+//        m_current_frame_buffer->Clear(color, depth, stencil);
+//    }
 
     const Math::vec4 Frame::GetClearColor() const
     {
         return Top()->render_state->m_clear_color;
     }
 
-    void Frame::BeginRendering(IFrameBuffer *target)
-    {
-        if (Top()->m_active_rendering)
-            throw Error::GraphicsException(L"Rendering is already started. Call EndRendering() before");
-        Top()->m_active_rendering = true;
-        m_current_frame_buffer = target;
-        if (m_current_frame_buffer)
-            m_current_frame_buffer->Bind();
-        System::IWindow* canvas = GetVideoDriver()->GetCanvas()->GetWindow();
-        m_current_frame_buffer->SetViewport(0, 0, canvas->GetWidth(), canvas->GetHeight());
-    }
+//    void Frame::BeginRendering(IFrameBuffer *target)
+//    {
+//        if (Top()->m_active_rendering)
+//            throw Error::GraphicsException(L"Rendering is already started. Call EndRendering() before");
+//        Top()->m_active_rendering = true;
+//        m_current_frame_buffer = target;
+//        if (m_current_frame_buffer)
+//            m_current_frame_buffer->Bind();
+//        System::IWindow* canvas = GetVideoDriver()->GetCanvas()->GetWindow();
+//        m_current_frame_buffer->SetViewport(0, 0, canvas->GetWidth(), canvas->GetHeight());
+//    }
 
-    void Frame::BeginRendering()
-    {
-        BeginRendering(nullptr);
-    }
+//    void Frame::BeginRendering()
+//    {
+//        BeginRendering(nullptr);
+//    }
 
 //    void Frame::BeginRendering(ITexture2D *color_buffer, ITexture2D *depth_buffer)
 //    {
 //        if (Top()->m_active_rendering)
 //            throw System::PunkException(L"Rendering is already started. Call EndRendering() before");
-//        m_current_target = m_driver->CreateRenderTargetToTexture2D(color_buffer, depth_buffer);
+//        m_current_target = GetVideoDriver->CreateRenderTargetToTexture2D(color_buffer, depth_buffer);
 //        BeginRendering(m_current_target, true);
 //    }
 
-    void Frame::EndRendering()
-    {
-        //	array of batches should be submitted to the actual rendering
-        RenderPass pass(m_driver, m_batches);
-        pass.Run();
-        m_batches.clear();
-        //m_driver->SwapBuffers();
-        Top()->m_active_rendering = false;
-        if (m_current_frame_buffer)
-            m_current_frame_buffer->Unbind();
-    }
+//    void Frame::EndRendering()
+//    {
+//        //	array of batches should be submitted to the actual rendering
+//        RenderPass pass(GetVideoDriver, m_batches);
+//        pass.Run();
+//        m_batches.clear();
+//        //GetVideoDriver->SwapBuffers();
+//        Top()->m_active_rendering = false;
+//        if (m_current_frame_buffer)
+//            m_current_frame_buffer->Unbind();
+//    }
 
     void Frame::Submit(IRenderable* value, bool destroy)
     {
@@ -111,7 +112,7 @@ namespace Graphics
         batch->m_renderable = value;
         batch->m_state = m_state.top()->Clone(CoreState::ALL_STATES);
         batch->m_destroy = destroy;
-        m_batches.push_back(batch);
+        m_render->SubmitBatch(batch);
     }
 
     void Frame::PushAllState()
@@ -575,7 +576,7 @@ namespace Graphics
         PushAllState();
         EnableLighting(false);
         EnableTexturing(false);
-        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(m_driver);
+        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(GetVideoDriver());
         b->Begin(PrimitiveType::LINES);
         b->Vertex3fv(start);
         b->Vertex3fv(end);
@@ -607,7 +608,7 @@ namespace Graphics
         p2[1] = -1.0f + 2.0f * y2 / height;
         p2[2] = 0;
 
-        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(m_driver);
+        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(GetVideoDriver());
         b->Begin(PrimitiveType::LINES);
         b->Vertex3fv(p1);
         b->Vertex3fv(p2);
@@ -632,7 +633,7 @@ namespace Graphics
         p1[1] = -1.0f + 2.0f * y / height;
         p1[2] = 0;
 
-        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(m_driver);
+        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(GetVideoDriver());
         b->Begin(PrimitiveType::POINTS);
         b->Vertex3fv(p1);
         b->End();
@@ -646,7 +647,7 @@ namespace Graphics
         PushAllState();
         EnableLighting(false);
         EnableTexturing(false);
-        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(m_driver);
+        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(GetVideoDriver());
         b->Begin(PrimitiveType::POINTS);
         b->Vertex3fv(Math::vec3(x, y, z));
         b->End();
@@ -660,7 +661,7 @@ namespace Graphics
         PushAllState();
         EnableLighting(false);
         EnableTexturing(false);
-        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(m_driver);
+        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(GetVideoDriver());
         b->Begin(PrimitiveType::POINTS);
         b->Vertex3fv(v);
         b->End();
@@ -704,7 +705,7 @@ namespace Graphics
         EnableBlending(false);
         EnableLighting(false);
         EnableDepthTest(false);        
-        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(m_driver);
+        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(GetVideoDriver());
         b->Begin(PrimitiveType::LINES);
         int n = 32;
         float dphi = Math::PI / (float)n * 2.0f;
@@ -784,17 +785,7 @@ namespace Graphics
 
     IVideoDriver* Frame::GetVideoDriver() const
     {
-        return m_driver;
-    }
-
-    std::vector<Batch*>& Frame::GetBatches()
-    {
-        return m_batches;
-    }
-
-    const std::vector<Batch*>& Frame::GetBatches() const
-    {
-        return m_batches;
+        return m_render->GetVideoDriver();
     }
 
     void Frame::SetShadowMaps(ITexture2DArray *value)
@@ -804,18 +795,7 @@ namespace Graphics
 
     const Math::vec2 Frame::FindZRange(const Math::mat4 &view) const
     {
-        float min = std::numeric_limits<float>::infinity();
-        float max = -std::numeric_limits<float>::infinity();
-
-        for (Batch* o : GetBatches())
-        {
-            auto transf = view*o->m_state->batch_state->m_bsphere.GetCenter();
-            if (transf.Z() + o->m_state->batch_state->m_bsphere.GetRadius() > max)
-                max = transf.Z() + o->m_state->batch_state->m_bsphere.GetRadius();
-            if (transf.Z() - o->m_state->batch_state->m_bsphere.GetRadius() < min)
-                min = transf.Z() - o->m_state->batch_state->m_bsphere.GetRadius();
-        }
-        return Math::vec2(min, max);
+        return m_render->FindZRange(view);
     }
 
     void Frame::DrawAxis(float scale)

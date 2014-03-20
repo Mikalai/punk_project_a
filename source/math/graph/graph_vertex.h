@@ -1,8 +1,9 @@
 #ifndef GRAPH_VERTEX_H
 #define GRAPH_VERTEX_H
 
-#include "../../config.h"
+#include <config.h>
 
+PUNK_ENGINE_BEGIN
 namespace Math
 {
 	class Graph;
@@ -58,5 +59,6 @@ namespace Math
 		return reinterpret_cast<T*>(v->GetData());
 	}
 }
+PUNK_ENGINE_END
 
 #endif // GRAPH_VERTEX_H

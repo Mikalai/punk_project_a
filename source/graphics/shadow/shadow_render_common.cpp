@@ -1,10 +1,11 @@
 #include "shadow_render_common.h"
-#include "../../../math/frustum.h"
-#include "../frame.h"
+#include <math/frustum.h>
+#include <graphics/frame/module.h>
 
+PUNK_ENGINE_BEGIN
 namespace Graphics
 {
-    void FindZRange(const Math::FrustumCore& frustum, const Math::mat4& shadow_view, IFrame* frame, Math::vec2& z_range)
+    void FindZRange(const Math::FrustumCore& frustum, const Math::mat4& shadow_view, Frame* frame, Math::vec2& z_range)
     {
         z_range = Math::FrustumFindZRange(frustum, shadow_view);
 
@@ -16,3 +17,4 @@ namespace Graphics
             z_range[1] = r[1];
     }
 }
+PUNK_ENGINE_END

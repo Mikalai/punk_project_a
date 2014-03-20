@@ -156,8 +156,9 @@ namespace Core {
     }
 
     Buffer String::ToWchar() const {
-        Buffer buffer(impl->size());
-        buffer.WriteBuffer(impl->c_str(), impl->size());
+        Buffer buffer((impl->size()+1)*sizeof(wchar_t));
+        const wchar_t* data = impl->c_str();
+        buffer.WriteBuffer(data, (impl->size()+1)*sizeof(wchar_t));
         return buffer;
     }
 

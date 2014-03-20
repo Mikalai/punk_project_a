@@ -1,9 +1,10 @@
 #ifndef GRAPH_EDGE_H
 #define GRAPH_EDGE_H
 
-#include "../../config.h"
+#include <config.h>
 #include <cstddef>
 
+PUNK_ENGINE_BEGIN
 namespace Math
 {
 	class Graph;
@@ -31,5 +32,6 @@ namespace Math
 		friend class Graph;
 	};
 }
+PUNK_ENGINE_END
 
 #endif // GRAPH_EDGE_H

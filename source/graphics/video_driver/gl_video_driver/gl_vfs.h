@@ -19,6 +19,8 @@ namespace Graphics {
         private:
             GlVideoDriver* m_driver;
         };
+
+        PUNK_ENGINE_LOCAL void InitVfs(GlVideoDriver* impl);
     }
 }
 PUNK_ENGINE_END

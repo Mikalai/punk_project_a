@@ -27,8 +27,7 @@ namespace Graphics
             //	constructoion part
             GlVideoDriver(ICanvas* canvas);
             virtual ~GlVideoDriver();
-            ICanvas* GetCanvas() override;            
-            IFrameBuffer* CreateFrameBuffer(const FrameBufferConfig& config) override;
+            ICanvas* GetCanvas() override;                        
             IVideoDriverSettings* GetSettings() override;
 
             VideoMemory* GetVideoMemory();

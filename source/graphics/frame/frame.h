@@ -18,19 +18,19 @@ namespace Graphics
     class ITextSurface;
     class IRenderable;
     class IFrameBuffer;
+    class IRender;
+
 	class Batch;    
 
     class PUNK_ENGINE_API Frame : public Core::Poolable<Frame>
 	{
 	public:
-		
+
+        Frame(IRender* driver);
 		~Frame();
 
-		void BeginRendering();
-        //void BeginRendering(ITexture2D* color_buffer, ITexture2D* depth_buffer);
-        void BeginRendering(IFrameBuffer* target);
+        IRender* GetRender();
         void Submit(IRenderable* value, bool destroy = false);
-
 		void SetClipSpace(const Math::ClipSpace& value);		
         const Math::ClipSpace& GetClipSpace() const;
 		void SetLineWidth(float value);
@@ -168,8 +168,6 @@ namespace Graphics
 		void PopTextureState();
 
         IVideoDriver* GetVideoDriver() const;
-        std::vector<Batch*>& GetBatches();
-        const std::vector<Batch*>& GetBatches() const;
 
         const Math::vec2 FindZRange(const Math::mat4& view) const;
 
@@ -182,15 +180,10 @@ namespace Graphics
 		//	next should be delete in destructor
 		std::stack<CoreState*> m_state;
 
-        //	next should not be deleted in destructor
-        IFrameBuffer* m_current_frame_buffer;
-        IVideoDriver* m_driver;
-		std::vector<Batch*> m_batches;
+        //	next should not be deleted in destructor        
+        IRender* m_render;
         std::vector<ITextSurface*> m_texts;
-        ITexture2DArray* m_shadow_maps;
-	private:
-		//	driver can create frames
-        Frame(IVideoDriver* driver);
+        ITexture2DArray* m_shadow_maps;        
 
 		Frame(const Frame&) = delete;
 		Frame& operator = (const Frame&) = delete;

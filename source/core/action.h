@@ -124,7 +124,6 @@ namespace Core {
         void Add(Action* action)
         {
             m_methods.push_back(action);
-            action->AddRef();
         }
 
         void Add(Function f)
@@ -138,7 +137,6 @@ namespace Core {
             if (it == m_methods.end())
                 return;
             m_methods.erase(it);
-            action->Release();
         }
 
         void Remove(Function f)
@@ -153,7 +151,6 @@ namespace Core {
         {
             while (!m_methods.empty())
             {
-                m_methods.back()->Release();
                 m_methods.pop_back();
             }
         }

@@ -1,11 +1,11 @@
 #ifndef _H_PUNK_GPU_PAINTER_PEN
 #define _H_PUNK_GPU_PAINTER_PEN
 
-#include "../../config.h"
+#include <config.h>
+#include <math/vec4.h>
 
-namespace Math { class vec4; }
-
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
 	class PUNK_ENGINE_API Pen final
 	{
@@ -22,9 +22,11 @@ namespace Gpu
 		const Math::vec4& GetColor() const;
 		float GetWidth() const;
 
-		struct PenImpl;
-		PenImpl* impl;
+    private:
+        float m_width {1};
+        Math::vec4 m_color;
 	};
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_GPU_PAINTER_PEN

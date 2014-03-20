@@ -15,7 +15,6 @@ namespace Graphics {
         RenderableBuilder& operator = (const RenderableBuilder&) = delete;
         virtual ~RenderableBuilder();
 
-        void Begin(const PrimitiveType& value) override;
         void Vertex3f(float x, float y, float z) override;
         void Vertex3fv(const float* value) override;
         void Vertex3fv(const Math::vec3& value) override;
@@ -28,10 +27,8 @@ namespace Graphics {
         void Normal3f(float x, float y, float z) override;
         void Normal3fv(const float* value) override;
         void Normal3fv(const Math::vec3& value) override;
-        void End() override;
         const Math::BoundingSphere* GetBoundingSphere() const override;
         bool IsValid() const override;
-        IRenderable* ToRenderable() override;
 
     protected:
 

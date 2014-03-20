@@ -1,6 +1,6 @@
+#include <string/string.h>
+#include <system/filesystem/module.h>
 #include "environment.h"
-#include "string/string.h"
-#include "folder.h"
 
 PUNK_ENGINE_BEGIN
 namespace System
@@ -30,41 +30,41 @@ namespace System
 		//file.Close();
 	}
 
-	const string Environment::GetCurrentFolder()
+    const Core::String Environment::GetCurrentFolder()
 	{
 		return Folder::GetCurrentFolder();
 	}
 
-	void Environment::SetCurrentFolder(const string& dir)
+    void Environment::SetCurrentFolder(const Core::String& dir)
 	{
 		Folder::SetCurrentFolder(dir);
 	}
 
-	const string Environment::GetFontFolder()
+    const Core::String Environment::GetFontFolder()
 	{
         return GetCurrentFolder() + L"/../../data/fonts/";
 		//return GetCurrentFolder() + L"fonts\\";
 	}
 
-	const string Environment::GetModelFolder()
+    const Core::String Environment::GetModelFolder()
 	{
         return GetCurrentFolder() + L"/../../data/models/";
 		//return GetCurrentFolder() + L"models\\";
 	}
 
-	const string Environment::GetMapFolder()
+    const Core::String Environment::GetMapFolder()
 	{
 		return GetCurrentFolder() + L"\\..\\..\\data\\maps\\";
 		//return GetCurrentFolder() + L"maps\\";
 	}
 
-	const string Environment::GetSaveFolder()
+    const Core::String Environment::GetSaveFolder()
 	{
 		return GetCurrentFolder() + L"\\..\\..\\data\\saves\\";
 		//return GetCurrentFolder() + L"saves\\";
 	}
 
-	const string Environment::GetTextureFolder()
+    const Core::String Environment::GetTextureFolder()
 	{
 #ifdef _WIN32
         return GetCurrentFolder() + L"\\..\\..\\data\\textures\\";
@@ -74,39 +74,40 @@ namespace System
 #endif
 	}
 
-	const string Environment::GetQuestFolder() 
+    const Core::String Environment::GetQuestFolder()
 	{
 		return GetCurrentFolder() + L"\\..\\..\\data\\quests\\";
 		//return GetCurrentFolder() + L"quests\\";
 	}
 
-	const string Environment::GetSoundFolder() 
+    const Core::String Environment::GetSoundFolder()
 	{
 		return GetCurrentFolder() + L"\\..\\..\\data\\audio\\";
 		//return GetCurrentFolder() + L"audio\\";
 	}
 
-	const string Environment::GetShaderFolder()
+    const Core::String Environment::GetShaderFolder()
 	{
 #ifdef __gnu_linux__
         return GetCurrentFolder() + L"/../../data/shaders/";
+#else
+        return GetCurrentFolder() + L"\\..\\..\\data\\shaders\\";
 #endif
-		//return GetCurrentFolder() + L"shaders\\";
 	}
 	
-	const string Environment::GetArmatureFolder()
+    const Core::String Environment::GetArmatureFolder()
 	{
 		return GetCurrentFolder() + L"\\..\\..\\data\\armatures\\";
 		//return GetCurrentFolder() + L"armatures\\";
 	}
 
-	const string Environment::GetWeaponFolder()
+    const Core::String Environment::GetWeaponFolder()
 	{
 		return GetCurrentFolder() + L"\\..\\..\\data\\weapons\\";
 		//return GetCurrentFolder() + L"weapons\\";
 	}
 
-	const string Environment::GetOpenCLFolder()
+    const Core::String Environment::GetOpenCLFolder()
 	{
 		return GetCurrentFolder() + L"\\..\\..\\data\\opencl\\";
 		//return GetCurrentFolder() + L"weapons\\";

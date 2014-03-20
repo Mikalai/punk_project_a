@@ -109,7 +109,7 @@ namespace Graphics {
         GLenum Convert(const Image::ImageFormat& format) {
             switch (format) {
             case Image::ImageFormat::DepthComponent : return GL_DEPTH_COMPONENT;
-            case Image::ImageFormat::IMAGE_FORMAT_DEPTH_COMPONENT16 : return GL_DEPTH_COMPONENT16 ;
+            case Image::ImageFormat::DEPTH_COMPONENT16 : return GL_DEPTH_COMPONENT16 ;
             case Image::ImageFormat::DEPTH_COMPONENT24 : return GL_DEPTH_COMPONENT24 ;
             case Image::ImageFormat::IMAGE_FORMAT_DEPTH_COMPONENT32 : return GL_DEPTH_COMPONENT32 ;
             case Image::ImageFormat::IMAGE_FORMAT_R3_G3_B2 : return GL_R3_G3_B2 ;

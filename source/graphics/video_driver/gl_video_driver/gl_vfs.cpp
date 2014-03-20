@@ -1,4 +1,7 @@
 #include <graphics/opengl/module.h>
+#include <system/filesystem/module.h>
+#include <system/environment.h>
+#include <string/module.h>
 #include "gl_capabilities.h"
 #include "gl_video_driver.h"
 #include "gl_vfs.h"
@@ -8,6 +11,20 @@
 PUNK_ENGINE_BEGIN
 namespace Graphics {
     namespace OpenGL {
+
+        void InitVfs(GlVideoDriver* impl)
+        {
+            auto vfs = impl->GetVirtualFileSystem();
+            {
+                System::Folder f;
+                f.Open(System::Environment::Instance()->GetShaderFolder());
+                Core::Buffer buffer;
+                System::BinaryFile::Load("light.glsl", buffer); //  TODO: Do something better
+                vfs->RegisterNamedString("/light.glsl", (char*)buffer.Data(), buffer.GetSize());
+                System::BinaryFile::Load("material.glsl", buffer);
+                vfs->RegisterNamedString("/material.glsl", (char*)buffer.Data(), buffer.GetSize());
+            }
+        }
 
         VirtualFileSystem::VirtualFileSystem(GlVideoDriver *impl)
             : m_driver(impl) {

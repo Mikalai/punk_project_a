@@ -12,7 +12,7 @@ namespace Graphics
     {
     public:
         CascadeShadowMapDebugVisualizer(CascadeShadowMapRender* render);
-        virtual void Draw(IFrame *frame) override;
+        virtual void Draw(Frame *frame) override;
     private:
         CascadeShadowMapRender* m_shadow_map_render;
     };

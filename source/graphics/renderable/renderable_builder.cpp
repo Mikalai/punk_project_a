@@ -111,7 +111,7 @@ namespace Graphics
 	{
 		if (!m_begin_active)
             throw Error::GraphicsException(L"Failed to draw, because Begin() was not called");
-	}
+	}    
 
     const Math::BoundingSphere* RenderableBuilder::GetBoundingSphere() const
     {
@@ -132,16 +132,5 @@ namespace Graphics
     {
         return !m_vertex.empty();
     }
-
-    extern "C" PUNK_ENGINE_API IRenderableBuilderUniquePtr CreateRenderableBuilder(IVideoDriver* driver) {
-        IRenderableBuilderUniquePtr result{new RenderableBuilder(driver), DestroyRenderableBuilder};
-        return result;
-    }
-
-    extern "C" PUNK_ENGINE_API void DestroyRenderableBuilder(IRenderableBuilder* value) {
-        RenderableBuilder* o = dynamic_cast<RenderableBuilder*>(value);
-        delete o;
-    }
-
 }
 PUNK_ENGINE_END

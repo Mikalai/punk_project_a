@@ -1,18 +1,15 @@
 #ifndef _H_PUNK_GPU_BRUSH
 #define _H_PUNK_GPU_BRUSH
 
-#include "../../config.h"
+#include <config.h>
+#include <math/vec4.h>
+#include <math/mat3.h>
 
-namespace Math
-{
-	class vec4;
-	class mat3;
-	class mat2;
-}
+PUNK_ENGINE_BEGIN
 
-namespace Gpu
+namespace Graphics
 {
-	class Texture2D;
+    class ITexture2D;
 
 	class PUNK_ENGINE_API Brush final
 	{
@@ -28,12 +25,16 @@ namespace Gpu
 		const Math::mat3& GetMatrix() const;
 		void SetStyle(int value);
 		int GetStyle() const;
-		void SetTexture(const Texture2D* texture);
-		const Texture2D* GetTexture() const;
+        void SetTexture(const ITexture2D* texture);
+        const ITexture2D* GetTexture() const;
 
-		struct BrushImpl;
-		BrushImpl* impl;
+    private:
+        Math::vec4 m_color;
+        Math::mat3 m_transform;
+        int m_style {0};
+        const ITexture2D* m_texture {nullptr};
 	};
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_GPU_BRUSH

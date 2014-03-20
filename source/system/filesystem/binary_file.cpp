@@ -15,6 +15,7 @@
 #include <string/string.h>
 #include <string/buffer.h>
 #include <system/errors/module.h>
+#include <system/logger/module.h>
 #include "binary_file.h"
 
 PUNK_ENGINE_BEGIN
@@ -26,7 +27,7 @@ namespace System
         DWORD high;
         DWORD low = ::GetFileSize((HANDLE)hFile, &high);
 #ifdef _WIN64
-        size_t result = (size_t)high << 32 || low;
+        size_t result = (size_t)high << 32 | low;
         return result;
 #elif defined _WIN32
         return low;
@@ -35,7 +36,8 @@ namespace System
 
     std::intptr_t OpenReadFile(const Core::String& filename)
     {
-        HANDLE hFile = CreateFileW((LPWSTR)filename.ToWchar().Data(), GENERIC_READ, FILE_SHARE_READ|FILE_SHARE_WRITE, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+        Core::Buffer buffer = filename.ToWchar();
+        HANDLE hFile = CreateFileW((LPWSTR)buffer.Data(), GENERIC_READ, FILE_SHARE_READ|FILE_SHARE_WRITE, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
         CHECK_SYS_ERROR(L"Error in binary file, can't load it " + filename);
         return (std::intptr_t)hFile;
     }
@@ -98,8 +100,10 @@ namespace System
     bool BinaryFile::Load(const Core::String& filename, Core::Buffer& buffer)
 	{
         std::intptr_t hFile = (std::intptr_t)OpenReadFile(filename);
-        if (hFile == (std::intptr_t)-1)
-            return false;
+        if (hFile == (std::intptr_t)-1) {
+            GetDefaultLogger()->Error(L"File not found " + filename);
+            throw Error::SystemException(L"File not found " + filename);
+        }
         size_t size = GetFileSize(hFile);
         if (size == 0)
         {

@@ -8,24 +8,22 @@ namespace Graphics
     FrameBuffer::FrameBuffer(IVideoDriver *driver)
         : m_config{nullptr}
         , m_driver{driver}
-        , m_color_texture{nullptr}
-        , m_depth_texture{nullptr} {}
+        , m_color_texture{nullptr, DestroyTexture2D}
+        , m_depth_texture{nullptr, DestroyTexture2D} {}
 
     FrameBuffer::~FrameBuffer() {
-        Constructor::DestroyTexture2D(m_color_texture);
-        m_color_texture = nullptr;
-        Constructor::DestroyTexture2D(m_depth_texture);
-        m_depth_texture = nullptr;
+        m_color_texture.reset(nullptr);
+        m_depth_texture.reset(nullptr);
         delete m_config;
         m_config = nullptr;
     }
 
     ITexture2D* FrameBuffer::GetColorTexture() {
-        return m_color_texture;
+        return m_color_texture.get();
     }
 
     ITexture2D* FrameBuffer::GetDepthTexture() {
-        return m_depth_texture;
+        return m_depth_texture.get();
     }
 
     void FrameBuffer::Bind() {

@@ -3,17 +3,19 @@
 
 #include <math/frustum.h>
 #include <math/mat4.h>
+#include <math/vec2.h>
 #include <graphics/lighting/module.h>
+#include <graphics/texture/module.h>
+#include <graphics/frame_buffer/module.h>
 #include "abstract_shadowmap_render.h"
 #include "cascade_shadow_map_debug_visualizer.h"
 
 PUNK_ENGINE_BEGIN
 namespace Graphics
 {
-    class IFrame;
-    class FrameBuffer;
-    class Texture2DArray;
-    class VideoDriver;
+    class Frame;
+    class IFrameBuffer;
+    class IVideoDriver;
 
     class CascadeShadowMapRender : public AbstractShadowMapRender
     {
@@ -21,14 +23,14 @@ namespace Graphics
         static const int MaxSplits = 4;
         static constexpr float SplitWeight = 0.75f;
 
-        CascadeShadowMapRender(VideoDriver* driver);
+        CascadeShadowMapRender(IVideoDriver* driver);
         virtual ~CascadeShadowMapRender();
-        virtual Texture* GetShadowMap() override;
-        virtual void Run(IFrame* frame) override;
+        virtual ITexture* GetShadowMap() override;
+        virtual void Run(Batch** batches, std::uint32_t count) override;
         virtual void SetLight(const LightParameters& value) override;
         virtual void SetViewProperties(float fov, float aspect, float n, float f, const Math::vec3& center, const Math::vec3& dir, const Math::vec3& up) override;
         virtual AbstractShadowMapDebugVisualizer* GetDebugVisualizer() override;
-        virtual VideoDriver* GetVideoDriver() override;
+        virtual IVideoDriver* GetVideoDriver() override;
 
         int GetSplitCount() const;
         void SetSplitCount(int value);
@@ -52,10 +54,10 @@ namespace Graphics
         void UpdateSplits(Math::FrustumCore frustum[MaxSplits], float n, float f);
 
     private:
-        Texture2DArray* m_shadow_maps;
-        IFrame* m_frame;
+        ITexture2DArrayUniquePtr m_shadow_maps;
+        Frame* m_frame;
         LightParameters m_light;
-        FrameBuffer* m_fb;
+        IFrameBufferUniquePtr m_fb;
         Math::FrustumCore m_frustum[MaxSplits];
         Math::mat4 m_projection[MaxSplits];
         Math::mat4 m_view[MaxSplits];
@@ -72,7 +74,7 @@ namespace Graphics
         float m_min_y[MaxSplits];
         float m_max_y[MaxSplits];
         int m_splits_count;
-        VideoDriver* m_driver;        
+        IVideoDriver* m_driver;
         float m_near;
         float m_far;
 

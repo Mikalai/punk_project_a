@@ -87,10 +87,6 @@ namespace Font {
 
         iniFontsFile = pathToFonts + L"fonts.ini";
 
-        FT_Error error = FT_Init_FreeType(&GetLibrary());
-		if (error)
-            throw Error::CantInitializeFontEngine(L"Can't initialize font builder");
-
         Core::Buffer buffer;
         System::BinaryFile::Load(iniFontsFile, buffer);
 
@@ -102,7 +98,7 @@ namespace Font {
 			FT_Face face;
 
             Core::Buffer buffer = path.ToUtf8();
-            error = FT_New_Face(library, (char*)buffer.Data(), 0, &face);
+            FT_Error error = FT_New_Face(g_library, (char*)buffer.Data(), 0, &face);
 
 			if (error == FT_Err_Unknown_File_Format)
                 throw Error::UnknownFileFormat(L"Unkown file format " + path);

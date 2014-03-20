@@ -9,7 +9,7 @@ namespace Graphics {
     TextSurface::TextSurface(IVideoDriver *driver)
         : m_video_driver(driver)
         , m_need_update(true)
-        , m_texture(nullptr)
+        , m_texture(nullptr, DestroyTexture2D)
         , m_halignment(TextHorizontalAlignment::Left)
         , m_valignment(TextVerticalAlignment::Top)
         , m_font(nullptr)
@@ -19,7 +19,7 @@ namespace Graphics {
     TextSurface::TextSurface(std::uint32_t width, std::uint32_t height, IVideoDriver *driver)
         : m_video_driver(driver)
         , m_need_update(false) {
-        m_texture = m_video_driver->CreateTexture2D(width, height, Image::ImageFormat::RED, nullptr, false);
+        m_texture = CreateTexture2D(width, height, Image::ImageFormat::RED, nullptr, false, m_video_driver);
         m_halignment = TextHorizontalAlignment::Left;
         m_valignment = TextVerticalAlignment::Top;        
         m_auto_wrap = false;
@@ -27,13 +27,13 @@ namespace Graphics {
     }
 
     TextSurface::~TextSurface() {
-        Constructor::DestroyTexture2D(m_texture);
+        m_texture.reset(nullptr);
     }
 
     void TextSurface::SetSize(std::uint32_t width, std::uint32_t height)
     {
         if (!m_texture)
-            m_texture = m_video_driver->CreateTexture2D(width, height, Image::ImageFormat::RED, 0, false);
+            m_texture = CreateTexture2D(width, height, Image::ImageFormat::RED, 0, false, m_video_driver);
         else
             m_texture->Resize(width, height);
     }
@@ -168,7 +168,7 @@ namespace Graphics {
             if (m_texture)
                 m_texture->Resize(width, height);
             else
-                m_texture = m_video_driver->CreateTexture2D(width, height, Image::ImageFormat::RED, nullptr, false);
+                m_texture = CreateTexture2D(width, height, Image::ImageFormat::RED, nullptr, false, m_video_driver);
         }
     }
 
@@ -181,15 +181,15 @@ namespace Graphics {
     {
         if (m_need_update)
             RenderTextToTexture();
-        return m_texture;
+        return m_texture.get();
     }
 
     extern "C" PUNK_ENGINE_API ITextSurfaceUniquePtr CreateTextSurface(std::uint32_t width, std::uint32_t height, IVideoDriver* driver) {
-        ITextSurfaceUniquePtr ptr;
+        ITextSurfaceUniquePtr ptr{nullptr, DestroyTextSurface};
         if (width == 0 || height == 0)
-            ptr.reset(new TextSurface{driver}, DestroyTextSurface);
+            ptr.reset(new TextSurface{driver});
         else
-            ptr.reset(new TextSurface{width, height, driver}, DestroyTextSurface);
+            ptr.reset(new TextSurface{width, height, driver});
         return ptr;
     }
 

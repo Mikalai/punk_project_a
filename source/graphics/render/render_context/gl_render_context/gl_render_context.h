@@ -1,28 +1,27 @@
 #ifndef _H_PUNK_OPENGL_DUMMY_RENDER_CONTEXT
 #define _H_PUNK_OPENGL_DUMMY_RENDER_CONTEXT
 
-#include "../../common/abstract_render_context_policy.h"
-#include "shaders/gl_shader_type.h"
-#include "shaders/light_source_parameters.h"
-#include "shaders/material_parameters.h"
-#include "shaders/fog_parameters.h"
-#include "../../../math/vec4.h"
-#include "../../../math/mat4.h"
+#include <graphics/render/render_context/irender_context.h>
+#include <graphics/shaders/gl_shaders/gl_shader_type.h>
+#include <graphics/shaders/gl_shaders/gl_shader_types/module.h>
+#include <math/vec4.h>
+#include <math/mat4.h>
 
-namespace Graphics
-{
-	namespace OpenGL
-	{
+PUNK_ENGINE_BEGIN
+namespace Graphics {
+    namespace OpenGL {
+
         class Shader;
 
         class OpenGLRenderContext : public IRenderContext
 		{
 		public:
-			OpenGLRenderContext();
-            OpenGLRenderContext(ShaderCollection VS, ShaderCollection FS, ShaderCollection GS);
+            OpenGLRenderContext(RenderPolicySet policy);
+            OpenGLRenderContext(RenderPolicySet policy, ShaderCollection VS, ShaderCollection FS, ShaderCollection GS);
 			virtual void Begin() override;
 			virtual void End() override;
 			virtual void Init() override;
+            virtual RenderPolicySet GetPolicy() override;
 			virtual ~OpenGLRenderContext();
 
 			bool SetUniformVector4f(const char * name, const float* value);
@@ -77,6 +76,7 @@ namespace Graphics
 			Shader* m_vertex_shader;
 			Shader* m_fragment_shader;
 			Shader* m_geometry_shader;
+            RenderPolicySet m_policy{RenderPolicySet::Begin};
 
 			unsigned m_program;
 		};
@@ -84,5 +84,6 @@ namespace Graphics
         template<ShaderCollection VS, ShaderCollection FS, ShaderCollection GS> class RenderContextPolicy;
 	}
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_OPENGL_DUMMY_RENDER_CONTEXT

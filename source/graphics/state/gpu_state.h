@@ -43,7 +43,7 @@ namespace Graphics
 		unsigned Inc() { return ++m_count; }
 		unsigned Dec() { return --m_count; }
 
-        static const unsigned MAX_BONES = 128;
+        static const unsigned MAX_BONES = 64;
         static const unsigned MAX_LIGHTS = 8;
 
 	private:
@@ -124,7 +124,8 @@ namespace Graphics
         bool m_enable_bounding_sphere_rendering;
         bool m_enable_navi_mesh_rendering;
         //bool m_enable_bump_maping_shading;
-		bool m_render_depth;        
+        bool m_render_depth {false};
+        bool m_render_shadow_map {false};
 		float m_clear_depth;
 
 		float m_line_width;
@@ -232,7 +233,7 @@ namespace Graphics
 
 		/**
 		 * @brief m_active_rendering
-		 * This flag is active when IFrame::BeginRendering was called.
+         * This flag is active when Frame::BeginRendering was called.
 		 * It will be reset when EndRendering is called. Some functions
 		 * can't be called during active rendering. For example SetRenderTarget.
 		 */
@@ -244,7 +245,7 @@ namespace Graphics
 		CoreState(const CoreState&) = delete;
 		CoreState& operator = (const CoreState&) = delete;
 
-        friend class IFrame;
+        friend class Frame;
 	};	
 }
 PUNK_ENGINE_END

@@ -1,5 +1,7 @@
+#include <graphics/error/module.h>
 #include "gl_blending.h"
 
+PUNK_ENGINE_BEGIN
 namespace Graphics
 {
 	namespace OpenGL
@@ -15,8 +17,9 @@ namespace Graphics
 			case BlendFunction::OneMinusSrcAlpha:
 				return GL_ONE_MINUS_SRC_ALPHA;
 			default:
-				throw System::PunkException(L"Invalid blend function");
+                throw Error::GraphicsException(L"Invalid blend function");
 			}
 		}
 	}
 }
+PUNK_ENGINE_END

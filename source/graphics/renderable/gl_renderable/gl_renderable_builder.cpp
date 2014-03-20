@@ -291,5 +291,15 @@ namespace Graphics
             return renderable;
         }
     }
+
+    extern "C" PUNK_ENGINE_API IRenderableBuilderUniquePtr CreateRenderableBuilder(IVideoDriver* driver) {
+        IRenderableBuilderUniquePtr result{new OpenGL::GlRenderableBuilder(driver), DestroyRenderableBuilder};
+        return result;
+    }
+
+    extern "C" PUNK_ENGINE_API void DestroyRenderableBuilder(IRenderableBuilder* value) {
+        OpenGL::GlRenderableBuilder* o = dynamic_cast<OpenGL::GlRenderableBuilder*>(value);
+        delete o;
+    }
 }
 PUNK_ENGINE_END

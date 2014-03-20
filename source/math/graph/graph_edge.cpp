@@ -1,5 +1,6 @@
 #include "graph_edge.h"
 
+PUNK_ENGINE_BEGIN
 namespace Math
 {
 	GraphEdge::GraphEdge(GraphVertex* v1, GraphVertex* v2)
@@ -39,3 +40,4 @@ namespace Math
 		m_index = value;
 	}
 }
+PUNK_ENGINE_END

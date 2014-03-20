@@ -154,7 +154,7 @@ JMESSAGE(JTRC_RECOVERY_ACTION, "At marker 0x%02x, recovery action %d")
 JMESSAGE(JTRC_RST, "RST%d")
 JMESSAGE(JTRC_SMOOTH_NOTIMPL,
 	 "Smoothing not supported with nonstandard sampling ratios")
-JMESSAGE(JTRC_SOF, "Start Of IFrame 0x%02x: width=%u, height=%u, components=%d")
+JMESSAGE(JTRC_SOF, "Start Of Frame 0x%02x: width=%u, height=%u, components=%d")
 JMESSAGE(JTRC_SOF_COMPONENT, "    Component %d: %dhx%dv q=%d")
 JMESSAGE(JTRC_SOI, "Start of Image")
 JMESSAGE(JTRC_SOS, "Start Of Scan: %d components")

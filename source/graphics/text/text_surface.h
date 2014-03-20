@@ -2,6 +2,7 @@
 #define _H_PUNK_TEXT_TEXTURE
 
 #include <string/module.h>
+#include <graphics/texture/module.h>
 #include "itext_surface.h"
 
 PUNK_ENGINE_BEGIN
@@ -49,7 +50,7 @@ namespace Graphics
         Font::IFont* m_font {nullptr};
 
         // should be destroyed in destructor
-        ITexture2D* m_texture {nullptr};
+        ITexture2DUniquePtr m_texture {nullptr, DestroyTexture2D};
         IVideoDriver* m_video_driver {nullptr};
     };
 }
