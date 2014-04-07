@@ -401,7 +401,7 @@ namespace Punk {
 				return true;
 			}
 
-			void CalculateTBN(const vec3& p1, const vec3& p2, const vec3& p3,
+            extern PUNK_ENGINE_API void CalculateTBN(const vec3& p1, const vec3& p2, const vec3& p3,
 				const vec2& tex1, const vec2& tex2, const vec2& tex3,
 				vec3& tng, vec3& btn, vec3& nrm, float& mm)
 			{
@@ -453,7 +453,7 @@ namespace Punk {
 				}
 			}
 
-			const vec3 CalculateNormal(const vec3& p1, const vec3& p2, const vec3& p3)
+            extern PUNK_ENGINE_API const vec3 CalculateNormal(const vec3& p1, const vec3& p2, const vec3& p3)
 			{
 				return ((p2 - p1).Cross(p3 - p1)).Normalized();
 			}

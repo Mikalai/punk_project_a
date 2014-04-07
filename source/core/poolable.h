@@ -1,8 +1,13 @@
 #ifndef _H_PUNK_SYSTEM_POOLABLE
 #define _H_PUNK_SYSTEM_POOLABLE
 
-#include "pool.h"
 #include <new>
+#include <typeinfo>
+#ifdef _DEBUG
+#include <string/module.h>
+#endif
+
+#include "pool.h"
 
 PUNK_ENGINE_BEGIN
 namespace Core {
@@ -12,6 +17,7 @@ namespace Core {
     {
         static Pool pool;
     public:
+
         static void* operator new (size_t)
         {
             void* buf = pool.Alloc(sizeof(T));
@@ -30,7 +36,12 @@ namespace Core {
         }
     };
 
+#ifdef _DEBUG
+    template<class T> Pool Poolable<T>::pool{Core::String(typeid(T).name())};
+#else
     template<class T> Pool Poolable<T>::pool;
+#endif
+
 }
 PUNK_ENGINE_END
 

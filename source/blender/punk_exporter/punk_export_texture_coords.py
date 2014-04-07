@@ -1,6 +1,8 @@
 import bpy
 import copy
 from copy import deepcopy
+from . import punk_export_base
+from .punk_export_base import *
 
 #
 #   export tex coords. i can't understand what is uv1 uv2 uv3 uv4
@@ -35,3 +37,4 @@ def export_tex_coords(f, mesh):
         end_block(f)
     return
 
+punk_register_export_func("TEXTURE_COORDS", export_tex_coords)

@@ -14,6 +14,7 @@ namespace System
 		ThreadJob();	
 		void Run();
 		bool IsComplete();
+        void Terminate();
 	private:
 		bool m_complete;
 		ThreadPool* m_pool;

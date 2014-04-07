@@ -48,7 +48,12 @@ SOURCES += \
     ../../../source/math/frustum.cpp \
     ../../../source/math/perspective_decoder.cpp \
     ../../../source/math/min_max.cpp \
-    ../../../source/math/metric/value.cpp
+    ../../../source/math/metric/value.cpp \
+    ../../../source/math/helper.cpp \
+    ../../../source/math/rect.cpp \
+    ../../../source/math/curve.cpp \
+    ../../../source/math/spline.cpp \
+    ../../../source/math/weighted_point.cpp
 
 
 HEADERS += \
@@ -88,4 +93,9 @@ HEADERS += \
     ../../../source/math/frustum.h \
     ../../../source/math/perspective_decoder.h \
     ../../../source/math/min_max.h \
-    ../../../source/math/metric/value.h
+    ../../../source/math/metric/value.h \
+    ../../../source/math/helper.h \
+    ../../../source/math/rect.h \
+    ../../../source/math/curve.h \
+    ../../../source/math/spline.h \
+    ../../../source/math/weighted_point.h

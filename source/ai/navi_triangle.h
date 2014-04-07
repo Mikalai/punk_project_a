@@ -14,12 +14,12 @@ namespace AI
 	class PUNK_ENGINE_API NaviTriangle
 	{		
 	public:
-		typedef std::vector<System::Object*> ObjectsCollection;
+		typedef std::vector<Core::Object*> ObjectsCollection;
 	public:
 
 		NaviTriangle(NaviMesh* mesh);	
-		void AddObject(System::Object* value);
-		void RemoveObject(System::Object* value);
+		void AddObject(Core::Object* value);
+		void RemoveObject(Core::Object* value);
 		ObjectsCollection& GetObjects() { return m_collection; }
 
 	private:			

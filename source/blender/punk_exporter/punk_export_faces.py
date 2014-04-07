@@ -1,6 +1,8 @@
 import bpy
 import copy
 from copy import deepcopy
+from . import punk_export_base
+from .punk_export_base import *
 
 #
 #   export vertex id for faces. it is practicaly enough. but
@@ -19,3 +21,4 @@ def export_faces(f, mesh):
     
     return
 
+punk_register_export_func("FACES", export_faces)

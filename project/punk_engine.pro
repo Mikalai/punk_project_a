@@ -13,11 +13,14 @@ SUBDIRS = punk_engine/punk_error \
           punk_engine/punk_terminal \
           punk_engine/punk_system \
           punk_engine/punk_image \                   
+          punk_engine/punk_ai \
           punk_engine/punk_font \
-          punk_engine/punk_graphics
+          punk_engine/punk_graphics \
+          punk_engine/punk_scene \
+          punk_engine/punk_attributes \
+          punk_engine/punk_loader \
           #punk_engine/punk_gui \
-          #punk_engine/punk_physics \
-          punk_engine/punk_blender \
+          #punk_engine/punk_physics \          
           #tower_defense
 
 punk_string.depends = punk_error
@@ -29,3 +32,6 @@ punk_font.depends = punk_system punk_error punk_string punk_core
 punk_image.depends = punk_error punk_string punk_system
 punk_gui.depends = punk_error punk_string punk_system punk_core punk_image punk_math
 punk_physics = punk_error punk_string punk_core punk_math
+punk_scene = punk_string punk_core punk_math punk_system punk_font punk_image
+punk_attributes = punk_string punk_core punk_math punk_system punk_font punk_image punk_scene
+punk_loader = punk_string punk_core punk_math punk_system punk_font punk_image punk_scene punk_attributes

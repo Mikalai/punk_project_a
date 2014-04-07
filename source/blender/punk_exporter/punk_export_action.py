@@ -1,3 +1,6 @@
+from . import punk_export_base
+from .punk_export_base import *
+
 import bpy
 import copy
 from copy import deepcopy
@@ -120,3 +123,5 @@ def export_action(f, action):
     
     text_offset = old
     return
+
+punk_register_export_func("ACTIONS", export_actions)

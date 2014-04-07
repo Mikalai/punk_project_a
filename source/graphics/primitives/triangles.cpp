@@ -7,37 +7,39 @@
 
 #include "triangles.h"
 
-#define CreateTrianglesImplementation(VertexType) \
-    Triangles<VertexType>::Triangles(IVideoDriver* driver) \
-    : impl(new TrianglesTemplate<VertexType>(driver)) {} \
-    Triangles<VertexType>::~Triangles<VertexType>() { \
+#define CreateTrianglesImplementation(VertexType, IndexType) \
+    Triangles<VertexType, IndexType>::Triangles(IVideoDriver* driver) \
+    : impl(new TrianglesTemplate<VertexType, IndexType>(driver)) {} \
+    Triangles<VertexType, IndexType>::~Triangles<VertexType, IndexType>() { \
     delete impl; impl = nullptr; }\
-    void  Triangles<VertexType>::Cook(const IVertexArray* value) {\
-    dynamic_cast<TrianglesTemplate<VertexType>*>(impl)->Cook(value); }\
-    void  Triangles<VertexType>::Bind(int64_t value) {\
+    void  Triangles<VertexType, IndexType>::Cook(const IVertexArray* value) {\
+    dynamic_cast<TrianglesTemplate<VertexType, IndexType>*>(impl)->Cook(value); }\
+    void  Triangles<VertexType, IndexType>::Cook(const IVertexArray* vb, const IIndexArray* ib) {\
+    dynamic_cast<TrianglesTemplate<VertexType, IndexType>*>(impl)->Cook(vb, ib); }\
+    void  Triangles<VertexType, IndexType>::Bind(int64_t value) {\
     impl->Bind(value); }\
-    void  Triangles<VertexType>::Unbind() { \
+    void  Triangles<VertexType, IndexType>::Unbind() { \
     impl->Unbind(); }\
-    void  Triangles<VertexType>::Render() {\
+    void  Triangles<VertexType, IndexType>::Render() {\
     impl->Render();} \
-    std::uint64_t Triangles<VertexType>::GetMemoryUsage() { \
+    std::uint64_t Triangles<VertexType, IndexType>::GetMemoryUsage() { \
     return impl->GetMemoryUsage(); } \
-    bool Triangles<VertexType>::HasData() const { \
+    bool Triangles<VertexType, IndexType>::HasData() const { \
     return impl->HasData(); }
 
 PUNK_ENGINE_BEGIN
 namespace Graphics
 {
 #ifdef USE_OPENGL
-    template<typename VertexType>
-    using TrianglesBase = OpenGL::VertexArrayObject2<PrimitiveType::TRIANGLES, VertexType>;
+    template<typename VertexType, typename IndexType>
+    using TrianglesBase = OpenGL::VertexArrayObject2<PrimitiveType::TRIANGLES, VertexType, IndexType>;
 #else
 #endif
 
-    template<typename VertexType>
-    class TrianglesTemplate: public TrianglesBase<VertexType>
+    template<typename VertexType, typename IndexType>
+    class TrianglesTemplate: public TrianglesBase<VertexType, IndexType>
     {
-        using Base = TrianglesBase<VertexType>;
+        using Base = TrianglesBase<VertexType, IndexType>;
 
     public:
 
@@ -53,53 +55,60 @@ namespace Graphics
             Base::SetIndexBuffer(ib);
             Base::Cook();
         }
+
+        void Cook(const IVertexArray *vb, const IIndexArray* ib) {
+            Base::Clear();
+            Base::SetVertexBuffer(vb);
+            Base::SetIndexBuffer(ib);
+            Base::Cook();
+        }
     };
 
-    extern "C" PUNK_ENGINE_API ITrianglesUniquePtr CreateTriangles(std::int64_t vertex_type, class IVideoDriver* driver) {
+    extern "C" PUNK_ENGINE_API ITrianglesUniquePtr CreateTriangles(std::int64_t vertex_type, IVideoDriver* driver) {
         if (vertex_type == Vertex<VertexComponent::Position>::Value())
-            return ITrianglesUniquePtr{new Triangles<Vertex<VertexComponent::Position>>(driver), DestroyRenderable};
+            return ITrianglesUniquePtr{new Triangles<Vertex<VertexComponent::Position>, unsigned>(driver), DestroyRenderable};
         else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Texture0, VertexComponent::Flag, VertexComponent::Color>::Value())
-            return ITrianglesUniquePtr{new Triangles<Vertex<VertexComponent::Position, VertexComponent::Texture0, VertexComponent::Flag, VertexComponent::Color>>(driver), DestroyRenderable};
+            return ITrianglesUniquePtr{new Triangles<Vertex<VertexComponent::Position, VertexComponent::Texture0, VertexComponent::Flag, VertexComponent::Color>, unsigned>(driver), DestroyRenderable};
         else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Color>::Value())
-            return ITrianglesUniquePtr{new Triangles<Vertex<VertexComponent::Position, VertexComponent::Color>>(driver), DestroyRenderable};
+            return ITrianglesUniquePtr{new Triangles<Vertex<VertexComponent::Position, VertexComponent::Color>, unsigned>(driver), DestroyRenderable};
         else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Texture0>::Value())
-            return ITrianglesUniquePtr{new Triangles<Vertex<VertexComponent::Position, VertexComponent::Texture0>>(driver), DestroyRenderable};
+            return ITrianglesUniquePtr{new Triangles<Vertex<VertexComponent::Position, VertexComponent::Texture0>, unsigned>(driver), DestroyRenderable};
         else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Color, VertexComponent::Texture0>::Value())
-            return ITrianglesUniquePtr{new Triangles<Vertex<VertexComponent::Position, VertexComponent::Color, VertexComponent::Texture0>>(driver), DestroyRenderable};
+            return ITrianglesUniquePtr{new Triangles<Vertex<VertexComponent::Position, VertexComponent::Color, VertexComponent::Texture0>, unsigned>(driver), DestroyRenderable};
         else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Normal>::Value())
-            return ITrianglesUniquePtr{new Triangles<Vertex<VertexComponent::Position, VertexComponent::Normal>>(driver), DestroyRenderable};
+            return ITrianglesUniquePtr{new Triangles<Vertex<VertexComponent::Position, VertexComponent::Normal>, unsigned>(driver), DestroyRenderable};
         else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0>::Value())
-            return ITrianglesUniquePtr{new Triangles<Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0>>(driver), DestroyRenderable};
+            return ITrianglesUniquePtr{new Triangles<Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0>, unsigned>(driver), DestroyRenderable};
         else
             throw Error::GraphicsException(L"Can't create lines using " + Core::String::Convert(vertex_type) + L" vertex type");
     }
 
 #define VERTEX_1 Vertex<VertexComponent::Position>
-    CreateTrianglesImplementation(VERTEX_1)
+    CreateTrianglesImplementation(VERTEX_1, unsigned)
 #undef VERTEX_1
 
 #define VERTEX_1 Vertex<VertexComponent::Position, VertexComponent::Texture0, VertexComponent::Flag, VertexComponent::Color>
-    CreateTrianglesImplementation(VERTEX_1)
+    CreateTrianglesImplementation(VERTEX_1, unsigned)
 #undef VERTEX_1
 
 #define VERTEX_1 Vertex<VertexComponent::Position, VertexComponent::Color>
-    CreateTrianglesImplementation(VERTEX_1)
+    CreateTrianglesImplementation(VERTEX_1, unsigned)
 #undef VERTEX_1
 
 #define VERTEX_1 Vertex<VertexComponent::Position, VertexComponent::Texture0>
-    CreateTrianglesImplementation(VERTEX_1)
+    CreateTrianglesImplementation(VERTEX_1, unsigned)
 #undef VERTEX_1
 
 #define VERTEX_1 Vertex<VertexComponent::Position, VertexComponent::Color, VertexComponent::Texture0>
-    CreateTrianglesImplementation(VERTEX_1)
+    CreateTrianglesImplementation(VERTEX_1, unsigned)
 #undef VERTEX_1
 
 #define VERTEX_1 Vertex<VertexComponent::Position, VertexComponent::Normal>
-    CreateTrianglesImplementation(VERTEX_1)
+    CreateTrianglesImplementation(VERTEX_1, unsigned)
 #undef VERTEX_1
 
 #define VERTEX_1 Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0>
-    CreateTrianglesImplementation(VERTEX_1)
+    CreateTrianglesImplementation(VERTEX_1, unsigned)
 #undef VERTEX_1
 }
 PUNK_ENGINE_END

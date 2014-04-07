@@ -23,6 +23,7 @@ namespace Graphics {
         }
 
         virtual ~VertexArray() {}
+
         std::uint64_t GetVertexType() const override {
             return VertexType::Value();
         }

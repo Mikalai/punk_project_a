@@ -45,7 +45,7 @@ namespace Graphics {
 
         bool m_begin_active {false};
 
-        PrimitiveType m_primitive_type;
+        int m_primitive_type;
         PrimitiveType m_high_level_type;
 
         mutable Math::BoundingSphere* m_bsphere {nullptr};

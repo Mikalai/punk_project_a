@@ -1,6 +1,7 @@
 #include "paint_engine.h"
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
     PaintEngine::PaintEngine()
 		: m_device(nullptr)
@@ -10,3 +11,4 @@ namespace Gpu
 	PaintEngine::~PaintEngine()
 	{}
 }
+PUNK_ENGINE_END

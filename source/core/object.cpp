@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <sstream>
 #include "object.h"
 #include "string/module.h"
@@ -6,17 +7,23 @@ namespace Punk {
     namespace Engine {
         namespace Core {
 
-            unsigned m_id_next = 0;
             Rtti Object::Type("Punk.Engine.Core.Object", typeid(Object).hash_code(), {});
 
-            Object::Object()
-                : m_owner{nullptr}
-                , m_id(m_id_next++) {
-                CREATE_INSTANCE(Object);
+            static std::uint64_t GlobalCounter;
+            static Object RootObject;
+
+            Object::Object(Object* parent)
+                : m_owner{parent}
+                , m_id(GlobalCounter++) {
+                if (!m_owner)
+                    RootObject.Add(this);
             }
 
             Object::~Object() {
-                DESTROY_INSTANCE();
+                for (auto it = m_children.begin(); it != m_children.end(); ++it) {
+                    safe_delete(*it);
+                }
+                m_children.clear();
             }
 
             void Object::SetOwner(Object* owner) {
@@ -31,57 +38,112 @@ namespace Punk {
                 return m_owner;
             }
 
-            const String Object::ToString() const {
-                StringList stream;
-                stream << L"[" << String::Convert(GetLocalIndex()) << " " << Type.GetName() << "]";
-                return stream.ToString("");
-            }
-
             unsigned Object::GetId() const {
                 return m_id;
             }
 
-            const String& Object::GetName() const {
-                return m_name;
-            }
-
-            void Object::SetName(const String& value) {
-                m_name = value;
-            }
-
             Object* Object::Clone() const {
                 Object* o = new Object();
-                String original = GetName();
-                String name = original;
-                int i = 1;
-                while (HasInstance(GetType(), name))
-                    name = original + String(L"_{0}").arg(i);
-                o->SetName(name);
+                for (auto child : m_children) {
+                    o->Add(child->Clone());
+                }
                 return o;
             }
 
-            unsigned Object::Acquire() {
-                m_ref_count++;
-                return m_ref_count;
+            bool Object::Add(Object* value) {
+                if (value == nullptr)
+                    return false;
+
+                auto it = std::find(m_children.begin(), m_children.end(), value);
+                if (it != m_children.end())
+                    return true;
+
+                m_children.push_back(value);
+                value->SetOwner(this);
+
+                return true;
             }
 
-            unsigned Object::Release() {
-                if (--m_ref_count == 0)
-                    delete this;
-                return m_ref_count;
+            bool Object::Remove(Object* value, bool depth)
+            {
+                if (value == nullptr)
+                    return false;
+
+                for (auto it = m_children.begin(); it != m_children.end(); ++it)
+                {
+                    if (*it == value)
+                    {
+                        m_children.erase(it);
+                        value->SetOwner(nullptr);
+                        return true;
+                    }
+                }
+
+                if (depth)
+                {
+                    for (auto o : m_children)
+                    {
+                        Object* co = As<Object*>(o);
+                        if (co)
+                        {
+                            if (co->Remove(value, depth))
+                                return true;
+                        }
+                    }
+                }
+                return false;
             }
 
-//            void SaveObject(Buffer *buffer, const Object *o) {
-//                /*
-//         *  We write type code, as a tag for factory, that should be able
-//         *  to create an object from code. It will not be read from Load.
-//         */
-//                auto id = o->Type.GetId();
-//                buffer->WriteUnsigned32(id);
-//            }
+            bool Object::Remove(int index)
+            {
+                if (index < 0 || index >= (int)m_children.size())
+                    return false;
+                return Remove(m_children[index]);
+            }
 
-//            void LoadObject(Buffer*, Object *)
-//            {}
+
+            const Object* Object::Find(int index) const
+            {
+                return m_children[index];
+            }
+
+            Object* Object::Find(int index)
+            {
+                return const_cast<Object*>(static_cast<const Object*>(this)->Find(index));
+            }
+
+
+            void Bind(Object* parent, Object* child)
+            {
+                Object* owner = As<Object*>(child->GetOwner());
+                if (owner)
+                    owner->Remove(child);
+                parent->Add(child);
+                child->SetOwner(parent);
+            }
+
+            const String Object::ToString() const
+            {
+                StringList stream;
+                stream << L"[" << GetType()->GetName() << L"]\n";
+                for (auto o : m_children)
+                {
+                    stream << o->ToString() << L"\n";
+                }
+                return stream.ToString("");
+            }
         }
+
+        //            void SaveObject(Buffer *buffer, const Object *o) {
+        //                /*
+        //         *  We write type code, as a tag for factory, that should be able
+        //         *  to create an object from code. It will not be read from Load.
+        //         */
+        //                auto id = o->Type.GetId();
+        //                buffer->WriteUnsigned32(id);
+        //            }
+
+        //            void LoadObject(Buffer*, Object *)
+        //            {}
     }
 }

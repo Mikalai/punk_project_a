@@ -93,27 +93,27 @@
 //        return q.Rotate(value - m_position);
 //    }
 
-//    void TransformNode::Name(const System::string& value)
+//    void TransformNode::Name(const Core::String& value)
 //    {
 //        m_name = value;
 //    }
 
-//    const System::string& TransformNode::Name() const
+//    const Core::String& TransformNode::Name() const
 //    {
 //        return m_name;
 //    }
 
-//    void TransformNode::EntityName(const System::string& value)
+//    void TransformNode::EntityName(const Core::String& value)
 //    {
 //        m_entity_name = value;
 //    }
 
-//    const System::string& TransformNode::EntityName() const
+//    const Core::String& TransformNode::EntityName() const
 //    {
 //        return m_entity_name;
 //    }
 
-//    const System::string TransformNode::ToString() const
+//    const Core::String TransformNode::ToString() const
 //    {
 //        std::wstringstream stream;
 //        stream << m_name << std::endl;
@@ -121,6 +121,6 @@
 //        stream << m_rotation.ToString() << std::endl;
 //        stream << m_entity_name << std::endl;
 //        stream << CompoundObject::ToString() << std::endl;
-//        return System::string(stream.str().c_str());
+//        return Core::String(stream.str().c_str());
 //    }
 //}

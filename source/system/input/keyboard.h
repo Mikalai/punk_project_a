@@ -13,13 +13,13 @@ namespace System
 	{	
 	public:
 		Keyboard();
-        virtual ~Keyboard();
+        virtual ~Keyboard();        
         const bool& operator[] (int key) const override;
         bool& operator[] (int key) override;
         void SetKeyState(int key, bool state) override;
         bool GetKeyState(int key) const override;
         bool (*GetKeyStates() override)[256];
-        KeyboardImpl* impl;
+        KeyboardImpl* impl;        
 
         PUNK_OBJECT(Keyboard)
 	};    

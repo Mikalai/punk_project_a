@@ -11,7 +11,7 @@ LIBS += -L$${LIBDIR} -lpunk_error -lpunk_string
 
 HEADERS += \
     ../../../source/core/action.h \
-    ../../../source/core/compound_object.h \
+    ../../../source/core/object.h \
     ../../../source/core/decl_property.h \
     ../../../source/core/meta_class_base.h \
     ../../../source/core/meta_class.h \

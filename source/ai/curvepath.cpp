@@ -1,43 +1,24 @@
 #include "curvepath.h"
-#include "../engine_objects.h"
 
+PUNK_ENGINE_BEGIN
 namespace AI
 {
-    PUNK_OBJECT_REG(CurvePath, "AI.CurvePath", PUNK_CURVE_PATH, SaveCurvePath, LoadCurvePath, &System::Object::Info.Type);
+    Core::Rtti CurvePath::Type{"AI.CurvePath", typeid(CurvePath).hash_code(), {&Core::Object::Type}};
 
     CurvePath::CurvePath()
-    {
-        Info.Add(this);
-    }
+    {}
 
     CurvePath::~CurvePath()
-    {
-        Info.Remove(this);
-    }
+    {}
 
-    void CurvePath::SetName(const System::string& value)
+    void CurvePath::SetName(const Core::String& value)
     {
         m_name = value;
     }
 
-    const System::string& CurvePath::GetName() const
+    const Core::String& CurvePath::GetName() const
     {
         return m_name;
-    }
-
-    void SaveCurvePath(System::Buffer *buffer, const System::Object *o)
-    {
-        System::SaveObject(buffer, o);
-        const CurvePath* p = Cast<const CurvePath*>(o);
-        Math::SaveCurve(buffer, *p);
-        System::SaveString(buffer, p->GetName());
-    }
-
-    void LoadCurvePath(System::Buffer *buffer, System::Object *o)
-    {
-        System::LoadObject(buffer, o);
-        CurvePath* p = Cast<CurvePath*>(o);
-        Math::LoadCurve(buffer, *p);
-        System::LoadString(buffer, p->m_name);
-    }
+    }    
 }
+PUNK_ENGINE_END

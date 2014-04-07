@@ -4,6 +4,9 @@
 #include <time.h>
 #endif
 
+#include <system/logger/module.h>
+#include <system/errors/module.h>
+#include "work_item.h"
 #include "thread.h"
 
 PUNK_ENGINE_BEGIN
@@ -15,11 +18,36 @@ namespace System
     }
 
 #ifdef _WIN32
-    bool Thread::Create(unsigned (PUNK_STDCALL *thread_func)(void*), void* data, unsigned stack)
+        unsigned thread_func(void* data)
+#elif defined __gnu_linux__
+        void* thread_func(void* data = 0)
+#endif
+        {
+            Thread::ThreadData* thread_data = (Thread::ThreadData*)data;
+            WorkItem* work_item = thread_data->item;
+            void* work_data = thread_data->data;
+            delete thread_data;
+
+            try {
+                work_item->Run(work_data);
+            }
+            catch(Error::SystemException& e) {
+                GetDefaultLogger()->Error(e.Message());
+            }
+            catch(...) {
+                GetDefaultLogger()->Error("Unknown error occured in the thread_func");
+            }
+        }
+
+#ifdef _WIN32
+    bool Thread::Start(WorkItem* work_item, void* data)
     {
         if (Handle() != NULL)
             return false;
-        Handle() = (HANDLE)_beginthreadex(0, stack, thread_func, data, CREATE_SUSPENDED, 0);
+        ThreadData* thread_data = new ThreadData;
+        thread_data->item = work_item;
+        thread_data->data = data;
+        Handle() = (HANDLE)_beginthreadex(0, m_stack, thread_func, thread_data, CREATE_SUSPENDED, 0);
         if (Handle() != INVALID_HANDLE_VALUE)
             return true;
         return false;

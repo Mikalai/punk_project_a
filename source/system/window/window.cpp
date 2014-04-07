@@ -9,12 +9,10 @@ namespace System
 
     Window::Window()
     {
-        CREATE_INSTANCE(Window);
     }
 
     Window::~Window()
     {
-        DESTROY_INSTANCE();
     }
 
     Window* CreateRootWindow(const WindowDescription &desc)
@@ -105,7 +103,15 @@ namespace System
         OnWindowDestroy.Add(delegate);
     }
 
+    void Window::SubscribeWindowDestroyEvent(void (*delegate)()) {
+        OnWindowDestroy.Add(delegate);
+    }
+
     void Window::UnsubscribeWindowDestroyEvent(WindowDestroyDelegate delegate) {
+        OnWindowDestroy.Remove(delegate);
+    }
+
+    void Window::UnsubscribeWindowDestroyEvent(void (*delegate)()) {
         OnWindowDestroy.Remove(delegate);
     }
 

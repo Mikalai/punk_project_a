@@ -1,6 +1,8 @@
 import bpy
 import copy
 from copy import deepcopy
+from . import punk_export_base
+from .punk_export_base import *
 
 #
 #   export bones weights
@@ -27,3 +29,4 @@ def export_bones_weight(f, data):
     end_block(f)
     return
 
+punk_register_export_func("BONES_WEIGHT", export_bones_weight)

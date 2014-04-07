@@ -9,6 +9,7 @@ namespace Graphics {
 
     class IVertexArray {
     public:
+        //virtual ~IVertexArray() = 0;
         virtual std::uint64_t GetVertexType() const = 0;
         virtual std::uint64_t GetVertexCount() const = 0;
         virtual std::uint64_t GetVertexSize() const = 0;

@@ -1,0 +1,33 @@
+#ifndef ISCENE_GRAPH_H
+#define ISCENE_GRAPH_H
+
+#include <memory>
+#include <config.h>
+
+PUNK_ENGINE_BEGIN
+namespace Core { class String; }
+namespace Scene {
+
+    class INode;
+
+    class ISceneGraph {
+    public:
+        virtual ~ISceneGraph() = 0;
+        virtual void Lock() = 0;
+        virtual void Unlock() = 0;
+        virtual INode* GetRoot() = 0;
+        virtual const INode* GetRoot() const = 0;
+        virtual void SetRoot(INode* node) = 0;
+    };
+
+    inline ISceneGraph::~ISceneGraph() {}
+
+    using ISceneGraphUniquePtr = std::unique_ptr<ISceneGraph, void (*)(ISceneGraph*)>;
+
+    extern "C" PUNK_ENGINE_API ISceneGraphUniquePtr CreateSceneFromFile(const Core::String& fullpath);
+    extern "C" PUNK_ENGINE_API ISceneGraphUniquePtr CreateScene();
+    extern "C" PUNK_ENGINE_API void DestroyScene(ISceneGraph* graph);
+}
+PUNK_ENGINE_END
+
+#endif // ISCENE_GRAPH_H

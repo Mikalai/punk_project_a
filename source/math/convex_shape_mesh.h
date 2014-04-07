@@ -45,9 +45,6 @@ namespace Punk {
                 __private::ConvexShapeMeshImpl* impl {nullptr};
 
             };
-
-            //    PUNK_ENGINE_API void SaveBoundingBox(Core::Buffer* buffer, const ConvexShapeMesh& value);
-            //    PUNK_ENGINE_API void LoadBoundingBox(Core::Buffer* buffer, ConvexShapeMesh& value);
         }
     }
 }

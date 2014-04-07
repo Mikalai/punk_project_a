@@ -94,12 +94,10 @@ namespace System
     Timer::Timer()
         : impl(new TimerImpl)
     {
-        CREATE_INSTANCE(Timer);
     }
 
 	Timer::~Timer()
 	{
-        DESTROY_INSTANCE();
 		delete impl;
 		impl = nullptr;
 	}

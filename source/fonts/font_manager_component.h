@@ -3,7 +3,7 @@
 
 //#include "system/component/module.h"
 
-//namespace Utility
+//namespace Loader
 //{
 //    class FontBuilder;
 
@@ -15,10 +15,10 @@
 //    protected:
 //        void OnInitialize() override;
 //        void OnDetach();
-//        System::Object* OnGetService(const Core::String &) override;
+//        Core::Object* OnGetService(const Core::String &) override;
 
 //    private:
-//        System::Object* Clone() const;
+//        Core::Object* Clone() const;
 
 //    private:
 //        void Clear();

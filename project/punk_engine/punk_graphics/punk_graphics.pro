@@ -153,7 +153,6 @@ HEADERS += \
     ../../../source/graphics/render/render_context/gl_render_context/gl_render_context.h \
     ../../../source/graphics/render/render_context/gl_render_context/module.h \    
     ../../../source/graphics/frame/frame.h \
-    ../../../source/graphics/frame/frame_impl.h \
     ../../../source/graphics/frame/module.h \       
     ../../../source/graphics/painter/brush.h \
     ../../../source/graphics/painter/module.h \
@@ -237,7 +236,10 @@ HEADERS += \
     ../../../source/graphics/shaders/gl_shaders/gl_fragment/fs_solid_vertex_color.h \
     ../../../source/graphics/shaders/gl_shaders/gl_fragment/fs_terrain.h \
     ../../../source/graphics/shaders/gl_shaders/gl_fragment/fs_text_solid.h \
-    ../../../source/graphics/render/irender.h
+    ../../../source/graphics/render/irender.h \
+    ../../../source/graphics/frame/iframe.h \
+    ../../../source/graphics/primitives/iindex_array.h \
+    ../../../source/graphics/primitives/index_array.h
 
 SOURCES += \    
     ../../../source/graphics/canvas/canvas.cpp \

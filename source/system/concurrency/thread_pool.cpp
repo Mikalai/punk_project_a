@@ -1,9 +1,32 @@
 #include "atomic.h"
+#include "work_item.h"
 #include "thread_pool.h"
 
 PUNK_ENGINE_BEGIN
 namespace System
 {
+    class ThreadPoolWorkItem : public WorkItem{
+    public:
+        void Run(void* data) override {
+            ThreadPool* pool = reinterpret_cast<ThreadPool*>(data);
+            try
+            {
+                while (1)
+                {
+                    if (pool->IsFinish())
+                        return;
+                    Thread::ThreadData thread_data = pool->GetThreadJob();
+                    if (!thread_data.item)
+                        return;
+                    thread_data.item->Run(thread_data.data);
+                    thread_data.item->Complete();
+                }
+            }
+            catch (...)
+            {
+            }
+        }
+    };
 
 	ThreadPool::ThreadPool(int thread_count)
 	{
@@ -12,55 +35,13 @@ namespace System
 
 	ThreadPool::~ThreadPool()
 	{
-	}
-
-#ifdef _WIN32
-	unsigned PUNK_STDCALL ThreadPool::ThreadFunc(void* data)
-	{
-		ThreadPool* pool = reinterpret_cast<ThreadPool*>(data);
-		try
-		{
-			while (1)
-			{
-				if (!pool->HasJobs() && pool->IsFinish())
-					return 0;
-				ThreadJob* job = pool->GetThreadJob();
-				if (!job)
-					return 0;
-				job->Run();
-				job->m_complete = true;
-			}
-		}
-		catch (...)
-		{
-			return -1;
-		}
-		return 0;
-	}
-#elif defined __gnu_linux__
-    void* ThreadPool::ThreadFunc(void* data)
-    {
-        ThreadPool* pool = reinterpret_cast<ThreadPool*>(data);
-        try
-        {
-            while (1)
-            {
-                if (!pool->HasJobs() && pool->IsFinish())
-                    return 0;
-                ThreadJob* job = pool->GetThreadJob();
-                if (!job)
-                    return 0;
-                job->Run();
-                job->m_complete = true;
-            }
+        while (m_work_items.empty()) {
+            ThreadPoolWorkItem* item = m_work_items.back();
+            while (!item->IsComplete());
+            delete item;
+            m_work_items.pop_back();
         }
-        catch (...)
-        {
-            return (void*)-1;
-        }
-        return nullptr;
-    }
-#endif
+	}
 
 	void ThreadPool::Init(int thread_count)
 	{
@@ -70,29 +51,32 @@ namespace System
 		for(auto it = m_threads.begin(); it != m_threads.end(); ++it)
 		{
             Thread& thread = *it;
-            thread.Create(ThreadFunc, (void*)this);
+            ThreadPoolWorkItem* item = new ThreadPoolWorkItem;
+            m_work_items.push_back(item);
+            thread.Start(item, (void*)this);
 		}
 	}
 
-	ThreadJob* ThreadPool::GetThreadJob()
+    Thread::ThreadData ThreadPool::GetThreadJob()
 	{
         m_monitor.Lock();
 		if (m_jobs.empty())
             m_monitor.Wait();
 
 		if (m_jobs.empty())
-			return 0;
+            return Thread::ThreadData{};
 
-		ThreadJob* job = m_jobs.front();
+        Thread::ThreadData data = m_jobs.front();
 		m_jobs.pop();
         m_monitor.Unlock();
-		return job;
+        return data;
 	}
 
-	void ThreadPool::ExecuteJob(ThreadJob* job)
+    void ThreadPool::EnqueueWorkItem(WorkItem *job, void* data)
 	{
         m_monitor.Lock();
-		m_jobs.push(job);
+        Thread::ThreadData thread_data{job, data};
+        m_jobs.push(thread_data);
         m_monitor.Pulse();
         m_monitor.Unlock();
 	}

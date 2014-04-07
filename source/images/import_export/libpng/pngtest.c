@@ -133,7 +133,7 @@ static int warning_count = 0; /* count calls to png_warning */
 #  define PNG_HANDLE_CHUNK_IF_SAFE      2
 #endif
 
-/* Utility to save typing/errors, the argument must be a name */
+/* Loader to save typing/errors, the argument must be a name */
 #define MEMZERO(var) ((void)memset(&var, 0, sizeof var))
 
 /* Example of using row callbacks to make a simple progress meter */

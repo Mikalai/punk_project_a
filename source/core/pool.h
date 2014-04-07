@@ -3,19 +3,31 @@
 
 #include <stddef.h>
 #include <deque>
-#include "config.h"
+#include <config.h>
+
+#ifdef _DEBUG
+#include <string/string.h>
+#endif
 
 PUNK_ENGINE_BEGIN
 namespace Core {
     class PUNK_ENGINE_API Pool {
     public:
+#ifdef _NDEBUG
         Pool();
+#endif
+#ifdef _DEBUG
+        Pool(const Core::String& name);
+#endif
         ~Pool();
         void* Alloc(size_t size);
         void Free(void* value);
         void Clear();
     private:
         std::deque<void*> m_free;
+#ifdef _DEBUG
+        Core::String m_name;
+#endif
     };
 }
 PUNK_ENGINE_END

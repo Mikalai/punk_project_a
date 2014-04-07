@@ -1,8 +1,15 @@
 import bpy
 import copy
 from copy import deepcopy
+from . import punk_export_base
+from .punk_export_base import *
 
 def export_static_mesh(f, object):
+    export_vertex_position = punk_get_export_func("VERTEX_POSITION")
+    export_normals = punk_get_export_func("NORMALS")
+    export_faces = punk_get_export_func("FACES")
+    export_tex_coords = punk_get_export_func("TEXTURE_COORDS")
+
     global text_offset
     old = text_offset 
     text_offset = 0
@@ -18,9 +25,9 @@ def export_static_mesh(f, object):
     export_normals(f, mesh)
     export_faces(f, mesh)
     export_tex_coords(f, mesh)
-    if len(mesh.materials) != 0:
-        export_material(f, bpy.data.materials[mesh.materials[0].name])        
-    end_block(f)    #   skin_mesh        
+#    if len(mesh.materials) != 0:
+#        export_material(f, bpy.data.materials[mesh.materials[0].name])
+    end_block(f)    #   static_mesh
     f.close()        
     
     text_offset = old    
@@ -34,3 +41,6 @@ def export_static_meshes(f):
         if data != None:
             export_static_mesh(f, object)
     return
+
+punk_register_export_func("STATIC_MESH", export_static_mesh)
+punk_register_export_func("STATIC_MESHES", export_static_meshes)

@@ -6,6 +6,7 @@
 #include "../system/errors/module.h"
 #endif // USE_PHYSIX
 
+PUNK_ENGINE_BEGIN
 namespace Physics
 {
     void Terrain::UpdateData(const Virtual::TerrainView* view)
@@ -30,3 +31,4 @@ namespace Physics
     {
     }
 }
+PUNK_ENGINE_END

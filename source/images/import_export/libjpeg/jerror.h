@@ -118,7 +118,7 @@ JMESSAGE(JERR_TFILE_WRITE,
 	 "Write failed on temporary file --- out of disk space?")
 JMESSAGE(JERR_TOO_LITTLE_DATA, "Application transferred too few scanlines")
 JMESSAGE(JERR_UNKNOWN_MARKER, "Unsupported marker type 0x%02x")
-JMESSAGE(JERR_VIRTUAL_BUG, "Virtual array controller messed up")
+JMESSAGE(JERR_VIRTUAL_BUG, "Attributes array controller messed up")
 JMESSAGE(JERR_WIDTH_OVERFLOW, "Image too wide for this implementation")
 JMESSAGE(JERR_XMS_READ, "Read from XMS failed")
 JMESSAGE(JERR_XMS_WRITE, "Write to XMS failed")

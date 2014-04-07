@@ -92,35 +92,35 @@ namespace Punk {
                 return impl->instances[index];
             }
 
-            void Rtti::Add(Object* value) {
-                value->SetLocalIndex(impl->instances.size());
-                impl->instances.push_back(value);
-            }
+//            void Rtti::Add(Object* value) {
+//                value->SetLocalIndex(impl->instances.size());
+//                impl->instances.push_back(value);
+//            }
 
-            void Rtti::Remove(Object* value) {
-                Object* o = impl->instances.back();
-                if (o != value)
-                {
-                    impl->instances[value->GetLocalIndex()] = o;
-                    o->SetLocalIndex(value->GetLocalIndex());
-                }
-                impl->instances.pop_back();
-            }
+//            void Rtti::Remove(Object* value) {
+//                Object* o = impl->instances.back();
+//                if (o != value)
+//                {
+//                    impl->instances[value->GetLocalIndex()] = o;
+//                    o->SetLocalIndex(value->GetLocalIndex());
+//                }
+//                impl->instances.pop_back();
+//            }
 
             std::size_t Rtti::GetInstanceCount() const {
                 return impl->instances.size();
             }
 
-            const Object* HasInstance(const Rtti* meta_class, const String& name)
-            {
-                for (auto i = 0u; i < meta_class->GetInstanceCount(); ++i)
-                {
-                    auto o = meta_class->GetInstance(i);
-                    if (o->GetName() == name)
-                        return o;
-                }
-                return nullptr;
-            }
+//            const Object* HasInstance(const Rtti* meta_class, const String& name)
+//            {
+//                for (auto i = 0u; i < meta_class->GetInstanceCount(); ++i)
+//                {
+//                    auto o = meta_class->GetInstance(i);
+//                    if (o->GetName() == name)
+//                        return o;
+//                }
+//                return nullptr;
+//            }
         }
     }
 }

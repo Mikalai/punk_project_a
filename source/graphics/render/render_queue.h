@@ -19,7 +19,7 @@ namespace Graphics {
         std::vector<Batch*>& GetBatches(RenderPolicySet render_context_code);
 
     private:
-        std::vector<Batch*> m_states[(int)RenderPolicySet::Count];
+        std::vector<Batch*> m_states[(int)RenderPolicySet::End];
     };
 }
 PUNK_ENGINE_END

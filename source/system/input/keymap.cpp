@@ -53,12 +53,10 @@ namespace System
     KeyMap::KeyMap()
         : impl(new KeyMapImpl)
     {
-        CREATE_INSTANCE(KeyMap);
     }
 
     KeyMap::~KeyMap()
     {        
-        DESTROY_INSTANCE();
         delete impl;
         impl = nullptr;        
     }

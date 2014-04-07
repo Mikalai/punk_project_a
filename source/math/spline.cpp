@@ -60,26 +60,12 @@ namespace Math
         return res;
     }
 
-//    void SaveSpline(System::Buffer* buffer, const Spline& spline)
-//    {
-//        buffer->WriteReal32(spline.m_total_length);
-//        unsigned size = spline.m_points.size();
-//        buffer->WriteUnsigned32(size);
-//        for (auto& p : spline.m_points)
-//        {
-//            SaveWeightedPoint(buffer, p);
-//        }
-//    }
+    std::size_t Spline::GetPointsCount() const {
+        return m_points.size();
+    }
 
-//    void LoadSpline(System::Buffer* buffer, Spline& spline)
-//    {
-//        spline.m_total_length = buffer->ReadReal32();
-//        unsigned size = buffer->ReadUnsigned32();
-//        spline.m_points.resize(size);
-//        for (auto& p : spline.m_points)
-//        {
-//            LoadWeightedPoint(buffer, p);
-//        }
-//    }
+    const WeightedPoint& Spline::GetPoint(int index) const {
+        return m_points.at(index);
+    }
 }
 PUNK_ENGINE_END

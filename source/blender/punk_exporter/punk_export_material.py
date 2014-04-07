@@ -1,3 +1,6 @@
+from . import punk_export_base
+from .punk_export_base import *
+
 import bpy
 import copy
 from copy import deepcopy
@@ -51,3 +54,5 @@ def export_materials(f):
         if material != None:
             export_material(f, material)
     return
+
+punk_register_export_func("MATERIALS", export_materials)

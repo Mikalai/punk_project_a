@@ -23,8 +23,9 @@ namespace Graphics
             , m_fb(0)
         {
             count++;
-            if (driver)
+            if (driver) {
                 GL_CALL(glGenFramebuffers(1, &m_fb));
+            }
         }
 
         void GlFrameBuffer::Config(const FrameBufferConfig& config) {

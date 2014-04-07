@@ -18,18 +18,18 @@ namespace Graphics
 
 
         template<typename VertexType>
-        IRenderable* Cook(PrimitiveType type, const IVertexArray* buffer, IVideoDriver* driver) {
-            if (type == PrimitiveType::POINTS) {
+        IRenderable* Cook(int type, const IVertexArray* buffer, IVideoDriver* driver) {
+            if (type == GL_POINTS) {
                 auto result = CreatePoints(VertexType::Value(), driver);
                 result->Cook(buffer);
                 return result.release();
             }
-            else if (type == PrimitiveType::LINES) {
+            else if (type == GL_LINES) {
                 auto result = CreateLines(VertexType::Value(), driver);
                 result->Cook(buffer);
                 return result.release();
             }
-            else if (type == PrimitiveType::TRIANGLES) {
+            else if (type == GL_TRIANGLES) {
                 auto result = CreateTriangles(VertexType::Value(), driver);
                 result->Cook(buffer);
                 return result.release();
@@ -251,8 +251,8 @@ namespace Graphics
         void GlRenderableBuilder::Begin(const PrimitiveType& value)
         {
             ValidateBegin();
-            m_high_level_type = value;
-            m_primitive_type = value;
+            m_high_level_type = value;            
+            m_primitive_type = PrimitiveTypeToOpenGL(m_high_level_type);
             //m_current_frame = m_driver->BeginFrame();
         }
 

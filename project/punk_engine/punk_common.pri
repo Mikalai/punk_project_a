@@ -24,3 +24,10 @@ else {
     DESTDIR = ../../../../bin/release
     LIBDIR = ../../../../bin/release
 }
+
+debug {
+  DEFINES += _DEBUG
+}
+release {
+  DEFINES += _NDEBUG
+}

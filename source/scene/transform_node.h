@@ -1,7 +1,7 @@
 //#ifndef TRANSFORMNODE_H
 //#define TRANSFORMNODE_H
 
-//#include "../system/compound_object.h"
+//#include "../system/object.h"
 //#include "../math/mat4.h"
 //#include "../math/vec3.h"
 //#include "../math/quat.h"
@@ -37,17 +37,17 @@
 //        const Math::vec3 Transform(const Math::vec3& value) const;
 //        const Math::vec3 InversedTransform(const Math::vec3& value) const;
 
-//        void Name(const System::string& value);
-//        const System::string& Name() const;
+//        void Name(const Core::String& value);
+//        const Core::String& Name() const;
 
-//        void EntityName(const System::string& value);
-//        const System::string& EntityName() const;
+//        void EntityName(const Core::String& value);
+//        const Core::String& EntityName() const;
 
-//        virtual const System::string ToString() const override;
+//        virtual const Core::String ToString() const override;
 
 //    private:
-//        System::string m_name;
-//        System::string m_entity_name;
+//        Core::String m_name;
+//        Core::String m_entity_name;
 //        TransformNode* m_parent;
 //        unsigned m_index;
 //        Math::vec3 m_position;

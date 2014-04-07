@@ -23,7 +23,8 @@ namespace System
 
 		std::wstringstream stream;
 		stream << description.Data() << L" at " << Core::String(file).Data() << L"(" << line << L") : " << Core::String(func).Data() << std::endl;	
-		walker.Print(stream);
+        auto s = walker.GetStackTrace();
+        stream << (wchar_t*)s.Data();
 		//
 		//	copy information in the clipboard
 		//

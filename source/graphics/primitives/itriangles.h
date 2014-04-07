@@ -9,11 +9,13 @@ PUNK_ENGINE_BEGIN
 namespace Graphics {
 
     class IVertexArray;
+    class IIndexArray;
     class IVideoDriver;
 
     class PUNK_ENGINE_API ITriangles : public IRenderable {
     public:
         virtual void Cook(const IVertexArray* value) = 0;
+        virtual void Cook(const IVertexArray *vb, const IIndexArray* ib) = 0;
     };
 
     using ITrianglesUniquePtr = std::unique_ptr<ITriangles, void (*)(IRenderable*)>;

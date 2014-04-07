@@ -1,9 +1,0 @@
-#ifndef _H_PUNK_VIRTUAL_MATERIAL_MANAGER
-#define _H_PUNK_VIRTUAL_MATERIAL_MANAGER
-
-namespace Virtual
-{
-
-}
-
-#endif	//	_H_PUNK_VIRTUAL_MATERIAL_MANAGER

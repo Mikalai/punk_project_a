@@ -22,12 +22,10 @@ namespace System
 #elif defined MSVS
         _localtime64_s(&m_date, &m_time);
 #endif
-        CREATE_INSTANCE(Clock);
 	}
 
     Clock::~Clock()
     {
-        DESTROY_INSTANCE();
     }
 
     const Core::String Clock::ToString() const

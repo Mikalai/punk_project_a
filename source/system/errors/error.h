@@ -13,8 +13,8 @@ PUNK_ENGINE_BEGIN
 namespace Core { class String; }
 namespace System {
 #ifdef _DEBUG
-    extern PUNK_ENGINE_API void CheckOSError(const Core::string& msg);
-    extern PUNK_ENGINE_API void CheckOSError(LONG code, const Core::string& msg);
+    extern PUNK_ENGINE_API void CheckOSError(const Core::String& msg);
+    extern PUNK_ENGINE_API void CheckOSError(LONG code, const Core::String& msg);
 #define CHECK_SYS_ERROR(X) CheckOSError(X);
 #define CHECK_SYS_ERROR_CODE(CODE, X) CheckOSError(CODE, X)
 #else

@@ -3,7 +3,7 @@
 
 #include "action.h"
 #include "object.h"
-#include "compound_object.h"
+#include "object.h"
 #include "meta_class.h"
 #include "meta_class_base.h"
 #include "pool.h"

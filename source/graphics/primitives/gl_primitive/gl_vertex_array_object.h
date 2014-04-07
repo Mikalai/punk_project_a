@@ -7,6 +7,7 @@
 #include <graphics/video_driver/module.h>
 #include <graphics/primitives/renderable.h>
 #include <graphics/primitives/vertex_array.h>
+#include <graphics/primitives/index_array.h>
 #include <graphics/video_driver/module.h>
 #include <graphics/video_memory/module.h>
 #include "gl_attribute_configer.h"
@@ -17,11 +18,12 @@ namespace Graphics
 {
 	namespace OpenGL
 	{
-		template<PrimitiveType CurrentPrimitive, typename VT>
+        template<PrimitiveType CurrentPrimitive, typename VT, typename IT = unsigned>
         class PUNK_ENGINE_LOCAL VertexArrayObject2 : public Renderable
         {
 		protected:
 			using CurrentVertex = VT;
+            using CurrentIndex = IT;
             IVideoDriver* m_driver;
             GLuint m_index_count;
 			GLuint m_vao;			
@@ -92,7 +94,13 @@ namespace Graphics
 			void Render()
 			{
 				GLenum type = PrimitiveTypeToOpenGL(CurrentPrimitive);
-                GL_CALL(glDrawElements(type, m_index_count, GL_UNSIGNED_INT, 0));
+                int size = sizeof(CurrentIndex);
+                if (size == 4) {
+                    GL_CALL(glDrawElements(type, m_index_count, GL_UNSIGNED_INT, 0));
+                }
+                else if (size == 2) {
+                    GL_CALL(glDrawElements(type, m_index_count, GL_SHORT, 0));
+                }
 			}
 
 			void SetVertexBuffer(const void* vbuffer, int size_in_bytes)
@@ -107,14 +115,19 @@ namespace Graphics
 				m_was_modified = true;
 			}
 
-			void SetIndexBuffer(const std::vector<unsigned>& ib)
+            void SetIndexBuffer(const std::vector<CurrentIndex>& ib)
 			{
-				SetIndexBuffer(&ib[0], sizeof(unsigned)*ib.size());
+                SetIndexBuffer(&ib[0], sizeof(CurrentIndex)*ib.size());
 			}
+
+            void SetIndexBuffer(const IIndexArray* ib)
+            {
+                SetIndexBuffer(ib->GetIndexBuffer(), ib->GetMemoryUsage());
+            }
 
 			void SetIndexBuffer(const void* ibuffer, unsigned size)
 			{	
-				m_index_count = size / sizeof(unsigned);	// This code depends on Render when GL_UNSIGNED_INT used in glDrawElements*
+                m_index_count = size / sizeof(CurrentIndex);
 
                 m_index_buffer = dynamic_cast<IndexBufferObject*>(Constructor::GetVideoMemory()->AllocateIndexBuffer(size));
 				m_index_buffer->Bind();
@@ -170,11 +183,14 @@ namespace Graphics
 			void Clear()
 			{
                 Constructor::DestroyVertexBuffer(m_vertex_buffer);
+                m_vertex_buffer = nullptr;
                 Constructor::DestroyIndexBuffer(m_index_buffer);
+                m_index_buffer = nullptr;
 
 				if (m_vao)
 				{
                     GL_CALL(glDeleteVertexArrays(1, &m_vao));
+                    m_vao = 0;
 				}
 			}
 

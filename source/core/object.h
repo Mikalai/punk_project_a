@@ -1,64 +1,65 @@
 #ifndef _H_PUNK_SYSTEM_OBJECT
 #define _H_PUNK_SYSTEM_OBJECT
 
+#include <vector>
 #include <typeinfo>
 #include "string/string.h"
 #include "core_error.h"
 #include "rtti.h"
 
-#define PUNK_OBJECT(TYPE) \
-    public:\
-    virtual Punk::Engine::Core::Rtti* GetType() const { return &Type; }\
-    unsigned GetLocalIndex() const { return m_local_index; }\
-    void SetLocalIndex(unsigned value) { m_local_index = value; }\
-    private:\
-    unsigned m_local_index {0};\
-    public:\
-    static Punk::Engine::Core::Rtti Type;
+#define PUNK_OBJECT(T) \
+    public: \
+    static Core::Rtti Type; \
+    virtual Core::Rtti* GetType() const { return &Type; }
 
-#define CREATE_INSTANCE(TYPE) Type.Add(this)
+PUNK_ENGINE_BEGIN
+namespace Core {
 
-#define DESTROY_INSTANCE() Type.Remove(this)
+    class PUNK_ENGINE_API Object
+    {
+    public:
+        Object(Object* parent = nullptr);
+        virtual ~Object();
 
-namespace Punk {
-    namespace Engine {
-        namespace Core {
+        void SetOwner(Object* owner);
+        const Object* GetOwner() const;
+        Object* GetOwner();
 
-            class PUNK_ENGINE_API Object
-            {
-            public:
-                Object();
-                virtual ~Object();
+        virtual const String ToString() const;
+        virtual Object* Clone() const;
 
-                void SetOwner(Object* owner);
-                const Object* GetOwner() const;
-                Object* GetOwner();
+        unsigned GetId() const;
+        bool Add(Object* object);
+        bool Remove(Object* object, bool depth = false);
+        bool Remove(int index);
+        Object* Find(int index);
+        const Object* Find(int index) const;
 
-                unsigned GetId() const;
-                virtual const String ToString() const;
+    public:
+        typedef std::vector<Object*> CollectionType;
+        typedef CollectionType::iterator iterator;
+        typedef CollectionType::const_iterator const_iterator;
 
-                const String& GetName() const;
-                void SetName(const String& value);
+        iterator begin() { return m_children.begin(); }
+        const_iterator begin() const { return m_children.begin(); }
+        iterator end() { return m_children.end(); }
+        const_iterator end() const { return m_children.end(); }
+        void erase(iterator it) { m_children.erase(it); }
+        void clear() { m_children.clear(); }
 
-                virtual Object* Clone() const;
+        PUNK_OBJECT(Object)
 
-                unsigned Acquire();
-                unsigned Release();
+    private:
+        Object(const Object& o) = delete;
+        Object& operator = (const Object& o) = delete;
 
-            private:
-                Object(const Object& o) = delete;
-                Object& operator = (const Object& o) = delete;
-
-                Object* m_owner {nullptr};
-                unsigned m_id {0};
-                unsigned m_ref_count {1};
-                String m_name;                
-
-                PUNK_OBJECT(Object)
-            };
-        }
-    }
+    private:
+        Object* m_owner {nullptr};
+        std::uint64_t m_id {0};
+        CollectionType m_children;
+    };
 }
+PUNK_ENGINE_END
 
 template<class T>
 inline T As(Punk::Engine::Core::Object* o)

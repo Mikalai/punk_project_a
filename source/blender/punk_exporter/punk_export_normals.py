@@ -1,7 +1,8 @@
 import bpy
 import copy
-import punk_export_base
-from punk_export_base import *
+from . import punk_export_base
+from .punk_export_base import *
+
 from copy import deepcopy
 
 #
@@ -22,3 +23,4 @@ def export_normals(f, mesh):
     end_block(f)
     return
     
+punk_register_export_func("NORMALS", export_normals)

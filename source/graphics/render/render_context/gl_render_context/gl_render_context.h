@@ -76,7 +76,7 @@ namespace Graphics {
 			Shader* m_vertex_shader;
 			Shader* m_fragment_shader;
 			Shader* m_geometry_shader;
-            RenderPolicySet m_policy{RenderPolicySet::Begin};
+            RenderPolicySet m_policy{RenderPolicySet::End};
 
 			unsigned m_program;
 		};

@@ -2,21 +2,20 @@
 #define _H_PUNK_THREAD
 
 #include <config.h>
+#include <cstdint>
 #include "os_handle.h"
 
 PUNK_ENGINE_BEGIN
 namespace System {
 
+    class WorkItem;
+
     class PUNK_ENGINE_API Thread : public OsHandle {
 	public:
-#ifdef _WIN32
-        bool Create(unsigned (PUNK_STDCALL *thread_func)(void*), void* data = 0, unsigned stack = 4096);
-#elif defined __gnu_linux__
-        bool Create(void* (PUNK_STDCALL *thread_func)(void*), void* data = 0, unsigned stack = 4096);
-#endif
 		bool Join();
 		bool Resume();
 		bool Destroy();
+        bool Start(WorkItem* work_item, void* data);
 		//bool Terminate();
 		~Thread();
 
@@ -26,6 +25,14 @@ namespace System {
          * @param time
          */
         static void Sleep(unsigned time);
+
+        struct ThreadData {
+            WorkItem* item;
+            void* data;
+        };
+
+    private:
+        std::uint32_t m_stack {4096};
 	};
 }
 PUNK_ENGINE_END

@@ -10,8 +10,7 @@ PUNK_ENGINE_BEGIN
 namespace Graphics
 {
 	enum class RenderPolicySet {
-        Begin = 0,
-        Solid3D = 0,
+        Solid3D,
         SolidTextured2D,
         SolidTextured2DArray,
 		GUI,
@@ -118,9 +117,10 @@ namespace Graphics
         TextSolidColor,
         DepthRender,
         DepthRenderSkinning,
-        Count = DepthRenderSkinning,
         End
 	};
+
+    extern "C" PUNK_ENGINE_API const Core::String RenderPolicySetToString(RenderPolicySet policy);
 
     inline int GetIndex(RenderPolicySet policy) {
         return (int)policy;

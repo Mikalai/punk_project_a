@@ -1669,7 +1669,7 @@ PNG_INTERNAL_FUNCTION(size_t,png_safecat,(png_charp buffer, size_t bufsize,
  * only implemented for warnings.
  */
 #if defined(PNG_WARNINGS_SUPPORTED) || defined(PNG_TIME_RFC1123_SUPPORTED)
-/* Utility to dump an unsigned value into a buffer, given a start pointer and
+/* Loader to dump an unsigned value into a buffer, given a start pointer and
  * and end pointer (which should point just *beyond* the end of the buffer!)
  * Returns the pointer to the start of the formatted string.  This utility only
  * does unsigned values.
@@ -1987,7 +1987,7 @@ typedef struct png_control
 #  define png_control_jmp_buf(pc) ((pc)->error_buf)
 #endif
 
-/* Utility to safely execute a piece of libpng code catching and logging any
+/* Loader to safely execute a piece of libpng code catching and logging any
  * errors that might occur.  Returns true on success, false on failure (either
  * of the function or as a result of a png_error.)
  */
@@ -2004,7 +2004,7 @@ PNG_INTERNAL_FUNCTION(void,png_safe_warning,(png_structp png_ptr,
 PNG_INTERNAL_FUNCTION(int,png_safe_execute,(png_imagep image,
    int (*function)(png_voidp), png_voidp arg),PNG_EMPTY);
 
-/* Utility to log an error; this also cleans up the png_image; the function
+/* Loader to log an error; this also cleans up the png_image; the function
  * always returns 0 (false).
  */
 PNG_INTERNAL_FUNCTION(int,png_image_error,(png_imagep image,

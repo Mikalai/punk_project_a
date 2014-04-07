@@ -21,5 +21,11 @@ namespace System
 	{
 		RunThread();
 	}
+
+    void ThreadJob::Terminate() {
+        m_pool->Lock();
+        m_complete = true;
+        m_pool->Unlock();
+    }
 }
 PUNK_ENGINE_END

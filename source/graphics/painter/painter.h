@@ -2,19 +2,10 @@
 #define _H_PUNK_GPU_PAINTER
 
 #include <cstddef>
-#include "../../config.h"
+#include <config.h>
 #include <vector>
-
-namespace System
-{
-	class string;
-}
-
-namespace ImageModule
-{
-	class Image;
-}
-
+#include <images/module.h>
+PUNK_ENGINE_BEGIN
 namespace Math
 {
 	class Line2D;
@@ -25,7 +16,7 @@ namespace Math
 	class mat3;
 }
 
-namespace Gpu
+namespace Graphics
 {
 	class PaintEngine;
 	class PaintDevice;
@@ -52,12 +43,12 @@ namespace Gpu
 		void DrawLines(const std::vector<Math::Line2D>& lines);
 		void DrawEllipse(float xc, float yc, float major_axis, float minor_axis);
 		void DrawEllipse(const Math::Rect& rect);
-		void DrawImage(float x, float y, const ImageModule::Image& image);
-		void DrawImage(const Math::vec2& point, const ImageModule::Image& image);
+        void DrawImage(float x, float y, const Image::Image& image);
+        void DrawImage(const Math::vec2& point, const Image::Image& image);
 		void DrawRect(const Math::Rect& rect);
 		void DrawRect(float x, float y, float width, float height);
 		void DrawRoundedRect(float x, float y, float x_r, float y_r);
-		void DrawText(float x, float y, const System::string& text);
+		void DrawText(float x, float y, const Core::String& text);
 		void EraseRect(const Math::Rect& rect);
 		void FillRect(const Math::Rect& rect, const Brush& brush);
 		void SetOpacity(float value);
@@ -85,5 +76,6 @@ namespace Gpu
 		Painter& operator = (const Painter&);
 	};
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_GPU_PAINTER

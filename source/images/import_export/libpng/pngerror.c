@@ -105,7 +105,7 @@ png_err,(png_const_structrp png_ptr),PNG_NORETURN)
 }
 #endif /* PNG_ERROR_TEXT_SUPPORTED */
 
-/* Utility to safely appends strings to a buffer.  This never errors out so
+/* Loader to safely appends strings to a buffer.  This never errors out so
  * error checking is not required in the caller.
  */
 size_t
@@ -125,7 +125,7 @@ png_safecat(png_charp buffer, size_t bufsize, size_t pos,
 }
 
 #if defined(PNG_WARNINGS_SUPPORTED) || defined(PNG_TIME_RFC1123_SUPPORTED)
-/* Utility to dump an unsigned value into a buffer, given a start pointer and
+/* Loader to dump an unsigned value into a buffer, given a start pointer and
  * and end pointer (which should point just *beyond* the end of the buffer!)
  * Returns the pointer to the start of the formatted string.
  */

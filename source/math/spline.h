@@ -23,15 +23,15 @@ namespace Punk {
 				 */
 				const WeightedPoint At(float t);
 
+                std::size_t GetPointsCount() const;
+                const WeightedPoint& GetPoint(int index) const;
+
 			private:
 				void UpdateTotalLength();
 			private:
 				std::vector<WeightedPoint> m_points;
 				float m_total_length;
 			};
-
-			//    PUNK_ENGINE_API void SaveSpline(System::Buffer* buffer, const Spline& spline);
-			//    PUNK_ENGINE_API void LoadSpline(System::Buffer* buffer, Spline& spline);
 		}
 	}
 }

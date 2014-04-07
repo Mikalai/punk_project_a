@@ -5,6 +5,7 @@
 #define LONG_MAX std::numeric_limits<long>::max()
 #endif
 
+#include <system/concurrency/work_item.h>
 #include "engine_objects.h"
 #include "async_loader_impl.h"
 #include "data_loader.h"
@@ -13,51 +14,43 @@
 PUNK_ENGINE_BEGIN
 namespace System
 {
-#ifdef _WIN32
-    unsigned PUNK_STDCALL IOThread(void* data)
-    {
-        if (data == nullptr)
-            return 0;
-        return reinterpret_cast<AsyncLoaderImpl*>(data)->FileIOThreadProc();
-    }
+    class IoThreadWorkItem : public WorkItem {
+    public:
+        void Run(void* data) override
+        {
+            if (data == nullptr)
+                return;
+            reinterpret_cast<AsyncLoaderImpl*>(data)->FileIOThreadProc();
+        }
+    };
 
-	unsigned PUNK_STDCALL ProcessThread(void* data)
-	{
-		if (data == nullptr)
-			return 0;
-        return reinterpret_cast<AsyncLoaderImpl*>(data)->ProcessingThreadProc();
-	}
-#elif defined __gnu_linux__
-    void* ProcessThread(void* data)
-    {
-        if (data == nullptr)
-            return 0;
-        return (void*)reinterpret_cast<AsyncLoaderImpl*>(data)->ProcessingThreadProc();
-    }
-
-    void* IOThread(void* data)
-    {
-        if (data == nullptr)
-            return 0;
-        return (void*)reinterpret_cast<AsyncLoaderImpl*>(data)->FileIOThreadProc();
-    }
-
-#endif
+    class ProcessThreadWorkItem : public WorkItem {
+    public:
+        void Run(void* data) override {
+            if (data == nullptr)
+                return;
+            reinterpret_cast<AsyncLoaderImpl*>(data)->ProcessingThreadProc();
+        }
+    };
 
     AsyncLoaderImpl::AsyncLoaderImpl(int num_process_threads)
 	{
+        static IoThreadWorkItem io_thread_work_item;
+        static std::vector<ProcessThreadWorkItem> process_thread_work_item(num_process_threads);
 		m_global_done_flag = false;
         m_io_thread_semaphore.Create(LONG_MAX);
 		m_process_thread_semaphore.Create(LONG_MAX);
 
 		m_process_threads.resize(num_process_threads);
+        int i = 0;
 		for (auto it = m_process_threads.begin(); it != m_process_threads.end(); ++it)
 		{
-			it->Create(ProcessThread, (void*)this);
+            it->Start(&process_thread_work_item[i], (void*)this);
 			it->Resume();
+            i++;
 		}
 
-		m_io_thread.Create(IOThread, (void*)this);
+        m_io_thread.Start(&io_thread_work_item, (void*)this);
 		m_io_thread.Resume();		
 	}
 

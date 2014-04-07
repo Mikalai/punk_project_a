@@ -17,51 +17,47 @@
 #include <queue>
 
 #include <config.h>
-#include "thread_job.h"
+#include "work_item.h"
 #include "thread.h"
 #include "monitor.h"
 #include "atomicint.h"
 
 PUNK_ENGINE_BEGIN
-namespace System
-{
-	class PUNK_ENGINE_API ThreadPool
-	{		
-		std::queue<ThreadJob*> m_jobs;
-		ThreadPool(const ThreadPool& pool);
-		ThreadPool& operator = (const ThreadPool&);
+namespace System {
+    class ThreadPoolWorkItem;
 
-        std::vector<Thread> m_threads;
-        Thread m_own_thread;
-        Monitor m_monitor;
-
-        AtomicInt m_finish;
-
+    class PUNK_ENGINE_API ThreadPool {
 	public:
 		ThreadPool(int threads_count = 4);
 		~ThreadPool();
 
-		void ExecuteJob(ThreadJob* job);
+        void EnqueueWorkItem(WorkItem* job, void* data = nullptr);
 
 		void Lock();
 		void Unlock();
-
 		void Join();
-
 		bool IsFinish();
 		int HasJobs();
 
 	private:
 		void Init(int thread_count);
+        Thread::ThreadData GetThreadJob();
+        friend class ThreadPoolWorkItem;
 
-		ThreadJob* GetThreadJob();
+    private:
+        std::queue<Thread::ThreadData> m_jobs;
+        ThreadPool(const ThreadPool& pool);
+        ThreadPool& operator = (const ThreadPool&);
 
-#ifdef _WIN32
-        static unsigned PUNK_STDCALL ThreadFunc(void* data);
-#elif defined __gnu_linux__
-        static void* ThreadFunc(void* data);
-#endif
+        std::vector<Thread> m_threads;
+        std::vector<ThreadPoolWorkItem*> m_work_items;
+        Thread m_own_thread;
+        Monitor m_monitor;
+
+        AtomicInt m_finish;
 	};
+
+    PUNK_ENGINE_API ThreadPool* GetThreadPool();
 }
 PUNK_ENGINE_END
 

@@ -6,5 +6,7 @@
 #include "semaphore.h"
 #include "thread_mutex.h"
 #include "process.h"
+#include "atomicint.h"
+#include "work_item.h"
 
 #endif	//	_H_SYSTEM_CONCURRENCY_MODULE

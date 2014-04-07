@@ -30,7 +30,7 @@ namespace Graphics
 {
 #ifdef USE_OPENGL
     template<typename VertexType>
-    using PointsBase = OpenGL::VertexArrayObject2<PrimitiveType::POINTS, VertexType>;
+    using PointsBase = OpenGL::VertexArrayObject2<PrimitiveType::POINTS, VertexType, unsigned>;
 #else
 #endif
 

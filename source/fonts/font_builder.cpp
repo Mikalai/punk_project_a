@@ -15,8 +15,6 @@
 PUNK_ENGINE_BEGIN
 namespace Font {
 
-    Core::Rtti FontBuilder::Type {"Punk.Engine.Font.FontBuilder", typeid(FontBuilder).hash_code(), {&Core::Object::Type}};
-
     #ifdef USE_FREETYPE
 
     System::ThreadMutex g_library_mutex;

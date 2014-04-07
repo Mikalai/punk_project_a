@@ -2,8 +2,10 @@
 #define _H_PUNK_PAINT_ENGINE
 
 #include <cstddef>
-#include "../../config.h"
+#include <config.h>
+#include <string/module.h>
 
+PUNK_ENGINE_BEGIN
 namespace Math
 {
 	class Line2D;
@@ -12,9 +14,7 @@ namespace Math
 	class vec4;
 }
 
-namespace System { class string; }
-
-namespace Gpu
+namespace Graphics
 {
 	class PaintDevice;
 	class Painter;
@@ -47,8 +47,8 @@ namespace Gpu
         virtual void SetFillTexture(const Texture2D* value) = 0;
         virtual void SetLineWidth(float value) = 0;
         virtual void SetPointSize(float value) = 0;
-        virtual void DrawString(float x, float y, const System::string& text) = 0;
-        virtual void SetFontName(const System::string& font) = 0;
+        virtual void DrawString(float x, float y, const Core::String& text) = 0;
+        virtual void SetFontName(const Core::String& font) = 0;
         virtual void SetFontSize(int size) = 0;
         virtual void EnableFill(bool value) = 0;
         virtual void EnableBorder(bool value) = 0;
@@ -94,5 +94,6 @@ namespace Gpu
 		return m_painter;
 	}
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_PAINT_ENGINE

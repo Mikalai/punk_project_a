@@ -1,7 +1,7 @@
 //#include "font_manager_component.h"
 //#include "font_builder.h"
 
-//namespace Utility
+//namespace Loader
 //{
 //    REGISTER_COMPONENT(FontManagerComponent, new FontManagerComponent, {""})
 
@@ -40,7 +40,7 @@
 //        m_font_builder->Clone();
 //    }
 
-//    System::Object* FontManagerComponent::OnGetService(const Core::String & name)
+//    Core::Object* FontManagerComponent::OnGetService(const Core::String & name)
 //    {
 //        if (name == FONT_BUILDER_SERVICE)
 //            return m_font_builder;

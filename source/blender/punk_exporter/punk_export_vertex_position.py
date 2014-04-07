@@ -1,6 +1,8 @@
 import bpy
 import copy
 from copy import deepcopy
+from . import punk_export_base
+from .punk_export_base import *
    
 #
 #   exports vertex position for current mesh with no tranformation
@@ -18,3 +20,4 @@ def export_vertex_position(f, mesh):
     end_block(f)
     return
 
+punk_register_export_func("VERTEX_POSITION", export_vertex_position)

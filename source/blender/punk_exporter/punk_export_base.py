@@ -7,6 +7,17 @@ path = ""
 used_entities = {}
 vertex_groups = {}
 
+export_dict = {}
+
+def punk_register_export_func(name, func):
+    export_dict[name] = func
+
+def punk_get_export_func(name):
+    func = export_dict.get(name, None)
+    if func == None:
+        print("No export function registered for " + name)
+    return func
+
 def push_entity(type, object):
     if not(type in used_entities.keys()):
         used_entities[type] = set()
@@ -56,8 +67,8 @@ def export_string(f, name, value):
 
 def export_mat4(f, name, matrix):
     start_block(f, name)
-    for v in matrix:  
-        make_offset(f)      
+    for v in matrix:
+        make_offset(f)
         f.write("{0} {1} {2} {3}\n".format(v[0], v[1], v[2], v[3]))
     end_block(f)
     return
@@ -79,16 +90,15 @@ def make_offset(f):
 
 def start_block(f, title):
     make_offset(f)
-    f.write("%s\n" % title)
-    make_offset(f)
-    f.write("{\n")
+    f.write("%s" % title)
+    f.write(" {\n")
     inc_offset()
     return
 
 def end_block(f):
     dec_offset()
     make_offset(f)
-    f.write("}\n\n")
+    f.write("}\n")
     return
 
 def export_name(f, object):

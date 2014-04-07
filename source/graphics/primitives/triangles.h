@@ -5,13 +5,14 @@
 #include "renderable.h"
 #include "vertex.h"
 
-#define CreateTrianglesInterface(VertexType)\
+#define CreateTrianglesInterface(VertexType, IndexType)\
 template<>\
-class PUNK_ENGINE_LOCAL Triangles<VertexType> : public Renderable, public ITriangles {\
+class PUNK_ENGINE_LOCAL Triangles<VertexType, IndexType> : public Renderable, public ITriangles {\
 public:\
-    Triangles<VertexType>(IVideoDriver* driver);\
-    virtual ~Triangles<VertexType>();\
+    Triangles<VertexType, IndexType>(IVideoDriver* driver);\
+    virtual ~Triangles<VertexType, IndexType>();\
     void Cook(const IVertexArray* value);\
+    void Cook(const IVertexArray* vb, const IIndexArray* ib); \
     virtual void Bind(std::int64_t) override;\
     virtual void Unbind() override;\
     virtual void Render() override;\
@@ -26,34 +27,34 @@ namespace Graphics
 {
     class IVideoDriver;
 
-    template<typename VertexType> class PUNK_ENGINE_LOCAL Triangles;
+    template<typename VertexType, typename IndexType> class PUNK_ENGINE_LOCAL Triangles;
 
 #define VERTEX_1 Vertex<VertexComponent::Position>
-    CreateTrianglesInterface(VERTEX_1);
+    CreateTrianglesInterface(VERTEX_1, unsigned);
 #undef VERTEX_1
 
 #define VERTEX_1 Vertex<VertexComponent::Position, VertexComponent::Texture0, VertexComponent::Flag, VertexComponent::Color>
-    CreateTrianglesInterface(VERTEX_1);
+    CreateTrianglesInterface(VERTEX_1, unsigned);
 #undef VERTEX_1
 
 #define VERTEX_1 Vertex<VertexComponent::Position, VertexComponent::Color>
-    CreateTrianglesInterface(VERTEX_1);
+    CreateTrianglesInterface(VERTEX_1, unsigned);
 #undef VERTEX_1
 
 #define VERTEX_1 Vertex<VertexComponent::Position, VertexComponent::Texture0>
-    CreateTrianglesInterface(VERTEX_1);
+    CreateTrianglesInterface(VERTEX_1, unsigned);
 #undef VERTEX_1
 
 #define VERTEX_1 Vertex<VertexComponent::Position, VertexComponent::Color, VertexComponent::Texture0>
-    CreateTrianglesInterface(VERTEX_1);
+    CreateTrianglesInterface(VERTEX_1, unsigned);
 #undef VERTEX_1
 
 #define VERTEX_1 Vertex<VertexComponent::Position, VertexComponent::Normal>
-    CreateTrianglesInterface(VERTEX_1);
+    CreateTrianglesInterface(VERTEX_1, unsigned);
 #undef VERTEX_1
 
 #define VERTEX_1 Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0>
-    CreateTrianglesInterface(VERTEX_1);
+    CreateTrianglesInterface(VERTEX_1, unsigned);
 #undef VERTEX_1
 }
 PUNK_ENGINE_END

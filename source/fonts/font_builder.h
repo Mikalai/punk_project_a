@@ -1,7 +1,6 @@
 #ifndef _H_FONT_BUILDER
 #define _H_FONT_BUILDER
 
-#include "core/object.h"
 #include "font_builder_interface.h"
 #include <map>
 
@@ -11,7 +10,7 @@ namespace Font {
 
     struct FontBuilderImpl;
 
-    class PUNK_ENGINE_LOCAL FontBuilder : public IFontBuilder, public Core::Object
+    class PUNK_ENGINE_LOCAL FontBuilder : public IFontBuilder
 	{
 	public:
         FontBuilder(const Core::String& path);
@@ -32,7 +31,6 @@ namespace Font {
 
     private:        
         FontBuilderImpl* impl;
-        PUNK_OBJECT(FontBuilder)
 	};
 
 #ifdef USE_FREETYPE

@@ -110,19 +110,7 @@ namespace Punk
                 WeightedPoint res(r);
                 res /= l;
                 return res;
-            }
-
-            //    void SaveWeightedPoint(System::Buffer* buffer, const WeightedPoint& value)
-            //    {
-            //        buffer->WriteReal32(value.m_weight);
-            //        SaveVector4f(buffer, value.m_point);
-            //    }
-
-            //    void LoadWeightedPoint(System::Buffer* buffer, WeightedPoint& value)
-            //    {
-            //        value.m_weight = buffer->ReadReal32();
-            //        LoadVector4f(buffer, value.m_point);
-            //    }
+            }            
         }
     }
 }

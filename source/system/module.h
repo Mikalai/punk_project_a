@@ -7,7 +7,7 @@
 #include "events/module.h"
 #include "logger/module.h"
 #include "filesystem/module.h"
-//#include "concurrency/module.h"
+#include "concurrency/module.h"
 //#include "streaming/module.h"
 //#include "smart_pointers/module.h"
 //#include "event_manager.h"

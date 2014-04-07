@@ -2651,7 +2651,7 @@ png_check_fp_string(png_const_charp string, png_size_t size)
 
 #ifdef PNG_sCAL_SUPPORTED
 #  ifdef PNG_FLOATING_POINT_SUPPORTED
-/* Utility used below - a simple accurate power of ten from an integral
+/* Loader used below - a simple accurate power of ten from an integral
  * exponent.
  */
 static double
@@ -4288,7 +4288,7 @@ png_image_free(png_imagep image)
 int /* PRIVATE */
 png_image_error(png_imagep image, png_const_charp error_message)
 {
-   /* Utility to log an error. */
+   /* Loader to log an error. */
    png_safecat(image->message, (sizeof image->message), 0, error_message);
    image->warning_or_error |= PNG_IMAGE_ERROR;
    png_image_free(image);

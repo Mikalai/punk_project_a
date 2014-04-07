@@ -1,3 +1,6 @@
+from . import punk_export_base
+from .punk_export_base import *
+
 import bpy
 import copy
 from copy import deepcopy
@@ -58,3 +61,29 @@ def export_armatures(f):
             export_armature(object)
     return
 
+def export_armature_node(f, object):
+    export_object = punk_get_export_func("OBJECT")
+
+    if object.data == None:
+        return
+
+    start_block(f, "*node")
+    export_string(f, "*name", "Transform")
+    export_string(f, "*entity_name", object.name + ".transform")
+    push_entity("*transform", object)
+
+    armature = object.data
+    start_block(f, "*node")
+    export_string(f, "*name", "Armature")
+    export_string(f, "*entity_name", armature.name + ".armature")
+    push_entity("*armature", object)
+
+    for child in object.children:
+        export_object(f, child)
+
+    end_block(f)    #*armature_node
+    end_block(f)    #*transform
+    return
+
+punk_register_export_func("HUMAN_ARMATURE", export_armature_node)
+punk_register_export_func("ARMATURES", export_armatures)

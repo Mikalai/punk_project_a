@@ -11,6 +11,11 @@
 #include <graphics/primitives/module.h>
 #include <graphics/texture/module.h>
 #include <graphics/render/module.h>
+
+#ifdef _DEBUG
+#include <system/logger/module.h>
+#endif
+
 #include "frame.h"
 
 PUNK_ENGINE_BEGIN
@@ -19,11 +24,18 @@ namespace Graphics
     Frame::Frame(IRender* render)
         : m_render{render}
     {
+#ifdef _DEBUG
+        System::GetDefaultLogger()->Info(L"Create Frame");
+#endif
+        m_shadow_maps = nullptr;
         m_state.push(new CoreState);
     }
 
     Frame::~Frame()
     {
+#ifdef _DEBUG
+        System::GetDefaultLogger()->Info(L"Destroy Frame");
+#endif
         //	next should be delete in destructor
         while (!m_state.empty())
         {
@@ -37,6 +49,10 @@ namespace Graphics
             m_texts.pop_back();
         }
     }  
+
+    IRender* Frame::GetRender() {
+        return m_render;
+    }
 
     void Frame::SetClearColor(const Math::vec4& value)
     {
@@ -122,9 +138,16 @@ namespace Graphics
 
     void Frame::PopAllState()
     {
+#ifdef _DEBUG
+        System::GetDefaultLogger()->Info("Begin Pop");
+#endif
         if (!m_state.top()->Dec())
             delete m_state.top();
         m_state.pop();
+
+#ifdef _DEBUG
+        System::GetDefaultLogger()->Info("End Pop");
+#endif
     }
 
     void Frame::PushViewState()
@@ -484,6 +507,10 @@ namespace Graphics
         Top()->batch_state->m_texture_matrix = value;
     }
 
+    const Math::mat4& Frame::GetLocalMatrix() const {
+        return Top()->batch_state->m_local;
+    }
+
     void Frame::SetLocalMatrix(const Math::mat4& value)
     {
         Top()->batch_state->m_local = value;
@@ -588,6 +615,9 @@ namespace Graphics
 
     void Frame::DrawLine(float x1, float y1, float x2, float y2)
     {
+//#ifdef _DEBUG
+//        System::GetDefaultLogger()->Info("Begin DrawLine(x1,y1,x2,y2)");
+//#endif
         PushAllState();
         EnableLighting(false);
         EnableTexturing(false);
@@ -616,6 +646,9 @@ namespace Graphics
         IRenderable* r = b->ToRenderable();
         Submit(r, true);
         PopAllState();
+//#ifdef _DEBUG
+//        System::GetDefaultLogger()->Info("End DrawLine(x1,y1,x2,y2)");
+//#endif
     }
 
     void Frame::DrawPoint(float x, float y)
@@ -809,6 +842,20 @@ namespace Graphics
         SetDiffuseColor(0, 0, 1, 1);
         DrawLine(Math::vec3{0, 0, 0}, Math::vec3{0, 0, scale + 1});
         PopAllState();
+    }
+
+    void Frame::EndRendering() {
+
+    }
+
+    extern "C" PUNK_ENGINE_API IFrameUniquePtr CreateFrame(IRender* render) {
+        IFrameUniquePtr frame{new Frame(render), DestroyFrame};
+        return frame;
+    }
+
+    extern "C" PUNK_ENGINE_API void DestroyFrame(IFrame* f) {
+        Frame* frame = dynamic_cast<Frame*>(f);
+        delete frame;
     }
 }
 PUNK_ENGINE_END

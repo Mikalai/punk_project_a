@@ -1,79 +1,34 @@
-import bpy
-
-# ##### BEGIN GPL LICENSE BLOCK #####
-#
-#  This program is free software; you can redistribute it and/or
-#  modify it under the terms of the GNU General Public License
-#  as published by the Free Software Foundation; either version 2
-#  of the License, or (at your option) any later version.
-#
-#  This program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with this program; if not, write to the Free Software Foundation,
-#  Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-#
-# ##### END GPL LICENSE BLOCK #####
-
-# <pep8-80 compliant>
-
 bl_info = {
     "name": "PunkEngine File Exporter",
     "author": "Mikalaj Abramau",
     "blender": (2, 57, 0),
     "location": "File > Import-Export",
     "description": "Export .pmd file format",
-    "warning": "",    
-    "tracker_url": "",    
+    "warning": "",
+    "tracker_url": "",
     "category": "Import-Export"}
-
-import os
-PUNK_ENGINE_ROOT = os.environ.get('PUNK_ENGINE_ROOT')
 
 if "bpy" in locals():
     import imp
-    if "punk_export_base" in locals():
-        imp.reload(punk_export_base)
-    if "punk_export_terrain" in locals():
-        imp.reload(punk_export_terrain)
-    if "punk_export_model" in locals():
-        imp.reload(punk_export_model)
+    imp.reload(punk_export_base)
+    imp.reload(punk_export_model)
+else:
+    from . import punk_export_base
+    from . import punk_export_model
 
-def execfile(afile, globalz=None, localz=None):
-    with open(afile, "r") as fh:
-        exec(fh.read(), globalz, localz)
-        
-def include(filename):
-    if os.path.exists(filename): 
-        print("Loading " + filename)
-        execfile(filename)
-    else:
-        print(filename + " doesn't exist")
-
-import sys
-sys.path.insert(0, PUNK_ENGINE_ROOT+"source/blender/punk_exporter")
-
-import punk_export_base
-import punk_export_model
-
-from punk_export_model import *
-#include(PUNK_ENGINE_ROOT+"source/blender/punk_exporter/punk_export_base.py")
-#include(PUNK_ENGINE_ROOT+"source/blender/punk_exporter/punk_export_model.py")
+from .punk_export_model import *
 
 import bpy
 from bpy.props import StringProperty, FloatProperty, BoolProperty, EnumProperty
-
 from bpy_extras.io_utils import (ImportHelper,
-                                 ExportHelper,
-                                 axis_conversion,
-                                 )
-	
+                                ExportHelper,
+                                axis_conversion,
+                                )
+import os
+
 class ExportPunkModel(bpy.types.Operator, ExportHelper):
     'Exports mesh for Punk Engine'
-    bl_idname = "export.punk_model"  
+    bl_idname = "export.punk_model"
     bl_label = "Export PunkEngine Scene"
 
     # ExportHelper Mixin classed uses this
@@ -117,4 +72,4 @@ def unregister():
 if __name__ == "__main__":
     register()
 
-bpy.ops.export.punk_model('INVOKE_DEFAULT')
+#bpy.ops.export.punk_model('INVOKE_DEFAULT')

@@ -1,0 +1,47 @@
+#ifndef _H_PUNK_VIRTUAL_TERRAIN_LOADER
+#define _H_PUNK_VIRTUAL_TERRAIN_LOADER
+
+#include <system/streaming/module.h>
+#include <math/vec2.h>
+
+PUNK_ENGINE_BEGIN
+namespace Attributes
+{
+	class TerrainCell;
+
+	class PUNK_ENGINE_API TerrainLoader : public System::AbstractDataLoader
+	{		
+	public:
+		TerrainLoader(const Core::String& map_name, const Math::ivec2& block);
+		
+		/**
+		*	When load is called based on map name and current block
+		*	filename is deduced. File opens and data is read in internal buffer
+		*/
+		virtual System::StreamingStepResult Load();
+		
+		/**
+		*	On decompress internal buffer data is returned.
+		*	User should free data himself
+		*/
+		virtual System::StreamingStepResult Decompress(void** data, unsigned* size);
+
+		/**
+		*	Destroy do nothing, because data is returned to the user owning
+		*/
+		virtual System::StreamingStepResult Destroy();
+
+		virtual ~TerrainLoader();
+
+	private:		
+		Core::String m_map_name;
+		Math::ivec2 m_block;
+		
+		//	data is loaded here
+		int m_size;
+		void* m_data;
+	};
+}
+PUNK_ENGINE_END
+
+#endif	//	_H_PUNK_VIRTUAL_TERRAIN_LOADER

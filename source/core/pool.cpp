@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string.h>
 #include <stdlib.h>
+#include <string/module.h>
 #include "pool_manager.h"
 #include "pool.h"
 
@@ -9,13 +10,28 @@ namespace Core {
 
     Pool::Pool() {}
 
+#ifdef _DEBUG
+    Pool::Pool(const String &name)
+        : m_name(name) {
+        auto buffer = m_name.ToWchar();
+        wchar_t* type = (wchar_t*)buffer.Data();
+        std::wcout << "Create pool for " << type << std::endl;
+    }
+#endif
+
+#ifdef _NDEBUG
     Pool::~Pool() {
         Clear();
     }
+#endif
 
     void* Pool::Alloc(size_t size) {
         if (m_free.empty()) {
-            std::cout << "Allocation requested for " << size << " bytes" << std::endl;
+#ifdef _DEBUG
+            auto buffer = m_name.ToWchar();
+            wchar_t* type = (wchar_t*)buffer.Data();
+            std::wcout << "Allocation requested for " << type << " " << size << " bytes" << std::endl;
+#endif
             void* result = malloc(size);
             memset(result, 0, size);
             return result;
@@ -31,7 +47,13 @@ namespace Core {
     }
 
     void Pool::Clear() {
-        std::cout << "Clear pool" << std::endl;
+#ifdef _DEBUG
+        auto buffer = m_name.ToWchar();
+        wchar_t* type = (wchar_t*)buffer.Data();
+        std::wcout << L"Clear pool " << type << std::endl;
+#else
+       std::cout << "Clear pool" << std::endl;
+#endif
         for (typename std::deque<void*>::iterator it = m_free.begin(); it != m_free.end(); ++it) {
             free(*it);
         }

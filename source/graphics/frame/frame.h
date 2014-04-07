@@ -4,6 +4,7 @@
 #include <config.h>
 #include <graphics/state/module.h>
 #include <core/poolable.h>
+#include "iframe.h"
 
 PUNK_ENGINE_BEGIN
 namespace Math {
@@ -22,154 +23,154 @@ namespace Graphics
 
 	class Batch;    
 
-    class PUNK_ENGINE_API Frame : public Core::Poolable<Frame>
+    class PUNK_ENGINE_LOCAL Frame : public IFrame//, public Core::Poolable<Frame>
 	{
 	public:
 
         Frame(IRender* driver);
-		~Frame();
+        virtual ~Frame();
 
-        IRender* GetRender();
-        void Submit(IRenderable* value, bool destroy = false);
-		void SetClipSpace(const Math::ClipSpace& value);		
-        const Math::ClipSpace& GetClipSpace() const;
-		void SetLineWidth(float value);
-		void SetPointSize(float value);		
-        void SetBoundingSphere(const Math::BoundingSphere& value);
+        IRender* GetRender() override;
+        void Submit(IRenderable* value, bool destroy = false) override;
+        void SetClipSpace(const Math::ClipSpace& value) override;
+        const Math::ClipSpace& GetClipSpace() const override;
+        void SetLineWidth(float value) override;
+        void SetPointSize(float value) override;
+        void SetBoundingSphere(const Math::BoundingSphere& value) override;
 
         //  MATRIX
-        void SetBoneMatrix(int bone_index, const Math::mat4& value);
-        const Math::mat4& GetBoneMatrix(int bone_index) const;
-        void SetTextureMatrix(const Math::mat4& value);
-        void SetLocalMatrix(const Math::mat4& value);
-        void SetWorldMatrix(const Math::mat4& value);
-        void SetViewMatrix(const Math::mat4& value);
-        void SetProjectionMatrix(const Math::mat4& value);
-        void MultWorldMatrix(const Math::mat4& value);
-        const Math::mat4& GetWorldMatrix() const;
-        const Math::mat4& GetLocalMatrix() const;
-        const Math::mat4& GetViewMatrix() const;
-        const Math::mat4& GetProjectionMatrix() const;
+        void SetBoneMatrix(int bone_index, const Math::mat4& value) override;
+        const Math::mat4& GetBoneMatrix(int bone_index) const override;
+        void SetTextureMatrix(const Math::mat4& value) override;
+        void SetLocalMatrix(const Math::mat4& value) override;
+        void SetWorldMatrix(const Math::mat4& value) override;
+        void SetViewMatrix(const Math::mat4& value) override;
+        void SetProjectionMatrix(const Math::mat4& value) override;
+        void MultWorldMatrix(const Math::mat4& value) override;
+        const Math::mat4& GetWorldMatrix() const override;
+        const Math::mat4& GetLocalMatrix() const override;
+        const Math::mat4& GetViewMatrix() const override;
+        const Math::mat4& GetProjectionMatrix() const override;
 
         //  COLORS
-        void SetDiffuseColor(const Math::vec4& value);
-        void SetDiffuseColor(float r, float g, float b, float a);
-        void SetTextColor(const Math::vec4& value);
-        void SetTextColor(float r, float g, float b, float a);
-        void SetSpecularColor(const Math::vec4& value);
-        const Math::vec4& GetSpecularColor() const;
-        void SetSpecularFactor(float value);
-        void SetAmbientColor(float value);
-        const Math::vec4& GetDiffuseColor() const;
+        void SetDiffuseColor(const Math::vec4& value) override;
+        void SetDiffuseColor(float r, float g, float b, float a) override;
+        void SetTextColor(const Math::vec4& value) override;
+        void SetTextColor(float r, float g, float b, float a) override;
+        void SetSpecularColor(const Math::vec4& value) override;
+        const Math::vec4& GetSpecularColor() const override;
+        void SetSpecularFactor(float value) override;
+        void SetAmbientColor(float value) override;
+        const Math::vec4& GetDiffuseColor() const override;
 
         //  MAPS
-        void SetSpecularMap(ITexture2D* value, int slot);
-        void SetBumpMap(ITexture2D* value, int slot);
-        void SetDiffuseMap(int index, ITexture2D* value, int slot);
-        void SetHeightMap(ITexture2D* value, int slot);
-        void SetNormalMap(ITexture2D* value, int slot);
-        void SetTextMap(ITexture2D* value, int slot);
-        void SetFontMap(ITexture2D* value, int slot);
-        const ITexture2D* GetDiffuseMap(int index) const;
-        const ITexture2D* GetSpecularMap() const;
-        const ITexture2D* GetBumpMap() const;
+        void SetSpecularMap(ITexture2D* value, int slot) override;
+        void SetBumpMap(ITexture2D* value, int slot) override;
+        void SetDiffuseMap(int index, ITexture2D* value, int slot) override;
+        void SetHeightMap(ITexture2D* value, int slot) override;
+        void SetNormalMap(ITexture2D* value, int slot) override;
+        void SetTextMap(ITexture2D* value, int slot) override;
+        void SetFontMap(ITexture2D* value, int slot) override;
+        const ITexture2D* GetDiffuseMap(int index) const override;
+        const ITexture2D* GetSpecularMap() const override;
+        const ITexture2D* GetBumpMap() const override;
 		
-        void CastShadows(bool value);
-		void ReceiveShadow(bool value);
-		void EndRendering();
+        void CastShadows(bool value) override;
+        void ReceiveShadow(bool value) override;
+        void EndRendering() override;
 
-		void EnableBlending(bool value);
-		void EnableDepthTest(bool value);		
-        void EnableDiffuseShading(bool value);
-        void EnableSpecularShading(bool value);
-        //void EnableBumpMapping(bool value);
-		void EnableSkinning(bool value);
-		void EnableWireframe(bool value);
-		void EnableTerrainRendering(bool value);
-		void EnableLighting(bool value);
-        bool IsLightingEnabled() const;
-        void EnableShadows(bool value);
-		void EnableTexturing(bool value);
-		void EnableFontRendering(bool value);        
-        void EnableBoundBoxRendering(bool value);
-        void EnableDepthRendering(bool value);
-        bool IsEnabledBoundingBoxRendering() const;
-        void EnableBoundingSphereRendering(bool value);
-        bool IsEnabledBoundingSphereRendering() const;
-        void EnableNaviMeshRendering(bool value);
-        bool IsEnabledNaviMeshRendering();
+        void EnableBlending(bool value) override;
+        void EnableDepthTest(bool value) override;
+        void EnableDiffuseShading(bool value) override;
+        void EnableSpecularShading(bool value) override;
+        //void EnableBumpMapping(bool value) override;
+        void EnableSkinning(bool value) override;
+        void EnableWireframe(bool value) override;
+        void EnableTerrainRendering(bool value) override;
+        void EnableLighting(bool value) override;
+        bool IsLightingEnabled() const override;
+        void EnableShadows(bool value) override;
+        void EnableTexturing(bool value) override;
+        void EnableFontRendering(bool value) override;
+        void EnableBoundBoxRendering(bool value) override;
+        void EnableDepthRendering(bool value) override;
+        bool IsEnabledBoundingBoxRendering() const override;
+        void EnableBoundingSphereRendering(bool value) override;
+        bool IsEnabledBoundingSphereRendering() const override;
+        void EnableNaviMeshRendering(bool value) override;
+        bool IsEnabledNaviMeshRendering() override;
 
         //  added on 01.05.2013		
-		void SetClearColor(const Math::vec4& value);
-		void SetClearColor(float r, float g, float b, float a);
-		void SetClearDepth(float value);
+        void SetClearColor(const Math::vec4& value) override;
+        void SetClearColor(float r, float g, float b, float a) override;
+        void SetClearDepth(float value) override;
 
-        void SetShadowModel(ShadowModel value);
-        void SetShadowMapSize(const Math::ivec2& value);
-        void SetShadowMapSize(int width, int height);
-        void SetTexture2DArray(ITexture2DArray* value, int slot);
+        void SetShadowModel(ShadowModel value) override;
+        void SetShadowMapSize(const Math::ivec2& value) override;
+        void SetShadowMapSize(int width, int height) override;
+        void SetTexture2DArray(ITexture2DArray* value, int slot) override;
         //  index in current texture 2d array
-        void SetShadowMapIndex(int shadow_map, int index);
-        void SetDiffuseMapIndex(int diffuse_map, int index);
-        void SetNormalMapIndex(int index);
-        void SetShadowMaps(ITexture2DArray* value);
+        void SetShadowMapIndex(int shadow_map, int index) override;
+        void SetDiffuseMapIndex(int diffuse_map, int index) override;
+        void SetNormalMapIndex(int index) override;
+        void SetShadowMaps(ITexture2DArray* value) override;
 
 
-        const Math::vec4 GetClearColor() const;
+        const Math::vec4 GetClearColor() const override;
 
-		void Clear(bool color, bool depth, bool stencil);
+        //void Clear(bool color, bool depth, bool stencil) override;
 
         //  added on 02.05.2013
-		void EnablePerVertexColor(bool value);
+        void EnablePerVertexColor(bool value) override;
 
-		void SetLightModel(LightModel value);
-		LightParameters& Light(int slot);
+        void SetLightModel(LightModel value) override;
+        LightParameters& Light(int slot) override;
 
-		void DrawLine(const Math::vec3& start, const Math::vec3& end);
-        void DrawLine(float x1, float y1, float x2, float y2);
-        void DrawPoint(float x, float y);
-        void DrawPoint(const Math::vec3& v);
-        void DrawPoint(float x, float y, float z);
-        void DrawCircleXY(float x, float y, float z, float r);
-        void DrawCircleXY(const Math::vec3& c, float r);
-        void DrawQuad(float x, float y, float width, float height);
-        void DrawQuad(const Math::Rect& rect);
-        void DrawText2D(float x, float y, const Core::String& value);
-        void DrawText2D(float x, float y, float width, float height, const Core::String& value);
-        void DrawText2D(const Math::vec2& pos, const Core::String& value);
-        void DrawText2D(const Math::vec2& pos, const Math::vec2& size, const Core::String& value);
-        void DrawText3D(float x, float y, float z, const Core::String& value);
-        void DrawText3D(const Math::vec3& pos, const Core::String& value);
-        void DrawAxis(float scale = 10);
+        void DrawLine(const Math::vec3& start, const Math::vec3& end) override;
+        void DrawLine(float x1, float y1, float x2, float y2) override;
+        void DrawPoint(float x, float y) override;
+        void DrawPoint(const Math::vec3& v) override;
+        void DrawPoint(float x, float y, float z) override;
+        void DrawCircleXY(float x, float y, float z, float r) override;
+        //void DrawCircleXY(const Math::vec3& c, float r) override;
+        void DrawQuad(float x, float y, float width, float height) override;
+        void DrawQuad(const Math::Rect& rect) override;
+        void DrawText2D(float x, float y, const Core::String& value) override;
+//        void DrawText2D(float x, float y, float width, float height, const Core::String& value) override;
+//        void DrawText2D(const Math::vec2& pos, const Core::String& value) override;
+        void DrawText2D(const Math::vec2& pos, const Math::vec2& size, const Core::String& value) override;
+//        void DrawText3D(float x, float y, float z, const Core::String& value) override;
+//        void DrawText3D(const Math::vec3& pos, const Core::String& value) override;
+        void DrawAxis(float scale = 10) override;
 
-		void SetBlendColor(const Math::vec4& value);
-		void SetBlendColor(float r, float g, float b, float a);
-		void SetBlendFunc(BlendFunction src, BlendFunction dst);
+        void SetBlendColor(const Math::vec4& value) override;
+        void SetBlendColor(float r, float g, float b, float a) override;
+        void SetBlendFunc(BlendFunction src, BlendFunction dst) override;
 
-		FogDescription& Fog();
-		const FogDescription& Fog() const;
+        FogDescription& Fog() override;
+        const FogDescription& Fog() const override;
 
-		void PushAllState();
-		void PopAllState();
+        void PushAllState() override;
+        void PopAllState() override;
 
-		void PushViewState();
-		void PopViewState();
+        void PushViewState() override;
+        void PopViewState() override;
 
-		void PushLightState();
-		void PopLightState();
+        void PushLightState() override;
+        void PopLightState() override;
 
-		void PushRenderState();
-		void PopRenderState();
+        void PushRenderState() override;
+        void PopRenderState() override;
 
-		void PushBatchState();
-		void PopBatchState();
+        void PushBatchState() override;
+        void PopBatchState() override;
 
-		void PushTextureState();
-		void PopTextureState();
+        void PushTextureState() override;
+        void PopTextureState() override;
 
-        IVideoDriver* GetVideoDriver() const;
+        IVideoDriver* GetVideoDriver() const override;
 
-        const Math::vec2 FindZRange(const Math::mat4& view) const;
+        const Math::vec2 FindZRange(const Math::mat4& view) const override;
 
 	private:
 

@@ -156,10 +156,18 @@ namespace Core {
     }
 
     Buffer String::ToWchar() const {
-        Buffer buffer((impl->size()+1)*sizeof(wchar_t));
-        const wchar_t* data = impl->c_str();
-        buffer.WriteBuffer(data, (impl->size()+1)*sizeof(wchar_t));
-        return buffer;
+        if (impl) {
+            Buffer buffer((impl->size()+1)*sizeof(wchar_t));
+            const wchar_t* data = impl->c_str();
+            buffer.WriteBuffer(data, (impl->size()+1)*sizeof(wchar_t));
+            return buffer;
+        }
+        else {
+            Buffer buffer(sizeof(wchar_t));
+            wchar_t t = 0;
+            buffer.WriteBuffer(&t, sizeof(t));
+            return buffer;
+        }
     }
 
     Buffer String::ToUtf8() const {

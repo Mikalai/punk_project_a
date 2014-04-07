@@ -5,7 +5,7 @@
 PUNK_ENGINE_BEGIN
 namespace Graphics
 {
-    static IRenderContext* g_rc[(int)RenderPolicySet::Count];
+    static IRenderContext* g_rc[(int)RenderPolicySet::End];
 
     IRenderContext* GetRenderContext(RenderPolicySet value) {
         return g_rc[GetIndex(value)];
@@ -22,7 +22,7 @@ namespace Graphics
     namespace OpenGL
     {            
         void DestroyRenderContexts() {
-            for (int i = 0; i < (int)RenderPolicySet::Count; ++i) {
+            for (int i = 0; i < (int)RenderPolicySet::End; ++i) {
                 delete g_rc[i];
                 g_rc[i] = nullptr;
             }

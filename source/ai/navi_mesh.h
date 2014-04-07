@@ -1,17 +1,16 @@
 #ifndef _H_PUNK_AI_NAVI_MESH
 #define _H_PUNK_AI_NAVI_MESH
 
-#include "../config.h"
-#include "../system/aop/aop.h"
-#include "../system/object.h"
-#include "../math/mat4.h"
-#include "../math/vec3.h"
+#include <config.h>
+#include <core/object.h>
+#include <math/mat4.h>
+#include <math/vec3.h>
 
-namespace System { class string; }
+PUNK_ENGINE_BEGIN
+namespace Core { class String; }
+namespace AI {
 
-namespace AI
-{
-    class PUNK_ENGINE_API NaviMesh : public System::Object
+    class PUNK_ENGINE_API NaviMesh : public Core::Object
 	{
 	public:
         typedef std::vector<Math::vec3> Points;
@@ -26,7 +25,7 @@ namespace AI
         void SetTransform(const Math::mat4& value);
         const Math::mat4& GetTranform() const;
 
-		static NaviMesh* CreateFromFile(const System::string& path);
+        static NaviMesh* CreateFromFile(const Core::String& path);
 
         const Math::vec3& GetPoint(int index) const;
 
@@ -37,11 +36,11 @@ namespace AI
         const Points& GetPoints() const;
         const Faces& GetFaces() const;
 
-        void SetName(const System::string& value);
-        const System::string& GetName() const;
+        void SetName(const Core::String& value);
+        const Core::String& GetName() const;
 
 	private:
-        System::string m_name;
+        Core::String m_name;
 		Math::mat4 m_transfrom;
         Points m_points;
         Normals m_normals;
@@ -49,9 +48,7 @@ namespace AI
 
         PUNK_OBJECT(NaviMesh)
 	};
-
-    PUNK_OBJECT_UTIL(NaviMesh)
-
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_AI_NAVI_MESH

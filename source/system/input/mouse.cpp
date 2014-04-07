@@ -26,13 +26,11 @@ namespace System
     Mouse::Mouse()
         : impl(new __private::MouseImpl)
 	{
-        CREATE_INSTANCE(Mouse);
         GetDefaultLogger()->Info("Mouse created");
 	}
 
     Mouse::~Mouse()
     {
-        DESTROY_INSTANCE();
         delete impl;
         impl = nullptr;        
         GetDefaultLogger()->Info("Mouse destroyed");

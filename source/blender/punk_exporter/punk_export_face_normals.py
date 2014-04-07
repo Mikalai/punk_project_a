@@ -1,6 +1,8 @@
 import bpy
 import copy
 from copy import deepcopy
+from . import punk_export_base
+from .punk_export_base import *
 
 #
 #   eports face normals
@@ -15,3 +17,4 @@ def export_face_normals(f, mesh):
     end_block(f)
     return
 
+punk_register_export_func("FACE_NORMALS", export_face_normals)

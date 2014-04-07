@@ -11,5 +11,6 @@
 #include "state/module.h"
 #include "shaders/module.h"
 #include "frame/module.h"
+#include "texture/module.h"
 
 #endif  //  _H_PUNK_GRAPHICS

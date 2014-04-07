@@ -1218,7 +1218,7 @@ png_image_read_init(png_imagep image)
    return png_image_error(image, "png_image_read: opaque pointer not NULL");
 }
 
-/* Utility to find the base format of a PNG file from a png_struct. */
+/* Loader to find the base format of a PNG file from a png_struct. */
 static png_uint_32
 png_image_format(png_structrp png_ptr)
 {
@@ -1467,7 +1467,7 @@ int PNGAPI png_image_begin_read_from_memory(png_imagep image,
    return 0;
 }
 
-/* Utility function to skip chunks that are not used by the simplified image
+/* Loader function to skip chunks that are not used by the simplified image
  * read functions and an appropriate macro to call it.
  */
 #ifdef PNG_HANDLE_AS_UNKNOWN_SUPPORTED
@@ -1520,7 +1520,7 @@ png_image_skip_unused_chunks(png_structrp png_ptr)
  */
 #define PNG_DIV51(v8) (((v8) * 5 + 130) >> 8)
 
-/* Utility functions to make particular color-maps */
+/* Loader functions to make particular color-maps */
 static void
 set_file_encoding(png_image_read_control *display)
 {

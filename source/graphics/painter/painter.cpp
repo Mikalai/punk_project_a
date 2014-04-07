@@ -1,9 +1,10 @@
 #include "painter.h"
 #include "brush.h"
 #include "pen.h"
-#include "../../math/mat3.h"
+#include <math/mat3.h>
 
-namespace Gpu
+PUNK_ENGINE_BEGIN
+namespace Graphics
 {
 	struct Painter::PainterImpl
 	{
@@ -81,12 +82,12 @@ namespace Gpu
             (void)rect;
 		}
 
-		void DrawImage(float x, float y, const ImageModule::Image& image)
+        void DrawImage(float x, float y, const Image::Image& image)
 		{
             (void)x; (void)y; (void)image;
 		}
 
-		void DrawImage(const Math::vec2& point, const ImageModule::Image& image)
+        void DrawImage(const Math::vec2& point, const Image::Image& image)
 		{
             (void)point; (void)image;
 		}        
@@ -106,7 +107,7 @@ namespace Gpu
             (void)x; (void)y; (void)x_r; (void)y_r;
 		}
 
-		void DrawText(float x, float y, const System::string& text)
+		void DrawText(float x, float y, const Core::String& text)
 		{
             (void)x; (void)y; (void)text;
 		}
@@ -280,12 +281,12 @@ namespace Gpu
 		impl->DrawRect(rect);
 	}
 
-	void Painter::DrawImage(float x, float y, const ImageModule::Image& image)
+    void Painter::DrawImage(float x, float y, const Image::Image& image)
 	{
 		impl->DrawImage(x, y, image);
 	}
 
-	void Painter::DrawImage(const Math::vec2& point, const ImageModule::Image& image)
+    void Painter::DrawImage(const Math::vec2& point, const Image::Image& image)
 	{
 		impl->DrawImage(point, image);
 	}
@@ -305,7 +306,7 @@ namespace Gpu
 		impl->DrawRoundedRect(x, y, x_r, y_r);
 	}
 
-	void Painter::DrawText(float x, float y, const System::string& text)
+	void Painter::DrawText(float x, float y, const Core::String& text)
 	{
         impl->DrawText(x, y, text);
 	}
@@ -395,3 +396,4 @@ namespace Gpu
 		return impl->GetBrush();
 	}
 }
+PUNK_ENGINE_END

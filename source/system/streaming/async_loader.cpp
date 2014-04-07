@@ -8,12 +8,10 @@ namespace System
 
     AsyncLoader::AsyncLoader()
     {
-        CREATE_INSTANCE(AsyncLoader);
     }
 
     AsyncLoader::~AsyncLoader()
     {
-        DESTROY_INSTANCE();
     }
 }
 PUNK_ENGINE_END

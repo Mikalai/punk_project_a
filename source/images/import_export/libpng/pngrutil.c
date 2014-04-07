@@ -2696,7 +2696,7 @@ png_handle_iTXt(png_structrp png_ptr, png_inforp info_ptr, png_uint_32 length)
 #endif
 
 #ifdef PNG_READ_UNKNOWN_CHUNKS_SUPPORTED
-/* Utility function for png_handle_unknown; set up png_ptr::unknown_chunk */
+/* Loader function for png_handle_unknown; set up png_ptr::unknown_chunk */
 static int
 png_cache_unknown_chunk(png_structrp png_ptr, png_uint_32 length)
 {
@@ -3142,7 +3142,7 @@ png_combine_row(png_const_structrp png_ptr, png_bytep dp, int display)
             B_MASKx(p,5,d,s) + B_MASKx(p,6,d,s) + B_MASKx(p,7,d,s), d)
 
 #if PNG_USE_COMPILE_TIME_MASKS
-         /* Utility macros to construct all the masks for a depth/swap
+         /* Loader macros to construct all the masks for a depth/swap
           * combination.  The 's' parameter says whether the format is PNG
           * (big endian bytes) or not.  Only the three odd-numbered passes are
           * required for the display/block algorithm.

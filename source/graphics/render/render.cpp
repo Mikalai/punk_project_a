@@ -1,10 +1,11 @@
-#include "render.h"
-#include "render_queue.h"
-#include "render_batch.h"
 #include <math/vec2.h>
 #include <math/mat4.h>
 #include <graphics/frame_buffer/module.h>
 #include <graphics/render/render_context/irender_context.h>
+#include <system/logger/module.h>
+#include "render.h"
+#include "render_queue.h"
+#include "render_batch.h"
 
 PUNK_ENGINE_BEGIN
 namespace Graphics {
@@ -31,15 +32,22 @@ namespace Graphics {
 
     void Render::AsyncBeginRendering(IFrameBuffer *buffer)
     {
+#ifdef _DEBUG
+        System::ILogger* log = System::GetDefaultLogger();
+        log->Info("Begin AsyncBeginRendering");
+#endif
         System::ThreadMutexLock lock(m_queue_mutex);
         std::swap(*m_front, *m_back);
-        buffer->Bind();
         for (int i = 0; i < GetIndex(RenderPolicySet::End); ++i) {
             RenderPolicySet rc_code = (RenderPolicySet)i;
             IRenderContext *rc = GetRenderContext(rc_code);
             if (!rc)
                 continue;
-            auto& batches = (*m_front)->GetBatches(rc_code);
+            auto& batches = (*m_front)->GetBatches(rc_code);            
+#ifdef _DEBUG
+            if (!batches.empty())
+                log->Info(L"Render " + RenderPolicySetToString(rc_code));
+#endif
             for (Batch* batch : batches) {
                 IRenderable* renderable = batch->m_renderable;
                 CoreState* state = batch->m_state;
@@ -50,9 +58,11 @@ namespace Graphics {
                 renderable->Unbind();
                 rc->End();
             }
-        }
-        buffer->Unbind();
+        }        
         (*m_front)->Clear();
+#ifdef _DEBUG
+        System::GetDefaultLogger()->Info("End AsyncBeginRendering");
+#endif
     }
 
     void Render::WaitEndRendering() {
