@@ -53,6 +53,10 @@ namespace AI
         return m_points;
     }
 
+    const NaviMesh::Normals& NaviMesh::GetNormals() const {
+        return m_normals;
+    }
+
     const NaviMesh::Faces& NaviMesh::GetFaces() const
     {
         return m_faces;

@@ -7,7 +7,7 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-    class DirectionalLight : public Light
+    class PUNK_ENGINE_API DirectionalLight : public Light
     {
     public:
         DirectionalLight();

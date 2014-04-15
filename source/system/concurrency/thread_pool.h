@@ -31,7 +31,7 @@ namespace System {
 		ThreadPool(int threads_count = 4);
 		~ThreadPool();
 
-        void EnqueueWorkItem(WorkItem* job, void* data = nullptr);
+        void EnqueueWorkItem(WorkItem* job, void* data = nullptr, bool auto_del = false);
 
 		void Lock();
 		void Unlock();

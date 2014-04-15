@@ -1,4 +1,5 @@
 #include <string.h>
+#include <utility>
 #include "buffer.h"
 #include "string"
 #include "string_list.h"
@@ -168,6 +169,11 @@ namespace Core {
             buffer.WriteBuffer(&t, sizeof(t));
             return buffer;
         }
+    }
+
+    void String::ToWchar(wchar_t* buffer, int size) const {
+        const wchar_t* data = impl->c_str();
+        memcpy(buffer, data, std::min(size, (int)((impl->size()+1)*sizeof(wchar_t))));
     }
 
     Buffer String::ToUtf8() const {
@@ -770,6 +776,10 @@ namespace Core {
 
     bool operator < (const String& l, const String& r) {
         return *l.impl < *r.impl;
+    }
+
+    String* String::Clone() const {
+        return new String(*this);
     }
 }/**/
 PUNK_ENGINE_END

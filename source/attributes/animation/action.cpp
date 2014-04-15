@@ -13,7 +13,7 @@ namespace Attributes
     Action::~Action()
     {}
 
-    void Action::SetName(Core::String &value)
+    void Action::SetName(const Core::String &value)
     {
         m_name = value;
     }

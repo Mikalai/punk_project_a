@@ -1,5 +1,14 @@
+#include <string/module.h>
 #include "io_string.h"
 
-io_string::io_string()
-{
+PUNK_ENGINE_BEGIN
+namespace Loader {
+    void SaveString(Core::Buffer* buffer, const Core::String& value) {
+        buffer->WriteString(value);
+    }
+
+    void LoadString(Core::Buffer* buffer, Core::String& value) {
+        value = buffer->ReadString();
+    }
 }
+PUNK_ENGINE_END

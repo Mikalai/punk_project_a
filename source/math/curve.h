@@ -16,8 +16,11 @@ namespace Punk {
 				Curve();
 
 				void AddSpline(const Spline& value);
+                void AddSplines(const Splines& value);
 				float GetTotalLength() const;
 				const Math::vec3 At(float t);
+                const Splines& GetSplines() const;
+                void Clear();
 
 			private:
 				Splines m_splines;

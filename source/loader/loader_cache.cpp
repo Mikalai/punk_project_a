@@ -5,5 +5,9 @@ namespace Loader {
     LoaderCache::LoaderCache()
     {
     }
+
+    LoaderCache* LoaderCache::Clone() const {
+        return new LoaderCache(*this);
+    }
 }
 PUNK_ENGINE_END

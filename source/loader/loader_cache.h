@@ -14,6 +14,7 @@ namespace Loader {
     {
     public:
         LoaderCache();
+        LoaderCache* Clone() const;
         AsyncParserTask* m_task {nullptr};
         Scene::INode* m_parent {nullptr};
         bool m_delete{nullptr};

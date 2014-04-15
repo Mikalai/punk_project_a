@@ -5,6 +5,12 @@
 PUNK_ENGINE_BEGIN
 namespace System
 {
+    ThreadPool g_thread_pool;
+
+    PUNK_ENGINE_API ThreadPool* GetThreadPool() {
+        return &g_thread_pool;
+    }
+
     class ThreadPoolWorkItem : public WorkItem{
     public:
         void Run(void* data) override {
@@ -20,6 +26,8 @@ namespace System
                         return;
                     thread_data.item->Run(thread_data.data);
                     thread_data.item->Complete();
+                    if (thread_data.delete_item)
+                        delete thread_data.item;
                 }
             }
             catch (...)
@@ -64,7 +72,7 @@ namespace System
             m_monitor.Wait();
 
 		if (m_jobs.empty())
-            return Thread::ThreadData{};
+            return Thread::ThreadData{nullptr, nullptr, false};
 
         Thread::ThreadData data = m_jobs.front();
 		m_jobs.pop();
@@ -72,10 +80,10 @@ namespace System
         return data;
 	}
 
-    void ThreadPool::EnqueueWorkItem(WorkItem *job, void* data)
+    void ThreadPool::EnqueueWorkItem(WorkItem *job, void* data, bool auto_del)
 	{
         m_monitor.Lock();
-        Thread::ThreadData thread_data{job, data};
+        Thread::ThreadData thread_data{job, data, auto_del};
         m_jobs.push(thread_data);
         m_monitor.Pulse();
         m_monitor.Unlock();

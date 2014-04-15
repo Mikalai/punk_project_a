@@ -52,6 +52,7 @@ namespace Core
         char* Data();
         Buffer ToAscii() const;
         Buffer ToWchar() const;
+        void ToWchar(wchar_t* buffer, int size) const;
         Buffer ToUtf8() const;
         int ToInt32() const;
         int ToInt32FromHex() const;
@@ -89,6 +90,8 @@ namespace Core
         static const String Convert(bool value);
         static const String Convert(void* value);
         static const String FromUtf8(const char* buffer);
+
+        String* Clone() const;
 
         __private::StringImpl* impl;
     };

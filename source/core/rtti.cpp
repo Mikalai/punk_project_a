@@ -37,7 +37,7 @@ namespace Punk {
                 return impl->m_name;
             }
 
-            unsigned Rtti::GetId() const {
+            std::uint64_t Rtti::GetId() const {
                 return impl->m_id;
             }
 

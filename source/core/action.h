@@ -103,7 +103,16 @@ namespace Core {
         typedef void (*Function)(Types...);
 
     private:
-        typedef std::vector<Action*> MethodCollection;
+        struct ActionSlotData {
+            ActionSlotData(Action* action, bool del)
+                : action{action}
+                , auto_delete{del} {}
+
+            Action* action {nullptr};
+            bool auto_delete {false};
+        };
+
+        typedef std::vector<ActionSlotData> MethodCollection;
         typedef std::vector<Function> FunctionCollection;
 
     public:
@@ -117,13 +126,13 @@ namespace Core {
 
             for (typename MethodCollection::iterator it = m_methods.begin(); it != m_methods.end(); ++it)
             {
-                (*(*it))(value...);
+                (*(*it).action)(value...);
             }
         }
 
-        void Add(Action* action)
+        void Add(Action* action, bool auto_delete = false)
         {
-            m_methods.push_back(action);
+            m_methods.push_back(ActionSlotData{action, auto_delete});
         }
 
         void Add(Function f)
@@ -133,7 +142,14 @@ namespace Core {
 
         void Remove(Action* action)
         {
-            typename MethodCollection::iterator it = std::find(m_methods.begin(), m_methods.end(), action);
+            typename MethodCollection::iterator it = std::find_if(
+                        m_methods.begin(),
+                        m_methods.end(),
+                        [&action] (const ActionSlotData& slot) -> bool
+            {
+                return slot.action == action;
+            });
+
             if (it == m_methods.end())
                 return;
             m_methods.erase(it);

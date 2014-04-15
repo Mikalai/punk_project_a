@@ -26,7 +26,8 @@ HEADERS += \
     ../../../source/scene/inode.h \
     ../../../source/scene/iscene_graph.h \
     ../../../source/scene/igraph_processor.h \
-    ../../../source/scene/scene_processor.h
+    ../../../source/scene/scene_processor.h \
+    ../../../source/scene/iscene_processor.h
 
 SOURCES += \
     ../../../source/scene/node.cpp \

@@ -8,7 +8,7 @@ CONFIG += dll
 TEMPLATE = lib
 TARGET = punk_loader
 
-LIBS += -L$${LIBDIR} -lpunk_error -lpunk_string -lpunk_core -lpunk_math -lpunk_system
+LIBS += -L$${LIBDIR} -lpunk_error -lpunk_string -lpunk_core -lpunk_math -lpunk_system -lpunk_attributes -lpunk_ai -lpunk_scene
 
 INCLUDEPATH += ../../../source
 

@@ -1,6 +1,6 @@
 #include <deque>
 #include <core/object.h>
-#include <loader/parser/parser.h>
+#include <loader/parser/parse_punk_file.h>
 #include "async_parser.h"
 
 PUNK_ENGINE_BEGIN
@@ -13,6 +13,7 @@ namespace Loader
             Core::Object* object = ParsePunkFile(Path());
             SetResult(object);
             State(AsyncParserTask::AsyncSuccess);
+            OnComplete(this);
         }
         catch (...)
         {
@@ -20,12 +21,17 @@ namespace Loader
         }
     }
 
-    AsyncParserTask::AsyncParserTask(const Core::String& path)
+    AsyncParserTask::AsyncParserTask(Scene::INode* node, const Core::String& path)
         : m_object(nullptr)
         , m_state(AsyncLoading)
         , m_path(path)
+        , m_node{node}
     {
         System::GetThreadPool()->EnqueueWorkItem(this);
+    }
+
+    Scene::INode* AsyncParserTask::GetNode() const {
+        return m_node;
     }
 
     AsyncParserTask::~AsyncParserTask()
@@ -60,45 +66,6 @@ namespace Loader
     const Core::String& AsyncParserTask::Path() const
     {
         return m_path;
-    }
-
-    AsyncParser::AsyncParser()
-    {
-        m_parse_thread.Create(ParseThread, this);
-        m_parse_thread.Resume();
-    }
-
-    AsyncParser::~AsyncParser()
-    {
-        Terminate();
-        m_parse_thread.Join();
-    }
-
-    void AsyncParser::Add(AsyncParserTask* task)
-    {
-        m_parse_tasks_monitor.Lock();
-        m_tasks.push_back(task);
-        m_parse_tasks_monitor.Pulse();
-        m_parse_tasks_monitor.Unlock();
-    }
-
-    AsyncParserTask* AsyncParser::Next()
-    {
-        m_parse_tasks_monitor.Lock();
-        while (m_tasks.empty())
-            m_parse_tasks_monitor.Wait();
-        AsyncParserTask* task = m_tasks.front();
-        m_tasks.pop_front();
-        m_parse_tasks_monitor.Unlock();
-        return task;
-    }
-
-    void AsyncParser::Terminate()
-    {
-        m_parse_tasks_monitor.Lock();
-        m_tasks.push_front(&g_termination_task);
-        m_parse_tasks_monitor.Unlock();
-        m_parse_tasks_monitor.Pulse();
     }
 }
 PUNK_ENGINE_END

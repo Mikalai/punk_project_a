@@ -6,7 +6,7 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-    class BoneAnimation : public Animation
+    class PUNK_ENGINE_API BoneAnimation : public Animation
 	{
 	public:
 		BoneAnimation();

@@ -24,7 +24,7 @@ namespace Attributes
 		void SetEndFrame(const int frame) { m_end_frame = frame; }
 		void SetStartFrame(int frame) { m_start_frame = frame; }
 
-        void SetName(Core::String& value);
+        void SetName(const Core::String& value);
         const Core::String& GetName() const;
 
 	private:

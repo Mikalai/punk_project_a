@@ -16,6 +16,18 @@ namespace Punk {
 				}
 			}
 
+            void Curve::AddSplines(const Splines &value) {
+                m_splines.insert(m_splines.end(), value.begin(), value.end());
+                m_total_length = 0;
+                for (Spline& s : m_splines) {
+                    m_total_length += s.GetTotalLength();
+                }
+            }
+
+            auto Curve::GetSplines() const -> const Splines& {
+                return m_splines;
+            }
+
 			const Math::vec3 Curve::At(float t) {
 				//  fine spline
 				float cur_t = 0;
@@ -41,6 +53,11 @@ namespace Punk {
 			float Curve::GetTotalLength() const {
 				return m_total_length;
 			}			
+
+            void Curve::Clear() {
+                m_total_length = 0;
+                m_splines.clear();
+            }
 		}
 	}
 }

@@ -8,6 +8,7 @@
 #include "armature_animation_mixer.h"
 #include "bone_animation.h"
 #include "object_animation.h"
+#include "object_animation.h"
 #include "object_animation_mixer.h"
 #include "action_male_walk.h"
 

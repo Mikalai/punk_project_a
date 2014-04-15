@@ -83,7 +83,7 @@ namespace Scene {
 
     template<class T>
     inline IAttribute* Attribute<T>::Clone() const {
-        Attribute<T>* a{new Attribute<T>{m_name, new T(*m_data)}};
+        Attribute<T>* a{new Attribute<T>{m_name, m_data->Clone()}};
         return a;
     }
 }

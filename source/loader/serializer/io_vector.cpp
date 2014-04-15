@@ -32,12 +32,22 @@ namespace Loader {
             value[i] = buffer->ReadReal32();
     }
 
-    PUNK_ENGINE_API void SaveVector4f(Core::Buffer* buffer, const Math::vec4& value) {
+    PUNK_ENGINE_API void SaveVector3i(Core::Buffer* buffer, const Math::ivec3& value) {
         for (int i = 0; i < 3; ++i)
+            buffer->WriteSigned32(value[i]);
+    }
+
+    PUNK_ENGINE_API void LoadVector3i(Core::Buffer* buffer, Math::ivec3& value) {
+        for (int i = 0; i < 3; ++i)
+            value[i] = buffer->ReadSigned32();
+    }
+
+    PUNK_ENGINE_API void SaveVector4f(Core::Buffer* buffer, const Math::vec4& value) {
+        for (int i = 0; i < 4; ++i)
             buffer->WriteReal32(value[i]);
     }
 
-    PUNK_ENGINE_API void LoadVector3f(Core::Buffer* buffer, Math::vec4& value) {
+    PUNK_ENGINE_API void LoadVector4f(Core::Buffer* buffer, Math::vec4& value) {
         for (int i = 0; i < 4; ++i)
             value[i] = buffer->ReadReal32();
     }

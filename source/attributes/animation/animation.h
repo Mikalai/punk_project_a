@@ -17,6 +17,7 @@ namespace Attributes
         Core::String m_name;
 	public:
 		Animation();
+        virtual ~Animation();
 		void AddPositionKey(int frame, Math::vec3& position);
 		void AddRotationKey(int frame, Math::quat& rotation);
 		

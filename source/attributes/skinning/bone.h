@@ -40,6 +40,8 @@ namespace Attributes
 		const BoneName& GetParentName() const { return m_parent_name; }
 		const Bone* GetParent() const;
 		const Math::mat4 GetWorldMatrix() const;		
+        void SetWorldMatrix(const Math::mat4& value);
+
 		int GetIndex() const;
 		void SetIndex(int index);
 
@@ -52,9 +54,9 @@ namespace Attributes
 		const std::vector<Bone*>& GetChildren() const { return m_children; }
 		Bone* Find(const Core::String& name);
 
-	private:
+        void Clear();
 
-		void Clear();
+	private:		
 
 		int m_index;
 		Bone*				m_parent;

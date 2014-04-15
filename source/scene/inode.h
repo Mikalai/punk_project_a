@@ -4,11 +4,15 @@
 #include <memory>
 #include <config.h>
 #include <cstdint>
+#include <core/action.h>
 #include "attribute.h"
 #include "node_state.h"
 
 PUNK_ENGINE_BEGIN
+namespace Core { class Rtti; }
 namespace Scene {
+
+    class ISceneGraph;
 
     class INode {
     public:
@@ -28,15 +32,38 @@ namespace Scene {
         virtual INode* FindChild(IAttribute* attribute, bool depth) = 0;
         virtual void AddRef() = 0;
         virtual void Release() = 0;
+        virtual void Updated(const Core::String& attribute) = 0;
+        virtual void OnUpdate(Core::Action<const Core::String&>* action) = 0;        
+        virtual ISceneGraph* GetSceneGraph() = 0;
+
+        ///
+        /// \brief MarkToDelete
+        /// Decrease internal counter
+        ///
+        virtual void MarkToDelete() = 0;
+
+        ///
+        /// \brief AskToDelete
+        /// Increase internal counter
+        ///
+        virtual void AskToDelete() = 0;
+
+        ///
+        /// \brief CanDelete
+        /// \return true when internal counter is zero
+        ///
+        virtual bool CanDelete() = 0;
 
         template<class T>
         T* Get(const Core::String& name) {
-            return GetAttribute(name, typeid(T).hash_code())->Get<T>();
+            auto attribute = GetAttribute(name, typeid(T).hash_code());
+            return attribute ? attribute->Get<T>() : nullptr;
         }
 
         template<class T>
         const T* Get(const Core::String& name) const {
-            return GetAttribute(name, typeid(T).hash_code())->Get<T>();
+            auto attribute = GetAttribute(name, typeid(T).hash_code());
+            return attribute ? attribute->Get<T>() : nullptr;
         }
 
         template<class T>
@@ -48,12 +75,23 @@ namespace Scene {
         void Set(Attribute<T> *value) {
             SetAttribute(value);
         }
+
+        template<class T>
+        void Set(const Core::String& name, T* value) {
+            SetAttribute(new Attribute<T>(name, value, true));
+        }
+
+        template<class T>
+        void Set(const Core::String &name, T value) {
+            SetAttribute(new Attribute<T>(name, new T(value), true));
+        }
     };
 
     inline INode::~INode() {}
 
     using INodeUniquePtr = std::unique_ptr<INode, void (*)(INode*)>;
 
+    extern "C" PUNK_ENGINE_API INodeUniquePtr CreateRootNode(ISceneGraph* grap);
     extern "C" PUNK_ENGINE_API INodeUniquePtr CreateNode(INode* parent);
     extern "C" PUNK_ENGINE_API void DestroyNode(INode* node);
 }

@@ -1,25 +1,48 @@
+#include <attributes/water/river.h>
+#include "io_static_geometry.h"
+#include "io_string.h"
+#include "io_vector.h"
+#include "io_object.h"
 #include "io_river.h"
 
-void SaveRiver(Core::Buffer *buffer, const Core::Object *o)
-{
-    System::SaveObject(buffer, o);
-    const River* r = Cast<const River*>(o);
-    System::SaveString(buffer, r->m_filename);
-    System::SaveString(buffer, r->m_name);
-    Math::SaveVector3f(buffer, r->m_position);
-    Math::SaveVector3f(buffer, r->m_flow_direction);
-    buffer->WriteReal32(r->m_flow_speed);
-    System::Factory::Save(buffer, r->m_geom);
-}
+PUNK_ENGINE_BEGIN
+namespace Loader {
+    void SaveRiver(Core::Buffer *buffer, const Core::Object *o)
+    {
+        SaveObject(buffer, o);
+        const Attributes::River* r = Cast<const Attributes::River*>(o);
+        SaveString(buffer, r->GetStaticMeshFilename());
+        SaveString(buffer, r->GetName());
+        SaveVector3f(buffer, r->GetStreamPosition());
+        SaveVector3f(buffer, r->GetFlowDirection());
+        buffer->WriteReal32(r->GetFlowSpeed());
+        SaveStaticGeometry(buffer, r->GetGeometry());
+    }
 
-void LoadRiver(Core::Buffer *buffer, Core::Object *o)
-{
-    System::LoadObject(buffer, o);
-    River* r = Cast<River*>(o);
-    System::LoadString(buffer, r->m_filename);
-    System::LoadString(buffer, r->m_name);
-    Math::LoadVector3f(buffer, r->m_position);
-    Math::LoadVector3f(buffer, r->m_flow_direction);
-    r->m_flow_speed = buffer->ReadReal32();
-    r->m_geom = Cast<StaticGeometry*>(System::Factory::Load(buffer));
+    void LoadRiver(Core::Buffer *buffer, Core::Object *o)
+    {
+        LoadObject(buffer, o);
+        Attributes::River* r = Cast<Attributes::River*>(o);
+        Core::String filename;
+        LoadString(buffer, filename);
+        r->SetStaticMeshFilename(filename);
+
+        Core::String name;
+        LoadString(buffer, name);
+        r->SetName(name);
+
+        Math::vec3 position;
+        LoadVector3f(buffer, position);
+        r->SetStreamPosition(position);
+
+        Math::vec3 dir;
+        LoadVector3f(buffer, dir);
+        r->SetFlowDirection(dir);
+
+        r->SetFlowSpeed(buffer->ReadReal32());
+        std::unique_ptr<Attributes::StaticGeometry> geom(new Attributes::StaticGeometry);
+        LoadStaticGeometry(buffer, geom.get());
+        r->SetGeometry(geom.release());
+    }
 }
+PUNK_ENGINE_END

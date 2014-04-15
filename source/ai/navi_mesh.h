@@ -35,6 +35,7 @@ namespace AI {
 
         const Points& GetPoints() const;
         const Faces& GetFaces() const;
+        const Normals& GetNormals() const;
 
         void SetName(const Core::String& value);
         const Core::String& GetName() const;

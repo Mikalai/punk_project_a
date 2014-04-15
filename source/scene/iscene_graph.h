@@ -1,6 +1,7 @@
 #ifndef ISCENE_GRAPH_H
 #define ISCENE_GRAPH_H
 
+#include <core/action.h>
 #include <memory>
 #include <config.h>
 
@@ -18,6 +19,10 @@ namespace Scene {
         virtual INode* GetRoot() = 0;
         virtual const INode* GetRoot() const = 0;
         virtual void SetRoot(INode* node) = 0;
+        virtual void AddNodeAddedAction(Core::ActionBase<INode*, INode*>* value) = 0;
+        virtual void AddNodeRemovedAction(Core::ActionBase<INode*, INode*>* value) = 0;
+        virtual void OnNodeAdded(INode* parent, INode* child) = 0;
+        virtual void OnNodeRemoved(INode* parent, INode* child) = 0;
     };
 
     inline ISceneGraph::~ISceneGraph() {}

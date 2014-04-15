@@ -6,7 +6,7 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-	class ObjectAnimation : public Animation
+    class PUNK_ENGINE_API ObjectAnimation : public Animation
 	{
 	public:
 		virtual ~ObjectAnimation();

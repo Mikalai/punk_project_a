@@ -11,7 +11,7 @@ namespace Utility {
 
 namespace Attributes
 {
-    class River : public Core::Object
+    class PUNK_ENGINE_API River : public Core::Object
     {
     public:
         River();

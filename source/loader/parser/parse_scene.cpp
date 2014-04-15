@@ -26,6 +26,7 @@ namespace Loader
                 throw Error::LoaderException(L"Unexpected keyword " + word);
             }
         }
+        return false;
     }
 }
 PUNK_ENGINE_END

@@ -2,10 +2,12 @@
 #define _H_PUNK_AI_NAVI_TRIANGLE
 
 #include <vector>
-#include "../config.h"
-#include "../string/string.h"
+#include <config.h>
+#include <string/string.h>
 
-namespace System { class Object; }
+
+PUNK_ENGINE_BEGIN
+namespace Core { class Object; }
 
 namespace AI
 {
@@ -37,5 +39,7 @@ namespace AI
 		ObjectsCollection m_collection;
 	};
 }
+PUNK_ENGINE_END
+
 
 #endif	//	_H_PUNK_AI_NAVI_TRIANGLE

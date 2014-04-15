@@ -22,7 +22,7 @@ namespace Punk {
                 Rtti(const String& name, std::uint64_t uid, std::initializer_list<const Rtti*> parents);
                 ~Rtti();
                 const String& GetName() const;
-                unsigned GetId() const;
+                std::uint64_t GetId() const;
                 std::size_t GetParentsCount() const;
                 const Rtti* GetParent(std::size_t index) const;
                 bool IsEqual(const Rtti* value) const;

@@ -83,6 +83,10 @@ namespace Attributes
 		return m_global_matrix;
 	}
 
+    void Bone::SetWorldMatrix(const Math::mat4 &value) {
+        m_global_matrix = value;
+    }
+
 	const Core::String& Bone::GetName() const
 	{
 		return m_name;

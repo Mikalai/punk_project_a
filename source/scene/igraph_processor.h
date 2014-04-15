@@ -5,19 +5,34 @@
 
 PUNK_ENGINE_BEGIN
 namespace Scene {
+
     class ISceneGraph;
     class IGraphProcessor {
     public:
-        virtual void Initialize(ISceneGraph* graph) = 0;
+        ///
+        /// \brief Initialize
+        /// \param graph
+        /// Common graph processor stuff
+        ///
+        virtual void SetGraph(ISceneGraph* graph) = 0;
 
-        /**
-     * @brief Update process internal structures, doesn't need sync
-     * @param dt_ms
-     */
+        ///
+        /// \brief BeginUpdate
+        /// \param dt_ms
+        /// Control internal processing thread
+        ///
         virtual void BeginUpdate(int dt_ms) = 0;
+        virtual void FinishUpdate() = 0;
+        virtual void WaitUpdateStart() = 0;
         virtual void WaitUpdateFinish() = 0;
 
-        virtual void Destroy() = 0;
+        ///
+        /// \brief StartProcessing
+        /// Control processor state
+        ///
+        virtual void StartProcessing() = 0;
+        virtual void StopProcessing() = 0;
+        virtual void WaitProcessingComplete() = 0;
     };
 }
 PUNK_ENGINE_END

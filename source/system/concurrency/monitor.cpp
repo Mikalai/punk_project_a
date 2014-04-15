@@ -19,7 +19,6 @@ struct InitCnd {
         WakeConditionVariable = (VOID (WINAPI *)(PCONDITION_VARIABLE))GetProcAddress(h, "WakeConditionVariable");
     }
 };
-InitCnd g_init_cnd;
 
 #endif
 
@@ -29,6 +28,7 @@ namespace System
     Monitor::Monitor()
     {
 #ifdef _WIN32
+        static InitCnd g_init_cnd;
         InitializeCriticalSection(&m_mutex);
         InitializeConditionVariable(&m_conditional_variable);
 #elif defined __gnu_linux__

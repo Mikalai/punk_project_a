@@ -32,6 +32,6 @@ punk_font.depends = punk_system punk_error punk_string punk_core
 punk_image.depends = punk_error punk_string punk_system
 punk_gui.depends = punk_error punk_string punk_system punk_core punk_image punk_math
 punk_physics = punk_error punk_string punk_core punk_math
-punk_scene = punk_string punk_core punk_math punk_system punk_font punk_image
 punk_attributes = punk_string punk_core punk_math punk_system punk_font punk_image punk_scene
+punk_scene = punk_string punk_core punk_math punk_system punk_font punk_image punk_attributes
 punk_loader = punk_string punk_core punk_math punk_system punk_font punk_image punk_scene punk_attributes

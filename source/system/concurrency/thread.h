@@ -29,6 +29,7 @@ namespace System {
         struct ThreadData {
             WorkItem* item;
             void* data;
+            bool delete_item;
         };
 
     private:

@@ -9,11 +9,11 @@
 #include <scene/module.h>
 #include <loader/module.h>
 
-using Punk::Engine;
+using namespace Punk::Engine;
 
 int main() {
-    Punk::Engine::Scene::ISceneGraph* scene = Punk::Engine::Scene::CreateSceneFromFile("c:\\Users\\mikal_000\\SkyDrive\\projects\\game\\dev\\punk_project_a\\data\\maps\\map1\\level_1.pmd");
-
-    Loader::LoaderGraphProcessor proc = new Loader::LoaderGraphProcessor;
-    proc->Initialize(scene);
+    Scene::ISceneGraphUniquePtr scene = Punk::Engine::Scene::CreateSceneFromFile("c:\\Projects\\game\\dev\\punk_project_a\\data\\maps\\map1\\level_1.pmd");
+    Loader::LoaderGraphProcessor* proc = new Loader::LoaderGraphProcessor;
+    Scene::i
+    proc->Initialize(scene.get());
 }

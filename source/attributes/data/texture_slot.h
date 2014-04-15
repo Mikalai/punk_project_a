@@ -15,7 +15,7 @@ namespace Attributes
     {
     public:
 
-        struct Cache
+        struct PUNK_ENGINE_API Cache
         {
             Cache(TextureSlot& slot);
             ~Cache();

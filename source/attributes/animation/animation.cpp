@@ -10,8 +10,10 @@ namespace Attributes
         {&Core::Object::Type}};
 
 	Animation::Animation()
-	{
+	{        
 	}
+
+    Animation::~Animation() {}
 
 	void Animation::AddPositionKey(int frame, Math::vec3& position)
 	{
