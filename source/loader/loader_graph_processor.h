@@ -89,12 +89,14 @@ namespace Loader {
     public:
         LoaderGraphProcessor();
         void SetGraph(Scene::ISceneGraph* graph) override;
-        void BeginUpdate(int dt) override;
+        void BeginUpdate(int dt_ms) override;
         void FinishUpdate() override;
         void WaitUpdateStart() override;
         void WaitUpdateFinish() override;
+        void StartProcessing() override;
         void StopProcessing() override;
         void WaitProcessingComplete() override;
+        void Destroy() override;
 
         void PreUpdate();
         void PostUpdate();

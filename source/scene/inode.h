@@ -16,7 +16,6 @@ namespace Scene {
 
     class INode {
     public:
-        virtual ~INode() = 0;
         virtual void SetAttribute(IAttribute* value) = 0;
         virtual IAttribute* GetAttribute(const Core::String&, std::uint64_t type) const = 0;
         virtual void RemoveAttribute(const Core::String& name, std::uint64_t type) = 0;
@@ -33,7 +32,7 @@ namespace Scene {
         virtual void AddRef() = 0;
         virtual void Release() = 0;
         virtual void Updated(const Core::String& attribute) = 0;
-        virtual void OnUpdate(Core::Action<const Core::String&>* action) = 0;        
+        virtual void OnUpdate(Core::ActionBase<INode*, const Core::String&>* action) = 0;
         virtual ISceneGraph* GetSceneGraph() = 0;
 
         ///
@@ -86,8 +85,6 @@ namespace Scene {
             SetAttribute(new Attribute<T>(name, new T(value), true));
         }
     };
-
-    inline INode::~INode() {}
 
     using INodeUniquePtr = std::unique_ptr<INode, void (*)(INode*)>;
 

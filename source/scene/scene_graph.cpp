@@ -14,7 +14,7 @@ namespace Scene
     }
 
     SceneGraph::~SceneGraph() {
-        delete m_root;
+        DestroyNode(m_root);
         m_root = nullptr;
     }
 
@@ -28,17 +28,33 @@ namespace Scene
 
     void SceneGraph::SetRoot(INode* node) {
         if (m_root)
-            delete m_root;
+            DestroyNode(m_root);
         m_root = node;
+    }
+
+    void SceneGraph::AddNodeAddedAction(Core::ActionBase<INode*, INode*>* value) {
+        m_on_added_actions.Add(value, true);
+    }
+
+    void SceneGraph::AddNodeRemovedAction(Core::ActionBase<INode*, INode*>* value) {
+        m_on_removed_action.Add(value, true);
+    }
+
+    void SceneGraph::OnNodeAdded(INode* parent, INode* child) {
+        m_on_added_actions(parent, child);
+    }
+
+    void SceneGraph::OnNodeRemoved(INode* parent, INode* child) {
+        m_on_removed_action(parent, child);
     }
 
     extern "C" PUNK_ENGINE_API ISceneGraphUniquePtr CreateSceneFromFile(const Core::String& fullpath) {
         ISceneGraphUniquePtr scene{new SceneGraph, DestroyScene};
-        Node* node = new Node(nullptr);
+        INodeUniquePtr node = CreateRootNode(scene.get());
         node->SetAttribute(new Attribute<Core::String>(L"Name", L"Root"));
         node->SetAttribute(new Attribute<Core::String>(L"Type", L"FileProxy"));
         node->SetAttribute(new Attribute<Core::String>(L"Filename", fullpath));
-        scene->SetRoot(node);
+        scene->SetRoot(node.release());
         return scene;
     }
 

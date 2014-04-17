@@ -37,6 +37,15 @@ namespace Loader {
     {
     }
 
+    Scene::ISceneGraph* LoaderGraphProcessor::GetSceneGraph() const {
+        return m_graph;
+    }
+
+    void LoaderGraphProcessor::StartProcessing() {
+        m_thread.Start(new LoaderWorkItem, this);
+        m_thread.Resume();
+    }
+
     void LoaderGraphProcessor::WaitUpdateStart() {
         m_allow_update.Lock();
     }
@@ -196,10 +205,15 @@ namespace Loader {
         AddCommand(command);
     }
 
+    void LoaderGraphProcessor::Destroy() {
+
+    }
+
     void LoaderGraphProcessor::WaitProcessingComplete() {
         m_graph->Lock();
         Process(m_graph->GetRoot(), &LoaderGraphProcessor::Delete);
         m_graph->Unlock();
+        m_thread.Join();
     }
 
     void LoaderGraphProcessor::StopProcessing() {

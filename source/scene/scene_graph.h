@@ -9,18 +9,23 @@ PUNK_ENGINE_BEGIN
 namespace Scene
 {
     class PUNK_ENGINE_LOCAL SceneGraph : public ISceneGraph {
-	public:
+    public:
         virtual ~SceneGraph();
-        void Lock() override;
-        void Unlock() override;
-        INode* GetRoot() override;
-        const INode* GetRoot() const override;
-        void SetRoot(INode* node) override;
-
+        virtual void Lock() override;
+        virtual void Unlock() override;
+        virtual INode* GetRoot() override;
+        virtual const INode* GetRoot() const override;
+        virtual void SetRoot(INode* node) override;
+        virtual void AddNodeAddedAction(Core::ActionBase<INode*, INode*>* value) override;
+        virtual void AddNodeRemovedAction(Core::ActionBase<INode*, INode*>* value) override;
+        virtual void OnNodeAdded(INode* parent, INode* child) override;
+        virtual void OnNodeRemoved(INode* parent, INode* child) override;
     private:
+        Core::ActionSlot<INode*, INode*> m_on_added_actions;
+        Core::ActionSlot<INode*, INode*> m_on_removed_action;
         System::ThreadMutex m_lock;
         INode* m_root {nullptr};
-	};
+    };
 
 }
 PUNK_ENGINE_END

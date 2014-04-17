@@ -37,6 +37,7 @@ namespace System
             catch(...) {
                 GetDefaultLogger()->Error("Unknown error occured in the thread_func");
             }
+            delete work_item;
         }
 
 #ifdef _WIN32

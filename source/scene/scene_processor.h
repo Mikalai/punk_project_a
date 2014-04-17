@@ -20,7 +20,7 @@ namespace Scene {
     };
 
     struct SetNewSceneCommand {
-        wchar_t m_filepath[MAX_PATH];
+        wchar_t filename[MAX_PATH];
     };
 
     struct UpdateCommand {
@@ -54,7 +54,7 @@ namespace Scene {
         void SetSceneFile(const Core::String& filename) override;
         void RegisterGraphProcessor(IGraphProcessor* proc) override;
         void Update(int dt_ms) override;
-        void DestroyScene() override;
+        void ClearScene() override;
         void Terminate() override;
 
         void AddCommand(const Command& cmd);
@@ -62,11 +62,12 @@ namespace Scene {
 
     private:                
         std::vector<IGraphProcessor*> m_proc;
-        ISceneGraphUniquePtr m_scene_graph;
+        ISceneGraphUniquePtr m_scene_graph{nullptr, DestroyScene};
         System::Thread m_thread;
         std::deque<Command> m_commands;
         System::Monitor m_lock;
     };
+
 }
 PUNK_ENGINE_END
 

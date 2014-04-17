@@ -15,15 +15,20 @@ namespace Punk {
             Object::Object(Object* parent)
                 : m_owner{parent}
                 , m_id(GlobalCounter++) {
-                if (!m_owner)
+                if (!m_owner && this != &RootObject)
                     RootObject.Add(this);
             }
 
             Object::~Object() {
-                for (auto it = m_children.begin(); it != m_children.end(); ++it) {
-                    safe_delete(*it);
+                if (m_owner) {
+                    m_owner->Remove(this);
+                    m_owner = nullptr;
                 }
-                m_children.clear();
+                while (!m_children.empty()) {
+                    Object* child = m_children.back();
+                    m_children.pop_back();
+                    delete child;
+                }
             }
 
             void Object::SetOwner(Object* owner) {

@@ -9,6 +9,8 @@ namespace Scene {
     class ISceneGraph;
     class IGraphProcessor {
     public:
+        virtual ~IGraphProcessor() {}
+
         ///
         /// \brief Initialize
         /// \param graph
@@ -33,7 +35,10 @@ namespace Scene {
         virtual void StartProcessing() = 0;
         virtual void StopProcessing() = 0;
         virtual void WaitProcessingComplete() = 0;
+
+        virtual void Destroy() = 0;
     };
+
 }
 PUNK_ENGINE_END
 

@@ -14,7 +14,7 @@ namespace Font {
 	{
 	public:
         FontBuilder(const Core::String& path);
-		~FontBuilder();
+        virtual ~FontBuilder();
 		void Init();
         void SetCurrentFace(const Core::String& fontName);
 		void RenderChar(char symbol, int* width, int* height, int* x_offset, int* y_offset, int* x_advance, int* y_advance, unsigned char** buffer);

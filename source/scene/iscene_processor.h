@@ -16,7 +16,7 @@ namespace Scene {
         virtual void SetSceneFile(const Core::String& filename) = 0;
         virtual void RegisterGraphProcessor(IGraphProcessor* proc) = 0;
         virtual void Update(int dt_ms) = 0;
-        virtual void DestroyScene() = 0;
+        virtual void ClearScene() = 0;
         virtual void Terminate() = 0;
     };
 

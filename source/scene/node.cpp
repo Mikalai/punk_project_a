@@ -6,10 +6,17 @@
 
 PUNK_ENGINE_BEGIN
 namespace Scene {
+
+    Node::Node(ISceneGraph *graph)
+        : m_scene_graph{graph}
+    {}
+
     Node::Node(INode *parent)
         : m_parent{parent} {
-        if (m_parent)
+        if (m_parent) {
             m_parent->AddChild(this);
+            m_scene_graph = m_parent->GetSceneGraph();
+        }
     }
 
     Node::~Node() {
@@ -110,12 +117,41 @@ namespace Scene {
         return nullptr;
     }
 
+    void Node::Updated(const Core::String& attribute) {
+        m_on_updated(this, attribute);
+    }
+
+    void Node::OnUpdate(Core::ActionBase<INode*, const Core::String&>* action) {
+        m_on_updated.Add(action, true);
+    }
+
+    ISceneGraph* Node::GetSceneGraph() {
+        return m_scene_graph;
+    }
+
     void Node::AddRef() {
         ++m_ref_count;
     }
 
     void Node::Release() {
         --m_ref_count;
+    }
+
+    void Node::MarkToDelete() {
+        --m_delete_count;
+    }
+
+    void Node::AskToDelete() {
+        ++m_delete_count;
+    }
+
+    bool Node::CanDelete() {
+        return m_delete_count == 0;
+    }
+
+    extern "C" PUNK_ENGINE_API INodeUniquePtr CreateRootNode(ISceneGraph* graph) {
+        INodeUniquePtr node{new Node{graph}, DestroyNode};
+        return node;
     }
 
     extern "C" PUNK_ENGINE_API INodeUniquePtr CreateNode(INode* parent) {

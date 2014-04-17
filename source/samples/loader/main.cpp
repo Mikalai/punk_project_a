@@ -14,6 +14,11 @@ using namespace Punk::Engine;
 int main() {
     Scene::ISceneGraphUniquePtr scene = Punk::Engine::Scene::CreateSceneFromFile("c:\\Projects\\game\\dev\\punk_project_a\\data\\maps\\map1\\level_1.pmd");
     Loader::LoaderGraphProcessor* proc = new Loader::LoaderGraphProcessor;
-    Scene::i
-    proc->Initialize(scene.get());
+    proc->SetGraph(scene.get());
+    proc->StartProcessing();
+    System::Window* wnd = System::CreateRootWindow(System::WindowDescription());
+    wnd->Open();
+    wnd->Loop();
+    proc->StopProcessing();
+    proc->WaitProcessingComplete();
 }

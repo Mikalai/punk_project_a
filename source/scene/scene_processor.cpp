@@ -49,7 +49,7 @@ namespace Scene {
         AddCommand(cmd);
     }
 
-    void SceneProcessor::DestroyScene() {
+    void SceneProcessor::ClearScene() {
         Command cmd;
         cmd.code = Code::DestroyScene;
         AddCommand(cmd);
@@ -68,7 +68,7 @@ namespace Scene {
         m_lock.Unlock();
     }
 
-    SceneProcessor::RegisterGraphProcessor(IGraphProcessor *proc) {
+    void SceneProcessor::RegisterGraphProcessor(IGraphProcessor *proc) {
         m_proc.push_back(proc);
     }
 
@@ -87,9 +87,9 @@ namespace Scene {
             Command clear;
             clear.code = Code::DestroyScene;
             ProcessRequest(clear);
-            m_scene_graph = CreateSceneFromFile(cmd.set_new_scene.m_filepath);
-            std::for_each(m_proc.begin(), m_proc.end(), [](IGraphProcessor* p) {
-                p->Initialize(m_scene_graph.get());
+            m_scene_graph = CreateSceneFromFile(cmd.set_new_scene.filename);
+            std::for_each(m_proc.begin(), m_proc.end(), [&](IGraphProcessor* p) {
+                p->SetGraph(m_scene_graph.get());
             });
             return false;
         }
@@ -111,10 +111,6 @@ namespace Scene {
             }
             return true;
         }
-    }
-
-    void SceneProcessor::Update(int dt_ms) {
-        ProcessRequest(m_current_request.top(), dt_ms);
     }
 }
 PUNK_ENGINE_END

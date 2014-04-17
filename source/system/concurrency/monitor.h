@@ -22,7 +22,7 @@
 PUNK_ENGINE_BEGIN
 namespace System
 {
-    class Monitor
+    class PUNK_ENGINE_API Monitor
     {
     public:
         Monitor();

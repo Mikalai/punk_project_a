@@ -5,9 +5,10 @@
 
 PUNK_ENGINE_BEGIN
 namespace System {
-    class WorkItem
+    class PUNK_ENGINE_API WorkItem
     {
     public:
+        virtual ~WorkItem() {}
         virtual void Run(void* data) = 0;
         void Complete();
         bool IsComplete();
