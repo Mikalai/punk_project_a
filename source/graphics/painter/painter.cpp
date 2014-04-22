@@ -1,6 +1,10 @@
 #include "painter.h"
 #include "brush.h"
 #include "pen.h"
+#include <string/module.h>
+#include <math/rect.h>
+#include <math/line2d.h>
+#include <math/vec2.h>
 #include <math/mat3.h>
 
 PUNK_ENGINE_BEGIN

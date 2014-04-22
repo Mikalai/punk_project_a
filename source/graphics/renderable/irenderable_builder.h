@@ -43,8 +43,8 @@ namespace Graphics {
 
     using IRenderableBuilderUniquePtr = std::unique_ptr<IRenderableBuilder, void (*)(IRenderableBuilder*)>;
 
-    extern "C" PUNK_ENGINE_API IRenderableBuilderUniquePtr CreateRenderableBuilder(IVideoDriver* driver);
-    extern "C" PUNK_ENGINE_API void DestroyRenderableBuilder(IRenderableBuilder* value);
+    extern PUNK_ENGINE_API IRenderableBuilderUniquePtr CreateRenderableBuilder(IVideoDriver* driver);
+    extern PUNK_ENGINE_API void DestroyRenderableBuilder(IRenderableBuilder* value);
 }
 PUNK_ENGINE_END
 

@@ -172,21 +172,21 @@ namespace Graphics
 	public:
 		TextureState();
 
-        ITexture2D* m_diffuse_map[4] = {nullptr, nullptr, nullptr, nullptr};
+		std::array<ITexture2D*, 4> m_diffuse_map{ { nullptr, nullptr, nullptr, nullptr } };
         ITexture2D* m_normal_map = nullptr;
         ITexture2D* m_height_map = nullptr;
         ITexture2D* m_specular_map = nullptr;
         ITexture2D* m_text_map = nullptr;
         ITexture2D* m_shadow_map = nullptr;
         ITexture2DArray* m_texture_array = nullptr;
-        int m_texture_array_diffuse_map_layer[4] = {-1, -1, -1, -1};
+		std::array<int, 4> m_texture_array_diffuse_map_layer{ { -1, -1, -1, -1 } };
         int m_texture_array_normal_map_layer = -1;
         int m_texture_array_height_map_layer = -1;
         int m_texture_array_specular_map_layer = -1;
         int m_texture_array_text_map_layer = -1;
-        int m_texture_array_shadow_map_layer[4] = {-1, -1, -1, -1};
+		std::array<int, 4> m_texture_array_shadow_map_layer{ { -1, -1, -1, -1 } };
 
-        int m_diffuse_slot[4] = {-1, -1, -1, -1};
+		std::array<int, 4> m_diffuse_slot{ { -1, -1, -1, -1 } };
         int m_normal_map_slot = -1;
         int m_text_map_slot = -1;
         int m_height_map_slot = -1;

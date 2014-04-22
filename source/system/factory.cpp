@@ -8,7 +8,7 @@
 //#include "../math/mat3.h"
 //#include "../math/mat4.h"
 //#include "../math/bounding_box.h"
-//#include "../string/string.h"
+//#include "../String/String.h"
 //#include "../system/buffer.h"
 //#include "../system/logger.h"
 //#include "../system/binary_file.h"
@@ -65,7 +65,7 @@
 //		return it->second->Create();
 //	}
 
-//	Object* Factory::Create(const string& name, ObjectType type)
+//	Object* Factory::Create(const String& name, ObjectType type)
 //	{
 //		auto it = m_creator.find(type);
 //		if (it == m_creator.end())
@@ -105,14 +105,14 @@
 //		}
 //		else
 //		{
-//			System::string storage;
+//			System::String storage;
 //			storage.Load(stream);
 //			Object* o = GetFactory()->Create(storage, type);
 //			return o;
 //		}
 //	}
 
-//	Object* Factory::CreateFromTextFile(const string& path)
+//	Object* Factory::CreateFromTextFile(const String& path)
 //	{
 //        return 0;
 

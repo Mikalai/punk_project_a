@@ -7,7 +7,7 @@ namespace Punk {
     namespace Engine {
         namespace Core {
 
-            Rtti Object::Type("Punk.Engine.Core.Object", typeid(Object).hash_code(), {});
+			static Rtti ObjectType{ "Punk.Engine.Core.Object", typeid(Object).hash_code(), {} };
 
             static std::uint64_t GlobalCounter;
             static Object RootObject;
@@ -31,6 +31,10 @@ namespace Punk {
                 }
             }
 
+			Rtti* Object::Type() {
+				return &ObjectType;
+			}
+
             void Object::SetOwner(Object* owner) {
                 m_owner = owner;
             }
@@ -43,7 +47,7 @@ namespace Punk {
                 return m_owner;
             }
 
-            unsigned Object::GetId() const {
+            std::uint64_t Object::GetId() const {
                 return m_id;
             }
 

@@ -2,7 +2,8 @@
 #define _H_MAT4X4_MATH
 
 #include <initializer_list>
-#include "config.h"
+#include <array>
+#include <config.h>
 
 namespace Punk {
     namespace Engine {
@@ -45,7 +46,7 @@ namespace Punk {
                 mat4& operator *= (const mat4& b);
 
             private:
-                float m[16];
+                std::array<float, 16> m;
             };
 
             PUNK_ENGINE_API const mat4 operator + (const mat4& a, const mat4& b);

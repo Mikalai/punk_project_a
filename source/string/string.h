@@ -2,7 +2,7 @@
 #define _H_PUNK_STRING
 
 #include <cstdint>
-#include "config.h"
+#include <config.h>
 
 PUNK_ENGINE_BEGIN
 namespace Core

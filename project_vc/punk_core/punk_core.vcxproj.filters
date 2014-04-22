@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="component">
+      <UniqueIdentifier>{260828b6-fbff-4d52-89ed-059ddc0487a4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\source\core\component\component.cpp">
+      <Filter>component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\core\component\components_pool.cpp">
+      <Filter>component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\core\component\components_pool_impl.cpp">
+      <Filter>component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\core\compound_object.cpp" />
+    <ClCompile Include="..\..\source\core\core_error.cpp" />
+    <ClCompile Include="..\..\source\core\meta_class_base.cpp" />
+    <ClCompile Include="..\..\source\core\object.cpp" />
+    <ClCompile Include="..\..\source\core\pool.cpp" />
+    <ClCompile Include="..\..\source\core\pool_manager.cpp" />
+    <ClCompile Include="..\..\source\core\rtti.cpp" />
+    <ClCompile Include="..\..\source\core\static_information.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\core\component\component.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\component\component_interface.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\component\components_pool.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\component\components_pool_impl.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\component\module.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\action.h" />
+    <ClInclude Include="..\..\source\core\atomicint.h" />
+    <ClInclude Include="..\..\source\core\compound_object.h" />
+    <ClInclude Include="..\..\source\core\core_error.h" />
+    <ClInclude Include="..\..\source\core\decl_property.h" />
+    <ClInclude Include="..\..\source\core\meta_class.h" />
+    <ClInclude Include="..\..\source\core\meta_class_base.h" />
+    <ClInclude Include="..\..\source\core\module.h" />
+    <ClInclude Include="..\..\source\core\object.h" />
+    <ClInclude Include="..\..\source\core\pool.h" />
+    <ClInclude Include="..\..\source\core\pool_manager.h" />
+    <ClInclude Include="..\..\source\core\poolable.h" />
+    <ClInclude Include="..\..\source\core\rtti.h" />
+    <ClInclude Include="..\..\source\core\static_information.h" />
+  </ItemGroup>
+</Project>

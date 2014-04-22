@@ -7,8 +7,8 @@
 //    REGISTER_COMPONENT(StreamingComponent, new StreamingComponent, {""})
 //#endif
 
-//#define ASYNC_LOADER string(L"async_loader")
-//#define STREAMING string(L"streaming")
+//#define ASYNC_LOADER String(L"async_loader")
+//#define STREAMING String(L"streaming")
 
 //    StreamingComponent::~StreamingComponent()
 //    {
@@ -30,7 +30,7 @@
 //        Create();
 //    }
 
-//    Object* StreamingComponent::OnGetService(const string &name)
+//    Object* StreamingComponent::OnGetService(const String &name)
 //    {
 //        if (name == ASYNC_LOADER)
 //        {
@@ -39,7 +39,7 @@
 //        return nullptr;
 //    }
 
-//    const string StreamingComponent::GetName() const
+//    const String StreamingComponent::GetName() const
 //    {
 //        return STREAMING;
 //    }

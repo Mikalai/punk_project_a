@@ -5,12 +5,16 @@
 #endif
 
 #include <stdio.h>
-#include <string.h>
+#include <String.h>
 
 PUNK_ENGINE_BEGIN
 namespace System
 {
-    Core::Rtti Clock::Type{"Punk.Engine.System.Clock", typeid(Clock).hash_code(), {&Core::Object::Type}};
+	static Core::Rtti ClockType{ "Punk.Engine.System.Clock", typeid(Clock).hash_code(), { Core::Object::Type() } };
+
+	Core::Rtti* Clock::Type() {
+		return &ClockType;
+	}
 
 	Clock::Clock()
 	{                
@@ -30,7 +34,7 @@ namespace System
 
     const Core::String Clock::ToString() const
 	{
-#ifdef MSVS
+#ifdef _MSC_VER
 		wchar_t buffer[256];
 		_wasctime_s(buffer, 256, &m_date);
 		buffer[24] = 0;
@@ -113,10 +117,10 @@ namespace System
 
     const Core::String Clock::SysTimeAsUTC()
 	{
-#ifdef MSVS
+#ifdef _MSC_VER
 		char buffer[32];
 		__time32_t t;
-		time(&t);
+		_time32(&t);
 		tm _tm;
 		_gmtime32_s(&_tm, &t);
 		asctime_s(buffer, 32, &_tm);
@@ -136,10 +140,10 @@ namespace System
 
     const Core::String Clock::SysTimeNowAsLocal()
 	{
-#ifdef MSVS
+#ifdef _MSC_VER
 		char buffer[32];
-		time_t t;
-		time(&t);
+		__time32_t t;
+		_time32(&t);
 		tm _tm;
 		_localtime32_s(&_tm, &t);
 		asctime_s(buffer, 32, &_tm);

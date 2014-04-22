@@ -1,10 +1,11 @@
 #ifndef _H_PUNK_SYSTE_PROFILER
 #define _H_PUNK_SYSTE_PROFILER
 
-#include "../config.h"
-#include "../string/string.h"
-#include "timer.h"
+#include <config.h>
+#include <string/string.h>
+#include <system/time/timer.h>
 
+PUNK_ENGINE_BEGIN
 namespace System
 {
 	/*
@@ -15,7 +16,7 @@ namespace System
 		//	High definition timer
 		Timer m_timer;		
 		// Text descritpion of current profiler
-		string m_description;
+		Core::String m_description;
         double m_start_time;
         double m_end_time;
 		// No copy
@@ -28,7 +29,7 @@ namespace System
 		*	Start profiler and assigns new description to it
 		*	@param description Textual representation of the profiler
 		*/
-		void Start(const string& description);
+		void Start(const Core::String& description);
 		/*
 		*	Stops profiling
 		*	@returns Tick count elapsed from start
@@ -42,8 +43,9 @@ namespace System
 		/*
 		*	Returns nice textual representation of the profiling result
 		*/
-		const string ToString() const;
+		const Core::String ToString() const;
 	};
 }
+PUNK_ENGINE_END
 
 #endif	//	_H_PUNK_SYSTE_PROFILER

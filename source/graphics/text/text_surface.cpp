@@ -184,7 +184,7 @@ namespace Graphics {
         return m_texture.get();
     }
 
-    extern "C" PUNK_ENGINE_API ITextSurfaceUniquePtr CreateTextSurface(std::uint32_t width, std::uint32_t height, IVideoDriver* driver) {
+    extern PUNK_ENGINE_API ITextSurfaceUniquePtr CreateTextSurface(std::uint32_t width, std::uint32_t height, IVideoDriver* driver) {
         ITextSurfaceUniquePtr ptr{nullptr, DestroyTextSurface};
         if (width == 0 || height == 0)
             ptr.reset(new TextSurface{driver});
@@ -193,7 +193,7 @@ namespace Graphics {
         return ptr;
     }
 
-    extern "C" PUNK_ENGINE_API void DestroyTextSurface(ITextSurface* value) {
+    extern PUNK_ENGINE_API void DestroyTextSurface(ITextSurface* value) {
         TextSurface* o = dynamic_cast<TextSurface*>(value);
         delete o;
     }

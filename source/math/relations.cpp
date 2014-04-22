@@ -1,6 +1,8 @@
 #include <set>
 #include <cstdint>
 #include <limits>
+#include <utility>
+#include <algorithm>
 #include "min_max.h"
 #include "vec2.h"
 #include "mat2.h"
@@ -12,6 +14,7 @@
 #include "sphere.h"
 #include "triangle3d.h"
 #include "line3d.h"
+#include "line2d.h"
 #include "polygon3d.h"
 #include "plane.h"
 #include "ellipsoid.h"

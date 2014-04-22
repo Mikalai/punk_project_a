@@ -3,20 +3,24 @@
 #ifdef _WIN32
 #include <windows.h>
 
+#ifndef _MSC_VER
 VOID (WINAPI *InitializeConditionVariable)(PCONDITION_VARIABLE ConditionVariable);
 BOOL (WINAPI *SleepConditionVariableCS)(PCONDITION_VARIABLE ConditionVariable, PCRITICAL_SECTION CriticalSection, DWORD dwMilliseconds);
 //BOOL (WINAPI *SleepConditionVariableSRW)(PCONDITION_VARIABLE ConditionVariable, PSRWLOCK SRWLock, DWORD dwMilliseconds, ULONG Flags);
 VOID (WINAPI *WakeAllConditionVariable)(PCONDITION_VARIABLE ConditionVariable);
 VOID (WINAPI *WakeConditionVariable)(PCONDITION_VARIABLE ConditionVariable);
+#endif	// _MSC_VER
 
 struct InitCnd {
 
     InitCnd() {
+#ifndef _MSC_VER
         HINSTANCE h = LoadLibraryW(L"kernel32.dll");
         InitializeConditionVariable = (VOID (WINAPI *)(PCONDITION_VARIABLE))GetProcAddress(h, "InitializeConditionVariable");
         SleepConditionVariableCS = (BOOL (WINAPI *)(PCONDITION_VARIABLE, PCRITICAL_SECTION, DWORD))GetProcAddress(h, "SleepConditionVariableCS");
         WakeAllConditionVariable = (VOID (WINAPI *)(PCONDITION_VARIABLE))GetProcAddress(h, "WakeAllConditionVariable");
         WakeConditionVariable = (VOID (WINAPI *)(PCONDITION_VARIABLE))GetProcAddress(h, "WakeConditionVariable");
+#endif
     }
 };
 

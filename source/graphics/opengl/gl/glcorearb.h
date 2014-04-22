@@ -2664,6 +2664,8 @@ typedef long long int int64_t;
 typedef unsigned long long int uint64_t;
 #elif defined(_WIN32) && defined(__GNUC__)
 #include <stdint.h>
+#elif defined(_WIN32) && __cplusplus >= 199711L
+#include <cstdint>
 #elif defined(_WIN32)
 typedef __int32 int32_t;
 typedef int64_t int64_t;

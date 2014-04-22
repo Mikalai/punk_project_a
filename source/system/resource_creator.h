@@ -10,7 +10,7 @@ namespace System
 	{
 	public:
 		virtual Object* Create() override;
-		virtual Object* Create(const string& name) override;
+		virtual Object* Create(const String& name) override;
 		virtual bool Init() override;
 	};
 }

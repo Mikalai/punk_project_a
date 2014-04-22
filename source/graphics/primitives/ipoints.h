@@ -19,7 +19,7 @@ namespace Graphics {
 
     using IPointsUniquePtr = std::unique_ptr<IPoints, void (*)(IRenderable*)>;
 
-    extern "C" PUNK_ENGINE_API IPointsUniquePtr CreatePoints(std::int64_t vertex_type, class IVideoDriver* driver);
+    extern PUNK_ENGINE_API IPointsUniquePtr CreatePoints(std::int64_t vertex_type, class IVideoDriver* driver);
 }
 PUNK_ENGINE_END
 

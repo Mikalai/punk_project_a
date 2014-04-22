@@ -18,7 +18,7 @@ namespace Graphics {
 
     using ILinesUniquePtr = std::unique_ptr<ILines, void (*)(IRenderable*)>;
 
-    extern "C" PUNK_ENGINE_API ILinesUniquePtr CreateLines(std::int64_t vertex_type, class IVideoDriver* driver);
+    extern PUNK_ENGINE_API ILinesUniquePtr CreateLines(std::int64_t vertex_type, class IVideoDriver* driver);
 }
 PUNK_ENGINE_END
 

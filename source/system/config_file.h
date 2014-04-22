@@ -2,7 +2,7 @@
 //#define _H_PUNK_CONFIG_FILE
 
 //#include "../config.h"
-//#include "../string/string.h"
+//#include "../String/String.h"
 
 //namespace System
 //{
@@ -10,18 +10,18 @@
 //	{
 //		ConfigFile(const ConfigFile&);
 //		ConfigFile& operator = (const ConfigFile&);
-//		string m_filename;
+//		String m_filename;
 ////		HKEY m_key;
 //	public:
 //		ConfigFile();
 //		~ConfigFile();
-//		bool Open(const string& filename);
+//		bool Open(const String& filename);
 //		void Close();
-//		bool ReadOptionString(const string& option, string& result);
-//		bool ReadOptionInt(const string& option, int& result);
-//		bool WriteOptionString(const string& option, const string& value);
-//		bool WriteOptionInt(const string& option, int value);
-//		bool IsExistOption(const string& option);
+//		bool ReadOptionString(const String& option, String& result);
+//		bool ReadOptionInt(const String& option, int& result);
+//		bool WriteOptionString(const String& option, const String& value);
+//		bool WriteOptionInt(const String& option, int value);
+//		bool IsExistOption(const String& option);
 //	};
 //}
 

@@ -5,7 +5,7 @@
 #include "images/error/module.h"
 
 #ifdef USE_LIB_PNG
-#include <png/png.h>
+#include <libpng/png.h>
 #endif // USE_LIB_PNG
 
 PUNK_ENGINE_BEGIN
@@ -19,8 +19,8 @@ namespace Image
 		png_infop info_ptr;
 
 		/* open the file */
-#ifdef MSVS
-		_wfopen_s(&fp, filename.Data(), L"wb");
+#ifdef _MSC_VER
+		_wfopen_s(&fp, (wchar_t*)filename.ToWchar().Data(), L"wb");
 #else
         fp = fopen((char*)filename.ToUtf8().Data(), "wb");
 #endif
@@ -134,7 +134,7 @@ namespace Image
 		png_bytepp row_pointers = new png_bytep[image.GetHeight()];
 		for (int k = 0; k < (int)image.GetHeight(); k++)
 		{
-			unsigned char *ptr = (unsigned char*)(image.GetData() + k*image.GetWidth()*mult);
+			unsigned char *ptr = (unsigned char*)(image.GetData()) + k*image.GetWidth()*mult;
 			row_pointers[k] = ptr;
 		}
 

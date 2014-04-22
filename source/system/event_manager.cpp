@@ -36,7 +36,7 @@
 //		std::vector<Handler>::iterator i = std::find(eventHandlers[event].begin(), eventHandlers[event].end(), handler);
 //		if ( i == eventHandlers[event].end())
 //		{
-//            out_warning() << string("There is no handler to unsubscribe with code {0}").arg(event) << std::endl;
+//            out_warning() << String("There is no handler to unsubscribe with code {0}").arg(event) << std::endl;
 //			return;
 //		}
 //		eventHandlers[event].erase(i);

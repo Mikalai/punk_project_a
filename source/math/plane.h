@@ -7,7 +7,7 @@
 #ifndef _H_PUNK_PLANE
 #define _H_PUNK_PLANE
 
-#include "../config.h"
+#include <config.h>
 #include "vec4.h"
 
 namespace Punk {

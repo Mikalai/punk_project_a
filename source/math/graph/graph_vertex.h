@@ -1,6 +1,7 @@
 #ifndef GRAPH_VERTEX_H
 #define GRAPH_VERTEX_H
 
+#include <vector>
 #include <config.h>
 
 PUNK_ENGINE_BEGIN

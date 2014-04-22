@@ -1,5 +1,5 @@
 #include <iostream>
-#include "string/buffer.h"
+#include "String/buffer.h"
 #include "system/input/console.h"
 #include "console_consumer.h"
 

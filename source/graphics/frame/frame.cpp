@@ -848,12 +848,12 @@ namespace Graphics
 
     }
 
-    extern "C" PUNK_ENGINE_API IFrameUniquePtr CreateFrame(IRender* render) {
+    extern PUNK_ENGINE_API IFrameUniquePtr CreateFrame(IRender* render) {
         IFrameUniquePtr frame{new Frame(render), DestroyFrame};
         return frame;
     }
 
-    extern "C" PUNK_ENGINE_API void DestroyFrame(IFrame* f) {
+    extern PUNK_ENGINE_API void DestroyFrame(IFrame* f) {
         Frame* frame = dynamic_cast<Frame*>(f);
         delete frame;
     }

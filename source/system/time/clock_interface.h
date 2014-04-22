@@ -2,7 +2,7 @@
 #define CLOCK_INTERFACE_H
 
 #include <cstdint>
-#include "string/string.h"
+#include "String/String.h"
 
 PUNK_ENGINE_BEGIN
 namespace System

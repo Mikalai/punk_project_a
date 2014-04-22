@@ -60,7 +60,7 @@ namespace Punk {
 
             mat3::mat3()
             {
-                memset(m, 0, sizeof(m));
+                memset(m.data(), 0, sizeof(m));
                 m[0] = m[4] = m[8] = float(1);
             }
 
@@ -79,7 +79,7 @@ namespace Punk {
             {
                 if (this != &mat)
                 {
-                    memcpy(m, mat.m, sizeof(m));
+					m = mat.m;
                 }
             }
 
@@ -87,7 +87,7 @@ namespace Punk {
             {
                 if (this != &mat)
                 {
-                    memcpy(m, mat.m, sizeof(m));
+					m = mat.m;
                 }
                 return *this;
             }
@@ -110,12 +110,12 @@ namespace Punk {
 
             mat3::operator float*()
             {
-                return m;
+                return m.data();
             }
 
             mat3::operator const float*() const
             {
-                return m;
+                return m.data();
             }
 
             mat3& mat3::operator += (const mat3& v)
@@ -225,7 +225,7 @@ namespace Punk {
                 tm[7] = -(m[0] * m[7] - m[1] * m[6]);
                 tm[8] = m[0] * m[4] - m[1] * m[3];
 
-                memcpy(m, tm, sizeof(m));
+                memcpy(m.data(), tm, sizeof(m));
 
                 if (d == float(0))
                     throw Error::MatrixInverseFailed(0);
@@ -255,14 +255,14 @@ namespace Punk {
                                0, 1, 0,
                                0, 0, 1};
 
-                memcpy(m, tm, sizeof(m));
+                memcpy(m.data(), tm, sizeof(m));
 
                 return *this;
             }
 
             mat3& mat3::Zerofy()
             {
-                memset(m, 0, sizeof(m));
+				m.fill(0);
                 return *this;
             }
 
@@ -318,7 +318,7 @@ namespace Punk {
                 tm[4] = m[4];
                 tm[8] = m[8];
 
-                memcpy(m, tm, sizeof(tm));
+                memcpy(m.data(), tm, sizeof(tm));
                 return *this;
             }
 

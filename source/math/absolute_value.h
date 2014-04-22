@@ -3,13 +3,12 @@
 
 #include "config.h"
 
-namespace Punk {
-    namespace Engine {
-        namespace Math {
-            PUNK_ENGINE_API float Abs(float value);
-            PUNK_ENGINE_API double Abs(double value);
-            PUNK_ENGINE_API int Abs(int value);
-        }
-    }
+PUNK_ENGINE_BEGIN
+namespace Math {
+	PUNK_ENGINE_API float Abs(float value);
+	PUNK_ENGINE_API double Abs(double value);
+	PUNK_ENGINE_API int Abs(int value);
 }
+PUNK_ENGINE_END
+
 #endif // ABSOLUTE_VALUE_H

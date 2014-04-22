@@ -60,7 +60,7 @@
    defined PNG_READ_tIME_SUPPORTED &&\
    defined PNG_READ_zTXt_SUPPORTED
 
-#include "zlib.h"
+#include <zlib/zlib.h>
 /* Copied from pngpriv.h but only used in error messages below. */
 #ifndef PNG_ZBUF_SIZE
 #  define PNG_ZBUF_SIZE 8192
@@ -842,13 +842,25 @@ test_one_file(PNG_CONST char *inname, PNG_CONST char *outname)
    row_buf = NULL;
    error_parameters.file_name = inname;
 
-   if ((fpin = fopen(inname, "rb")) == NULL)
+#ifdef _MSC_VER
+   fopen_s(&fpin, inname, "rb");
+#else
+   fpin = fopen(inname, "rb");
+#endif
+
+   if (fpin == NULL)
    {
       fprintf(STDERR, "Could not find input file %s\n", inname);
       return (1);
    }
 
-   if ((fpout = fopen(outname, "wb")) == NULL)
+#ifdef _MSC_VER
+   fopen_s(&fpout, outname, "wb");
+#else
+   fpout = fopen(outname, "wb");
+#endif
+
+   if (fpout == NULL)
    {
       fprintf(STDERR, "Could not open output file %s\n", outname);
       FCLOSE(fpin);
@@ -1257,7 +1269,7 @@ test_one_file(PNG_CONST char *inname, PNG_CONST char *outname)
 
          else
          {
-            strncpy(tIME_string, "*** invalid time ***", (sizeof tIME_string));
+			 strncpy_s(tIME_string, sizeof(tIME_string), "*** invalid time ***", (sizeof tIME_string));
             tIME_string[(sizeof tIME_string) - 1] = '\0';
          }
 

@@ -13,7 +13,7 @@ namespace Graphics
     {
     }
 
-    extern "C" PUNK_ENGINE_API const Core::String RenderPolicySetToString(RenderPolicySet policy) {
+    extern PUNK_ENGINE_API const Core::String RenderPolicySetToString(RenderPolicySet policy) {
         switch (policy) {
         case RenderPolicySet::Solid3D:
             return Core::String(L"Solid3D");

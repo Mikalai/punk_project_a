@@ -20,7 +20,7 @@
 //		//Close();
 //	}
 
-//	bool ConfigFile::Open(const System::string &filename)
+//	bool ConfigFile::Open(const System::String &filename)
 //	{
 //#ifdef _WIN32
 //		HRESULT error;
@@ -31,9 +31,9 @@
 //		CHECK_SYS_ERROR_CODE(error, L"Can't open 'Software' in registry");
 
 //        RegCreateKeyEx(software, m_filename.Data(), 0, 0, REG_OPTION_NON_VOLATILE, KEY_READ|KEY_WRITE, 0, &m_key, &result);
-//		CHECK_SYS_ERROR_CODE(error, string("Can't create/open %s in registry", m_filename.Data()));
+//		CHECK_SYS_ERROR_CODE(error, String("Can't create/open %s in registry", m_filename.Data()));
 
-//		out_message() << string("Config file %s has been opened", m_filename.Data()) << std::endl;
+//		out_message() << String("Config file %s has been opened", m_filename.Data()) << std::endl;
 //#endif	//	_WIN32
 //		return true;
 //	}
@@ -42,31 +42,31 @@
 //	{
 //#ifdef _WIN32
 //		RegCloseKey(m_key);
-//		out_message() << string("Config file %s has been closed", m_filename.Data()) << std::endl;
+//		out_message() << String("Config file %s has been closed", m_filename.Data()) << std::endl;
 //#endif	//	_WIN32
 //	}
 
-//	bool ConfigFile::ReadOptionString(const string& option, string& res)
+//	bool ConfigFile::ReadOptionString(const String& option, String& res)
 //	{
 //#ifdef _WIN32
 //		HRESULT error;
 //		DWORD type;
 //		DWORD size;
 //        RegGetValue(m_key, 0, option.Data(), RRF_RT_ANY, &type, 0, &size);
-//		CHECK_SYS_ERROR_CODE(error, string("Can't get value %s from registry", option.Data()));
+//		CHECK_SYS_ERROR_CODE(error, String("Can't get value %s from registry", option.Data()));
 
 //		if (type != REG_SZ)
-//			throw PunkInvalidArgumentException(string("Bad type of %s. Expected string", option.Data()));
+//			throw PunkInvalidArgumentException(String("Bad type of %s. Expected String", option.Data()));
 
 //		std::vector<wchar_t> buf(size);
 //        RegGetValue(m_key, 0, option.Data(), RRF_RT_ANY, &type, &buf[0], &size);
-//		CHECK_SYS_ERROR_CODE(error, string("Can't get value %s from registry", option.Data()));
-//		res = string(&buf[0]);
+//		CHECK_SYS_ERROR_CODE(error, String("Can't get value %s from registry", option.Data()));
+//		res = String(&buf[0]);
 //#endif	//	_WIN32
 //		return true;
 //	}
 
-//	bool ConfigFile::ReadOptionInt(const string& option, int& res)
+//	bool ConfigFile::ReadOptionInt(const String& option, int& res)
 //	{
 //#ifdef _WIN32
 //		HRESULT error;
@@ -76,39 +76,39 @@
 //		CHECK_SYS_ERROR_CODE(error, L"Can't read key " + option);
 
 //		if (type != REG_DWORD)
-//			throw PunkInvalidArgumentException(string("Bad type of %s. Expected dword", option.Data()));
+//			throw PunkInvalidArgumentException(String("Bad type of %s. Expected dword", option.Data()));
 
 //        RegGetValue(m_key, 0, option.Data(), RRF_RT_DWORD, &type, (void*)&res, &size);
-//		CHECK_SYS_ERROR_CODE(error, string("Can't get value %s from registry", option.Data()));
+//		CHECK_SYS_ERROR_CODE(error, String("Can't get value %s from registry", option.Data()));
 //#endif	//	_WIN32
 //		return true;
 //	}
 
-//	bool ConfigFile::WriteOptionString(const string& option, const string& value)
+//	bool ConfigFile::WriteOptionString(const String& option, const String& value)
 //	{
 //#ifdef _WIN32
 //		if (ERROR_SUCCESS != RegSetValueEx(m_key, option.Data(), 0, REG_SZ, (const BYTE*)value.Data(), (value.Length()+1)*sizeof(wchar_t)))
 //		{
-//			out_error() << string("Can't write option %s with value %s into %s", option.Data(), value.Data(), m_filename.Data())  << std::endl;
+//			out_error() << String("Can't write option %s with value %s into %s", option.Data(), value.Data(), m_filename.Data())  << std::endl;
 //			return false;
 //		}
 //#endif	//	_WIN32
 //		return true;
 //	}
 
-//	bool ConfigFile::WriteOptionInt(const string& option, int value)
+//	bool ConfigFile::WriteOptionInt(const String& option, int value)
 //	{
 //#ifdef _WIN32
 //		if (ERROR_SUCCESS != RegSetValueEx(m_key, option.Data(), 0, REG_DWORD, (const BYTE*)&value, sizeof(int)))
 //		{
-//			out_error() << string("Can't write option %s with value %d into %s", option.Data(), value, m_filename.Data()) << std::endl;
+//			out_error() << String("Can't write option %s with value %d into %s", option.Data(), value, m_filename.Data()) << std::endl;
 //			return false;
 //		}
 //#endif	//	_WIN32
 //		return true;
 //	}
 
-//	bool ConfigFile::IsExistOption(const string& option)
+//	bool ConfigFile::IsExistOption(const String& option)
 //	{
 //#ifdef _WIN32
 //		DWORD type;

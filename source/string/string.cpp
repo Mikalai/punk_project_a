@@ -56,24 +56,24 @@ namespace Core {
         {
             if (!outp)
             {
-                *outp_size = WideCharToMultiByte(CP_UTF8, 0, (LPCWSTR)inp, inp_size / sizeof(wchar_t), 0, 0, 0, 0);
+                *outp_size = WideCharToMultiByte(CP_UTF8, 0, (LPCWSTR)inp, (int)(inp_size / sizeof(wchar_t)), 0, 0, 0, 0);
                 return true;
             }
             else
             {
                 int output_size = (int)(*outp_size);
-                WideCharToMultiByte(CP_UTF8, 0, (LPCWSTR)inp, inp_size / sizeof(wchar_t), (LPSTR)outp, output_size, 0, 0);
+                WideCharToMultiByte(CP_UTF8, 0, (LPCWSTR)inp, (int)(inp_size / sizeof(wchar_t)), (LPSTR)outp, output_size, 0, 0);
                 return true;
             }
         }
         else if (!strcmp(from, "ASCII") && !strcmp(to, "WCHAR_T")) {
             if (!outp) {
-                *outp_size = MultiByteToWideChar(CP_ACP, 0, (LPCSTR)inp, inp_size, 0, 0) * sizeof(wchar_t);
+                *outp_size = MultiByteToWideChar(CP_ACP, 0, (LPCSTR)inp, (int)inp_size, 0, 0) * sizeof(wchar_t);
                 return true;
             }
             else {
                 int output_size = (int)(*outp_size);
-                MultiByteToWideChar(CP_ACP, 0, (LPCSTR)inp, inp_size, (LPWSTR)outp, output_size / sizeof(wchar_t));
+                MultiByteToWideChar(CP_ACP, 0, (LPCSTR)inp, (int)inp_size, (LPWSTR)outp, output_size / sizeof(wchar_t));
                 return true;
             }
         }
@@ -116,7 +116,7 @@ namespace Core {
         ConvertByteArray("UTF8", "WCHAR_T", (void*)buffer, strlen(buffer), 0, &outp_size);
         std::vector<wchar_t> outp(outp_size);
         ConvertByteArray("UTF8", "WCHAR_T", (void*)buffer, strlen(buffer), (void*)&outp[0], &outp_size);
-        return String(&buffer[0], outp_size);
+        return String(&buffer[0], (std::uint32_t)outp_size);
     }
 
     String& String::Erase(int start, int len)
@@ -149,7 +149,7 @@ namespace Core {
         void* inp = (void*)&v[0];
         if (!ConvertByteArray("WCHAR_T", "ASCII", inp, inp_size, nullptr, &outp_size))
             throw Error::StringConversionError(Error::STR_ERR_CONV_WCHAR_TO_ASCII);
-        Buffer buffer(outp_size);
+		Buffer buffer((std::uint32_t)outp_size);
         if (!ConvertByteArray("WCHAR_T", "ASCII", inp, inp_size, buffer.Data(), &outp_size))
             throw Error::StringConversionError(Error::STR_ERR_CONV_WCHAR_TO_ASCII);
         buffer.WriteUnsigned8(0);
@@ -158,9 +158,9 @@ namespace Core {
 
     Buffer String::ToWchar() const {
         if (impl) {
-            Buffer buffer((impl->size()+1)*sizeof(wchar_t));
+			Buffer buffer((std::uint32_t)((impl->size() + 1)*sizeof(wchar_t)));
             const wchar_t* data = impl->c_str();
-            buffer.WriteBuffer(data, (impl->size()+1)*sizeof(wchar_t));
+            buffer.WriteBuffer(data, (int)(impl->size()+1)*sizeof(wchar_t));
             return buffer;
         }
         else {
@@ -188,7 +188,7 @@ namespace Core {
         void* inp = (void*)&v[0];
         if (!ConvertByteArray("WCHAR_T", "UTF8", inp, inp_size, nullptr, &outp_size))
             throw Error::StringConversionError(Error::STR_ERR_CONV_WCHAR_TO_UTF8);
-        Buffer buffer(outp_size);
+		Buffer buffer((std::uint32_t)outp_size);
         if (!ConvertByteArray("WCHAR_T", "UTF8", inp, inp_size, (void*)buffer.Data(), &outp_size))
             throw Error::StringConversionError(Error::STR_ERR_CONV_WCHAR_TO_UTF8);
         buffer.WriteUnsigned8(0);
@@ -209,17 +209,17 @@ namespace Core {
     const String String::SubString(int start, int count) const
     {
         std::wstring s = impl->substr(start, count);
-        return String(&s[0], s.size());
+		return String(&s[0], (std::uint32_t)s.size());
     }
 
     std::uint32_t String::Size() const
     {
-        return impl->size()*sizeof(__private::StringImpl::value_type);
+		return (std::uint32_t)impl->size()*sizeof(__private::StringImpl::value_type);
     }
 
     std::uint32_t String::Length() const
     {
-        return impl->size();
+		return (std::uint32_t)impl->size();
     }
 
     String::~String()

@@ -6,16 +6,14 @@
 #include <config.h>
 
 #ifdef _DEBUG
-#include <string/string.h>
+#include <String/String.h>
 #endif
 
 PUNK_ENGINE_BEGIN
 namespace Core {
     class PUNK_ENGINE_API Pool {
     public:
-#ifdef _NDEBUG
         Pool();
-#endif
 #ifdef _DEBUG
         Pool(const Core::String& name);
 #endif

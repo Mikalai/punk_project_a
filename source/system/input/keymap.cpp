@@ -5,60 +5,64 @@
 PUNK_ENGINE_BEGIN
 namespace System
 {
-    Core::Rtti KeyMap::Type {"Punk.Engine.System.KeyMap", typeid(KeyMap).hash_code(), {&Core::Object::Type}};
+	static Core::Rtti KeyMapType{ "Punk.Engine.System.KeyMap", typeid(KeyMap).hash_code(), { Core::Object::Type() } };
 
-    struct KeyMapImpl
-    {
-        ~KeyMapImpl()
-        {}
+	Core::Rtti* KeyMap::Type(){
+		return &KeyMapType;
+	}
 
-        KeyboardActionsCollection m_actions;
-    };
+	struct KeyMapImpl
+	{
+		~KeyMapImpl()
+		{}
 
-    void KeyMap::Add(Key key, KeyboardAction action)
-    {
-        impl->m_actions[key].insert(action);
-    }
+		KeyboardActionsCollection m_actions;
+	};
 
-    void KeyMap::Remove(Key key, KeyboardAction action)
-    {
-        auto key_it = impl->m_actions.find(key);
-        if (key_it == impl->m_actions.end())
-            return;
-        auto action_it = key_it->second.find(action);
-        if (key_it->second.end() == action_it)
-            return;
-        key_it->second.erase(action_it);
-    }
+	void KeyMap::Add(Key key, KeyboardAction action)
+	{
+		impl->m_actions[key].insert(action);
+	}
 
-    std::set<KeyboardAction>& KeyMap::GetActions(Key key)
-    {
-        return impl->m_actions[key];
-    }
+	void KeyMap::Remove(Key key, KeyboardAction action)
+	{
+		auto key_it = impl->m_actions.find(key);
+		if (key_it == impl->m_actions.end())
+			return;
+		auto action_it = key_it->second.find(action);
+		if (key_it->second.end() == action_it)
+			return;
+		key_it->second.erase(action_it);
+	}
 
-    const std::set<KeyboardAction>& KeyMap::GetActions(Key key) const
-    {
-        auto it = impl->m_actions.find(key);
-        if (it == impl->m_actions.end())
-            throw Error::SystemException("Key was not found");
-        return it->second;
-    }
+	std::set<KeyboardAction>& KeyMap::GetActions(Key key)
+	{
+		return impl->m_actions[key];
+	}
 
-    void KeyMap::OnKeyEvent(const KeyEvent &event) {
-        for (auto action : impl->m_actions[event.key]) {
-            (*action)(event);
-        }
-    }
+	const std::set<KeyboardAction>& KeyMap::GetActions(Key key) const
+	{
+		auto it = impl->m_actions.find(key);
+		if (it == impl->m_actions.end())
+			throw Error::SystemException("Key was not found");
+		return it->second;
+	}
 
-    KeyMap::KeyMap()
-        : impl(new KeyMapImpl)
-    {
-    }
+	void KeyMap::OnKeyEvent(const KeyEvent &event) {
+		for (auto action : impl->m_actions[event.key]) {
+			(*action)(event);
+		}
+	}
 
-    KeyMap::~KeyMap()
-    {        
-        delete impl;
-        impl = nullptr;        
-    }
+	KeyMap::KeyMap()
+		: impl(new KeyMapImpl)
+	{
+	}
+
+	KeyMap::~KeyMap()
+	{
+		delete impl;
+		impl = nullptr;
+	}
 }
 PUNK_ENGINE_END

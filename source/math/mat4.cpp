@@ -14,16 +14,16 @@ namespace Punk {
         namespace Math
         {
             mat4::mat4()
-                : m{1,0,0,0
-                    ,0,1,0,0
-                    ,0,0,1,0
-                    ,0,0,0,1} {}
+				: m{ { 1, 0, 0, 0
+				, 0, 1, 0, 0
+				, 0, 0, 1, 0
+				, 0, 0, 0, 1 } } {}
 
             mat4::mat4(float a0, float a1, float a2, float a3,
                  float a4, float a5, float a6, float a7,
                  float a8, float a9, float a10, float a11,
                  float a12, float a13, float a14, float a15)
-                : m{a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15} {}
+				 : m{ { a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15 } } {}
 
             mat4::mat4(std::initializer_list<float> v) {
                 auto it = v.begin();
@@ -33,11 +33,7 @@ namespace Punk {
             }
 
             mat4::mat4(const mat4& mm) {
-#ifdef MSVS
-                memcpy_s(m, sizeof(m), mm.m, sizeof(m));
-#else
-                memcpy(m, mm.m, sizeof(m));
-#endif
+				m = mm.m;
             }
 
             float& mat4::operator [] (int i) {
@@ -295,7 +291,7 @@ namespace Punk {
                         r0[6] = s * (r0[6] - r1[6] * m0), r0[7] = s * (r0[7] - r1[7] * m0);
 
                 mat4 res;
-                float* out = res.m;
+                float* out = res.m.data();
                 MAT(out,0,0) = r0[4]; MAT(out,0,1) = r0[5];
                 MAT(out,0,2) = r0[6]; MAT(out,0,3) = r0[7];
                 MAT(out,1,0) = r1[4]; MAT(out,1,1) = r1[5];

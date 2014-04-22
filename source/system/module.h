@@ -12,7 +12,7 @@
 //#include "smart_pointers/module.h"
 //#include "event_manager.h"
 //#include "folder.h"
-//#include "string.h"
+//#include "String.h"
 //#include "environment.h"
 //#include "config_file.h"
 //#include "resource.h"

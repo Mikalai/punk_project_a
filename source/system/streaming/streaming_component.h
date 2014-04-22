@@ -10,11 +10,11 @@
 //    {
 //    public:
 //        virtual ~StreamingComponent();
-//        const string GetName() const override;
+//        const String GetName() const override;
 //        const StringList GetServicesList() const override;
 //    protected:
 //        void OnInitialize() override;
-//        Object* OnGetService(const string& name) override;
+//        Object* OnGetService(const String& name) override;
 //    private:
 //        void Clear();
 //        void Create();

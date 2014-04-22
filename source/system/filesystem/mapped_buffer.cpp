@@ -1,5 +1,5 @@
 #include <stdexcept>
-#include <string/module.h>
+#include <String/module.h>
 #include <system/errors/module.h>
 #include "mapped_buffer.h"
 

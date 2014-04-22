@@ -120,7 +120,7 @@ namespace Graphics
         End
 	};
 
-    extern "C" PUNK_ENGINE_API const Core::String RenderPolicySetToString(RenderPolicySet policy);
+    extern PUNK_ENGINE_API const Core::String RenderPolicySetToString(RenderPolicySet policy);
 
     inline int GetIndex(RenderPolicySet policy) {
         return (int)policy;

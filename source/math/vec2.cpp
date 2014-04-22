@@ -52,13 +52,13 @@ namespace Punk {
 #ifdef MSVS
                 memcpy_s(m_v, sizeof(m_v), vec.m_v, sizeof(m_v));
 #else
-                memcpy(m_v, vec.m_v, sizeof(m_v));
+                memcpy(m_v.data(), vec.m_v.data(), sizeof(m_v));
 #endif
                 return *this;
             }
 
             vec2::vec2() {
-                memset(m_v, 0, sizeof(m_v));
+				m_v.fill(0);
             }
 
             vec2::vec2(std::initializer_list<float> v) {
@@ -78,7 +78,7 @@ namespace Punk {
 #ifdef MSVS
                 memcpy_s(m_v, sizeof(m_v), vec.m_v, sizeof(m_v));
 #else
-                memcpy(m_v, vec.m_v, sizeof(m_v));
+                memcpy(m_v.data(), vec.m_v.data(), sizeof(m_v));
 #endif
             }
 
@@ -220,13 +220,13 @@ namespace Punk {
 #ifdef MSVS
                 memcpy_s(m_v, sizeof(m_v), vec.m_v, sizeof(m_v));
 #else
-                memcpy(m_v, vec.m_v, sizeof(m_v));
+                memcpy(m_v.data(), vec.m_v.data(), sizeof(m_v));
 #endif
                 return *this;
             }
 
             ivec2::ivec2() {
-                memset(m_v, 0, sizeof(m_v));
+				m_v.fill(0);
             }
 
             ivec2::ivec2(int x, int y) {
@@ -237,7 +237,7 @@ namespace Punk {
 #ifdef MSVS
                 memcpy_s(m_v, sizeof(m_v), vec.m_v, sizeof(m_v));
 #else
-                memcpy(m_v, vec.m_v, sizeof(m_v));
+				m_v = vec.m_v;
 #endif
             }
 

@@ -10,25 +10,25 @@ namespace Punk {
     namespace Engine {
         namespace Math {
             vec4::vec4()
-                : m_v{0,0,0,0} {}
+				: m_v{ { 0, 0, 0, 0 } } {}
 
             vec4::vec4(float x, float y, float z, float w)
-                : m_v{x, y, z, w} {}
+				: m_v{ { x, y, z, w } } {}
 
             vec4::vec4(float x)
-                : m_v{x, x, x, x} {}
+				: m_v{ { x, x, x, x } } {}
 
             vec4::vec4(const vec4& origin, const vec4& destination)
-                : m_v{destination[0] - origin[0]
-                  , destination[1] - origin[1]
-                  , destination[2] - origin[2]
-                  , destination[3] - origin[3]} {}
+				: m_v{ { destination[0] - origin[0]
+				, destination[1] - origin[1]
+				, destination[2] - origin[2]
+				, destination[3] - origin[3] } } {}
 
             vec4::vec4(const vec3& p, float d)
-                : m_v{p.X(), p.Y(), p.Z(), d} {}
+				: m_v{ { p.X(), p.Y(), p.Z(), d } } {}
 
             vec4::vec4(const vec4& vec) {
-                memcpy(m_v, vec.m_v, sizeof(vec));
+                memcpy(m_v.data(), vec.m_v.data(), sizeof(vec));
             }
 
             const vec3 vec4::ToHomogeneus() const {
@@ -48,7 +48,7 @@ namespace Punk {
             }
 
             vec4::operator float* () {
-                return m_v;
+                return m_v.data();
             }
 
             const float& vec4::X() const {
@@ -87,7 +87,7 @@ namespace Punk {
 #ifdef MSVS
                 memcpy_s(m_v, sizeof(m_v), vec.m_v, sizeof(m_v));
 #else
-                memcpy(m_v, vec.m_v, sizeof(m_v));
+                memcpy(m_v.data(), vec.m_v.data(), sizeof(m_v));
 #endif
                 return *this;
             }
@@ -479,20 +479,20 @@ namespace Punk {
             //    }
 
             ivec4::ivec4()
-                : m_v{0,0,0,0}
+				: m_v{ { 0, 0, 0, 0 } }
             {}
 
             ivec4::ivec4(int x, int y, int z, int w)
-                : m_v{x, y, z, w}
+				: m_v{ { x, y, z, w } }
             {}
 
             ivec4::ivec4(int x)
-                : m_v{x, x, x, x}
+				: m_v{ { x, x, x, x } }
             {}
 
             ivec4::ivec4(const ivec4& vec)
             {
-                memcpy(m_v, vec.m_v, sizeof(vec));
+                memcpy(m_v.data(), vec.m_v.data(), sizeof(vec));
             }
 
             int& ivec4::operator [] (int i)

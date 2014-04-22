@@ -57,7 +57,7 @@ namespace Graphics
         }
     };
 
-    extern "C" PUNK_ENGINE_API IPointsUniquePtr CreatePoints(std::int64_t vertex_type, class IVideoDriver* driver) {
+    extern PUNK_ENGINE_API IPointsUniquePtr CreatePoints(std::int64_t vertex_type, class IVideoDriver* driver) {
         if (vertex_type == Vertex<VertexComponent::Position>::Value())
             return IPointsUniquePtr{new Points<Vertex<VertexComponent::Position>>(driver), DestroyRenderable};
         else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Texture0, VertexComponent::Flag, VertexComponent::Color>::Value())

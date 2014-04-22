@@ -6,7 +6,11 @@
 PUNK_ENGINE_BEGIN
 namespace System
 {
-    Core::Rtti Mouse::Type {"Punk.Engine.System.Mouse", typeid(Mouse).hash_code(), {&Core::Object::Type}};
+	static Core::Rtti MouseType{ "Punk.Engine.System.Mouse", typeid(Mouse).hash_code(), { Core::Object::Type() } };
+
+	Core::Rtti* Mouse::Type() {
+		return &MouseType;
+	}
 
     namespace __private {
         struct MouseImpl {

@@ -1,0 +1,607 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D0DE068F-3BF2-4B86-8EA8-5B4D66498C48}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>punk_graphics</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>PUNK_ENGINE_EXPORTS;USE_OPENGL;WIN32;_DEBUG;_WINDOWS;_USRDLL;PUNK_GRAPHICS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\bin\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;punk_error.lib;punk_math.lib;punk_string.lib;punk_core.lib;punk_system.lib;punk_font.lib;punk_image.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>PUNK_ENGINE_EXPORTS;USE_OPENGL;WIN32;_DEBUG;_WINDOWS;_USRDLL;PUNK_GRAPHICS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\bin\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;punk_error.lib;punk_math.lib;punk_string.lib;punk_core.lib;punk_system.lib;punk_font.lib;punk_image.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>PUNK_ENGINE_EXPORTS;USE_OPENGL;WIN32;NDEBUG;_WINDOWS;_USRDLL;PUNK_GRAPHICS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\bin\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;punk_error.lib;punk_math.lib;punk_string.lib;punk_core.lib;punk_system.lib;punk_font.lib;punk_image.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>PUNK_ENGINE_EXPORTS;USE_OPENGL;WIN32;NDEBUG;_WINDOWS;_USRDLL;PUNK_GRAPHICS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\bin\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;punk_error.lib;punk_math.lib;punk_string.lib;punk_core.lib;punk_system.lib;punk_font.lib;punk_image.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\source\graphics\blending\blend_function.cpp" />
+    <ClCompile Include="..\..\source\graphics\blending\gl_blending.cpp" />
+    <ClCompile Include="..\..\source\graphics\buffers\ibo.cpp" />
+    <ClCompile Include="..\..\source\graphics\buffers\pbo.cpp" />
+    <ClCompile Include="..\..\source\graphics\buffers\vbo.cpp" />
+    <ClCompile Include="..\..\source\graphics\canvas\canvas.cpp" />
+    <ClCompile Include="..\..\source\graphics\canvas\canvas_desciption.cpp" />
+    <ClCompile Include="..\..\source\graphics\error\graphics_error.cpp" />
+    <ClCompile Include="..\..\source\graphics\fog\fog.cpp" />
+    <ClCompile Include="..\..\source\graphics\fog\fog_mode.cpp" />
+    <ClCompile Include="..\..\source\graphics\frame\frame.cpp" />
+    <ClCompile Include="..\..\source\graphics\frame_buffer\color_render_buffer.cpp" />
+    <ClCompile Include="..\..\source\graphics\frame_buffer\depth_render_buffer.cpp" />
+    <ClCompile Include="..\..\source\graphics\frame_buffer\frame_buffer.cpp" />
+    <ClCompile Include="..\..\source\graphics\frame_buffer\frame_buffer_config.cpp" />
+    <ClCompile Include="..\..\source\graphics\frame_buffer\frame_buffer_target.cpp" />
+    <ClCompile Include="..\..\source\graphics\frame_buffer\gl_frame_buffer\gl_color_render_buffer.cpp" />
+    <ClCompile Include="..\..\source\graphics\frame_buffer\gl_frame_buffer\gl_depth_render_buffer.cpp" />
+    <ClCompile Include="..\..\source\graphics\frame_buffer\gl_frame_buffer\gl_frame_buffer.cpp" />
+    <ClCompile Include="..\..\source\graphics\frame_buffer\gl_frame_buffer\gl_frame_buffer_config.cpp" />
+    <ClCompile Include="..\..\source\graphics\frame_buffer\gl_frame_buffer\gl_frame_buffer_convert.cpp" />
+    <ClCompile Include="..\..\source\graphics\frame_buffer\gl_frame_buffer\gl_query_supprted_frame_buffer_configs.cpp" />
+    <ClCompile Include="..\..\source\graphics\frame_buffer\render_buffer.cpp" />
+    <ClCompile Include="..\..\source\graphics\frame_buffer\render_buffer_config.cpp" />
+    <ClCompile Include="..\..\source\graphics\gpu_common_module.cpp" />
+    <ClCompile Include="..\..\source\graphics\gpu_module.cpp" />
+    <ClCompile Include="..\..\source\graphics\lighting\light_model.cpp" />
+    <ClCompile Include="..\..\source\graphics\lighting\light_parameters.cpp" />
+    <ClCompile Include="..\..\source\graphics\material\gpu_material.cpp" />
+    <ClCompile Include="..\..\source\graphics\opengl\error\gl_error_check.cpp" />
+    <ClCompile Include="..\..\source\graphics\opengl\extensions.cpp" />
+    <ClCompile Include="..\..\source\graphics\painter\brush.cpp" />
+    <ClCompile Include="..\..\source\graphics\painter\painter.cpp" />
+    <ClCompile Include="..\..\source\graphics\painter\paint_device.cpp" />
+    <ClCompile Include="..\..\source\graphics\painter\paint_engine.cpp" />
+    <ClCompile Include="..\..\source\graphics\painter\pen.cpp" />
+    <ClCompile Include="..\..\source\graphics\primitives\cube_mesh.cpp" />
+    <ClCompile Include="..\..\source\graphics\primitives\frustum_mesh.cpp" />
+    <ClCompile Include="..\..\source\graphics\primitives\gl_primitive\gl_attribute_configer.cpp" />
+    <ClCompile Include="..\..\source\graphics\primitives\gl_primitive\gl_primitive_type.cpp" />
+    <ClCompile Include="..\..\source\graphics\primitives\grid_object.cpp" />
+    <ClCompile Include="..\..\source\graphics\primitives\lines.cpp" />
+    <ClCompile Include="..\..\source\graphics\primitives\points.cpp" />
+    <ClCompile Include="..\..\source\graphics\primitives\primitive_type.cpp" />
+    <ClCompile Include="..\..\source\graphics\primitives\quad_mesh.cpp" />
+    <ClCompile Include="..\..\source\graphics\primitives\renderable.cpp" />
+    <ClCompile Include="..\..\source\graphics\primitives\scaled_grid.cpp" />
+    <ClCompile Include="..\..\source\graphics\primitives\skin_mesh.cpp" />
+    <ClCompile Include="..\..\source\graphics\primitives\sphere_mesh.cpp" />
+    <ClCompile Include="..\..\source\graphics\primitives\static_mesh.cpp" />
+    <ClCompile Include="..\..\source\graphics\primitives\triangles.cpp" />
+    <ClCompile Include="..\..\source\graphics\primitives\triangle_fans.cpp" />
+    <ClCompile Include="..\..\source\graphics\primitives\triangle_strip.cpp" />
+    <ClCompile Include="..\..\source\graphics\renderable\gl_renderable\gl_renderable_builder.cpp" />
+    <ClCompile Include="..\..\source\graphics\renderable\renderable_builder.cpp" />
+    <ClCompile Include="..\..\source\graphics\render\render.cpp" />
+    <ClCompile Include="..\..\source\graphics\render\render_batch.cpp" />
+    <ClCompile Include="..\..\source\graphics\render\render_context\gl_render_context\gl_rc_dynamic.cpp" />
+    <ClCompile Include="..\..\source\graphics\render\render_context\gl_render_context\gl_rc_instances.cpp" />
+    <ClCompile Include="..\..\source\graphics\render\render_context\gl_render_context\gl_render_context.cpp" />
+    <ClCompile Include="..\..\source\graphics\render\render_context\irender_context.cpp" />
+    <ClCompile Include="..\..\source\graphics\render\render_context\render_context_select.cpp" />
+    <ClCompile Include="..\..\source\graphics\render\render_pass.cpp" />
+    <ClCompile Include="..\..\source\graphics\render\render_queue.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_diffuse_color.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_diffuse_color_specular.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_shadow_map.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_tex_diffuse.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_tex_diffuse_specular.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_depth.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_grass.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_gui.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_light.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_painter.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_particle.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_fragment_lighting_diffuse.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_fragment_lighting_diffuse_specular.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_fragment_lighting_tex_diffuse.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_fragment_lighting_tex_diffuse_specular.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_vertex_lighting_diffuse.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_vertex_lighting_diffuse_shadow_simple.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_vertex_lighting_tex_diffuse.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_pfl_diffuse_simple_shadow.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_shadow_single.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_skinning.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_solid_color.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_solid_textured.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_solid_textured_2d_array.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_solid_vertex_color.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_terrain.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_text_solid.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_shader.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_shader_type.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_diffuse_color.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_diffuse_color_specular.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_shadow_map.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_tex_diffuse.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_tex_diffuse_specular.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_depth.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_grass.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_gui.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_light.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_painter.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_particle.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_particle_system.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_fragment_lighting_diffuse.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_fragment_lighting_diffuse_specular.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_fragment_lighting_tex_diffuse.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_fragment_lighting_tex_diffuse_specular.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting_diffuse.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting_diffuse_shadow_simple.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting_diffuse_specular.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting_tex_diffuse.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_pfl_diffuse_simple_shadow.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_skinning_bump.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_skinning_depth.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_solid_color.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_solid_vertex_color.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_terrain.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_transformed_textured_3d.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_transform_3d.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\shader_builder.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\shader_data_type.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\shader_function.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\shader_type.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\shader_uniform_table.cpp" />
+    <ClCompile Include="..\..\source\graphics\shaders\shader_var_table.cpp" />
+    <ClCompile Include="..\..\source\graphics\state\gpu_state.cpp" />
+    <ClCompile Include="..\..\source\graphics\texture\gl_texture\gl_texture2d.cpp" />
+    <ClCompile Include="..\..\source\graphics\texture\gl_texture\gl_texture2d_array.cpp" />
+    <ClCompile Include="..\..\source\graphics\texture\gl_texture\gl_texture_convert.cpp" />
+    <ClCompile Include="..\..\source\graphics\texture\texture_context.cpp" />
+    <ClCompile Include="..\..\source\graphics\text\text_surface.cpp" />
+    <ClCompile Include="..\..\source\graphics\video_driver\gl_video_driver\gl_capabilities.cpp" />
+    <ClCompile Include="..\..\source\graphics\video_driver\gl_video_driver\gl_settings.cpp" />
+    <ClCompile Include="..\..\source\graphics\video_driver\gl_video_driver\gl_vfs.cpp" />
+    <ClCompile Include="..\..\source\graphics\video_driver\gl_video_driver\gl_video_driver.cpp" />
+    <ClCompile Include="..\..\source\graphics\video_driver\video_driver.cpp" />
+    <ClCompile Include="..\..\source\graphics\video_driver\video_driver_creator.cpp" />
+    <ClCompile Include="..\..\source\graphics\video_memory\gl_video_memory\video_memory.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\graphics\blending\blend_function.h" />
+    <ClInclude Include="..\..\source\graphics\blending\gl_blending.h" />
+    <ClInclude Include="..\..\source\graphics\blending\module.h" />
+    <ClInclude Include="..\..\source\graphics\buffers\ibo.h" />
+    <ClInclude Include="..\..\source\graphics\buffers\ibufffer_object.h" />
+    <ClInclude Include="..\..\source\graphics\buffers\module.h" />
+    <ClInclude Include="..\..\source\graphics\buffers\pbo.h" />
+    <ClInclude Include="..\..\source\graphics\buffers\template_buffer.h" />
+    <ClInclude Include="..\..\source\graphics\buffers\vbo.h" />
+    <ClInclude Include="..\..\source\graphics\canvas\canvas.h" />
+    <ClInclude Include="..\..\source\graphics\canvas\canvas_desciption.h" />
+    <ClInclude Include="..\..\source\graphics\canvas\icanvas.h" />
+    <ClInclude Include="..\..\source\graphics\canvas\module.h" />
+    <ClInclude Include="..\..\source\graphics\config.h" />
+    <ClInclude Include="..\..\source\graphics\error\graphics_error.h" />
+    <ClInclude Include="..\..\source\graphics\error\module.h" />
+    <ClInclude Include="..\..\source\graphics\fog\fog.h" />
+    <ClInclude Include="..\..\source\graphics\fog\fog_mode.h" />
+    <ClInclude Include="..\..\source\graphics\fog\module.h" />
+    <ClInclude Include="..\..\source\graphics\frame\frame.h" />
+    <ClInclude Include="..\..\source\graphics\frame\iframe.h" />
+    <ClInclude Include="..\..\source\graphics\frame\module.h" />
+    <ClInclude Include="..\..\source\graphics\frame_buffer\color_render_buffer.h" />
+    <ClInclude Include="..\..\source\graphics\frame_buffer\depth_render_buffer.h" />
+    <ClInclude Include="..\..\source\graphics\frame_buffer\frame_buffer.h" />
+    <ClInclude Include="..\..\source\graphics\frame_buffer\frame_buffer_config.h" />
+    <ClInclude Include="..\..\source\graphics\frame_buffer\frame_buffer_target.h" />
+    <ClInclude Include="..\..\source\graphics\frame_buffer\gl_frame_buffer\gl_color_render_buffer.h" />
+    <ClInclude Include="..\..\source\graphics\frame_buffer\gl_frame_buffer\gl_depth_render_buffer.h" />
+    <ClInclude Include="..\..\source\graphics\frame_buffer\gl_frame_buffer\gl_frame_buffer.h" />
+    <ClInclude Include="..\..\source\graphics\frame_buffer\gl_frame_buffer\gl_frame_buffer_config.h" />
+    <ClInclude Include="..\..\source\graphics\frame_buffer\gl_frame_buffer\gl_frame_buffer_convert.h" />
+    <ClInclude Include="..\..\source\graphics\frame_buffer\gl_frame_buffer\module.h" />
+    <ClInclude Include="..\..\source\graphics\frame_buffer\iframe_buffer.h" />
+    <ClInclude Include="..\..\source\graphics\frame_buffer\irender_buffer.h" />
+    <ClInclude Include="..\..\source\graphics\frame_buffer\module.h" />
+    <ClInclude Include="..\..\source\graphics\frame_buffer\render_buffer.h" />
+    <ClInclude Include="..\..\source\graphics\frame_buffer\render_buffer_config.h" />
+    <ClInclude Include="..\..\source\graphics\lighting\light_model.h" />
+    <ClInclude Include="..\..\source\graphics\lighting\light_parameters.h" />
+    <ClInclude Include="..\..\source\graphics\lighting\module.h" />
+    <ClInclude Include="..\..\source\graphics\material\gpu_material.h" />
+    <ClInclude Include="..\..\source\graphics\material\module.h" />
+    <ClInclude Include="..\..\source\graphics\module.h" />
+    <ClInclude Include="..\..\source\graphics\opengl\error\gl_error_check.h" />
+    <ClInclude Include="..\..\source\graphics\opengl\error\gl_exceptions.h" />
+    <ClInclude Include="..\..\source\graphics\opengl\error\module.h" />
+    <ClInclude Include="..\..\source\graphics\opengl\extensions.h" />
+    <ClInclude Include="..\..\source\graphics\opengl\gl\glcorearb.h" />
+    <ClInclude Include="..\..\source\graphics\opengl\gl\glext.h" />
+    <ClInclude Include="..\..\source\graphics\opengl\gl\glxext.h" />
+    <ClInclude Include="..\..\source\graphics\opengl\gl\wglext.h" />
+    <ClInclude Include="..\..\source\graphics\opengl\module.h" />
+    <ClInclude Include="..\..\source\graphics\painter\brush.h" />
+    <ClInclude Include="..\..\source\graphics\painter\module.h" />
+    <ClInclude Include="..\..\source\graphics\painter\painter.h" />
+    <ClInclude Include="..\..\source\graphics\painter\paint_device.h" />
+    <ClInclude Include="..\..\source\graphics\painter\paint_engine.h" />
+    <ClInclude Include="..\..\source\graphics\painter\pen.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\cube_mesh.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\frustum_mesh.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\gl_primitive\gl_attribute_configer.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\gl_primitive\gl_primitive_type.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\gl_primitive\gl_vertex_array_object.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\gl_primitive\module.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\grid_object.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\iindex_array.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\ilines.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\index_array.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\ipoints.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\irenderable.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\itriangles.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\itriangle_fans.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\itriangle_strip.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\ivertex_array.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\lines.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\module.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\points.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\primitive_type.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\quad_mesh.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\renderable.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\scaled_grid.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\skin_mesh.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\sphere_mesh.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\static_mesh.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\triangles.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\triangle_fans.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\triangle_strip.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\vertex.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\vertex_array.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\vertex_component.h" />
+    <ClInclude Include="..\..\source\graphics\renderable\gl_renderable\gl_renderable_builder.h" />
+    <ClInclude Include="..\..\source\graphics\renderable\gl_renderable\module.h" />
+    <ClInclude Include="..\..\source\graphics\renderable\irenderable_builder.h" />
+    <ClInclude Include="..\..\source\graphics\renderable\module.h" />
+    <ClInclude Include="..\..\source\graphics\renderable\renderable_builder.h" />
+    <ClInclude Include="..\..\source\graphics\render\irender.h" />
+    <ClInclude Include="..\..\source\graphics\render\module.h" />
+    <ClInclude Include="..\..\source\graphics\render\render.h" />
+    <ClInclude Include="..\..\source\graphics\render\render_batch.h" />
+    <ClInclude Include="..\..\source\graphics\render\render_context\gl_render_context\gl_rc_dynamic.h" />
+    <ClInclude Include="..\..\source\graphics\render\render_context\gl_render_context\gl_rc_instances.h" />
+    <ClInclude Include="..\..\source\graphics\render\render_context\gl_render_context\gl_render_context.h" />
+    <ClInclude Include="..\..\source\graphics\render\render_context\gl_render_context\module.h" />
+    <ClInclude Include="..\..\source\graphics\render\render_context\irender_context.h" />
+    <ClInclude Include="..\..\source\graphics\render\render_context\render_context_select.h" />
+    <ClInclude Include="..\..\source\graphics\render\render_pass.h" />
+    <ClInclude Include="..\..\source\graphics\render\render_queue.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_diffuse_color.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_diffuse_color_specular.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_shadow_map.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_tex_diffuse.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_tex_diffuse_specular.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_depth.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_grass.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_gui.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_light.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_painter.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_particle.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_fragment_lighting_diffuse.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_fragment_lighting_diffuse_specular.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_fragment_lighting_tex_diffuse.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_fragment_lighting_tex_diffuse_specular.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_vertex_lighting_diffuse.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_vertex_lighting_diffuse_shadow_simple.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_vertex_lighting_tex_diffuse.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_pfl_diffuse_simple_shadow.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_shadow_single.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_skinning.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_solid_color.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_solid_textured.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_solid_textured_2d_array.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_solid_vertex_color.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_terrain.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_text_solid.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_shader.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_shader_impl.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_shader_type.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_shader_types\gl_fog_parameters.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_shader_types\gl_light_source_parameters.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_shader_types\gl_material_parameters.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_shader_types\module.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_diffuse_color.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_diffuse_color_specular.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_shadow_map.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_tex_diffuse.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_tex_diffuse_specular.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_depth.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_grass.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_gui.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_light.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_painter.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_particle.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_particle_system.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_fragment_lighting_diffuse.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_fragment_lighting_diffuse_specular.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_fragment_lighting_tex_diffuse.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_fragment_lighting_tex_diffuse_specular.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting_diffuse.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting_diffuse_shadow_simple.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting_diffuse_specular.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting_tex_diffuse.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_pfl_diffuse_simple_shadow.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_skinning_bump.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_skinning_depth.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_solid_color.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_solid_vertex_color.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_terrain.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_transformed_textured_3d.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_transform_3d.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\module.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\module.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\shader_builder.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\shader_data_type.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\shader_function.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\shader_type.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\shader_uniform_table.h" />
+    <ClInclude Include="..\..\source\graphics\shaders\shader_var_table.h" />
+    <ClInclude Include="..\..\source\graphics\state\gpu_state.h" />
+    <ClInclude Include="..\..\source\graphics\state\module.h" />
+    <ClInclude Include="..\..\source\graphics\texture\gl_texture\gl_texture2d.h" />
+    <ClInclude Include="..\..\source\graphics\texture\gl_texture\gl_texture2d_array.h" />
+    <ClInclude Include="..\..\source\graphics\texture\gl_texture\gl_texture_convert.h" />
+    <ClInclude Include="..\..\source\graphics\texture\gl_texture\module.h" />
+    <ClInclude Include="..\..\source\graphics\texture\itexture.h" />
+    <ClInclude Include="..\..\source\graphics\texture\itexture2d.h" />
+    <ClInclude Include="..\..\source\graphics\texture\itexture2d_array.h" />
+    <ClInclude Include="..\..\source\graphics\texture\module.h" />
+    <ClInclude Include="..\..\source\graphics\texture\texture_compare_func.h" />
+    <ClInclude Include="..\..\source\graphics\texture\texture_compare_mode.h" />
+    <ClInclude Include="..\..\source\graphics\texture\texture_context.h" />
+    <ClInclude Include="..\..\source\graphics\texture\texture_filter.h" />
+    <ClInclude Include="..\..\source\graphics\texture\texture_wrap.h" />
+    <ClInclude Include="..\..\source\graphics\text\itext_surface.h" />
+    <ClInclude Include="..\..\source\graphics\text\module.h" />
+    <ClInclude Include="..\..\source\graphics\text\text_direction.h" />
+    <ClInclude Include="..\..\source\graphics\text\text_horizontal_alignment.h" />
+    <ClInclude Include="..\..\source\graphics\text\text_surface.h" />
+    <ClInclude Include="..\..\source\graphics\text\text_vertical_alignment.h" />
+    <ClInclude Include="..\..\source\graphics\video_driver\gl_video_driver\gl_capabilities.h" />
+    <ClInclude Include="..\..\source\graphics\video_driver\gl_video_driver\gl_settings.h" />
+    <ClInclude Include="..\..\source\graphics\video_driver\gl_video_driver\gl_vfs.h" />
+    <ClInclude Include="..\..\source\graphics\video_driver\gl_video_driver\gl_video_driver.h" />
+    <ClInclude Include="..\..\source\graphics\video_driver\gl_video_driver\module.h" />
+    <ClInclude Include="..\..\source\graphics\video_driver\gpu_config.h" />
+    <ClInclude Include="..\..\source\graphics\video_driver\ivideo_driver.h" />
+    <ClInclude Include="..\..\source\graphics\video_driver\ivideo_driver_settings.h" />
+    <ClInclude Include="..\..\source\graphics\video_driver\module.h" />
+    <ClInclude Include="..\..\source\graphics\video_driver\video_driver.h" />
+    <ClInclude Include="..\..\source\graphics\video_driver\video_driver_creator.h" />
+    <ClInclude Include="..\..\source\graphics\video_driver\video_driver_type.h" />
+    <ClInclude Include="..\..\source\graphics\video_memory\gl_video_memory\ati_meminfo.h" />
+    <ClInclude Include="..\..\source\graphics\video_memory\gl_video_memory\module.h" />
+    <ClInclude Include="..\..\source\graphics\video_memory\gl_video_memory\nvx_gpu_memory_info.h" />
+    <ClInclude Include="..\..\source\graphics\video_memory\gl_video_memory\video_memory.h" />
+    <ClInclude Include="..\..\source\graphics\video_memory\ivideo_memory.h" />
+    <ClInclude Include="..\..\source\graphics\video_memory\module.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_330_shadow_map.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_330_shadow_map.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_diffuse_color_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_diffuse_color_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_diffuse_color_specular_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_diffuse_color_specular_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_tex_diffuse_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_tex_diffuse_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_tex_diffuse_specular_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_tex_diffuse_specular_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\depth.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\depth.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\draw_normals.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\draw_normals.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\grass_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\grass_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\gui_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\gui_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\light.glsl" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\line_2d_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\line_2d_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\line_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\line_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\line_3d_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\line_3d_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\material.glsl" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\normals_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\normals_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\painter_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\painter_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\particle_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\particle_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_diffuse_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_diffuse_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_diffuse_simple_shadow.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_diffuse_simple_shadow.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_diffuse_specular_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_diffuse_specular_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_tex_diffuse_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_tex_diffuse_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_tex_diffuse_specular_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_tex_diffuse_specular_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_vertex_lighting_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_vertex_lighting_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_vertex_lighting_diffuse_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_vertex_lighting_diffuse_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_vertex_lighting_diffuse_simple_shadow.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_vertex_lighting_diffuse_simple_shadow.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_vertex_lighting_tex_diffuse_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_vertex_lighting_tex_diffuse_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\skinning_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\skinning_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\skinning_bump_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\skinning_depth_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_color_2d_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_color_2d_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_color_3d_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_color_3d_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_textured_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_textured_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_texture_2d_array.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_vertex_color.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_vertex_color.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\static_mesh_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\static_mesh_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\terrain_330 - Copy.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\terrain_330 - Copy.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\terrain_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\terrain_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\textured_2d_330.frag" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\textured_2d_330.vert" />
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\text_color_330.frag" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -2,6 +2,7 @@
 #define _H_QUAT_MATH
 
 #include <initializer_list>
+#include <array>
 #include "config.h"
 
 namespace Punk {
@@ -71,7 +72,7 @@ namespace Punk {
 
 
             private:
-                float m_v[4];
+                std::array<float, 4> m_v;
             };
 
             //PUNK_ENGINE_API std::wostream& operator << (std::wostream& stream, const Math::quat& q);

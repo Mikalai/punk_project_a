@@ -55,7 +55,7 @@ namespace Graphics {
         }
     };
 
-    extern "C" PUNK_ENGINE_API ILinesUniquePtr CreateLines(std::int64_t vertex_type, IVideoDriver* driver) {
+    extern PUNK_ENGINE_API ILinesUniquePtr CreateLines(std::int64_t vertex_type, IVideoDriver* driver) {
         if (vertex_type == Vertex<VertexComponent::Position>::Value())
             return ILinesUniquePtr{new Lines<Vertex<VertexComponent::Position>>(driver), DestroyRenderable};
         else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Texture0, VertexComponent::Flag, VertexComponent::Color>::Value())

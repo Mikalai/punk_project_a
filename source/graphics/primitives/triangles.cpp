@@ -64,7 +64,7 @@ namespace Graphics
         }
     };
 
-    extern "C" PUNK_ENGINE_API ITrianglesUniquePtr CreateTriangles(std::int64_t vertex_type, IVideoDriver* driver) {
+    extern PUNK_ENGINE_API ITrianglesUniquePtr CreateTriangles(std::int64_t vertex_type, IVideoDriver* driver) {
         if (vertex_type == Vertex<VertexComponent::Position>::Value())
             return ITrianglesUniquePtr{new Triangles<Vertex<VertexComponent::Position>, unsigned>(driver), DestroyRenderable};
         else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Texture0, VertexComponent::Flag, VertexComponent::Color>::Value())

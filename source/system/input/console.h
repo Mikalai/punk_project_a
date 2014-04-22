@@ -2,7 +2,7 @@
 #define _H_SYSTEM_CONSOLE
 
 #include <memory>
-#include "string/string.h"
+#include "String/String.h"
 #include "config.h"
 
 PUNK_ENGINE_BEGIN

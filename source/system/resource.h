@@ -20,15 +20,15 @@
 //		virtual void Unload()
 //		{
 //			std::stringstream s;
-//			std::string type = typeid(T).name();
-//			for (std::string::iterator it = type.begin(); it != type.end(); ++it)
+//			std::String type = typeid(T).name();
+//			for (std::String::iterator it = type.begin(); it != type.end(); ++it)
 //			{
 //				if ((*it) != ' ' && (*it) != ':')
 //					s << *it;
 //			}
 //			s << '_';
 //			s << m_code;
-//			std::string filename = s.str();
+//			std::String filename = s.str();
 //			std::ofstream stream(filename, std::ios_base::binary);
 //			m_resource->Save(stream);
 //			m_unloaded = true;
@@ -37,8 +37,8 @@
 //		virtual void Reload()
 //		{
 //			std::stringstream s;
-//			std::string type = typeid(T).name();
-//			for (std::string::iterator it = type.begin(); it != type.end(); ++it)
+//			std::String type = typeid(T).name();
+//			for (std::String::iterator it = type.begin(); it != type.end(); ++it)
 //			{
 //				if ((*it) != ' ' && (*it) != ':')
 //					s << *it;

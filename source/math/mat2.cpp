@@ -41,7 +41,7 @@ namespace Punk {
             }
 
             mat2::mat2() {
-                memset(m, 0, sizeof(m));
+				m.fill(0);
                 m[0] = m[3] = 1.0f;
             }
 
@@ -54,11 +54,7 @@ namespace Punk {
 
             mat2& mat2::operator = (const mat2& v)
             {
-#ifdef MSVS
-                memcpy_s(m, sizeof(m), v.m, sizeof(m));
-#else
-                memcpy(m, v.m, sizeof(m));
-#endif
+				m = v.m;
                 return *this;
             }
 
@@ -87,11 +83,11 @@ namespace Punk {
             }
 
             mat2::operator float* () {
-                return m;
+                return m.data();
             }
 
             mat2::operator const float* () const {
-                return m;
+                return m.data();
             }
 
             mat2& mat2::Inverse() {
@@ -105,7 +101,7 @@ namespace Punk {
                 tm[1] = -m[1] * d;
                 tm[2] = -m[2] * d;
                 tm[3] =  m[0] * d;
-                memcpy(m, tm, sizeof(m));
+                memcpy(m.data(), tm, sizeof(m));
                 return *this;
             }
 
@@ -141,7 +137,7 @@ namespace Punk {
 
             mat2& mat2::Identity() {
                 float tm[4] = {float(1),float(0),float(0),float(1)};
-                memcpy(m, tm, sizeof(m));
+                memcpy(m.data(), tm, sizeof(m));
                 return *this;
             }
 

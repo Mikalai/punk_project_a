@@ -7,7 +7,8 @@
 #ifndef _H_PUNK_MATH_MAT2X2_MATH
 #define _H_PUNK_MATH_MAT2X2_MATH
 
-#include "config.h"
+#include <array>
+#include <config.h>
 
 namespace Punk {
     namespace Engine {
@@ -18,7 +19,7 @@ namespace Punk {
             class PUNK_ENGINE_API mat2
             {
             protected:
-                float m[4];
+				std::array<float, 4> m;
             public:
 
                 static const mat2 CreateIdentity();

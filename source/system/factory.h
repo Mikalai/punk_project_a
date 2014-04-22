@@ -18,9 +18,9 @@
 //		bool RegisterCreator(ObjectType type, ResourceCreator* creator);
 //		bool UnregisterCreator(ObjectType type);
 //		Object* Create(ObjectType type);
-//		Object* Create(const string& name, ObjectType type);
+//		Object* Create(const String& name, ObjectType type);
 
-//		Object* CreateFromTextFile(const string& path);
+//		Object* CreateFromTextFile(const String& path);
 
 //		bool SaveToStream(std::ostream& stream, Object* object);
 //		Object* LoadFromStream(std::istream& stream);

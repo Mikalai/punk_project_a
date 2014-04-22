@@ -25,6 +25,7 @@ namespace Core {
 		else if (params[1] == Unregister) {			
 			m_processor = nullptr;
 		}
+        return nullptr;
 	}
 
 	const String Command::Process(const StringList& args) {

@@ -477,6 +477,7 @@ namespace Graphics
             SetUniformVector4f(material.diffuse, value.m_diffuse_color);
             SetUniformVector4f(material.specular, value.m_specular_color);
             SetUniformFloat(material.shininess, value.m_specular_factor);
+			return true;
         }
 
 		int OpenGLRenderContext::GetUniformLocation(const char * name)
@@ -778,6 +779,7 @@ namespace Graphics
         const FogShaderParameters OpenGLRenderContext::GetUniformFogLocation(const char* name)
         {
             FogShaderParameters fog;
+			memset(&fog, 0, sizeof(fog));
             return fog;
         }
 	}

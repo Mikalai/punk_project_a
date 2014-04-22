@@ -5,7 +5,7 @@
 PUNK_ENGINE_BEGIN
 namespace System
 {
-    Core::Rtti Window::Type{"Punk.Engine.System.Window", typeid(Window).hash_code(), {&Core::Object::Type}};
+    Core::Rtti WindowType{"Punk.Engine.System.Window", typeid(Window).hash_code(), {Core::Object::Type()}};
 
     Window::Window()
     {
@@ -14,6 +14,10 @@ namespace System
     Window::~Window()
     {
     }
+
+	Core::Rtti* Window::Type() {
+		return &WindowType;
+	}
 
     Window* CreateRootWindow(const WindowDescription &desc)
     {

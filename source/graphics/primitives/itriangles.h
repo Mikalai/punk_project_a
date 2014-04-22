@@ -20,7 +20,7 @@ namespace Graphics {
 
     using ITrianglesUniquePtr = std::unique_ptr<ITriangles, void (*)(IRenderable*)>;
 
-    extern "C" PUNK_ENGINE_API ITrianglesUniquePtr CreateTriangles(std::int64_t vertex_type, class IVideoDriver* driver);
+    extern PUNK_ENGINE_API ITrianglesUniquePtr CreateTriangles(std::int64_t vertex_type, class IVideoDriver* driver);
 }
 PUNK_ENGINE_END
 

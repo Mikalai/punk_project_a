@@ -8,7 +8,7 @@
 #include <stdio.h>
 
 #ifdef USE_LIB_PNG
-#include <png/png.h>
+#include <libpng/png.h>
 #endif // USE_LIB_PNG
 
 PUNK_ENGINE_BEGIN

@@ -192,12 +192,12 @@ namespace Core {
 
         void operator () ()
         {
-            for (typename FunctionCollection::iterator it = m_functions.begin(); it != m_functions.end(); ++it)
+            for (auto it = m_functions.begin(); it != m_functions.end(); ++it)
             {
                 (*it)();
             }
 
-            for (typename MethodCollection::iterator it = m_methods.begin(); it != m_methods.end(); ++it)
+            for (auto it = m_methods.begin(); it != m_methods.end(); ++it)
             {
                 (*(*it))();
             }
@@ -216,7 +216,7 @@ namespace Core {
 
         void Remove(Action* action)
         {
-            typename MethodCollection::iterator it = std::find(m_methods.begin(), m_methods.end(), action);
+            auto it = std::find(m_methods.begin(), m_methods.end(), action);
             if (it == m_methods.end())
                 return;
             m_methods.erase(it);
@@ -225,7 +225,7 @@ namespace Core {
 
         void Remove(Function f)
         {
-            typename FunctionCollection::iterator it = std::find(m_functions.begin(), m_functions.end(), f);
+            auto it = std::find(m_functions.begin(), m_functions.end(), f);
             if (it == m_functions.end())
                 return;
             m_functions.erase(it);

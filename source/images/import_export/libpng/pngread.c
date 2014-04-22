@@ -1371,7 +1371,12 @@ png_image_begin_read_from_file(png_imagep image, const char *file_name)
    {
       if (file_name != NULL)
       {
-         FILE *fp = fopen(file_name, "rb");
+		  FILE *fp = NULL;
+#ifdef _MSC_VER
+		  fopen_s(&fp, file_name, "rb");
+#else
+		  fopen(file_name, "rb");
+#endif
 
          if (fp != NULL)
          {
@@ -1386,8 +1391,12 @@ png_image_begin_read_from_file(png_imagep image, const char *file_name)
             (void)fclose(fp);
          }
 
-         else
-            return png_image_error(image, strerror(errno));
+		 else
+		 {
+			 char buf[MAX_PATH];
+			 strerror_s(buf, MAX_PATH, errno);
+			 return png_image_error(image, buf);
+		 }
       }
 
       else

@@ -41,7 +41,7 @@ namespace Core {
         }
 
         std::uint32_t LeftOpacity() {
-            return m_capacity - (m_current - m_buffer);
+			return (std::uint32_t)(m_capacity - (m_current - m_buffer));
         }
 
         void SetPosition(std::uint32_t value) {
@@ -56,7 +56,7 @@ namespace Core {
         }
 
         std::uint32_t GetPosition() const {
-            return m_current - m_buffer;
+			return (std::uint32_t)(m_current - m_buffer);
         }
 
         std::uint32_t GetSize() const {

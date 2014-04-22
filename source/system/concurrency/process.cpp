@@ -1,4 +1,4 @@
-#include <string/module.h>
+#include <String/module.h>
 #include "process.h"
 
 PUNK_ENGINE_BEGIN
@@ -24,7 +24,11 @@ namespace System
 
     bool Process::Start(const Core::String& cmd_line)
 	{
-#ifdef _WIN32
+#ifdef _MSC_VER
+		wchar_t buf[MAX_PATH];
+		wcsncpy_s(buf, MAX_PATH, (const wchar_t*)cmd_line.ToWchar().Data(), MAX_PATH);
+		return m_is_launched = (TRUE == CreateProcessW(NULL, buf, NULL, NULL, TRUE, 0, 0, 0, &m_startup_info, &m_process_info));
+#elif defined _WIN32
         wchar_t buf[MAX_PATH];
         wcsncpy(buf, (const wchar_t*)cmd_line.ToWchar().Data(), MAX_PATH);
         return m_is_launched = (TRUE == CreateProcessW(NULL, buf, NULL, NULL, TRUE, 0, 0, 0, &m_startup_info, &m_process_info));

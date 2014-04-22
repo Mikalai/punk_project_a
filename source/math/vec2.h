@@ -2,7 +2,8 @@
 #define _H_PUNK_MATH_VEC2_MATH
 
 #include <initializer_list>
-#include "config.h"
+#include <array>
+#include <config.h>
 
 PUNK_ENGINE_BEGIN
 namespace Core {
@@ -43,7 +44,7 @@ namespace Math {
 		const Core::String ToString() const;
 	private:
 		static const int Size_c = 2;
-		float m_v[Size_c];
+		std::array<float, Size_c> m_v;
 	};
 
 	PUNK_ENGINE_API const vec2 operator + (const vec2& v1, const vec2& v2);
@@ -81,7 +82,7 @@ namespace Math {
 		const Core::String ToString() const;
 	private:
 		static const int Size_c = 2;
-		int m_v[Size_c];
+		std::array<int, Size_c> m_v;
 	};
 
 	PUNK_ENGINE_API const ivec2 operator + (const ivec2& v1, const ivec2& v2);

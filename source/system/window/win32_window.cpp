@@ -3,17 +3,17 @@
 #include <stdio.h>
 #include <algorithm>
 #include "win32_window.h"
-#include "error/module.h"
-#include "system/events/module.h"
-#include "system/errors/module.h"
-#include "system/logger/module.h"
-#include "system/input/module.h"
-#include "system/time/module.h"
-#include "string/module.h"
+#include <system/events/module.h>
+#include <system/errors/module.h>
+#include <system/logger/module.h>
+#include <system/input/module.h>
+#include <system/time/module.h>
+#include <string/module.h>
 
 PUNK_ENGINE_BEGIN
 namespace System {    
-    typedef LRESULT WINAPI (*TWindowCallBack)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+    
+	typedef LRESULT (WINAPI *TWindowCallBack)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
     int GetX(HWND handle) {
         RECT wrect;

@@ -172,8 +172,8 @@ namespace Graphics
 
     using IFrameUniquePtr = std::unique_ptr<IFrame, void (*)(IFrame*)>;
 
-    extern "C" PUNK_ENGINE_API IFrameUniquePtr CreateFrame(IRender* render);
-    extern "C" PUNK_ENGINE_API void DestroyFrame(IFrame*);
+    extern PUNK_ENGINE_API IFrameUniquePtr CreateFrame(IRender* render);
+    extern PUNK_ENGINE_API void DestroyFrame(IFrame*);
 }
 PUNK_ENGINE_END
 

@@ -12,8 +12,8 @@
 
 #include <iostream>
 #include <istream>
-#include <string/string.h>
-#include <string/buffer.h>
+#include <String/String.h>
+#include <String/buffer.h>
 #include <system/errors/module.h>
 #include <system/logger/module.h>
 #include "binary_file.h"

@@ -24,7 +24,7 @@ namespace Math {
         vec3 m_center;
         float m_radius;
 
-        friend const Sphere operator * (const mat4& m, const Sphere& s);
+        friend PUNK_ENGINE_API const Sphere operator * (const mat4& m, const Sphere& s);
     };
 
     PUNK_ENGINE_API const Sphere operator * (const mat4& m, const Sphere& s);

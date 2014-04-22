@@ -87,7 +87,12 @@ read_quant_tables (j_compress_ptr cinfo, char * filename, boolean force_baseline
   long val;
   unsigned int table[DCTSIZE2];
 
-  if ((fp = fopen(filename, "r")) == NULL) {
+#ifdef _MSC_VER
+  fopen_s(&fp, filename, "r");
+#else
+  fp = fopen(filename, "r");
+#endif
+  if (fp == NULL) {
     fprintf(stderr, "Can't open table file %s\n", filename);
     return FALSE;
   }
@@ -180,7 +185,14 @@ read_scan_script (j_compress_ptr cinfo, char * filename)
 #define MAX_SCANS  100		/* quite arbitrary limit */
   jpeg_scan_info scans[MAX_SCANS];
 
-  if ((fp = fopen(filename, "r")) == NULL) {
+#ifdef _MSC_VER
+  fopen_s(&fp, filename, "r");
+#else
+  fp = fopen(filename, "r");
+#endif
+  if (fp == NULL)
+
+  if (fp == NULL) {
     fprintf(stderr, "Can't open scan definition file %s\n", filename);
     return FALSE;
   }
@@ -277,7 +289,7 @@ set_quality_ratings (j_compress_ptr cinfo, char *arg, boolean force_baseline)
   for (tblno = 0; tblno < NUM_QUANT_TBLS; tblno++) {
     if (*arg) {
       ch = ',';			/* if not set by sscanf, will be ',' */
-      if (sscanf(arg, "%d%c", &val, &ch) < 1)
+      if (sscanf_s(arg, "%d%c", &val, &ch, sizeof(ch)) < 1)
 	return FALSE;
       if (ch != ',')		/* syntax check */
 	return FALSE;

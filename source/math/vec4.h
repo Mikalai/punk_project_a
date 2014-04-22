@@ -6,7 +6,8 @@ AUTHOR: Mikalai Abramau
 #ifndef _H_PUNK_MATH_VEC4
 #define _H_PUNK_MATH_VEC4
 
-#include "config.h"
+#include <array>
+#include <config.h>
 
 namespace Punk {
     namespace Engine {
@@ -119,7 +120,7 @@ namespace Punk {
                 const vec4 WZYX() const;
             private:
                 static const int Size_c = 4;
-                float m_v[Size_c];
+                std::array<float, Size_c> m_v;
             };
 
             PUNK_ENGINE_API const vec4 operator + (const vec4& a, const vec4& b);
@@ -144,7 +145,7 @@ namespace Punk {
                 void Set(int x, int y, int z, int w);
             private:
                 static const int Size_c = 4;
-                int m_v[Size_c];
+                std::array<int, Size_c> m_v;
             };
         }
     }

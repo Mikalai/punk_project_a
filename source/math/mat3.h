@@ -8,7 +8,8 @@
 #define _H_MAT3X3_MATH
 
 #include <initializer_list>
-#include "../config.h"
+#include <array>
+#include <config.h>
 
 namespace Punk {
     namespace Engine {
@@ -72,7 +73,7 @@ namespace Punk {
                 static const mat3 Create2DOriginReflection();
                 static const mat3 CreateFromQuaternion(const quat& value);
             private:
-                float m[9];
+                std::array<float, 9> m;
             };
 
             PUNK_ENGINE_API const mat3 operator * (const mat3& a, const mat3& b);

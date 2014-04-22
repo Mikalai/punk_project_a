@@ -105,11 +105,11 @@ namespace Graphics {
         }
     }
 
-    extern "C" PUNK_ENGINE_API ITexture2DArrayUniquePtr CreateTexture2DArray(std::uint32_t width, std::uint32_t height, std::uint32_t size, Image::ImageFormat internal_format, Image::ImageFormat format, Image::DataType type, const void *data, bool use_mipmaps, IVideoDriver *driver) {
+    extern PUNK_ENGINE_API ITexture2DArrayUniquePtr CreateTexture2DArray(std::uint32_t width, std::uint32_t height, std::uint32_t size, Image::ImageFormat internal_format, Image::ImageFormat format, Image::DataType type, const void *data, bool use_mipmaps, IVideoDriver *driver) {
         return ITexture2DArrayUniquePtr{new OpenGL::GlTexture2DArray(width, height, size, internal_format, format, type, data, use_mipmaps, driver), DestroyTexture2DArray};
     }
 
-    extern "C" PUNK_ENGINE_API void DestroyTexture2DArray(ITexture2DArray* value) {
+    extern PUNK_ENGINE_API void DestroyTexture2DArray(ITexture2DArray* value) {
         OpenGL::GlTexture2DArray* texture = dynamic_cast<OpenGL::GlTexture2DArray*>(value);
         delete texture;
     }

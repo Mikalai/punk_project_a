@@ -37,7 +37,7 @@ namespace Core {
     };
 
 #ifdef _DEBUG
-    template<class T> Pool Poolable<T>::pool{Core::String(typeid(T).name())};
+	template<class T> Pool Poolable<T>::pool;// { Core::String{ typeid(T).name() } };
 #else
     template<class T> Pool Poolable<T>::pool;
 #endif

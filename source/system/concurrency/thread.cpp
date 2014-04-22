@@ -32,12 +32,13 @@ namespace System
                 work_item->Run(work_data);
             }
             catch(Error::SystemException& e) {
-                GetDefaultLogger()->Error(e.Message());
+                GetDefaultLogger()->Error(e.Message());				
             }
             catch(...) {
-                GetDefaultLogger()->Error("Unknown error occured in the thread_func");
+                GetDefaultLogger()->Error("Unknown error occured in the thread_func");				
             }
             delete work_item;
+			return 0;
         }
 
 #ifdef _WIN32

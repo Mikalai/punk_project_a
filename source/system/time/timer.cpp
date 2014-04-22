@@ -14,7 +14,11 @@
 PUNK_ENGINE_BEGIN
 namespace System
 {
-    Core::Rtti Timer::Type {"Punk.Engine.System.Timer", typeid(Timer).hash_code(), {&Core::Object::Type}};
+    Core::Rtti TimerType {"Punk.Engine.System.Timer", typeid(Timer).hash_code(), {Core::Object::Type()}};
+
+	Core::Rtti* Timer::Type() {
+		return &TimerType;
+	}
 
     struct TimerImpl
 	{

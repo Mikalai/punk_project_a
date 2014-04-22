@@ -79,7 +79,7 @@ namespace Punk {
                                      SymGetModuleBase64,
                                      0))
                     {
-                        result += string(L"Can't make stack trace");
+                        result += String(L"Can't make stack trace");
                         break;
                     }
 
@@ -90,26 +90,26 @@ namespace Punk {
                         if (SymGetSymFromAddr64(GetCurrentProcess(), stack_frame.AddrPC.Offset, &displacement, pSym))
                         {
                             char buf[1024];
-                            result += string(pSym->Name) + L" ";
+                            result += String(pSym->Name) + L" ";
                             UnDecorateSymbolName(pSym->Name, buf, 1024, UNDNAME_NAME_ONLY);
-                            result += string(buf) + L" ";
+                            result += String(buf) + L" ";
                             UnDecorateSymbolName(pSym->Name, buf, 1024, UNDNAME_COMPLETE);
-                            result += string(buf) + L" ";
+                            result += String(buf) + L" ";
                         }
                         else
                         {
-                            result += string(L"Error in SymGetSymFromAddr64");
+                            result += String(L"Error in SymGetSymFromAddr64");
                         }
 
                         DWORD displ override;
                         if (SymGetLineFromAddr64(GetCurrentProcess(), stack_frame.AddrPC.Offset, &displ, &line))
                         {
-                            result += string::Convert((int)line.LineNumber, 10) + L" ";
-                            result += string(line.FileName) + L" ";
+                            result += String::Convert((int)line.LineNumber, 10) + L" ";
+                            result += String(line.FileName) + L" ";
                         }
                         else
                         {
-                            result += string(L"Error in SymGetLineFromAddr64");
+                            result += String(L"Error in SymGetLineFromAddr64");
                         }
 
                         IMAGEHLP_MODULE64 module;
@@ -118,8 +118,8 @@ namespace Punk {
 
                         if (SymGetModuleInfo64(GetCurrentProcess(), stack_frame.AddrPC.Offset, &module))
                         {
-                            result += string(module.ModuleName) + L" ";
-                            result += string(module.LoadedImageName) + L"\n";
+                            result += String(module.ModuleName) + L" ";
+                            result += String(module.LoadedImageName) + L"\n";
                         }
                     }
 

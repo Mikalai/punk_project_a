@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\source\string\buffer.cpp" />
+    <ClCompile Include="..\..\source\string\buffer_error.cpp" />
+    <ClCompile Include="..\..\source\string\string.cpp" />
+    <ClCompile Include="..\..\source\string\string_error.cpp" />
+    <ClCompile Include="..\..\source\string\string_list.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\string\buffer.h" />
+    <ClInclude Include="..\..\source\string\buffer_error.h" />
+    <ClInclude Include="..\..\source\string\module.h" />
+    <ClInclude Include="..\..\source\string\string.h" />
+    <ClInclude Include="..\..\source\string\string_error.h" />
+    <ClInclude Include="..\..\source\string\string_list.h" />
+  </ItemGroup>
+</Project>

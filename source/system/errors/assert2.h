@@ -2,7 +2,7 @@
 #define _H_PUNK_SYSTEM_ASSERT
 
 #include "config.h"
-#include "string/string.h"
+#include "String/String.h"
 
 PUNK_ENGINE_BEGIN
 namespace System

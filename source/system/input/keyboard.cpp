@@ -5,7 +5,7 @@
 PUNK_ENGINE_BEGIN
 namespace System {
 
-    Core::Rtti Keyboard::Type {"Punk.Engine.System.Keyboard", typeid(Keyboard).hash_code(), {&Core::Object::Type}};
+    static Core::Rtti KeyboardType {"Punk.Engine.System.Keyboard", typeid(Keyboard).hash_code(), {Core::Object::Type()}};
 
     struct KeyboardImpl {
         KeyboardImpl() {
@@ -24,6 +24,10 @@ namespace System {
         impl = nullptr;
         GetDefaultLogger()->Info("Keyboard destroyed");
     }
+
+	Core::Rtti* Keyboard::Type() {
+		return &KeyboardType;
+	}
 
     bool& Keyboard::operator[] (int key) {
         return impl->m_keys[key];

@@ -35,8 +35,8 @@ namespace Graphics {
 
     using ITextSurfaceUniquePtr = std::unique_ptr<ITextSurface, void (*)(ITextSurface*)>;
 
-    extern "C" PUNK_ENGINE_API ITextSurfaceUniquePtr CreateTextSurface(std::uint32_t width, std::uint32_t height, IVideoDriver* driver);
-    extern "C" PUNK_ENGINE_API void DestroyTextSurface(ITextSurface* value);
+    extern PUNK_ENGINE_API ITextSurfaceUniquePtr CreateTextSurface(std::uint32_t width, std::uint32_t height, IVideoDriver* driver);
+    extern PUNK_ENGINE_API void DestroyTextSurface(ITextSurface* value);
 }
 PUNK_ENGINE_END
 

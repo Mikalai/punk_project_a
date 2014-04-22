@@ -3,14 +3,14 @@
 
 #include <vector>
 #include <typeinfo>
-#include "string/string.h"
+#include "String/String.h"
 #include "core_error.h"
 #include "rtti.h"
 
 #define PUNK_OBJECT(T) \
     public: \
-    static Core::Rtti Type; \
-    virtual Core::Rtti* GetType() const { return &Type; }
+    static Core::Rtti* Type(); \
+    virtual Core::Rtti* GetType() const { return Type(); }
 
 PUNK_ENGINE_BEGIN
 namespace Core {
@@ -28,7 +28,7 @@ namespace Core {
         virtual const String ToString() const;
         virtual Object* Clone() const;
 
-        unsigned GetId() const;
+        std::uint64_t GetId() const;
         bool Add(Object* object);
         bool Remove(Object* object, bool depth = false);
         bool Remove(int index);

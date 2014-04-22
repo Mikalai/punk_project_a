@@ -18,7 +18,7 @@ namespace Punk {
         namespace Math {
 
             quat::quat()
-                : m_v{1, 0, 0, 0} {}
+				: m_v{ { 1, 0, 0, 0 } } {}
 
             quat::quat(std::initializer_list<float> list) {
                 int i = 0;
@@ -30,14 +30,10 @@ namespace Punk {
             }
 
             quat::quat(float w, float x, float y, float z)
-                : m_v{w, x, y, z} {}
+				: m_v{ { w, x, y, z } } {}
 
             quat::quat(const quat &q) {
-#ifdef MSVS
-                memcpy_s(m_v, sizeof(m_v), q.m_v, sizeof(m_v));
-#else
-                memcpy(m_v, q.m_v, sizeof(m_v));
-#endif
+				m_v = q.m_v;
             }
 
             quat::quat(float w, const vec3 &v) {

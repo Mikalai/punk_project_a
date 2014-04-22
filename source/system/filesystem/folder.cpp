@@ -10,7 +10,7 @@
 #include <sys/stat.h>
 #endif
 
-#include <string/module.h>
+#include <String/module.h>
 #include <system/errors/module.h>
 #include "folder.h"
 

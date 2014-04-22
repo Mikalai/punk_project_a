@@ -36,7 +36,7 @@ namespace Core
 
 		__private::StringListImpl* impl;
 
-		friend bool operator == (const StringList&, const StringList&);
+		friend PUNK_ENGINE_API bool operator == (const StringList&, const StringList&);
 	};
 
 	PUNK_ENGINE_API bool operator == (const StringList& l, const StringList& r);

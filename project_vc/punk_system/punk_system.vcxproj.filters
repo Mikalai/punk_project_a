@@ -1,0 +1,437 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="..\..\source\system\allocator.h" />
+    <ClInclude Include="..\..\source\system\config_file.h" />
+    <ClInclude Include="..\..\source\system\environment.h" />
+    <ClInclude Include="..\..\source\system\event_manager.h" />
+    <ClInclude Include="..\..\source\system\factory.h" />
+    <ClInclude Include="..\..\source\system\module.h" />
+    <ClInclude Include="..\..\source\system\profiler.h" />
+    <ClInclude Include="..\..\source\system\resource.h" />
+    <ClInclude Include="..\..\source\system\resource_creator.h" />
+    <ClInclude Include="..\..\source\system\serializable.h" />
+    <ClInclude Include="..\..\source\system\state_manager.h" />
+    <ClInclude Include="..\..\source\system\storable_data.h" />
+    <ClInclude Include="..\..\source\system\types.h" />
+    <ClInclude Include="..\..\source\system\aop\aop.h">
+      <Filter>aop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\commands\cmd_create_timer.h">
+      <Filter>commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\concurrency\atomic.h">
+      <Filter>concurrency</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\concurrency\atomicint.h">
+      <Filter>concurrency</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\concurrency\module.h">
+      <Filter>concurrency</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\concurrency\monitor.h">
+      <Filter>concurrency</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\concurrency\monitor_scope.h">
+      <Filter>concurrency</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\concurrency\os_handle.h">
+      <Filter>concurrency</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\concurrency\process.h">
+      <Filter>concurrency</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\concurrency\semaphore.h">
+      <Filter>concurrency</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\concurrency\thread.h">
+      <Filter>concurrency</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\concurrency\thread_job.h">
+      <Filter>concurrency</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\concurrency\thread_mutex.h">
+      <Filter>concurrency</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\concurrency\thread_pool.h">
+      <Filter>concurrency</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\concurrency\work_item.h">
+      <Filter>concurrency</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\errors\assert2.h">
+      <Filter>error</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\errors\error.h">
+      <Filter>error</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\errors\exceptions.h">
+      <Filter>error</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\errors\module.h">
+      <Filter>error</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\errors\stack_trace.h">
+      <Filter>error</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\events\event.h">
+      <Filter>events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\events\event_type.h">
+      <Filter>events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\events\idle_event.h">
+      <Filter>events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\events\interface.h">
+      <Filter>events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\events\key_event.h">
+      <Filter>events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\events\model_time_step_event.h">
+      <Filter>events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\events\module.h">
+      <Filter>events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\events\mouse_event.h">
+      <Filter>events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\events\mouse_hoover_event.h">
+      <Filter>events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\events\mouse_move_event.h">
+      <Filter>events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\events\mouse_wheel_event.h">
+      <Filter>events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\events\window_resize_event.h">
+      <Filter>events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\filesystem\binary_file.h">
+      <Filter>filesystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\filesystem\folder.h">
+      <Filter>filesystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\filesystem\mapped_buffer.h">
+      <Filter>filesystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\filesystem\module.h">
+      <Filter>filesystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\input\camera_capture.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\input\console.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\input\input_component.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\input\keyboard.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\input\keyboard_interface.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\input\keymap.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\input\keymap_interface.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\input\module.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\input\mouse.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\input\mouse_interface.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\logger\console_consumer.h">
+      <Filter>logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\logger\default_logger.h">
+      <Filter>logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\logger\error_logger.h">
+      <Filter>logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\logger\file_logger.h">
+      <Filter>logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\logger\log_consumer.h">
+      <Filter>logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\logger\logger.h">
+      <Filter>logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\logger\logger_interface.h">
+      <Filter>logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\logger\message_logger.h">
+      <Filter>logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\logger\module.h">
+      <Filter>logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\streaming\async_loader.h">
+      <Filter>streaming</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\streaming\async_loader_impl.h">
+      <Filter>streaming</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\streaming\async_loader_interface.h">
+      <Filter>streaming</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\streaming\data_loader.h">
+      <Filter>streaming</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\streaming\data_processor.h">
+      <Filter>streaming</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\streaming\module.h">
+      <Filter>streaming</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\streaming\resource_request.h">
+      <Filter>streaming</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\streaming\streaming_component.h">
+      <Filter>streaming</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\streaming\streaming_result.h">
+      <Filter>streaming</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\time\clock.h">
+      <Filter>time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\time\clock_interface.h">
+      <Filter>time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\time\module.h">
+      <Filter>time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\time\time_component.h">
+      <Filter>time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\time\timer.h">
+      <Filter>time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\time\timer_interface.h">
+      <Filter>time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\window\module.h">
+      <Filter>window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\window\win32_window.h">
+      <Filter>window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\window\window.h">
+      <Filter>window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\window\window_adapter.h">
+      <Filter>window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\window\window_component.h">
+      <Filter>window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\window\window_description.h">
+      <Filter>window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\window\window_interface.h">
+      <Filter>window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\window\x11_window.h">
+      <Filter>window</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\source\system\config_file.cpp" />
+    <ClCompile Include="..\..\source\system\environment.cpp" />
+    <ClCompile Include="..\..\source\system\event_manager.cpp" />
+    <ClCompile Include="..\..\source\system\factory.cpp" />
+    <ClCompile Include="..\..\source\system\profiler.cpp" />
+    <ClCompile Include="..\..\source\system\serializable.cpp" />
+    <ClCompile Include="..\..\source\system\storable.cpp" />
+    <ClCompile Include="..\..\source\system\commands\cmd_create_timer.cpp">
+      <Filter>commands</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\concurrency\monitor.cpp">
+      <Filter>concurrency</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\concurrency\process.cpp">
+      <Filter>concurrency</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\concurrency\semaphore.cpp">
+      <Filter>concurrency</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\concurrency\thread.cpp">
+      <Filter>concurrency</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\concurrency\thread_job.cpp">
+      <Filter>concurrency</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\concurrency\thread_mutex.cpp">
+      <Filter>concurrency</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\concurrency\thread_pool.cpp">
+      <Filter>concurrency</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\concurrency\work_item.cpp">
+      <Filter>concurrency</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\errors\assert2.cpp">
+      <Filter>error</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\errors\error.cpp">
+      <Filter>error</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\errors\exceptions.cpp">
+      <Filter>error</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\errors\stack_trace.cpp">
+      <Filter>error</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\events\idle_event.cpp">
+      <Filter>events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\events\key_event.cpp">
+      <Filter>events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\events\model_time_step_event.cpp">
+      <Filter>events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\events\mouse_event.cpp">
+      <Filter>events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\events\mouse_hoover_event.cpp">
+      <Filter>events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\events\mouse_move_event.cpp">
+      <Filter>events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\events\mouse_wheel_event.cpp">
+      <Filter>events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\events\window_resize_event.cpp">
+      <Filter>events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\filesystem\binary_file.cpp">
+      <Filter>filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\filesystem\folder.cpp">
+      <Filter>filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\filesystem\mapped_buffer.cpp">
+      <Filter>filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\input\camera_capture.cpp">
+      <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\input\console.cpp">
+      <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\input\input_component.cpp">
+      <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\input\keyboard.cpp">
+      <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\input\keymap.cpp">
+      <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\input\mouse.cpp">
+      <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\logger\console_consumer.cpp">
+      <Filter>logger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\logger\default_logger.cpp">
+      <Filter>logger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\logger\error_logger.cpp">
+      <Filter>logger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\logger\file_logger.cpp">
+      <Filter>logger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\logger\log_consumer.cpp">
+      <Filter>logger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\logger\logger.cpp">
+      <Filter>logger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\logger\message_logger.cpp">
+      <Filter>logger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\streaming\async_loader.cpp">
+      <Filter>streaming</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\streaming\async_loader_impl.cpp">
+      <Filter>streaming</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\streaming\streaming_component.cpp">
+      <Filter>streaming</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\time\clock.cpp">
+      <Filter>time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\time\time_component.cpp">
+      <Filter>time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\time\timer.cpp">
+      <Filter>time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\window\win32_window.cpp">
+      <Filter>window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\window\window.cpp">
+      <Filter>window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\window\window_component.cpp">
+      <Filter>window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\window\x11_window.cpp">
+      <Filter>window</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="aop">
+      <UniqueIdentifier>{38aaeb12-fdfa-42ed-a938-d94abad61038}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="commands">
+      <UniqueIdentifier>{b6f2637a-ab6c-4677-870b-f8371804cc2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="concurrency">
+      <UniqueIdentifier>{12446ce9-0e29-4065-b2ec-7cb5b6de75a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="error">
+      <UniqueIdentifier>{22dc4d46-2004-4f03-8d86-d27eabbd7a0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="events">
+      <UniqueIdentifier>{20fd0f56-f5a0-4dc3-9b93-ffc77d100803}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="filesystem">
+      <UniqueIdentifier>{100b06e1-b8d5-4b48-ac99-109546994d7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="input">
+      <UniqueIdentifier>{848f6736-7fb1-4d65-af1c-c75e3049627e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="logger">
+      <UniqueIdentifier>{807af593-6db9-47b6-9b0c-2337ca855d2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="streaming">
+      <UniqueIdentifier>{ffbc0c1e-fe07-4618-8241-e9a30b350757}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="time">
+      <UniqueIdentifier>{7393467d-ea88-45a9-901c-08bd3330dcc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="window">
+      <UniqueIdentifier>{cf1173b4-5210-4f2e-8dfc-4b4d3fa23526}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

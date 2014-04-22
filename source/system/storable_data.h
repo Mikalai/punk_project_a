@@ -4,7 +4,7 @@
 //#include <iosfwd>
 //#include "../config.h"
 //#include "hresource.h"
-//#include "../string/string.h"
+//#include "../String/String.h"
 
 //namespace System
 //{
@@ -12,11 +12,11 @@
 
 //	class PUNK_ENGINE_API StorableData
 //	{
-//		System::string m_storage_name;
+//		System::String m_storage_name;
 //	public:
 
-//		void SetStorageName(const System::string& value) { m_storage_name = value; }
-//		const System::string GetStorageName() const { return m_storage_name; }
+//		void SetStorageName(const System::String& value) { m_storage_name = value; }
+//		const System::String GetStorageName() const { return m_storage_name; }
 
 //		virtual void Save(System::Buffer* buffer) const;
 //		virtual void Load(System::Buffer* buffer);

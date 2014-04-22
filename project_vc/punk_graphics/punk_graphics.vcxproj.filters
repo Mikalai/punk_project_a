@@ -1,0 +1,1422 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="blending">
+      <UniqueIdentifier>{97001aa9-5734-400e-a0f2-efab1f5c6757}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="buffers">
+      <UniqueIdentifier>{953a01d1-b1c7-4dd9-8cf3-8a90ed214d9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="canvas">
+      <UniqueIdentifier>{4e581f77-c74a-4c52-9024-f2e2f562ec58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="error">
+      <UniqueIdentifier>{95983413-99c0-45ce-a90c-d8b69d923f91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fog">
+      <UniqueIdentifier>{befddc8a-a93e-47ca-a154-d285ad66cf32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="frame">
+      <UniqueIdentifier>{331727a5-e5f8-42bb-a9f5-8f89aef0989c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="framebuffer">
+      <UniqueIdentifier>{f86ca11f-ac5f-44cc-85a5-53811ef26d8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="framebuffer\gl_framebuffer">
+      <UniqueIdentifier>{6c651bf1-85c0-4507-b113-0b6f04d3277d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lighting">
+      <UniqueIdentifier>{8b6cb178-bda4-4f6f-8ae8-26f56e5f5800}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="material">
+      <UniqueIdentifier>{6a038e16-dbf4-4030-a8e4-e1f15d71d315}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="opengl">
+      <UniqueIdentifier>{c12d6c30-74f0-4d62-9280-b7a8426d6886}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="opengl\error">
+      <UniqueIdentifier>{0893a4cd-5644-41fb-8b24-de7d41531451}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="opengl\gl">
+      <UniqueIdentifier>{f45ec587-30e3-4a49-8864-aa11cc69a1db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="painter">
+      <UniqueIdentifier>{65726887-041d-4195-b3c7-a7d2d24e4c58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="primitives">
+      <UniqueIdentifier>{31f2a755-f0fd-44b2-a2fd-c15c56ceae8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="primitives\gl_primitives">
+      <UniqueIdentifier>{2c2d2413-79b5-4377-87c0-1f6abac14093}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="render">
+      <UniqueIdentifier>{db89229f-faa9-4e0f-8d75-9a48d9c571b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="render\shaders">
+      <UniqueIdentifier>{83629311-af83-4322-a3a0-0d2fbd053a8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="render\render_context">
+      <UniqueIdentifier>{ec31d849-7fdb-4b42-a283-e903b4ca2003}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="render\render_context\gl_render_context">
+      <UniqueIdentifier>{4a2479ad-f9f4-4023-9b82-79a7bcff41a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="renderable">
+      <UniqueIdentifier>{85254f78-cb05-4c0b-ad13-edfd495bb94f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="renderable\gl_renderable">
+      <UniqueIdentifier>{74c930db-1966-49fc-b64b-3644498c0a88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{9b41317c-a59b-4199-918f-38cba22e0248}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\gl_shaders">
+      <UniqueIdentifier>{b7f94860-cde9-4ca9-8593-d73a8a5c53c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\gl_shaders\glsl">
+      <UniqueIdentifier>{5cbf7e92-a70d-4698-9cac-a83dcb49ba10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\gl_shaders\gl_vertex">
+      <UniqueIdentifier>{dce0c54a-fa10-4e02-9af9-2e095dce0f63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\gl_shaders\gl_shader_types">
+      <UniqueIdentifier>{f543251f-da97-4c14-b900-e61275751c4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\gl_shaders\gl_fragment">
+      <UniqueIdentifier>{c2cd477a-9898-40df-9688-f187ca2fe2d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="state">
+      <UniqueIdentifier>{2e0133b1-9e85-4038-b920-93100ba04b8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="text">
+      <UniqueIdentifier>{d96da788-6086-4e20-8fe3-deb8418f8f68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="texture">
+      <UniqueIdentifier>{5ddff2b4-8896-4215-af73-c8cc9c01e23c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="texture\gl_texture">
+      <UniqueIdentifier>{ae9df4e8-2e9f-41ab-9e74-95917252de5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="video_driver">
+      <UniqueIdentifier>{94b4e7cf-ce3a-4c74-bbea-8aea2a00a83c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="video_driver\gl_video_driver">
+      <UniqueIdentifier>{15bad41a-a338-4040-8741-3b7ae21ddf08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="video_memory">
+      <UniqueIdentifier>{57c13c1f-f8bd-49e6-85b4-35860e3afb62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="video_memory\gl_video_memory">
+      <UniqueIdentifier>{0f93dc93-742e-4636-989d-671437fc4834}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\source\graphics\blending\blend_function.cpp">
+      <Filter>blending</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\blending\gl_blending.cpp">
+      <Filter>blending</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\buffers\ibo.cpp">
+      <Filter>buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\buffers\pbo.cpp">
+      <Filter>buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\buffers\vbo.cpp">
+      <Filter>buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\canvas\canvas.cpp">
+      <Filter>canvas</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\canvas\canvas_desciption.cpp">
+      <Filter>canvas</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\error\graphics_error.cpp">
+      <Filter>error</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\fog\fog.cpp">
+      <Filter>fog</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\fog\fog_mode.cpp">
+      <Filter>fog</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\frame\frame.cpp">
+      <Filter>frame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\frame_buffer\color_render_buffer.cpp">
+      <Filter>framebuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\frame_buffer\depth_render_buffer.cpp">
+      <Filter>framebuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\frame_buffer\frame_buffer.cpp">
+      <Filter>framebuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\frame_buffer\frame_buffer_config.cpp">
+      <Filter>framebuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\frame_buffer\frame_buffer_target.cpp">
+      <Filter>framebuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\frame_buffer\render_buffer.cpp">
+      <Filter>framebuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\frame_buffer\render_buffer_config.cpp">
+      <Filter>framebuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\frame_buffer\gl_frame_buffer\gl_color_render_buffer.cpp">
+      <Filter>framebuffer\gl_framebuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\frame_buffer\gl_frame_buffer\gl_depth_render_buffer.cpp">
+      <Filter>framebuffer\gl_framebuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\frame_buffer\gl_frame_buffer\gl_frame_buffer.cpp">
+      <Filter>framebuffer\gl_framebuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\frame_buffer\gl_frame_buffer\gl_frame_buffer_config.cpp">
+      <Filter>framebuffer\gl_framebuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\frame_buffer\gl_frame_buffer\gl_frame_buffer_convert.cpp">
+      <Filter>framebuffer\gl_framebuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\frame_buffer\gl_frame_buffer\gl_query_supprted_frame_buffer_configs.cpp">
+      <Filter>framebuffer\gl_framebuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\lighting\light_model.cpp">
+      <Filter>lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\lighting\light_parameters.cpp">
+      <Filter>lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\material\gpu_material.cpp">
+      <Filter>material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\opengl\error\gl_error_check.cpp">
+      <Filter>opengl\error</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\opengl\extensions.cpp">
+      <Filter>opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\painter\brush.cpp">
+      <Filter>painter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\painter\paint_device.cpp">
+      <Filter>painter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\painter\paint_engine.cpp">
+      <Filter>painter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\painter\painter.cpp">
+      <Filter>painter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\painter\pen.cpp">
+      <Filter>painter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\primitives\cube_mesh.cpp">
+      <Filter>primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\primitives\frustum_mesh.cpp">
+      <Filter>primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\primitives\grid_object.cpp">
+      <Filter>primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\primitives\lines.cpp">
+      <Filter>primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\primitives\points.cpp">
+      <Filter>primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\primitives\primitive_type.cpp">
+      <Filter>primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\primitives\quad_mesh.cpp">
+      <Filter>primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\primitives\renderable.cpp">
+      <Filter>primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\primitives\scaled_grid.cpp">
+      <Filter>primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\primitives\skin_mesh.cpp">
+      <Filter>primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\primitives\sphere_mesh.cpp">
+      <Filter>primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\primitives\static_mesh.cpp">
+      <Filter>primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\primitives\triangle_fans.cpp">
+      <Filter>primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\primitives\triangle_strip.cpp">
+      <Filter>primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\primitives\triangles.cpp">
+      <Filter>primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\primitives\gl_primitive\gl_attribute_configer.cpp">
+      <Filter>primitives\gl_primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\primitives\gl_primitive\gl_primitive_type.cpp">
+      <Filter>primitives\gl_primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\render.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\render_batch.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\render_pass.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\render_queue.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\render_context\irender_context.cpp">
+      <Filter>render\render_context</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\render_context\render_context_select.cpp">
+      <Filter>render\render_context</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\render_context\gl_render_context\gl_rc_dynamic.cpp">
+      <Filter>render\render_context\gl_render_context</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\render_context\gl_render_context\gl_rc_instances.cpp">
+      <Filter>render\render_context\gl_render_context</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\render_context\gl_render_context\gl_render_context.cpp">
+      <Filter>render\render_context\gl_render_context</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\renderable\renderable_builder.cpp">
+      <Filter>renderable</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\renderable\gl_renderable\gl_renderable_builder.cpp">
+      <Filter>renderable\gl_renderable</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\shader_builder.cpp">
+      <Filter>shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\shader_data_type.cpp">
+      <Filter>shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\shader_function.cpp">
+      <Filter>shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\shader_type.cpp">
+      <Filter>shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\shader_uniform_table.cpp">
+      <Filter>shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\shader_var_table.cpp">
+      <Filter>shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_shader.cpp">
+      <Filter>shaders\gl_shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_shader_type.cpp">
+      <Filter>shaders\gl_shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_diffuse_color.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_diffuse_color_specular.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_shadow_map.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_tex_diffuse.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_tex_diffuse_specular.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_depth.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_grass.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_gui.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_light.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_painter.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_particle.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_particle_system.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_fragment_lighting_diffuse.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_fragment_lighting_diffuse_specular.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_fragment_lighting_tex_diffuse.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_fragment_lighting_tex_diffuse_specular.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting_diffuse.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting_diffuse_shadow_simple.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting_diffuse_specular.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting_tex_diffuse.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_pfl_diffuse_simple_shadow.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_skinning_bump.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_skinning_depth.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_solid_color.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_solid_vertex_color.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_terrain.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_transform_3d.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_transformed_textured_3d.cpp">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_diffuse_color.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_diffuse_color_specular.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_shadow_map.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_tex_diffuse.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_tex_diffuse_specular.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_depth.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_grass.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_gui.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_light.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_painter.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_particle.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_fragment_lighting_diffuse.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_fragment_lighting_diffuse_specular.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_fragment_lighting_tex_diffuse.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_fragment_lighting_tex_diffuse_specular.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_vertex_lighting_diffuse.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_vertex_lighting_diffuse_shadow_simple.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_vertex_lighting_tex_diffuse.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_pfl_diffuse_simple_shadow.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_shadow_single.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_skinning.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_solid_color.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_solid_textured.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_solid_textured_2d_array.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_solid_vertex_color.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_terrain.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_text_solid.cpp">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\state\gpu_state.cpp">
+      <Filter>state</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\text\text_surface.cpp">
+      <Filter>text</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\texture\texture_context.cpp">
+      <Filter>texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\texture\gl_texture\gl_texture_convert.cpp">
+      <Filter>texture\gl_texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\texture\gl_texture\gl_texture2d.cpp">
+      <Filter>texture\gl_texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\texture\gl_texture\gl_texture2d_array.cpp">
+      <Filter>texture\gl_texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\video_driver\video_driver.cpp">
+      <Filter>video_driver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\video_driver\video_driver_creator.cpp">
+      <Filter>video_driver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\video_driver\gl_video_driver\gl_capabilities.cpp">
+      <Filter>video_driver\gl_video_driver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\video_driver\gl_video_driver\gl_settings.cpp">
+      <Filter>video_driver\gl_video_driver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\video_driver\gl_video_driver\gl_vfs.cpp">
+      <Filter>video_driver\gl_video_driver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\video_driver\gl_video_driver\gl_video_driver.cpp">
+      <Filter>video_driver\gl_video_driver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\video_memory\gl_video_memory\video_memory.cpp">
+      <Filter>video_memory\gl_video_memory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\gpu_common_module.cpp" />
+    <ClCompile Include="..\..\source\graphics\gpu_module.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\graphics\blending\blend_function.h">
+      <Filter>blending</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\blending\gl_blending.h">
+      <Filter>blending</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\blending\module.h">
+      <Filter>blending</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\buffers\ibo.h">
+      <Filter>buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\buffers\ibufffer_object.h">
+      <Filter>buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\buffers\module.h">
+      <Filter>buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\buffers\pbo.h">
+      <Filter>buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\buffers\template_buffer.h">
+      <Filter>buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\buffers\vbo.h">
+      <Filter>buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\canvas\canvas.h">
+      <Filter>canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\canvas\canvas_desciption.h">
+      <Filter>canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\canvas\icanvas.h">
+      <Filter>canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\canvas\module.h">
+      <Filter>canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\error\graphics_error.h">
+      <Filter>error</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\error\module.h">
+      <Filter>error</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\fog\fog.h">
+      <Filter>fog</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\fog\fog_mode.h">
+      <Filter>fog</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\fog\module.h">
+      <Filter>fog</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\frame\frame.h">
+      <Filter>frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\frame\iframe.h">
+      <Filter>frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\frame\module.h">
+      <Filter>frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\frame_buffer\color_render_buffer.h">
+      <Filter>framebuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\frame_buffer\depth_render_buffer.h">
+      <Filter>framebuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\frame_buffer\frame_buffer.h">
+      <Filter>framebuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\frame_buffer\frame_buffer_config.h">
+      <Filter>framebuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\frame_buffer\frame_buffer_target.h">
+      <Filter>framebuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\frame_buffer\iframe_buffer.h">
+      <Filter>framebuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\frame_buffer\irender_buffer.h">
+      <Filter>framebuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\frame_buffer\module.h">
+      <Filter>framebuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\frame_buffer\render_buffer.h">
+      <Filter>framebuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\frame_buffer\render_buffer_config.h">
+      <Filter>framebuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\frame_buffer\gl_frame_buffer\gl_color_render_buffer.h">
+      <Filter>framebuffer\gl_framebuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\frame_buffer\gl_frame_buffer\gl_depth_render_buffer.h">
+      <Filter>framebuffer\gl_framebuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\frame_buffer\gl_frame_buffer\gl_frame_buffer.h">
+      <Filter>framebuffer\gl_framebuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\frame_buffer\gl_frame_buffer\gl_frame_buffer_config.h">
+      <Filter>framebuffer\gl_framebuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\frame_buffer\gl_frame_buffer\gl_frame_buffer_convert.h">
+      <Filter>framebuffer\gl_framebuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\frame_buffer\gl_frame_buffer\module.h">
+      <Filter>framebuffer\gl_framebuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\lighting\light_model.h">
+      <Filter>lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\lighting\light_parameters.h">
+      <Filter>lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\lighting\module.h">
+      <Filter>lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\material\gpu_material.h">
+      <Filter>material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\material\module.h">
+      <Filter>material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\opengl\error\gl_error_check.h">
+      <Filter>opengl\error</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\opengl\error\gl_exceptions.h">
+      <Filter>opengl\error</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\opengl\error\module.h">
+      <Filter>opengl\error</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\opengl\gl\glcorearb.h">
+      <Filter>opengl\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\opengl\gl\glext.h">
+      <Filter>opengl\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\opengl\gl\glxext.h">
+      <Filter>opengl\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\opengl\gl\wglext.h">
+      <Filter>opengl\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\opengl\extensions.h">
+      <Filter>opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\opengl\module.h">
+      <Filter>opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\painter\brush.h">
+      <Filter>painter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\painter\module.h">
+      <Filter>painter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\painter\paint_device.h">
+      <Filter>painter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\painter\paint_engine.h">
+      <Filter>painter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\painter\painter.h">
+      <Filter>painter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\painter\pen.h">
+      <Filter>painter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\cube_mesh.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\frustum_mesh.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\grid_object.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\iindex_array.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\ilines.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\index_array.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\ipoints.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\irenderable.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\itriangle_fans.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\itriangle_strip.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\itriangles.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\ivertex_array.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\lines.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\module.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\points.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\primitive_type.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\quad_mesh.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\renderable.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\scaled_grid.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\skin_mesh.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\sphere_mesh.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\static_mesh.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\triangle_fans.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\triangle_strip.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\triangles.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\vertex.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\vertex_array.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\vertex_component.h">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\gl_primitive\gl_attribute_configer.h">
+      <Filter>primitives\gl_primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\gl_primitive\gl_primitive_type.h">
+      <Filter>primitives\gl_primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\gl_primitive\gl_vertex_array_object.h">
+      <Filter>primitives\gl_primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\gl_primitive\module.h">
+      <Filter>primitives\gl_primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\irender.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\module.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\render.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\render_batch.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\render_pass.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\render_queue.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\render_context\irender_context.h">
+      <Filter>render\render_context</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\render_context\render_context_select.h">
+      <Filter>render\render_context</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\render_context\gl_render_context\gl_rc_dynamic.h">
+      <Filter>render\render_context\gl_render_context</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\render_context\gl_render_context\gl_rc_instances.h">
+      <Filter>render\render_context\gl_render_context</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\render_context\gl_render_context\gl_render_context.h">
+      <Filter>render\render_context\gl_render_context</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\render_context\gl_render_context\module.h">
+      <Filter>render\render_context\gl_render_context</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\renderable\irenderable_builder.h">
+      <Filter>renderable</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\renderable\module.h">
+      <Filter>renderable</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\renderable\renderable_builder.h">
+      <Filter>renderable</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\renderable\gl_renderable\gl_renderable_builder.h">
+      <Filter>renderable\gl_renderable</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\renderable\gl_renderable\module.h">
+      <Filter>renderable\gl_renderable</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\module.h">
+      <Filter>shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\shader_builder.h">
+      <Filter>shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\shader_data_type.h">
+      <Filter>shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\shader_function.h">
+      <Filter>shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\shader_type.h">
+      <Filter>shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\shader_uniform_table.h">
+      <Filter>shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\shader_var_table.h">
+      <Filter>shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_shader.h">
+      <Filter>shaders\gl_shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_shader_impl.h">
+      <Filter>shaders\gl_shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_shader_type.h">
+      <Filter>shaders\gl_shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\module.h">
+      <Filter>shaders\gl_shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_diffuse_color.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_diffuse_color_specular.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_shadow_map.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_tex_diffuse.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_tex_diffuse_specular.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_depth.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_grass.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_gui.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_light.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_painter.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_particle.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_particle_system.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_fragment_lighting_diffuse.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_fragment_lighting_diffuse_specular.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_fragment_lighting_tex_diffuse.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_fragment_lighting_tex_diffuse_specular.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting_diffuse.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting_diffuse_shadow_simple.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting_diffuse_specular.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting_tex_diffuse.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_pfl_diffuse_simple_shadow.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_skinning_bump.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_skinning_depth.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_solid_color.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_solid_vertex_color.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_terrain.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_transform_3d.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_transformed_textured_3d.h">
+      <Filter>shaders\gl_shaders\gl_vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_shader_types\gl_fog_parameters.h">
+      <Filter>shaders\gl_shaders\gl_shader_types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_shader_types\gl_light_source_parameters.h">
+      <Filter>shaders\gl_shaders\gl_shader_types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_shader_types\gl_material_parameters.h">
+      <Filter>shaders\gl_shaders\gl_shader_types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_shader_types\module.h">
+      <Filter>shaders\gl_shaders\gl_shader_types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_diffuse_color.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_diffuse_color_specular.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_shadow_map.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_tex_diffuse.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_tex_diffuse_specular.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_depth.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_grass.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_gui.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_light.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_painter.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_particle.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_fragment_lighting_diffuse.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_fragment_lighting_diffuse_specular.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_fragment_lighting_tex_diffuse.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_fragment_lighting_tex_diffuse_specular.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_vertex_lighting_diffuse.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_vertex_lighting_diffuse_shadow_simple.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_vertex_lighting_tex_diffuse.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_pfl_diffuse_simple_shadow.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_shadow_single.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_skinning.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_solid_color.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_solid_textured.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_solid_textured_2d_array.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_solid_vertex_color.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_terrain.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_text_solid.h">
+      <Filter>shaders\gl_shaders\gl_fragment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\state\gpu_state.h">
+      <Filter>state</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\state\module.h">
+      <Filter>state</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\text\itext_surface.h">
+      <Filter>text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\text\module.h">
+      <Filter>text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\text\text_direction.h">
+      <Filter>text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\text\text_horizontal_alignment.h">
+      <Filter>text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\text\text_surface.h">
+      <Filter>text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\text\text_vertical_alignment.h">
+      <Filter>text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\texture\itexture.h">
+      <Filter>texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\texture\itexture2d.h">
+      <Filter>texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\texture\itexture2d_array.h">
+      <Filter>texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\texture\module.h">
+      <Filter>texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\texture\texture_compare_func.h">
+      <Filter>texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\texture\texture_compare_mode.h">
+      <Filter>texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\texture\texture_context.h">
+      <Filter>texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\texture\texture_filter.h">
+      <Filter>texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\texture\texture_wrap.h">
+      <Filter>texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\texture\gl_texture\gl_texture_convert.h">
+      <Filter>texture\gl_texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\texture\gl_texture\gl_texture2d.h">
+      <Filter>texture\gl_texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\texture\gl_texture\gl_texture2d_array.h">
+      <Filter>texture\gl_texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\texture\gl_texture\module.h">
+      <Filter>texture\gl_texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\video_driver\gpu_config.h">
+      <Filter>video_driver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\video_driver\ivideo_driver.h">
+      <Filter>video_driver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\video_driver\ivideo_driver_settings.h">
+      <Filter>video_driver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\video_driver\module.h">
+      <Filter>video_driver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\video_driver\video_driver.h">
+      <Filter>video_driver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\video_driver\video_driver_creator.h">
+      <Filter>video_driver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\video_driver\video_driver_type.h">
+      <Filter>video_driver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\video_driver\gl_video_driver\gl_capabilities.h">
+      <Filter>video_driver\gl_video_driver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\video_driver\gl_video_driver\gl_settings.h">
+      <Filter>video_driver\gl_video_driver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\video_driver\gl_video_driver\gl_vfs.h">
+      <Filter>video_driver\gl_video_driver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\video_driver\gl_video_driver\gl_video_driver.h">
+      <Filter>video_driver\gl_video_driver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\video_driver\gl_video_driver\module.h">
+      <Filter>video_driver\gl_video_driver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\video_memory\ivideo_memory.h">
+      <Filter>video_memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\video_memory\module.h">
+      <Filter>video_memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\video_memory\gl_video_memory\ati_meminfo.h">
+      <Filter>video_memory\gl_video_memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\video_memory\gl_video_memory\module.h">
+      <Filter>video_memory\gl_video_memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\video_memory\gl_video_memory\nvx_gpu_memory_info.h">
+      <Filter>video_memory\gl_video_memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\video_memory\gl_video_memory\video_memory.h">
+      <Filter>video_memory\gl_video_memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\config.h" />
+    <ClInclude Include="..\..\source\graphics\module.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_330_shadow_map.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_330_shadow_map.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_diffuse_color_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_diffuse_color_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_diffuse_color_specular_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_diffuse_color_specular_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_tex_diffuse_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_tex_diffuse_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_tex_diffuse_specular_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_tex_diffuse_specular_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\depth.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\depth.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\draw_normals.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\draw_normals.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\grass_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\grass_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\gui_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\gui_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\light.glsl">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\line_2d_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\line_2d_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\line_3d_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\line_3d_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\line_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\line_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\material.glsl">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\normals_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\normals_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\painter_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\painter_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\particle_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\particle_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_diffuse_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_diffuse_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_diffuse_simple_shadow.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_diffuse_simple_shadow.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_diffuse_specular_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_diffuse_specular_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_tex_diffuse_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_tex_diffuse_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_tex_diffuse_specular_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_tex_diffuse_specular_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_vertex_lighting_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_vertex_lighting_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_vertex_lighting_diffuse_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_vertex_lighting_diffuse_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_vertex_lighting_diffuse_simple_shadow.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_vertex_lighting_diffuse_simple_shadow.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_vertex_lighting_tex_diffuse_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_vertex_lighting_tex_diffuse_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\skinning_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\skinning_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\skinning_bump_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\skinning_depth_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_color_2d_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_color_2d_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_color_3d_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_color_3d_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_texture_2d_array.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_textured_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_textured_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_vertex_color.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_vertex_color.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\static_mesh_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\static_mesh_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\terrain_330 - Copy.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\terrain_330 - Copy.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\terrain_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\terrain_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\text_color_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\textured_2d_330.frag">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\textured_2d_330.vert">
+      <Filter>shaders\gl_shaders\glsl</Filter>
+    </None>
+  </ItemGroup>
+</Project>

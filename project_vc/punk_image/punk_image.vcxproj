@@ -1,0 +1,377 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8D89919D-F845-4E4D-83EB-72337C94B651}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>punk_image</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;USE_LIB_PNG;USE_LIB_JPEG;USE_LIB_TIFF;PUNK_ENGINE_EXPORTS;WIN32;_DEBUG;_WINDOWS;_USRDLL;PUNK_IMAGE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;$(SolutionDir)..\source\images\import_export;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\bin\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>punk_string.lib;punk_error.lib;punk_core.lib;punk_system.lib;punk_math.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;USE_LIB_PNG;USE_LIB_JPEG;USE_LIB_TIFF;WIN64;PUNK_ENGINE_EXPORTS;WIN32;_DEBUG;_WINDOWS;_USRDLL;PUNK_IMAGE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;$(SolutionDir)..\source\images\import_export;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\bin\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>punk_string.lib;punk_error.lib;punk_core.lib;punk_system.lib;punk_math.lib;punk_string.lib;punk_error.lib;punk_core.lib;punk_system.lib;punk_math.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;USE_LIB_PNG;USE_LIB_JPEG;USE_LIB_TIFF;PUNK_ENGINE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_USRDLL;PUNK_IMAGE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;$(SolutionDir)..\source\images\import_export;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\bin\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>punk_string.lib;punk_error.lib;punk_core.lib;punk_system.lib;punk_math.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;USE_LIB_PNG;USE_LIB_JPEG;USE_LIB_TIFF;WIN64;PUNK_ENGINE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_USRDLL;PUNK_IMAGE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;$(SolutionDir)..\source\images\import_export;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\bin\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>punk_string.lib;punk_error.lib;punk_core.lib;punk_system.lib;punk_math.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\images\converter\yuy2_to_rgb.h" />
+    <ClInclude Include="..\..\source\images\error\image_exceptions.h" />
+    <ClInclude Include="..\..\source\images\error\module.h" />
+    <ClInclude Include="..\..\source\images\formats.h" />
+    <ClInclude Include="..\..\source\images\image_file.h" />
+    <ClInclude Include="..\..\source\images\import_export\exporter.h" />
+    <ClInclude Include="..\..\source\images\import_export\importer.h" />
+    <ClInclude Include="..\..\source\images\import_export\importer_impl.h" />
+    <ClInclude Include="..\..\source\images\import_export\jpg_importer.h" />
+    <ClInclude Include="..\..\source\images\import_export\libjpeg\cderror.h" />
+    <ClInclude Include="..\..\source\images\import_export\libjpeg\cdjpeg.h" />
+    <ClInclude Include="..\..\source\images\import_export\libjpeg\jconfig.h" />
+    <ClInclude Include="..\..\source\images\import_export\libjpeg\jdct.h" />
+    <ClInclude Include="..\..\source\images\import_export\libjpeg\jerror.h" />
+    <ClInclude Include="..\..\source\images\import_export\libjpeg\jinclude.h" />
+    <ClInclude Include="..\..\source\images\import_export\libjpeg\jmemsys.h" />
+    <ClInclude Include="..\..\source\images\import_export\libjpeg\jmorecfg.h" />
+    <ClInclude Include="..\..\source\images\import_export\libjpeg\jpegint.h" />
+    <ClInclude Include="..\..\source\images\import_export\libjpeg\jpeglib.h" />
+    <ClInclude Include="..\..\source\images\import_export\libjpeg\jversion.h" />
+    <ClInclude Include="..\..\source\images\import_export\libjpeg\transupp.h" />
+    <ClInclude Include="..\..\source\images\import_export\libpng\png.h" />
+    <ClInclude Include="..\..\source\images\import_export\libpng\pngconf.h" />
+    <ClInclude Include="..\..\source\images\import_export\libpng\pngdebug.h" />
+    <ClInclude Include="..\..\source\images\import_export\libpng\pnginfo.h" />
+    <ClInclude Include="..\..\source\images\import_export\libpng\pnglibconf.h" />
+    <ClInclude Include="..\..\source\images\import_export\libpng\pngpriv.h" />
+    <ClInclude Include="..\..\source\images\import_export\libpng\pngstruct.h" />
+    <ClInclude Include="..\..\source\images\import_export\libtiff\t4.h" />
+    <ClInclude Include="..\..\source\images\import_export\libtiff\tiff.h" />
+    <ClInclude Include="..\..\source\images\import_export\libtiff\tiffconf.h" />
+    <ClInclude Include="..\..\source\images\import_export\libtiff\tiffconf.vc.h" />
+    <ClInclude Include="..\..\source\images\import_export\libtiff\tiffconf.wince.h" />
+    <ClInclude Include="..\..\source\images\import_export\libtiff\tiffio.h" />
+    <ClInclude Include="..\..\source\images\import_export\libtiff\tiffiop.h" />
+    <ClInclude Include="..\..\source\images\import_export\libtiff\tiffvers.h" />
+    <ClInclude Include="..\..\source\images\import_export\libtiff\tif_config.h" />
+    <ClInclude Include="..\..\source\images\import_export\libtiff\tif_config.vc.h" />
+    <ClInclude Include="..\..\source\images\import_export\libtiff\tif_config.wince.h" />
+    <ClInclude Include="..\..\source\images\import_export\libtiff\tif_dir.h" />
+    <ClInclude Include="..\..\source\images\import_export\libtiff\tif_fax3.h" />
+    <ClInclude Include="..\..\source\images\import_export\libtiff\tif_predict.h" />
+    <ClInclude Include="..\..\source\images\import_export\libtiff\uvcode.h" />
+    <ClInclude Include="..\..\source\images\import_export\openexr_importer.h" />
+    <ClInclude Include="..\..\source\images\import_export\png_exporter.h" />
+    <ClInclude Include="..\..\source\images\import_export\png_importer.h" />
+    <ClInclude Include="..\..\source\images\import_export\tiff_importer.h" />
+    <ClInclude Include="..\..\source\images\import_export\zlib\crc32.h" />
+    <ClInclude Include="..\..\source\images\import_export\zlib\deflate.h" />
+    <ClInclude Include="..\..\source\images\import_export\zlib\gzguts.h" />
+    <ClInclude Include="..\..\source\images\import_export\zlib\inffast.h" />
+    <ClInclude Include="..\..\source\images\import_export\zlib\inffixed.h" />
+    <ClInclude Include="..\..\source\images\import_export\zlib\inflate.h" />
+    <ClInclude Include="..\..\source\images\import_export\zlib\inftrees.h" />
+    <ClInclude Include="..\..\source\images\import_export\zlib\trees.h" />
+    <ClInclude Include="..\..\source\images\import_export\zlib\zconf.h" />
+    <ClInclude Include="..\..\source\images\import_export\zlib\zlib.h" />
+    <ClInclude Include="..\..\source\images\import_export\zlib\zutil.h" />
+    <ClInclude Include="..\..\source\images\internal_images\component.h" />
+    <ClInclude Include="..\..\source\images\internal_images\gray_image.h" />
+    <ClInclude Include="..\..\source\images\internal_images\image.h" />
+    <ClInclude Include="..\..\source\images\internal_images\image_impl.h" />
+    <ClInclude Include="..\..\source\images\internal_images\rgba_image.h" />
+    <ClInclude Include="..\..\source\images\internal_images\rgb_image.h" />
+    <ClInclude Include="..\..\source\images\module.h" />
+    <ClInclude Include="..\..\source\images\png_file.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\source\images\converter\yuy2_to_rgb.cpp" />
+    <ClCompile Include="..\..\source\images\image_file.cpp" />
+    <ClCompile Include="..\..\source\images\import_export\exporter.cpp" />
+    <ClCompile Include="..\..\source\images\import_export\importer.cpp" />
+    <ClCompile Include="..\..\source\images\import_export\jpg_importer.cpp" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\cdjpeg.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jaricom.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jcarith.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jccoefct.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jccolor.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jcdctmgr.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jchuff.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jcinit.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jcmainct.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jcmarker.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jcmaster.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jcomapi.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jcparam.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jcprepct.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jcsample.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jdapimin.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jdapistd.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jdarith.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jdatadst.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jdatasrc.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jdcoefct.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jdcolor.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jddctmgr.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jdhuff.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jdinput.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jdmainct.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jdmarker.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jdmaster.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jdmerge.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jdpostct.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jdsample.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jdtrans.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jerror.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jfdctflt.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jfdctfst.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jfdctint.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jidctflt.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jidctfst.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jidctint.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jmemansi.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jmemmgr.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jquant1.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jquant2.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\jutils.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\rdbmp.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\rdcolmap.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\rdgif.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\rdppm.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\rdrle.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\rdswitch.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\rdtarga.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\wrbmp.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\wrgif.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\wrppm.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\wrrle.c" />
+    <ClCompile Include="..\..\source\images\import_export\libjpeg\wrtarga.c" />
+    <ClCompile Include="..\..\source\images\import_export\libpng\png.c" />
+    <ClCompile Include="..\..\source\images\import_export\libpng\pngerror.c" />
+    <ClCompile Include="..\..\source\images\import_export\libpng\pngget.c" />
+    <ClCompile Include="..\..\source\images\import_export\libpng\pngmem.c" />
+    <ClCompile Include="..\..\source\images\import_export\libpng\pngpread.c" />
+    <ClCompile Include="..\..\source\images\import_export\libpng\pngread.c" />
+    <ClCompile Include="..\..\source\images\import_export\libpng\pngrio.c" />
+    <ClCompile Include="..\..\source\images\import_export\libpng\pngrtran.c" />
+    <ClCompile Include="..\..\source\images\import_export\libpng\pngrutil.c" />
+    <ClCompile Include="..\..\source\images\import_export\libpng\pngset.c" />
+    <ClCompile Include="..\..\source\images\import_export\libpng\pngtest.c" />
+    <ClCompile Include="..\..\source\images\import_export\libpng\pngtrans.c" />
+    <ClCompile Include="..\..\source\images\import_export\libpng\pngwio.c" />
+    <ClCompile Include="..\..\source\images\import_export\libpng\pngwrite.c" />
+    <ClCompile Include="..\..\source\images\import_export\libpng\pngwtran.c" />
+    <ClCompile Include="..\..\source\images\import_export\libpng\pngwutil.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_aux.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_close.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_codec.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_color.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_compress.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_dir.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_dirinfo.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_dirread.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_dirwrite.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_dumpmode.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_error.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_extension.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_fax3.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_fax3sm.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_flush.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_getimage.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_jbig.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_jpeg.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_jpeg_12.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_luv.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_lzma.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_lzw.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_next.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_ojpeg.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_open.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_packbits.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_pixarlog.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_predict.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_print.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_read.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_strip.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_swab.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_thunder.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_tile.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_version.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_warning.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_win32.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_write.c" />
+    <ClCompile Include="..\..\source\images\import_export\libtiff\tif_zip.c" />
+    <ClCompile Include="..\..\source\images\import_export\openexr_importer.cpp" />
+    <ClCompile Include="..\..\source\images\import_export\png_exporter.cpp" />
+    <ClCompile Include="..\..\source\images\import_export\png_importer.cpp" />
+    <ClCompile Include="..\..\source\images\import_export\tiff_importer.cpp" />
+    <ClCompile Include="..\..\source\images\import_export\zlib\adler32.c" />
+    <ClCompile Include="..\..\source\images\import_export\zlib\compress.c" />
+    <ClCompile Include="..\..\source\images\import_export\zlib\crc32.c" />
+    <ClCompile Include="..\..\source\images\import_export\zlib\deflate.c" />
+    <ClCompile Include="..\..\source\images\import_export\zlib\gzclose.c" />
+    <ClCompile Include="..\..\source\images\import_export\zlib\gzlib.c" />
+    <ClCompile Include="..\..\source\images\import_export\zlib\gzread.c" />
+    <ClCompile Include="..\..\source\images\import_export\zlib\gzwrite.c" />
+    <ClCompile Include="..\..\source\images\import_export\zlib\infback.c" />
+    <ClCompile Include="..\..\source\images\import_export\zlib\inffast.c" />
+    <ClCompile Include="..\..\source\images\import_export\zlib\inflate.c" />
+    <ClCompile Include="..\..\source\images\import_export\zlib\inftrees.c" />
+    <ClCompile Include="..\..\source\images\import_export\zlib\trees.c" />
+    <ClCompile Include="..\..\source\images\import_export\zlib\uncompr.c" />
+    <ClCompile Include="..\..\source\images\import_export\zlib\zutil.c" />
+    <ClCompile Include="..\..\source\images\internal_images\gray_image.cpp" />
+    <ClCompile Include="..\..\source\images\internal_images\image.cpp" />
+    <ClCompile Include="..\..\source\images\internal_images\rgba_image.cpp" />
+    <ClCompile Include="..\..\source\images\internal_images\rgb_image.cpp" />
+    <ClCompile Include="..\..\source\images\png_file.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\source\images\converter\yuy2_to_rgb.cl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

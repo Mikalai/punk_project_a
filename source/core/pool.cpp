@@ -19,11 +19,9 @@ namespace Core {
     }
 #endif
 
-#ifdef _NDEBUG
     Pool::~Pool() {
         Clear();
     }
-#endif
 
     void* Pool::Alloc(size_t size) {
         if (m_free.empty()) {
@@ -54,7 +52,7 @@ namespace Core {
 #else
        std::cout << "Clear pool" << std::endl;
 #endif
-        for (typename std::deque<void*>::iterator it = m_free.begin(); it != m_free.end(); ++it) {
+        for (auto it = m_free.begin(); it != m_free.end(); ++it) {
             free(*it);
         }
         m_free.clear();
