@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <utility>
 #include <iostream>
+#include "iscene_graph.h"
 #include <system/concurrency/module.h>
 #include "node.h"
 
@@ -81,7 +82,15 @@ namespace Scene {
 
     void Node::AddChild(INode *child) {
         m_children.push_back(child);
+		child->SetSceneGraph(GetSceneGraph());
     }
+
+	void Node::SetSceneGraph(ISceneGraph* graph) {
+		m_scene_graph = graph;
+		for (auto child : m_children) {
+			child->SetSceneGraph(graph);
+		}
+	}
 
     NodeState Node::GetState() const {
         return m_state;

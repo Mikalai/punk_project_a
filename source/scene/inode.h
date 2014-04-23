@@ -34,6 +34,7 @@ namespace Scene {
         virtual void Updated(const Core::String& attribute) = 0;
         virtual void OnUpdate(Core::ActionBase<INode*, const Core::String&>* action) = 0;
         virtual ISceneGraph* GetSceneGraph() = 0;
+		virtual void SetSceneGraph(ISceneGraph* graph) = 0;
 
         ///
         /// \brief MarkToDelete

@@ -14,19 +14,26 @@ namespace Loader {
             if (!proc)
                 return;
 
-            auto scene = proc->GetSceneGraph();
+            Scene::ISceneGraph* scene = proc->GetSceneGraph();
             while (!proc->IsFinish()) {
                 proc->WaitUpdateStart();
 
-                scene->Lock();
-                proc->PreUpdate();
-                scene->Unlock();
+				bool process_scene = (scene = proc->GetSceneGraph()) != nullptr;
+
+				if (process_scene) {
+					scene->Lock();
+					proc->PreUpdate();
+					scene->Unlock();
+				}
+
 
                 proc->InternalUpdate();
 
-                scene->Lock();
-                proc->PostUpdate();
-                scene->Unlock();
+				if (process_scene) {
+					scene->Lock();
+					proc->PostUpdate();
+					scene->Unlock();
+				}
 
                 proc->FinishUpdate();
             }
@@ -73,13 +80,28 @@ namespace Loader {
         for (LoaderTask task : tasks) {
             if (task.task == LoaderTasks::Load) {
                 Core::Object* o = ParsePunkFile(task.load_file.filename);
-                auto node = dynamic_cast<Scene::INode*>(o);
-                if (node)
-                    AddChild(task.load_file.node, node);
-                else {
-                    AddLoadedObject(task.load_file.node, o);
-                }
-            }
+                auto graph = dynamic_cast<Scene::ISceneGraph*>(o);
+				if (graph) {
+					auto node = graph->ReleaseRoot();
+					AddChild(task.load_file.node, node);
+				}
+				else {
+					auto node = dynamic_cast<Scene::INode*>(o);
+					if (node)
+						AddChild(task.load_file.node, node);
+					else {
+						AddLoadedObject(task.load_file.node, o);
+					}
+				}
+			}
+			else if (task.task == LoaderTasks::SetNewGraph) {
+				m_graph = task.set_graph.new_graph;
+				LoaderCommand cmd;
+				cmd.command = LoaderCommands::SetNewGraph;
+				cmd.set_graph.new_graph = m_graph;
+				AddCommand(cmd);
+			}
+			
         }
     }
 
@@ -92,10 +114,6 @@ namespace Loader {
             stack.pop();
             for (std::uint64_t i = 0; i < node->GetChildrenCount(); ++i)
                 stack.push(node->GetChild(i));
-
-            if (node->GetState() == Scene::NodeState::Inactive) {
-            }
-
         }
     }
 
@@ -133,13 +151,16 @@ namespace Loader {
                                                 this, &LoaderGraphProcessor::ChildAdded));
                 m_graph->AddNodeRemovedAction(new Core::Action<LoaderGraphProcessor, Scene::INode*, Scene::INode*>(
                                                   this, &LoaderGraphProcessor::ChildRemoved));
+				Process(m_graph->GetRoot(), &LoaderGraphProcessor::OnNodeAdded);
             }
         }
     }
 
-    void LoaderGraphProcessor::SetGraph(Scene::ISceneGraph *graph) {
-        m_graph = graph;
-        //Process(graph_node);
+    void LoaderGraphProcessor::SetGraph(Scene::ISceneGraph *graph) {		
+		LoaderTask task;
+		task.task = LoaderTasks::SetNewGraph;
+		task.set_graph.new_graph = graph;
+		AddTask(task);
     }
 
     bool LoaderGraphProcessor::Process(Scene::INode *node, bool (LoaderGraphProcessor::*func)(Scene::INode *)) {
@@ -227,6 +248,7 @@ namespace Loader {
             if (path) {
                 LoaderTask task;
                 task.task = LoaderTasks::Load;
+				task.load_file.node
                 path->ToWchar(task.load_file.filename, MAX_PATH);
                 AddTask(task);
             }

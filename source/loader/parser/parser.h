@@ -3,7 +3,6 @@
 
 #include <loader/error/loader_error.h>
 #include "keywords.h"
-#include "base_parser2.h"
 
 #define CHECK_START(buffer)\
     if (!Loader::CheckIntegrity(buffer))\

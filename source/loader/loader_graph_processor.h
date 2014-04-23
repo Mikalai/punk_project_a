@@ -66,8 +66,13 @@ namespace Loader {
     };
 
     enum class LoaderTasks {
-        Load
+		Load,
+		SetNewGraph
     };
+
+	struct SetNewGraphTask {
+		Scene::ISceneGraph* new_graph;
+	};
 
     struct LoadFileTask {
         Scene::INode* node;
@@ -81,6 +86,7 @@ namespace Loader {
         LoaderTasks task;
         union {
             LoadFileTask load_file;
+			SetNewGraphTask set_graph;
         };
     };
 

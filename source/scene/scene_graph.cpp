@@ -5,6 +5,12 @@
 PUNK_ENGINE_BEGIN
 namespace Scene
 {
+	static Core::Rtti SceneGraphType{ "Scene.SceneGraph", typeid(SceneGraph).hash_code(), { Core::Object::Type() } };
+
+	Core::Rtti* SceneGraph::Type() {
+		return &SceneGraphType;
+	}
+
     void SceneGraph::Lock() {
         m_lock.Lock();
     }
@@ -31,6 +37,12 @@ namespace Scene
             DestroyNode(m_root);
         m_root = node;
     }
+
+	INode* SceneGraph::ReleaseRoot() {
+		auto result = m_root;
+		m_root = nullptr;
+		return result;
+	}
 
     void SceneGraph::AddNodeAddedAction(Core::ActionBase<INode*, INode*>* value) {
         m_on_added_actions.Add(value, true);

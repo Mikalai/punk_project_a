@@ -360,9 +360,6 @@
     <ClInclude Include="..\..\source\loader\serializer\serializer.h">
       <Filter>serializer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\loader\parser\base_parser2.h">
-      <Filter>parser</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\loader\parser\game_parser.h">
       <Filter>parser</Filter>
     </ClInclude>

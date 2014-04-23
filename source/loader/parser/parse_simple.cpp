@@ -1,5 +1,6 @@
 #include <array>
 #include <vector>
+#include <system/logger/module.h>
 #include <string/module.h>
 #include <math/vec3.h>
 #include <math/vec2.h>
@@ -26,8 +27,10 @@ namespace Loader
     {
         for (unsigned i = 0; i < sizeof(Keyword)/sizeof(Record); i++)
         {
-            if (word == Keyword[i].word)
-                return Keyword[i].code;
+			if (word == Keyword[i].word) {
+				System::GetDefaultLogger()->Info(Core::String("Parse {0} ({1})").arg(Keyword[i].word).arg(Keyword[i].code));
+				return Keyword[i].code;
+			}
         }
         throw Error::LoaderException(Core::String("Unknown keyword {0}").arg(word));
         return WORD_BAD_KEYWORD;

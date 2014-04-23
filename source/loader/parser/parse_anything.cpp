@@ -2,6 +2,7 @@
 #include <attributes/module.h>
 #include <scene/module.h>
 #include <ai/module.h>
+#include <system/logger/module.h>
 #include "parse_directional_light.h"
 #include "parse_terrain_mesh.h"
 #include "parse_sun.h"
@@ -22,7 +23,7 @@ PUNK_ENGINE_BEGIN
 namespace Loader
 {
     Core::Object* ParseAnything(Core::Buffer& buffer)
-    {
+    {		
         while (!buffer.IsEnd())
         {
             Core::String word = buffer.ReadWord();
@@ -30,7 +31,7 @@ namespace Loader
             switch(code)
             {
             case WORD_MAPDESCTEXT:
-            {
+            {				
                 std::unique_ptr<Attributes::Terrain> terrain(new Attributes::Terrain);
                 ParseMapDescription(buffer, terrain.get());
                 return terrain.release();

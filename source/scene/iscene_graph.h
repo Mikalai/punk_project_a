@@ -19,6 +19,7 @@ namespace Scene {
         virtual INode* GetRoot() = 0;
         virtual const INode* GetRoot() const = 0;
         virtual void SetRoot(INode* node) = 0;
+		virtual INode* ReleaseRoot() = 0;
         virtual void AddNodeAddedAction(Core::ActionBase<INode*, INode*>* value) = 0;
         virtual void AddNodeRemovedAction(Core::ActionBase<INode*, INode*>* value) = 0;
         virtual void OnNodeAdded(INode* parent, INode* child) = 0;

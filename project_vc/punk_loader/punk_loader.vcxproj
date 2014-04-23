@@ -254,7 +254,6 @@
     <ClInclude Include="..\..\source\loader\loader_cache.h" />
     <ClInclude Include="..\..\source\loader\loader_graph_processor.h" />
     <ClInclude Include="..\..\source\loader\module.h" />
-    <ClInclude Include="..\..\source\loader\parser\base_parser2.h" />
     <ClInclude Include="..\..\source\loader\parser\game_parser.h" />
     <ClInclude Include="..\..\source\loader\parser\keywords.h" />
     <ClInclude Include="..\..\source\loader\parser\parser.h" />
