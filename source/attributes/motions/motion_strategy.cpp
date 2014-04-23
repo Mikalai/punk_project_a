@@ -4,9 +4,11 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-    Core::Rtti MotionStrategy::Type{"Attributes.MotionStrategy",
-                                    typeid(MotionStrategy).hash_code(),
-        {&Core::Object::Type}};
+	Core::Rtti MotionStrategyType{ "Attributes.MotionStrategy", typeid(MotionStrategy).hash_code(), { Core::Object::Type() } };
+
+	Core::Rtti* MotionStrategy::Type() {
+		return &MotionStrategyType;
+	}
 
 	MotionStrategy::MotionStrategy()
         : Core::Object()

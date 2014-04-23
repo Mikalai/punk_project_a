@@ -5,9 +5,11 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-    Core::Rtti Animation::Type{"Attributes.Animation",
-                               typeid(Animation).hash_code(),
-        {&Core::Object::Type}};
+	Core::Rtti AnimationType{ "Attributes.Animation", typeid(Animation).hash_code(), { Core::Object::Type() } };
+
+	Core::Rtti* Animation::Type() {
+		return &AnimationType;
+	}
 
 	Animation::Animation()
 	{        

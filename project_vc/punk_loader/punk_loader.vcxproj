@@ -1,0 +1,348 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{947160F0-4EC0-498B-90F3-92B6B0126B6F}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>punk_loader</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>PUNK_ENGINE_EXPORTS;WIN32;_DEBUG;_WINDOWS;_USRDLL;PUNK_LOADER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\bin\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>punk_error.lib;punk_string.lib;punk_core.lib;punk_math.lib;punk_system.lib;punk_attributes.lib;punk_ai.lib;punk_scene.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN64;PUNK_ENGINE_EXPORTS;WIN32;_DEBUG;_WINDOWS;_USRDLL;PUNK_LOADER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\bin\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>punk_error.lib;punk_string.lib;punk_core.lib;punk_math.lib;punk_system.lib;punk_attributes.lib;punk_ai.lib;punk_scene.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>PUNK_ENGINE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_USRDLL;PUNK_LOADER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\bin\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>punk_error.lib;punk_string.lib;punk_core.lib;punk_math.lib;punk_system.lib;punk_attributes.lib;punk_ai.lib;punk_scene.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN64;PUNK_ENGINE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_USRDLL;PUNK_LOADER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\bin\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>punk_error.lib;punk_string.lib;punk_core.lib;punk_math.lib;punk_system.lib;punk_attributes.lib;punk_ai.lib;punk_scene.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\source\loader\async_parser.cpp" />
+    <ClCompile Include="..\..\source\loader\error\loader_error.cpp" />
+    <ClCompile Include="..\..\source\loader\loader_cache.cpp" />
+    <ClCompile Include="..\..\source\loader\loader_graph_processor.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\game_parser.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\keywords.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parser.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_action.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_animation.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_anything.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_armature.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_armature_node.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_bbox.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_bone.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_bones_weights.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_bone_node.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_convex_mesh.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_curve_path.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_curve_path_node.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_directional_light.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_location_indoor.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_map_description.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_material.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_materials.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_material_node.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_math.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_navi_mesh.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_navi_mesh_node.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_point_light_node.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_portal_node.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_position_track.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_punk_file.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_river.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_river_node.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_rotation_track.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_scene.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_scene_node.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_simple.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_skin_mesh.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_skin_meshes.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_skin_mesh_node.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_spline.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_static_mesh.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_static_meshes.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_static_mesh_node.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_sun.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_sun_node.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_terrain_cell.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_terrain_mesh.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_terrain_node.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_terrain_raw_data_source.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_textures.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_texture_slot.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_transform_node.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_weighted_point.cpp" />
+    <ClCompile Include="..\..\source\loader\path_finder.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_action.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_animation.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_animation_mixer.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_animation_track.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_armature.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_armature_animation_mixer.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_bone.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_camera.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_curve.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_curve_path.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_geometry.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_human_armature.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_light.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_material.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_matrix.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_navi_mesh.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_object.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_object_animation_mixer.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_quaternion.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_river.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_skin_geometry.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_sound.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_spline.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_static_geometry.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_string.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_sun.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_terrain_cell.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_terrain_mesh.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_transform.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_vector.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_weighted_point.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\serializer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\loader\async_parser.h" />
+    <ClInclude Include="..\..\source\loader\error\loader_error.h" />
+    <ClInclude Include="..\..\source\loader\loader_cache.h" />
+    <ClInclude Include="..\..\source\loader\loader_graph_processor.h" />
+    <ClInclude Include="..\..\source\loader\module.h" />
+    <ClInclude Include="..\..\source\loader\parser\base_parser2.h" />
+    <ClInclude Include="..\..\source\loader\parser\game_parser.h" />
+    <ClInclude Include="..\..\source\loader\parser\keywords.h" />
+    <ClInclude Include="..\..\source\loader\parser\parser.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_action.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_animation.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_anything.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_armature.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_armature_node.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_bbox.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_bone.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_bones_weights.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_bone_node.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_convex_mesh.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_curve_path.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_curve_path_node.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_directional_light.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_functions.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_location_indoor.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_map_description.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_material.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_materials.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_material_node.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_math.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_navi_mesh.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_navi_mesh_node.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_path_node.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_point_light_node.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_portal_node.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_position_track.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_punk_file.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_river.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_river_node.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_rotation_track.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_scene.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_scene_node.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_simple.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_skin_mesh.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_skin_meshes.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_skin_mesh_node.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_spline.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_static_mesh.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_static_meshes.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_static_mesh_node.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_sun.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_sun_node.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_terrain_cell.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_terrain_mesh.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_terrain_node.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_terrain_raw_data_source.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_textures.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_texture_slot.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_transform_node.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_weighted_point.h" />
+    <ClInclude Include="..\..\source\loader\path_finder.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_action.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_animation.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_animation_mixer.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_animation_track.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_armature.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_armature_animation_mixer.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_bone.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_camera.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_curve.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_curve_path.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_geometry.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_human_armature.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_light.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_material.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_matrix.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_navi_mesh.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_object.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_object_animation_mixer.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_quaternion.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_river.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_skin_geometry.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_sound.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_spline.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_static_geometry.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_string.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_sun.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_terrain_cell.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_terrain_mesh.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_transform.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_vector.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_weighted_point.h" />
+    <ClInclude Include="..\..\source\loader\serializer\serializer.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

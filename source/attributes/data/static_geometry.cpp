@@ -7,9 +7,11 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-    Core::Rtti StaticGeometry::Type{"Attributes.StaticGeometry",
-                                    typeid(StaticGeometry).hash_code(),
-        {&Geometry::Type}};
+    Core::Rtti StaticGeometryType{"Attributes.StaticGeometry", typeid(StaticGeometry).hash_code(), {Geometry::Type()}};
+
+	Core::Rtti* StaticGeometry::Type() {
+		return &StaticGeometryType;
+	}
 
     StaticGeometry::GpuCache::GpuCache(StaticGeometry& value)
         : m_geom(value)
@@ -384,8 +386,8 @@ namespace Attributes
             m_geom.GetCpuCache().Update();
 
         Drop();
-        Graphics::IVertexArray* vb;
-        Graphics::IIndexArray* ib;
+        Graphics::IVertexArray* vb = nullptr;
+        Graphics::IIndexArray* ib = nullptr;
         if (!Cook(&m_geom, vb, ib))
             return;
 

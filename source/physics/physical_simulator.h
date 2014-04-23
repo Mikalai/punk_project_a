@@ -1,3 +1,4 @@
+#ifdef USE_BULLET_PHYSICS
 #ifndef _H_PUNK_PHYSICAL_SIMULATOR
 #define _H_PUNK_PHYSICAL_SIMULATOR
 
@@ -33,4 +34,5 @@ namespace Physics
 	};
 }
 
+#endif
 #endif

@@ -3,9 +3,11 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-    Core::Rtti Geometry::Type{"Attributes.Geometry",
-                              typeid(Geometry).hash_code(),
-        {&Core::Object::Type}};
+	Core::Rtti GeometryType{ "Attributes.Geometry", typeid(Geometry).hash_code(), { Core::Object::Type() } };
+
+	Core::Rtti* Geometry::Type() {
+		return &GeometryType;
+	}
 
     Geometry::Geometry()
     {}

@@ -1,6 +1,7 @@
 #ifndef PUNK_VIRTUAL_RIVER_H
 #define PUNK_VIRTUAL_RIVER_H
 
+#include <core/object.h>
 #include <attributes/data/static_geometry.h>
 
 PUNK_ENGINE_BEGIN

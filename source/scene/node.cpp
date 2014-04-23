@@ -149,17 +149,17 @@ namespace Scene {
         return m_delete_count == 0;
     }
 
-    extern "C" PUNK_ENGINE_API INodeUniquePtr CreateRootNode(ISceneGraph* graph) {
+    extern PUNK_ENGINE_API INodeUniquePtr CreateRootNode(ISceneGraph* graph) {
         INodeUniquePtr node{new Node{graph}, DestroyNode};
         return node;
     }
 
-    extern "C" PUNK_ENGINE_API INodeUniquePtr CreateNode(INode* parent) {
+    extern PUNK_ENGINE_API INodeUniquePtr CreateNode(INode* parent) {
         INodeUniquePtr node{new Node{parent}, DestroyNode};
         return node;
     }
 
-    extern "C" PUNK_ENGINE_API void DestroyNode(INode* node) {
+    extern PUNK_ENGINE_API void DestroyNode(INode* node) {
         Node* n = dynamic_cast<Node*>(node);
         delete n;
     }

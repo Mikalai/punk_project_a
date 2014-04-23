@@ -4,9 +4,11 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-    Core::Rtti AnimationMixer::Type{L"Attributes.AnimationMixer",
-                                    typeid(AnimationMixer).hash_code(),
-        {&Core::Object::Type}};
+	Core::Rtti AnimationMixerType{ L"Attributes.AnimationMixer", typeid(AnimationMixer).hash_code(), { Core::Object::Type() } };
+
+	Core::Rtti* AnimationMixer::Type() {
+		return &AnimationMixerType;
+	}
 
     AnimationMixer::AnimationMixer()
     {

@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <config.h>
+#include "vec3.h"
 #include "plane.h"
 
 PUNK_ENGINE_BEGIN

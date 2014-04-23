@@ -4,8 +4,11 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-    Core::Rtti River::Type{"Attributes.River",
-                           typeid(River).hash_code(), {&Core::Object::Type}};
+	static Core::Rtti RiverType{ "Attributes.River", typeid(River).hash_code(), { Core::Object::Type() } };
+
+	Core::Rtti* River::Type() {
+		return &RiverType;
+	}
 
     River::River()
         : m_geom(nullptr)

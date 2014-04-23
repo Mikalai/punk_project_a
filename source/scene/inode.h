@@ -88,9 +88,9 @@ namespace Scene {
 
     using INodeUniquePtr = std::unique_ptr<INode, void (*)(INode*)>;
 
-    extern "C" PUNK_ENGINE_API INodeUniquePtr CreateRootNode(ISceneGraph* grap);
-    extern "C" PUNK_ENGINE_API INodeUniquePtr CreateNode(INode* parent);
-    extern "C" PUNK_ENGINE_API void DestroyNode(INode* node);
+    extern PUNK_ENGINE_API INodeUniquePtr CreateRootNode(ISceneGraph* grap);
+    extern PUNK_ENGINE_API INodeUniquePtr CreateNode(INode* parent);
+    extern PUNK_ENGINE_API void DestroyNode(INode* node);
 }
 PUNK_ENGINE_END
 

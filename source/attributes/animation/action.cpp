@@ -5,7 +5,11 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-    Core::Rtti Action::Type{L"Attributes.Action", typeid(Action).hash_code(), {&Core::Object::Type}};
+	Core::Rtti ActionType{ L"Attributes.Action", typeid(Action).hash_code(), { Core::Object::Type() } };
+
+	Core::Rtti* Action::Type() {
+		return &ActionType;
+	}
 
 	Action::Action()
     {}

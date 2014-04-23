@@ -6,9 +6,11 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {    
-    Core::Rtti ObjectAnimationMixer::Type{L"Attributes.ObjectAnimationMixer",
-                                          typeid(ObjectAnimationMixer).hash_code(),
-                                         {&AnimationMixer::Type}};
+	Core::Rtti ObjectAnimationMixerType{ L"Attributes.ObjectAnimationMixer", typeid(ObjectAnimationMixer).hash_code(), { AnimationMixer::Type() } };
+
+	Core::Rtti* ObjectAnimationMixer::Type() {
+		return &ObjectAnimationMixerType;
+	}
 
 	void ObjectAnimationMixer::AddTrack(const std::string& name, Animation* anim)
 	{

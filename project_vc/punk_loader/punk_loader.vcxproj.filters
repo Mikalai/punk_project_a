@@ -1,0 +1,540 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\source\loader\async_parser.cpp" />
+    <ClCompile Include="..\..\source\loader\loader_cache.cpp" />
+    <ClCompile Include="..\..\source\loader\loader_graph_processor.cpp" />
+    <ClCompile Include="..\..\source\loader\path_finder.cpp" />
+    <ClCompile Include="..\..\source\loader\serializer\io_action.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_animation.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_animation_mixer.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_animation_track.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_armature.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_armature_animation_mixer.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_bone.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_camera.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_curve.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_curve_path.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_geometry.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_human_armature.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_light.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_material.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_matrix.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_navi_mesh.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_object.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_object_animation_mixer.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_quaternion.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_river.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_skin_geometry.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_sound.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_spline.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_static_geometry.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_string.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_sun.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_terrain_cell.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_terrain_mesh.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_transform.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_vector.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\io_weighted_point.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\serializer\serializer.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\game_parser.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\keywords.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_action.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_animation.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_anything.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_armature.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_armature_node.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_bbox.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_bone.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_bone_node.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_bones_weights.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_convex_mesh.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_curve_path.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_curve_path_node.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_directional_light.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_location_indoor.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_map_description.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_material.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_material_node.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_materials.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_math.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_navi_mesh.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_navi_mesh_node.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_point_light_node.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_portal_node.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_position_track.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_punk_file.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_river.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_river_node.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_rotation_track.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_scene.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_scene_node.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_simple.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_skin_mesh.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_skin_mesh_node.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_skin_meshes.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_spline.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_static_mesh.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_static_mesh_node.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_static_meshes.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_sun.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_sun_node.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_terrain_cell.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_terrain_mesh.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_terrain_node.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_terrain_raw_data_source.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_texture_slot.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_textures.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_transform_node.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_weighted_point.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parser.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\error\loader_error.cpp">
+      <Filter>error</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\loader\async_parser.h" />
+    <ClInclude Include="..\..\source\loader\loader_cache.h" />
+    <ClInclude Include="..\..\source\loader\loader_graph_processor.h" />
+    <ClInclude Include="..\..\source\loader\module.h" />
+    <ClInclude Include="..\..\source\loader\path_finder.h" />
+    <ClInclude Include="..\..\source\loader\serializer\io_action.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_animation.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_animation_mixer.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_animation_track.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_armature.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_armature_animation_mixer.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_bone.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_camera.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_curve.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_curve_path.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_geometry.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_human_armature.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_light.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_material.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_matrix.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_navi_mesh.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_object.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_object_animation_mixer.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_quaternion.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_river.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_skin_geometry.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_sound.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_spline.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_static_geometry.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_string.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_sun.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_terrain_cell.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_terrain_mesh.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_transform.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_vector.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\io_weighted_point.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\serializer\serializer.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\base_parser2.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\game_parser.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\keywords.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_action.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_animation.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_anything.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_armature.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_armature_node.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_bbox.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_bone.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_bone_node.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_bones_weights.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_convex_mesh.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_curve_path.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_curve_path_node.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_directional_light.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_functions.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_location_indoor.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_map_description.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_material.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_material_node.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_materials.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_math.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_navi_mesh.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_navi_mesh_node.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_path_node.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_point_light_node.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_portal_node.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_position_track.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_punk_file.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_river.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_river_node.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_rotation_track.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_scene.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_scene_node.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_simple.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_skin_mesh.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_skin_mesh_node.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_skin_meshes.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_spline.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_static_mesh.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_static_mesh_node.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_static_meshes.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_sun.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_sun_node.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_terrain_cell.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_terrain_mesh.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_terrain_node.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_terrain_raw_data_source.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_texture_slot.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_textures.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_transform_node.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_weighted_point.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parser.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\error\loader_error.h">
+      <Filter>error</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="serializer">
+      <UniqueIdentifier>{ca3b3997-709c-4ba3-936e-9b40208cb42b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="parser">
+      <UniqueIdentifier>{86f8f237-24c1-4bdd-b1c8-e883bee80369}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="error">
+      <UniqueIdentifier>{239858c3-37d1-48bc-8db7-0c8b153b24bd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

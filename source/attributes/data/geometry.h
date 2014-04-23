@@ -8,9 +8,9 @@
 PUNK_ENGINE_BEGIN
 namespace Gpu { class Renderable; }
 
-namespace Physics {
-	class BulletShapeBody;
-}
+//namespace Physics {
+//	class BulletShapeBody;
+//}
 
 namespace Attributes
 {

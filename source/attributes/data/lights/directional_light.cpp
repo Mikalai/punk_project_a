@@ -7,9 +7,11 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-    Core::Rtti DirectionalLight::Type{"Attributes.DirectionalLight",
-                                      typeid(DirectionalLight).hash_code(),
-        {&Light::Type}};
+	Core::Rtti DirectionalLightType{ "Attributes.DirectionalLight", typeid(DirectionalLight).hash_code(), { Light::Type() } };
+
+	Core::Rtti* DirectionalLight::Type() {
+		return &DirectionalLightType;
+	}
 
     DirectionalLight::DirectionalLight()
     {

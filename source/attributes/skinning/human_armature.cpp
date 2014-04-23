@@ -3,9 +3,11 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-    Core::Rtti HumanArmature::Type{"Attributes.HumanArmature",
-                                   typeid(HumanArmature).hash_code(),
-        {&Armature::Type}};
+	Core::Rtti HumanArmatureType{ "Attributes.HumanArmature", typeid(HumanArmature).hash_code(), { Armature::Type() } };
+
+	Core::Rtti* HumanArmature::Type() {
+		return &HumanArmatureType;
+	}
 
     struct HumanArmaturePartAdapter
     {

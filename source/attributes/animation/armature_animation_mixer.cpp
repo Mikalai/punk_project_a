@@ -14,9 +14,13 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-    Core::Rtti ArmatureAnimationMixer::Type{L"Attributes.ArmatureAnimationMixer"
-                                      , typeid(ArmatureAnimationMixer).hash_code()
-                                      , {&AnimationMixer::Type}};
+	Core::Rtti ArmatureAnimationMixerType{ L"Attributes.ArmatureAnimationMixer"
+		, typeid(ArmatureAnimationMixer).hash_code()
+		, { AnimationMixer::Type() } };
+
+	Core::Rtti* ArmatureAnimationMixer::Type() {
+		return &ArmatureAnimationMixerType;
+	}
 
     ArmatureAnimationMixer::ArmatureAnimationMixer()
         : m_current_time(0)

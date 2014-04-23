@@ -8,9 +8,11 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-    Core::Rtti Camera::Type{L"Attributes.Camera",
-                            typeid(Camera).hash_code(),
-        {&Core::Object::Type}};
+	Core::Rtti CameraType{ L"Attributes.Camera", typeid(Camera).hash_code(), { Core::Object::Type() } };
+
+	Core::Rtti* Camera::Type() {
+		return &CameraType;
+	}
 
 	Camera::Camera()
         : m_yrp(0, 0, 0)

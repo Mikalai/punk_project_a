@@ -20,12 +20,12 @@ namespace Attributes
         , m_height_map_back(nullptr)
 		, m_loading(false)
 		, m_init(false)
-		, m_bullet_terrain(false)
+		//, m_bullet_terrain(false)
 	{
 		memset(m_front_buffer, 0, sizeof(m_desc.view_size*m_desc.view_size*sizeof(float)));
 		m_last_unprocessed.Set(std::numeric_limits<float>::min(), std::numeric_limits<float>::min());
 		m_position_back = m_desc.position;
-        m_bullet_terrain = nullptr; //new Physics::Terrain();
+//        m_bullet_terrain = nullptr; //new Physics::Terrain();
 		UpdatePosition(m_desc.position);
 	}
 
@@ -40,8 +40,8 @@ namespace Attributes
 		m_height_map_back = nullptr;
 		delete m_height_map_front;
 		m_height_map_front = nullptr;
-		delete m_bullet_terrain;
-		m_bullet_terrain = nullptr;
+		/*delete m_bullet_terrain;
+		m_bullet_terrain = nullptr;*/
 	}
 
 	void TerrainView::UpdatePosition(const Math::vec2& value)

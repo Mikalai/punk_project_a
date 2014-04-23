@@ -8,9 +8,11 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-    Core::Rtti Armature::Type{L"Attributes.Armature",
-                              typeid(Armature).hash_code(),
-                                {&Core::Object::Type}};
+	Core::Rtti ArmatureType{ L"Attributes.Armature", typeid(Armature).hash_code(), { Core::Object::Type() } };
+
+	Core::Rtti* Armature::Type() {
+		return &ArmatureType;
+	}
 
 	Armature::Armature()
 	{

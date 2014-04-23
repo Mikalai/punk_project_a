@@ -7,9 +7,11 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-    Core::Rtti SpotLight::Type{"Attributes.SpotLight",
-                               typeid(SpotLight).hash_code(),
-        {&Light::Type}};
+	Core::Rtti SpotLightType{ "Attributes.SpotLight", typeid(SpotLight).hash_code(), { Light::Type() } };
+
+	Core::Rtti* SpotLight::Type() {
+		return &SpotLightType;
+	}
 
     SpotLight::SpotLight()
     {

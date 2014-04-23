@@ -48,7 +48,7 @@ namespace Scene
         m_on_removed_action(parent, child);
     }
 
-    extern "C" PUNK_ENGINE_API ISceneGraphUniquePtr CreateSceneFromFile(const Core::String& fullpath) {
+    extern PUNK_ENGINE_API ISceneGraphUniquePtr CreateSceneFromFile(const Core::String& fullpath) {
         ISceneGraphUniquePtr scene{new SceneGraph, DestroyScene};
         INodeUniquePtr node = CreateRootNode(scene.get());
         node->SetAttribute(new Attribute<Core::String>(L"Name", L"Root"));
@@ -58,12 +58,12 @@ namespace Scene
         return scene;
     }
 
-    extern "C" PUNK_ENGINE_API ISceneGraphUniquePtr CreateScene() {
+    extern PUNK_ENGINE_API ISceneGraphUniquePtr CreateScene() {
         ISceneGraphUniquePtr scene{new SceneGraph, DestroyScene};
         return scene;
     }
 
-    extern "C" PUNK_ENGINE_API void DestroyScene(ISceneGraph* graph) {
+    extern PUNK_ENGINE_API void DestroyScene(ISceneGraph* graph) {
         delete graph;
     }
 

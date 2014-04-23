@@ -29,9 +29,9 @@ namespace Scene {
 
     using ISceneGraphUniquePtr = std::unique_ptr<ISceneGraph, void (*)(ISceneGraph*)>;
 
-    extern "C" PUNK_ENGINE_API ISceneGraphUniquePtr CreateSceneFromFile(const Core::String& fullpath);
-    extern "C" PUNK_ENGINE_API ISceneGraphUniquePtr CreateScene();
-    extern "C" PUNK_ENGINE_API void DestroyScene(ISceneGraph* graph);
+    extern PUNK_ENGINE_API ISceneGraphUniquePtr CreateSceneFromFile(const Core::String& fullpath);
+    extern PUNK_ENGINE_API ISceneGraphUniquePtr CreateScene();
+    extern PUNK_ENGINE_API void DestroyScene(ISceneGraph* graph);
 }
 PUNK_ENGINE_END
 

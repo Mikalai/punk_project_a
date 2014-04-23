@@ -1,3 +1,4 @@
+#ifdef USE_BULLET_PHYSICS
 #ifndef _H_PUNK_PHYSICE_CONFIG
 #define _H_PUNK_PHYSICE_CONFIG
 
@@ -12,3 +13,4 @@ namespace Physics
 }
 
 #endif	//	_H_PUNK_PHYSICE_CONFIG
+#endif

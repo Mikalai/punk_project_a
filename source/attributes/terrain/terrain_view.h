@@ -19,7 +19,7 @@
 
 PUNK_ENGINE_BEGIN
 namespace Graphics { class ITexture2D; }
-namespace Physics { class Terrain; }
+//namespace Physics { class Terrain; }
 namespace Math { class Line3D; }
 
 namespace Attributes {
@@ -111,7 +111,7 @@ namespace Attributes {
 		//
 		bool m_init;
 		//	should be deleted in destructor
-		Physics::Terrain* m_bullet_terrain;
+		//Physics::Terrain* m_bullet_terrain{ nullptr };
 	};
 
 	typedef TerrainView* TerrainViewRef;

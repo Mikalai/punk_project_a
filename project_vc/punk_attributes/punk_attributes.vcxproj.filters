@@ -1,0 +1,436 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\source\attributes\building.cpp" />
+    <ClCompile Include="..\..\source\attributes\scheme.cpp" />
+    <ClCompile Include="..\..\source\attributes\sound.cpp" />
+    <ClCompile Include="..\..\source\attributes\water\river.cpp">
+      <Filter>water</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\terrain\terrain.cpp">
+      <Filter>terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\terrain\terrain_cell.cpp">
+      <Filter>terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\terrain\terrain_data.cpp">
+      <Filter>terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\terrain\terrain_loader.cpp">
+      <Filter>terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\terrain\terrain_manager.cpp">
+      <Filter>terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\terrain\terrain_mesh.cpp">
+      <Filter>terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\terrain\terrain_observer.cpp">
+      <Filter>terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\terrain\terrain_processor.cpp">
+      <Filter>terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\terrain\terrain_streamer.cpp">
+      <Filter>terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\terrain\terrain_view.cpp">
+      <Filter>terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\terrain\terrain_view_loader.cpp">
+      <Filter>terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\terrain\terrain_view_processor.cpp">
+      <Filter>terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\skinning\armature.cpp">
+      <Filter>skinning</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\skinning\bone.cpp">
+      <Filter>skinning</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\skinning\human_armature.cpp">
+      <Filter>skinning</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\skinning\human_female_armature.cpp">
+      <Filter>skinning</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\skinning\human_male_armature.cpp">
+      <Filter>skinning</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\objects\simple\solid_cube.cpp">
+      <Filter>object\simple</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\objects\characters\human.cpp">
+      <Filter>object\characters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\objects\characters\male_human.cpp">
+      <Filter>object\characters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\motions\motion_strategy.cpp">
+      <Filter>motions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\motions\static_motion_strategy.cpp">
+      <Filter>motions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\manager\camera_manager.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\manager\material_manager.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\data\camera.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\data\entity.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\data\geometry.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\data\light.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\data\light_set.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\data\material.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\data\proxy.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\data\skin_geometry.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\data\static_geometry.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\data\texture_slot.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\data\transform.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\data\world.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\data\lights\directional_light.cpp">
+      <Filter>data\lights</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\data\lights\point_light.cpp">
+      <Filter>data\lights</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\data\lights\spot_light.cpp">
+      <Filter>data\lights</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\data\lights\sun.cpp">
+      <Filter>data\lights</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\controllers\camera_controller.cpp">
+      <Filter>controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\animation\action.cpp">
+      <Filter>animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\animation\action_male_walk.cpp">
+      <Filter>animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\animation\animation.cpp">
+      <Filter>animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\animation\animation_mixer.cpp">
+      <Filter>animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\animation\animation_track.cpp">
+      <Filter>animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\animation\armature_animation_mixer.cpp">
+      <Filter>animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\animation\bone_animation.cpp">
+      <Filter>animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\animation\object_animation.cpp">
+      <Filter>animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\animation\object_animation_mixer.cpp">
+      <Filter>animation</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\attributes\building.h" />
+    <ClInclude Include="..\..\source\attributes\interface.h" />
+    <ClInclude Include="..\..\source\attributes\intersection.h" />
+    <ClInclude Include="..\..\source\attributes\module.h" />
+    <ClInclude Include="..\..\source\attributes\scheme.h" />
+    <ClInclude Include="..\..\source\attributes\sound.h" />
+    <ClInclude Include="..\..\source\attributes\track_pos.h" />
+    <ClInclude Include="..\..\source\attributes\water\interface.h">
+      <Filter>water</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\water\module.h">
+      <Filter>water</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\water\river.h">
+      <Filter>water</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\terrain\interface.h">
+      <Filter>terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\terrain\module.h">
+      <Filter>terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\terrain\terrain.h">
+      <Filter>terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\terrain\terrain_cell.h">
+      <Filter>terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\terrain\terrain_data.h">
+      <Filter>terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\terrain\terrain_loader.h">
+      <Filter>terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\terrain\terrain_manager.h">
+      <Filter>terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\terrain\terrain_mesh.h">
+      <Filter>terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\terrain\terrain_observer.h">
+      <Filter>terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\terrain\terrain_processor.h">
+      <Filter>terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\terrain\terrain_streamer.h">
+      <Filter>terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\terrain\terrain_view.h">
+      <Filter>terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\terrain\terrain_view_loader.h">
+      <Filter>terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\terrain\terrain_view_processor.h">
+      <Filter>terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\skinning\armature.h">
+      <Filter>skinning</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\skinning\bone.h">
+      <Filter>skinning</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\skinning\bone_frame.h">
+      <Filter>skinning</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\skinning\human_armature.h">
+      <Filter>skinning</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\skinning\human_female_armature.h">
+      <Filter>skinning</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\skinning\human_male_armature.h">
+      <Filter>skinning</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\skinning\interface.h">
+      <Filter>skinning</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\skinning\module.h">
+      <Filter>skinning</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\skinning\types.h">
+      <Filter>skinning</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\objects\module.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\objects\simple\module.h">
+      <Filter>object\simple</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\objects\simple\solid_cube.h">
+      <Filter>object\simple</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\objects\characters\human.h">
+      <Filter>object\characters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\objects\characters\human_impl.h">
+      <Filter>object\characters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\objects\characters\male_human.h">
+      <Filter>object\characters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\objects\characters\male_human_impl.h">
+      <Filter>object\characters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\motions\key_based_strategy.h">
+      <Filter>motions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\motions\motion.h">
+      <Filter>motions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\motions\motion_strategy.h">
+      <Filter>motions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\motions\static_motion_strategy.h">
+      <Filter>motions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\manager\camera_manager.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\manager\manager.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\manager\material_manager.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data\camera.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data\door.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data\entity.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data\geometry.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data\interface.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data\interior_location.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data\light.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data\light_set.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data\location.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data\material.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data\material_manager.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data\module.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data\old_shape_mesh.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data\proxy.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data\skin_geometry.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data\static_geometry.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data\texture_slot.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data\transform.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data\world.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data\lights\directional_light.h">
+      <Filter>data\lights</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data\lights\point_light.h">
+      <Filter>data\lights</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data\lights\spot_light.h">
+      <Filter>data\lights</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data\lights\sun.h">
+      <Filter>data\lights</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\controllers\camera_controller.h">
+      <Filter>controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\controllers\controllers.h">
+      <Filter>controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\animation\action.h">
+      <Filter>animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\animation\action_male_walk.h">
+      <Filter>animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\animation\animation.h">
+      <Filter>animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\animation\animation_mixer.h">
+      <Filter>animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\animation\animation_track.h">
+      <Filter>animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\animation\armature_animation_mixer.h">
+      <Filter>animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\animation\bone_animation.h">
+      <Filter>animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\animation\interface.h">
+      <Filter>animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\animation\module.h">
+      <Filter>animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\animation\object_animation.h">
+      <Filter>animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\animation\object_animation_mixer.h">
+      <Filter>animation</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="water">
+      <UniqueIdentifier>{5a73382f-59db-4d37-9105-c219b207e52a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="terrain">
+      <UniqueIdentifier>{609db83c-5932-4334-988a-d60466aeedf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="skinning">
+      <UniqueIdentifier>{d9262133-a63b-40af-af0c-0ffc8647eb1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="object">
+      <UniqueIdentifier>{360ac18e-bb60-4aeb-ae23-b485774f5e25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="object\simple">
+      <UniqueIdentifier>{4a593529-b7da-4495-901b-fa8b3b3ad6d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="object\characters">
+      <UniqueIdentifier>{fa3301e3-c5dd-42ab-8bb3-2b0ab97484cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="motions">
+      <UniqueIdentifier>{e02af267-a092-4a76-99bd-6f974c68f3e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="manager">
+      <UniqueIdentifier>{bf9c9653-e6ad-411e-8e04-29b9055ea918}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data">
+      <UniqueIdentifier>{5a4761dd-57fe-449a-9588-b86cc37b44f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data\lights">
+      <UniqueIdentifier>{02fbcd46-a730-435a-8296-5c909664a68a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="controllers">
+      <UniqueIdentifier>{2f13fc1d-b217-48fa-bd2e-fd0a5f1a67a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="animation">
+      <UniqueIdentifier>{4643c854-3321-42d0-bdbb-8709c1aa8018}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

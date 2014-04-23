@@ -9,9 +9,11 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes {
 
-    Core::Rtti PointLight::Type{"Attributes.PointLight",
-                                typeid(PointLight).hash_code(),
-        {&Light::Type}};
+	Core::Rtti PointLightType{ "Attributes.PointLight", typeid(PointLight).hash_code(), { Light::Type() } };
+
+	Core::Rtti* PointLight::Type() {
+		return &PointLightType;
+	}
 
 	PointLight::PointLight()
 	{

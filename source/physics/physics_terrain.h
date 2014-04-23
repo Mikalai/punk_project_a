@@ -1,3 +1,4 @@
+#ifdef USE_BULLET_PHYSICS
 #ifndef _PUNK_PHYSICS_TERRAIN
 #define _PUNK_PHYSICS_TERRAIN
 
@@ -22,3 +23,4 @@ namespace Physics
 PUNK_ENGINE_END
 
 #endif // _PUNK_PHYSICS_TERRAIN
+#endif

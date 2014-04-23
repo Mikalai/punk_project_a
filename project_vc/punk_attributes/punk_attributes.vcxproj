@@ -1,0 +1,305 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{52E7ECA7-7D60-44CE-A018-3BB923D44F1C}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>punk_attributes</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>PUNK_ENGINE_EXPORTS;WIN64;WIN32;_DEBUG;_WINDOWS;_USRDLL;PUNK_ATTRIBUTES_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\bin\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>punk_error.lib;punk_string.lib;punk_core.lib;punk_math.lib;punk_system.lib;punk_graphics.lib;punk_image.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>PUNK_ENGINE_EXPORTS;WIN64;WIN32;_DEBUG;_WINDOWS;_USRDLL;PUNK_ATTRIBUTES_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\bin\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>punk_error.lib;punk_string.lib;punk_core.lib;punk_math.lib;punk_system.lib;punk_graphics.lib;punk_image.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>PUNK_ENGINE_EXPORTS;WIN64;WIN32;NDEBUG;_WINDOWS;_USRDLL;PUNK_ATTRIBUTES_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\bin\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>punk_error.lib;punk_string.lib;punk_core.lib;punk_math.lib;punk_system.lib;punk_graphics.lib;punk_image.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>PUNK_ENGINE_EXPORTS;WIN64;WIN32;NDEBUG;_WINDOWS;_USRDLL;PUNK_ATTRIBUTES_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\bin\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>punk_error.lib;punk_string.lib;punk_core.lib;punk_math.lib;punk_system.lib;punk_graphics.lib;punk_image.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\source\attributes\animation\action.cpp" />
+    <ClCompile Include="..\..\source\attributes\animation\action_male_walk.cpp" />
+    <ClCompile Include="..\..\source\attributes\animation\animation.cpp" />
+    <ClCompile Include="..\..\source\attributes\animation\animation_mixer.cpp" />
+    <ClCompile Include="..\..\source\attributes\animation\animation_track.cpp" />
+    <ClCompile Include="..\..\source\attributes\animation\armature_animation_mixer.cpp" />
+    <ClCompile Include="..\..\source\attributes\animation\bone_animation.cpp" />
+    <ClCompile Include="..\..\source\attributes\animation\object_animation.cpp" />
+    <ClCompile Include="..\..\source\attributes\animation\object_animation_mixer.cpp" />
+    <ClCompile Include="..\..\source\attributes\building.cpp" />
+    <ClCompile Include="..\..\source\attributes\controllers\camera_controller.cpp" />
+    <ClCompile Include="..\..\source\attributes\data\camera.cpp" />
+    <ClCompile Include="..\..\source\attributes\data\entity.cpp" />
+    <ClCompile Include="..\..\source\attributes\data\geometry.cpp" />
+    <ClCompile Include="..\..\source\attributes\data\light.cpp" />
+    <ClCompile Include="..\..\source\attributes\data\lights\directional_light.cpp" />
+    <ClCompile Include="..\..\source\attributes\data\lights\point_light.cpp" />
+    <ClCompile Include="..\..\source\attributes\data\lights\spot_light.cpp" />
+    <ClCompile Include="..\..\source\attributes\data\lights\sun.cpp" />
+    <ClCompile Include="..\..\source\attributes\data\light_set.cpp" />
+    <ClCompile Include="..\..\source\attributes\data\material.cpp" />
+    <ClCompile Include="..\..\source\attributes\data\proxy.cpp" />
+    <ClCompile Include="..\..\source\attributes\data\skin_geometry.cpp" />
+    <ClCompile Include="..\..\source\attributes\data\static_geometry.cpp" />
+    <ClCompile Include="..\..\source\attributes\data\texture_slot.cpp" />
+    <ClCompile Include="..\..\source\attributes\data\transform.cpp" />
+    <ClCompile Include="..\..\source\attributes\data\world.cpp" />
+    <ClCompile Include="..\..\source\attributes\manager\camera_manager.cpp" />
+    <ClCompile Include="..\..\source\attributes\manager\material_manager.cpp" />
+    <ClCompile Include="..\..\source\attributes\motions\motion_strategy.cpp" />
+    <ClCompile Include="..\..\source\attributes\motions\static_motion_strategy.cpp" />
+    <ClCompile Include="..\..\source\attributes\objects\characters\human.cpp" />
+    <ClCompile Include="..\..\source\attributes\objects\characters\male_human.cpp" />
+    <ClCompile Include="..\..\source\attributes\objects\simple\solid_cube.cpp" />
+    <ClCompile Include="..\..\source\attributes\scheme.cpp" />
+    <ClCompile Include="..\..\source\attributes\skinning\armature.cpp" />
+    <ClCompile Include="..\..\source\attributes\skinning\bone.cpp" />
+    <ClCompile Include="..\..\source\attributes\skinning\human_armature.cpp" />
+    <ClCompile Include="..\..\source\attributes\skinning\human_female_armature.cpp" />
+    <ClCompile Include="..\..\source\attributes\skinning\human_male_armature.cpp" />
+    <ClCompile Include="..\..\source\attributes\sound.cpp" />
+    <ClCompile Include="..\..\source\attributes\terrain\terrain.cpp" />
+    <ClCompile Include="..\..\source\attributes\terrain\terrain_cell.cpp" />
+    <ClCompile Include="..\..\source\attributes\terrain\terrain_data.cpp" />
+    <ClCompile Include="..\..\source\attributes\terrain\terrain_loader.cpp" />
+    <ClCompile Include="..\..\source\attributes\terrain\terrain_manager.cpp" />
+    <ClCompile Include="..\..\source\attributes\terrain\terrain_mesh.cpp" />
+    <ClCompile Include="..\..\source\attributes\terrain\terrain_observer.cpp" />
+    <ClCompile Include="..\..\source\attributes\terrain\terrain_processor.cpp" />
+    <ClCompile Include="..\..\source\attributes\terrain\terrain_streamer.cpp" />
+    <ClCompile Include="..\..\source\attributes\terrain\terrain_view.cpp" />
+    <ClCompile Include="..\..\source\attributes\terrain\terrain_view_loader.cpp" />
+    <ClCompile Include="..\..\source\attributes\terrain\terrain_view_processor.cpp" />
+    <ClCompile Include="..\..\source\attributes\water\river.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\attributes\animation\action.h" />
+    <ClInclude Include="..\..\source\attributes\animation\action_male_walk.h" />
+    <ClInclude Include="..\..\source\attributes\animation\animation.h" />
+    <ClInclude Include="..\..\source\attributes\animation\animation_mixer.h" />
+    <ClInclude Include="..\..\source\attributes\animation\animation_track.h" />
+    <ClInclude Include="..\..\source\attributes\animation\armature_animation_mixer.h" />
+    <ClInclude Include="..\..\source\attributes\animation\bone_animation.h" />
+    <ClInclude Include="..\..\source\attributes\animation\interface.h" />
+    <ClInclude Include="..\..\source\attributes\animation\module.h" />
+    <ClInclude Include="..\..\source\attributes\animation\object_animation.h" />
+    <ClInclude Include="..\..\source\attributes\animation\object_animation_mixer.h" />
+    <ClInclude Include="..\..\source\attributes\building.h" />
+    <ClInclude Include="..\..\source\attributes\controllers\camera_controller.h" />
+    <ClInclude Include="..\..\source\attributes\controllers\controllers.h" />
+    <ClInclude Include="..\..\source\attributes\data\camera.h" />
+    <ClInclude Include="..\..\source\attributes\data\door.h" />
+    <ClInclude Include="..\..\source\attributes\data\entity.h" />
+    <ClInclude Include="..\..\source\attributes\data\geometry.h" />
+    <ClInclude Include="..\..\source\attributes\data\interface.h" />
+    <ClInclude Include="..\..\source\attributes\data\interior_location.h" />
+    <ClInclude Include="..\..\source\attributes\data\light.h" />
+    <ClInclude Include="..\..\source\attributes\data\lights\directional_light.h" />
+    <ClInclude Include="..\..\source\attributes\data\lights\point_light.h" />
+    <ClInclude Include="..\..\source\attributes\data\lights\spot_light.h" />
+    <ClInclude Include="..\..\source\attributes\data\lights\sun.h" />
+    <ClInclude Include="..\..\source\attributes\data\light_set.h" />
+    <ClInclude Include="..\..\source\attributes\data\location.h" />
+    <ClInclude Include="..\..\source\attributes\data\material.h" />
+    <ClInclude Include="..\..\source\attributes\data\material_manager.h" />
+    <ClInclude Include="..\..\source\attributes\data\module.h" />
+    <ClInclude Include="..\..\source\attributes\data\old_shape_mesh.h" />
+    <ClInclude Include="..\..\source\attributes\data\proxy.h" />
+    <ClInclude Include="..\..\source\attributes\data\skin_geometry.h" />
+    <ClInclude Include="..\..\source\attributes\data\static_geometry.h" />
+    <ClInclude Include="..\..\source\attributes\data\texture_slot.h" />
+    <ClInclude Include="..\..\source\attributes\data\transform.h" />
+    <ClInclude Include="..\..\source\attributes\data\world.h" />
+    <ClInclude Include="..\..\source\attributes\interface.h" />
+    <ClInclude Include="..\..\source\attributes\intersection.h" />
+    <ClInclude Include="..\..\source\attributes\manager\camera_manager.h" />
+    <ClInclude Include="..\..\source\attributes\manager\manager.h" />
+    <ClInclude Include="..\..\source\attributes\manager\material_manager.h" />
+    <ClInclude Include="..\..\source\attributes\module.h" />
+    <ClInclude Include="..\..\source\attributes\motions\key_based_strategy.h" />
+    <ClInclude Include="..\..\source\attributes\motions\motion.h" />
+    <ClInclude Include="..\..\source\attributes\motions\motion_strategy.h" />
+    <ClInclude Include="..\..\source\attributes\motions\static_motion_strategy.h" />
+    <ClInclude Include="..\..\source\attributes\objects\characters\human.h" />
+    <ClInclude Include="..\..\source\attributes\objects\characters\human_impl.h" />
+    <ClInclude Include="..\..\source\attributes\objects\characters\male_human.h" />
+    <ClInclude Include="..\..\source\attributes\objects\characters\male_human_impl.h" />
+    <ClInclude Include="..\..\source\attributes\objects\module.h" />
+    <ClInclude Include="..\..\source\attributes\objects\simple\module.h" />
+    <ClInclude Include="..\..\source\attributes\objects\simple\solid_cube.h" />
+    <ClInclude Include="..\..\source\attributes\scheme.h" />
+    <ClInclude Include="..\..\source\attributes\skinning\armature.h" />
+    <ClInclude Include="..\..\source\attributes\skinning\bone.h" />
+    <ClInclude Include="..\..\source\attributes\skinning\bone_frame.h" />
+    <ClInclude Include="..\..\source\attributes\skinning\human_armature.h" />
+    <ClInclude Include="..\..\source\attributes\skinning\human_female_armature.h" />
+    <ClInclude Include="..\..\source\attributes\skinning\human_male_armature.h" />
+    <ClInclude Include="..\..\source\attributes\skinning\interface.h" />
+    <ClInclude Include="..\..\source\attributes\skinning\module.h" />
+    <ClInclude Include="..\..\source\attributes\skinning\types.h" />
+    <ClInclude Include="..\..\source\attributes\sound.h" />
+    <ClInclude Include="..\..\source\attributes\terrain\interface.h" />
+    <ClInclude Include="..\..\source\attributes\terrain\module.h" />
+    <ClInclude Include="..\..\source\attributes\terrain\terrain.h" />
+    <ClInclude Include="..\..\source\attributes\terrain\terrain_cell.h" />
+    <ClInclude Include="..\..\source\attributes\terrain\terrain_data.h" />
+    <ClInclude Include="..\..\source\attributes\terrain\terrain_loader.h" />
+    <ClInclude Include="..\..\source\attributes\terrain\terrain_manager.h" />
+    <ClInclude Include="..\..\source\attributes\terrain\terrain_mesh.h" />
+    <ClInclude Include="..\..\source\attributes\terrain\terrain_observer.h" />
+    <ClInclude Include="..\..\source\attributes\terrain\terrain_processor.h" />
+    <ClInclude Include="..\..\source\attributes\terrain\terrain_streamer.h" />
+    <ClInclude Include="..\..\source\attributes\terrain\terrain_view.h" />
+    <ClInclude Include="..\..\source\attributes\terrain\terrain_view_loader.h" />
+    <ClInclude Include="..\..\source\attributes\terrain\terrain_view_processor.h" />
+    <ClInclude Include="..\..\source\attributes\track_pos.h" />
+    <ClInclude Include="..\..\source\attributes\water\interface.h" />
+    <ClInclude Include="..\..\source\attributes\water\module.h" />
+    <ClInclude Include="..\..\source\attributes\water\river.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -9,9 +9,11 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-    Core::Rtti SkinGeometry::Type {"Attributes.SkinGeometry",
-                                   typeid(SkinGeometry).hash_code(),
-        {&Geometry::Type}};
+	Core::Rtti SkinGeometryType{ "Attributes.SkinGeometry", typeid(SkinGeometry).hash_code(), { Geometry::Type() } };
+
+	Core::Rtti* SkinGeometry::Type() {
+		return &SkinGeometryType;
+	}
 
     SkinGeometry::GpuCache::GpuCache(SkinGeometry& value)
         : m_geom(value)
@@ -210,8 +212,8 @@ namespace Attributes
 
         Drop();
 
-        Graphics::IVertexArray* vb;
-        Graphics::IIndexArray* ib;
+        Graphics::IVertexArray* vb = nullptr;
+        Graphics::IIndexArray* ib = nullptr;
 
         if (!Cook(&m_geom, armature, vb, ib))
             return;
