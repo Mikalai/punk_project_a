@@ -1,9 +1,11 @@
 #include <limits>
+#include <math/math_error.h>
 #include <math.h>
 #include "vec2.h"
 #include "vec3.h"
 #include "vec4.h"
 #include "mat4.h"
+#include "mat3.h"
 #include "quat.h"
 #include "frustum.h"
 #include "matrix_helper.h"
@@ -282,6 +284,13 @@ namespace Math {
 
 	PUNK_ENGINE_API const mat4 CreateScaling(const Math::vec3& value) {
 		return CreateScaling(value.X(), value.Y(), value.Z());
+	}
+
+	PUNK_ENGINE_API void Decompose(const Math::mat4& matrix, Math::vec3& position, Math::quat& rotation, Math::vec3& scale) {
+		if (matrix.RotationPart().Determinant() == 0.0f)
+			throw Error::SingularMatrix();
+
+
 	}
 }
 PUNK_ENGINE_END

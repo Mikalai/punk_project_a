@@ -37,6 +37,7 @@ namespace Math {
     PUNK_ENGINE_API const mat4 CreateReflectX();
     PUNK_ENGINE_API const mat4 CreateReflectY();
     PUNK_ENGINE_API const mat4 CreateFromYawPitchRoll(const vec3& eye, float yaw, float pitch, float roll);
+	PUNK_ENGINE_API void Decompose(const Math::mat4& matrix, Math::vec3& position, Math::quat& rotation, Math::vec3& scale);
 }
 PUNK_ENGINE_END
 
