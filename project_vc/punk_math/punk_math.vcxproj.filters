@@ -64,6 +64,7 @@
     <ClCompile Include="..\..\source\math\spatial\oct_tree.cpp">
       <Filter>spatial</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\math\linear_equation_solver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\math\aabb.h" />
@@ -147,6 +148,7 @@
     <ClInclude Include="..\..\source\math\spatial\oct_tree.h">
       <Filter>spatial</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\math\linear_equation_solver.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graph">
