@@ -1,6 +1,8 @@
 #include <limits>
 #include <math/math_error.h>
 #include <math.h>
+#include "gramm_shmidt.h"
+#include "linear_equation_solver.h"
 #include "vec2.h"
 #include "vec3.h"
 #include "vec4.h"
@@ -286,11 +288,48 @@ namespace Math {
 		return CreateScaling(value.X(), value.Y(), value.Z());
 	}
 
+	PUNK_ENGINE_API const mat4 CreateScaling(float sx, float sy, float sz) {
+		mat4 m;
+		m[0] = sx;
+		m[5] = sy;
+		m[10] = sz;
+		m[15] = 1;
+		return m;
+	}
+
 	PUNK_ENGINE_API void Decompose(const Math::mat4& matrix, Math::vec3& position, Math::quat& rotation, Math::vec3& scale) {
-		if (matrix.RotationPart().Determinant() == 0.0f)
-			throw Error::SingularMatrix();
+		//if (matrix.RotationPart().Determinant() == 0.0f)
+		auto v = Error::SingularMatrix{0};
+	
+		//	extract perspective components
+		Math::vec4 perspective;
+		{
+			Math::mat4 M = matrix;
+			M[12] = M[13] = M[14] = 0;
+			M[15] = 1;
+			Math::vec3 b{ { matrix[12], matrix[13], matrix[14], matrix[15] } };
+			perspective = LinearEquationSolver::Solve(M, b);
+		}
 
+		//	extract position
+		position.Set(matrix[3], matrix[7], matrix[11]);
 
+		auto row0 = matrix.GetRow(0).XYZ();
+		auto row1 = matrix.GetRow(1).XYZ();
+		auto row2 = matrix.GetRow(2).XYZ();
+
+		GrammShmidtNormalization::Orthogonalize(row0, row1, row2);
+
+		scale[0] = row0.Length();
+		scale[1] = row1.Length();
+		scale[2] = row2.Length();
+
+		mat3 rot_matrix;
+		rot_matrix.SetRow(0, row0);
+		rot_matrix.SetRow(1, row1);
+		rot_matrix.SetRow(2, row2);
+
+		rotation = quat::CreateFromMatrix3x3(rot_matrix);
 	}
 }
 PUNK_ENGINE_END
