@@ -1,48 +1,24 @@
 SCENETEXT
 *node {
   *name {
-    Transform
+    Material
   }
   *entity_name {
-    enemy.transform
+    Material.material
   }
   *node {
     *name {
       Transform
     }
     *entity_name {
-      male_armature_2.transform
+      Cube.transform
     }
     *node {
       *name {
-        Armature
+        Static
       }
       *entity_name {
-        male_armature_2.armature
-      }
-      *node {
-        *name {
-          Material
-        }
-        *entity_name {
-          Roman_soldier.material
-        }
-        *node {
-          *name {
-            Transform
-          }
-          *entity_name {
-            soldier_helmet.transform
-          }
-          *node {
-            *name {
-              Skin
-            }
-            *entity_name {
-              soldier_helmet.skin
-            }
-          }
-        }
+        Cube.static
       }
     }
   }
