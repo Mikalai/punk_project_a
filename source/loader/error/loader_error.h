@@ -6,7 +6,7 @@
 PUNK_ENGINE_BEGIN
 namespace Loader {
     namespace Error {
-        class LoaderException : System::Error::SystemException {
+        class PUNK_ENGINE_API LoaderException : public System::Error::SystemException {
             using System::Error::SystemException::SystemException;
         };
     }
