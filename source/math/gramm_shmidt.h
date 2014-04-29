@@ -8,7 +8,8 @@ namespace Math {
 	class vec3;
 	class PUNK_ENGINE_API GrammShmidtNormalization {
 	public:
-		static void Normalize(vec3& a, vec3& b, vec3& c);
+		static void Orthogonalize(vec3& a, vec3& b, vec3& c);
+		static void OrthogonalizeAndNormalize(vec3& a, vec3& b, vec3& c);
 	};
 }
 PUNK_ENGINE_END
