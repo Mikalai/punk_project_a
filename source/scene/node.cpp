@@ -35,9 +35,13 @@ namespace Scene {
     void Node::SetAttribute(IAttribute *value) {
         auto key = std::pair<Core::String, std::uint64_t>(value->GetName(), value->GetTypeID());
         auto old = m_attributes[key];
-        if (old)
-            delete old;
-        m_attributes[key] = value;
+		m_attributes[key] = value;
+		if (old == nullptr)
+			m_scene_graph->OnAttributeAdded(this, value);
+		else {
+			m_scene_graph->OnAttributeUpdated(this, old, value);
+			delete old;
+		}
     }
 
     IAttribute* Node::GetAttribute(const Core::String & name, std::uint64_t type) const
@@ -82,7 +86,8 @@ namespace Scene {
 
     void Node::AddChild(INode *child) {
         m_children.push_back(child);
-		child->SetSceneGraph(GetSceneGraph());
+		child->SetSceneGraph(GetSceneGraph());		
+		GetSceneGraph()->OnNodeAdded(this, child);
     }
 
 	void Node::SetSceneGraph(ISceneGraph* graph) {
@@ -124,14 +129,6 @@ namespace Scene {
                     return res;
             }
         return nullptr;
-    }
-
-    void Node::Updated(const Core::String& attribute) {
-        m_on_updated(this, attribute);
-    }
-
-    void Node::OnUpdate(Core::ActionBase<INode*, const Core::String&>* action) {
-        m_on_updated.Add(action, true);
     }
 
     ISceneGraph* Node::GetSceneGraph() {

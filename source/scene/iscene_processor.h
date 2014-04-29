@@ -13,7 +13,9 @@ namespace Scene {
 
     class ISceneProcessor {
     public:
-        virtual void SetSceneFile(const Core::String& filename) = 0;
+        virtual void SetSceneFile(const Core::String& datapath, const Core::String& filename) = 0;
+		virtual const Core::String GetSceneFile() const = 0;
+		virtual const Core::String GetDataPath() const = 0;
         virtual void RegisterGraphProcessor(IGraphProcessor* proc) = 0;
         virtual void Update(int dt_ms) = 0;
         virtual void ClearScene() = 0;

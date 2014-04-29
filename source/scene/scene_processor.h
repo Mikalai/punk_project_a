@@ -21,6 +21,7 @@ namespace Scene {
 
     struct SetNewSceneCommand {
         wchar_t filename[MAX_PATH];
+		wchar_t datapath[MAX_PATH];
     };
 
     struct UpdateCommand {
@@ -51,7 +52,9 @@ namespace Scene {
         SceneProcessor();
         virtual ~SceneProcessor();
         void Run(void* data) override;
-        void SetSceneFile(const Core::String& filename) override;
+		void SetSceneFile(const Core::String& datapth, const Core::String& filename) override;		
+		const Core::String GetSceneFile() const override;
+		const Core::String GetDataPath() const override;		
         void RegisterGraphProcessor(IGraphProcessor* proc) override;
         void Update(int dt_ms) override;
         void ClearScene() override;
@@ -61,6 +64,8 @@ namespace Scene {
         bool ProcessRequest(const Command& request);
 
     private:                
+		Core::String m_scene_file;
+		Core::String m_data_path;
         std::vector<IGraphProcessor*> m_proc;
         ISceneGraphUniquePtr m_scene_graph{nullptr, DestroyScene};
         System::Thread m_thread;

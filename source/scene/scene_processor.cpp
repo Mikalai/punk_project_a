@@ -33,14 +33,7 @@ namespace Scene {
             if (ProcessRequest(cmd))
                 return;
         }
-    }
-
-    void SceneProcessor::SetSceneFile(const Core::String& filename) {
-        Command cmd;
-        cmd.code = Code::SetNewScene;
-        filename.ToWchar(cmd.set_new_scene.filename, MAX_PATH);
-        AddCommand(cmd);
-    }
+    }    
 
     void SceneProcessor::Update(int dt_ms) {
         Command cmd;
@@ -87,7 +80,7 @@ namespace Scene {
             Command clear;
             clear.code = Code::DestroyScene;
             ProcessRequest(clear);
-            m_scene_graph = CreateSceneFromFile(cmd.set_new_scene.filename);
+            m_scene_graph = CreateSceneFromFile(cmd.set_new_scene.datapath, cmd.set_new_scene.filename);
             std::for_each(m_proc.begin(), m_proc.end(), [&](IGraphProcessor* p) {
                 p->SetGraph(m_scene_graph.get());
             });
@@ -112,5 +105,21 @@ namespace Scene {
             return true;
         }
     }
+
+	void SceneProcessor::SetSceneFile(const Core::String& datapath, const Core::String& filename) {
+		Command cmd;
+		cmd.code = Code::SetNewScene;
+		filename.ToWchar(cmd.set_new_scene.filename, MAX_PATH);
+		datapath.ToWchar(cmd.set_new_scene.datapath, MAX_PATH);
+		AddCommand(cmd);
+	}
+
+	const Core::String SceneProcessor::GetSceneFile() const {
+		return m_scene_file;
+	}
+
+	const Core::String SceneProcessor::GetDataPath() const {
+		return m_data_path;
+	}
 }
 PUNK_ENGINE_END

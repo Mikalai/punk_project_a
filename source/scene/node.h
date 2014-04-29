@@ -30,9 +30,7 @@ namespace Scene
         virtual void RemoveChild(INode* child, bool depth) override;
         virtual INode* FindChild(IAttribute* attribute, bool depth) override;
         virtual void AddRef() override;
-        virtual void Release() override;
-        virtual void Updated(const Core::String& attribute) override;
-        virtual void OnUpdate(Core::ActionBase<INode*, const Core::String&>* action) override;
+        virtual void Release() override;        
         virtual ISceneGraph* GetSceneGraph() override;
 		virtual void SetSceneGraph(ISceneGraph* graph) override;
 
@@ -62,7 +60,6 @@ namespace Scene
         std::vector<INode*> m_children;
         std::map<std::pair<Core::String, std::uint64_t>, IAttribute*> m_attributes;
         ISceneGraph* m_scene_graph {nullptr};
-        Core::ActionSlot<INode*, const Core::String&> m_on_updated;
         std::atomic<int> m_delete_count;
     };
 }

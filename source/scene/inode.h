@@ -30,9 +30,7 @@ namespace Scene {
         virtual void RemoveChild(INode* child, bool depth) = 0;
         virtual INode* FindChild(IAttribute* attribute, bool depth) = 0;
         virtual void AddRef() = 0;
-        virtual void Release() = 0;
-        virtual void Updated(const Core::String& attribute) = 0;
-        virtual void OnUpdate(Core::ActionBase<INode*, const Core::String&>* action) = 0;
+        virtual void Release() = 0;        
         virtual ISceneGraph* GetSceneGraph() = 0;
 		virtual void SetSceneGraph(ISceneGraph* graph) = 0;
 
