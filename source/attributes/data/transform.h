@@ -33,7 +33,7 @@ namespace Attributes
 		const Math::vec3& GetScale() const;
 
 	private:
-		Math::mat4 m_transform;
+		mutable Math::mat4 m_transform;
 		Math::quat m_rotation;
 		Math::vec3 m_position;
 		Math::vec3 m_scale;		

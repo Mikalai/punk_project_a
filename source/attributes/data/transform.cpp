@@ -24,8 +24,8 @@ namespace Attributes
 
 	void Transform::SetMatrix(const Math::mat4& value) {
 		m_transform = value;
-		m_position = m_transform.TranslationPart();
-		m_scale = m_transform.
+		Math::Decompose(m_transform, m_position, m_rotation, m_scale);
+		m_need_update = false;
 	}
 
 	const Math::mat4& Transform::GetMatrix() const {

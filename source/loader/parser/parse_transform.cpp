@@ -6,7 +6,7 @@
 PUNK_ENGINE_BEGIN
 namespace Loader {
 
-    bool ParseSceneTransform(Core::Buffer &buffer, Attributes::Transform *transform) {
+    bool ParseTransform(Core::Buffer &buffer, Attributes::Transform *transform) {
         CHECK_START(buffer);
         while (1)
         {

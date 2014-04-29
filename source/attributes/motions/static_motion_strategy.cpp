@@ -12,17 +12,17 @@ namespace Attributes
 
 	void StaticMotionStrategy::SetAffineMatrix(const Math::mat4& matrix)
 	{
-		GetTransform()->Set(matrix);
+		GetTransform()->SetMatrix(matrix);
 	}
 	
 	const Math::mat4& StaticMotionStrategy::GetAffineMatrix() const
 	{
-		return GetTransform()->Get();
+		return GetTransform()->GetMatrix();
 	}
 
 	Math::mat4& StaticMotionStrategy::GetAffineMatrix() 
 	{
-		return GetTransform()->Get();
+		return GetTransform()->GetMatrix();
 	}
 
 	StaticMotionStrategy::~StaticMotionStrategy()

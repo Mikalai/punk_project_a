@@ -17,6 +17,7 @@
 #include "parse_action.h"
 #include "parse_animation.h"
 #include "parse_map_description.h"
+#include "parse_transform.h"
 #include "parser.h"
 
 PUNK_ENGINE_BEGIN
@@ -36,6 +37,15 @@ namespace Loader
                 ParseMapDescription(buffer, terrain.get());
                 return terrain.release();
             }
+			case WORD_TRANSFORMTEXT:
+			{
+				Core::String word = buffer.ReadWord();
+				if (word == L"transform") {
+					std::unique_ptr<Attributes::Transform> transform(new Attributes::Transform);
+					ParseTransform(buffer, transform.get());
+					return transform.release();
+				}
+			}
             case WORD_ARMATURETEXT:
             {
                 Core::String word = buffer.ReadWord();                

@@ -12,7 +12,9 @@ def export_transform(object):
     print(file)
     f = open(file, "w")
     f.write("TRANSFORMTEXT\n")
+    start_block(f, "transform")
     export_location(f, object)
+    end_block(f)
     f.close()
 
     text_offset = old
