@@ -212,7 +212,7 @@
     <ClCompile Include="..\..\source\loader\parser\parse_terrain_raw_data_source.cpp" />
     <ClCompile Include="..\..\source\loader\parser\parse_textures.cpp" />
     <ClCompile Include="..\..\source\loader\parser\parse_texture_slot.cpp" />
-    <ClCompile Include="..\..\source\loader\parser\parse_transform_node.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_transform.cpp" />
     <ClCompile Include="..\..\source\loader\parser\parse_weighted_point.cpp" />
     <ClCompile Include="..\..\source\loader\path_finder.cpp" />
     <ClCompile Include="..\..\source\loader\serializer\io_action.cpp" />
@@ -305,7 +305,7 @@
     <ClInclude Include="..\..\source\loader\parser\parse_terrain_raw_data_source.h" />
     <ClInclude Include="..\..\source\loader\parser\parse_textures.h" />
     <ClInclude Include="..\..\source\loader\parser\parse_texture_slot.h" />
-    <ClInclude Include="..\..\source\loader\parser\parse_transform_node.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_transform.h" />
     <ClInclude Include="..\..\source\loader\parser\parse_weighted_point.h" />
     <ClInclude Include="..\..\source\loader\path_finder.h" />
     <ClInclude Include="..\..\source\loader\serializer\io_action.h" />
@@ -340,6 +340,7 @@
     <ClInclude Include="..\..\source\loader\serializer\io_vector.h" />
     <ClInclude Include="..\..\source\loader\serializer\io_weighted_point.h" />
     <ClInclude Include="..\..\source\loader\serializer\serializer.h" />
+    <ClInclude Include="parse_transform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

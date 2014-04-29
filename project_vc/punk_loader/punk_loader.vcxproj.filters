@@ -245,9 +245,6 @@
     <ClCompile Include="..\..\source\loader\parser\parse_textures.cpp">
       <Filter>parser</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\loader\parser\parse_transform_node.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\loader\parser\parse_weighted_point.cpp">
       <Filter>parser</Filter>
     </ClCompile>
@@ -256,6 +253,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\loader\error\loader_error.cpp">
       <Filter>error</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_transform.cpp">
+      <Filter>parser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -510,9 +510,6 @@
     <ClInclude Include="..\..\source\loader\parser\parse_textures.h">
       <Filter>parser</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\loader\parser\parse_transform_node.h">
-      <Filter>parser</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\loader\parser\parse_weighted_point.h">
       <Filter>parser</Filter>
     </ClInclude>
@@ -521,6 +518,9 @@
     </ClInclude>
     <ClInclude Include="..\..\source\loader\error\loader_error.h">
       <Filter>error</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\parser\parse_transform.h">
+      <Filter>parser</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
