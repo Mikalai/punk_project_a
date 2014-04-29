@@ -11,6 +11,7 @@ namespace Math {
     class mat4;
     class FrustumCore;
 
+	PUNK_ENGINE_API const mat4 CreatePositionRotationScaleMatrix(const Math::vec3& position, const Math::quat& rotation, const Math::vec3& scale);
     PUNK_ENGINE_API const mat4 CreateTargetCameraMatrix(const vec3& eye, const vec3& target, const vec3& up);
     PUNK_ENGINE_API const mat4 CreateFreeCameraMatrix(const vec3& eye, const vec3& dir, const vec3& up);
     PUNK_ENGINE_API const mat4 CreatePerspectiveProjection(float fovy, float width, float height, float znear, float zfar);
@@ -25,6 +26,7 @@ namespace Math {
     PUNK_ENGINE_API const mat4 CreatePerspectiveProjection(float left, float right, float top, float bottom, float znear, float zfar);
     PUNK_ENGINE_API const mat4 CreateIdentity();
     PUNK_ENGINE_API const mat4 CreateScaling(float sx, float sy, float sz);
+	PUNK_ENGINE_API const mat4 CreateScaling(const Math::vec3& value);
     PUNK_ENGINE_API const mat4 CreateTranslate(float x, float y, float z);
     PUNK_ENGINE_API const mat4 CreateTranslate(const vec3& v);
     PUNK_ENGINE_API const mat4 CreateZRotation(float angle);

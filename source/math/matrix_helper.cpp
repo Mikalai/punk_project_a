@@ -11,6 +11,16 @@
 PUNK_ENGINE_BEGIN
 namespace Math {
 
+	PUNK_ENGINE_API const mat4 CreatePositionRotationScaleMatrix(const Math::vec3& position
+		, const Math::quat& rotation
+		, const Math::vec3& scale) {
+		auto translate = CreateTranslate(position);
+		auto rotate = rotation.ToMatrix4x4();
+		auto scaling = CreateScaling(scale);
+		auto result = translate*rotate*scaling;
+		return result;
+	}
+
     const mat4 CreatePerspectiveProjection(float fovy,
                                            float width,
                                            float height,
@@ -269,5 +279,9 @@ namespace Math {
     {
         return mat4();
     }
+
+	PUNK_ENGINE_API const mat4 CreateScaling(const Math::vec3& value) {
+		return CreateScaling(value.X(), value.Y(), value.Z());
+	}
 }
 PUNK_ENGINE_END
