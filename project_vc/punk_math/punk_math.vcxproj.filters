@@ -65,6 +65,7 @@
       <Filter>spatial</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\math\linear_equation_solver.cpp" />
+    <ClCompile Include="..\..\source\math\gramm_shmidt.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\math\aabb.h" />
@@ -149,6 +150,7 @@
       <Filter>spatial</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\math\linear_equation_solver.h" />
+    <ClInclude Include="..\..\source\math\gramm_shmidt.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graph">

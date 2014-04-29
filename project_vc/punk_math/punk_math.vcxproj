@@ -172,6 +172,7 @@
     <ClCompile Include="..\..\source\math\frustum.cpp" />
     <ClCompile Include="..\..\source\math\frustum_plane.cpp" />
     <ClCompile Include="..\..\source\math\graham.cpp" />
+    <ClCompile Include="..\..\source\math\gramm_shmidt.cpp" />
     <ClCompile Include="..\..\source\math\graph\graph.cpp" />
     <ClCompile Include="..\..\source\math\graph\graph_edge.cpp" />
     <ClCompile Include="..\..\source\math\graph\graph_vertex.cpp" />
@@ -232,6 +233,7 @@
     <ClInclude Include="..\..\source\math\frustum_plane.h" />
     <ClInclude Include="..\..\source\math\frustum_points.h" />
     <ClInclude Include="..\..\source\math\graham.h" />
+    <ClInclude Include="..\..\source\math\gramm_shmidt.h" />
     <ClInclude Include="..\..\source\math\graph\graph.h" />
     <ClInclude Include="..\..\source\math\graph\graph_edge.h" />
     <ClInclude Include="..\..\source\math\graph\graph_vertex.h" />
