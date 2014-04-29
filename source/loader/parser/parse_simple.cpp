@@ -27,8 +27,7 @@ namespace Loader
     {
         for (unsigned i = 0; i < sizeof(Keyword)/sizeof(Record); i++)
         {
-			if (word == Keyword[i].word) {
-				System::GetDefaultLogger()->Info(Core::String("Parse {0} ({1})").arg(Keyword[i].word).arg(Keyword[i].code));
+			if (word == Keyword[i].word) {				
 				return Keyword[i].code;
 			}
         }

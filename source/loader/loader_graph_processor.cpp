@@ -84,6 +84,7 @@ namespace Loader {
 				if (graph) {
 					auto node = graph->ReleaseRoot();
 					AddChild(task.load_file.node, node);
+					delete graph;
 				}
 				else {
 					auto node = dynamic_cast<Scene::INode*>(o);
@@ -147,9 +148,9 @@ namespace Loader {
             }
             else if (cmd.command == LoaderCommands::SetNewGraph) {
                 m_graph = cmd.set_graph.new_graph;
-                m_graph->AddNodeAddedAction(new Core::Action<LoaderGraphProcessor, Scene::INode*, Scene::INode*>(
+                m_graph->SubscribeOnNodeAdded(new Core::Action<LoaderGraphProcessor, Scene::INode*, Scene::INode*>(
                                                 this, &LoaderGraphProcessor::ChildAdded));
-                m_graph->AddNodeRemovedAction(new Core::Action<LoaderGraphProcessor, Scene::INode*, Scene::INode*>(
+                m_graph->SubscribeOnNodeRemoved(new Core::Action<LoaderGraphProcessor, Scene::INode*, Scene::INode*>(
                                                   this, &LoaderGraphProcessor::ChildRemoved));
 				Process(m_graph->GetRoot(), &LoaderGraphProcessor::OnNodeAdded);
             }
@@ -221,6 +222,7 @@ namespace Loader {
     void LoaderGraphProcessor::AddLoadedObject(Scene::INode *node, Core::Object *o) {
         LoaderCommand command;
         LoaderAddLoadedObjectCommand& cmd = command.add_loaded_object;
+		command.command = LoaderCommands::AddLoadedObject;
         cmd.node = node;
         cmd.object = o;
         AddCommand(command);
@@ -231,9 +233,14 @@ namespace Loader {
     }
 
     void LoaderGraphProcessor::WaitProcessingComplete() {
-        m_graph->Lock();
-        Process(m_graph->GetRoot(), &LoaderGraphProcessor::Delete);
-        m_graph->Unlock();
+		bool need_lock = m_graph != nullptr;
+
+		if (need_lock)
+		{
+			m_graph->Lock();
+			Process(m_graph->GetRoot(), &LoaderGraphProcessor::Delete);
+			m_graph->Unlock();
+		}
         m_thread.Join();
     }
 
@@ -248,8 +255,8 @@ namespace Loader {
             if (path) {
                 LoaderTask task;
                 task.task = LoaderTasks::Load;
-				task.load_file.node
-                path->ToWchar(task.load_file.filename, MAX_PATH);
+				task.load_file.node = node;
+				(node->GetSceneGraph()->GetSourcePath()  + *path).ToWchar(task.load_file.filename, MAX_PATH);
                 AddTask(task);
             }
         }

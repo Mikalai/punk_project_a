@@ -17,7 +17,7 @@ namespace Loader
             return true;
             case WORD_NODE:
             {
-                Scene::INodeUniquePtr node = Scene::CreateNode(nullptr);
+                Scene::INodeUniquePtr node = Scene::CreateRootNode(value);
                 ParseSceneNode(buffer, node.get());
                 value->SetRoot(node.release());
             }
