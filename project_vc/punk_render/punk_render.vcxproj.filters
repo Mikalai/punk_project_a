@@ -2,8 +2,19 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClInclude Include="..\..\source\render\render_processor.h" />
+    <ClInclude Include="..\..\source\render\module.h" />
+    <ClInclude Include="..\..\source\render\render_commands.h" />
+    <ClInclude Include="..\..\source\render\error\module.h">
+      <Filter>error</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\render\render_processor.cpp" />
+    <ClCompile Include="..\..\source\render\render_commands.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="error">
+      <UniqueIdentifier>{2903ef29-af9f-4c7e-b843-18011d3dac08}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

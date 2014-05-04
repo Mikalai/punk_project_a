@@ -29,6 +29,7 @@ namespace Scene {
 		void AddInternalCommand(CommandBase* task);
 	protected:
 		virtual void OnStartProcessing() = 0;
+		virtual void OnInternalUpdate(int dt) {}
 		virtual void OnInternalUpdate(CommandBase* task) = 0;
 		virtual void OnPreUpdate(CommandBase* command) = 0;
 		virtual void OnPostUpdate(CommandBase* command) = 0;

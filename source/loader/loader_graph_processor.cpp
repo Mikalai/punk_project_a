@@ -75,13 +75,13 @@ namespace Loader {
 			node->Set<Core::Object>(L"Loader.Data", object);
 		}
 		else if (cmd->index == (int)LoaderCommands::SetNewGraph) {
-			CmdSetGraph* set_graph = (CmdSetGraph*)cmd;
+			CmdSetGraph* set_graph = (CmdSetGraph*)cmd;			
 			AssignGraph(set_graph->new_graph);
 			GetGraph()->SubscribeOnNodeAdded(new Core::Action<LoaderGraphProcessor, Scene::INode*, Scene::INode*>(
 				this, &LoaderGraphProcessor::ChildAdded));
 			GetGraph()->SubscribeOnNodeRemoved(new Core::Action<LoaderGraphProcessor, Scene::INode*, Scene::INode*>(
 				this, &LoaderGraphProcessor::ChildRemoved));
-			Process(GetGraph()->GetRoot(), &LoaderGraphProcessor::OnNodeAdded);
+			Process(GetGraph()->GetRoot(), &LoaderGraphProcessor::OnNodeAdded);			
 		}
 	}
 

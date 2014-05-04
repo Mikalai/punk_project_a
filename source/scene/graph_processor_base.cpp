@@ -49,6 +49,7 @@ namespace Scene {
 	}
 
 	void GraphProcessorBase::InternalUpdate() {
+		OnInternalUpdate(m_last_update_step);
 		m_tasks_mutex.Lock();
 		auto tasks = m_tasks;
 		m_tasks.clear();

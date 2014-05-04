@@ -1,0 +1,132 @@
+#include <core/object.h>
+#include <scene/module.h>
+#include <system/module.h>
+#include "render_processor.h"
+#include "render_commands.h"
+
+PUNK_ENGINE_BEGIN
+namespace Render {
+
+	RenderProcessor::RenderProcessor() {}
+
+	RenderProcessor::~RenderProcessor() {}
+
+	void RenderProcessor::OnInternalUpdate(int dt) {
+		if (m_canvas) {
+			m_canvas->GetWindow()->Update(dt);
+		}
+	}
+
+	void RenderProcessor::OnInternalUpdate(Scene::CommandBase* cmd) {
+		if (cmd->domain != RenderDomain)
+			throw Error::RenderException("Can't process internall command. Wrong domain.");
+		if (cmd->index == (int)RenderCommands::SetNewScene) {
+			CmdSetNewScene* task = (CmdSetNewScene*)cmd;
+			AssignGraph(task->graph);
+			CmdSetNewScene* command = new CmdSetNewScene;
+			command->graph = GetGraph();
+			AddCommand(command);
+		}
+		else if (cmd->index == (int)RenderCommands::Show) {
+			CmdShow* show = (CmdShow*)cmd;
+			if (show->visible)
+				OnShow();
+			else 
+				OnHide();
+		}
+	}
+
+	void RenderProcessor::OnShow() {
+		if (m_canvas.get() == nullptr) {
+			m_canvas = Graphics::CreateCanvas(Graphics::CanvasDescription());			
+			m_canvas->GetWindow()->Open();
+		}		
+	}
+
+	void RenderProcessor::OnHide() {
+
+	}
+
+	void RenderProcessor::OnPreUpdate(Scene::CommandBase* command) {
+	}
+
+	void RenderProcessor::OnPostUpdate(Scene::CommandBase* cmd) {
+		if (cmd->index == (int)RenderCommands::SetNewScene) {
+			CmdSetNewScene* set_graph = (CmdSetNewScene*)cmd;
+			AssignGraph(set_graph->graph);
+			GetGraph()->SubscribeOnNodeAdded(new Core::Action<RenderProcessor, Scene::INode*, Scene::INode*>(
+				this, &RenderProcessor::ChildAdded));
+			GetGraph()->SubscribeOnNodeRemoved(new Core::Action<RenderProcessor, Scene::INode*, Scene::INode*>(
+				this, &RenderProcessor::ChildRemoved));
+			Process(GetGraph()->GetRoot(), &RenderProcessor::OnNodeAdded);
+		}
+	}
+
+	void RenderProcessor::SetGraph(Scene::ISceneGraph *graph) {
+		CmdSetNewScene* task = new CmdSetNewScene;
+		task->graph = graph;
+		AddInternalCommand(task);
+	}
+
+	bool RenderProcessor::Process(Scene::INode *node, bool (RenderProcessor::*func)(Scene::INode *)) {
+		if ((this->*func)(node)) {
+			for (std::uint64_t i = 0; i < node->GetChildrenCount(); ++i) {
+				if (Process(node->GetChild(i), func))
+					return true;
+			}
+		}
+		return false;
+	}
+
+	bool RenderProcessor::Delete(Scene::INode *node) {
+		return false;
+	}
+
+	void RenderProcessor::AddChild(Scene::INode *parent, Scene::INode *child) {
+		
+	}
+
+	void RenderProcessor::RemoveChild(Scene::INode *parent, Scene::INode *child) {
+		
+	}
+
+	void RenderProcessor::ChildAdded(Scene::INode *parent, Scene::INode *child) {
+		
+	}
+
+	void RenderProcessor::ChildRemoved(Scene::INode *parent, Scene::INode *child) {
+		
+	}
+
+	void RenderProcessor::OnWaitProcessingComplete() {
+		Process(GetGraph()->GetRoot(), &RenderProcessor::Delete);
+	}
+
+	bool RenderProcessor::OnNodeAdded(Scene::INode *node) {
+		auto type = node->Get<Core::String>(L"Type");
+		System::GetDefaultLogger()->Info(*type);
+		return true;
+	}
+
+	bool RenderProcessor::OnNodeRemoved(Scene::INode* node) {
+		node->MarkToDelete();
+		return true;
+	}
+
+	void RenderProcessor::OnStartProcessing() {
+
+	}
+
+	void RenderProcessor::Show(){
+		CmdShow* show = new CmdShow;
+		AddInternalCommand(show);
+	}
+
+	void RenderProcessor::Hide() {
+		CmdShow* show = new CmdShow;
+		show->visible = false;
+		AddInternalCommand(show);
+	}
+}
+
+PUNK_ENGINE_END
