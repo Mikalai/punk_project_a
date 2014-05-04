@@ -37,7 +37,7 @@ namespace Graphics {
         int m_shader_version {0};
         int m_opengl_version {0};
         System::ILogger* m_logger {nullptr};
-        IVideoDriver* m_video_driver {nullptr};
+        IVideoDriverUniquePtr m_video_driver {nullptr, DestroyVideoDriver};
     };
 }
 PUNK_ENGINE_END

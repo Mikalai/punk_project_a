@@ -31,15 +31,13 @@ namespace Graphics
 
     bool Renderable::HasData() const
     {
-        throw Error::GraphicsException(L"HasData() not implemented");
-    }
+		throw Error::GraphicsException(L"HasData() not implemented");
+	}
 
-    namespace Constructor {
-        extern "C" PUNK_ENGINE_API void DestroyRenderable(IRenderable* value) {
-            Renderable* r = dynamic_cast<Renderable*>(value);
-            delete r;
-        }
-    }
+	extern PUNK_ENGINE_API void DestroyRenderable(IRenderable* value) {
+		Renderable* r = dynamic_cast<Renderable*>(value);
+		delete r;
+	}
 
 	//bool Renderable::Save(std::ostream& stream) const
 	//{

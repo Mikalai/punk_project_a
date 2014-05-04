@@ -2,6 +2,7 @@
 #define PUNK_CANVAS_INTERFACE_H
 
 #include <config.h>
+#include <memory>
 
 PUNK_ENGINE_BEGIN
 namespace System { class IWindow; }
@@ -18,8 +19,9 @@ namespace Graphics {
         virtual void SwapBuffers() = 0;
     };
 
-    extern "C" PUNK_ENGINE_API ICanvas* CreateCanvas(const CanvasDescription& desc);
-    extern "C" PUNK_ENGINE_API void DestroyCanvas(ICanvas* value);
+	using ICanvasUniquePtr = std::unique_ptr < ICanvas, void(*)(ICanvas*) > ;
+    extern PUNK_ENGINE_API ICanvasUniquePtr CreateCanvas(const CanvasDescription& desc);
+    extern PUNK_ENGINE_API void DestroyCanvas(ICanvas* value);
 }
 PUNK_ENGINE_END
 

@@ -19,7 +19,7 @@ namespace Graphics {
 
     using IRenderableUniquePtr = std::unique_ptr<IRenderable, void (*)(IRenderable*)>;
 
-    extern "C" PUNK_ENGINE_API void DestroyRenderable(IRenderable* value);
+    extern PUNK_ENGINE_API void DestroyRenderable(IRenderable* value);
 }
 PUNK_ENGINE_END
 

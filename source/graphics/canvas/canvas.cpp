@@ -21,8 +21,7 @@ namespace Graphics {
             SetFullscreen(false);
         ChangeDisplaySettings(NULL, 0);
         wglMakeCurrent(::GetDC(*this), NULL);
-        wglDeleteContext(m_opengl_context);
-        Constructor::DestroyVideoDriver(m_video_driver);
+        wglDeleteContext(m_opengl_context);        
         WindowWin::InternalDestroy();
     }
 
@@ -195,7 +194,7 @@ namespace Graphics {
 
         SetFullscreen(m_canvas_description.fullscreen);
 
-        m_video_driver = Constructor::CreateVideoDriver(this);
+        m_video_driver = CreateVideoDriver(this);
         OpenGL::glViewport(0, m_canvas_description.m_width, 0, m_canvas_description.m_height);
         OpenGL::glClearColor(0, 0, 1, 1);
         OpenGL::glClear(GL_DEPTH_BUFFER_BIT|GL_COLOR_BUFFER_BIT);
@@ -218,18 +217,19 @@ namespace Graphics {
     }
 
     IVideoDriver* Canvas::GetVideoDriver() {
-        return m_video_driver;
+        return m_video_driver.get();
     }
 
     System::IWindow* Canvas::GetWindow() {
         return this;
     }
 
-    extern "C" PUNK_ENGINE_API ICanvas* CreateCanvas(const CanvasDescription& desc) {
-        return new Canvas(desc);
+    extern PUNK_ENGINE_API ICanvasUniquePtr CreateCanvas(const CanvasDescription& desc) {
+		ICanvasUniquePtr ptr{ new Canvas{ desc }, DestroyCanvas };
+		return ptr;
     }
 
-    extern "C" PUNK_ENGINE_API void DestroyCanvas(ICanvas* value) {
+    extern PUNK_ENGINE_API void DestroyCanvas(ICanvas* value) {
         Canvas* canvas = dynamic_cast<Canvas*>(value);
         delete canvas;
     }
