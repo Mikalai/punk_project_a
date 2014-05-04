@@ -126,11 +126,12 @@ namespace System
         return impl->GetTime();
     }
 
-    ITimer* CreateTimer() {
-        return new Timer();
+	extern PUNK_ENGINE_API ITimerUniquePtr CreateTimer() {
+		ITimerUniquePtr ptr{ new Timer{}, DestroyTimer };
+		return ptr;
     }
 
-    void DestroyTimer(ITimer* value) {
+	extern PUNK_ENGINE_API void DestroyTimer(ITimer* value) {
         Timer* timer = (Timer*)value;
         delete timer;
     }
