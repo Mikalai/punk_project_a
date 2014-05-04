@@ -30,6 +30,7 @@ namespace System {
         virtual int GetY() const = 0;
         virtual void SetSize(int width, int height) = 0;
         virtual void SetPosition(int x, int y) = 0;
+		virtual int Update(int dt) = 0;
         virtual int Loop() = 0;
         virtual void BreakMainLoop() = 0;
         virtual void SetTitle(const Core::String& text) = 0;

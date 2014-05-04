@@ -41,7 +41,9 @@ namespace System {
 
     WindowWin::WindowWin(const WindowDescription& desc)
     : m_window_description(desc)
-    {}
+    {
+		m_timer = CreateTimer();
+	}
 
     WindowWin::~WindowWin()
     {
@@ -140,12 +142,31 @@ namespace System {
         MoveWindow(m_hwindow, x, y, r.right - r.left, r.bottom - r.top, TRUE);
     }
 
+	int WindowWin::Update(int dt) {
+		
+		MSG msg;
+		while (PeekMessage(&msg, 0, 0, 0, PM_NOREMOVE))
+		{
+			if (GetMessage(&msg, 0, 0, 0))
+			{
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
+			else
+			{
+				return 0;
+			}
+		}
 
+		IdleEvent e;
+		e.elapsed_time_s = (double)dt / 1000.0;
+		OnIdleEvent(e);
+		return 1;
+	}
 
     int WindowWin::Loop()
     {
-        ITimer* timer = CreateTimer();
-        timer->Reset();
+        m_timer->Reset();
 
         if (m_use_parent_window)
             return 0;
@@ -167,8 +188,8 @@ namespace System {
             }
 
             IdleEvent e;
-            e.elapsed_time_s = timer->GetElapsedSeconds();
-            timer->Reset();
+            e.elapsed_time_s = m_timer->GetElapsedSeconds();
+            m_timer->Reset();
             OnIdleEvent(e);
         }
         return 0;

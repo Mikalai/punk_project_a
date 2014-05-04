@@ -20,7 +20,7 @@ namespace System
         Window();        
 
         virtual ~Window();
-        virtual int GetDesktopWidth() const = 0;
+/*        virtual int GetDesktopWidth() const = 0;
         virtual int GetDesktopHeight() const = 0;
         virtual int GetDesktopBitsPerPixel() const = 0;
         virtual int GetDesktopRefreshRate() const = 0;
@@ -30,12 +30,13 @@ namespace System
         virtual int GetY() const = 0;
         virtual void SetSize(int width, int height) = 0;
         virtual void SetPosition(int x, int y) = 0;
+		virtual int Update(int dt) = 0;
         virtual int Loop() = 0;
         virtual void BreakMainLoop() = 0;
         virtual void SetTitle(const Core::String& text) = 0;
         virtual const Core::String GetTitle() const = 0;
         virtual void Quite() = 0;
-        virtual void ShowCursor(bool value) = 0;        
+        virtual void ShowCursor(bool value) = 0; */       
 
         virtual void SubscribeResizeEvent(ResizeEventDelegate) override;
         virtual void UnsubscribeResizeEvent(ResizeEventDelegate) override;
