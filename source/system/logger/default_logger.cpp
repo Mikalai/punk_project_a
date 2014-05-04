@@ -6,17 +6,17 @@
 
 PUNK_ENGINE_BEGIN
 namespace System {
-    ThreadMutex g_default_logger_lock;
-    DefaultLogger* g_default_logger;
+	ThreadMutex g_default_logger_lock;
+	DefaultLogger* g_default_logger;
 
-    ILogger* GetDefaultLogger() {
-        ThreadMutexLock lock(g_default_logger_lock);
-        if (!g_default_logger)
-            g_default_logger = new DefaultLogger;
-        return g_default_logger;
-    }
+	extern PUNK_ENGINE_API ILogger* GetDefaultLogger() {
+		ThreadMutexLock lock(g_default_logger_lock);
+		if (!g_default_logger)
+			g_default_logger = new DefaultLogger;
+		return g_default_logger;
+	}
 
-    void DestroyDefaultLogger() {
+	extern PUNK_ENGINE_API void DestroyDefaultLogger() {
         ThreadMutexLock lock(g_default_logger_lock);
         delete g_default_logger;
         g_default_logger = nullptr;

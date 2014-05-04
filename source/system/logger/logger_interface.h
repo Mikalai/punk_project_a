@@ -23,8 +23,8 @@ namespace System
         virtual void RemoveConsumer(ILogConsumer* consumer) = 0;
     };
 
-    extern "C" PUNK_ENGINE_API ILogger* GetDefaultLogger();
-    extern "C" PUNK_ENGINE_API void DestroyDefaultLogger();
+    extern PUNK_ENGINE_API ILogger* GetDefaultLogger();
+    extern PUNK_ENGINE_API void DestroyDefaultLogger();
 }
 PUNK_ENGINE_END
 
