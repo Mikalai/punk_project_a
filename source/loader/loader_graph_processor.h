@@ -7,112 +7,19 @@
 #include <atomic>
 #include <scene/module.h>
 #include "async_parser.h"
+#include "loader_commands.h"
 
 PUNK_ENGINE_BEGIN
 namespace Loader {
-    class LoaderCache;
+    class LoaderCache;    
 
-    enum class LoaderCommands {
-        Add,
-        Remove,
-        NodeAdded,
-        NodeRemoved,
-        AddLoadedObject,
-        SetNewGraph
-    };
-
-    struct LoaderAddCommand {
-        Scene::INode* parent;
-        Scene::INode* child;
-    };
-
-    struct LoaderRemoveCommand {
-        Scene::INode* parent;
-        Scene::INode* child;
-    };
-
-    struct LoaderNodeAddedCommand {
-        Scene::INode* parent;
-        Scene::INode* new_node;
-    };
-
-    struct LoaderNodeRemovedCommand {
-        Scene::INode* parent;
-        Scene::INode* old_node;
-    };
-
-    struct LoaderAddLoadedObjectCommand {
-        Scene::INode* node;
-        Core::Object* object;
-    };
-
-    struct LoaderSetGraphCommand {
-        Scene::ISceneGraph* new_graph;
-    };
-
-    //
-    //  Command is anything that someone can call from other threads
-    //
-    struct LoaderCommand {
-        LoaderCommands command;
-        union {
-            LoaderAddCommand add;
-            LoaderRemoveCommand remove;
-            LoaderNodeAddedCommand node_added;
-            LoaderNodeRemovedCommand node_removed;
-            LoaderAddLoadedObjectCommand add_loaded_object;
-            LoaderSetGraphCommand set_graph;
-        };
-    };
-
-    enum class LoaderTasks {
-		Load,
-		SetNewGraph
-    };
-
-	struct SetNewGraphTask {
-		Scene::ISceneGraph* new_graph;
-	};
-
-    struct LoadFileTask {
-        Scene::INode* node;
-        wchar_t filename[MAX_PATH];
-    };
-
-    //
-    //  Task is anything that should be processed in the internal thread of the processor
-    //
-    struct LoaderTask {
-        LoaderTasks task;
-        union {
-            LoadFileTask load_file;
-			SetNewGraphTask set_graph;
-        };
-    };
-
-    class PUNK_ENGINE_API LoaderGraphProcessor : public Scene::IGraphProcessor
+    class PUNK_ENGINE_API LoaderGraphProcessor : public Scene::GraphProcessorBase
     {
     public:
         LoaderGraphProcessor();
-        void SetGraph(Scene::ISceneGraph* graph) override;
-        void BeginUpdate(int dt_ms) override;
-        void FinishUpdate() override;
-        void WaitUpdateStart() override;
-        void WaitUpdateFinish() override;
-        void StartProcessing() override;
-        void StopProcessing() override;
-        void WaitProcessingComplete() override;
-        void Destroy() override;
-
-        void PreUpdate();
-        void PostUpdate();
-        bool Process(Scene::INode* node, bool (LoaderGraphProcessor::*func)(Scene::INode*));
-        void InternalUpdate();
-        bool IsFinish();
-        void WaitUpdate();
-        void EndUpdate();
-        Scene::ISceneGraph* GetSceneGraph() const;
-
+               
+		void SetGraph(Scene::ISceneGraph* graph) override;
+		bool Process(Scene::INode* node, bool (LoaderGraphProcessor::*func)(Scene::INode*));
         void LoadCompleted(AsyncParserTask* task);
 
         bool Delete(Scene::INode* node);
@@ -127,22 +34,12 @@ namespace Loader {
         void LoadFile(Scene::INode* node, const Core::String& filename);
         void AddLoadedObject(Scene::INode* node, Core::Object* o);
 
-        void AddCommand(LoaderCommand& cmd);
-        void AddTask(LoaderTask& task);
-
-    public:
-        bool m_delete {false};
-        int m_last_update_step;
-        Scene::ISceneGraph* m_graph {nullptr};
-
-        System::ThreadMutex m_commands_mutex;
-        std::vector<LoaderCommand> m_commands;
-
-        System::ThreadMutex m_tasks_mutex;
-        std::vector<LoaderTask> m_tasks;
-
-        System::ThreadMutex m_allow_update;
-        System::Thread m_thread;
+	protected:
+		void OnStartProcessing() override;
+		void OnInternalUpdate(Scene::CommandBase* task) override;
+		void OnPreUpdate(Scene::CommandBase* command) override;
+		void OnPostUpdate(Scene::CommandBase* command) override;
+		void OnWaitProcessingComplete() override;
     };
 }
 PUNK_ENGINE_END

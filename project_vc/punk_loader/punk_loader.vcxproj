@@ -162,7 +162,9 @@
     <ClCompile Include="..\..\source\loader\async_parser.cpp" />
     <ClCompile Include="..\..\source\loader\error\loader_error.cpp" />
     <ClCompile Include="..\..\source\loader\loader_cache.cpp" />
+    <ClCompile Include="..\..\source\loader\loader_commands.cpp" />
     <ClCompile Include="..\..\source\loader\loader_graph_processor.cpp" />
+    <ClCompile Include="..\..\source\loader\loader_tasks.cpp" />
     <ClCompile Include="..\..\source\loader\parser\game_parser.cpp" />
     <ClCompile Include="..\..\source\loader\parser\keywords.cpp" />
     <ClCompile Include="..\..\source\loader\parser\parser.cpp" />
@@ -252,7 +254,9 @@
     <ClInclude Include="..\..\source\loader\async_parser.h" />
     <ClInclude Include="..\..\source\loader\error\loader_error.h" />
     <ClInclude Include="..\..\source\loader\loader_cache.h" />
+    <ClInclude Include="..\..\source\loader\loader_commands.h" />
     <ClInclude Include="..\..\source\loader\loader_graph_processor.h" />
+    <ClInclude Include="..\..\source\loader\loader_tasks.h" />
     <ClInclude Include="..\..\source\loader\module.h" />
     <ClInclude Include="..\..\source\loader\parser\game_parser.h" />
     <ClInclude Include="..\..\source\loader\parser\keywords.h" />

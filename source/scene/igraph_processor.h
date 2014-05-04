@@ -17,6 +17,7 @@ namespace Scene {
         /// Common graph processor stuff
         ///
         virtual void SetGraph(ISceneGraph* graph) = 0;
+		virtual ISceneGraph* GetGraph() const = 0;
 
         ///
         /// \brief BeginUpdate
@@ -37,6 +38,8 @@ namespace Scene {
         virtual void WaitProcessingComplete() = 0;
 
         virtual void Destroy() = 0;
+
+		virtual bool IsFinish() const = 0;
     };
 
 }
