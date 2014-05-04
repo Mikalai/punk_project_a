@@ -79,16 +79,16 @@ namespace Graphics {
             return m_caps;
         }        
     }
-    namespace Constructor {
-        extern "C" PUNK_ENGINE_API IVideoDriver* CreateVideoDriver(ICanvas* canvas) {
-            return new OpenGL::GlVideoDriver(canvas);
-        }
+	
+	extern PUNK_ENGINE_API IVideoDriverUniquePtr CreateVideoDriver(ICanvas* canvas) {
+		IVideoDriverUniquePtr ptr{ new OpenGL::GlVideoDriver{ canvas }, DestroyVideoDriver };
+		return ptr;
+	}
 
-        extern "C" PUNK_ENGINE_API void DestroyVideoDriver(IVideoDriver* driver) {
-            OpenGL::GlVideoDriver* d = dynamic_cast<OpenGL::GlVideoDriver*>(driver);
-            delete d;
-        }
-    }
+	extern PUNK_ENGINE_API void DestroyVideoDriver(IVideoDriver* driver) {
+		OpenGL::GlVideoDriver* d = dynamic_cast<OpenGL::GlVideoDriver*>(driver);
+		delete d;
+	}
 }
 
 
