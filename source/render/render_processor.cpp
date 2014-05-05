@@ -18,8 +18,13 @@ namespace Render {
 	}
 
 	void RenderProcessor::OnInternalUpdate(int dt) {
-		if (m_canvas) {
+		if (m_canvas) {			
+			auto driver = m_canvas->GetVideoDriver();
+			auto frame = driver->BeginFrame();
+			frame->DrawLine(0, 0, 100, 100);
+			driver->EndFrame(frame);
 			m_canvas->GetWindow()->Update(dt);
+			m_canvas->SwapBuffers();
 		}
 	}
 
