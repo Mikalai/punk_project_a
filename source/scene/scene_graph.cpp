@@ -95,12 +95,11 @@ namespace Scene
 
     extern PUNK_ENGINE_API ISceneGraphUniquePtr CreateSceneFromFile(const Core::String& path, const Core::String& file) {
         ISceneGraphUniquePtr scene{new SceneGraph, DestroyScene};
-        INodeUniquePtr node = CreateRootNode(scene.get());
+        INode* node = CreateRootNode(scene.get());
 		scene->SetSourcePath(path);
         node->SetAttribute(new Attribute<Core::String>(L"Name", L"Root"));
         node->SetAttribute(new Attribute<Core::String>(L"Type", L"FileProxy"));
-        node->SetAttribute(new Attribute<Core::String>(L"Filename", file));
-        scene->SetRoot(node.release());
+        node->SetAttribute(new Attribute<Core::String>(L"Filename", file));        
         return scene;
     }
 

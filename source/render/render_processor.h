@@ -20,6 +20,7 @@ namespace Render {
 		RenderProcessor();
 		virtual ~RenderProcessor();
 		void SetGraph(Scene::ISceneGraph* graph) override;
+		const Core::String GetName() const override;
 		bool Process(Scene::INode* node, bool (RenderProcessor::*func)(Scene::INode*));
 
 		bool Delete(Scene::INode* node);

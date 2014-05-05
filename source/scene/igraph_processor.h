@@ -40,6 +40,8 @@ namespace Scene {
         virtual void Destroy() = 0;
 
 		virtual bool IsFinish() const = 0;
+
+		virtual const Core::String GetName() const = 0;
     };
 
 }

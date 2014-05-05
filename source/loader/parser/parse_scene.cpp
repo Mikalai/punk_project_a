@@ -6,7 +6,7 @@
 PUNK_ENGINE_BEGIN
 namespace Loader
 {
-    bool ParseSceneGraph(Core::Buffer& buffer, Scene::ISceneGraph* value)
+	PUNK_ENGINE_LOCAL bool ParseSceneGraph(Core::Buffer& buffer, Scene::ISceneGraph* value)
     {
         while (!buffer.IsEnd())
         {
@@ -17,9 +17,9 @@ namespace Loader
             return true;
             case WORD_NODE:
             {
-                Scene::INodeUniquePtr node = Scene::CreateRootNode(value);
-                ParseSceneNode(buffer, node.get());
-                value->SetRoot(node.release());
+                Scene::INode* node = Scene::CreateRootNode(value);
+                ParseSceneNode(buffer, node);
+                //value->SetRoot(node.release());
             }
             break;            
             default:

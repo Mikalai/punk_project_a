@@ -11,6 +11,11 @@ namespace Render {
 
 	RenderProcessor::~RenderProcessor() {}
 
+	const Core::String RenderProcessor::GetName() const {
+		static Core::String name{ "Render" };
+		return name;
+	}
+
 	void RenderProcessor::OnInternalUpdate(int dt) {
 		if (m_canvas) {
 			m_canvas->GetWindow()->Update(dt);
@@ -104,7 +109,22 @@ namespace Render {
 
 	bool RenderProcessor::OnNodeAdded(Scene::INode *node) {
 		auto type = node->Get<Core::String>(L"Type");
-		System::GetDefaultLogger()->Info(*type);
+		auto name = node->Get<Core::String>("Name");
+		auto owner = node->Get<Core::String>("Owner");
+		Core::StringList info;
+		if (type) {
+			info.Push("Type: ");
+			info.Push(*type + "; ");
+		}
+		if (name) {
+			info.Push("Name: ");
+			info.Push(*name + "; ");
+		}
+		if (owner) {
+			info.Push("Owner: ");
+			info.Push(*owner + "; ");
+		}
+		System::GetDefaultLogger()->Info(info.ToString(""));
 		return true;
 	}
 

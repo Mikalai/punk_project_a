@@ -6,6 +6,7 @@
 #include <config.h>
 #include <atomic>
 #include <scene/module.h>
+#include <system/logger/module.h>
 #include "async_parser.h"
 #include "loader_commands.h"
 
@@ -19,6 +20,7 @@ namespace Loader {
         LoaderGraphProcessor();
                
 		void SetGraph(Scene::ISceneGraph* graph) override;
+		const Core::String GetName() const override;
 		bool Process(Scene::INode* node, bool (LoaderGraphProcessor::*func)(Scene::INode*));
         void LoadCompleted(AsyncParserTask* task);
 
@@ -40,6 +42,9 @@ namespace Loader {
 		void OnPreUpdate(Scene::CommandBase* command) override;
 		void OnPostUpdate(Scene::CommandBase* command) override;
 		void OnWaitProcessingComplete() override;
+
+	private:
+		System::ILogger* m_logger{ System::GetDefaultLogger() };
     };
 }
 PUNK_ENGINE_END

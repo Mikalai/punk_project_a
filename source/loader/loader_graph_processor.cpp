@@ -1,4 +1,5 @@
 #include <core/object.h>
+#include <attributes/module.h>
 #include <loader/parser/parse_punk_file.h>
 #include "loader/error/loader_error.h"
 #include "loader_cache.h"
@@ -12,6 +13,10 @@ namespace Loader {
 	{
 	}
 
+	const Core::String LoaderGraphProcessor::GetName() const {
+		static Core::String name{ "Loader" };
+		return name;
+	}
 	void LoaderGraphProcessor::OnInternalUpdate(Scene::CommandBase* cmd)
 	{
 		if (cmd->domain != LoaderDomain)
@@ -72,7 +77,24 @@ namespace Loader {
 			CmdAddLoadedObject* add_loaded_object = (CmdAddLoadedObject*)cmd;
 			Scene::INode* node = add_loaded_object->node;
 			Core::Object* object = add_loaded_object->object;
-			node->Set<Core::Object>(L"Loader.Data", object);
+			m_logger->Info("Create new node for " + object->GetType()->GetName());
+			Scene::INode* child = Scene::CreateNode(node);
+			child->Set<Core::String>("Owner", GetName());
+			child->Set<Core::String>("Type", object->GetType()->GetName());
+			if (Attributes::StaticGeometry::Type() == object->GetType()) {
+				Attributes::StaticGeometry* geom = (Attributes::StaticGeometry*)object;
+				child->Set<Core::String>("Name", geom->GetName());
+				child->Set<Attributes::StaticGeometry>("Data", geom);
+			}
+			else if (Attributes::Transform::Type() == object->GetType()) {
+				child->Set<Attributes::Transform>("Data", (Attributes::Transform*)object);
+			}
+			else if (Attributes::Material::Type() == object->GetType()) {
+				child->Set<Attributes::Material>("Data", (Attributes::Material*)object);
+			}
+			else 
+				throw Error::LoaderException("Unsupported type " + object->GetType()->GetName());
+			child->Set<Core::Object>("Data", object);			
 		}
 		else if (cmd->index == (int)LoaderCommands::SetNewGraph) {
 			CmdSetGraph* set_graph = (CmdSetGraph*)cmd;			
@@ -93,7 +115,7 @@ namespace Loader {
 
 	bool LoaderGraphProcessor::Process(Scene::INode *node, bool (LoaderGraphProcessor::*func)(Scene::INode *)) {
 		if ((this->*func)(node)) {
-			for (std::uint64_t i = 0; i < node->GetChildrenCount(); ++i) {
+			for (std::uint64_t i = 0, max_i = node->GetChildrenCount(); i < max_i; ++i) {
 				if (Process(node->GetChild(i), func))
 					return true;
 			}
@@ -147,10 +169,11 @@ namespace Loader {
 	}
 
 	bool LoaderGraphProcessor::OnNodeAdded(Scene::INode *node) {
-		auto type = node->Get<Core::String>(L"Type");
+		auto type = node->Get<Core::String>(L"Type");		
 		if (type && *type == L"FileProxy") {
 			Core::String* path = node->Get<Core::String>(L"Filename");
 			if (path) {
+				m_logger->Info("Loder: " + *path);
 				CmdLoadFile* task = new CmdLoadFile;
 				task->node = node;
 				task->filename = node->GetSceneGraph()->GetSourcePath() + *path;

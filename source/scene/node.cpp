@@ -10,7 +10,10 @@ namespace Scene {
 
     Node::Node(ISceneGraph *graph)
         : m_scene_graph{graph}
-    {}
+    {
+		if (m_scene_graph)
+			m_scene_graph->SetRoot(this);
+	}
 
     Node::Node(INode *parent)
         : m_parent{parent} {
@@ -155,14 +158,12 @@ namespace Scene {
         return m_delete_count == 0;
     }
 
-    extern PUNK_ENGINE_API INodeUniquePtr CreateRootNode(ISceneGraph* graph) {
-        INodeUniquePtr node{new Node{graph}, DestroyNode};
-        return node;
+    extern PUNK_ENGINE_API INode* CreateRootNode(ISceneGraph* graph) {        
+		return new Node{ graph };
     }
 
-    extern PUNK_ENGINE_API INodeUniquePtr CreateNode(INode* parent) {
-        INodeUniquePtr node{new Node{parent}, DestroyNode};
-        return node;
+    extern PUNK_ENGINE_API INode* CreateNode(INode* parent) {        
+		return new Node{ parent };
     }
 
     extern PUNK_ENGINE_API void DestroyNode(INode* node) {

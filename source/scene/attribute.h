@@ -21,7 +21,6 @@ namespace Scene {
         void SetName(const Core::String& name) override;
         void* GetRawData() const override;
         void SetRawData(void* value) override;
-        IAttribute* Clone() const override;
 
     private:        
         Core::String m_name;
@@ -79,12 +78,6 @@ namespace Scene {
     template<class T>
     inline void Attribute<T>::SetRawData(void* value) {
         m_data.reset((T*)value);
-    }
-
-    template<class T>
-    inline IAttribute* Attribute<T>::Clone() const {
-        Attribute<T>* a{new Attribute<T>{m_name, m_data->Clone()}};
-        return a;
     }
 }
 PUNK_ENGINE_END
