@@ -12,8 +12,9 @@ namespace Scene
 {
     class PUNK_ENGINE_LOCAL Node : public INode {
     public:
+		Node();
         explicit Node(ISceneGraph* graph);
-        explicit Node(INode* parent = nullptr);
+        explicit Node(INode* parent);
         virtual ~Node();
 
         virtual void SetAttribute(IAttribute* value) override;

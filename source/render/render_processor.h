@@ -4,6 +4,7 @@
 #include <config.h>
 #include <scene/graph_processor_base.h>
 #include <graphics/module.h>
+#include "render_commands.h"
 
 PUNK_ENGINE_BEGIN
 namespace Scene {
@@ -47,8 +48,13 @@ namespace Render {
 		void OnShow();
 		void OnHide();
 
+		void OnSetNewGraph(CmdSetNewScene* cmd);
+
+		Scene::INodeUniquePtr CreateRenderNode(const Core::String& name);
+
 	private:
 		Graphics::ICanvasUniquePtr m_canvas{ nullptr, Graphics::DestroyCanvas };
+		Scene::INode* m_camera_node{ nullptr };
 	};
 
 }

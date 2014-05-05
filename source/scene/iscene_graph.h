@@ -20,7 +20,7 @@ namespace Scene {
         virtual INode* GetRoot() = 0;
         virtual const INode* GetRoot() const = 0;
         virtual void SetRoot(INode* node) = 0;
-		virtual INode* ReleaseRoot() = 0;
+		virtual INode* ReleaseRoot() = 0;		
         virtual void SubscribeOnNodeAdded(Core::ActionBase<INode*, INode*>* value) = 0;
         virtual void SubscribeOnNodeRemoved(Core::ActionBase<INode*, INode*>* value) = 0;
 		virtual void SubscribeOnAttributeAdded(Core::ActionBase<INode*, IAttribute*>* value) = 0;
@@ -33,6 +33,14 @@ namespace Scene {
 		virtual void OnAttributeRemoved(INode* node, IAttribute* attribute) = 0;
 		virtual void SetSourcePath(const Core::String& path) = 0;
 		virtual const Core::String GetSourcePath() const = 0;
+
+		template<class T>
+		INode* FindNodeByAttribute(const Core::String& name) {
+			auto root = GetRoot();
+			if (root)
+				return root->FindChildByAttribute<T>(name);
+			return nullptr;
+		}
     };
 
     inline ISceneGraph::~ISceneGraph() {}

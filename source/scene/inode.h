@@ -83,12 +83,25 @@ namespace Scene {
         void Set(const Core::String &name, T value) {
             SetAttribute(new Attribute<T>(name, new T(value), true));
         }
+
+		template<class T>
+		INode* FindChildByAttribute(const Core::String& name) {
+			if (Get<T>(name) != nullptr)
+				return this;
+			for (int i = 0, max_i = GetChildrenCount(); i < max_i; ++i) {
+				INode* result = GetChild(i)->FindChildByAttribute<T>(name);				
+				if (result)
+					return result;
+			}
+			return nullptr;
+		}
     };
 
     using INodeUniquePtr = std::unique_ptr<INode, void (*)(INode*)>;
 
     extern PUNK_ENGINE_API INode* CreateRootNode(ISceneGraph* grap);
     extern PUNK_ENGINE_API INode* CreateNode(INode* parent);
+	extern PUNK_ENGINE_API INodeUniquePtr CreateNode();
     extern PUNK_ENGINE_API void DestroyNode(INode* node);
 }
 PUNK_ENGINE_END

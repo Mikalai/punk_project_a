@@ -1,3 +1,4 @@
+#include <attributes/module.h>
 #include <core/object.h>
 #include <scene/module.h>
 #include <system/module.h>
@@ -25,13 +26,8 @@ namespace Render {
 	void RenderProcessor::OnInternalUpdate(Scene::CommandBase* cmd) {
 		if (cmd->domain != RenderDomain)
 			throw Error::RenderException("Can't process internall command. Wrong domain.");
-		if (cmd->index == (int)RenderCommands::SetNewScene) {
-			CmdSetNewScene* task = (CmdSetNewScene*)cmd;
-			AssignGraph(task->graph);
-			CmdSetNewScene* command = new CmdSetNewScene;
-			command->graph = GetGraph();
-			AddCommand(command);
-		}
+		if (cmd->index == (int)RenderCommands::SetNewScene)
+			OnSetNewGraph((CmdSetNewScene*)cmd);
 		else if (cmd->index == (int)RenderCommands::Show) {
 			CmdShow* show = (CmdShow*)cmd;
 			if (show->visible)
@@ -39,6 +35,29 @@ namespace Render {
 			else 
 				OnHide();
 		}
+	}
+
+	void RenderProcessor::OnSetNewGraph(CmdSetNewScene* task) {
+		AssignGraph(task->graph);
+		CmdSetNewScene* command = new CmdSetNewScene;
+		command->graph = GetGraph();
+		AddCommand(command);
+
+		m_camera_node = GetGraph()->FindNodeByAttribute<Attributes::Camera>("Camera");
+		if (m_camera_node == nullptr) {
+			auto node = CreateRenderNode("Camera");
+			Attributes::Camera* camera = new Attributes::Camera;
+			node->Set<Attributes::Camera>("Camera", camera);
+			node->Set<Core::String>("Type", Attributes::Camera::Type()->GetName());
+			GetGraph()->GetRoot()->AddChild(m_camera_node = node.release());
+		}
+	}
+
+	Scene::INodeUniquePtr RenderProcessor::CreateRenderNode(const Core::String& name) {
+		auto node = Scene::CreateNode();
+		node->Set<Core::String>("Owner", GetName());
+		node->Set<Core::String>("Name", name);
+		return node;
 	}
 
 	void RenderProcessor::OnShow() {
