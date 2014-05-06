@@ -138,16 +138,16 @@ namespace Graphics
 
     void Frame::PopAllState()
     {
-#ifdef _DEBUG
-        System::GetDefaultLogger()->Info("Begin Pop");
-#endif
+//#ifdef _DEBUG
+//        System::GetDefaultLogger()->Info("Begin Pop");
+//#endif
         if (!m_state.top()->Dec())
             delete m_state.top();
         m_state.pop();
 
-#ifdef _DEBUG
-        System::GetDefaultLogger()->Info("End Pop");
-#endif
+//#ifdef _DEBUG
+//        System::GetDefaultLogger()->Info("End Pop");
+//#endif
     }
 
     void Frame::PushViewState()

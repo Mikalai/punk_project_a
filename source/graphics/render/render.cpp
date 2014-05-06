@@ -12,62 +12,17 @@ namespace Graphics {
     Render::Render(IVideoDriver* driver)
     : m_driver{driver}
     {
-        m_queue[0] = new RenderQueue();
-        m_queue[1] = new RenderQueue();
-        m_front = &m_queue[0];
-        m_back = &m_queue[1];
+        m_queue = new RenderQueue();
     }
 
     Render::~Render()
     {
         m_driver = nullptr;
-        delete m_queue[0];
-        delete m_queue[1];
-        m_front = m_back = nullptr;
+		delete m_queue;
     }
 
     IVideoDriver* Render::GetVideoDriver() {
         return m_driver;
-    }
-
-    void Render::AsyncBeginRendering(IFrameBuffer *buffer)
-    {
-#ifdef _DEBUG
-        System::ILogger* log = System::GetDefaultLogger();
-        log->Info("Begin AsyncBeginRendering");
-#endif
-        System::ThreadMutexLock lock(m_queue_mutex);
-        std::swap(*m_front, *m_back);
-        for (int i = 0; i < GetIndex(RenderPolicySet::End); ++i) {
-            RenderPolicySet rc_code = (RenderPolicySet)i;
-            IRenderContext *rc = GetRenderContext(rc_code);
-            if (!rc)
-                continue;
-            auto& batches = (*m_front)->GetBatches(rc_code);            
-#ifdef _DEBUG
-            if (!batches.empty())
-                log->Info(L"Render " + RenderPolicySetToString(rc_code));
-#endif
-            for (Batch* batch : batches) {
-                IRenderable* renderable = batch->m_renderable;
-                CoreState* state = batch->m_state;
-                rc->Begin();
-                rc->BindParameters(*state);
-                renderable->Bind(rc->GetRequiredAttributesSet());
-                renderable->Render();
-                renderable->Unbind();
-                rc->End();
-            }
-        }        
-        (*m_front)->Clear();
-#ifdef _DEBUG
-        System::GetDefaultLogger()->Info("End AsyncBeginRendering");
-#endif
-    }
-
-    void Render::WaitEndRendering() {
-        System::ThreadMutexLock lock(m_queue_mutex);        
-        m_queue_mutex.Unlock();
     }
 
     const Math::vec2 Render::FindZRange(const Math::mat4& view) {
@@ -76,7 +31,7 @@ namespace Graphics {
 
         for (int i = 0; i < GetIndex(RenderPolicySet::End); ++i) {
             RenderPolicySet rc_code = (RenderPolicySet)i;
-            auto& batches = (*m_back)->GetBatches(rc_code);
+            auto& batches = m_queue->GetBatches(rc_code);
             for (Batch* o : batches) {
                 auto transf = view*o->m_state->batch_state->m_bsphere.GetCenter();
                 if (transf.Z() + o->m_state->batch_state->m_bsphere.GetRadius() > max)
@@ -88,8 +43,47 @@ namespace Graphics {
         return Math::vec2(min, max);
     }
 
+	IFrame* Render::BeginFrame() {
+		if (!m_frame.get())
+			m_frame = CreateFrame(this);		
+		return m_frame.get();
+	}
+
+	void Render::EndFrame() {
+//#ifdef _DEBUG
+//		System::ILogger* log = System::GetDefaultLogger();
+//		log->Info("Begin AsyncBeginRendering");
+//#endif				
+		for (int i = 0; i < GetIndex(RenderPolicySet::End); ++i) {
+			RenderPolicySet rc_code = (RenderPolicySet)i;
+			IRenderContext *rc = GetRenderContext(rc_code);
+			if (!rc)
+				continue;
+			auto& batches = m_queue->GetBatches(rc_code);
+//#ifdef _DEBUG
+//			if (!batches.empty())
+//				log->Info(L"Render " + RenderPolicySetToString(rc_code));
+//#endif
+			for (Batch* batch : batches) {
+				IRenderable* renderable = batch->m_renderable;
+				CoreState* state = batch->m_state;
+				rc->Begin();
+				rc->BindParameters(*state);
+				renderable->Bind(rc->GetRequiredAttributesSet());
+				renderable->Render();
+				renderable->Unbind();
+				rc->End();
+			}
+		}
+		m_queue->Clear();
+//#ifdef _DEBUG
+//		System::GetDefaultLogger()->Info("End AsyncBeginRendering");
+//#endif
+
+	}
+
     void Render::SubmitBatch(Batch *batch) {
-        (*m_back)->Add(batch);
+        m_queue->Add(batch);
     }
 
     extern PUNK_ENGINE_API IRenderUniquePtr CreateRender(IVideoDriver* driver) {

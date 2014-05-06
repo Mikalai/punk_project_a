@@ -11,6 +11,7 @@ namespace Scene {
 
 	class PUNK_ENGINE_API GraphProcessorBase : public IGraphProcessor {
 	public:		
+		GraphProcessorBase();
 		ISceneGraph* GetGraph() const override;
 		void StartProcessing() override;
 		void BeginUpdate(int dt_ms) override;

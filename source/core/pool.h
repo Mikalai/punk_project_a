@@ -6,27 +6,62 @@
 #include <config.h>
 
 #ifdef _DEBUG
-#include <String/String.h>
-#endif
+#include <iostream>
+#endif	
 
 PUNK_ENGINE_BEGIN
 namespace Core {
-    class PUNK_ENGINE_API Pool {
-    public:
-        Pool();
-#ifdef _DEBUG
-        Pool(const Core::String& name);
+
+	template<class T>
+	class Pool {
+	public:
+
+		Pool() {
+#ifdef _DEBUG            
+			std::cout << "Pool created for " << typeid(T).name() << std::endl;
 #endif
-        ~Pool();
-        void* Alloc(size_t size);
-        void Free(void* value);
-        void Clear();
-    private:
-        std::deque<void*> m_free;
-#ifdef _DEBUG
-        Core::String m_name;
+		}
+
+		~Pool() {
+			Clear();
+		}
+
+		void* Alloc() {
+			if (m_free.empty()) {
+#ifdef _DEBUG            
+				std::cout << "Allocation requested for " << typeid(T).name() << " " << sizeof(T) << " bytes" << std::endl;
 #endif
-    };
+				auto size = sizeof(T);
+				void* result = malloc(size);
+				memset(result, 0, size);
+				return result;
+			}
+			void* result = m_free.front();
+			memset(result, 0, sizeof(T));
+			m_free.pop_front();
+			return result;
+		}
+
+		void Free(void* value) {
+			m_free.push_back(value);
+		}
+
+		void Clear() {
+#ifdef _DEBUG        
+			std::cout << "Clear pool " << typeid(T).name() << std::endl;
+#endif
+			while (!m_free.empty()) {
+				free(m_free.back());
+				m_free.pop_back();
+			}
+		}
+
+	private:
+		std::deque<void*> m_free;
+#ifdef _DEBUG
+		const char* m_name;
+#endif
+	};
 }
 PUNK_ENGINE_END
 

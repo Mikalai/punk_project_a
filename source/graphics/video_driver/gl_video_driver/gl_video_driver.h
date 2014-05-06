@@ -5,6 +5,7 @@
 #include <config.h>
 #include <graphics/video_driver/module.h>
 #include <graphics/video_driver/video_driver.h>
+#include <graphics/render/irender.h>
 #include "gl_settings.h"
 
 PUNK_ENGINE_BEGIN
@@ -29,6 +30,7 @@ namespace Graphics
             virtual ~GlVideoDriver();
             ICanvas* GetCanvas() override;                        
             IVideoDriverSettings* GetSettings() override;
+			IRender* GetRender() override;
 
             VideoMemory* GetVideoMemory();
             const VideoMemory* GetVideoMemory() const;
@@ -44,6 +46,7 @@ namespace Graphics
             OpenGL::VideoMemory* m_memory;            
             VirtualFileSystem* m_vfs;
             GlVideoDriverSettings* m_caps;
+			IRenderUniquePtr m_render{ nullptr, DestroyRender };
 
         private:
             bool IsExtensionSupported(const char *extList, const char *extension);

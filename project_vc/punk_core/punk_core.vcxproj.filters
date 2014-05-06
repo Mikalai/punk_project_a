@@ -19,7 +19,6 @@
     <ClCompile Include="..\..\source\core\core_error.cpp" />
     <ClCompile Include="..\..\source\core\meta_class_base.cpp" />
     <ClCompile Include="..\..\source\core\object.cpp" />
-    <ClCompile Include="..\..\source\core\pool.cpp" />
     <ClCompile Include="..\..\source\core\pool_manager.cpp" />
     <ClCompile Include="..\..\source\core\rtti.cpp" />
     <ClCompile Include="..\..\source\core\static_information.cpp" />

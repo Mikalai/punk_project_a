@@ -10,8 +10,8 @@ namespace Graphics {
 	public:
         VideoDriver() = default;
         ~VideoDriver();        
-        Frame* BeginFrame() override;
-        void EndFrame(Frame* value) override;
+        /*Frame* BeginFrame() override;
+        void EndFrame(Frame* value) override;*/
 	private:
         VideoDriver(const VideoDriver&) = delete;
         VideoDriver& operator = (const VideoDriver&) = delete;

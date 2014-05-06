@@ -78,6 +78,12 @@ namespace Graphics {
         {
             return m_caps;
         }        
+
+		IRender* GlVideoDriver::GetRender() {
+			if (!m_render.get())
+				m_render = CreateRender(this);
+			return m_render.get();
+		}
     }
 	
 	extern PUNK_ENGINE_API IVideoDriverUniquePtr CreateVideoDriver(ICanvas* canvas) {

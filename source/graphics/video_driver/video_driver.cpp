@@ -12,19 +12,19 @@
 PUNK_ENGINE_BEGIN
 namespace Graphics
 {
-    Frame* VideoDriver::BeginFrame()
-    {
-        //  TODO: Safer resource managment should be made here
-        //Frame* frame = new Frame(this);
-        return nullptr;//frame;
-    }
-
-    void VideoDriver::EndFrame(Frame* value)
-    {
-        //  TODO: Safer resource managment should be made here
-//        delete value;
-//        SwapBuffers();
-    }
+//    Frame* VideoDriver::BeginFrame()
+//    {
+//        //  TODO: Safer resource managment should be made here
+//        //Frame* frame = new Frame(this);
+//        return nullptr;//frame;
+//    }
+//
+//    void VideoDriver::EndFrame(Frame* value)
+//    {
+//        //  TODO: Safer resource managment should be made here
+////        delete value;
+////        SwapBuffers();
+//    }
 
     VideoDriver::~VideoDriver()
     {}    

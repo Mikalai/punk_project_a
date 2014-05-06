@@ -3,6 +3,7 @@
 
 #include <config.h>
 #include <system/concurrency/module.h>
+#include <graphics/frame/iframe.h>
 #include "irender.h"
 
 PUNK_ENGINE_BEGIN
@@ -18,16 +19,15 @@ namespace Graphics {
         Render(IVideoDriver* driver);
         virtual ~Render();
         IVideoDriver* GetVideoDriver() override;
-        void AsyncBeginRendering(IFrameBuffer* buffer) override;
-        void WaitEndRendering() override;
         void SubmitBatch(Batch* batch) override;
         const Math::vec2 FindZRange(const Math::mat4& view) override;
+		IFrame* BeginFrame() override;
+		void EndFrame() override;
+
     private:
-        RenderQueue* m_queue[2];
-        RenderQueue** m_front {nullptr};
-        RenderQueue** m_back {nullptr};
-        System::ThreadMutex m_queue_mutex;
+        RenderQueue* m_queue;
         IVideoDriver* m_driver;
+		IFrameUniquePtr m_frame{ nullptr, DestroyFrame };
     };
 }
 PUNK_ENGINE_END

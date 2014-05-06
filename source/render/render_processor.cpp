@@ -20,9 +20,16 @@ namespace Render {
 	void RenderProcessor::OnInternalUpdate(int dt) {
 		if (m_canvas) {			
 			auto driver = m_canvas->GetVideoDriver();
-			auto frame = driver->BeginFrame();
-			frame->DrawLine(0, 0, 100, 100);
-			driver->EndFrame(frame);
+			auto render = driver->GetRender();
+			auto frame = render->BeginFrame();
+			auto back_buffer = Graphics::GetBackbuffer();
+			back_buffer->SetViewport(0, 0, m_canvas->GetWindow()->GetWidth(), m_canvas->GetWindow()->GetHeight());
+			back_buffer->SetClearColor(1, 0, 0, 1);
+			back_buffer->Bind();
+			back_buffer->Clear();					
+			frame->DrawLine(0, 0, 100, 100);	
+			back_buffer->Unbind();
+			render->EndFrame();
 			m_canvas->GetWindow()->Update(dt);
 			m_canvas->SwapBuffers();
 		}

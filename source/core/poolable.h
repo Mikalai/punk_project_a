@@ -15,12 +15,12 @@ namespace Core {
     template<class T>
     class Poolable
     {
-        static Pool pool;
+        static Pool<T> pool;
     public:
 
         static void* operator new (size_t)
         {
-            void* buf = pool.Alloc(sizeof(T));
+            void* buf = pool.Alloc();
             return buf;
         }
 
@@ -36,12 +36,7 @@ namespace Core {
         }
     };
 
-#ifdef _DEBUG
-	template<class T> Pool Poolable<T>::pool;// { Core::String{ typeid(T).name() } };
-#else
-    template<class T> Pool Poolable<T>::pool;
-#endif
-
+	template<class T> Pool<T> Poolable<T>::pool;
 }
 PUNK_ENGINE_END
 
