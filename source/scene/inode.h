@@ -18,6 +18,8 @@ namespace Scene {
     public:
         virtual void SetAttribute(IAttribute* value) = 0;
         virtual IAttribute* GetAttribute(const Core::String&, std::uint64_t type) const = 0;
+		virtual int GetAttributesCount(std::uint64_t type) const = 0;
+		virtual std::vector<IAttribute*> GetAttributes(std::uint64_t type) const = 0;
         virtual void RemoveAttribute(const Core::String& name, std::uint64_t type) = 0;
         virtual INode* GetParent() = 0;
         virtual const INode* GetParent() const = 0;
@@ -57,6 +59,11 @@ namespace Scene {
             auto attribute = GetAttribute(name, typeid(T).hash_code());
             return attribute ? attribute->Get<T>() : nullptr;
         }
+
+		template<class T>
+		T* Get() {
+			auto attribute = GetAttribute()
+		}
 
         template<class T>
         const T* Get(const Core::String& name) const {

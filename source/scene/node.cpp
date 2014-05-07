@@ -61,6 +61,24 @@ namespace Scene {
         }
     }
 
+	int Node::GetAttributesCount(std::uint64_t type) const {
+		int count = 0;
+		for (auto& p : m_attributes) {
+			if (p.first.second == type)
+				count++;
+		}
+		return count;
+	}
+
+	std::vector<IAttribute*> Node::GetAttributes(std::uint64_t type) const {
+		std::vector<IAttribute*> attributes;
+		for (auto& p : m_attributes) {
+			if (p.first.second == type)
+				attributes.push_back(p.second);
+		}
+		return attributes;
+	}
+
     void Node::RemoveAttribute(const Core::String &name, std::uint64_t type) {
         try {
             IAttribute* a = m_attributes.at(std::pair<Core::String, std::uint64_t>(name, type));

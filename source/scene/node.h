@@ -19,6 +19,8 @@ namespace Scene
 
         virtual void SetAttribute(IAttribute* value) override;
         virtual IAttribute* GetAttribute(const Core::String&, std::uint64_t type) const override;
+		virtual int GetAttributesCount(std::uint64_t type) const override;
+		virtual std::vector<IAttribute*> GetAttributes(std::uint64_t type) const override;
         virtual void RemoveAttribute(const Core::String& name, std::uint64_t type) override;
         virtual INode* GetParent() override;
         virtual const INode* GetParent() const override;

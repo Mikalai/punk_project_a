@@ -6,6 +6,7 @@ AUTHOR: Mikalai Abramau
 #ifndef _H_PUNK_MATH_VEC4
 #define _H_PUNK_MATH_VEC4
 
+#include <vector>
 #include <array>
 #include <config.h>
 
@@ -147,6 +148,9 @@ namespace Punk {
                 static const int Size_c = 4;
                 std::array<int, Size_c> m_v;
             };
+
+			using ivec4v = std::vector < ivec4 > ;
+			using vec4v = std::vector < vec4 > ;
         }
     }
 }

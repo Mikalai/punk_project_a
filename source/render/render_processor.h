@@ -31,7 +31,8 @@ namespace Render {
 		void AddChild(Scene::INode* parent, Scene::INode* child);
 		void RemoveChild(Scene::INode* parent, Scene::INode* child);
 		void ChildAdded(Scene::INode* parent, Scene::INode* child);
-		void ChildRemoved(Scene::INode* parent, Scene::INode* child);
+		void ChildRemoved(Scene::INode* parent, Scene::INode* child);		
+		void CookMesh(Scene::INode* node, Attributes::Geometry* geometry);
 
 		void Show();
 		void Hide();
@@ -42,13 +43,14 @@ namespace Render {
 		void OnInternalUpdate(Scene::CommandBase* task) override;
 		void OnPreUpdate(Scene::CommandBase* command) override;
 		void OnPostUpdate(Scene::CommandBase* command) override;
-		void OnWaitProcessingComplete() override;
-
+		void OnWaitProcessingComplete() override;		
 	private:
 		void OnShow();
 		void OnHide();
 
+		void OnMeshCooked(CmdMeshCooked* cmd);
 		void OnSetNewGraph(CmdSetNewScene* cmd);
+		void OnCookMesh(CmdCookMesh* cmd);
 
 		Scene::INodeUniquePtr CreateRenderNode(const Core::String& name);
 

@@ -1,6 +1,7 @@
 #ifndef _H_VEC3_MATH1
 #define _H_VEC3_MATH1
 
+#include <vector>
 #include <initializer_list>
 #include <array>
 #include <config.h>
@@ -94,6 +95,9 @@ namespace Math {
 		static const int Size_c = 3;
 		std::array<int, Size_c> m_v;
 	};
+
+	using ivec3v = std::vector < ivec3 > ;
+	using vec3v = std::vector < vec3 > ;
 }
 PUNK_ENGINE_END
 

@@ -47,6 +47,19 @@ namespace Render {
 			else 
 				OnHide();
 		}
+		else if (cmd->index == (int)RenderCommands::CookMesh) {
+			CmdCookMesh* cook_mesh = (CmdCookMesh*)cmd;
+			OnCookMesh(cook_mesh);
+		}
+	}
+
+	void RenderProcessor::OnCookMesh(CmdCookMesh* cmd) {
+		auto attributes = cmd->node_with_data->GetAttributes(Attributes::StaticGeometry::Type()->GetId());
+		for (auto& attribute : attributes) {
+			Attributes::StaticGeometry* geom = attribute->Get<Attributes::StaticGeometry>();
+			auto p = Graphics::CreateTriangles(0, m_canvas->GetVideoDriver());
+			p->
+		}
 	}
 
 	void RenderProcessor::OnSetNewGraph(CmdSetNewScene* task) {

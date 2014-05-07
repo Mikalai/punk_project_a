@@ -1,6 +1,7 @@
 #ifndef _H_PUNK_MATH_VEC2_MATH
 #define _H_PUNK_MATH_VEC2_MATH
 
+#include <vector>
 #include <initializer_list>
 #include <array>
 #include <config.h>
@@ -92,6 +93,9 @@ namespace Math {
 	PUNK_ENGINE_API const ivec2 operator / (const ivec2& m_v, int d);
 	PUNK_ENGINE_API bool operator == (const ivec2& a, const ivec2& b);
 	PUNK_ENGINE_API bool operator != (const ivec2& a, const ivec2& b);
+
+	using ivec2v = std::vector < ivec2 > ;
+	using vec2v = std::vector < vec2 > ;
 }
 PUNK_ENGINE_END
 

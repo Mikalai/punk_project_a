@@ -85,9 +85,6 @@
     <ClCompile Include="..\..\source\attributes\data\entity.cpp">
       <Filter>data</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\attributes\data\geometry.cpp">
-      <Filter>data</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\attributes\data\light.cpp">
       <Filter>data</Filter>
     </ClCompile>
@@ -98,12 +95,6 @@
       <Filter>data</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\data\proxy.cpp">
-      <Filter>data</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\attributes\data\skin_geometry.cpp">
-      <Filter>data</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\attributes\data\static_geometry.cpp">
       <Filter>data</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\data\texture_slot.cpp">
@@ -156,6 +147,18 @@
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\animation\object_animation_mixer.cpp">
       <Filter>animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\geometry\geometry.cpp">
+      <Filter>geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\geometry\geometry_cooker.cpp">
+      <Filter>geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\geometry\skin_geometry.cpp">
+      <Filter>geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\geometry\static_geometry.cpp">
+      <Filter>geometry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -295,9 +298,6 @@
     <ClInclude Include="..\..\source\attributes\data\entity.h">
       <Filter>data</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\attributes\data\geometry.h">
-      <Filter>data</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\attributes\data\interface.h">
       <Filter>data</Filter>
     </ClInclude>
@@ -326,12 +326,6 @@
       <Filter>data</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\data\proxy.h">
-      <Filter>data</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\attributes\data\skin_geometry.h">
-      <Filter>data</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\attributes\data\static_geometry.h">
       <Filter>data</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\data\texture_slot.h">
@@ -394,6 +388,48 @@
     <ClInclude Include="..\..\source\attributes\animation\object_animation_mixer.h">
       <Filter>animation</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\attributes\geometry\geometry.h">
+      <Filter>geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\geometry\geometry_cooker.h">
+      <Filter>geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\geometry\igeometry.h">
+      <Filter>geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\geometry\igeometry_cooker.h">
+      <Filter>geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\geometry\skin_geometry.h">
+      <Filter>geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\geometry\static_geometry.h">
+      <Filter>geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\geometry\module.h">
+      <Filter>geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\geometry\icomponent_position.h">
+      <Filter>geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\geometry\icomponent_normal.h">
+      <Filter>geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\geometry\icomponent_texture.h">
+      <Filter>geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\geometry\icomponent_color.h">
+      <Filter>geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\geometry\icomponent_bone_weight.h">
+      <Filter>geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\geometry\icomponent_index.h">
+      <Filter>geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\geometry\icomponent_texture_face.h">
+      <Filter>geometry</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="water">
@@ -431,6 +467,9 @@
     </Filter>
     <Filter Include="animation">
       <UniqueIdentifier>{4643c854-3321-42d0-bdbb-8709c1aa8018}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="geometry">
+      <UniqueIdentifier>{4d742fca-f81e-4585-9d4a-f5fb9dc73a6f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
