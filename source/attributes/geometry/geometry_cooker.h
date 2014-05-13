@@ -21,7 +21,7 @@ namespace Attributes {
 		void CookPositionNormal(IGeometry* mesh, Graphics::IVertexArray*& _vb, Graphics::IIndexArray*& _ib);
 		void CookPosition(IGeometry* mesh, Graphics::IVertexArray*& _vb, Graphics::IIndexArray*& _ib);
 		void CookPositionTexture0(IGeometry* mesh, Graphics::IVertexArray*& _vb, Graphics::IIndexArray*& _ib);
-		void CookPositionNormalTexture0(IGeometry* mesh, Graphics::IVertexArray*& _vb, Graphics::IIndexArray*& _ib)
+		void CookPositionNormalTexture0(IGeometry* mesh, Graphics::IVertexArray*& _vb, Graphics::IIndexArray*& _ib);
 	};
 }
 PUNK_ENGINE_END
