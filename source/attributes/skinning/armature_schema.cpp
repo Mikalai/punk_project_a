@@ -11,6 +11,10 @@ namespace Attributes {
 		}
 	}
 
+	std::uint32_t ArmatureSchema::GetBonesCount() const {
+		return m_bones.size();
+	}
+
 	IBone* ArmatureSchema::GetBone(std::uint32_t index) {
 		return m_bones.at(index);
 	}

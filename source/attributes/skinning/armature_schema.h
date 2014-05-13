@@ -12,6 +12,7 @@ namespace Attributes {
 	class PUNK_ENGINE_LOCAL ArmatureSchema : public Core::Object, public IArmatureSchema {
 	public:
 		virtual ~ArmatureSchema();
+		std::uint32_t GetBonesCount() const override;
 		IBone* GetBone(std::uint32_t index) override;
 		const IBone* GetBone(std::uint32_t index) const override;
 		std::uint32_t GetRootBonesCount() const override;

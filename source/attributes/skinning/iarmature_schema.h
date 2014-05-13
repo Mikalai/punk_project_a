@@ -13,6 +13,7 @@ namespace Attributes {
 
 	class IArmatureSchema {
 	public:
+		virtual std::uint32_t GetBonesCount() const = 0;
 		virtual IBone* GetBone(std::uint32_t index) = 0;
 		virtual const IBone* GetBone(std::uint32_t index) const = 0;
 		virtual std::uint32_t GetRootBonesCount() const = 0;
