@@ -5,7 +5,6 @@ from copy import deepcopy
 text_offset = 0 #used to print data nice
 path = ""
 used_entities = {}
-vertex_groups = {}
 
 export_dict = {}
 
@@ -39,6 +38,13 @@ def export_vec4(f, name, value):
     start_block(f, name)
     make_offset(f)
     f.write("{0} {1} {2} {3}\n".format(value[0], value[1], value[2], value[3]))
+    end_block(f)
+    return
+
+def export_int(f, name, value):
+    start_block(f, name)
+    make_offset(f)
+    f.write("{0}\n".format(value));
     end_block(f)
     return
 

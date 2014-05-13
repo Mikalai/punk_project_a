@@ -25,17 +25,19 @@ def export_armature(object):
     old = text_offset 
     text_offset = 0
     
-    file = object.data.name + ".armature"
+    file = object.data.name + ".armature_schema"
     print(file)
     f = open(file, "w")
-    f.write("ARMATURETEXT\n")    
+    f.write("ARMATURESCHEMATEXT\n")    
     armature = object.data
     start_block(f, armature.name)
     export_action_ref(f, object)
     for bone in armature.bones:
         #   export bone
         start_block(f, "*bone")
-        #   write bone name
+        #   export bone index
+        export_int(f, "*index", armature.bones.find(bone.name))
+        #   write bone name        
         export_string(f, "*name", bone.name)
         #   write bone length
         export_float(f, "*length", bone.length)
@@ -48,7 +50,14 @@ def export_armature(object):
         end_block(f)    #*bone
     end_block(f)    #*armature
     f.close()        
-    
+
+    file = object.data.name + ".armature"
+    print(file)
+    f = open(file, "w")
+    f.write("ARMATURETEXT\n")    
+    export_string(f, "*armature_schema", object.data.name + ".armature_schema")    
+    f.close()        
+        
     text_offset = old
     return
 

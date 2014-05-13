@@ -18,7 +18,7 @@ def export_tex_coords(f, mesh):
         start_block(f, "*texture")    
         start_block(f, "*name")
         make_offset(f)
-        f.write("texture_%d\n" % index)
+        f.write("%d\n" % index)
         index = index + 1
         end_block(f)
         
@@ -31,7 +31,7 @@ def export_tex_coords(f, mesh):
     
         for face in range(0, len(mesh.polygons)):
             make_offset(f)
-            f.write("{0} {1} {2} {3} {4} {5} {6} {7}\n".format(data[3*face].uv[0], data[3*face].uv[1], data[3*face+1].uv[0], data[3*face+1].uv[1], data[3*face+2].uv[0], data[3*face+2].uv[1], 0, 0))
+            f.write("{0} {1} {2} {3} {4} {5}\n".format(data[3*face].uv[0], data[3*face].uv[1], data[3*face+1].uv[0], data[3*face+1].uv[1], data[3*face+2].uv[0], data[3*face+2].uv[1]))
             
         end_block(f)   
         end_block(f)
