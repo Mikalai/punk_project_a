@@ -20,7 +20,6 @@ namespace Attributes
 
     Armature::~Armature()
     {
-        Clear();
     }
 
     void Armature::SetName(const Core::String& value)
@@ -33,119 +32,59 @@ namespace Attributes
         return m_name;
     }
 
-	Bone* Armature::GetBoneByName(const Core::String& name)
-	{
-		auto it = m_named_cache.find(name);
-		if (it == m_named_cache.end())
-		{
-			//	try to find in root bones
-			for (Bone* bone : m_root_bones)
-			{
-				if (bone->GetName() == name)
-					return bone;
-				Bone* res = bone->Find(name);
-				if (res)
-					return res;
-			}
-			return nullptr;
-		}
-		return it->second;
+	const Math::vec3* Armature::GetBoneLocalPosition(std::uint32_t index) {
+		return &m_bones.at(index).m_local_position;
 	}
 
-	const Bone* Armature::GetBoneByName(const Core::String& name) const
-	{
-		return m_named_cache.at(name);
+	const Math::vec3* Armature::GetBoneGlobalPosition(std::uint32_t index) {
+		auto& bone = m_bones.at(index);
+		if (bone.m_need_update)
+			Update();
+		return &bone.m_global_position;
 	}
 
-	Bone* Armature::GetBoneByIndex(int index)
-	{
-		return m_cache[index];
+	const Math::quat* Armature::GetBoneLocalRotation(std::uint32_t index) {
+		return &m_bones.at(index).m_local_rotation;
 	}
 
-	const Bone* Armature::GetBoneByIndex(int index) const
-	{
-		return m_cache[index];
+	const Math::quat* Armature::GetBoneGlobalRotation(std::uint32_t index) {
+		auto& bone = m_bones.at(index);
+		if (bone.m_need_update)
+			Update();
+		return &bone.m_global_rotation;
 	}
 
-	void Armature::UpdateHierarchy()
-	{
-		m_cache.clear();
-		m_named_cache.clear();
-		for (auto bone : m_root_bones)
-		{
-            //bone->UpdatePose(0, 0, true);
-			CacheBones(bone);
-		}
+	void Armature::SetBoneLocalPosition(std::uint32_t index, const Math::vec3& value) {
+		m_bones.at(index).m_local_position = value;
+		m_bones.at(index).m_need_update = true;
 	}
 
-	void Armature::CacheBones(Bone* b)
-	{
-//		b->SetIndexInArmature(m_cache.size());
-		size_t index = m_cache.size();
-		b->SetIndex((int)index);
-		m_cache.push_back(b);
-		m_named_cache[b->GetName()] = b;
-
-		for (auto bone : b->GetChildren())
-		{
-			CacheBones(bone);
-		}
+	void Armature::SetBoneGlobalPosition(std::uint32_t index, const Math::vec3& value) {
 	}
 
-	void Armature::AddRootBone(Bone* b)
-	{
-		m_root_bones.push_back(b);
-		CacheBones(b);
+	void Armature::SetBoneLocalRotation(std::uint32_t index, const Math::quat& value) {
+		m_bones.at(index).m_local_rotation = value;
+		m_bones.at(index).m_need_update = true;
 	}
 
-	int Armature::GetBonesCount() const
-	{
-		return m_cache.size();
-	}
-
-	void Armature::PrintDebug(Bone* parent, int level)
-	{
+	void Armature::SetBoneGlobalRotation(std::uint32_t index, const Math::quat& value) {
 
 	}
 
-
-    void Armature::Clear()
-	{
-		for (auto bone : m_root_bones)
-			delete bone;
-		m_root_bones.clear();
-		m_cache.clear();
-		m_named_cache.clear();
-    }
-
-	int Armature::GetBoneIndex(const Core::String& value) const
-	{
-		for (int i = 0, max_i = m_cache.size(); i != max_i; ++i)
-		{
-			if (m_cache[i]->GetName() == value)
-				return i;
-		}
-        return -1;
-    //	throw System::PunkInvalidArgumentException(L"There is no bone with name " + value);
+	const IArmatureSchema* Armature::GetSchema() const {
+		return m_schema;
 	}
 
-    void Armature::AddActionName(const Core::String& value)
-    {
-        auto it = std::find(m_supported_actions.begin(), m_supported_actions.end(), value);
-        if (it != m_supported_actions.end())
-            return;
-        m_supported_actions.push_back(value);
-    }
+	void Armature::SetSchema(IArmatureSchema* value) {
+		m_schema = value;
+	}
 
-    bool Armature::IsActionSupported(const Core::String& value)
-    {
-        auto it = std::find(m_supported_actions.begin(), m_supported_actions.end(), value);
-        return it != m_supported_actions.end();
-    }
+	void Armature::SetSchemaName(const Core::String& value) {
+		m_schema_name = value;
+	}
 
-    const Armature::Actions& Armature::GetSupportedActionArray() const
-    {
-        return m_supported_actions;
-    }
+	const Core::String& Armature::GetSchemaName() const {
+		return m_schema_name;
+	}
 }
 PUNK_ENGINE_END
