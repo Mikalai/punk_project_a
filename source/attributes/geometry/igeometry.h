@@ -42,6 +42,8 @@ namespace Attributes {
 		virtual const Math::BoundingBox* GetBoundingBox() const = 0;
 		virtual const Math::BoundingSphere* GetBoundingSphere() const = 0;
 		virtual std::uint32_t GetVertexCount() = 0;		
+		virtual void SetName(const Core::String& name) = 0;
+		virtual const Core::String& GetName() const = 0;
 	};
 
 	using IGeometryUniquePtr = std::unique_ptr < IGeometry, void(*)(IGeometry*) > ;	
