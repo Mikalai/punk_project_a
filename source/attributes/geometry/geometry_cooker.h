@@ -12,6 +12,7 @@ namespace Graphics {
 
 namespace Attributes {
 	class IGeometry;
+	class IArmatureSchema;
 
 	class GeometryCooker : public IGeometryCooker {
 	public:
@@ -22,6 +23,10 @@ namespace Attributes {
 		void CookPosition(IGeometry* mesh, Graphics::IVertexArray*& _vb, Graphics::IIndexArray*& _ib);
 		void CookPositionTexture0(IGeometry* mesh, Graphics::IVertexArray*& _vb, Graphics::IIndexArray*& _ib);
 		void CookPositionNormalTexture0(IGeometry* mesh, Graphics::IVertexArray*& _vb, Graphics::IIndexArray*& _ib);
+
+		//	skinning
+		void CookOneVertexWithBone(const IGeometry* mesh, int index, Math::vec4& bone, Math::vec4& weight);
+		void CookPositionNormalTangentBitangentTexture0BoneIDBoneWeight(const IGeometry* mesh, Graphics::IVertexArray* _vb, Graphics::IIndexArray* _ib);
 	};
 }
 PUNK_ENGINE_END
