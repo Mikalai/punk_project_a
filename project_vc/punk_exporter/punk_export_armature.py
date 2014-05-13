@@ -43,7 +43,7 @@ def export_armature(object):
         export_float(f, "*length", bone.length)
         #   write bone parent
         if bone.parent != None:
-            export_string(f, "*parent", bone.parent.name)
+            export_string(f, "*parent", armature.bones.find(bone.parent.name))
         #   write bone matrix
         export_mat4(f, "*local_matrix", bone.matrix_local)
         #   write supported animation
