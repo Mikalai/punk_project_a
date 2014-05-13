@@ -20,6 +20,9 @@ namespace Attributes {
 		virtual const IBone* GetRootBone(int root_index) const = 0;
 		virtual int GetBoneIndex(const Core::String& name) = 0;		
 		virtual void AddBone(IBone* value) = 0;
+		virtual std::uint32_t GetSupportedActionsCount() const = 0;
+		virtual const Core::String& GetSupportedAction(std::uint32_t index) const = 0;
+		virtual void AddSupportedAction(const Core::String& name) = 0;
 	};
 
 	using IArmatureSchemaUniquePtr = std::unique_ptr < IArmatureSchema, void(*)(IArmatureSchema*) > ;

@@ -48,6 +48,18 @@ namespace Attributes {
 			m_root.push_back(index);
 	}
 
+	std::uint32_t ArmatureSchema::GetSupportedActionsCount() const {
+		return m_supported_actions.size();
+	}
+
+	const Core::String& ArmatureSchema::GetSupportedAction(std::uint32_t index) const {
+		return m_supported_actions.at(index);
+	}
+
+	void ArmatureSchema::AddSupportedAction(const Core::String& name) {
+		m_supported_actions.push_back(name);
+	}
+
 	extern PUNK_ENGINE_API IArmatureSchemaUniquePtr CreateArmatureSchema() {
 		return IArmatureSchemaUniquePtr{ new ArmatureSchema, DestroyArmatureSchema };
 	}

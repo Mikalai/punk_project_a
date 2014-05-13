@@ -2,6 +2,7 @@
 #define _H_ARMATURE_SCHEMA
 
 #include <config.h>
+#include <string/string.h>
 #include <core/object.h>
 #include "iarmature_schema.h"
 
@@ -18,9 +19,13 @@ namespace Attributes {
 		const IBone* GetRootBone(int root_index) const override;
 		int GetBoneIndex(const Core::String& name) override;
 		void AddBone(IBone* value) override;
+		std::uint32_t GetSupportedActionsCount() const override;
+		const Core::String& GetSupportedAction(std::uint32_t index) const override;
+		void AddSupportedAction(const Core::String& name) override;
 	private:
 		std::vector<IBone*> m_bones;
 		std::vector<std::uint32_t> m_root;
+		std::vector<Core::String> m_supported_actions;
 		PUNK_OBJECT(ArmatureSchema)
 	};
 }
