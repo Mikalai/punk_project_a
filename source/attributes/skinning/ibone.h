@@ -3,6 +3,7 @@
 
 #include <config.h>
 #include <cstdint>
+#include <memory>
 
 PUNK_ENGINE_BEGIN
 namespace Core {
@@ -26,6 +27,10 @@ namespace Attributes {
 		virtual std::uint32_t GetParent() const = 0;
 		virtual bool HasParent() const = 0;
 	};
+
+	using IBoneUniquePtr = std::unique_ptr < IBone, void(*)(IBone*) > ;
+	extern PUNK_ENGINE_API IBoneUniquePtr CreateBone();
+	extern PUNK_ENGINE_API void DestroyBone(IBone* value);
 }
 PUNK_ENGINE_END
 

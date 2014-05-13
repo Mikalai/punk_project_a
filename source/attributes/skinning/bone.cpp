@@ -61,5 +61,14 @@ namespace Attributes
 	bool Bone::HasParent() const {
 		return m_parent != std::numeric_limits<std::uint32_t>::infinity();
 	}
+
+	extern PUNK_ENGINE_API IBoneUniquePtr CreateBone() {
+		return IBoneUniquePtr{ new Bone, DestroyBone };
+	}
+
+	extern PUNK_ENGINE_API void DestroyBone(IBone* value) {
+		Bone* bone = dynamic_cast<Bone*>(value);
+		delete bone;
+	}
 }
 PUNK_ENGINE_END
