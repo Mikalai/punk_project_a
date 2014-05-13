@@ -34,11 +34,12 @@ namespace Attributes
 		const Math::mat4& GetRestMatrix() const override;
 		void SetParent(std::uint32_t value) override;
 		std::uint32_t GetParent() const override;
+		bool HasParent() const override;
 
 	private:		
 
-		std::uint32_t m_index{ -1 };
-		std::uint32_t m_parent{ -1 };
+		std::uint32_t m_index{ std::numeric_limits<std::uint32_t>::infinity() };
+		std::uint32_t m_parent{ std::numeric_limits<std::uint32_t>::infinity() };
 		Math::mat4 m_rest_matrix;
 		Core::String m_name;
 		float m_length;

@@ -24,6 +24,7 @@ namespace Attributes {
 		virtual const Math::mat4& GetRestMatrix() const = 0;
 		virtual void SetParent(std::uint32_t value) = 0;
 		virtual std::uint32_t GetParent() const = 0;
+		virtual bool HasParent() const = 0;
 	};
 }
 PUNK_ENGINE_END

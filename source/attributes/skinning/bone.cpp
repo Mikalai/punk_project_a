@@ -57,5 +57,9 @@ namespace Attributes
 	std::uint32_t Bone::GetParent() const {
 		return m_parent;
 	}
+
+	bool Bone::HasParent() const {
+		return m_parent != std::numeric_limits<std::uint32_t>::infinity();
+	}
 }
 PUNK_ENGINE_END
