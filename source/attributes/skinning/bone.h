@@ -35,6 +35,9 @@ namespace Attributes
 		void SetParent(std::uint32_t value) override;
 		std::uint32_t GetParent() const override;
 		bool HasParent() const override;
+		void AddChild(std::uint32_t index) override;
+		std::uint32_t GetChildrenCount() const override;
+		std::uint32_t GetChild(std::uint32_t index) override;
 
 	private:		
 
@@ -43,6 +46,7 @@ namespace Attributes
 		Math::mat4 m_rest_matrix;
 		Core::String m_name;
 		float m_length;
+		std::vector<std::uint32_t> m_children;
 	};    
 }
 PUNK_ENGINE_END

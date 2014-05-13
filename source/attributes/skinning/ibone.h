@@ -26,6 +26,9 @@ namespace Attributes {
 		virtual void SetParent(std::uint32_t value) = 0;
 		virtual std::uint32_t GetParent() const = 0;
 		virtual bool HasParent() const = 0;
+		virtual void AddChild(std::uint32_t index) = 0;
+		virtual std::uint32_t GetChildrenCount() const = 0;
+		virtual std::uint32_t GetChild(std::uint32_t index) = 0;
 	};
 
 	using IBoneUniquePtr = std::unique_ptr < IBone, void(*)(IBone*) > ;

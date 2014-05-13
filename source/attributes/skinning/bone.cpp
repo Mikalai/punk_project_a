@@ -7,10 +7,7 @@
 #include <math/mat4.h>
 #include <math/vec3.h>
 #include <math/helper.h>
-#include <attributes/animation/armature_animation_mixer.h>
-
 #include "bone.h"
-#include "armature.h"
 
 PUNK_ENGINE_BEGIN
 namespace Attributes
@@ -60,6 +57,18 @@ namespace Attributes
 
 	bool Bone::HasParent() const {
 		return m_parent != std::numeric_limits<std::uint32_t>::infinity();
+	}
+
+	void Bone::AddChild(std::uint32_t index) {
+		m_children.push_back(index);
+	}
+
+	std::uint32_t Bone::GetChildrenCount() const {
+		return (std::uint32_t)m_children.size();
+	}
+
+	std::uint32_t Bone::GetChild(std::uint32_t index) {
+		return m_children.at(index);
 	}
 
 	extern PUNK_ENGINE_API IBoneUniquePtr CreateBone() {
