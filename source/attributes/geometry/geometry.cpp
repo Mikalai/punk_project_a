@@ -100,16 +100,26 @@ namespace Attributes
 	}
 
 	//	texture_face
-	void Geometry::SetFaceTextureCoordinates(const std::vector	<std::array<Math::vec2, 3>>& value) {
-		m_texture_faces = value;
-	}
-	
-	void Geometry::SetFaceTextureCoordinate(std::uint32_t triangle_index, std::uint32_t vertex_index, const Math::vec2& t) {
-		m_texture_faces[triangle_index][vertex_index] = t;
+	std::uint32_t Geometry::GetFaceTextureCoordinatesSlotsCount() const {
+		return m_texture_faces.size();
 	}
 
-	const Math::vec2* Geometry::GetFaceTextureCoordinate(std::uint32_t triangle_index, int vertex_index) const {
-		return &m_texture_faces[triangle_index][vertex_index];
+	void Geometry::SetFaceTextureCoordinates(std::uint32_t slot, const std::vector	<std::array<Math::vec2, 3>>& value) {
+		if (m_texture_faces.size() <= slot)
+			m_texture_faces.resize(slot+1);
+		m_texture_faces[slot] = value;
+	}
+	
+	void Geometry::SetFaceTextureCoordinate(std::uint32_t slot, std::uint32_t triangle_index, std::uint32_t vertex_index, const Math::vec2& t) {
+		if (m_texture_faces.size() <= slot)
+			m_texture_faces.resize(slot + 1);
+		if (m_texture_faces[slot].size() <= triangle_index)
+			m_texture_faces[slot].resize(triangle_index + 1);
+		m_texture_faces[slot][triangle_index][vertex_index] = t;
+	}
+
+	const Math::vec2* Geometry::GetFaceTextureCoordinate(std::uint32_t slot, std::uint32_t triangle_index, int vertex_index) const {		
+		return &m_texture_faces.at(slot).at(triangle_index).at(vertex_index);
 	}
 
 	bool Geometry::HasFaceTextureCoordinates() const {
@@ -117,11 +127,11 @@ namespace Attributes
 	}
 
 	//	bone weights
-	const Math::vec4* Geometry::GetWeights(std::uint32_t index) const {
+	const Math::vec4* Geometry::GetVertexBoneWeights(std::uint32_t index) const {
 		return &m_weights[index];
 	}
 
-	const Math::ivec4* Geometry::GetBonesIndex(std::uint32_t index) const {
+	const Math::ivec4* Geometry::GetVertexBonesIndecies(std::uint32_t index) const {
 		return &m_bones[index];
 	}
 
@@ -135,11 +145,11 @@ namespace Attributes
 		m_bones = bones;
 	}
 
-	const IArmatureSchema* Geometry::GetArmatureSchema() const {
+	const Core::String& Geometry::GetArmatureSchema() const {
 		return m_armature_schema;
 	}
 
-	void Geometry::SetArmatureSchema(IArmatureSchema* value) {
+	void Geometry::SetArmatureSchema(Core::String& value) {
 		m_armature_schema = value;
 	}
 

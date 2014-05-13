@@ -46,13 +46,13 @@ namespace Attributes {
 		bool HasVertexTextureCoordinateSet(std::uint32_t set_index) const override;
 
 		//	bone weights
-		const Math::vec4* GetWeights(std::uint32_t index) const override;
-		const Math::ivec4* GetBonesIndex(std::uint32_t index) const override;
+		const Math::vec4* GetVertexBoneWeights(std::uint32_t index) const override;
+		const Math::ivec4* GetVertexBonesIndecies(std::uint32_t index) const override;
 		void SetVertexBonesWeight(std::uint32_t index, const Math::vec4& weights, const Math::ivec4& bones) override;
 		void SetVertexBonesWeights(const Math::vec4v& weights, const Math::ivec4v& bones) override;
 		bool HasVertexBoneWeights() const override;
-		const IArmatureSchema* GetArmatureSchema() const override;
-		void SetArmatureSchema(IArmatureSchema* value) override;
+		virtual const Core::String& GetArmatureSchema() const = 0;
+		virtual void SetArmatureSchema(Core::String& value) = 0;
 
 		//	triangles
 		std::uint32_t GetTrianglesCount() const override;
@@ -62,9 +62,10 @@ namespace Attributes {
 		bool IsIndexed() const override;
 
 		//	texture_face
-		void SetFaceTextureCoordinates(const std::vector<std::array<Math::vec2, 3>>& value) override;
-		void SetFaceTextureCoordinate(std::uint32_t triangle_index, std::uint32_t vertex_index, const Math::vec2& t) override;
-		const Math::vec2* GetFaceTextureCoordinate(std::uint32_t triangle_index, int vertex_index) const override;
+		std::uint32_t GetFaceTextureCoordinatesSlotsCount() const override;
+		void SetFaceTextureCoordinates(std::uint32_t slot, const std::vector<std::array<Math::vec2, 3>>& value) override;
+		void SetFaceTextureCoordinate(std::uint32_t slot, std::uint32_t triangle_index, std::uint32_t vertex_index, const Math::vec2& t) override;
+		const Math::vec2* GetFaceTextureCoordinate(std::uint32_t slot, std::uint32_t triangle_index, int vertex_index) const override;
 		bool HasFaceTextureCoordinates() const override;
 
 		//	geometry
@@ -83,11 +84,11 @@ namespace Attributes {
 		std::vector<Math::vec4v> m_textures;
 		Math::vec4v m_weights;
 		Math::ivec4v m_bones;
-		std::vector<std::array<Math::vec2, 3>> m_texture_faces;
+		std::vector<std::vector<std::array<Math::vec2, 3>>> m_texture_faces;
         Math::BoundingBox m_bbox;
         Math::BoundingSphere m_sphere;    
 		Math::ivec3v m_triangles;
-		IArmatureSchema* m_armature_schema{ nullptr };
+		Core::String m_armature_schema;
 			
 		bool m_need_update{ true };
 
