@@ -2,14 +2,14 @@
 #define PUNK_AI_CURVEPATH_H
 
 #include <config.h>
-#include <core/object.h>
+#include <core/iobject.h>
 #include <math/spline.h>
 #include <math/curve.h>
 
 PUNK_ENGINE_BEGIN
 namespace AI
 {
-    class PUNK_ENGINE_API CurvePath : public Math::Curve, public Core::Object
+    class PUNK_ENGINE_API CurvePath : public Math::Curve, public Core::IObject
     {
     public:
         CurvePath();
@@ -22,7 +22,7 @@ namespace AI
     private:
         Core::String m_name;
     private:
-        PUNK_OBJECT(CurvePath)
+        PUNK_OBJECT_DEFAULT_IMPL(CurvePath)
     };
 }
 PUNK_ENGINE_END
