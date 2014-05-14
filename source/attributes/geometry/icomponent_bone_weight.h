@@ -15,7 +15,7 @@ namespace Attributes {
 		//virtual std::uint32_t GetInfluencingBonesCount(std::uint32_t vertex_index) = 0;
 		virtual const Math::vec4* GetVertexBoneWeights(std::uint32_t index) const = 0;
 		virtual const Math::ivec4* GetVertexBonesIndecies(std::uint32_t index) const = 0;
-		virtual void SetVertexBoneWeight(std::uint32_t vertex_index, const Core::String& bone, float weight);
+		virtual void SetVertexBoneWeight(std::uint32_t vertex_index, const Core::String& bone, float weight) = 0;
 		virtual void SetVertexBonesWeight(std::uint32_t index, const Math::vec4& weights, const Math::ivec4& bones) = 0;
 		virtual void SetVertexBonesWeights(const Math::vec4v& weights, const Math::ivec4v& bones) = 0;
 		virtual bool HasVertexBoneWeights() const = 0;

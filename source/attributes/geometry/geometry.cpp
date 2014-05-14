@@ -145,6 +145,10 @@ namespace Attributes
 		m_bones = bones;
 	}
 
+	bool Geometry::HasVertexBoneWeights() const {
+		return !m_weights.empty() && !m_bones.empty();
+	}
+
 	const Core::String& Geometry::GetArmatureSchema() const {
 		return m_armature_schema;
 	}
