@@ -4,6 +4,12 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes {
 
+	Core::Rtti ArmatureSchemaType{ "Punk.Engine.Attributes.ArmatureSchema", typeid(ArmatureSchema).hash_code(), { Core::Object::Type() } };
+
+	Core::Rtti* ArmatureSchema::Type() {
+		return &ArmatureSchemaType;
+	}
+
 	ArmatureSchema::~ArmatureSchema() {
 		while (!m_bones.empty()) {
 			DestroyBone(m_bones.back());
@@ -50,6 +56,8 @@ namespace Attributes {
 		m_bones[index] = value;
 		if (!value->HasParent())
 			m_root.push_back(index);
+		else
+			m_bones.at(value->GetParent())->AddChild(index);
 	}
 
 	std::uint32_t ArmatureSchema::GetSupportedActionsCount() const {

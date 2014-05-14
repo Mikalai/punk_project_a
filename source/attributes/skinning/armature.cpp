@@ -1,9 +1,11 @@
 #include <algorithm>
+#include <stack>
 #include <memory>
 #include <iostream>
 #include <fstream>
 #include <string/module.h>
 #include "armature.h"
+#include "iarmature_schema.h"
 
 PUNK_ENGINE_BEGIN
 namespace Attributes
@@ -85,6 +87,34 @@ namespace Attributes
 
 	const Core::String& Armature::GetSchemaName() const {
 		return m_schema_name;
+	}
+
+	void Armature::Update() {
+		std::stack<IBone*> bones;
+		for (int i = 0, max_i = m_schema->GetRootBonesCount(); i < max_i; ++i) {
+			bones.push(m_schema->GetRootBone(i));			
+			while (!bones.empty()) {
+				IBone* bone = bones.top();
+				bones.pop();
+
+				BoneCache& cache = m_bones.at(bone->GetIndex());
+				if (cache.m_need_update) {
+					if (bone->HasParent()) {
+						const BoneCache& parent_cache = m_bones.at(bone->GetParent());
+						cache.m_global_position = parent_cache.m_global_position + parent_cache.m_global_rotation.Rotate(cache.m_local_position);
+						cache.m_global_rotation = parent_cache.m_global_rotation * cache.m_local_rotation;
+					}
+					else {
+						cache.m_global_position = cache.m_local_position;
+						cache.m_global_rotation = cache.m_local_rotation;
+					}
+					cache.m_need_update = false;
+					for (int i = 0, max_i = bone->GetChildrenCount(); i < max_i; ++i) {
+						bones.push(m_schema->GetBone(bone->GetChild(i)));
+					}
+				}
+			}
+		}
 	}
 }
 PUNK_ENGINE_END

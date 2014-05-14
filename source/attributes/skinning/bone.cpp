@@ -12,6 +12,8 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
+	Bone::Bone() {}
+
 	Bone::~Bone()
 	{}
 
