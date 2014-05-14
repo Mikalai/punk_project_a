@@ -3,12 +3,13 @@
 
 #include <config.h>
 #include <memory>
+#include <core/iobject.h>
 
 PUNK_ENGINE_BEGIN
 namespace Core { class String; }
 namespace System
 {
-    class ITimer
+    class ITimer : public Core::IObject
     {
     public:
         virtual double GetTime() const = 0;

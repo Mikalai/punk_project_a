@@ -1,7 +1,8 @@
 #ifndef MOUSE_INTERFACE_H
 #define MOUSE_INTERFACE_H
 
-#include "config.h"
+#include <config.h>
+#include <core/iobject.h>
 
 PUNK_ENGINE_BEGIN
 namespace System
@@ -9,7 +10,7 @@ namespace System
     class Window;
     enum class MouseButtons { LeftButton = 0, RightButton, MiddleButton };
 
-    class IMouse
+	class IMouse : public Core::IObject
     {
     public:
         virtual void Show(bool value) = 0;

@@ -11,7 +11,7 @@ namespace System
     class AbstractDataLoader;
     class AbstractDataProcessor;
 
-    class PUNK_ENGINE_LOCAL AsyncLoader : public IAsyncLoader, public Core::Object
+    class PUNK_ENGINE_LOCAL AsyncLoader : public IAsyncLoader
     {
     public:
         AsyncLoader();
@@ -19,7 +19,7 @@ namespace System
         virtual int AddWorkItem(AbstractDataLoader* loader, AbstractDataProcessor* processor, unsigned* result) = 0;
         virtual unsigned MainThreadProc(unsigned num_to_process) = 0;
 
-        PUNK_OBJECT(AsyncLoader)
+        PUNK_OBJECT_DEFAULT_IMPL(AsyncLoader)
     };
 }
 PUNK_ENGINE_END

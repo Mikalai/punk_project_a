@@ -12,7 +12,7 @@ namespace System
 {
     LRESULT CALLBACK WindowCallBack(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-    class PUNK_ENGINE_API WindowWin : public Window
+    class PUNK_ENGINE_LOCAL WindowWin : public Window
     {
     public:
         WindowWin(const WindowDescription& desc = WindowDescription());
@@ -49,7 +49,7 @@ namespace System
 		ITimerUniquePtr m_timer{ nullptr, DestroyTimer };
 
         friend LRESULT CALLBACK WindowCallBack(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-    };
+    };	
 }
 PUNK_ENGINE_END
 

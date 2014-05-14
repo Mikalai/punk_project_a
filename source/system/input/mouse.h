@@ -11,7 +11,7 @@ namespace System
         struct MouseImpl;
     }
 
-    class PUNK_ENGINE_API Mouse : public IMouse, public Core::Object
+    class PUNK_ENGINE_LOCAL Mouse : public IMouse
 	{
 	public:        
 
@@ -36,7 +36,7 @@ namespace System
 
         __private::MouseImpl* impl;
 
-        PUNK_OBJECT(Mouse)
+        PUNK_OBJECT_DEFAULT_IMPL(Mouse)
 	};
 }
 PUNK_ENGINE_END

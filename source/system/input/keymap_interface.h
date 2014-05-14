@@ -3,8 +3,9 @@
 
 #include <map>
 #include <set>
-#include "config.h"
-#include "core/action.h"
+#include <config.h>
+#include <core/iobject.h>
+#include <core/action.h>
 
 PUNK_ENGINE_BEGIN
 namespace System {
@@ -14,7 +15,7 @@ namespace System {
     using KeyboardAction = Core::ActionBasePtr<const KeyEvent&>;
     using KeyboardActionsCollection = std::map<Key, std::set<KeyboardAction>>;
 
-    class PUNK_ENGINE_API IKeyMap
+	class PUNK_ENGINE_API IKeyMap : public Core::IObject
     {
     public:
         virtual void OnKeyEvent(const KeyEvent& event) = 0;

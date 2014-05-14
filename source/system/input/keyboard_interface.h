@@ -1,12 +1,13 @@
 #ifndef KEYBOARD_INTERFACE_H
 #define KEYBOARD_INTERFACE_H
 
-#include "config.h"
+#include <config.h>
+#include <core/iobject.h>
 
 PUNK_ENGINE_BEGIN
 namespace System
 {
-    class PUNK_ENGINE_API IKeyBoard
+	class IKeyBoard : public Core::IObject
     {
     public:
         virtual const bool& operator[] (int key) const = 0;

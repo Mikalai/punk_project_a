@@ -398,7 +398,7 @@ namespace System {
             event.isExtended = (lParam & 0x1000000) != 0;
             event.prevState = (lParam & 0x40000000) != 0;
             event.transitionState = (lParam & 0x80000000) != 0;
-            GetKeyboard()->SetKeyState(wParam, true);
+            GetKeyboard()->SetKeyState((int)wParam, true);
             win->OnKeyEvent(event);
             break;
         }

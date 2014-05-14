@@ -1,8 +1,11 @@
 #ifndef WINDOW_INTERFACE_H
 #define WINDOW_INTERFACE_H
 
+#include <memory>
 #include <core/action.h>
+#include <core/iobject.h>
 #include <system/events/interface.h>
+#include "window_description.h"
 
 PUNK_ENGINE_BEGIN
 namespace System {
@@ -18,7 +21,7 @@ namespace System {
     using WindowDestroyDelegate = Core::ActionBasePtr<void>;
     using IdleEventDelegate = Core::ActionBasePtr<const IdleEvent&>;
 
-    class IWindow {
+    class IWindow : public Core::IObject {
     public:
         virtual int GetDesktopWidth() const = 0;
         virtual int GetDesktopHeight() const = 0;
@@ -66,6 +69,12 @@ namespace System {
         virtual void Open() = 0;
         virtual void Close() = 0;
     };
+
+	using IWindowUniquePtr = std::unique_ptr < IWindow, void(*)(IWindow*) > ;
+
+	extern PUNK_ENGINE_API IWindowUniquePtr CreatePunkWindow(const WindowDescription& value);
+	extern PUNK_ENGINE_API void DestroyPunkWindow(IWindow* value);
+
 }
 PUNK_ENGINE_END
 

@@ -14,12 +14,6 @@
 PUNK_ENGINE_BEGIN
 namespace System
 {
-    Core::Rtti TimerType {"Punk.Engine.System.Timer", typeid(Timer).hash_code(), {Core::Object::Type()}};
-
-	Core::Rtti* Timer::Type() {
-		return &TimerType;
-	}
-
     struct TimerImpl
 	{
         double m_last_check;
@@ -83,7 +77,7 @@ namespace System
 
         double Reset()
 		{
-            m_last_check = GetCurrentTime();
+            m_last_check = (double)GetCurrentTime();
             return m_last_check;
 		}
 
@@ -97,6 +91,7 @@ namespace System
 
     Timer::Timer()
         : impl(new TimerImpl)
+		, m_container{ this, Core::GetRootObject() }
     {
     }
 

@@ -4,13 +4,8 @@
 PUNK_ENGINE_BEGIN
 namespace System
 {
-	Core::Rtti AsyncLoaderType{ "System.AsyncLoader", typeid(AsyncLoader).hash_code(), { Core::Object::Type() } };
-
-	Core::Rtti* AsyncLoader::Type() {
-		return &AsyncLoaderType;
-	}
-
     AsyncLoader::AsyncLoader()
+		: m_container{ this, Core::GetRootObject() }
     {
     }
 

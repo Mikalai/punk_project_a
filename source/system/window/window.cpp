@@ -3,11 +3,10 @@
 #include "x11_window.h"
 
 PUNK_ENGINE_BEGIN
-namespace System
-{
-    Core::Rtti WindowType{"Punk.Engine.System.Window", typeid(Window).hash_code(), {Core::Object::Type()}};
+namespace System {
 
     Window::Window()
+		: m_container{ this, Core::GetRootObject() }
     {
     }
 
@@ -15,20 +14,63 @@ namespace System
     {
     }
 
-	Core::Rtti* Window::Type() {
-		return &WindowType;
+	void Window::SetOwner(IObject* object) {
+		m_container.SetOwner(object);
+	}
+	
+	Core::IObject* Window::GetOwner() {
+		return m_container.GetOwner();
+	}
+	
+	const Core::IObject* Window::GetOwner() const {
+		return m_container.GetOwner();
+	}
+	
+	const Core::String Window::ToString() const {
+		return "Window";
+	}
+	
+	std::uint64_t Window::GetType() {
+		return typeid(Window).hash_code();
 	}
 
-    Window* CreateRootWindow(const WindowDescription &desc)
-    {
+	void Window::Add(IObject* object) {
+		m_container.Add(object);
+	}
+
+	void Window::RemoveChild(IObject* object, bool depth) {
+		m_container.RemoveChild(object, false);
+	}
+
+	void Window::RemoveChild(std::uint32_t index) {
+		m_container.RemoveChild(index);
+	}
+	
+	Core::IObject* Window::GetChild(std::uint32_t index) {
+		return m_container.GetChild(index);
+	}
+
+	const Core::IObject* Window::GetChild(std::uint32_t index) const {
+		return m_container.GetChild(index);
+	}
+	std::uint32_t Window::GetChildrenCount() const {
+		return m_container.GetChildrenCount();
+	}
+
+	extern PUNK_ENGINE_API IWindowUniquePtr CreatePunkWindow(const WindowDescription& value) {
 #ifdef _WIN32
-        if (desc.system == WindowSystem::Windows)
-            return new WindowWin(desc);
+		if (value.system == WindowSystem::Windows)
+			return IWindowUniquePtr{ new WindowWin(value), DestroyPunkWindow };
 #elif defined __gnu_linux__
-        if (desc.system == WindowSystem::X11)
-            return new WindowX11(desc);
+		if (value.system == WindowSystem::X11)
+			return new WindowX11(desc);
 #endif
-        return nullptr;
+		return IWindowUniquePtr{ nullptr, DestroyPunkWindow };
+	}
+
+	extern PUNK_ENGINE_API void DestroyPunkWindow(IWindow* value) {
+		Window* wnd = dynamic_cast<Window*>(value);
+		delete wnd;
     }
 
     void Window::SubscribeResizeEvent(ResizeEventDelegate delegate) {
