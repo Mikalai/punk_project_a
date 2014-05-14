@@ -2,8 +2,8 @@
 #define _H_PUNK_SYSTEM_CORE_MODULE_H
 
 #include "action.h"
-#include "object.h"
-#include "object.h"
+#include "container.h"
+#include "iobject.h"
 #include "meta_class.h"
 #include "meta_class_base.h"
 #include "pool.h"
