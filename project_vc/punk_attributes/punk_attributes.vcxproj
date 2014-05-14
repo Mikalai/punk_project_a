@@ -196,6 +196,7 @@
     <ClCompile Include="..\..\source\attributes\objects\simple\solid_cube.cpp" />
     <ClCompile Include="..\..\source\attributes\scheme.cpp" />
     <ClCompile Include="..\..\source\attributes\skinning\armature.cpp" />
+    <ClCompile Include="..\..\source\attributes\skinning\armature_schema.cpp" />
     <ClCompile Include="..\..\source\attributes\skinning\bone.cpp" />
     <ClCompile Include="..\..\source\attributes\skinning\human_armature.cpp" />
     <ClCompile Include="..\..\source\attributes\skinning\human_female_armature.cpp" />
@@ -283,11 +284,15 @@
     <ClInclude Include="..\..\source\attributes\objects\simple\solid_cube.h" />
     <ClInclude Include="..\..\source\attributes\scheme.h" />
     <ClInclude Include="..\..\source\attributes\skinning\armature.h" />
+    <ClInclude Include="..\..\source\attributes\skinning\armature_schema.h" />
     <ClInclude Include="..\..\source\attributes\skinning\bone.h" />
     <ClInclude Include="..\..\source\attributes\skinning\bone_frame.h" />
     <ClInclude Include="..\..\source\attributes\skinning\human_armature.h" />
     <ClInclude Include="..\..\source\attributes\skinning\human_female_armature.h" />
     <ClInclude Include="..\..\source\attributes\skinning\human_male_armature.h" />
+    <ClInclude Include="..\..\source\attributes\skinning\iarmature.h" />
+    <ClInclude Include="..\..\source\attributes\skinning\iarmature_schema.h" />
+    <ClInclude Include="..\..\source\attributes\skinning\ibone.h" />
     <ClInclude Include="..\..\source\attributes\skinning\interface.h" />
     <ClInclude Include="..\..\source\attributes\skinning\module.h" />
     <ClInclude Include="..\..\source\attributes\skinning\types.h" />

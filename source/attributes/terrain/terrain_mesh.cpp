@@ -1,4 +1,4 @@
-#include <attributes/data/static_geometry.h>
+#include <attributes/geometry/igeometry.h>
 #include "terrain_mesh.h"
 
 PUNK_ENGINE_BEGIN
@@ -20,17 +20,17 @@ namespace Attributes
         delete m_task;
     }
 
-    void TerrainMesh::SetGeometry(StaticGeometry* geom)
+    void TerrainMesh::SetGeometry(IGeometry* geom)
     {
         m_geometry = geom;
     }
 
-    StaticGeometry* TerrainMesh::GetGeometry()
+    IGeometry* TerrainMesh::GetGeometry()
     {
         return m_geometry;
     }
 
-    const StaticGeometry* TerrainMesh::GetGeometry() const
+    const IGeometry* TerrainMesh::GetGeometry() const
     {
         return m_geometry;
     }

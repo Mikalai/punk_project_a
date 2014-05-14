@@ -160,6 +160,9 @@
     <ClCompile Include="..\..\source\attributes\geometry\static_geometry.cpp">
       <Filter>geometry</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\attributes\skinning\armature_schema.cpp">
+      <Filter>skinning</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\attributes\building.h" />
@@ -429,6 +432,18 @@
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\geometry\icomponent_texture_face.h">
       <Filter>geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\skinning\iarmature.h">
+      <Filter>skinning</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\skinning\iarmature_schema.h">
+      <Filter>skinning</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\skinning\armature_schema.h">
+      <Filter>skinning</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\skinning\ibone.h">
+      <Filter>skinning</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

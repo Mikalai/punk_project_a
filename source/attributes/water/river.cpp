@@ -18,17 +18,17 @@ namespace Attributes
     River::~River()
     {}
 
-    void River::SetGeometry(StaticGeometry* value)
+    void River::SetGeometry(IGeometry* value)
     {
         m_geom = value;
     }
 
-    const StaticGeometry* River::GetGeometry() const
+    const IGeometry* River::GetGeometry() const
     {
         return m_geom;
     }
 
-    StaticGeometry* River::GetGeometry()
+    IGeometry* River::GetGeometry()
     {
         return m_geom;
     }

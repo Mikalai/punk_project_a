@@ -17,9 +17,6 @@
 #include "material.h"
 
 #include "light_set.h"
-#include "geometry.h"
-#include "static_geometry.h"
-#include "skin_geometry.h"
 #include "location.h"
 #include "interior_location.h"
 
