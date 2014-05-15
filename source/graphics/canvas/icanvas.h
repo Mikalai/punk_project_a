@@ -10,7 +10,7 @@ namespace Graphics {
     class CanvasDescription;
     class IVideoDriver;
 
-    class ICanvas {
+    class ICanvas : public virtual Core::IObject {
     public:
         virtual void SetFullscreen(bool value) = 0;
         virtual System::IWindow* GetWindow() = 0;
@@ -19,9 +19,9 @@ namespace Graphics {
         virtual void SwapBuffers() = 0;
     };
 
-	using ICanvasUniquePtr = std::unique_ptr < ICanvas, void(*)(ICanvas*) > ;
+	using ICanvasUniquePtr = Core::UniquePtr < ICanvas > ;
+
     extern PUNK_ENGINE_API ICanvasUniquePtr CreateCanvas(const CanvasDescription& desc);
-    extern PUNK_ENGINE_API void DestroyCanvas(ICanvas* value);
 }
 PUNK_ENGINE_END
 

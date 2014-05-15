@@ -11,30 +11,44 @@ PUNK_ENGINE_BEGIN
 namespace Graphics {
 
     Canvas::Canvas(const CanvasDescription& desc)
-        : System::WindowWin(desc)
+		: m_window{ System::CreatePunkWindow(desc) }
         , m_canvas_description(desc)
         , m_logger(System::GetDefaultLogger())
     {}
 
     void Canvas::InternalDestroy() {
         if (m_canvas_description.fullscreen)
-            SetFullscreen(false);
+			SetFullscreen(false);
         ChangeDisplaySettings(NULL, 0);
-        wglMakeCurrent(::GetDC(*this), NULL);
+		wglMakeCurrent(::GetDC(GetNativeHandle()), NULL);
         wglDeleteContext(m_opengl_context);        
-        WindowWin::InternalDestroy();
+        m_window->InternalDestroy();
     }
 
     void Canvas::OnResize(const System::WindowResizeEvent &)
     {
     }
 
+	void Canvas::QueryInterface(std::uint64_t type, void** object) {
+		if (!object)
+			return;
+
+		if (type == typeid(Core::IObject).hash_code() ||
+			type == typeid(ICanvas).hash_code() ||
+			type == typeid(System::IWindow).hash_code()) {
+			*object = (void*)this;
+			AddRef();
+		}
+		else
+			*object = nullptr;
+	}
+
     void Canvas::SetFullscreen(bool flag) {
         m_canvas_description.fullscreen = flag;
         if (flag)
         {
-            SetWindowLong(*this, GWL_STYLE, WS_POPUP);
-            SetWindowLong(*this, GWL_EXSTYLE, WS_EX_APPWINDOW);
+            SetWindowLong(GetNativeHandle(), GWL_STYLE, WS_POPUP);
+            SetWindowLong(GetNativeHandle(), GWL_EXSTYLE, WS_EX_APPWINDOW);
 
             m_logger->Info(L"Enter fullscreen mode...");
             DEVMODE mode;
@@ -46,7 +60,7 @@ namespace Graphics {
             mode.dmDisplayFrequency = m_canvas_description.refresh_frequency;
             mode.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT | DM_DISPLAYFREQUENCY;
 
-            SetWindowPos(*this, 0, 0, 0, m_canvas_description.m_width, m_canvas_description.m_height, SWP_SHOWWINDOW);
+			SetWindowPos(GetNativeHandle(), 0, 0, 0, m_canvas_description.m_width, m_canvas_description.m_height, SWP_SHOWWINDOW);
 
             LONG code;
             if ((code = ChangeDisplaySettings(&mode, CDS_FULLSCREEN)) != DISP_CHANGE_SUCCESSFUL)
@@ -54,22 +68,22 @@ namespace Graphics {
         }
         else
         {
-            SetWindowLong(*this, GWL_STYLE, WS_OVERLAPPEDWINDOW);
-            SetWindowLong(*this, GWL_EXSTYLE, WS_EX_APPWINDOW | WS_EX_WINDOWEDGE);
+            SetWindowLong(GetNativeHandle(), GWL_STYLE, WS_OVERLAPPEDWINDOW);
+			SetWindowLong(GetNativeHandle(), GWL_EXSTYLE, WS_EX_APPWINDOW | WS_EX_WINDOWEDGE);
 
             m_logger->Info(L"Enter window mode...");
             SetPosition(m_canvas_description.m_x, m_canvas_description.m_y);
             SetSize(m_canvas_description.m_width, m_canvas_description.m_height);
         }
 
-        ShowWindow(*this, SW_SHOW);
-        SetFocus(*this);
+		ShowWindow(GetNativeHandle(), SW_SHOW);
+		SetFocus(GetNativeHandle());
     }
 
     void Canvas::SwapBuffers()
     {
 #ifdef _WIN32
-        if (!::SwapBuffers(::GetDC(*this)))
+		if (!::SwapBuffers(::GetDC(GetNativeHandle())))
             m_logger->Error(L"Swap buffer failed");
 #elif defined __gnu_linux__
         glXSwapBuffers(m_desc.window->GetDisplay(), m_desc.window->GetWindow());
@@ -78,10 +92,10 @@ namespace Graphics {
 
     void Canvas::InternalCreate()
     {
-        WindowWin::InternalCreate();
+        m_window->InternalCreate();
         m_logger->Info(L"Initializing OpenGL...");
 
-        HDC deviceContext = ::GetDC((HWND)*this);
+		HDC deviceContext = ::GetDC(GetNativeHandle());
 
         int pixelFormat;
         static PIXELFORMATDESCRIPTOR pfd =
@@ -121,7 +135,7 @@ namespace Graphics {
 
         PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsARB = NULL;
 
-        //		int forward = 0;
+        //		int forward ;
         int attributes[] = {WGL_CONTEXT_MAJOR_VERSION_ARB, 3,
                             WGL_CONTEXT_MINOR_VERSION_ARB, 3, 0,
                             WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB, 0,
@@ -224,14 +238,198 @@ namespace Graphics {
         return this;
     }
 
-    extern PUNK_ENGINE_API ICanvasUniquePtr CreateCanvas(const CanvasDescription& desc) {
-		ICanvasUniquePtr ptr{ new Canvas{ desc }, DestroyCanvas };
-		return ptr;
-    }
+	//	IWindow
+	int Canvas::GetDesktopWidth() const {
+		return m_window->GetDesktopWidth();
+	}
+	
+	int Canvas::GetDesktopHeight() const {
+		return m_window->GetDesktopHeight();
+	}
 
-    extern PUNK_ENGINE_API void DestroyCanvas(ICanvas* value) {
-        Canvas* canvas = dynamic_cast<Canvas*>(value);
-        delete canvas;
+	int Canvas::GetDesktopBitsPerPixel() const {
+		return m_window->GetDesktopBitsPerPixel();
+	}
+
+	int Canvas::GetDesktopRefreshRate() const {
+		return m_window->GetDesktopRefreshRate();
+	}
+
+	int Canvas::GetWidth() const {
+		return m_window->GetWidth();
+	}
+
+	int Canvas::GetHeight() const {
+		return m_window->GetHeight();
+	}
+
+	int Canvas::GetX() const {
+		return m_window->GetX();
+	}
+
+	int Canvas::GetY() const {
+		return m_window->GetY();
+	}
+
+	void Canvas::SetSize(int width, int height) {
+		m_window->SetSize(width, height);
+	}
+
+	void Canvas::SetPosition(int x, int y) {
+		m_window->SetPosition(x, y);
+	}
+
+	int Canvas::Update(int dt) {
+		return m_window->Update(dt);
+	}
+
+	int Canvas::Loop() {
+		return m_window->Loop();
+	}
+
+	void Canvas::BreakMainLoop() {
+		m_window->BreakMainLoop();
+	}
+
+	void Canvas::SetTitle(const Core::String& text) {
+		m_window->SetTitle(text);
+	}
+
+	const Core::String Canvas::GetTitle() const {
+		return m_window->GetTitle();
+	}
+
+	void Canvas::Quite() {
+		m_window->Quite();
+	}
+
+	void Canvas::ShowCursor(bool value) {
+		m_window->ShowCursor(value);
+	}
+
+	void Canvas::SubscribeResizeEvent(System::ResizeEventDelegate value) {
+		m_window->SubscribeResizeEvent(value);
+	}
+
+	void Canvas::UnsubscribeResizeEvent(System::ResizeEventDelegate value) {
+		m_window->UnsubscribeResizeEvent(value);
+	}
+
+	void Canvas::SubscribeKeyEvent(System::KeyEventDelegate value) {
+		m_window->SubscribeKeyEvent(value);
+	}
+
+	void Canvas::UnsubscribeKeyEvent(System::KeyEventDelegate value) {
+		m_window->UnsubscribeKeyEvent(value);
+	}
+
+	void Canvas::SubscribeCharEvent(System::CharEventDelegate value) {
+		m_window->SubscribeCharEvent(value);
+	}
+
+	void Canvas::UnsubscribeCharEvent(System::CharEventDelegate value) {
+		m_window->UnsubscribeCharEvent(value);
+	}
+
+	void Canvas::SubscribeMouseEvent(System::MouseEventDelegate value) {
+		m_window->SubscribeMouseEvent(value);
+	}
+
+	void Canvas::UnsubscribeMouseEvent(System::MouseEventDelegate value) {
+		m_window->UnsubscribeMouseEvent(value);
+	}
+
+	void Canvas::SubscribeMouseEvent(void(*Delegate)(const System::MouseEvent&))  {
+		m_window->SubscribeMouseEvent(Delegate);
+	}
+
+	void Canvas::UnsubscribeMouseEvent(void(*Delegate)(const System::MouseEvent&)) {
+		m_window->UnsubscribeMouseEvent(Delegate);
+	}
+
+	void Canvas::SubscribeMouseMoveEvent(System::MouseMoveEventDelegate value) {
+		m_window->SubscribeMouseMoveEvent(value);
+	}
+
+	void Canvas::UnsubscribeMouseMoveEvent(System::MouseMoveEventDelegate value) {
+		m_window->UnsubscribeMouseMoveEvent(value);
+	}
+
+	void Canvas::SubscribeMouseHooverEvent(System::MouseHooverEventDelegate value) {
+		m_window->SubscribeMouseHooverEvent(value);
+	}
+
+	void Canvas::UnsubscribeMouseHooverEvent(System::MouseHooverEventDelegate value) {
+		m_window->UnsubscribeMouseHooverEvent(value);
+	}
+
+	void Canvas::SubscribeMouseWheelEvent(System::MouseWheelEventDelegate value) {
+		m_window->SubscribeMouseWheelEvent(value);
+	}
+
+	void Canvas::UnsubscribeMouseWheelEvent(System::MouseWheelEventDelegate value) {
+		m_window->UnsubscribeMouseWheelEvent(value);
+	}
+
+	void Canvas::SubscribeWindowCreatedEvent(System::WindowCreatedDelegate value) {
+		m_window->SubscribeWindowCreatedEvent(value);
+	}
+
+	void Canvas::UnsubscribeWindowCreatedEvent(System::WindowCreatedDelegate value) {
+		m_window->UnsubscribeWindowCreatedEvent(value);
+	}
+
+	void Canvas::SubscribeWindowDestroyEvent(System::WindowDestroyDelegate value) {
+		m_window->SubscribeWindowDestroyEvent(value);
+	}
+
+	void Canvas::SubscribeWindowDestroyEvent(void(*Delegate)()) {
+		m_window->SubscribeWindowDestroyEvent(Delegate);
+	}
+
+	void Canvas::UnsubscribeWindowDestroyEvent(System::WindowDestroyDelegate value) {
+		m_window->UnsubscribeWindowDestroyEvent(value);
+	}
+
+	void Canvas::UnsubscribeWindowDestroyEvent(void(*Delegate)()) {
+		m_window->UnsubscribeWindowDestroyEvent(Delegate);
+	}
+
+	void Canvas::SubscribeIdleEvent(System::IdleEventDelegate value) {
+		m_window->SubscribeIdleEvent(value);
+	}
+
+	void Canvas::UnsubscribeIdleEvent(System::IdleEventDelegate value) {
+		m_window->UnsubscribeIdleEvent(value);
+	}
+
+	void Canvas::SubscribeIdleEvent(void(*Delegate)(const System::IdleEvent&)) {
+		m_window->SubscribeIdleEvent(Delegate);
+	}
+
+	void Canvas::UnsubscribeIdleEvent(void(*Delegate)(const System::IdleEvent&)) {
+		m_window->UnsubscribeIdleEvent(Delegate);
+	}
+
+	void Canvas::Open() {
+		m_window->Open();
+	}
+
+	void Canvas::Close() {
+		m_window->Close();
+	}
+
+#ifdef _WIN32
+	HWND Canvas::GetNativeHandle() {
+		return m_window->GetNativeHandle();
+	}
+
+#endif	//	 _WIN32
+
+
+    extern PUNK_ENGINE_API ICanvasUniquePtr CreateCanvas(const CanvasDescription& desc) {
+		ICanvasUniquePtr ptr{ new Canvas{ desc } , Core::DestroyObject };
+		return ptr;
     }
 }
 PUNK_ENGINE_END
