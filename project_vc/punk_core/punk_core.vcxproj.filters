@@ -22,6 +22,7 @@
     <ClCompile Include="..\..\source\core\pool_manager.cpp" />
     <ClCompile Include="..\..\source\core\rtti.cpp" />
     <ClCompile Include="..\..\source\core\static_information.cpp" />
+    <ClCompile Include="..\..\source\core\factory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\core\component\component.h">
@@ -55,5 +56,7 @@
     <ClInclude Include="..\..\source\core\static_information.h" />
     <ClInclude Include="..\..\source\core\iobject.h" />
     <ClInclude Include="..\..\source\core\container.h" />
+    <ClInclude Include="..\..\source\core\ifactory.h" />
+    <ClInclude Include="..\..\source\core\factory.h" />
   </ItemGroup>
 </Project>
