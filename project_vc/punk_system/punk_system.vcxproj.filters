@@ -242,10 +242,10 @@
     <ClInclude Include="..\..\source\system\window\window_description.h">
       <Filter>window</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\system\window\window_interface.h">
+    <ClInclude Include="..\..\source\system\window\x11_window.h">
       <Filter>window</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\system\window\x11_window.h">
+    <ClInclude Include="..\..\source\system\window\iwindow.h">
       <Filter>window</Filter>
     </ClInclude>
   </ItemGroup>

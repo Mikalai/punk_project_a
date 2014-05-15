@@ -9,7 +9,7 @@
 #include <core/container.h>
 #include "system/events/interface.h"
 #include "window_description.h"
-#include "window_interface.h"
+#include "iwindow.h"
 
 PUNK_ENGINE_BEGIN
 namespace System

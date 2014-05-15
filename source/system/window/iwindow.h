@@ -23,6 +23,7 @@ namespace System {
 
     class IWindow : public virtual Core::IObject {
     public:
+		virtual void Initialize(const WindowDescription& desc) = 0;
         virtual int GetDesktopWidth() const = 0;
         virtual int GetDesktopHeight() const = 0;
         virtual int GetDesktopBitsPerPixel() const = 0;
@@ -68,18 +69,15 @@ namespace System {
         virtual void UnsubscribeIdleEvent(void (*Delegate)(const IdleEvent&)) = 0;
         virtual void Open() = 0;
         virtual void Close() = 0;
-#ifdef _WIN32
-		virtual HWND GetNativeHandle() = 0;
-#endif	//	 _WIN32
-
-	protected:
 		virtual void InternalCreate() = 0;
 		virtual void InternalDestroy() = 0;
+
+#ifdef _WIN32
+		virtual HWND GetNativeHandle() = 0;
+#endif	//	 _WIN32			
     };
 	
-	using IWindowUniquePtr = std::unique_ptr < IWindow, void(*)(Core::IObject*) > ;
-
-	extern PUNK_ENGINE_API IWindowUniquePtr CreatePunkWindow(const WindowDescription& value);
+	using IWindowUniquePtr = std::unique_ptr < IWindow, void(*)(Core::IObject*) > ;	
 }
 PUNK_ENGINE_END
 

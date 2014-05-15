@@ -15,9 +15,10 @@ namespace System
     class PUNK_ENGINE_LOCAL WindowWin : public Window
     {
     public:
-        WindowWin(const WindowDescription& desc = WindowDescription());
+        WindowWin();
         ~WindowWin();        
 
+		void Initialize(const WindowDescription& desc) override;
 		int GetDesktopWidth() const override;
 		int GetDesktopHeight() const override;
 		int GetDesktopBitsPerPixel() const override;

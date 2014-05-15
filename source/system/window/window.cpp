@@ -13,18 +13,7 @@ namespace System {
     Window::~Window()
     {
     }
-
-	extern PUNK_ENGINE_API IWindowUniquePtr CreatePunkWindow(const WindowDescription& value) {
-#ifdef _WIN32
-		if (value.system == WindowSystem::Windows)
-			return IWindowUniquePtr{ new WindowWin(value), Core::DestroyObject };
-#elif defined __gnu_linux__
-		if (value.system == WindowSystem::X11)
-			return new WindowX11(desc);
-#endif
-		return IWindowUniquePtr{ nullptr, Core::DestroyObject };
-	}
-
+	
 	void Window::QueryInterface(std::uint64_t type, void** object) {
 		if (type == typeid(IWindow).hash_code() ||
 			type == typeid(Core::IObject).hash_code()) {

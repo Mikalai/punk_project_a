@@ -1,18 +1,29 @@
 #ifdef _WIN32
 
+#include <typeinfo>
 #include <stdio.h>
 #include <algorithm>
-#include "win32_window.h"
+#include <core/ifactory.h>
 #include <system/events/module.h>
 #include <system/errors/module.h>
 #include <system/logger/module.h>
 #include <system/input/module.h>
 #include <system/time/module.h>
 #include <string/module.h>
+#include "win32_window.h"
 
 PUNK_ENGINE_BEGIN
 namespace System {    
     
+	void CreatePunkWindow(void** object) {
+		if (!object)
+			return;
+		*object = (void*)(new WindowWin);
+	}
+
+	PUNK_REGISTER_CREATOR(IWindow, CreatePunkWindow);
+
+
 	typedef LRESULT (WINAPI *TWindowCallBack)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
     int GetX(HWND handle) {
@@ -39,10 +50,13 @@ namespace System {
         return rect.bottom - rect.top;
     }
 
-    WindowWin::WindowWin(const WindowDescription& desc)
-    : m_window_description(desc)
+    WindowWin::WindowWin()
     {
 		m_timer = CreateTimer();
+	}
+
+	void WindowWin::Initialize(const WindowDescription& desc) {
+		m_window_description = desc;
 	}
 
     WindowWin::~WindowWin()
