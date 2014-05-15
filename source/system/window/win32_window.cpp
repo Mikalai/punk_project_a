@@ -205,20 +205,17 @@ namespace System {
         SetWindowTextW(m_hwindow, (LPWSTR)text.ToWchar().Data());
     }
 
-    const Core::String WindowWin::GetTitle() const
-    {
+    const Core::String WindowWin::GetTitle() const {
         wchar_t buf[256];
         GetWindowTextW(m_hwindow, buf, 256);
         return Core::String(buf);
     }
 
-    void WindowWin::Quite()
-    {
+    void WindowWin::Quite() {
         SendMessageW(m_hwindow, WM_DESTROY, 0, 0);
     }
 
-    WindowWin::operator HWND ()
-    {
+    HWND WindowWin::GetNativeHandle() {
         return m_hwindow;
     }
 
