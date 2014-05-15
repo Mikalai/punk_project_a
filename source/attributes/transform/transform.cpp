@@ -1,3 +1,4 @@
+#include <core/ifactory.h>
 #include <system/logger/module.h>
 #include <math/matrix_helper.h>
 #include "transform.h"
@@ -5,11 +6,14 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-	Core::Rtti TransformType{ "Attributes.Transform", typeid(Transform).hash_code(), { Core::IObject::Type() } };
 
-	Core::Rtti* Transform::Type() {
-		return &TransformType;
+	void CreateTransform(void** object) {
+		if (!object)
+			return;
+		*object = (void*)(new Transform);
 	}
+
+	PUNK_REGISTER_CREATOR(ITransform, CreateTransform);
 
 	Transform::Transform(const Math::mat4& m)
 	{
