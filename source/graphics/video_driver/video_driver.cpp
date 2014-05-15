@@ -5,7 +5,7 @@
 #include <graphics/frame_buffer/module.h>
 #include <graphics/texture/module.h>
 #include <graphics/canvas/module.h>
-#include <system/window/window_interface.h>
+#include <system/window/iwindow.h>
 #include "ivideo_driver_settings.h"
 #include "video_driver.h"
 

@@ -1,3 +1,4 @@
+#include <core/factory.h>
 #include <string/module.h>
 #include <system/logger/module.h>
 #include <system/events/module.h>
@@ -10,11 +11,14 @@
 PUNK_ENGINE_BEGIN
 namespace Graphics {
 
-    Canvas::Canvas(const CanvasDescription& desc)
-		: m_window{ System::CreatePunkWindow(desc) }
-        , m_canvas_description(desc)
+    Canvas::Canvas()		
+		: m_window{ Core::CreateInstance<System::IWindow>(), Core::DestroyObject }
         , m_logger(System::GetDefaultLogger())
     {}
+
+	void Canvas::Initialize(const CanvasDescription& desc) {
+		m_canvas_description = desc;		
+	}
 
     void Canvas::InternalDestroy() {
         if (m_canvas_description.fullscreen)
@@ -239,6 +243,11 @@ namespace Graphics {
     }
 
 	//	IWindow
+
+	void Canvas::Initialize(const System::WindowDescription& desc) {
+		m_window->Initialize(desc);
+	}
+
 	int Canvas::GetDesktopWidth() const {
 		return m_window->GetDesktopWidth();
 	}
@@ -427,9 +436,12 @@ namespace Graphics {
 #endif	//	 _WIN32
 
 
-    extern PUNK_ENGINE_API ICanvasUniquePtr CreateCanvas(const CanvasDescription& desc) {
-		ICanvasUniquePtr ptr{ new Canvas{ desc } , Core::DestroyObject };
-		return ptr;
+    void CreateCanvas(void** object) {
+		if (!object)
+			return;
+		*object = (void*)(new Canvas);
     }
+
+	PUNK_REGISTER_CREATOR(ICanvas, CreateCanvas);
 }
 PUNK_ENGINE_END

@@ -10,11 +10,11 @@ namespace Core {
 
 	class PUNK_ENGINE_LOCAL Factory : public IFactory {
 	public:
-		IObject* CreateInstance(std::uint64_t type) override;
-		void RegisterCreator(std::uint64_t type, IObject* (*Creator)()) override;
+		void CreateInstance(std::uint64_t type, void** object) override;
+		void RegisterCreator(std::uint64_t type, void(*Creator)(void** object)) override;
 		void UnregisterCreator(std::uint64_t type) override;
 	private:
-		std::map<std::uint64_t, IObject* (*)()> m_creators;
+		std::map<std::uint64_t, void (*)(void**)> m_creators;
 	};
 
 }

@@ -16,8 +16,10 @@ namespace Graphics {
 
     class PUNK_ENGINE_LOCAL Canvas : public System::IWindow, public ICanvas {
     public:
-        Canvas(const CanvasDescription& desc = CanvasDescription());
+        Canvas();
         ~Canvas();
+
+		void Initialize(const CanvasDescription& desc = CanvasDescription()) override;
 
 		//	IObject
 		void QueryInterface(std::uint64_t type, void** object) override;
@@ -30,6 +32,7 @@ namespace Graphics {
         void SwapBuffers() override;
 
 		//	IWindow
+		void Initialize(const System::WindowDescription& desc) override;
 		int GetDesktopWidth() const override;
 		int GetDesktopHeight() const override;
 		int GetDesktopBitsPerPixel() const override;
