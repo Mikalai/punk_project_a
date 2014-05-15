@@ -21,6 +21,7 @@ namespace Attributes
         ActiveTracks m_active;
         MixFactors m_factors;
     public:
+		ObjectAnimationMixer();
         void AddTrack(const std::string& name, Animation* anim);
         void RemoveTrack(const std::string& name);
 
@@ -39,7 +40,7 @@ namespace Attributes
     private:
         void NormalizeWeights();
 
-        PUNK_OBJECT(ObjectAnimationMixer)
+        PUNK_OBJECT_DEFAULT_IMPL(ObjectAnimationMixer)
     };
 }
 PUNK_ENGINE_END

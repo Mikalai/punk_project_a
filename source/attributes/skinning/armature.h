@@ -17,7 +17,7 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes {
 
-    class PUNK_ENGINE_LOCAL Armature : public Core::Object, public IArmature
+    class PUNK_ENGINE_LOCAL Armature : public Core::IObject, public IArmature
 	{
 	public:
         typedef std::vector<Core::String> Actions;
@@ -60,7 +60,7 @@ namespace Attributes {
 		Core::String m_name;
 		Core::String m_schema_name;
 
-        PUNK_OBJECT(Armature)               
+        PUNK_OBJECT_DEFAULT_IMPL(Armature)               
 	};
 }
 PUNK_ENGINE_END

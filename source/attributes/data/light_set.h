@@ -9,7 +9,7 @@ namespace Attributes
 {
 	class Light;
 
-    class PUNK_ENGINE_API LightSet : public Core::Object
+    class PUNK_ENGINE_API LightSet : public Core::IObject
 	{
 	public:
 		Light* GetLight(int index);

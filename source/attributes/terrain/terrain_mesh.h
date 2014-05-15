@@ -14,7 +14,7 @@ namespace Attributes
     class IGeometry;
     class Material;
 
-    class PUNK_ENGINE_API TerrainMesh : public Core::Object
+    class PUNK_ENGINE_API TerrainMesh : public Core::IObject
     {
     public:
         TerrainMesh();
@@ -40,7 +40,7 @@ namespace Attributes
         Core::String m_filename;
         IGeometry* m_geometry;
         Utility::AsyncParserTask* m_task;
-        PUNK_OBJECT(TerrainMesh)
+        PUNK_OBJECT_DEFAULT_IMPL2(TerrainMesh)
     };
 }
 PUNK_ENGINE_END

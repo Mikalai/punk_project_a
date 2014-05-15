@@ -16,7 +16,7 @@ namespace Attributes
 
     private:
 
-        PUNK_OBJECT(SpotLight)
+        PUNK_OBJECT_DEFAULT_IMPL(SpotLight)
     };
 }
 PUNK_ENGINE_END

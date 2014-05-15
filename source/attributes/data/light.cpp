@@ -5,7 +5,7 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-	Core::Rtti LightType{ "Attributes.Light", typeid(Light).hash_code(), { Core::Object::Type() } };
+	Core::Rtti LightType{ "Attributes.Light", typeid(Light).hash_code(), { Core::IObject::Type() } };
 
 	Core::Rtti* Light::Type() {
 		return &LightType;

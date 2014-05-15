@@ -39,7 +39,7 @@ namespace Attributes
 		void SetQuadraticAttenuation(float value) { m_quadratic_attenuation = value; }
 		float GetQuadraticAttenuation() const { return m_quadratic_attenuation; }
 
-        PUNK_OBJECT(PointLight)
+        PUNK_OBJECT_DEFAULT_IMPL(PointLight)
 	};
 }
 PUNK_ENGINE_END

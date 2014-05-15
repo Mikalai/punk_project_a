@@ -2,13 +2,13 @@
 #define _H_PUNK_UTILITY_ANIMATION_MixER
 
 #include <config.h>
-#include <core/object.h>
+#include <core/iobject.h>
 
 PUNK_ENGINE_BEGIN
 namespace Core { class String; }
 namespace Attributes {
 
-    class PUNK_ENGINE_API AnimationMixer : public Core::Object
+    class PUNK_ENGINE_API AnimationMixer : public Core::IObject
 	{
 	public:
         AnimationMixer();
@@ -20,7 +20,7 @@ namespace Attributes {
         virtual float GetTrackTime() const {return 0;}
         virtual void SetLooping(size_t, bool) {}
 
-        PUNK_OBJECT(AnimationMixer)
+        PUNK_OBJECT_DEFAULT_IMPL(AnimationMixer)
 	};    
 }
 PUNK_ENGINE_END

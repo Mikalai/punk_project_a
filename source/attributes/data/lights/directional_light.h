@@ -33,7 +33,7 @@ namespace Attributes
         float m_distance;
         float m_energy;
 
-        PUNK_OBJECT(DirectionalLight)
+        PUNK_OBJECT_DEFAULT_IMPL(DirectionalLight)
     };
 }
 PUNK_ENGINE_END

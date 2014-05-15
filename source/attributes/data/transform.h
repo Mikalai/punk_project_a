@@ -9,7 +9,7 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-    class PUNK_ENGINE_API Transform : public Core::Object
+    class PUNK_ENGINE_API Transform : public Core::IObject
 	{
 	public:
 
@@ -40,7 +40,7 @@ namespace Attributes
 		mutable bool m_need_update{ true };
 
 	private:        
-        PUNK_OBJECT(Transform)
+        PUNK_OBJECT_DEFAULT_IMPL(Transform)
 	};    
 }
 PUNK_ENGINE_END

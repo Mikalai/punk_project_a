@@ -2,6 +2,7 @@
 #define PUNK_CANVAS_INTERFACE_H
 
 #include <config.h>
+#include <core/iobject.h>
 #include <memory>
 
 PUNK_ENGINE_BEGIN
@@ -12,6 +13,7 @@ namespace Graphics {
 
     class ICanvas : public virtual Core::IObject {
     public:
+		virtual void Initialize(const CanvasDescription& desc) = 0;
         virtual void SetFullscreen(bool value) = 0;
         virtual System::IWindow* GetWindow() = 0;
         virtual const CanvasDescription& GetDescription() = 0;
@@ -19,9 +21,7 @@ namespace Graphics {
         virtual void SwapBuffers() = 0;
     };
 
-	using ICanvasUniquePtr = Core::UniquePtr < ICanvas > ;
-
-    extern PUNK_ENGINE_API ICanvasUniquePtr CreateCanvas(const CanvasDescription& desc);
+	using ICanvasUniquePtr = Core::UniquePtr < ICanvas > ;    
 }
 PUNK_ENGINE_END
 

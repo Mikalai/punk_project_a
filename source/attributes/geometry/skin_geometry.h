@@ -135,7 +135,7 @@
 //        friend class CpuCache;
 //        friend class GpuCache;
 //
-//        PUNK_OBJECT(SkinGeometry)        
+//        PUNK_OBJECT_DEFAULT_IMPL(SkinGeometry)        
 //	};
 //}
 //PUNK_ENGINE_END

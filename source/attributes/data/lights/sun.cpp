@@ -4,7 +4,7 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-	Core::Rtti SunType{ "Attributes.Sun", typeid(Sun).hash_code(), { Core::Object::Type() } };
+	Core::Rtti SunType{ "Attributes.Sun", typeid(Sun).hash_code(), { Core::IObject::Type() } };
 
 	Core::Rtti* Sun::Type() {
 		return &SunType;

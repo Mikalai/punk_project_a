@@ -9,7 +9,7 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes {
 	class Bone;
-	class PUNK_ENGINE_LOCAL ArmatureSchema : public Core::Object, public IArmatureSchema {
+	class PUNK_ENGINE_LOCAL ArmatureSchema : public Core::IObject, public IArmatureSchema {
 	public:
 		virtual ~ArmatureSchema();
 		std::uint32_t GetBonesCount() const override;
@@ -27,7 +27,7 @@ namespace Attributes {
 		std::vector<IBone*> m_bones;
 		std::vector<std::uint32_t> m_root;
 		std::vector<Core::String> m_supported_actions;
-		PUNK_OBJECT(ArmatureSchema)
+		PUNK_OBJECT_DEFAULT_IMPL(ArmatureSchema)
 	};
 }
 PUNK_ENGINE_END

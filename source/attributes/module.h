@@ -1,6 +1,7 @@
 #ifndef _H_PUNK_VIRTUAL
 #define _H_PUNK_VIRTUAL
 
+#include "geometry/module.h"
 #include "animation/module.h"
 #include "data/module.h"
 #include "skinning/module.h"

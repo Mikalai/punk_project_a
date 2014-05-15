@@ -1,7 +1,7 @@
 #ifndef _H_PUNK_UTILITY_ANIMATION
 #define _H_PUNK_UTILITY_ANIMATION
 
-#include <core/object.h>
+#include <core/iobject.h>
 #include <math/vec3.h>
 #include <math/quat.h>
 
@@ -10,7 +10,7 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-    class PUNK_ENGINE_API Animation : public Core::Object
+    class PUNK_ENGINE_API Animation : public Core::IObject
 	{
 		AnimationTrack<Math::vec3> m_pos_track;
 		AnimationTrack<Math::quat> m_rot_track;
@@ -35,7 +35,7 @@ namespace Attributes
         const Core::String& GetName() const;
         void SetName(const Core::String& value);        
 
-        PUNK_OBJECT(Animation)
+        PUNK_OBJECT_DEFAULT_IMPL(Animation)
 	};    
 }
 PUNK_ENGINE_END

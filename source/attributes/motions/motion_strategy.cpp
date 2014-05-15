@@ -4,14 +4,14 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-	Core::Rtti MotionStrategyType{ "Attributes.MotionStrategy", typeid(MotionStrategy).hash_code(), { Core::Object::Type() } };
+	Core::Rtti MotionStrategyType{ "Attributes.MotionStrategy", typeid(MotionStrategy).hash_code(), { Core::IObject::Type() } };
 
 	Core::Rtti* MotionStrategy::Type() {
 		return &MotionStrategyType;
 	}
 
 	MotionStrategy::MotionStrategy()
-        : Core::Object()
+        : Core::IObject()
 		, m_transform(0)
 		, m_motion_type(MotionStrategyType::MOTION_STRATEGY_TYPE_NONE)
 	{}
@@ -21,7 +21,7 @@ namespace Attributes
 
 //	bool MotionStrategy::Save(std::ostream& stream) const
 //	{
-//		if (!Core::Object::Save(stream))
+//		if (!Core::IObject::Save(stream))
 //		{
 //			out_error() << "Can't save motion strategy" << std::endl;
 //			return false;
@@ -34,7 +34,7 @@ namespace Attributes
 
 //	bool MotionStrategy::Load(std::istream& stream)
 //	{
-//		if (!Core::Object::Load(stream))
+//		if (!Core::IObject::Load(stream))
 //		{
 //			out_error() << "Can't load motion strategy" << std::endl;
 //			return false;

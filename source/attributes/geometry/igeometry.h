@@ -28,13 +28,14 @@ namespace Math {
 namespace Attributes {
 
 	class IGeometry 
-		: public IPositionComponent
+		: public virtual Core::IObject
+		, public IPositionComponent
 		, public INormalComponent
 		, public IColorComponent
 		, public ITextureComponent
 		, public IBoneWeightComponent
 		, public IIndexComponent
-		, public ITextureFaceComponent
+		, public ITextureFaceComponent		
 	{
 	public:
 		virtual bool IsIndexed() const = 0;

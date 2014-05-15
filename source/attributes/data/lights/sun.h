@@ -8,7 +8,7 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-    class PUNK_ENGINE_API Sun : public Core::Object
+    class PUNK_ENGINE_API Sun : public Core::IObject
     {
     public:
         Sun();
@@ -29,7 +29,7 @@ namespace Attributes
         Math::vec3 m_color;
         Core::String m_name;
 
-        PUNK_OBJECT(Sun)
+        PUNK_OBJECT_DEFAULT_IMPL(Sun)
     };
 
 }

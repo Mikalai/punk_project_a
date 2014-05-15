@@ -5,13 +5,8 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-	Core::Rtti ActionType{ L"Attributes.Action", typeid(Action).hash_code(), { Core::Object::Type() } };
-
-	Core::Rtti* Action::Type() {
-		return &ActionType;
-	}
-
 	Action::Action()
+		: m_container{ this, Core::GetRootObject() }
     {}
 
     Action::~Action()

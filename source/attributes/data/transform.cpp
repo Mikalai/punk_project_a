@@ -5,7 +5,7 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-	Core::Rtti TransformType{ "Attributes.Transform", typeid(Transform).hash_code(), { Core::Object::Type() } };
+	Core::Rtti TransformType{ "Attributes.Transform", typeid(Transform).hash_code(), { Core::IObject::Type() } };
 
 	Core::Rtti* Transform::Type() {
 		return &TransformType;

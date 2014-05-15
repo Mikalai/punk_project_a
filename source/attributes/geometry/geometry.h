@@ -11,11 +11,14 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes {
 
-    class PUNK_ENGINE_LOCAL Geometry : public Core::Object, public IGeometry
+    class PUNK_ENGINE_LOCAL Geometry : public IGeometry
 	{	
 	public:
         Geometry();
 		virtual ~Geometry();	
+
+		//	IObject
+		void QueryInterface(std::uint64_t type, void** object) override;
 
 		//	position
 		const Math::vec3* GetVertexPosition(std::uint32_t index) const override;
@@ -92,7 +95,7 @@ namespace Attributes {
 			
 		bool m_need_update{ true };
 
-        PUNK_OBJECT(Geometry)
+        PUNK_OBJECT_DEFAULT_IMPL3(Geometry)
 	};    
 }
 PUNK_ENGINE_END

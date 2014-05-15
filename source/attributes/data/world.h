@@ -8,7 +8,7 @@
 //PUNK_ENGINE_BEGIN
 //namespace Attributes
 //{
-//    class PUNK_ENGINE_API World : public Core::Object
+//    class PUNK_ENGINE_API World : public Core::IObject
 //	{
 //	public:
 //		World();

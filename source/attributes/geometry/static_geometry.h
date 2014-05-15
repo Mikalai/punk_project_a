@@ -128,7 +128,7 @@
 //		Graphics::IVertexArray* m_vertex_array{ nullptr };
 //		Graphics::IIndexArray* m_index_array{ nullptr };
 //
-//        PUNK_OBJECT(StaticGeometry)
+//        PUNK_OBJECT_DEFAULT_IMPL(StaticGeometry)
 //    };
 //}
 //PUNK_ENGINE_END

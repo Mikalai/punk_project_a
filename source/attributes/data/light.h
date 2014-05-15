@@ -7,7 +7,7 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-    class PUNK_ENGINE_API Light : public Core::Object
+    class PUNK_ENGINE_API Light : public Core::IObject
 	{
 	public:
         Light();
@@ -15,7 +15,7 @@ namespace Attributes
         Light& operator = (const Light&) = delete;
         virtual ~Light();
 
-        PUNK_OBJECT(Light)
+        PUNK_OBJECT_DEFAULT_IMPL(Light)
 	};
 }
 PUNK_ENGINE_END

@@ -101,7 +101,7 @@ namespace Attributes
         //  A place from which a structure can be get
         IArmature* m_armature;
 
-        PUNK_OBJECT(ArmatureAnimationMixer)
+        PUNK_OBJECT_DEFAULT_IMPL(ArmatureAnimationMixer)
 	};
 }
 PUNK_ENGINE_END

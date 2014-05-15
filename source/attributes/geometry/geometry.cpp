@@ -3,17 +3,23 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-	Core::Rtti GeometryType{ "Attributes.Geometry", typeid(Geometry).hash_code(), { Core::Object::Type() } };
-
-	Core::Rtti* Geometry::Type() {
-		return &GeometryType;
-	}
-
 	Geometry::Geometry()
 	{}
 
 	Geometry::~Geometry()
 	{}
+
+	void Geometry::QueryInterface(std::uint64_t type, void** object) {
+		if (!object)
+			return;
+		if (type == typeid(Core::IObject).hash_code() ||
+			type == typeid(IGeometry).hash_code()) {
+			*object = (void*)this;
+			AddRef();
+		}
+		else
+			*object = nullptr;
+	}
 
 	//	position
 	const Math::vec3* Geometry::GetVertexPosition(std::uint32_t index) const {

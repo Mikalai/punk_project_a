@@ -11,7 +11,7 @@ namespace Attributes
 	class TerrainManager;
 	class TerrainView;
 
-    class PUNK_ENGINE_API TerrainObserver : public Core::Object
+    class PUNK_ENGINE_API TerrainObserver : public Core::IObject
 	{
 	public:
 		virtual ~TerrainObserver();

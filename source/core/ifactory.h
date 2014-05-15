@@ -24,6 +24,13 @@ namespace Core {
 
 #define PUNK_REGISTER_CREATOR(T, F) Core::RegisterCreator g_##T##creator{typeid(T).hash_code(), (F)}
 
+	template<class T>
+	T* CreateInstance() {
+		T* object = nullptr;
+		GetFactory()->CreateInstance(typeid(T).hash_code(), (void**)&object);
+		return object;
+	}
+
 }
 PUNK_ENGINE_END
 

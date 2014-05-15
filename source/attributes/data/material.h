@@ -14,7 +14,7 @@ namespace Attributes
 {
     class TextureSlot;
 
-    class PUNK_ENGINE_API Material : public Core::Object
+    class PUNK_ENGINE_API Material : public Core::IObject
 	{
 	public:		
 
@@ -112,7 +112,7 @@ namespace Attributes
 
         std::vector<TextureSlot*> m_texture_slots;
 
-        PUNK_OBJECT(Material)
+        PUNK_OBJECT_DEFAULT_IMPL(Material)
 	};
 
 	typedef std::map<Core::String, Material> Materials;

@@ -12,7 +12,7 @@ namespace Utility {
 
 namespace Attributes
 {
-    class PUNK_ENGINE_API River : public Core::Object
+    class PUNK_ENGINE_API River : public Core::IObject
     {
     public:
         River();
@@ -50,7 +50,7 @@ namespace Attributes
         IGeometry* m_geom;
         Utility::AsyncParserTask* m_task;
         Core::String m_name;
-        PUNK_OBJECT(River)
+        PUNK_OBJECT_DEFAULT_IMPL2(River)
     };
 }
 PUNK_ENGINE_END

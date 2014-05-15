@@ -79,7 +79,7 @@
 //	private:
 //		int m_bone_index[HUMAN_END - HUMAN_BEGIN];
 //
-//        PUNK_OBJECT(HumanArmature)
+//        PUNK_OBJECT_DEFAULT_IMPL(HumanArmature)
 //	};    
 //}
 //PUNK_ENGINE_END

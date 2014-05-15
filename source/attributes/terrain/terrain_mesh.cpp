@@ -4,12 +4,6 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-	Core::Rtti TerrainMeshType{ "Attributes.TerrainMesh", typeid(TerrainMesh).hash_code(), { Core::Object::Type() } };
-
-	Core::Rtti* TerrainMesh::Type() {
-		return &TerrainMeshType;
-	}
-
     TerrainMesh::TerrainMesh()
         : m_geometry(nullptr)
         , m_task(nullptr)

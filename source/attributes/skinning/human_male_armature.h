@@ -15,7 +15,7 @@
 //        virtual ~HumanMaleArmature();
 //
 //    private:
-//        PUNK_OBJECT(HumanMaleArmature)
+//        PUNK_OBJECT_DEFAULT_IMPL(HumanMaleArmature)
 //	};
 //}
 //PUNK_ENGINE_END

@@ -10,7 +10,7 @@ namespace Attributes
 {
 	class Location;
 
-	class PUNK_ENGINE_API Door : public Core::Object
+	class PUNK_ENGINE_API Door : public Core::IObject
 	{
 	public:
 		enum State { CLOSED, OPENED };

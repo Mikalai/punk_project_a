@@ -27,7 +27,7 @@ namespace Attributes
 		{}
 	};
 
-    class PUNK_ENGINE_API Camera : public Core::Object
+    class PUNK_ENGINE_API Camera : public Core::IObject
 	{
 	public:
 		Camera();
@@ -79,7 +79,7 @@ namespace Attributes
 
 		void UpdateInternals();
 
-        PUNK_OBJECT(Camera)
+        PUNK_OBJECT_DEFAULT_IMPL(Camera)
 	};    
 }
 PUNK_ENGINE_END

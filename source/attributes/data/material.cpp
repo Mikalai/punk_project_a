@@ -8,7 +8,7 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-	Core::Rtti MaterialType{ "Attributes.Material", typeid(Material).hash_code(), { Core::Object::Type() } };
+	Core::Rtti MaterialType{ "Attributes.Material", typeid(Material).hash_code(), { Core::IObject::Type() } };
 
 	Core::Rtti* Material::Type() {
 		return &MaterialType;

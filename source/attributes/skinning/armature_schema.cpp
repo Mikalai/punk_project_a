@@ -4,7 +4,7 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes {
 
-	Core::Rtti ArmatureSchemaType{ "Punk.Engine.Attributes.ArmatureSchema", typeid(ArmatureSchema).hash_code(), { Core::Object::Type() } };
+	Core::Rtti ArmatureSchemaType{ "Punk.Engine.Attributes.ArmatureSchema", typeid(ArmatureSchema).hash_code(), { Core::IObject::Type() } };
 
 	Core::Rtti* ArmatureSchema::Type() {
 		return &ArmatureSchemaType;
