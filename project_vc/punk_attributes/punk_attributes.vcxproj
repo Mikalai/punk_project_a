@@ -192,27 +192,22 @@
     <ClCompile Include="..\..\source\attributes\controllers\camera_controller.cpp" />
     <ClCompile Include="..\..\source\attributes\data\camera.cpp" />
     <ClCompile Include="..\..\source\attributes\data\entity.cpp" />
-    <ClCompile Include="..\..\source\attributes\data\light.cpp" />
-    <ClCompile Include="..\..\source\attributes\data\lights\directional_light.cpp" />
-    <ClCompile Include="..\..\source\attributes\data\lights\point_light.cpp" />
-    <ClCompile Include="..\..\source\attributes\data\lights\spot_light.cpp" />
-    <ClCompile Include="..\..\source\attributes\data\lights\sun.cpp" />
-    <ClCompile Include="..\..\source\attributes\data\light_set.cpp" />
-    <ClCompile Include="..\..\source\attributes\data\material.cpp" />
     <ClCompile Include="..\..\source\attributes\data\proxy.cpp" />
-    <ClCompile Include="..\..\source\attributes\data\texture_slot.cpp" />
-    <ClCompile Include="..\..\source\attributes\data\transform.cpp" />
     <ClCompile Include="..\..\source\attributes\data\world.cpp" />
     <ClCompile Include="..\..\source\attributes\geometry\geometry.cpp" />
     <ClCompile Include="..\..\source\attributes\geometry\geometry_cooker.cpp" />
     <ClCompile Include="..\..\source\attributes\geometry\skin_geometry.cpp" />
     <ClCompile Include="..\..\source\attributes\geometry\static_geometry.cpp" />
+    <ClCompile Include="..\..\source\attributes\light\light.cpp" />
+    <ClCompile Include="..\..\source\attributes\light\light_set.cpp" />
     <ClCompile Include="..\..\source\attributes\manager\camera_manager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\manager\material_manager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\source\attributes\material\material.cpp" />
+    <ClCompile Include="..\..\source\attributes\material\texture_slot.cpp" />
     <ClCompile Include="..\..\source\attributes\motions\motion_strategy.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -288,6 +283,8 @@
     <ClCompile Include="..\..\source\attributes\terrain\terrain_view_processor.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\source\attributes\transform\module.h" />
+    <ClCompile Include="..\..\source\attributes\transform\transform.cpp" />
     <ClCompile Include="..\..\source\attributes\water\river.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -336,20 +333,10 @@
     <ClInclude Include="..\..\source\attributes\data\entity.h" />
     <ClInclude Include="..\..\source\attributes\data\interface.h" />
     <ClInclude Include="..\..\source\attributes\data\interior_location.h" />
-    <ClInclude Include="..\..\source\attributes\data\light.h" />
-    <ClInclude Include="..\..\source\attributes\data\lights\directional_light.h" />
-    <ClInclude Include="..\..\source\attributes\data\lights\point_light.h" />
-    <ClInclude Include="..\..\source\attributes\data\lights\spot_light.h" />
-    <ClInclude Include="..\..\source\attributes\data\lights\sun.h" />
-    <ClInclude Include="..\..\source\attributes\data\light_set.h" />
     <ClInclude Include="..\..\source\attributes\data\location.h" />
-    <ClInclude Include="..\..\source\attributes\data\material.h" />
-    <ClInclude Include="..\..\source\attributes\data\material_manager.h" />
     <ClInclude Include="..\..\source\attributes\data\module.h" />
     <ClInclude Include="..\..\source\attributes\data\old_shape_mesh.h" />
     <ClInclude Include="..\..\source\attributes\data\proxy.h" />
-    <ClInclude Include="..\..\source\attributes\data\texture_slot.h" />
-    <ClInclude Include="..\..\source\attributes\data\transform.h" />
     <ClInclude Include="..\..\source\attributes\data\world.h" />
     <ClInclude Include="..\..\source\attributes\geometry\geometry.h" />
     <ClInclude Include="..\..\source\attributes\geometry\geometry_cooker.h" />
@@ -371,6 +358,13 @@
     <ClInclude Include="..\..\source\attributes\intersection.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\..\source\attributes\light\idirectional_light.h" />
+    <ClInclude Include="..\..\source\attributes\light\ilight.h" />
+    <ClInclude Include="..\..\source\attributes\light\light.h" />
+    <ClInclude Include="..\..\source\attributes\light\light_set.h" />
+    <ClInclude Include="..\..\source\attributes\light\ipoint_light.h" />
+    <ClInclude Include="..\..\source\attributes\light\ispot_light.h" />
+    <ClInclude Include="..\..\source\attributes\light\module.h" />
     <ClInclude Include="..\..\source\attributes\manager\camera_manager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -380,6 +374,12 @@
     <ClInclude Include="..\..\source\attributes\manager\material_manager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\..\source\attributes\material\imaterial.h" />
+    <ClInclude Include="..\..\source\attributes\material\itexture_slot.h" />
+    <ClInclude Include="..\..\source\attributes\material\material.h" />
+    <ClInclude Include="..\..\source\attributes\material\material_manager.h" />
+    <ClInclude Include="..\..\source\attributes\material\module.h" />
+    <ClInclude Include="..\..\source\attributes\material\texture_slot.h" />
     <ClInclude Include="..\..\source\attributes\module.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -506,6 +506,8 @@
     <ClInclude Include="..\..\source\attributes\track_pos.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\..\source\attributes\transform\itransform.h" />
+    <ClInclude Include="..\..\source\attributes\transform\transform.h" />
     <ClInclude Include="..\..\source\attributes\water\interface.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>

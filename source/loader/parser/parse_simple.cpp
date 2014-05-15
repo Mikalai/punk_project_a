@@ -199,7 +199,7 @@ namespace Loader
         return true;
     }
 
-    bool ParseVector3fv(Core::Buffer& buffer, std::vector<Math::vec3>& value)
+    bool ParseVector3fv(Core::Buffer& buffer, Math::vec3v& value)
     {
         CHECK_START(buffer);
         while (1)
@@ -266,7 +266,7 @@ namespace Loader
         throw Error::LoaderException(L"Unable to parse vector of vec4i");
     }
 
-    bool ParseVector4Vector2iv(Core::Buffer& buffer, std::vector<std::array<Math::vec2, 4>>& value)
+    bool ParseVector4Vector2fv(Core::Buffer& buffer, std::vector<std::array<Math::vec2, 4>>& value)
     {
         CHECK_START(buffer);
         while (1)
@@ -295,6 +295,33 @@ namespace Loader
         }
         throw Error::LoaderException(L"Unable to parse vector of vec4<vec2f>");
     }
+
+	bool ParseVector3Vector2fv(Core::Buffer& buffer, std::vector<std::array<Math::vec2, 3>>& value)
+	{
+		CHECK_START(buffer);
+		while (1)
+		{
+			Core::String word = buffer.ReadWord();
+
+			if (word == Keyword[WORD_CLOSE_BRACKET].word)
+				return true;
+
+			float u1 = word.ToFloat();
+			float v1 = buffer.ReadWord().ToFloat();
+			float u2 = buffer.ReadWord().ToFloat();
+			float v2 = buffer.ReadWord().ToFloat();
+			float u3 = buffer.ReadWord().ToFloat();
+			float v3 = buffer.ReadWord().ToFloat();			
+
+			std::array<Math::vec2, 3> v;
+			v[0].Set(u1, v1);
+			v[1].Set(u2, v2);
+			v[2].Set(u3, v3);			
+
+			value.push_back(v);
+		}
+		throw Error::LoaderException(L"Unable to parse vector of vec4<vec2f>");
+	}
 
 }
 PUNK_ENGINE_END

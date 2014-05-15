@@ -5,7 +5,7 @@
 PUNK_ENGINE_BEGIN
 namespace Loader
 {
-    bool ParseTextures(Core::Buffer& buffer, std::map<Core::String, std::vector<std::array<Math::vec2, 4>>>& value)
+    bool ParseTextures(Core::Buffer& buffer, int& slot, std::vector<std::array<Math::vec2, 3>>& value)
     {
         CHECK_START(buffer);
 
@@ -24,12 +24,12 @@ namespace Loader
                 return true;
             case WORD_NAME:
             {
-                ParseBlockedString(buffer, name);
+                ParseBlockedInteger(buffer, slot);
             }
                 break;
             case WORD_TEXTURE_COORD:
             {
-                ParseVector4Vector2iv(buffer, value[name]);
+                ParseVector3Vector2fv(buffer, value);
             }
                 break;
             default:

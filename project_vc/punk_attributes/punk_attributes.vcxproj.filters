@@ -85,38 +85,11 @@
     <ClCompile Include="..\..\source\attributes\data\entity.cpp">
       <Filter>data</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\attributes\data\light.cpp">
-      <Filter>data</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\attributes\data\light_set.cpp">
-      <Filter>data</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\attributes\data\material.cpp">
-      <Filter>data</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\attributes\data\proxy.cpp">
-      <Filter>data</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\attributes\data\texture_slot.cpp">
-      <Filter>data</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\attributes\data\transform.cpp">
       <Filter>data</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\data\world.cpp">
       <Filter>data</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\attributes\data\lights\directional_light.cpp">
-      <Filter>data\lights</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\attributes\data\lights\point_light.cpp">
-      <Filter>data\lights</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\attributes\data\lights\spot_light.cpp">
-      <Filter>data\lights</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\attributes\data\lights\sun.cpp">
-      <Filter>data\lights</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\controllers\camera_controller.cpp">
       <Filter>controllers</Filter>
@@ -162,6 +135,24 @@
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\skinning\armature_schema.cpp">
       <Filter>skinning</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\light\light_set.cpp">
+      <Filter>light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\light\light.cpp">
+      <Filter>light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\transform\transform.cpp">
+      <Filter>transform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\transform\module.h">
+      <Filter>transform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\material\material.cpp">
+      <Filter>material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\material\texture_slot.cpp">
+      <Filter>material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -307,19 +298,7 @@
     <ClInclude Include="..\..\source\attributes\data\interior_location.h">
       <Filter>data</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\attributes\data\light.h">
-      <Filter>data</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\attributes\data\light_set.h">
-      <Filter>data</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\attributes\data\location.h">
-      <Filter>data</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\attributes\data\material.h">
-      <Filter>data</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\attributes\data\material_manager.h">
       <Filter>data</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\data\module.h">
@@ -331,26 +310,8 @@
     <ClInclude Include="..\..\source\attributes\data\proxy.h">
       <Filter>data</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\attributes\data\texture_slot.h">
-      <Filter>data</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\attributes\data\transform.h">
-      <Filter>data</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\attributes\data\world.h">
       <Filter>data</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\attributes\data\lights\directional_light.h">
-      <Filter>data\lights</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\attributes\data\lights\point_light.h">
-      <Filter>data\lights</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\attributes\data\lights\spot_light.h">
-      <Filter>data\lights</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\attributes\data\lights\sun.h">
-      <Filter>data\lights</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\controllers\camera_controller.h">
       <Filter>controllers</Filter>
@@ -445,6 +406,51 @@
     <ClInclude Include="..\..\source\attributes\skinning\ibone.h">
       <Filter>skinning</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\attributes\light\light_set.h">
+      <Filter>light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\light\ilight.h">
+      <Filter>light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\light\light.h">
+      <Filter>light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\light\idirectional_light.h">
+      <Filter>light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\light\ipoint_light.h">
+      <Filter>light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\light\ispot_light.h">
+      <Filter>light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\light\module.h">
+      <Filter>light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\transform\itransform.h">
+      <Filter>transform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\transform\transform.h">
+      <Filter>transform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\material\material.h">
+      <Filter>material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\material\material_manager.h">
+      <Filter>material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\material\module.h">
+      <Filter>material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\material\texture_slot.h">
+      <Filter>material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\material\imaterial.h">
+      <Filter>material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\material\itexture_slot.h">
+      <Filter>material</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="water">
@@ -474,9 +480,6 @@
     <Filter Include="data">
       <UniqueIdentifier>{5a4761dd-57fe-449a-9588-b86cc37b44f8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="data\lights">
-      <UniqueIdentifier>{02fbcd46-a730-435a-8296-5c909664a68a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="controllers">
       <UniqueIdentifier>{2f13fc1d-b217-48fa-bd2e-fd0a5f1a67a0}</UniqueIdentifier>
     </Filter>
@@ -485,6 +488,15 @@
     </Filter>
     <Filter Include="geometry">
       <UniqueIdentifier>{4d742fca-f81e-4585-9d4a-f5fb9dc73a6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="light">
+      <UniqueIdentifier>{e87f7833-7049-4066-aefb-a67c707ece44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="transform">
+      <UniqueIdentifier>{abd02ab2-88f5-4d2a-9d57-30aa2c693571}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="material">
+      <UniqueIdentifier>{3e55d6e8-85e6-4d61-ba06-36902bdb88c8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

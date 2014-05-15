@@ -1,5 +1,5 @@
 #include <attributes/skinning/module.h>
-#include <attributes/data/skin_geometry.h>
+#include <attributes/geometry/igeometry.h>
 #include "parser.h"
 #include "parse_simple.h"
 #include "parse_skin_mesh.h"
@@ -7,7 +7,7 @@
 PUNK_ENGINE_BEGIN
 namespace Loader
 {
-    bool ParseSkinMesh(Core::Buffer& buffer, Attributes::SkinGeometry* geometry)
+    bool ParseSkinMesh(Core::Buffer& buffer, Attributes::IGeometry* geometry)
     {
         CHECK_START(buffer);
         while (1)
@@ -31,37 +31,38 @@ namespace Loader
                 break;
             case WORD_VERTEX_POSITION:
             {
-                Attributes::SkinGeometry::Vertices v;
+                Math::vec3v v;
                 ParseVector3fv(buffer, v);
-                geometry->SetVertices(v);
+                geometry->SetVertexPositions(v);
             }
                 break;
             case WORD_NORMALS:
             {
-                Attributes::SkinGeometry::Normals n;
+                Math::vec3v n;
                 ParseVector3fv(buffer, n);
-                geometry->SetNormals(n);
+                geometry->SetVertexNormals(n);
             }
                 break;
-            case WORD_ARMATURE:
+            case WORD_ARMATURE_SCHEMA:
             {
                 Core::String name;
                 ParseBlockedString(buffer, name);
-                geometry->SetArmatureName(name);
+                geometry->SetArmatureSchema(name);
             }
                 break;
             case WORD_FACES:
             {
-                Attributes::SkinGeometry::Faces f;
+                Math::ivec3v f;
                 ParseVector3iv(buffer, f);
-                geometry->SetFaces(f);
+                geometry->SetTriangles(f);
             }
                 break;
             case WORD_TEXTURE:
             {
-                Attributes::SkinGeometry::TextureMeshes t;
-                ParseTextures(buffer, t);
-                geometry->SetTextureMeshes(t);
+				std::vector	<std::array<Math::vec2, 3>> t;
+				int slot = 0;
+                ParseTextures(buffer, slot, t);
+                geometry->SetFaceTextureCoordinates(slot, t);
             }
                 break;
             case WORD_BONES_WEIGHT:

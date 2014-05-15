@@ -54,11 +54,10 @@ namespace Render {
 	}
 
 	void RenderProcessor::OnCookMesh(CmdCookMesh* cmd) {
-		auto attributes = cmd->node_with_data->GetAttributes(Attributes::StaticGeometry::Type()->GetId());
+		auto attributes = cmd->node_with_data->GetAttributes(typeid(Attributes::IGeometry).hash_code());
 		for (auto& attribute : attributes) {
-			Attributes::StaticGeometry* geom = attribute->Get<Attributes::StaticGeometry>();
+			Attributes::IGeometry* geom = attribute->Get<Attributes::IGeometry>();
 			auto p = Graphics::CreateTriangles(0, m_canvas->GetVideoDriver());
-			p->
 		}
 	}
 
