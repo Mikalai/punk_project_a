@@ -19,18 +19,7 @@ namespace System
     public:
         Window();        
 
-        virtual ~Window();
-		void SetOwner(IObject* object) override;
-		IObject* GetOwner() override;
-		const IObject* GetOwner() const override;
-		const Core::String ToString() const override;
-		std::uint64_t GetType() override;
-		void Add(IObject* object) override;
-		void RemoveChild(IObject* object, bool depth = false) override;
-		void RemoveChild(std::uint32_t index) override;
-		IObject* GetChild(std::uint32_t index) override;
-		const IObject* GetChild(std::uint32_t index) const override;
-		std::uint32_t GetChildrenCount() const override;
+        virtual ~Window();		
 
 /*        virtual int GetDesktopWidth() const override;
         virtual int GetDesktopHeight() const override;
@@ -50,6 +39,7 @@ namespace System
         virtual void Quite() override;
         virtual void ShowCursor(bool value) override; */       
 
+		void QueryInterface(std::uint64_t type, void** object) override;
         virtual void SubscribeResizeEvent(ResizeEventDelegate) override;
         virtual void UnsubscribeResizeEvent(ResizeEventDelegate) override;
         virtual void SubscribeKeyEvent(KeyEventDelegate) override;
@@ -99,8 +89,8 @@ namespace System
         Core::ActionSlot<const IdleEvent&> OnIdleEvent;
         bool m_initialized = false;                       
 
-	private:
-		Core::Container<Core::IObject> m_container;
+		PUNK_OBJECT_DEFAULT_IMPL3(Window)
+		
 	};    
 }
 PUNK_ENGINE_END

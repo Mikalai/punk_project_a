@@ -21,6 +21,19 @@ namespace System
         };
     }
 
+	void Mouse::QueryInterface(std::uint64_t type, void** object) {
+		if (!object)
+			return;
+
+		if (type == typeid(Core::IObject).hash_code() ||
+			type == typeid(IMouse).hash_code()){
+			*object = (void*)this;
+			AddRef();
+		}
+		else
+			*object = nullptr;
+	}
+
     Mouse::Mouse()
         : impl(new __private::MouseImpl)
 		, m_container{ this, Core::GetRootObject() }

@@ -110,6 +110,19 @@ namespace System {
 		return t;
 	}
 
+	void Clock::QueryInterface(std::uint64_t type, void** object) {
+		if (!object)
+			return;
+
+		if (type == typeid(Core::IObject).hash_code() ||
+			type == typeid(IClock).hash_code()) {
+			*object = (void*)this;
+			AddRef();
+		}
+		else
+			*object = nullptr;
+	}
+
     const Core::String Clock::SysTimeAsUTC()
 	{
 #ifdef _MSC_VER

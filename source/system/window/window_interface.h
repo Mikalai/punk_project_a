@@ -68,6 +68,9 @@ namespace System {
         virtual void UnsubscribeIdleEvent(void (*Delegate)(const IdleEvent&)) = 0;
         virtual void Open() = 0;
         virtual void Close() = 0;
+	protected:
+		virtual void InternalCreate() = 0;
+		virtual void InternalDestroy() = 0;
     };
 
 	using IWindowUniquePtr = std::unique_ptr < IWindow, void(*)(IWindow*) > ;

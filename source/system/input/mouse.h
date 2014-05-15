@@ -19,6 +19,7 @@ namespace System
 
 		Mouse();
         virtual ~Mouse();
+		void QueryInterface(std::uint64_t type, void** object) override;
         void Show(bool value) override;
         void LockInWindow(bool value) override;
         void SetButtonState(MouseButtons button, bool state) override;
@@ -36,7 +37,7 @@ namespace System
 
         __private::MouseImpl* impl;
 
-        PUNK_OBJECT_DEFAULT_IMPL(Mouse)
+        PUNK_OBJECT_DEFAULT_IMPL3(Mouse)
 	};
 }
 PUNK_ENGINE_END

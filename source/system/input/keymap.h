@@ -20,6 +20,7 @@ namespace System
         KeyMap();
         virtual ~KeyMap();
 
+		void QueryInterface(std::uint64_t type, void** object) override;
         void OnKeyEvent(const KeyEvent& event) override;
         void Add(Key key, KeyboardAction action) override;
         void Remove(Key key, KeyboardAction action) override;
@@ -28,7 +29,7 @@ namespace System
         
         KeyMapImpl* impl;
 
-		PUNK_OBJECT_DEFAULT_IMPL(KeyMap) //  TODO: Keymap can be saved
+		PUNK_OBJECT_DEFAULT_IMPL3(KeyMap) //  TODO: Keymap can be saved
     };
 }
 PUNK_ENGINE_END

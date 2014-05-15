@@ -89,6 +89,19 @@ namespace System
 		{}
 	};
 
+	void Timer::QueryInterface(std::uint64_t type, void** object) {
+		if (!object)
+			return;
+
+		if (type == typeid(Core::IObject).hash_code() ||
+			type == typeid(ITimer).hash_code()) {
+			*object = (void*)this;
+			AddRef();
+		}
+		else
+			*object = nullptr;
+	}
+
     Timer::Timer()
         : impl(new TimerImpl)
 		, m_container{ this, Core::GetRootObject() }

@@ -25,6 +25,7 @@ namespace System {
 		*	Used to increment time of the clock
 		*	\param us Time in microseconds
 		*/
+		void QueryInterface(std::uint64_t type, void**) override;
         void Advance(int64_t us) override;        
         int Year() const override;
         int Month() const override;
@@ -52,7 +53,7 @@ namespace System {
         std::int64_t m_us;
 		tm m_date;
 
-        PUNK_OBJECT_DEFAULT_IMPL(Clock)
+        PUNK_OBJECT_DEFAULT_IMPL3(Clock)
     };
 }
 PUNK_ENGINE_END

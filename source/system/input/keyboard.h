@@ -18,10 +18,11 @@ namespace System
         bool& operator[] (int key) override;
         void SetKeyState(int key, bool state) override;
         bool GetKeyState(int key) const override;
+		void QueryInterface(std::uint64_t type, void** object) override;
         bool (*GetKeyStates() override)[256];
         KeyboardImpl* impl;        
 
-		PUNK_OBJECT_DEFAULT_IMPL(Keyboard)
+		PUNK_OBJECT_DEFAULT_IMPL3(Keyboard)
 	};    
 }
 PUNK_ENGINE_END

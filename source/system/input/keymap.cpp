@@ -59,5 +59,18 @@ namespace System
 		delete impl;
 		impl = nullptr;
 	}
+
+	void KeyMap::QueryInterface(std::uint64_t type, void** object) {
+		if (!object)
+			return;
+
+		if (type == typeid(Core::IObject).hash_code() ||
+			type == typeid(IKeyMap).hash_code()) {
+			*object = (void*)this;
+			AddRef();
+		}
+		else
+			*object = nullptr;
+	}
 }
 PUNK_ENGINE_END

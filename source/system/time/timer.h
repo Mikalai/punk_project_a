@@ -19,6 +19,7 @@ namespace System
         Timer();
 		~Timer();
 
+		void QueryInterface(std::uint64_t type, void** object) override;
         double GetTime() const override;
         double GetElapsedSeconds() const override;
         double GetElapsedMiliseconds() const override;
@@ -30,7 +31,7 @@ namespace System
 
         TimerImpl* impl {nullptr};
 
-		PUNK_OBJECT_DEFAULT_IMPL(Timer)
+		PUNK_OBJECT_DEFAULT_IMPL3(Timer)
     };
 }
 PUNK_ENGINE_END

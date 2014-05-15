@@ -24,6 +24,16 @@ namespace System {
         GetDefaultLogger()->Info("Keyboard destroyed");
     }
 
+	void Keyboard::QueryInterface(std::uint64_t type, void** object) {
+		if (!object)
+			return;
+		if (typeid(IKeyBoard).hash_code() == type) {
+			*object = (void*)this;
+		}
+		else
+			*object = nullptr;
+	}
+
     bool& Keyboard::operator[] (int key) {
         return impl->m_keys[key];
 	}

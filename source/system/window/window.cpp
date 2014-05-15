@@ -14,49 +14,6 @@ namespace System {
     {
     }
 
-	void Window::SetOwner(IObject* object) {
-		m_container.SetOwner(object);
-	}
-	
-	Core::IObject* Window::GetOwner() {
-		return m_container.GetOwner();
-	}
-	
-	const Core::IObject* Window::GetOwner() const {
-		return m_container.GetOwner();
-	}
-	
-	const Core::String Window::ToString() const {
-		return "Window";
-	}
-	
-	std::uint64_t Window::GetType() {
-		return typeid(Window).hash_code();
-	}
-
-	void Window::Add(IObject* object) {
-		m_container.Add(object);
-	}
-
-	void Window::RemoveChild(IObject* object, bool depth) {
-		m_container.RemoveChild(object, false);
-	}
-
-	void Window::RemoveChild(std::uint32_t index) {
-		m_container.RemoveChild(index);
-	}
-	
-	Core::IObject* Window::GetChild(std::uint32_t index) {
-		return m_container.GetChild(index);
-	}
-
-	const Core::IObject* Window::GetChild(std::uint32_t index) const {
-		return m_container.GetChild(index);
-	}
-	std::uint32_t Window::GetChildrenCount() const {
-		return m_container.GetChildrenCount();
-	}
-
 	extern PUNK_ENGINE_API IWindowUniquePtr CreatePunkWindow(const WindowDescription& value) {
 #ifdef _WIN32
 		if (value.system == WindowSystem::Windows)
@@ -72,6 +29,16 @@ namespace System {
 		Window* wnd = dynamic_cast<Window*>(value);
 		delete wnd;
     }
+
+	void Window::QueryInterface(std::uint64_t type, void** object) {
+		if (type == typeid(IWindow).hash_code() ||
+			type == typeid(Core::IObject).hash_code()) {
+			*object = (void*)this;
+			AddRef();
+		}
+		else
+			*object = nullptr;
+	}
 
     void Window::SubscribeResizeEvent(ResizeEventDelegate delegate) {
         OnResizeEvent.Add(delegate);

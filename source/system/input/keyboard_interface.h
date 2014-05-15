@@ -7,7 +7,7 @@
 PUNK_ENGINE_BEGIN
 namespace System
 {
-	class IKeyBoard : public Core::IObject
+	class IKeyBoard : public virtual Core::IObject
     {
     public:
         virtual const bool& operator[] (int key) const = 0;
