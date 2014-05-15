@@ -88,6 +88,11 @@ namespace Core {
 	extern PUNK_ENGINE_API void DestroyRootObject() {
 		delete g_root_object;
 	}
+
+	extern PUNK_ENGINE_API void DestroyObject(IObject* object) {
+		if (object)
+			object->Release();
+	}
 }
 PUNK_ENGINE_END
             
