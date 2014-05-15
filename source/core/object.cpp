@@ -12,6 +12,27 @@ namespace Core {
 
 	Object::~Object() {}
 
+	void Object::QueryInterface(std::uint64_t type, void** object) {
+		*object = nullptr;
+		if (typeid(IObject).hash_code() == type) {
+			*object = (void*)this;
+			AddRef();
+		}
+	}
+
+	std::uint32_t Object::AddRef() {
+		m_ref_count.fetch_add(1);
+		return m_ref_count;
+	}
+
+	std::uint32_t Object::Release() {
+		if (!m_ref_count.fetch_sub(1)) {
+			delete this;
+		}
+		return m_ref_count;
+	}
+
+
 	void Object::SetOwner(IObject* object) {
 		m_container.SetOwner(object);
 	}

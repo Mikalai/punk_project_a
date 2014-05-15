@@ -16,6 +16,9 @@ namespace Core {
 	public:
 		Object(IObject* parent = nullptr);
 		virtual ~Object();
+		void QueryInterface(std::uint64_t type, void** object) override;
+		std::uint32_t AddRef() override;
+		std::uint32_t Release() override;
 		void SetOwner(IObject* object) override;
 		IObject* GetOwner() override;
 		const IObject* GetOwner() const override;
@@ -32,6 +35,7 @@ namespace Core {
 		Object& operator = (const Object& o) = delete;
 
 	private:
+		std::atomic<std::uint32_t> m_ref_count;
 		Container<IObject> m_container;
 	};
 }
