@@ -18,7 +18,7 @@ namespace Attributes {
 		virtual ~Geometry();	
 
 		//	IObject
-		void QueryInterface(std::uint64_t type, void** object) override;
+		void QueryInterface(const Core::Guid& type, void** object) override;
 
 		//	position
 		const Math::vec3* GetVertexPosition(std::uint32_t index) const override;
@@ -54,8 +54,8 @@ namespace Attributes {
 		void SetVertexBonesWeight(std::uint32_t index, const Math::vec4& weights, const Math::ivec4& bones) override;
 		void SetVertexBonesWeights(const Math::vec4v& weights, const Math::ivec4v& bones) override;
 		bool HasVertexBoneWeights() const override;
-		virtual const Core::String& GetArmatureSchema() const = 0;
-		virtual void SetArmatureSchema(Core::String& value) = 0;
+		const Core::String& GetArmatureSchema() const override;
+		void SetArmatureSchema(Core::String& value) override;
 
 		//	triangles
 		std::uint32_t GetTrianglesCount() const override;
@@ -76,6 +76,8 @@ namespace Attributes {
 		const Math::BoundingBox* GetBoundingBox() const override;
 		const Math::BoundingSphere* GetBoundingSphere() const override;
 		std::uint32_t GetVertexCount() override;
+		void SetName(const Core::String& name) override;
+		const Core::String& GetName() const override;
 
     protected:
 		Geometry(const Geometry&) = delete;
@@ -92,6 +94,7 @@ namespace Attributes {
         Math::BoundingSphere m_sphere;    
 		Math::ivec3v m_triangles;
 		Core::String m_armature_schema;
+		Core::String m_name;
 			
 		bool m_need_update{ true };
 

@@ -5,6 +5,7 @@
 #include <memory>
 #include <cstdint>
 #include <vector>
+#include <core/iobject.h>
 #include <math/vec2.h>
 #include <math/vec3.h>
 #include <math/vec4.h>
@@ -26,6 +27,8 @@ namespace Math {
 	class BoundingSphere;
 }
 namespace Attributes {
+
+	DEFINE_PUNK_GUID(IID_IGeometry, "3B04856F-622F-4AAD-984D-0A0FA5C34B27");
 
 	class IGeometry 
 		: public virtual Core::IObject

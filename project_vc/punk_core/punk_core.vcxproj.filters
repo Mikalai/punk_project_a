@@ -23,6 +23,7 @@
     <ClCompile Include="..\..\source\core\rtti.cpp" />
     <ClCompile Include="..\..\source\core\static_information.cpp" />
     <ClCompile Include="..\..\source\core\factory.cpp" />
+    <ClCompile Include="..\..\source\core\guid.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\core\component\component.h">
@@ -58,5 +59,6 @@
     <ClInclude Include="..\..\source\core\container.h" />
     <ClInclude Include="..\..\source\core\ifactory.h" />
     <ClInclude Include="..\..\source\core\factory.h" />
+    <ClInclude Include="..\..\source\core\guid.h" />
   </ItemGroup>
 </Project>

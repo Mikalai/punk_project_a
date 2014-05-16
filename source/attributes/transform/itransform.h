@@ -4,11 +4,13 @@
 #include <math/mat4.h>
 #include <math/vec3.h>
 #include <math/quat.h>
-#include <core/object.h>
+#include <core/iobject.h>
 
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
+	DEFINE_PUNK_GUID(IID_ITransform, "D5E28CA8-6751-46C3-8AE3-707FCFBF57A3");
+
     class ITransform : public virtual Core::IObject {
 	public:
 		virtual void SetMatrix(const Math::mat4& value) = 0;

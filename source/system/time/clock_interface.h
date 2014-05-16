@@ -8,6 +8,8 @@
 PUNK_ENGINE_BEGIN
 namespace System
 {
+	static const Core::Guid IID_IClock{ "9310B282 - 1E62 - 4DBE-872A - 7CDACECA51E0" };
+
     class IClock : public Core::IObject
     {
     public:

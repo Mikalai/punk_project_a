@@ -15,6 +15,8 @@ namespace System {
     using KeyboardAction = Core::ActionBasePtr<const KeyEvent&>;
     using KeyboardActionsCollection = std::map<Key, std::set<KeyboardAction>>;
 
+	static const Core::Guid IID_IKeyMap{ "2F416318-72A8-449B-9216-3E25352B8B09" };
+
 	class PUNK_ENGINE_API IKeyMap : public Core::IObject
     {
     public:

@@ -1,6 +1,7 @@
 #ifndef ISCENE_GRAPH_H
 #define ISCENE_GRAPH_H
 
+#include <core/iobject.h>
 #include <core/action.h>
 #include <memory>
 #include <config.h>
@@ -12,9 +13,10 @@ namespace Scene {
     class INode;
 	class IAttribute;
 
-    class ISceneGraph {
+	DEFINE_PUNK_GUID(IID_ISceneGraph, "3BA9C2DB-27C9-42BD-B3CC-AAEF16A91E19");
+
+    class ISceneGraph : public virtual Core::IObject {
     public:
-        virtual ~ISceneGraph() = 0;
         virtual void Lock() = 0;
         virtual void Unlock() = 0;
         virtual INode* GetRoot() = 0;
@@ -43,13 +45,10 @@ namespace Scene {
 		}
     };
 
-    inline ISceneGraph::~ISceneGraph() {}
-
-    using ISceneGraphUniquePtr = std::unique_ptr<ISceneGraph, void (*)(ISceneGraph*)>;
+	using ISceneGraphUniquePtr = Core::UniquePtr < ISceneGraph > ;
 
     extern PUNK_ENGINE_API ISceneGraphUniquePtr CreateSceneFromFile(const Core::String& datafolder, const Core::String& file);
     extern PUNK_ENGINE_API ISceneGraphUniquePtr CreateScene();
-    extern PUNK_ENGINE_API void DestroyScene(ISceneGraph* graph);
 }
 PUNK_ENGINE_END
 

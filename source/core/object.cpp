@@ -12,9 +12,9 @@ namespace Core {
 
 	Object::~Object() {}
 
-	void Object::QueryInterface(std::uint64_t type, void** object) {
+	void Object::QueryInterface(const Guid& type, void** object) {
 		*object = nullptr;
-		if (typeid(IObject).hash_code() == type) {
+		if (IID_IObject == type) {
 			*object = (void*)this;
 			AddRef();
 		}

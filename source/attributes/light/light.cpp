@@ -4,14 +4,18 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes {
 
-	void Light::QueryInterface(std::uint64_t type, void** object) {
+	Light::Light() {}
+
+	Light::~Light() {}
+
+	void Light::QueryInterface(const Core::Guid& type, void** object) {
 		if (!object)
 			return;
 
-		if (type == typeid(IDirectionalLight).hash_code() ||
-			type == typeid(IPointLight).hash_code() ||
-			type == typeid(ISpotLight).hash_code() ||
-			type == typeid(ILight).hash_code())
+		if (type == IID_IDirectionalLight ||
+			type == IID_IPointLight ||
+			type == IID_ISpotLight ||
+			type == IID_ILight)
 		{
 			*object = (void*)this;
 			AddRef();
@@ -27,9 +31,9 @@ namespace Attributes {
 		*object = (void*)( new Light );
 	}
 
-	PUNK_REGISTER_CREATOR(IDirectionalLight, CreateLight);
-	PUNK_REGISTER_CREATOR(ISpotLight, CreateLight);
-	PUNK_REGISTER_CREATOR(IPointLight, CreateLight);
+	PUNK_REGISTER_CREATOR(IID_IDirectionalLight, CreateLight);
+	PUNK_REGISTER_CREATOR(IID_ISpotLight, CreateLight);
+	PUNK_REGISTER_CREATOR(IID_IPointLight, CreateLight);
 	
 }
 PUNK_ENGINE_END

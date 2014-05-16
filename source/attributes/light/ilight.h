@@ -7,7 +7,10 @@
 
 PUNK_ENGINE_BEGIN
 namespace Attributes {
-	class ILight : public Core::IObject {
+
+	DEFINE_PUNK_GUID(IID_ILight, "37CE363B-3A53-4903-820C-00A3333371D1");
+
+	class ILight : public virtual Core::IObject{
 	public:
 		virtual void SetEnergy(float value) = 0;
 		virtual float GetEnergy() const = 0;

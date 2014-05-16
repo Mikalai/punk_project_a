@@ -7,27 +7,29 @@
 PUNK_ENGINE_BEGIN
 namespace Core {
 	class IObject;
+	class Guid;
+
 	class IFactory {
 	public:
-		virtual void CreateInstance(std::uint64_t type, void** object) = 0;
-		virtual void RegisterCreator(std::uint64_t type, void (*Creator)(void** object)) = 0;
-		virtual void UnregisterCreator(std::uint64_t type) = 0;
+		virtual void CreateInstance(const Guid& type, void** object) = 0;
+		virtual void RegisterCreator(const Guid& type, void(*Creator)(void** object)) = 0;
+		virtual void UnregisterCreator(const Guid& type) = 0;
 	};
 
 	extern PUNK_ENGINE_API IFactory* GetFactory();		
 
 	struct RegisterCreator {
-		RegisterCreator(std::uint64_t type, void (*F)(void**)) {
+		RegisterCreator(const Guid& type, void(*F)(void**)) {
 			GetFactory()->RegisterCreator(type, F); 
 		}
 	};
 
-#define PUNK_REGISTER_CREATOR(T, F) Core::RegisterCreator g_##T##creator{typeid(T).hash_code(), (F)}
+#define PUNK_REGISTER_CREATOR(T, F) Core::RegisterCreator g_##T##creator{T, (F)}
 
 	template<class T>
-	T* CreateInstance() {
+	T* CreateInstance(const Guid& type) {
 		T* object = nullptr;
-		GetFactory()->CreateInstance(typeid(T).hash_code(), (void**)&object);
+		GetFactory()->CreateInstance(type, (void**)&object);
 		return object;
 	}
 

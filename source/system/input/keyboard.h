@@ -2,7 +2,7 @@
 #define _H_PUNK_KEYBOARD_WIN32
 
 #include "core/iobject.h"
-#include "keyboard_interface.h"
+#include "ikeyboard.h"
 
 PUNK_ENGINE_BEGIN
 namespace System
@@ -18,7 +18,7 @@ namespace System
         bool& operator[] (int key) override;
         void SetKeyState(int key, bool state) override;
         bool GetKeyState(int key) const override;
-		void QueryInterface(std::uint64_t type, void** object) override;
+		void QueryInterface(const Core::Guid& type, void** object) override;
         bool (*GetKeyStates() override)[256];
         KeyboardImpl* impl;        
 

@@ -7,6 +7,8 @@
 PUNK_ENGINE_BEGIN
 namespace System
 {
+	static const Core::Guid IID_IKeyboard{ "F9D3A077-12AF-4FB2-9FB0-17F0326E3A7D" };
+
 	class IKeyBoard : public virtual Core::IObject
     {
     public:

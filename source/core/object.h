@@ -16,7 +16,7 @@ namespace Core {
 	public:
 		Object(IObject* parent = nullptr);
 		virtual ~Object();
-		void QueryInterface(std::uint64_t type, void** object) override;
+		void QueryInterface(const Guid& type, void** object) override;
 		std::uint32_t AddRef() override;
 		std::uint32_t Release() override;
 		void SetOwner(IObject* object) override;

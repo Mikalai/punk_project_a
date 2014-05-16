@@ -24,10 +24,10 @@ namespace System {
         GetDefaultLogger()->Info("Keyboard destroyed");
     }
 
-	void Keyboard::QueryInterface(std::uint64_t type, void** object) {
+	void Keyboard::QueryInterface(const Core::Guid& type, void** object) {
 		if (!object)
 			return;
-		if (typeid(IKeyBoard).hash_code() == type) {
+		if (IID_IKeyboard == type) {
 			*object = (void*)this;
 		}
 		else

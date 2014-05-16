@@ -12,7 +12,7 @@ PUNK_ENGINE_BEGIN
 namespace Graphics {
 
     Canvas::Canvas()		
-		: m_window{ Core::CreateInstance<System::IWindow>(), Core::DestroyObject }
+		: m_window{ Core::CreateInstance<System::IWindow>(System::IID_IWindow), Core::DestroyObject }
         , m_logger(System::GetDefaultLogger())
     {}
 
@@ -33,13 +33,13 @@ namespace Graphics {
     {
     }
 
-	void Canvas::QueryInterface(std::uint64_t type, void** object) {
+	void Canvas::QueryInterface(const Core::Guid& type, void** object) {
 		if (!object)
 			return;
 
-		if (type == typeid(Core::IObject).hash_code() ||
-			type == typeid(ICanvas).hash_code() ||
-			type == typeid(System::IWindow).hash_code()) {
+		if (type == Core::IID_IObject ||
+			type == IID_ICanvas ||
+			type == System::IID_IWindow) {
 			*object = (void*)this;
 			AddRef();
 		}
@@ -442,6 +442,6 @@ namespace Graphics {
 		*object = (void*)(new Canvas);
     }
 
-	PUNK_REGISTER_CREATOR(ICanvas, CreateCanvas);
+	PUNK_REGISTER_CREATOR(IID_ICanvas, CreateCanvas);
 }
 PUNK_ENGINE_END

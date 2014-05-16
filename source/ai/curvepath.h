@@ -9,7 +9,7 @@
 PUNK_ENGINE_BEGIN
 namespace AI
 {
-    class PUNK_ENGINE_API CurvePath : public Math::Curve, public Core::IObject
+    class PUNK_ENGINE_API CurvePath : public Math::Curve, public virtual Core::IObject
     {
     public:
         CurvePath();
@@ -22,7 +22,7 @@ namespace AI
     private:
         Core::String m_name;
     private:
-        PUNK_OBJECT_DEFAULT_IMPL(CurvePath)
+        PUNK_OBJECT_DEFAULT_IMPL2(CurvePath)
     };
 }
 PUNK_ENGINE_END

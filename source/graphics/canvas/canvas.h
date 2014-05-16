@@ -22,7 +22,7 @@ namespace Graphics {
 		void Initialize(const CanvasDescription& desc = CanvasDescription()) override;
 
 		//	IObject
-		void QueryInterface(std::uint64_t type, void** object) override;
+		void QueryInterface(const Core::Guid& type, void** object) override;
 
 		//	ICanvas
         void SetFullscreen(bool value) override;

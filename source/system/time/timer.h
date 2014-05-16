@@ -19,7 +19,7 @@ namespace System
         Timer();
 		~Timer();
 
-		void QueryInterface(std::uint64_t type, void** object) override;
+		void QueryInterface(const Core::Guid& type, void** object) override;
         double GetTime() const override;
         double GetElapsedSeconds() const override;
         double GetElapsedMiliseconds() const override;

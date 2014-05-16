@@ -16,7 +16,7 @@ namespace Attributes {
 		virtual ~Light();
 
 		///	IObject
-		void QueryInterface(std::uint64_t type, void** object) override;
+		void QueryInterface(const Core::Guid& type, void** object) override;
 
 		//	ILight
 		void SetEnergy(float value) override { m_energy = value; }

@@ -10,6 +10,8 @@ namespace System
     class Window;
     enum class MouseButtons { LeftButton = 0, RightButton, MiddleButton };
 
+	static const Core::Guid IID_IMouse{ "CCC4818A-8BB3-4713-8DD1-006411F62EF0" };
+
 	class IMouse : public Core::IObject
     {
     public:

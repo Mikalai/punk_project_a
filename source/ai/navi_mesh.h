@@ -10,7 +10,7 @@ PUNK_ENGINE_BEGIN
 namespace Core { class String; }
 namespace AI {
 
-    class PUNK_ENGINE_API NaviMesh : public Core::IObject
+    class PUNK_ENGINE_API NaviMesh : public virtual Core::IObject
 	{
 	public:
         typedef std::vector<Math::vec3> Points;
@@ -47,7 +47,7 @@ namespace AI {
         Normals m_normals;
         Faces m_faces;
 
-        PUNK_OBJECT_DEFAULT_IMPL(NaviMesh)
+        PUNK_OBJECT_DEFAULT_IMPL2(NaviMesh)
 	};
 }
 PUNK_ENGINE_END

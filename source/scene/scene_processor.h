@@ -67,7 +67,7 @@ namespace Scene {
 		Core::String m_scene_file;
 		Core::String m_data_path;
         std::vector<IGraphProcessor*> m_proc;
-        ISceneGraphUniquePtr m_scene_graph{nullptr, DestroyScene};
+        ISceneGraphUniquePtr m_scene_graph{nullptr, Core::DestroyObject};
         System::Thread m_thread;
         std::deque<Command> m_commands;
         System::Monitor m_lock;

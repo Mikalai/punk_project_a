@@ -5,7 +5,7 @@
 #include <map>
 #include <array>
 #include "core/action.h"
-#include "keymap_interface.h"
+#include "ikeymap.h"
 
 PUNK_ENGINE_BEGIN
 namespace System
@@ -20,7 +20,7 @@ namespace System
         KeyMap();
         virtual ~KeyMap();
 
-		void QueryInterface(std::uint64_t type, void** object) override;
+		void QueryInterface(const Core::Guid& type, void** object) override;
         void OnKeyEvent(const KeyEvent& event) override;
         void Add(Key key, KeyboardAction action) override;
         void Remove(Key key, KeyboardAction action) override;

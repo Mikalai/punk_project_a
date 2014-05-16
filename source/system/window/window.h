@@ -39,7 +39,7 @@ namespace System
         virtual void Quite() override;
         virtual void ShowCursor(bool value) override; */       
 
-		void QueryInterface(std::uint64_t type, void** object) override;
+		void QueryInterface(const Core::Guid& type, void** object) override;
         virtual void SubscribeResizeEvent(ResizeEventDelegate) override;
         virtual void UnsubscribeResizeEvent(ResizeEventDelegate) override;
         virtual void SubscribeKeyEvent(KeyEventDelegate) override;

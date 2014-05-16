@@ -16,7 +16,7 @@ namespace System
     public:
         AsyncLoader();
         virtual ~AsyncLoader();
-		void QueryInterface(std::uint64_t type, void** object) override;
+		void QueryInterface(const Core::Guid& type, void** object) override;
         virtual int AddWorkItem(AbstractDataLoader* loader, AbstractDataProcessor* processor, unsigned* result) = 0;
         virtual unsigned MainThreadProc(unsigned num_to_process) = 0;
 

@@ -2,7 +2,7 @@
 #define _H_PUNK_SYSTEM_MOUSE
 
 #include "core/object.h"
-#include "mouse_interface.h"
+#include "imouse.h"
 
 PUNK_ENGINE_BEGIN
 namespace System
@@ -19,7 +19,7 @@ namespace System
 
 		Mouse();
         virtual ~Mouse();
-		void QueryInterface(std::uint64_t type, void** object) override;
+		void QueryInterface(const Core::Guid& type, void** object) override;
         void Show(bool value) override;
         void LockInWindow(bool value) override;
         void SetButtonState(MouseButtons button, bool state) override;

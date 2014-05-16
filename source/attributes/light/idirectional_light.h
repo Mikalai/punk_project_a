@@ -7,7 +7,9 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-    class PUNK_ENGINE_API IDirectionalLight : public virtual ILight
+	DEFINE_PUNK_GUID(IID_IDirectionalLight, "732C939A-544C-4F50-89BC-BC7889CBCD91");
+
+    class IDirectionalLight : public virtual ILight
     {
     public:        
 		virtual const Math::vec3 GetDirection() const = 0;

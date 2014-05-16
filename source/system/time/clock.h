@@ -25,7 +25,7 @@ namespace System {
 		*	Used to increment time of the clock
 		*	\param us Time in microseconds
 		*/
-		void QueryInterface(std::uint64_t type, void**) override;
+		void QueryInterface(const Core::Guid& type, void**) override;
         void Advance(int64_t us) override;        
         int Year() const override;
         int Month() const override;

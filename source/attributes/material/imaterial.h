@@ -4,24 +4,30 @@
 #include <core/object.h>
 #include <math/vec3.h>
 #include <math/vec4.h>
+#include <string/string.h>
+#include "idiffuse_texture_slot.h"
+#include "inormal_texture_slot.h"
+#include "ispecular_intensity_texture_slot.h"
 
 PUNK_ENGINE_BEGIN
-namespace Attributes
-{
+namespace Attributes {
 	class ITextureSlot;
+
+	DEFINE_PUNK_GUID(IID_IMaterial, "A62FF5E9-6F01-4094-AFEA-CEB9D4F1C3BD");
 
 	class IMaterial : public virtual Core::IObject
 	{
 	public:
-		virtual void SetDiffuseMap(const Core::String& map) = 0;
-		virtual void SetNormalMap(const Core::String& map) = 0;
-		virtual void SetSpecularMap(const Core::String& map) = 0;
+		virtual void SetDiffuseTextureSlot(IDiffuseTextureSlot* value) = 0;
+		virtual void SetNormalTextureSlot(INormalTextureSlot* value) = 0;
+		virtual void SetSpecularTextureSlot(ISpecularIntensityTextureSlot* value) = 0;
+		virtual IDiffuseTextureSlot* GetDiffuseTextureSlot() = 0;
+		virtual INormalTextureSlot* GetNormalTextureSlot() = 0;
+		virtual ISpecularIntensityTextureSlot* GetSpecularTextureSlot() = 0;
 		virtual void SetDiffuseColor(const Math::vec4& color) = 0;
 		virtual void SetSpecularColor(const Math::vec4& color) = 0;
 		virtual void SetSpecularFactor(float value) = 0;
-		virtual void SetName(const Core::String& name) = 0;
-		virtual const Core::String& GetDiffuseMap() const = 0;
-		virtual const Core::String& GetNormalMap() const = 0;
+		virtual void SetName(const Core::String& name) = 0;		
 		virtual const Math::vec4& GetDiffuseColor() const = 0;
 		virtual const Math::vec4& GetSpecularColor() const = 0;
 		virtual float GetSpecularFactor() const = 0;
@@ -53,11 +59,7 @@ namespace Attributes
 		virtual void SetSpecularSlope(float value) = 0;
 		virtual float GetSpecularSlope() const = 0;
 		virtual void SetTranslucency(float value) = 0;
-		virtual float GetTranslucency() const = 0;
-		virtual void AddTextureSlot(ITextureSlot* value) = 0;;
-		virtual ITextureSlot* GetTextureSlot(size_t index) = 0;;
-		virtual const ITextureSlot* GetTextureSlot(size_t index) const = 0;;
-		virtual size_t GetTextureSlotCount() const = 0;;
+		virtual float GetTranslucency() const = 0;		
 	};	
 }
 PUNK_ENGINE_END

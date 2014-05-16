@@ -20,7 +20,7 @@ namespace Attributes
 		virtual ~Transform();
 
 		//	IObject
-		void QueryInterface(std::uint64_t type, void** object) override;
+		void QueryInterface(const Core::Guid& type, void** object) override;
 
 		//	ITransform
 		void SetMatrix(const Math::mat4& value) override;

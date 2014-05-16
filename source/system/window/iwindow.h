@@ -21,6 +21,8 @@ namespace System {
     using WindowDestroyDelegate = Core::ActionBasePtr<void>;
     using IdleEventDelegate = Core::ActionBasePtr<const IdleEvent&>;
 
+	static const Core::Guid IID_IWindow{ "2CDB7400-50E8-4C02-B75D-DA9AA7524390" };
+
     class IWindow : public virtual Core::IObject {
     public:
 		virtual void Initialize(const WindowDescription& desc) = 0;

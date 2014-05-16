@@ -60,12 +60,12 @@ namespace System
 		impl = nullptr;
 	}
 
-	void KeyMap::QueryInterface(std::uint64_t type, void** object) {
+	void KeyMap::QueryInterface(const Core::Guid& type, void** object) {
 		if (!object)
 			return;
 
-		if (type == typeid(Core::IObject).hash_code() ||
-			type == typeid(IKeyMap).hash_code()) {
+		if (type == Core::IID_IObject ||
+			type == IID_IKeyMap) {
 			*object = (void*)this;
 			AddRef();
 		}

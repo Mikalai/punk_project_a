@@ -9,6 +9,8 @@
 PUNK_ENGINE_BEGIN
 namespace System {
 
+	static const Core::Guid IID_IAsyncLoader{ "1A9DA15D-7147-416A-8F5B-AF48D9ECF7B6" };
+
     class IAsyncLoader : public Core::IObject {
         virtual int AddWorkItem(AbstractDataLoader* loader, AbstractDataProcessor* processor, unsigned* result) = 0;
         virtual unsigned MainThreadProc(unsigned num_to_process) = 0;

@@ -14,9 +14,9 @@ namespace System {
     {
     }
 	
-	void Window::QueryInterface(std::uint64_t type, void** object) {
-		if (type == typeid(IWindow).hash_code() ||
-			type == typeid(Core::IObject).hash_code()) {
+	void Window::QueryInterface(const Core::Guid& type, void** object) {
+		if (type == IID_IWindow ||
+			type == Core::IID_IObject) {
 			*object = (void*)this;
 			AddRef();
 		}

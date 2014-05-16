@@ -8,16 +8,15 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-	Core::Rtti MaterialType{ "Attributes.Material", typeid(Material).hash_code(), { Core::IObject::Type() } };
 
-	Core::Rtti* Material::Type() {
-		return &MaterialType;
+	void CreateMaterial(void** object) {
+		if (!object)
+			return;
+		*object = (void*)(new Material);
 	}
 
     Material::Material()
-		: m_diffuse_map(L"")
-		, m_normal_map(L"")
-		, m_diffuse_color(0.1f, 0.1f, 0.1f, 1.0f)
+		: m_diffuse_color(0.1f, 0.1f, 0.1f, 1.0f)
 		, m_specular_color(1.0f, 1.0f, 1.0f, 1.0f)
 		, m_specular_factor(128)
 		, m_name(L"")
@@ -34,6 +33,18 @@ namespace Attributes
 		, m_specular_slope(0.0f)
 		, m_translucency(0.0f)
     {}
+
+	void Material::QueryInterface(const Core::Guid& type, void** object) {
+		if (!object)
+			return;
+		if (type == IID_IMaterial ||
+			type == Core::IID_IObject) {
+			*object = (void*)this;
+			AddRef();
+		}
+		else
+			*object = nullptr;
+	}
 
 //	Material::Material(const Utility::MaterialDesc& desc)
 //	{
@@ -59,27 +70,12 @@ namespace Attributes
 
     Material::~Material()
     {
-        while (!m_texture_slots.empty())
-        {
-            delete m_texture_slots.back();
-            m_texture_slots.pop_back();
-        }
-    }
-
-
-    void Material::SetDiffuseMap(const Core::String& map)
-	{
-		m_diffuse_map = map;
-	}
-
-    void Material::SetNormalMap(const Core::String& map)
-	{
-		m_normal_map = map;
-	}
-
-    void Material::SetSpecularMap(const Core::String &map)
-    {
-        m_specular_map = map;
+		if (m_diffuse_textue_slot)
+			m_diffuse_textue_slot->Release();
+		if (m_normal_texture_slot)
+			m_normal_texture_slot->Release();
+		if (m_specular_texture_slot)
+			m_specular_texture_slot->Release();
     }
 
 	void Material::SetDiffuseColor(const Math::vec4& color)
@@ -102,16 +98,6 @@ namespace Attributes
 		m_name = name;
 	}
 
-	const Core::String& Material::GetDiffuseMap() const
-	{
-		return m_diffuse_map;
-	}
-
-	const Core::String& Material::GetNormalMap() const
-	{
-		return m_normal_map;
-	}
-
 	const Math::vec4& Material::GetDiffuseColor() const
 	{
 		return m_diffuse_color;
@@ -131,35 +117,5 @@ namespace Attributes
 	{
 		return m_name;
 	}
-
-	Material* Material::CreateFromFile(const Core::String& path)
-	{
-		return nullptr;
-	}
-
-	Material* Material::CreateFromStream(std::istream& stream)
-	{
-		return nullptr;
-	}
-
-    void Material::AddTextureSlot(TextureSlot* value)
-    {
-        m_texture_slots.push_back(value);
-    }
-
-    TextureSlot* Material::GetTextureSlot(size_t index)
-    {
-        return m_texture_slots.at(index);
-    }
-
-    const TextureSlot* Material::GetTextureSlot(size_t index) const
-    {
-        return m_texture_slots.at(index);
-    }
-
-    size_t Material::GetTextureSlotCount() const
-    {
-        return m_texture_slots.size();
-    }
 }
 PUNK_ENGINE_END

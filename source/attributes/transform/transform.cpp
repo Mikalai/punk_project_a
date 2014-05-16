@@ -13,7 +13,7 @@ namespace Attributes
 		*object = (void*)(new Transform);
 	}
 
-	PUNK_REGISTER_CREATOR(ITransform, CreateTransform);
+	PUNK_REGISTER_CREATOR(IID_ITransform, CreateTransform);
 
 	Transform::Transform(const Math::mat4& m)
 	{
@@ -25,6 +25,18 @@ namespace Attributes
 
 	Transform::~Transform()
     {}
+
+	void Transform::QueryInterface(const Core::Guid& type, void** object) {
+		if (!object)
+			return;
+		if (type == Core::IID_IObject ||
+			type == IID_ITransform) {
+			*object = (void*)this;
+			AddRef();
+		}
+		else
+			*object = nullptr;
+	}
 
 	void Transform::SetMatrix(const Math::mat4& value) {
 		m_transform = value;

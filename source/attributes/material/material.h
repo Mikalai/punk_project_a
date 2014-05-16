@@ -8,13 +8,14 @@
 #include <core/object.h>
 #include <math/vec4.h>
 #include <string/string.h>
+#include "imaterial.h"
 
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
     class TextureSlot;
 
-    class PUNK_ENGINE_API Material : public Core::IObject
+    class PUNK_ENGINE_LOCAL Material : public IMaterial
 	{
 	public:		
 
@@ -23,75 +24,70 @@ namespace Attributes
         Material& operator = (const Material&) = delete;
         virtual ~Material();
 
-		void SetDiffuseMap(const Core::String& map);
-		void SetNormalMap(const Core::String& map);
-        void SetSpecularMap(const Core::String& map);
-		void SetDiffuseColor(const Math::vec4& color);
-		void SetSpecularColor(const Math::vec4& color);
-		void SetSpecularFactor(float value);
-		void SetName(const Core::String& name);
+		void QueryInterface(const Core::Guid& type, void** object) override;
+		void SetDiffuseTextureSlot(IDiffuseTextureSlot* value) override { m_diffuse_textue_slot = value; }
+		void SetNormalTextureSlot(INormalTextureSlot* value) override { m_normal_texture_slot = value; }
+		void SetSpecularTextureSlot(ISpecularIntensityTextureSlot* value) override { m_specular_texture_slot = value; }
+		IDiffuseTextureSlot* GetDiffuseTextureSlot() override { return m_diffuse_textue_slot; }
+		INormalTextureSlot* GetNormalTextureSlot() override { return m_normal_texture_slot; }
+		ISpecularIntensityTextureSlot* GetSpecularTextureSlot() override { return m_specular_texture_slot; }
 
-		const Core::String& GetDiffuseMap() const;
-		const Core::String& GetNormalMap() const;
-		const Math::vec4& GetDiffuseColor() const;
-		const Math::vec4& GetSpecularColor() const;
-		float GetSpecularFactor() const;
-		const Core::String& GetName() const;
+		void SetDiffuseColor(const Math::vec4& color) override;
+		void SetSpecularColor(const Math::vec4& color) override;
+		void SetSpecularFactor(float value) override;
+		void SetName(const Core::String& name) override;
+		const Math::vec4& GetDiffuseColor() const override;
+		const Math::vec4& GetSpecularColor() const override;
+		float GetSpecularFactor() const override;
+		const Core::String& GetName() const override;
 
-		void SetAlpha(float value) { m_diffuse_color[3] = value; }
-		float GetAlpha() const { return m_diffuse_color[3]; }
+		void SetAlpha(float value) override { m_diffuse_color[3] = value; }
+		float GetAlpha() const override{ return m_diffuse_color[3]; }
 
-		void SetAmbient(float value) { m_ambient = value; }
-		float GetAmbient() const { return m_ambient; }
+		void SetAmbient(float value) override { m_ambient = value; }
+		float GetAmbient() const override{ return m_ambient; }
 
 		void SetDiffuseIntensity(float value) { m_diffuse_intensity = value; }
-		float GetDiffuseIntensity() const { return m_diffuse_intensity; }
+		float GetDiffuseIntensity() const override { return m_diffuse_intensity; }
 
-		void SetDarkness(float value) { m_darkness = value; }
-		float GetDarkness() const { return m_darkness; }
+		void SetDarkness(float value) override { m_darkness = value; }
+		float GetDarkness() const override { return m_darkness; }
 
-		void SetDiffuseFresnel(float value ) { m_diffuse_fresnel = value; }
-		float GetDiffuseFresnel() const { return m_diffuse_fresnel; }
+		void SetDiffuseFresnel(float value) override { m_diffuse_fresnel = value; }
+		float GetDiffuseFresnel() const override { return m_diffuse_fresnel; }
 
-		void SetDiffuseFresnelFactor(float value) { m_diffuse_fresnel_factor = value; }
-		float GetDiffuseFresnelFactor() const { return m_diffuse_fresnel_factor; }
+		void SetDiffuseFresnelFactor(float value) override { m_diffuse_fresnel_factor = value; }
+		float GetDiffuseFresnelFactor() const override { return m_diffuse_fresnel_factor; }
 
-		void SetEmit(float value) { m_emit = value; }
-		float GetEmit() const { return m_emit; }
+		void SetEmit(float value) override { m_emit = value; }
+		float GetEmit() const override { return m_emit; }
 
-		void SetMirrorColor(Math::vec4 value) { m_mirror_color = value; }
-		const Math::vec4 GetMirrorColor() const { return m_mirror_color; }
+		void SetMirrorColor(Math::vec4 value) override { m_mirror_color = value; }
+		const Math::vec4 GetMirrorColor() const override { return m_mirror_color; }
 
-		void SetRoughness(float value) { m_roughness = value; }
-		float GetRoughness() const { return m_roughness; }
+		void SetRoughness(float value) override { m_roughness = value; }
+		float GetRoughness() const override { return m_roughness; }
 
-		void SetSpecularAlpha(float value) { m_specular_color[3] = value; }
-		float GetSpecularAlpha() const { return m_specular_color[3]; }
+		void SetSpecularAlpha(float value) override { m_specular_color[3] = value; }
+		float GetSpecularAlpha() const override { return m_specular_color[3]; }
 
-		void SetSpecularIntensity(float value) { m_specular_intensity = value; }
-		float GetSpecularIntensity() const { return m_specular_intensity; }
+		void SetSpecularIntensity(float value) override { m_specular_intensity = value; }
+		float GetSpecularIntensity() const override { return m_specular_intensity; }
 
-		void SetSpecularIndexOfRefraction(float value) { m_specular_index_of_refraction = value; }
-		float GetSpecularIndexOfRefraction() const { return m_specular_index_of_refraction; }
+		void SetSpecularIndexOfRefraction(float value) override { m_specular_index_of_refraction = value; }
+		float GetSpecularIndexOfRefraction() const override { return m_specular_index_of_refraction; }
 
-		void SetSpecularSlope(float value) { m_specular_slope = value; }
-		float GetSpecularSlope() const { return m_specular_slope; }
+		void SetSpecularSlope(float value) override { m_specular_slope = value; }
+		float GetSpecularSlope() const override { return m_specular_slope; }
 
-		void SetTranslucency(float value) { m_translucency = value; }
-		float GetTranslucency() const { return m_translucency; }
-
-        void AddTextureSlot(TextureSlot* value);
-        TextureSlot* GetTextureSlot(size_t index);
-        const TextureSlot* GetTextureSlot(size_t index) const;
-        size_t GetTextureSlotCount() const;		
-
-		static Material* CreateFromFile(const Core::String& path);
-		static Material* CreateFromStream(std::istream& stream);
+		void SetTranslucency(float value) override { m_translucency = value; }
+		float GetTranslucency() const override { return m_translucency; }		
 
 	private:
 		
-		Core::String m_diffuse_map;
-		Core::String m_normal_map;
+		IDiffuseTextureSlot* m_diffuse_textue_slot{ nullptr };
+		INormalTextureSlot* m_normal_texture_slot{ nullptr };
+		ISpecularIntensityTextureSlot* m_specular_texture_slot{ nullptr };
         Core::String m_specular_map;
 		Math::vec4 m_diffuse_color;
 		Math::vec4 m_specular_color;
@@ -110,9 +106,7 @@ namespace Attributes
 		float m_specular_slope;
 		float m_translucency;				
 
-        std::vector<TextureSlot*> m_texture_slots;
-
-        PUNK_OBJECT_DEFAULT_IMPL(Material)
+        PUNK_OBJECT_DEFAULT_IMPL3(Material)
 	};
 
 	typedef std::map<Core::String, Material> Materials;

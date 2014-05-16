@@ -6,14 +6,19 @@
 #include <cstdint>
 #include <atomic>
 #include <memory>
+#include "guid.h"
 #include "container.h"
 
 PUNK_ENGINE_BEGIN
 namespace Core {
 	class String;
+	class Guid;
+
+	DEFINE_PUNK_GUID(IID_IObject, "B07B8739-46DA-41FF-80FB-02243DBC2D19");
+
 	class IObject {
 	public:
-		virtual void QueryInterface(std::uint64_t type, void** object) = 0;
+		virtual void QueryInterface(const Guid& type, void** object) = 0;
 		virtual std::uint32_t AddRef() = 0;
 		virtual std::uint32_t Release() = 0;
 		virtual void SetOwner(IObject* object) = 0;
@@ -54,7 +59,7 @@ namespace Core {
 		return m_ref_count;\
 	}\
 	\
-	void Object::QueryInterface(std::uint64_t type, void** object) {\
+	void Object::QueryInterface(const Guid& type, void** object) {\
 	*object = nullptr;\
 	if (typeid(IObject).hash_code() == type) {\
 		*object = (void*)this;\

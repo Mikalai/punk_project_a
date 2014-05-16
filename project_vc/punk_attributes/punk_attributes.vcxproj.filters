@@ -79,9 +79,6 @@
     <ClCompile Include="..\..\source\attributes\manager\material_manager.cpp">
       <Filter>manager</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\attributes\data\camera.cpp">
-      <Filter>data</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\attributes\data\entity.cpp">
       <Filter>data</Filter>
     </ClCompile>
@@ -153,6 +150,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\material\texture_slot.cpp">
       <Filter>material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\camera\camera.cpp">
+      <Filter>camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -282,9 +282,6 @@
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\manager\material_manager.h">
       <Filter>manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\attributes\data\camera.h">
-      <Filter>data</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\data\door.h">
       <Filter>data</Filter>
@@ -451,6 +448,24 @@
     <ClInclude Include="..\..\source\attributes\material\itexture_slot.h">
       <Filter>material</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\attributes\material\idiffuse_texture_slot.h">
+      <Filter>material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\material\ispecular_intensity_texture_slot.h">
+      <Filter>material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\material\inormal_texture_slot.h">
+      <Filter>material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\camera\camera.h">
+      <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\camera\icamera.h">
+      <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\camera\module.h">
+      <Filter>camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="water">
@@ -497,6 +512,9 @@
     </Filter>
     <Filter Include="material">
       <UniqueIdentifier>{3e55d6e8-85e6-4d61-ba06-36902bdb88c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="camera">
+      <UniqueIdentifier>{4dfa7d25-b918-4b87-a3ac-5d9eda026e97}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

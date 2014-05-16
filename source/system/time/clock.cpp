@@ -110,12 +110,12 @@ namespace System {
 		return t;
 	}
 
-	void Clock::QueryInterface(std::uint64_t type, void** object) {
+	void Clock::QueryInterface(const Core::Guid& type, void** object) {
 		if (!object)
 			return;
 
-		if (type == typeid(Core::IObject).hash_code() ||
-			type == typeid(IClock).hash_code()) {
+		if (type == Core::IID_IObject ||
+			type == IID_IClock) {
 			*object = (void*)this;
 			AddRef();
 		}

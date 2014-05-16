@@ -1,19 +1,28 @@
+#include <core/ifactory.h>
 #include "geometry.h"
 
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
+	void CreateGeometry(void** object) {
+		if (!object)
+			return;
+		*object = (void*)(new Geometry);
+	}
+
+	PUNK_REGISTER_CREATOR(IID_IGeometry, CreateGeometry);
+
 	Geometry::Geometry()
 	{}
 
 	Geometry::~Geometry()
 	{}
 
-	void Geometry::QueryInterface(std::uint64_t type, void** object) {
+	void Geometry::QueryInterface(const Core::Guid& type, void** object) {
 		if (!object)
 			return;
-		if (type == typeid(Core::IObject).hash_code() ||
-			type == typeid(IGeometry).hash_code()) {
+		if (type == Core::IID_IObject ||
+			type == IID_IGeometry) {
 			*object = (void*)this;
 			AddRef();
 		}
@@ -198,6 +207,14 @@ namespace Attributes
 
 	std::uint32_t Geometry::GetVertexCount() {
 		return m_position.size();
+	}
+
+	void Geometry::SetName(const Core::String& value) {
+		m_name = value;
+	}
+
+	const Core::String& Geometry::GetName() const {
+		return m_name;
 	}
 }
 PUNK_ENGINE_END

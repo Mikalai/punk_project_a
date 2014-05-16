@@ -9,6 +9,8 @@ PUNK_ENGINE_BEGIN
 namespace Core { class String; }
 namespace System
 {
+	static const Core::Guid IID_ITimer{ "F57B801C-AA35-4631-A7E5-53E10B41C404" };
+
     class ITimer : public Core::IObject
     {
     public:

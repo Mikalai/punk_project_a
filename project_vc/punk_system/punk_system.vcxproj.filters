@@ -134,22 +134,13 @@
     <ClInclude Include="..\..\source\system\input\keyboard.h">
       <Filter>input</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\system\input\keyboard_interface.h">
-      <Filter>input</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\system\input\keymap.h">
-      <Filter>input</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\system\input\keymap_interface.h">
       <Filter>input</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\system\input\module.h">
       <Filter>input</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\system\input\mouse.h">
-      <Filter>input</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\system\input\mouse_interface.h">
       <Filter>input</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\system\logger\console_consumer.h">
@@ -247,6 +238,18 @@
     </ClInclude>
     <ClInclude Include="..\..\source\system\window\iwindow.h">
       <Filter>window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\input\ikeyboard.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\input\ikeymap.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\input\imouse.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\input\iconsole.h">
+      <Filter>input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
