@@ -12,30 +12,31 @@ namespace System
 {
     LRESULT CALLBACK WindowCallBack(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-    class PUNK_ENGINE_API WindowWin : public Window
+    class PUNK_ENGINE_LOCAL WindowWin : public Window
     {
     public:
-        WindowWin(const WindowDescription& desc = WindowDescription());
+        WindowWin();
         ~WindowWin();        
 
-        int GetDesktopWidth() const;
-        int GetDesktopHeight() const;
-        int GetDesktopBitsPerPixel() const;
-        int GetDesktopRefreshRate() const;
-        int GetWidth() const;
-        int GetHeight() const;
-        int GetX() const;
-        int GetY() const;
-        void SetSize(int width, int height);
-        void SetPosition(int x, int y);
+		void Initialize(const WindowDescription& desc) override;
+		int GetDesktopWidth() const override;
+		int GetDesktopHeight() const override;
+		int GetDesktopBitsPerPixel() const override;
+		int GetDesktopRefreshRate() const override;
+		int GetWidth() const override;
+		int GetHeight() const override;
+		int GetX() const override;
+		int GetY() const override;
+		void SetSize(int width, int height) override;
+		void SetPosition(int x, int y) override;
 		int Update(int dt) override;
-        int Loop();
-        void BreakMainLoop();
-        void SetTitle(const Core::String& text);
-        const Core::String GetTitle() const;
-        void Quite();
-        void ShowCursor(bool value);
-        operator HWND ();
+		int Loop() override;
+		void BreakMainLoop() override;
+		void SetTitle(const Core::String& text) override;
+		const Core::String GetTitle() const override;
+		void Quite() override;
+		void ShowCursor(bool value) override;
+		HWND GetNativeHandle() override;
 
     protected:
 
@@ -49,7 +50,7 @@ namespace System
 		ITimerUniquePtr m_timer{ nullptr, DestroyTimer };
 
         friend LRESULT CALLBACK WindowCallBack(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-    };
+    };	
 }
 PUNK_ENGINE_END
 

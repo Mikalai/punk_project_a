@@ -22,14 +22,14 @@ namespace Graphics {
 	class IFrameBuffer;
 	class ICanvas;
 	class IVideoDriverSettings;
+	class IRender;
 
 	class PUNK_ENGINE_API IVideoDriver
 	{
 	public:
-		virtual ICanvas* GetCanvas() = 0;
-		virtual Frame* BeginFrame() = 0;
-		virtual void EndFrame(Frame* value) = 0;
+		virtual ICanvas* GetCanvas() = 0;		
 		virtual IVideoDriverSettings* GetSettings() = 0;
+		virtual IRender* GetRender() = 0;
 	};
 
 	using IVideoDriverUniquePtr = std::unique_ptr < IVideoDriver, void(*)(IVideoDriver*) > ;

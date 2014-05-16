@@ -8,7 +8,9 @@
 #include <system/logger/module.h>
 #include "armature_animation_mixer.h"
 #include "bone_animation.h"
-#include "action.h"
+#include <attributes/animation/action.h>
+#include <attributes/skinning/iarmature_schema.h>
+#include <attributes/skinning/iarmature.h>
 
 
 PUNK_ENGINE_BEGIN
@@ -32,29 +34,28 @@ namespace Attributes
 
     bool ArmatureAnimationMixer::GetBoneMatrix(const Core::String& bone, Math::mat4& matrix)
     {
-        try
-        {
-            Math::mat4 pos = Math::CreateTranslate(m_result[GetBoneIndex(bone)].m_position);
-            Math::mat4 rot = Math::CreateFromQuaternion(m_result[GetBoneIndex(bone)].m_rotation);
-            matrix = pos*rot;
-            return true;
-        }
-        catch(std::out_of_range&)
-        {
-            System::GetDefaultLogger()->Error("No bone in armature with name " + bone);
-            return false;
-        }
+        //try
+        //{
+        //    Math::mat4 pos = Math::CreateTranslate(m_result[GetBoneIndex(bone)].m_position);
+        //    Math::mat4 rot = Math::CreateFromQuaternion(m_result[GetBoneIndex(bone)].m_rotation);
+        //    matrix = pos*rot;
+        //    return true;
+        //}
+        //catch(std::out_of_range&)
+        //{
+        //    System::GetDefaultLogger()->Error("No bone in armature with name " + bone);
+        //    return false;
+        //}
         return true;
     }
 
     void ArmatureAnimationMixer::SetTrackTime(float frame)
     {
-        size_t result_size = m_armature->GetBonesCount();
-        m_result.resize(result_size);
-        for (auto& bone : m_result)
+        size_t bones_count = m_armature->GetSchema()->GetBonesCount();
+		for (int i = 0; i <  bones_count; ++i)
         {
-            bone.m_position.Set(0,0,0);
-            bone.m_rotation.Set(0,0,0,0);
+			m_armature->SetBoneLocalPosition(i, { 0, 0, 0 });
+			m_armature->SetBoneLocalRotation(i, { 0, 0, 0, 0 });
         }
 
         for (size_t track_index = 0; track_index != m_tracks_array.size(); ++track_index)
@@ -83,8 +84,8 @@ namespace Attributes
                     Math::vec3 pos = track->GetPosition(m_current_time);
                     Math::quat rot = track->GetRotation(m_current_time);
 
-                    m_result[bone_index].m_position += pos * options.m_weight;
-                    m_result[bone_index].m_rotation += rot * options.m_weight;
+					m_armature->SetBoneLocalPosition(bone_index, *m_armature->GetBoneLocalPosition(bone_index) + pos * options.m_weight);					
+					m_armature->SetBoneLocalRotation(bone_index, *m_armature->GetBoneLocalRotation(bone_index) + rot * options.m_weight);
                 }
             }
         }
@@ -127,7 +128,7 @@ namespace Attributes
 
     size_t ArmatureAnimationMixer::GetBoneIndex(const Core::String& value)
     {
-        return m_armature->GetBoneIndex(value);
+		return -1;// m_armature->GetBoneIndex(value);
     }
 
     void ArmatureAnimationMixer::EnableTrack(size_t track, bool flag)
@@ -153,42 +154,40 @@ namespace Attributes
 
     bool ArmatureAnimationMixer::GetBoneMatrix(size_t bone, Math::mat4& matrix)
     {
-        Math::mat4 pos = Math::CreateTranslate(m_result[bone].m_position);
-        Math::mat4 rot = Math::CreateFromQuaternion(m_result[bone].m_rotation);
-        matrix = pos*rot;
+        //Math::mat4 pos = Math::CreateTranslate(m_result[bone].m_position);
+        //Math::mat4 rot = Math::CreateFromQuaternion(m_result[bone].m_rotation);
+        //matrix = pos*rot;
         return true;
     }
 
     void ArmatureAnimationMixer::UpdateGlobalMatrix()
     {
-        m_animated_global_matrix.resize(m_armature->GetBonesCount());
+        /*m_animated_global_matrix.resize(m_armature->GetBonesCount());
         for (size_t i = 0; i != m_armature->GetRootsBonesCount(); ++i)
         {
             UpdateBonesMatrix(m_armature->GetRootBone(i));
-        }
+        }*/
     }
 
-    void ArmatureAnimationMixer::UpdateBonesMatrix(Bone* value)
-    {
-        const Bone* parent = value->GetParent();
-        if (parent)
-        {
-            Math::mat4 bone_matrix;
-            GetBoneMatrix(value->GetIndex(), bone_matrix);
-            Math::mat4 global = m_animated_global_matrix[parent->GetIndex()] * value->GetLocalMatrix() * bone_matrix * value->GetLocalMatrix().Inversed();
-            m_animated_global_matrix[value->GetIndex()] = global;
-        }
-        else
-        {
-            Math::mat4 bone_matrix;
-            GetBoneMatrix(value->GetIndex(), bone_matrix);
-            Math::mat4 global = value->GetLocalMatrix() * bone_matrix * value->GetLocalMatrix().Inversed();
-            m_animated_global_matrix[value->GetIndex()] = global;
-        }
-        for (auto child : value->GetChildren())
-        {
-            UpdateBonesMatrix(child);
-        }
+    void ArmatureAnimationMixer::UpdateBonesMatrix(IBone* value) {        
+        //if (value->HasParent())
+        //{
+        //    Math::mat4 bone_matrix;
+        //    GetBoneMatrix(value->GetIndex(), bone_matrix);
+        //    Math::mat4 global = m_animated_global_matrix[parent->GetIndex()] * value->GetLocalMatrix() * bone_matrix * value->GetLocalMatrix().Inversed();
+        //    m_animated_global_matrix[value->GetIndex()] = global;
+        //}
+        //else
+        //{
+        //    Math::mat4 bone_matrix;
+        //    GetBoneMatrix(value->GetIndex(), bone_matrix);
+        //    Math::mat4 global = value->GetLocalMatrix() * bone_matrix * value->GetLocalMatrix().Inversed();
+        //    m_animated_global_matrix[value->GetIndex()] = global;
+        //}
+        //for (auto child : value->GetChildren())
+        //{
+        //    UpdateBonesMatrix(child);
+        //}
     }
 
     const Math::mat4& ArmatureAnimationMixer::GetAnimatedGlobalMatrix(size_t bone) const
@@ -196,38 +195,38 @@ namespace Attributes
         return m_animated_global_matrix[bone];
     }
 
-    Armature* ArmatureAnimationMixer::GetArmature()
+    IArmature* ArmatureAnimationMixer::GetArmature()
     {
         return m_armature;
     }
 
-    void ArmatureAnimationMixer::SetArmature(Armature *value)
+    void ArmatureAnimationMixer::SetArmature(IArmature *value)
     {
         m_armature = value;
-        if (m_armature)
-        {
-            for (auto action_name : m_armature->GetSupportedActionArray())
-            {
-                Action* action = nullptr;//Cast<Action*>(Utility::ParsePunkFile(System::Environment::Instance()->GetModelFolder() + action_name + Core::String(L".action")));
-                m_tracks.push_back(action_name);
-                m_options.push_back(TrackOption());
-                m_tracks_array.push_back(action);
-                size_t track_index = m_tracks.size() - 1;
-                m_bones_animation_cache.push_back(std::vector<BoneAnimation*>());
-                m_bones_animation_cache[track_index].resize(m_armature->GetBonesCount());
-                for (auto o : *action)
-                {
-                    BoneAnimation* anim = As<BoneAnimation*>(o);
-                    if (!anim)
-                        continue;
-                    m_bones_animation_cache[track_index][GetBoneIndex(anim->GetName())] = anim;
-                }
-            }
-            DisableAllTracks();
-            if (!m_options.empty())
-                m_options[0].m_enable = true;
-            SetTrackTime(0);
-        }
+        //if (m_armature)
+        //{
+        //    for (auto action_name : m_armature->GetSupportedActionArray())
+        //    {
+        //        Action* action = nullptr;//Cast<Action*>(Utility::ParsePunkFile(System::Environment::Instance()->GetModelFolder() + action_name + Core::String(L".action")));
+        //        m_tracks.push_back(action_name);
+        //        m_options.push_back(TrackOption());
+        //        m_tracks_array.push_back(action);
+        //        size_t track_index = m_tracks.size() - 1;
+        //        m_bones_animation_cache.push_back(std::vector<BoneAnimation*>());
+        //        m_bones_animation_cache[track_index].resize(m_armature->GetBonesCount());
+        //        for (auto o : *action)
+        //        {
+        //            BoneAnimation* anim = As<BoneAnimation*>(o);
+        //            if (!anim)
+        //                continue;
+        //            m_bones_animation_cache[track_index][GetBoneIndex(anim->GetName())] = anim;
+        //        }
+        //    }
+        //    DisableAllTracks();
+        //    if (!m_options.empty())
+        //        m_options[0].m_enable = true;
+        //    SetTrackTime(0);
+        //}
     }    
 
 //    void ArmatureAnimationMixer::AddBoneAnimation(const Core::String &track_name, const Core::String &bone_name, BoneAnimation *anim)

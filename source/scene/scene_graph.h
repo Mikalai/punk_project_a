@@ -9,9 +9,10 @@
 PUNK_ENGINE_BEGIN
 namespace Scene
 {
-    class PUNK_ENGINE_LOCAL SceneGraph : public ISceneGraph, public Core::Object {
+    class PUNK_ENGINE_LOCAL SceneGraph : public ISceneGraph {
     public:
         virtual ~SceneGraph();
+		void QueryInterface(const Core::Guid& type, void** object) override;
         virtual void Lock() override;
         virtual void Unlock() override;
         virtual INode* GetRoot() override;
@@ -42,7 +43,7 @@ namespace Scene
         System::ThreadMutex m_lock;
         INode* m_root {nullptr};
 
-		PUNK_OBJECT(SceneGraph)
+		PUNK_OBJECT_DEFAULT_IMPL3(SceneGraph)
     };
 
 }

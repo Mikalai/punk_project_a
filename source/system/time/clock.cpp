@@ -8,15 +8,10 @@
 #include <String.h>
 
 PUNK_ENGINE_BEGIN
-namespace System
-{
-	static Core::Rtti ClockType{ "Punk.Engine.System.Clock", typeid(Clock).hash_code(), { Core::Object::Type() } };
-
-	Core::Rtti* Clock::Type() {
-		return &ClockType;
-	}
+namespace System {
 
 	Clock::Clock()
+		: m_container{ this, Core::GetRootObject() }
 	{                
         m_time = 0;
         m_us = 0;
@@ -32,7 +27,7 @@ namespace System
     {
     }
 
-    const Core::String Clock::ToString() const
+    /*const Core::String Clock::ToString() const
 	{
 #ifdef _MSC_VER
 		wchar_t buffer[256];
@@ -44,7 +39,7 @@ namespace System
         str[24] = 0;
         return str;
 #endif        
-	}
+	}*/
 
 	int Clock::Hour() const
 	{
@@ -113,6 +108,19 @@ namespace System
 		time_t t;
 		time(&t);
 		return t;
+	}
+
+	void Clock::QueryInterface(const Core::Guid& type, void** object) {
+		if (!object)
+			return;
+
+		if (type == Core::IID_IObject ||
+			type == IID_IClock) {
+			*object = (void*)this;
+			AddRef();
+		}
+		else
+			*object = nullptr;
 	}
 
     const Core::String Clock::SysTimeAsUTC()

@@ -4,19 +4,27 @@
 PUNK_ENGINE_BEGIN
 namespace System
 {
-	Core::Rtti AsyncLoaderType{ "System.AsyncLoader", typeid(AsyncLoader).hash_code(), { Core::Object::Type() } };
-
-	Core::Rtti* AsyncLoader::Type() {
-		return &AsyncLoaderType;
-	}
-
     AsyncLoader::AsyncLoader()
+		: m_container{ this, Core::GetRootObject() }
     {
     }
 
     AsyncLoader::~AsyncLoader()
     {
     }
+
+	void AsyncLoader::QueryInterface(const Core::Guid& type, void** object) {
+		if (!object)
+			return;
+
+		if (type == Core::IID_IObject ||
+			type == IID_IAsyncLoader) {
+			*object = (void*)this;
+			AddRef();
+		}
+		else
+			*object = nullptr;
+	}
 }
 PUNK_ENGINE_END
 

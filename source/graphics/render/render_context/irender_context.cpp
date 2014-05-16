@@ -179,6 +179,8 @@ namespace Graphics
             return Core::String(L"DepthRender");
         case RenderPolicySet::DepthRenderSkinning:
             return Core::String(L"DepthRenderSkinning");
+		default:
+			throw Error::GraphicsException("Unknown render context");
         };
     }
 }

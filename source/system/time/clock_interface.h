@@ -2,12 +2,15 @@
 #define CLOCK_INTERFACE_H
 
 #include <cstdint>
-#include "String/String.h"
+#include <core/iobject.h>
+#include "string/string.h"
 
 PUNK_ENGINE_BEGIN
 namespace System
 {
-    class PUNK_ENGINE_API IClock
+	static const Core::Guid IID_IClock{ "9310B282 - 1E62 - 4DBE-872A - 7CDACECA51E0" };
+
+    class IClock : public Core::IObject
     {
     public:
         virtual int64_t Now() = 0;

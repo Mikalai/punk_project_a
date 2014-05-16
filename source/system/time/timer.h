@@ -8,21 +8,22 @@
 PUNK_ENGINE_BEGIN
 namespace System
 {
-    class TimerImpl;
+    struct TimerImpl;
 
 	/**
 	*	Timer is used for strict time count
 	*/
-    class PUNK_ENGINE_LOCAL Timer final : public ITimer, public Core::Object
+    class PUNK_ENGINE_LOCAL Timer final : public ITimer
     {
     public:
         Timer();
 		~Timer();
 
+		void QueryInterface(const Core::Guid& type, void** object) override;
         double GetTime() const override;
         double GetElapsedSeconds() const override;
         double GetElapsedMiliseconds() const override;
-        double Reset() override;
+        double Reset() override;		
 
 	private:
 		Timer(const Timer&);
@@ -30,7 +31,7 @@ namespace System
 
         TimerImpl* impl {nullptr};
 
-        PUNK_OBJECT(Timer)
+		PUNK_OBJECT_DEFAULT_IMPL3(Timer)
     };
 }
 PUNK_ENGINE_END

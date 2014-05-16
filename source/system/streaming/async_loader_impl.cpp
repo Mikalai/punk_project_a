@@ -2,7 +2,7 @@
 #include <limits.h>
 #else
 #include <limits>
-#define LONG_MAX std::numeric_limits<long>::max()
+//#define LONG_MAX std::numeric_limits<long>::max()
 #endif
 
 #include <system/concurrency/work_item.h>
@@ -270,7 +270,7 @@ namespace System
 	{
 		ResourceRequest request;
 		m_render_queue_mutex.Lock();
-		unsigned max_count = m_render_queue.size();
+		unsigned max_count = (unsigned)m_render_queue.size();
 		m_render_queue_mutex.Unlock();
 
 		for (unsigned i = 0; i < num_to_process && i < max_count; ++i)
@@ -388,11 +388,11 @@ namespace System
 		m_io_thread.Destroy();
 	}
 
-    IAsyncLoader* CreateAsyncLoader(int num_threads) {
+	extern PUNK_ENGINE_API IAsyncLoader* CreateAsyncLoader(int num_threads) {
         return new AsyncLoaderImpl(num_threads);
     }
 
-    PUNK_ENGINE_API void DestroyAsyncLoader(IAsyncLoader* value) {
+	extern PUNK_ENGINE_API void DestroyAsyncLoader(IAsyncLoader* value) {
         AsyncLoaderImpl* v = dynamic_cast<AsyncLoaderImpl*>(value);
         delete v;
     }

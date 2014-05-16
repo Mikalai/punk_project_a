@@ -6,38 +6,40 @@
 #include "config.h"
 #include "String/String.h"
 #include "core/action.h"
-#include "core/object.h"
+#include <core/container.h>
 #include "system/events/interface.h"
 #include "window_description.h"
-#include "window_interface.h"
+#include "iwindow.h"
 
 PUNK_ENGINE_BEGIN
 namespace System
 {
-    class PUNK_ENGINE_API Window : public IWindow, public Core::Object
+    class PUNK_ENGINE_LOCAL Window : public IWindow
 	{	
     public:
         Window();        
 
-        virtual ~Window();
-/*        virtual int GetDesktopWidth() const = 0;
-        virtual int GetDesktopHeight() const = 0;
-        virtual int GetDesktopBitsPerPixel() const = 0;
-        virtual int GetDesktopRefreshRate() const = 0;
-        virtual int GetWidth() const = 0;
-        virtual int GetHeight() const = 0;
-        virtual int GetX() const = 0;
-        virtual int GetY() const = 0;
-        virtual void SetSize(int width, int height) = 0;
-        virtual void SetPosition(int x, int y) = 0;
-		virtual int Update(int dt) = 0;
-        virtual int Loop() = 0;
-        virtual void BreakMainLoop() = 0;
-        virtual void SetTitle(const Core::String& text) = 0;
-        virtual const Core::String GetTitle() const = 0;
-        virtual void Quite() = 0;
-        virtual void ShowCursor(bool value) = 0; */       
+        virtual ~Window();		
 
+/*        virtual int GetDesktopWidth() const override;
+        virtual int GetDesktopHeight() const override;
+        virtual int GetDesktopBitsPerPixel() const override;
+        virtual int GetDesktopRefreshRate() const override;
+        virtual int GetWidth() const override;
+        virtual int GetHeight() const override;
+        virtual int GetX() const override;
+        virtual int GetY() const override;
+        virtual void SetSize(int width, int height) override;
+        virtual void SetPosition(int x, int y) override;
+		virtual int Update(int dt) override;
+        virtual int Loop() override;
+        virtual void BreakMainLoop() override;
+        virtual void SetTitle(const Core::String& text) override;
+        virtual const Core::String GetTitle() const override;
+        virtual void Quite() override;
+        virtual void ShowCursor(bool value) override; */       
+
+		void QueryInterface(const Core::Guid& type, void** object) override;
         virtual void SubscribeResizeEvent(ResizeEventDelegate) override;
         virtual void UnsubscribeResizeEvent(ResizeEventDelegate) override;
         virtual void SubscribeKeyEvent(KeyEventDelegate) override;
@@ -85,12 +87,11 @@ namespace System
         Core::ActionSlot<void> OnWindowCreated;
         Core::ActionSlot<void> OnWindowDestroy;
         Core::ActionSlot<const IdleEvent&> OnIdleEvent;
-        bool m_initialized = false;
+        bool m_initialized = false;                       
 
-        PUNK_OBJECT(Window)                               
-	};
-
-    PUNK_ENGINE_API Window* CreateRootWindow(const WindowDescription& desc);
+		PUNK_OBJECT_DEFAULT_IMPL3(Window)
+		
+	};    
 }
 PUNK_ENGINE_END
 

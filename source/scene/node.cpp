@@ -8,9 +8,14 @@
 PUNK_ENGINE_BEGIN
 namespace Scene {
 
+	Node::Node() {}
+
     Node::Node(ISceneGraph *graph)
         : m_scene_graph{graph}
-    {}
+    {
+		if (m_scene_graph)
+			m_scene_graph->SetRoot(this);
+	}
 
     Node::Node(INode *parent)
         : m_parent{parent} {
@@ -36,11 +41,13 @@ namespace Scene {
         auto key = std::pair<Core::String, std::uint64_t>(value->GetName(), value->GetTypeID());
         auto old = m_attributes[key];
 		m_attributes[key] = value;
-		if (old == nullptr)
-			m_scene_graph->OnAttributeAdded(this, value);
-		else {
-			m_scene_graph->OnAttributeUpdated(this, old, value);
-			delete old;
+		if (m_scene_graph) {
+			if (old == nullptr)
+				m_scene_graph->OnAttributeAdded(this, value);
+			else {
+				m_scene_graph->OnAttributeUpdated(this, old, value);
+				delete old;
+			}
 		}
     }
 
@@ -53,6 +60,24 @@ namespace Scene {
             return 0;
         }
     }
+
+	int Node::GetAttributesCount(std::uint64_t type) const {
+		int count = 0;
+		for (auto& p : m_attributes) {
+			if (p.first.second == type)
+				count++;
+		}
+		return count;
+	}
+
+	std::vector<IAttribute*> Node::GetAttributes(std::uint64_t type) const {
+		std::vector<IAttribute*> attributes;
+		for (auto& p : m_attributes) {
+			if (p.first.second == type)
+				attributes.push_back(p.second);
+		}
+		return attributes;
+	}
 
     void Node::RemoveAttribute(const Core::String &name, std::uint64_t type) {
         try {
@@ -155,15 +180,18 @@ namespace Scene {
         return m_delete_count == 0;
     }
 
-    extern PUNK_ENGINE_API INodeUniquePtr CreateRootNode(ISceneGraph* graph) {
-        INodeUniquePtr node{new Node{graph}, DestroyNode};
-        return node;
+    extern PUNK_ENGINE_API INode* CreateRootNode(ISceneGraph* graph) {        
+		return new Node{ graph };
     }
 
-    extern PUNK_ENGINE_API INodeUniquePtr CreateNode(INode* parent) {
-        INodeUniquePtr node{new Node{parent}, DestroyNode};
-        return node;
+    extern PUNK_ENGINE_API INode* CreateNode(INode* parent) {        
+		return new Node{ parent };
     }
+
+	extern PUNK_ENGINE_API INodeUniquePtr CreateNode() {
+		INodeUniquePtr ptr{ new Node, DestroyNode };
+		return ptr;
+	}
 
     extern PUNK_ENGINE_API void DestroyNode(INode* node) {
         Node* n = dynamic_cast<Node*>(node);

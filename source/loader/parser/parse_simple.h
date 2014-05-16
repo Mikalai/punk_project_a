@@ -30,11 +30,12 @@ namespace Loader {
     extern bool ParseBlockedVector2i(Core::Buffer& buffer, Math::ivec2& value);
     extern bool ParseBlockedVector2f(Core::Buffer& buffer, Math::vec2& value);
     extern bool ParseBlockedMatrix4x4f(Core::Buffer& buffer, Math::mat4& value);
-    extern bool ParseVector3fv(Core::Buffer& buffer, std::vector<Math::vec3>& value);
+    extern bool ParseVector3fv(Core::Buffer& buffer, Math::vec3v& value);
     extern bool ParseVector3iv(Core::Buffer& buffer, std::vector<Math::ivec3>& value);
     extern bool ParseVector4iv(Core::Buffer& buffer, std::vector<Math::ivec4>& value);
-    extern bool ParseVector4Vector2iv(Core::Buffer& buffer, std::vector<std::array<Math::vec2, 4>>& value);
-    extern bool ParseTextures(Core::Buffer& buffer, std::map<Core::String, std::vector<std::array<Math::vec2, 4>>>& value);
+    extern bool ParseVector4Vector2fv(Core::Buffer& buffer, std::vector<std::array<Math::vec2, 4>>& value);
+	extern bool ParseVector3Vector2fv(Core::Buffer& buffer, std::vector<std::array<Math::vec2, 3>>& value);
+    extern bool ParseTextures(Core::Buffer& buffer, int& slot, std::vector<std::array<Math::vec2, 3>>& value);
     extern bool ParseBonesWeights(Core::Buffer& buffer, std::map<int, std::map<Core::String, float>>& value);
 }
 PUNK_ENGINE_END

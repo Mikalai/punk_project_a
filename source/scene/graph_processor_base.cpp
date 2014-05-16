@@ -38,6 +38,10 @@ namespace Scene {
 		}
 	};
 
+	GraphProcessorBase::GraphProcessorBase() {
+		m_allow_update.Lock();
+	}
+
 	Scene::ISceneGraph* GraphProcessorBase::GetGraph() const {
 		return m_graph;
 	}

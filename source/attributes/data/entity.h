@@ -9,7 +9,7 @@
 
 //namespace Attributes
 //{
-//	class PUNK_ENGINE_API Entity : public Core::Object
+//	class PUNK_ENGINE_API Entity : public Core::IObject
 //	{
 //	public:
 		

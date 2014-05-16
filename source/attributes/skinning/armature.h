@@ -7,12 +7,17 @@
 #include <config.h>
 #include <core/object.h>
 #include <string/string.h>
+#include <math/vec4.h>
+#include <math/vec3.h>
+#include <math/quat.h>
+#include "iarmature.h"
 #include "bone.h"
 #include "types.h"
 
 PUNK_ENGINE_BEGIN
 namespace Attributes {
-    class PUNK_ENGINE_API Armature : public Core::Object
+
+    class PUNK_ENGINE_LOCAL Armature : public Core::IObject, public IArmature
 	{
 	public:
         typedef std::vector<Core::String> Actions;
@@ -23,40 +28,39 @@ namespace Attributes {
         Armature& operator = (const Armature&) = delete;
         virtual ~Armature();
 
-		void AddRootBone(Bone* bone);
-		int GetBoneIndex(const Core::String& name) const;
-		Bone* GetBoneByName(const Core::String& name);
-		const Bone* GetBoneByName(const Core::String& name) const;
-		Bone* GetBoneByIndex(int index);
-		const Bone* GetBoneByIndex(int index) const;		
-		int GetRootsBonesCount() const { return m_root_bones.size(); }
-		Bone* GetRootBone(int index) { return m_root_bones[index]; }
-        const Bone* GetRootBone(int index) const { return m_root_bones[index]; }
-		int GetBonesCount() const;
-
-        void AddActionName(const Core::String& value);
-        bool IsActionSupported(const Core::String& value);
-        const Actions& GetSupportedActionArray() const;
-
-        void SetName(const Core::String& value);
-        const Core::String& GetName() const;
-
-        void PrintDebug(Bone* parent, int level = 0);
-
-		virtual void UpdateHierarchy();
-
-        void CacheBones(Bone* b);
-        void Clear();
-	private:		
+		const Math::vec3* GetBoneLocalPosition(std::uint32_t index) override;
+		const Math::vec3* GetBoneGlobalPosition(std::uint32_t index) override;
+		const Math::quat* GetBoneLocalRotation(std::uint32_t index) override;
+		const Math::quat* GetBoneGlobalRotation(std::uint32_t index) override;
+		void SetBoneLocalPosition(std::uint32_t index, const Math::vec3& value) override;
+		void SetBoneGlobalPosition(std::uint32_t index, const Math::vec3& value) override;
+		void SetBoneLocalRotation(std::uint32_t index, const Math::quat& value) override;
+		void SetBoneGlobalRotation(std::uint32_t index, const Math::quat& value) override;
+		void SetSchemaName(const Core::String& name) override;
+		const Core::String& GetSchemaName() const override;
+		const IArmatureSchema* GetSchema() const override;
+		void SetSchema(IArmatureSchema* value) override;
+		void SetName(const Core::String& name) override;
+		const Core::String& GetName() const override;
 
 	private:
-        Bones m_root_bones;
-		BonesCache m_cache;
-		BonesNamedCache m_named_cache;
-        Actions m_supported_actions;
-        Core::String m_name;
+		void Update();
 
-        PUNK_OBJECT(Armature)               
+	private:
+		struct BoneCache {
+			Math::vec3 m_local_position;
+			Math::quat m_local_rotation;
+			Math::vec3 m_global_position;
+			Math::quat m_global_rotation;
+			bool m_need_update{ true };
+		};
+
+		std::vector<BoneCache> m_bones;
+		IArmatureSchema* m_schema{ nullptr };
+		Core::String m_name;
+		Core::String m_schema_name;
+
+        PUNK_OBJECT_DEFAULT_IMPL(Armature)               
 	};
 }
 PUNK_ENGINE_END

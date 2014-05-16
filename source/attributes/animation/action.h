@@ -1,7 +1,7 @@
 #ifndef _H_PUNK_UTILITY_ACTION
 #define _H_PUNK_UTILITY_ACTION
 
-#include <core/object.h>
+#include <core/iobject.h>
 #include <string/string.h>
 
 PUNK_ENGINE_BEGIN
@@ -10,7 +10,7 @@ namespace Attributes
     class Animation;
 
 	//	Animation is a child of Action
-    class PUNK_ENGINE_API Action : public Core::Object
+    class PUNK_ENGINE_API Action : public Core::IObject
 	{
 	public:
 		Action();
@@ -32,7 +32,7 @@ namespace Attributes
 		int m_end_frame;
         Core::String m_name;
 
-        PUNK_OBJECT(Action)
+        PUNK_OBJECT_DEFAULT_IMPL(Action)
 	};
 }
 PUNK_ENGINE_END

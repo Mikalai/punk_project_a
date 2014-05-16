@@ -102,9 +102,9 @@ namespace Graphics
 
     CoreState::~CoreState()
     {
-#ifdef _DEBUG
-        System::GetDefaultLogger()->Info("Destroy CoreState");
-#endif
+//#ifdef _DEBUG
+//        System::GetDefaultLogger()->Info("Destroy CoreState");
+//#endif
         if (!view_state->Dec())
             delete view_state;
         if (!light_state->Dec())
@@ -115,9 +115,9 @@ namespace Graphics
             delete batch_state;
         if (!texture_state->Dec())
             delete texture_state;
-#ifdef _DEBUG
-        System::GetDefaultLogger()->Info("CoreState destruction complete");
-#endif
+//#ifdef _DEBUG
+//        System::GetDefaultLogger()->Info("CoreState destruction complete");
+//#endif
     }
 
     CoreState* CoreState::Clone(unsigned mode)

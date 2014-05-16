@@ -62,8 +62,8 @@ void Start()
     if (!buffer)
         buffer = Graphics::GetBackbuffer();
 
-    if (!render)
-        render = Graphics::CreateRender(driver).release();
+	if (!render)
+		render = driver->GetRender();
 
     thread.Create(RenderFunc, (void*)render);
 

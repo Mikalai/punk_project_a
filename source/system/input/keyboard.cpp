@@ -5,8 +5,6 @@
 PUNK_ENGINE_BEGIN
 namespace System {
 
-    static Core::Rtti KeyboardType {"Punk.Engine.System.Keyboard", typeid(Keyboard).hash_code(), {Core::Object::Type()}};
-
     struct KeyboardImpl {
         KeyboardImpl() {
             memset(m_keys, 0, sizeof(m_keys));
@@ -15,7 +13,8 @@ namespace System {
     };
 
 	Keyboard::Keyboard() 
-        : impl(new KeyboardImpl) {
+        : impl(new KeyboardImpl)
+		, m_container{ this, Core::GetRootObject() } {
         GetDefaultLogger()->Info("Keyboard created");
     }
 
@@ -25,8 +24,14 @@ namespace System {
         GetDefaultLogger()->Info("Keyboard destroyed");
     }
 
-	Core::Rtti* Keyboard::Type() {
-		return &KeyboardType;
+	void Keyboard::QueryInterface(const Core::Guid& type, void** object) {
+		if (!object)
+			return;
+		if (IID_IKeyboard == type) {
+			*object = (void*)this;
+		}
+		else
+			*object = nullptr;
 	}
 
     bool& Keyboard::operator[] (int key) {

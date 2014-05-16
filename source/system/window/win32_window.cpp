@@ -1,18 +1,29 @@
 #ifdef _WIN32
 
+#include <typeinfo>
 #include <stdio.h>
 #include <algorithm>
-#include "win32_window.h"
+#include <core/ifactory.h>
 #include <system/events/module.h>
 #include <system/errors/module.h>
 #include <system/logger/module.h>
 #include <system/input/module.h>
 #include <system/time/module.h>
 #include <string/module.h>
+#include "win32_window.h"
 
 PUNK_ENGINE_BEGIN
 namespace System {    
     
+	void CreatePunkWindow(void** object) {
+		if (!object)
+			return;
+		*object = (void*)(new WindowWin);
+	}
+
+	PUNK_REGISTER_CREATOR(IID_IWindow, CreatePunkWindow);
+
+
 	typedef LRESULT (WINAPI *TWindowCallBack)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
     int GetX(HWND handle) {
@@ -39,10 +50,13 @@ namespace System {
         return rect.bottom - rect.top;
     }
 
-    WindowWin::WindowWin(const WindowDescription& desc)
-    : m_window_description(desc)
+    WindowWin::WindowWin()
     {
 		m_timer = CreateTimer();
+	}
+
+	void WindowWin::Initialize(const WindowDescription& desc) {
+		m_window_description = desc;
 	}
 
     WindowWin::~WindowWin()
@@ -205,20 +219,17 @@ namespace System {
         SetWindowTextW(m_hwindow, (LPWSTR)text.ToWchar().Data());
     }
 
-    const Core::String WindowWin::GetTitle() const
-    {
+    const Core::String WindowWin::GetTitle() const {
         wchar_t buf[256];
         GetWindowTextW(m_hwindow, buf, 256);
         return Core::String(buf);
     }
 
-    void WindowWin::Quite()
-    {
+    void WindowWin::Quite() {
         SendMessageW(m_hwindow, WM_DESTROY, 0, 0);
     }
 
-    WindowWin::operator HWND ()
-    {
+    HWND WindowWin::GetNativeHandle() {
         return m_hwindow;
     }
 
@@ -398,7 +409,7 @@ namespace System {
             event.isExtended = (lParam & 0x1000000) != 0;
             event.prevState = (lParam & 0x40000000) != 0;
             event.transitionState = (lParam & 0x80000000) != 0;
-            GetKeyboard()->SetKeyState(wParam, true);
+            GetKeyboard()->SetKeyState((int)wParam, true);
             win->OnKeyEvent(event);
             break;
         }

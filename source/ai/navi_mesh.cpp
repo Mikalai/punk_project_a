@@ -3,13 +3,8 @@
 PUNK_ENGINE_BEGIN
 namespace AI
 {
-	Core::Rtti NaviMeshType{ "AI.NaviMesh", typeid(NaviMesh).hash_code(), { Core::Object::Type() } };
-
-	Core::Rtti* NaviMesh::Type() {
-		return &NaviMeshType;
-	}
-
     NaviMesh::NaviMesh()
+		: m_container{ this, Core::GetRootObject() }
     {
     }
 

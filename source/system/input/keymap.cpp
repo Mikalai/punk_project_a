@@ -5,12 +5,6 @@
 PUNK_ENGINE_BEGIN
 namespace System
 {
-	static Core::Rtti KeyMapType{ "Punk.Engine.System.KeyMap", typeid(KeyMap).hash_code(), { Core::Object::Type() } };
-
-	Core::Rtti* KeyMap::Type(){
-		return &KeyMapType;
-	}
-
 	struct KeyMapImpl
 	{
 		~KeyMapImpl()
@@ -56,6 +50,7 @@ namespace System
 
 	KeyMap::KeyMap()
 		: impl(new KeyMapImpl)
+		, m_container{ this, Core::GetRootObject() }
 	{
 	}
 
@@ -63,6 +58,19 @@ namespace System
 	{
 		delete impl;
 		impl = nullptr;
+	}
+
+	void KeyMap::QueryInterface(const Core::Guid& type, void** object) {
+		if (!object)
+			return;
+
+		if (type == Core::IID_IObject ||
+			type == IID_IKeyMap) {
+			*object = (void*)this;
+			AddRef();
+		}
+		else
+			*object = nullptr;
 	}
 }
 PUNK_ENGINE_END

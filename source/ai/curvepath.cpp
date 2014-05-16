@@ -3,13 +3,8 @@
 PUNK_ENGINE_BEGIN
 namespace AI
 {
-	Core::Rtti CurvePathType{ "AI.CurvePath", typeid(CurvePath).hash_code(), { Core::Object::Type() } };
-
-	Core::Rtti* CurvePath::Type() {
-		return &CurvePathType;
-	}
-
     CurvePath::CurvePath()
+		: m_container{ this, Core::GetRootObject() }
     {}
 
     CurvePath::~CurvePath()

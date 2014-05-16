@@ -157,7 +157,8 @@ namespace Loader
         WORD_ENTITY_NAME,
         WORD_DIRECTION,
         WORD_DIRLIGHTTEXT,
-		WORD_TRANSFORMTEXT
+		WORD_TRANSFORMTEXT,
+		WORD_ARMATURE_SCHEMA
 	};
 
 	struct Record
@@ -316,7 +317,8 @@ namespace Loader
         { WORD_ENTITY_NAME,             "*entity_name" },
         { WORD_DIRECTION,               "*direction" },
         { WORD_DIRLIGHTTEXT,            "DIRLAMPTEXT" },
-		{ WORD_TRANSFORMTEXT,			"TRANSFORMTEXT" }
+		{ WORD_TRANSFORMTEXT,			"TRANSFORMTEXT" },
+		{ WORD_ARMATURE_SCHEMA,			"*armature_schema"}
 	};
 
     extern KeywordCode Parse(const Core::String& word);

@@ -18,6 +18,8 @@ namespace Scene {
     public:
         virtual void SetAttribute(IAttribute* value) = 0;
         virtual IAttribute* GetAttribute(const Core::String&, std::uint64_t type) const = 0;
+		virtual int GetAttributesCount(std::uint64_t type) const = 0;
+		virtual std::vector<IAttribute*> GetAttributes(std::uint64_t type) const = 0;
         virtual void RemoveAttribute(const Core::String& name, std::uint64_t type) = 0;
         virtual INode* GetParent() = 0;
         virtual const INode* GetParent() const = 0;
@@ -58,6 +60,11 @@ namespace Scene {
             return attribute ? attribute->Get<T>() : nullptr;
         }
 
+		template<class T>
+		T* Get() {
+			auto attribute = GetAttribute()
+		}
+
         template<class T>
         const T* Get(const Core::String& name) const {
             auto attribute = GetAttribute(name, typeid(T).hash_code());
@@ -83,12 +90,25 @@ namespace Scene {
         void Set(const Core::String &name, T value) {
             SetAttribute(new Attribute<T>(name, new T(value), true));
         }
+
+		template<class T>
+		INode* FindChildByAttribute(const Core::String& name) {
+			if (Get<T>(name) != nullptr)
+				return this;
+			for (int i = 0, max_i = GetChildrenCount(); i < max_i; ++i) {
+				INode* result = GetChild(i)->FindChildByAttribute<T>(name);				
+				if (result)
+					return result;
+			}
+			return nullptr;
+		}
     };
 
     using INodeUniquePtr = std::unique_ptr<INode, void (*)(INode*)>;
 
-    extern PUNK_ENGINE_API INodeUniquePtr CreateRootNode(ISceneGraph* grap);
-    extern PUNK_ENGINE_API INodeUniquePtr CreateNode(INode* parent);
+    extern PUNK_ENGINE_API INode* CreateRootNode(ISceneGraph* grap);
+    extern PUNK_ENGINE_API INode* CreateNode(INode* parent);
+	extern PUNK_ENGINE_API INodeUniquePtr CreateNode();
     extern PUNK_ENGINE_API void DestroyNode(INode* node);
 }
 PUNK_ENGINE_END

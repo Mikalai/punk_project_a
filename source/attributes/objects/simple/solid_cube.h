@@ -9,7 +9,7 @@ namespace Attributes
 {
 	class Geometry;
 
-//	class PUNK_ENGINE_API Cube : public Core::Object, public Scene::SceneGraphAdapter, public Physics::Adapter
+//	class PUNK_ENGINE_API Cube : public Core::IObject, public Scene::SceneGraphAdapter, public Physics::Adapter
 //	{
 //	public:
 //		Cube();

@@ -5,8 +5,7 @@
 #include <map>
 #include <array>
 #include "core/action.h"
-#include "core/object.h"
-#include "keymap_interface.h"
+#include "ikeymap.h"
 
 PUNK_ENGINE_BEGIN
 namespace System
@@ -15,21 +14,22 @@ namespace System
 
     struct KeyMapImpl;
 
-    class KeyMap final : public IKeyMap, public Core::Object
+    class PUNK_ENGINE_LOCAL KeyMap final : public IKeyMap
     {
     public:
         KeyMap();
         virtual ~KeyMap();
 
+		void QueryInterface(const Core::Guid& type, void** object) override;
         void OnKeyEvent(const KeyEvent& event) override;
         void Add(Key key, KeyboardAction action) override;
         void Remove(Key key, KeyboardAction action) override;
         std::set<KeyboardAction>& GetActions(Key key) override;
         const std::set<KeyboardAction>& GetActions(Key key) const override;
-
-        PUNK_OBJECT(KeyMap) //  TODO: Keymap can be saved
-
+        
         KeyMapImpl* impl;
+
+		PUNK_OBJECT_DEFAULT_IMPL3(KeyMap) //  TODO: Keymap can be saved
     };
 }
 PUNK_ENGINE_END

@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <config.h>
+#include <memory>
 
 PUNK_ENGINE_BEGIN
 namespace Graphics {

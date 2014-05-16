@@ -14,10 +14,10 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-	class Armature;
+	class IArmature;
     class Action;
 	class BoneAnimation;
-    class Bone;
+    class IBone;
 
     /**
      * @brief The ArmatureAnimationMixer class
@@ -36,7 +36,7 @@ namespace Attributes
         virtual void SetLooping(size_t track, bool flag) override;
 
         //void UpdateBones(float frame);
-        void SetArmature(Armature* value);
+        void SetArmature(IArmature* value);
 		void DisableAllTracks();
 		void EnableTrack(const Core::String&, bool flag);
 		void SetTrackWeight(const Core::String&, float value);
@@ -52,12 +52,12 @@ namespace Attributes
 
         const Math::mat4& GetAnimatedGlobalMatrix(size_t bone) const;        
 
-        Armature* GetArmature();
+        IArmature* GetArmature();
 
     private:
 		
         void UpdateGlobalMatrix();
-        void UpdateBonesMatrix(Bone* value);
+        void UpdateBonesMatrix(IBone* value);
 
 		/**	Contains info about track */
 		struct PUNK_ENGINE_API TrackOption
@@ -91,7 +91,7 @@ namespace Attributes
 
 		//	result interpolated data for current time for each bone
 		//	[bone_name: pos_rot]
-        std::vector<InterpolatedData> m_result;
+        //	std::vector<InterpolatedData> m_result;
         std::vector<Math::mat4> m_animated_global_matrix;
         //std::map<Core::String, InterpolatedData> m_result;
 
@@ -99,9 +99,9 @@ namespace Attributes
         float m_current_time;
 
         //  A place from which a structure can be get
-        Armature* m_armature;
+        IArmature* m_armature;
 
-        PUNK_OBJECT(ArmatureAnimationMixer)
+        PUNK_OBJECT_DEFAULT_IMPL(ArmatureAnimationMixer)
 	};
 }
 PUNK_ENGINE_END

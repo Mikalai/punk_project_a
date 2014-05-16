@@ -2,7 +2,7 @@
 #define PUNK_VIRTUAL_RIVER_H
 
 #include <core/object.h>
-#include <attributes/data/static_geometry.h>
+#include <attributes/geometry/igeometry.h>
 
 PUNK_ENGINE_BEGIN
 
@@ -12,7 +12,7 @@ namespace Utility {
 
 namespace Attributes
 {
-    class PUNK_ENGINE_API River : public Core::Object
+    class PUNK_ENGINE_API River : public Core::IObject
     {
     public:
         River();
@@ -20,9 +20,9 @@ namespace Attributes
         River& operator = (const River&) = delete;
         virtual ~River();
 
-        void SetGeometry(StaticGeometry* value);
-        const StaticGeometry* GetGeometry() const;
-        StaticGeometry* GetGeometry();
+        void SetGeometry(IGeometry* value);
+        const IGeometry* GetGeometry() const;
+        IGeometry* GetGeometry();
 
         void SetFlowSpeed(float value);
         float GetFlowSpeed() const;
@@ -47,10 +47,10 @@ namespace Attributes
         Core::String m_filename;
         float m_flow_speed;
         Math::vec3 m_flow_direction;
-        StaticGeometry* m_geom;
+        IGeometry* m_geom;
         Utility::AsyncParserTask* m_task;
         Core::String m_name;
-        PUNK_OBJECT(River)
+        PUNK_OBJECT_DEFAULT_IMPL2(River)
     };
 }
 PUNK_ENGINE_END

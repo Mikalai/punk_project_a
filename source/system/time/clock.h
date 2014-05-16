@@ -11,7 +11,7 @@
 
 PUNK_ENGINE_BEGIN
 namespace System {
-    class PUNK_ENGINE_LOCAL Clock : public IClock, public Core::Object {
+    class PUNK_ENGINE_LOCAL Clock : public IClock {
     public:
 		Clock();
         virtual ~Clock();
@@ -25,9 +25,8 @@ namespace System {
 		*	Used to increment time of the clock
 		*	\param us Time in microseconds
 		*/
-        void Advance(int64_t us) override;
-
-        const Core::String ToString() const override;
+		void QueryInterface(const Core::Guid& type, void**) override;
+        void Advance(int64_t us) override;        
         int Year() const override;
         int Month() const override;
         int MonthDay() const override;
@@ -54,7 +53,7 @@ namespace System {
         std::int64_t m_us;
 		tm m_date;
 
-        PUNK_OBJECT(Clock)
+        PUNK_OBJECT_DEFAULT_IMPL3(Clock)
     };
 }
 PUNK_ENGINE_END

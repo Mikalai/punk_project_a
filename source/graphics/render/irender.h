@@ -12,17 +12,18 @@ namespace Math {
 
 namespace Graphics {
 
+	class IFrame;
     class Batch;
     class IFrameBuffer;
     class IVideoDriver;
 
     class IRender {
     public:
-        virtual IVideoDriver* GetVideoDriver() = 0;
-        virtual void AsyncBeginRendering(IFrameBuffer* buffer) = 0;
-        virtual void WaitEndRendering() = 0;
+        virtual IVideoDriver* GetVideoDriver() = 0;       
         virtual void SubmitBatch(Batch* batch) = 0;
         virtual const Math::vec2 FindZRange(const Math::mat4& view) = 0;
+		virtual IFrame* BeginFrame() = 0;
+		virtual void EndFrame() = 0;
     };
 
     using IRenderUniquePtr = std::unique_ptr<IRender, void (*)(IRender*)>;

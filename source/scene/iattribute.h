@@ -16,7 +16,6 @@ namespace Scene {
         virtual void SetName(const Core::String& name) = 0;
         virtual void* GetRawData() const = 0;
         virtual void SetRawData(void* value) = 0;
-        virtual IAttribute* Clone() const = 0;
 
         template<class T>
         T* Get() {

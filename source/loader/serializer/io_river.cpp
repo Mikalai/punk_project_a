@@ -1,5 +1,5 @@
 #include <attributes/water/river.h>
-#include "io_static_geometry.h"
+#include "io_geometry.h"
 #include "io_string.h"
 #include "io_vector.h"
 #include "io_object.h"
@@ -16,7 +16,7 @@ namespace Loader {
         SaveVector3f(buffer, r->GetStreamPosition());
         SaveVector3f(buffer, r->GetFlowDirection());
         buffer->WriteReal32(r->GetFlowSpeed());
-        SaveStaticGeometry(buffer, r->GetGeometry());
+        SaveGeometry(buffer, r->GetGeometry());
     }
 
     void LoadRiver(Core::Buffer *buffer, Core::Object *o)
@@ -40,7 +40,7 @@ namespace Loader {
         r->SetFlowDirection(dir);
 
         r->SetFlowSpeed(buffer->ReadReal32());
-        std::unique_ptr<Attributes::StaticGeometry> geom(new Attributes::StaticGeometry);
+		Attributes::IGeometryUniquePtr geom = Attributes::CreateGeometry();
         LoadStaticGeometry(buffer, geom.get());
         r->SetGeometry(geom.release());
     }

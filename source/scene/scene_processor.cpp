@@ -5,8 +5,7 @@
 PUNK_ENGINE_BEGIN
 namespace Scene {
 
-
-    SceneProcessor::SceneProcessor()
+	SceneProcessor::SceneProcessor()
     {        
     }
 

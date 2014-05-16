@@ -6,9 +6,9 @@
 #include "parse_scene_node.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader
-{
-    bool ParseSceneNode(Core::Buffer &buffer, Scene::INode *node)
+namespace Loader {
+    
+	PUNK_ENGINE_LOCAL bool ParseSceneNode(Core::Buffer& buffer, Scene::INode* node)
     {
         CHECK_START(buffer);
         while (1)
@@ -25,9 +25,9 @@ namespace Loader
                 return true;
             case WORD_NODE:
             {
-                Scene::INodeUniquePtr child = Scene::CreateNode(node);
-                ParseSceneNode(buffer, child.get());
-                node->AddChild(child.release());
+                Scene::INode* child = Scene::CreateNode(node);
+                ParseSceneNode(buffer, child);
+                //node->AddChild(child.release());
             }
                 break;
             case WORD_NAME:

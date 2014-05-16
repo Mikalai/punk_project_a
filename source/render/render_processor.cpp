@@ -1,3 +1,4 @@
+#include <attributes/module.h>
 #include <core/object.h>
 #include <scene/module.h>
 #include <system/module.h>
@@ -11,22 +12,34 @@ namespace Render {
 
 	RenderProcessor::~RenderProcessor() {}
 
+	const Core::String RenderProcessor::GetName() const {
+		static Core::String name{ "Render" };
+		return name;
+	}
+
 	void RenderProcessor::OnInternalUpdate(int dt) {
-		if (m_canvas) {
+		if (m_canvas) {			
+			auto driver = m_canvas->GetVideoDriver();
+			auto render = driver->GetRender();
+			auto frame = render->BeginFrame();
+			auto back_buffer = Graphics::GetBackbuffer();
+			back_buffer->SetViewport(0, 0, m_canvas->GetWindow()->GetWidth(), m_canvas->GetWindow()->GetHeight());
+			back_buffer->SetClearColor(1, 0, 0, 1);
+			back_buffer->Bind();
+			back_buffer->Clear();					
+			frame->DrawLine(0, 0, 100, 100);	
+			back_buffer->Unbind();
+			render->EndFrame();
 			m_canvas->GetWindow()->Update(dt);
+			m_canvas->SwapBuffers();
 		}
 	}
 
 	void RenderProcessor::OnInternalUpdate(Scene::CommandBase* cmd) {
 		if (cmd->domain != RenderDomain)
 			throw Error::RenderException("Can't process internall command. Wrong domain.");
-		if (cmd->index == (int)RenderCommands::SetNewScene) {
-			CmdSetNewScene* task = (CmdSetNewScene*)cmd;
-			AssignGraph(task->graph);
-			CmdSetNewScene* command = new CmdSetNewScene;
-			command->graph = GetGraph();
-			AddCommand(command);
-		}
+		if (cmd->index == (int)RenderCommands::SetNewScene)
+			OnSetNewGraph((CmdSetNewScene*)cmd);
 		else if (cmd->index == (int)RenderCommands::Show) {
 			CmdShow* show = (CmdShow*)cmd;
 			if (show->visible)
@@ -34,6 +47,41 @@ namespace Render {
 			else 
 				OnHide();
 		}
+		else if (cmd->index == (int)RenderCommands::CookMesh) {
+			CmdCookMesh* cook_mesh = (CmdCookMesh*)cmd;
+			OnCookMesh(cook_mesh);
+		}
+	}
+
+	void RenderProcessor::OnCookMesh(CmdCookMesh* cmd) {
+		auto attributes = cmd->node_with_data->GetAttributes(typeid(Attributes::IGeometry).hash_code());
+		for (auto& attribute : attributes) {
+			Attributes::IGeometry* geom = attribute->Get<Attributes::IGeometry>();
+			auto p = Graphics::CreateTriangles(0, m_canvas->GetVideoDriver());
+		}
+	}
+
+	void RenderProcessor::OnSetNewGraph(CmdSetNewScene* task) {
+		AssignGraph(task->graph);
+		CmdSetNewScene* command = new CmdSetNewScene;
+		command->graph = GetGraph();
+		AddCommand(command);
+
+		m_camera_node = GetGraph()->FindNodeByAttribute<Attributes::Camera>("Camera");
+		if (m_camera_node == nullptr) {
+			auto node = CreateRenderNode("Camera");
+			Attributes::Camera* camera = new Attributes::Camera;
+			node->Set<Attributes::Camera>("Camera", camera);
+			node->Set<Core::String>("Type", Attributes::Camera::Type()->GetName());
+			GetGraph()->GetRoot()->AddChild(m_camera_node = node.release());
+		}
+	}
+
+	Scene::INodeUniquePtr RenderProcessor::CreateRenderNode(const Core::String& name) {
+		auto node = Scene::CreateNode();
+		node->Set<Core::String>("Owner", GetName());
+		node->Set<Core::String>("Name", name);
+		return node;
 	}
 
 	void RenderProcessor::OnShow() {
@@ -104,7 +152,22 @@ namespace Render {
 
 	bool RenderProcessor::OnNodeAdded(Scene::INode *node) {
 		auto type = node->Get<Core::String>(L"Type");
-		System::GetDefaultLogger()->Info(*type);
+		auto name = node->Get<Core::String>("Name");
+		auto owner = node->Get<Core::String>("Owner");
+		Core::StringList info;
+		if (type) {
+			info.Push("Type: ");
+			info.Push(*type + "; ");
+		}
+		if (name) {
+			info.Push("Name: ");
+			info.Push(*name + "; ");
+		}
+		if (owner) {
+			info.Push("Owner: ");
+			info.Push(*owner + "; ");
+		}
+		System::GetDefaultLogger()->Info(info.ToString(""));
 		return true;
 	}
 

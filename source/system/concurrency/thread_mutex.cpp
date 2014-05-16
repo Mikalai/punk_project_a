@@ -1,3 +1,4 @@
+#include <system/errors/module.h>
 #include "thread_mutex.h"
 
 PUNK_ENGINE_BEGIN
@@ -5,7 +6,8 @@ namespace System
 {
 	ThreadMutex::ThreadMutex()
 	{
-		Create();
+		if (!Create())
+			throw Error::SystemException("Can't initialize thread mutex");
 	}	
 
 	ThreadMutex::~ThreadMutex()

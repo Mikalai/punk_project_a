@@ -2,7 +2,7 @@
 #define _H_PUNK_SYSTEM_MOUSE
 
 #include "core/object.h"
-#include "mouse_interface.h"
+#include "imouse.h"
 
 PUNK_ENGINE_BEGIN
 namespace System
@@ -11,7 +11,7 @@ namespace System
         struct MouseImpl;
     }
 
-    class PUNK_ENGINE_API Mouse : public IMouse, public Core::Object
+    class PUNK_ENGINE_LOCAL Mouse : public IMouse
 	{
 	public:        
 
@@ -19,6 +19,7 @@ namespace System
 
 		Mouse();
         virtual ~Mouse();
+		void QueryInterface(const Core::Guid& type, void** object) override;
         void Show(bool value) override;
         void LockInWindow(bool value) override;
         void SetButtonState(MouseButtons button, bool state) override;
@@ -36,7 +37,7 @@ namespace System
 
         __private::MouseImpl* impl;
 
-        PUNK_OBJECT(Mouse)
+        PUNK_OBJECT_DEFAULT_IMPL3(Mouse)
 	};
 }
 PUNK_ENGINE_END

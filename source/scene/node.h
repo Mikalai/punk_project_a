@@ -12,12 +12,15 @@ namespace Scene
 {
     class PUNK_ENGINE_LOCAL Node : public INode {
     public:
+		Node();
         explicit Node(ISceneGraph* graph);
-        explicit Node(INode* parent = nullptr);
+        explicit Node(INode* parent);
         virtual ~Node();
 
         virtual void SetAttribute(IAttribute* value) override;
         virtual IAttribute* GetAttribute(const Core::String&, std::uint64_t type) const override;
+		virtual int GetAttributesCount(std::uint64_t type) const override;
+		virtual std::vector<IAttribute*> GetAttributes(std::uint64_t type) const override;
         virtual void RemoveAttribute(const Core::String& name, std::uint64_t type) override;
         virtual INode* GetParent() override;
         virtual const INode* GetParent() const override;

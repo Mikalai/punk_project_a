@@ -5,6 +5,7 @@
 #include <math/mat4.h>
 #include <string/string.h>
 #include "types.h"
+#include "ibone.h"
 
 #include <vector>
 #include <map>
@@ -14,59 +15,38 @@ namespace Attributes
 {
 	class AnimationMixer;
 
-	class PUNK_ENGINE_API Bone
+	class PUNK_ENGINE_LOCAL Bone : public IBone
 	{
 	public:
 
 		Bone();
-		Bone(const Bone&);
-		Bone& operator = (const Bone&);
-		~Bone();
+		Bone(const Bone&) = delete;
+		Bone& operator = (const Bone&) = delete;
+		virtual ~Bone();
 
-		void SetName(const Core::String& name);
-		void SetMatrix(const Math::mat4& matrix);
-		void SetParent(Bone* parent);
-        void SetLocalMatrix(const Math::mat4& matrix);
-        void SetBoneMatrix(const Math::mat4& matrix);
-        const Math::mat4& GetBoneMatrix() const;
-        const Math::mat4& GetLocalMatrix() const;
-
-		//void SetIndexInArmature(int index);		
-		///void SetArmature(Armature* armature);
-		///Armature* GetArmature();
-
-		const BoneName& GetName() const;
-		void SetParentName(const BoneName& name) { m_parent_name = name; }
-		const BoneName& GetParentName() const { return m_parent_name; }
-		const Bone* GetParent() const;
-		const Math::mat4 GetWorldMatrix() const;		
-        void SetWorldMatrix(const Math::mat4& value);
-
-		int GetIndex() const;
-		void SetIndex(int index);
-
-		void SetLength(float v) { m_length = v; }
-		float GetLength() const { return m_length; }
-
-		void AddChild(Bone* bone);
-
-		std::vector<Bone*>& GetChildren() { return m_children; }
-		const std::vector<Bone*>& GetChildren() const { return m_children; }
-		Bone* Find(const Core::String& name);
-
-        void Clear();
+		void SetIndex(std::uint32_t value) override;
+		std::uint32_t GetIndex() const override;
+		void SetName(const Core::String& value) override;
+		const Core::String& GetName() const override;
+		void SetLength(float value) override;
+		float GetLength() const override;
+		void SetRestMatrix(const Math::mat4& value) override;
+		const Math::mat4& GetRestMatrix() const override;
+		void SetParent(std::uint32_t value) override;
+		std::uint32_t GetParent() const override;
+		bool HasParent() const override;
+		void AddChild(std::uint32_t index) override;
+		std::uint32_t GetChildrenCount() const override;
+		std::uint32_t GetChild(std::uint32_t index) override;
 
 	private:		
 
-		int m_index;
-		Bone*				m_parent;
-		std::vector<Bone*>	m_children;
-		BoneName			m_name;
-		BoneName			m_parent_name;
-		Math::mat4			m_global_matrix;				
-		Math::mat4			m_bone_matrix;		
-		Math::mat4			m_local_matrix;	//	matrix relative to armature
-        float				m_length;		
+		std::uint32_t m_index{ std::numeric_limits<std::uint32_t>::infinity() };
+		std::uint32_t m_parent{ std::numeric_limits<std::uint32_t>::infinity() };
+		Math::mat4 m_rest_matrix;
+		Core::String m_name;
+		float m_length;
+		std::vector<std::uint32_t> m_children;
 	};    
 }
 PUNK_ENGINE_END

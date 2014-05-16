@@ -10,11 +10,11 @@ namespace Graphics {
     }
 
     void RenderQueue::Clear() {
-        for (auto queue : m_states) {
-            for (auto state : queue) {
-                delete state;
-            }
-            queue.clear();
+        for (auto& queue : m_states) {
+			while (!queue.empty()) {
+				delete queue.back();
+				queue.pop_back();
+			}
         }
     }
 

@@ -3,33 +3,26 @@
 #include "x11_window.h"
 
 PUNK_ENGINE_BEGIN
-namespace System
-{
-    Core::Rtti WindowType{"Punk.Engine.System.Window", typeid(Window).hash_code(), {Core::Object::Type()}};
+namespace System {
 
     Window::Window()
+		: m_container{ this, Core::GetRootObject() }
     {
     }
 
     Window::~Window()
     {
     }
-
-	Core::Rtti* Window::Type() {
-		return &WindowType;
+	
+	void Window::QueryInterface(const Core::Guid& type, void** object) {
+		if (type == IID_IWindow ||
+			type == Core::IID_IObject) {
+			*object = (void*)this;
+			AddRef();
+		}
+		else
+			*object = nullptr;
 	}
-
-    Window* CreateRootWindow(const WindowDescription &desc)
-    {
-#ifdef _WIN32
-        if (desc.system == WindowSystem::Windows)
-            return new WindowWin(desc);
-#elif defined __gnu_linux__
-        if (desc.system == WindowSystem::X11)
-            return new WindowX11(desc);
-#endif
-        return nullptr;
-    }
 
     void Window::SubscribeResizeEvent(ResizeEventDelegate delegate) {
         OnResizeEvent.Add(delegate);

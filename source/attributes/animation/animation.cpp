@@ -4,14 +4,9 @@
 
 PUNK_ENGINE_BEGIN
 namespace Attributes
-{
-	Core::Rtti AnimationType{ "Attributes.Animation", typeid(Animation).hash_code(), { Core::Object::Type() } };
-
-	Core::Rtti* Animation::Type() {
-		return &AnimationType;
-	}
-
+{	
 	Animation::Animation()
+		: m_container{ this, Core::GetRootObject() }
 	{        
 	}
 

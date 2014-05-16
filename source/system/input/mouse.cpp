@@ -6,12 +6,6 @@
 PUNK_ENGINE_BEGIN
 namespace System
 {
-	static Core::Rtti MouseType{ "Punk.Engine.System.Mouse", typeid(Mouse).hash_code(), { Core::Object::Type() } };
-
-	Core::Rtti* Mouse::Type() {
-		return &MouseType;
-	}
-
     namespace __private {
         struct MouseImpl {
             MouseImpl()
@@ -27,8 +21,22 @@ namespace System
         };
     }
 
+	void Mouse::QueryInterface(const Core::Guid& type, void** object) {
+		if (!object)
+			return;
+
+		if (type == Core::IID_IObject ||
+			type == IID_IMouse) {
+			*object = (void*)this;
+			AddRef();
+		}
+		else
+			*object = nullptr;
+	}
+
     Mouse::Mouse()
         : impl(new __private::MouseImpl)
+		, m_container{ this, Core::GetRootObject() }
 	{
         GetDefaultLogger()->Info("Mouse created");
 	}

@@ -2,70 +2,57 @@
 #define _H_SYSTEM_CONSOLE
 
 #include <memory>
-#include "String/String.h"
-#include "config.h"
+#include "iconsole.h"
+
+#ifdef _WIN32
+#include <Windows.h>
+#endif
 
 PUNK_ENGINE_BEGIN
 namespace System
 {
-	class PUNK_ENGINE_API Console
+	class PUNK_ENGINE_LOCAL Console : public IConsole
 	{
 	public:
-        ~Console();
-		//	possible colors that can be use in console
-		typedef enum {COLOR_BLACK,
-			COLOR_BLUE,
-			COLOR_GREEN,
-			COLOR_CYAN,
-			COLOR_RED,
-			COLOR_MAGENTA,
-			COLOR_BROWN,
-			COLOR_LIGHTGRAY,
-			COLOR_DARKGRAY,
-			COLOR_LIGHTBLUE,
-			COLOR_LIGHTGREEN,
-			COLOR_LIGHTCYAN,
-			COLOR_LIGHTRED,
-			COLOR_LIGHTMAGENTA,
-			COLOR_YELLOW,
-			COLOR_WHITE} Color;
-
+		Console();
+        virtual ~Console();		
+		void QueryInterface(const Core::Guid& type, void** object) override;
 		//	set new cursor position in console
-		void SetPosition(int x, int y);
+		void SetPosition(int x, int y) override;
 		//	set new text color
-		void SetTextColor(Color col);
+		void SetTextColor(ConsoleColor col) override;
 		//	set new back color
-		void SetBackColor(Color col);
+		void SetBackColor(ConsoleColor col) override;
 		//	retreive console screen buffer width
-		int GetScreenBufferWidth() const;
+		int GetScreenBufferWidth() const override;
 		//	retrieve console screen buffer height
-		int GetScreenBufferHeight()const;
+		int GetScreenBufferHeight() const override;
 		//	retrieve visible width of the console screen
-		int GetViewportWidth();
+		int GetViewportWidth() override;
 		//	retrieve visisble height of the console screen
-		int GetViewportHeight();
+		int GetViewportHeight() override;
 		//	fills console with back color
-		void Clear();
-		//	retrieve single instance of the console
-		static Console* Instance();
-		//	destroys console
-		static void Destroy();
-
-		struct Impl;
-		Impl* impl;
-
-		std::ostream& Write();
-		std::istream& Read();
+		void Clear() override;
+		void Write(const Core::String& value) override;
+		const Core::String Read() override;
 
 	private:
-		//	copy constructor denied
-		Console(const Console&);
-		//	copy operator denied
-		Console& operator = (const Console&);
-		//	no public constructor
-		Console();
-		//	instance of the console is stored here
-		static std::unique_ptr<Console> m_instance;
+#ifdef _WIN32
+		//	handle of the console object
+		HANDLE m_console_handle;
+		//	current cursor position
+		COORD m_cursor_position;
+		//	selected text color
+		WORD m_text_color;
+		//	selected back color
+		WORD m_back_color;
+		//	information of the console screen buffer
+		CONSOLE_SCREEN_BUFFER_INFO m_screen_info;
+#elif defined __gnu_linux__
+		int m_x, m_y;
+#endif
+
+		PUNK_OBJECT_DEFAULT_IMPL3(Console)
 	};
 }
 PUNK_ENGINE_END

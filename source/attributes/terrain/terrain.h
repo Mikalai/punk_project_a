@@ -12,7 +12,7 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-    class PUNK_ENGINE_API Terrain : public Core::Object
+    class PUNK_ENGINE_API Terrain : public Core::IObject
 	{
 	public:
 		Terrain();

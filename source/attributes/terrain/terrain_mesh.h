@@ -11,10 +11,10 @@ namespace Utility
 
 namespace Attributes
 {
-    class StaticGeometry;
+    class IGeometry;
     class Material;
 
-    class PUNK_ENGINE_API TerrainMesh : public Core::Object
+    class PUNK_ENGINE_API TerrainMesh : public Core::IObject
     {
     public:
         TerrainMesh();
@@ -22,9 +22,9 @@ namespace Attributes
         TerrainMesh& operator = (const TerrainMesh&) = delete;
         virtual ~TerrainMesh();
 
-        void SetGeometry(StaticGeometry* geom);
-        StaticGeometry* GetGeometry();
-        const StaticGeometry* GetGeometry() const;
+        void SetGeometry(IGeometry* geom);
+        IGeometry* GetGeometry();
+        const IGeometry* GetGeometry() const;
 
         void SetStaticMeshFilename(const Core::String& filename);
         const Core::String GetStaticMeshFilename() const;
@@ -38,9 +38,9 @@ namespace Attributes
     private:
         Core::String m_name;
         Core::String m_filename;
-        StaticGeometry* m_geometry;
+        IGeometry* m_geometry;
         Utility::AsyncParserTask* m_task;
-        PUNK_OBJECT(TerrainMesh)
+        PUNK_OBJECT_DEFAULT_IMPL2(TerrainMesh)
     };
 }
 PUNK_ENGINE_END

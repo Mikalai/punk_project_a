@@ -2,7 +2,7 @@
 #define _H_PUNK_AI_NAVI_MESH
 
 #include <config.h>
-#include <core/object.h>
+#include <core/iobject.h>
 #include <math/mat4.h>
 #include <math/vec3.h>
 
@@ -10,7 +10,7 @@ PUNK_ENGINE_BEGIN
 namespace Core { class String; }
 namespace AI {
 
-    class PUNK_ENGINE_API NaviMesh : public Core::Object
+    class PUNK_ENGINE_API NaviMesh : public virtual Core::IObject
 	{
 	public:
         typedef std::vector<Math::vec3> Points;
@@ -47,7 +47,7 @@ namespace AI {
         Normals m_normals;
         Faces m_faces;
 
-        PUNK_OBJECT(NaviMesh)
+        PUNK_OBJECT_DEFAULT_IMPL2(NaviMesh)
 	};
 }
 PUNK_ENGINE_END

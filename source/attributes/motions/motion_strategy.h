@@ -12,7 +12,7 @@ namespace Attributes {
 
 	enum MotionStrategyType : char { MOTION_STRATEGY_TYPE_NONE, MOTION_STRATEGY_TYPE_STATIC };
 
-    class PUNK_ENGINE_API MotionStrategy : public Core::Object
+    class PUNK_ENGINE_API MotionStrategy : public Core::IObject
 	{
 	public:
 		MotionStrategy();
@@ -34,7 +34,7 @@ namespace Attributes {
         MotionStrategyType m_motion_type {MotionStrategyType::MOTION_STRATEGY_TYPE_NONE};
         Transform* m_transform {nullptr};
 
-        PUNK_OBJECT(MotionStrategy)
+        PUNK_OBJECT_DEFAULT_IMPL(MotionStrategy)
 	};	
 }
 PUNK_ENGINE_END

@@ -21,14 +21,13 @@ def export_skin_mesh(object):
     f.write("SKINMESHTEXT\n")
     skin = object.data
     start_block(f, skin.name)
-    export_string(f, "*armature", object.parent.name)
-    vertex_groups[object.data.name] = object.vertex_groups
+    export_string(f, "*armature_schema", object.parent.name)    
     export_mat4(f, "*world_matrix", object.matrix_world)
     export_vertex_position(f, skin)
     export_normals(f, skin)
     export_faces(f, skin)
     export_tex_coords(f, skin)
-    export_bones_weight(f, skin)
+    export_bones_weight(f, object)
     #if len(skin.materials) != 0:
     #    export_material(f, bpy.data.materials[skin.materials[0].name])
     end_block(f)    #   skin_mesh        

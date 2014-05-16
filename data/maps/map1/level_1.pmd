@@ -1,24 +1,40 @@
 SCENETEXT
 *node {
   *name {
-    Material
+    Transform
   }
   *entity_name {
-    Material.material
+    Armature.transform
   }
   *node {
     *name {
-      Transform
+      Armature
     }
     *entity_name {
-      Cube.transform
+      Armature.armature
     }
     *node {
       *name {
-        Static
+        Material
       }
       *entity_name {
-        Cube.static
+        Material.material
+      }
+      *node {
+        *name {
+          Transform
+        }
+        *entity_name {
+          Cube.transform
+        }
+        *node {
+          *name {
+            Skin
+          }
+          *entity_name {
+            Cube.skin
+          }
+        }
       }
     }
   }

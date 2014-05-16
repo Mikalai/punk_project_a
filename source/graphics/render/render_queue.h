@@ -2,6 +2,7 @@
 #define RENDER_QUEUE_H
 
 #include <vector>
+#include <array>
 #include <config.h>
 #include <graphics/render/render_context/irender_context.h>
 
@@ -19,7 +20,7 @@ namespace Graphics {
         std::vector<Batch*>& GetBatches(RenderPolicySet render_context_code);
 
     private:
-        std::vector<Batch*> m_states[(int)RenderPolicySet::End];
+		std::array<std::vector<Batch*>, (int)RenderPolicySet::End> m_states;
     };
 }
 PUNK_ENGINE_END
