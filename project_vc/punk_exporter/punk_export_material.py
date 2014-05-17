@@ -6,6 +6,8 @@ import copy
 from copy import deepcopy
 
 def export_material(f, m):
+    export_texture_slot = punk_get_export_func("TEXTURE_SLOT")
+
     global text_offset
     old = text_offset 
     text_offset = 0

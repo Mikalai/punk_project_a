@@ -18,6 +18,7 @@ else:
     from . import punk_export_material
     from . import punk_export_armature
     from . import punk_export_action
+    from . import punk_export_texture_slots
 
 from .punk_export_base import *
 
