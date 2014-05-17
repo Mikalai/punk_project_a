@@ -33,7 +33,7 @@ def export_bones_weight(f, object):
                 #print("found a vertex that is not in a group")        
         start_block(f, "*vertex");
         export_int(f, "*vertex_index", vert.index)
-        start_block(f, "*bones_weights");
+        start_block(f, "*weights");
         for bone_id, weight in weight_map.items():
             make_offset(f);
             f.write("{0} {1}\n".format(bone_id, weight))
