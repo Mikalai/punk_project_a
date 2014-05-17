@@ -2,6 +2,7 @@ from . import punk_export_base
 from .punk_export_base import *
 
 import bpy
+import mathutils
 import copy
 from copy import deepcopy
 
@@ -29,6 +30,7 @@ def export_armature(object):
     print(file)
     f = open(file, "w")
     f.write("ARMATURESCHEMATEXT\n")    
+    pose = object.pose
     armature = object.data
     start_block(f, armature.name)
     export_action_ref(f, object)
@@ -42,10 +44,15 @@ def export_armature(object):
         #   write bone length
         export_float(f, "*length", bone.length)
         #   write bone parent
+        parent_matrix = mathutils.Matrix()
         if bone.parent != None:
+            parent_matrix = armature.bones[bone.parent.name].matrix_local
             export_string(f, "*parent", armature.bones.find(bone.parent.name))
-        #   write bone matrix
-        export_mat4(f, "*local_matrix", bone.matrix_local)
+        #   write bone local position
+        m = parent_matrix.inverted() * bone.matrix_local
+        export_vec3(f, "*position", m.to_translation())
+        #   write bone local rotation
+        export_quat(f, "*rotation", m.to_quaternion())
         #   write supported animation
         end_block(f)    #*bone
     end_block(f)    #*armature
