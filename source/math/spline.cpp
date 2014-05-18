@@ -1,3 +1,4 @@
+#include <core/ifactory.h>
 #include "spline.h"
 #include <cstdint>
 
@@ -8,6 +9,8 @@ namespace Math
         : m_total_length(0)
     {
     }
+
+	Spline::~Spline() {}
 
     void Spline::AddPoint(const WeightedPoint &value)
     {
@@ -60,12 +63,33 @@ namespace Math
         return res;
     }
 
-    std::size_t Spline::GetPointsCount() const {
-        return m_points.size();
+    std::uint32_t Spline::GetPointsCount() const {
+        return (std::uint32_t)m_points.size();
     }
 
     const WeightedPoint& Spline::GetPoint(int index) const {
         return m_points.at(index);
     }
+
+	void Spline::QueryInterface(const Core::Guid& type, void** object) {
+		if (!object)
+			return;
+
+		if (type == Core::IID_IObject ||
+			type == IID_ISpline) {
+			*object = (void*)this;
+			AddRef();
+		}
+		else
+			*object = nullptr;
+	}
+
+	void CreateSpline(void** object) {
+		if (!object)
+			return;
+		*object = (void*)(new Spline);
+	}
+
+	PUNK_REGISTER_CREATOR(IID_ISpline, CreateSpline);
 }
 PUNK_ENGINE_END

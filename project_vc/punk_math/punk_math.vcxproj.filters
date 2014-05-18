@@ -151,6 +151,8 @@
     </ClInclude>
     <ClInclude Include="..\..\source\math\linear_equation_solver.h" />
     <ClInclude Include="..\..\source\math\gramm_shmidt.h" />
+    <ClInclude Include="..\..\source\math\icurve.h" />
+    <ClInclude Include="..\..\source\math\ispline.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graph">
