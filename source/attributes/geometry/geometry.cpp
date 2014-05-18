@@ -155,9 +155,15 @@ namespace Attributes
 		m_bones[index] = bones;
 	}
 
-	void Geometry::SetVertexBonesWeights(const Math::vec4v& weights, const Math::ivec4v& bones) {
-		m_weights = weights;
-		m_bones = bones;
+	void Geometry::SetVertexBonesWeights(const std::vector<std::vector<std::pair<int, float>>>& b) {		
+		m_weights.resize(b.size());
+		m_bones.resize(b.size());
+		for (int vertex_index = 0, max_vertex_index = b.size(); vertex_index < max_vertex_index; ++vertex_index) {
+			for (int bone_index = 0, max_bone_index = b[vertex_index].size(); bone_index < max_bone_index; ++bone_index) {
+				m_bones[vertex_index][bone_index] = b[vertex_index][bone_index].first;
+				m_weights[vertex_index][bone_index] = b[vertex_index][bone_index].second;
+			}
+		}
 	}
 
 	bool Geometry::HasVertexBoneWeights() const {
@@ -170,6 +176,14 @@ namespace Attributes
 
 	void Geometry::SetArmatureSchema(Core::String& value) {
 		m_armature_schema = value;
+	}
+
+	void Geometry::SetArmatureOffset(const Math::mat4& value) {
+		m_armature_offset = value;
+	}
+	
+	const Math::mat4& Geometry::GetArmatureOffset() const {
+		return m_armature_offset;
 	}
 
 	std::uint32_t Geometry::GetTrianglesCount() const {

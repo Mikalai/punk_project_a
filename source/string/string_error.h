@@ -18,6 +18,11 @@ namespace Core {
 			using Exception::Exception;
 		};
 
+		class PUNK_ENGINE_API StringOutOfBufferRange : public Exception {
+		public:
+			using Exception::Exception;
+		};
+
 		static const std::uint64_t STR_ERR_UNKOWN = 0x0001000000000000;
 		static const std::uint64_t STR_ERR_CONV_WCHAR_TO_ASCII = STR_ERR_UNKOWN + 1;
 		static const std::uint64_t STR_ERR_CONV_WCHAR_TO_UTF8 = STR_ERR_UNKOWN + 2;

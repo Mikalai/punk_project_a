@@ -321,6 +321,7 @@
     <ClInclude Include="..\..\source\attributes\animation\bone_animation.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\..\source\attributes\animation\iaction.h" />
     <ClInclude Include="..\..\source\attributes\animation\interface.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>

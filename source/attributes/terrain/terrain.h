@@ -6,7 +6,7 @@
 #include <math/vec2.h>
 #include <math/matrix.h>
 #include <math/smart_matrix.h>
-#include <attributes/data/material.h>
+#include <attributes/material/imaterial.h>
 #include "terrain_cell.h"
 
 PUNK_ENGINE_BEGIN

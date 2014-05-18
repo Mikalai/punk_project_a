@@ -52,10 +52,12 @@ namespace Attributes {
 		const Math::vec4* GetVertexBoneWeights(std::uint32_t index) const override;
 		const Math::ivec4* GetVertexBonesIndecies(std::uint32_t index) const override;
 		void SetVertexBonesWeight(std::uint32_t index, const Math::vec4& weights, const Math::ivec4& bones) override;
-		void SetVertexBonesWeights(const Math::vec4v& weights, const Math::ivec4v& bones) override;
+		void SetVertexBonesWeights(const std::vector<std::vector<std::pair<int, float>>>& b) override;
 		bool HasVertexBoneWeights() const override;
 		const Core::String& GetArmatureSchema() const override;
 		void SetArmatureSchema(Core::String& value) override;
+		void SetArmatureOffset(const Math::mat4& value) override;
+		const Math::mat4& GetArmatureOffset() const override;
 
 		//	triangles
 		std::uint32_t GetTrianglesCount() const override;
@@ -95,7 +97,7 @@ namespace Attributes {
 		Math::ivec3v m_triangles;
 		Core::String m_armature_schema;
 		Core::String m_name;
-			
+		Math::mat4 m_armature_offset;
 		bool m_need_update{ true };
 
         PUNK_OBJECT_DEFAULT_IMPL3(Geometry)

@@ -2,6 +2,8 @@
 #define H_IARMATURE
 
 #include <config.h>
+#include <core/iobject.h>
+
 PUNK_ENGINE_BEGIN
 namespace Math {
 	class vec3;
@@ -14,8 +16,10 @@ namespace Attributes {
 	class Bone;
 	class Action;
 	class IArmatureSchema;
-	
-	class IArmature {
+
+	DEFINE_PUNK_GUID(IID_IArmature, "A67EECF9-EC55-4830-93BA-3BDE1207B332");
+
+	class IArmature : public virtual Core::IObject {
 	public:
 		virtual const Math::vec3* GetBoneLocalPosition(std::uint32_t index) = 0;
 		virtual const Math::vec3* GetBoneGlobalPosition(std::uint32_t index) = 0;
