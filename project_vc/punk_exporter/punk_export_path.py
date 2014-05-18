@@ -1,3 +1,6 @@
+from . import punk_export_base
+from .punk_export_base import *
+
 import bpy
 import copy
 from copy import deepcopy
@@ -35,3 +38,4 @@ def export_paths(f):
             export_path(f, object)
     return
 
+punk_register_export_func("PATHS", export_paths)

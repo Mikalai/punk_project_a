@@ -13,7 +13,7 @@ def export_bones_weight(f, object):
     
     data = object.data
 
-    start_block(f, "*bones_weight")    
+    start_block(f, "*bones_weights")    
     for vert in data.vertices:
         weight_map = {}
         for group in object.vertex_groups:
@@ -31,7 +31,7 @@ def export_bones_weight(f, object):
             except:
                 pass
                 #print("found a vertex that is not in a group")        
-        start_block(f, "*vertex");
+        start_block(f, "*vertex_bones_weights");
         export_int(f, "*vertex_index", vert.index)
         start_block(f, "*weights");
         for bone_id, weight in weight_map.items():

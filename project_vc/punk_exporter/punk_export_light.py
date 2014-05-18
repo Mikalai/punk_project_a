@@ -1,3 +1,6 @@
+from . import punk_export_base
+from .punk_export_base import *
+
 import bpy
 import copy
 from copy import deepcopy
@@ -27,6 +30,7 @@ def export_point_lamp(object):
          
          
 def export_point_lamps(f):
+    print("Export *point_lamp")
     if not ("*point_lamp" in used_entities.keys()):
         return
     for object in used_entities["*point_lamp"]:
@@ -39,7 +43,7 @@ def export_directional_light(object):
     global text_offset
     old = text_offset 
     text_offset = 0
-    file = object.data.name + ".dir_lamp"
+    file = object.data.name + ".directional_light"
     print(file)
     f = open(file, "w")
     f.write("DIRLAMPTEXT\n") 
@@ -55,6 +59,7 @@ def export_directional_light(object):
     return
 
 def export_dir_lamps(f):
+    print("Export *directional_lamp")
     if not ("*directional_lamp" in used_entities.keys()):
         return
     for object in used_entities["*directional_lamp"]:
@@ -62,3 +67,6 @@ def export_dir_lamps(f):
         if data != None:
             export_directional_light(object)
     return
+
+punk_register_export_func("DIRECTIONAL_LIGHTS", export_dir_lamps)
+punk_register_export_func("POINT_LIGHTS", export_point_lamps)
