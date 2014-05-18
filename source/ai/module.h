@@ -3,6 +3,6 @@
 
 #include "navi_mesh.h"
 #include "navi_triangle.h"
-#include "curvepath.h"
+#include "icurvepath.h"
 
 #endif // MODULE_H

@@ -2,15 +2,15 @@
 #define _H_PUNK_AI_NAVI_MESH
 
 #include <config.h>
-#include <core/iobject.h>
 #include <math/mat4.h>
 #include <math/vec3.h>
+#include "inavi_mesh.h"
 
 PUNK_ENGINE_BEGIN
 namespace Core { class String; }
 namespace AI {
 
-    class PUNK_ENGINE_API NaviMesh : public virtual Core::IObject
+    class PUNK_ENGINE_LOCAL NaviMesh : public INaviMesh
 	{
 	public:
         typedef std::vector<Math::vec3> Points;
@@ -22,23 +22,20 @@ namespace AI {
         NaviMesh& operator = (const NaviMesh&) = delete;
         virtual ~NaviMesh();
 
-        void SetTransform(const Math::mat4& value);
-        const Math::mat4& GetTranform() const;
+		void QueryInterface(const Core::Guid& type, void** object) override;
 
-        static NaviMesh* CreateFromFile(const Core::String& path);
-
-        const Math::vec3& GetPoint(int index) const;
-
-        void SetPoints(const Points& value);
-        void SetNormals(const Normals& value);
-        void SetFaces(const Faces& value);
-
-        const Points& GetPoints() const;
-        const Faces& GetFaces() const;
-        const Normals& GetNormals() const;
-
-        void SetName(const Core::String& value);
-        const Core::String& GetName() const;
+		void SetTransform(const Math::mat4& value) override;
+		const Math::mat4& GetTranform() const override;
+		void SetVertexPositions(const Math::vec3* value, std::uint32_t count) override;
+		void SetVertexNormals(const Math::vec3* value, std::uint32_t count) override;
+		void SetTriangles(const Math::ivec3* value, std::uint32_t count) override;
+		std::uint32_t GetVertexCount() const override;
+		const Math::vec3& GetVertexPosition(std::uint32_t index) const override;
+		const Math::vec3& GetVertexNormal(std::uint32_t index) const override;
+		std::uint32_t GetTrianglesCount() const override;
+		const Math::ivec3& GetTriangle(std::uint32_t index) const override;
+		void SetName(const Core::String& value) override;
+		const Core::String& GetName() const override;
 
 	private:
         Core::String m_name;
@@ -47,7 +44,7 @@ namespace AI {
         Normals m_normals;
         Faces m_faces;
 
-        PUNK_OBJECT_DEFAULT_IMPL2(NaviMesh)
+        PUNK_OBJECT_DEFAULT_IMPL3(NaviMesh)
 	};
 }
 PUNK_ENGINE_END
