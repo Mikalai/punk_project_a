@@ -164,6 +164,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\ai\curvepath.h" />
+    <ClInclude Include="..\..\source\ai\icurvepath.h" />
+    <ClInclude Include="..\..\source\ai\inavi_mesh.h" />
     <ClInclude Include="..\..\source\ai\interface.h" />
     <ClInclude Include="..\..\source\ai\module.h" />
     <ClInclude Include="..\..\source\ai\navi_mesh.h" />

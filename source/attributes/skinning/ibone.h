@@ -10,7 +10,8 @@ namespace Core {
 	class String;
 }
 namespace Math {
-	class mat4;
+	class vec3;
+	class quat;
 }
 namespace Attributes {
 	class IBone {
@@ -21,8 +22,10 @@ namespace Attributes {
 		virtual const Core::String& GetName() const = 0;
 		virtual void SetLength(float value) = 0;
 		virtual float GetLength() const = 0;
-		virtual void SetRestMatrix(const Math::mat4& value) = 0;
-		virtual const Math::mat4& GetRestMatrix() const = 0;
+		virtual void SetRestPosition(const Math::vec3& value) = 0;
+		virtual void SetRestRotation(const Math::quat& value) = 0;
+		virtual const Math::vec3& GetRestPosition() const = 0;
+		virtual const Math::quat& GetRestRotation() const = 0;
 		virtual void SetParent(std::uint32_t value) = 0;
 		virtual std::uint32_t GetParent() const = 0;
 		virtual bool HasParent() const = 0;

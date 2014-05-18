@@ -1,31 +1,33 @@
 #include <ai/module.h>
 #include <math/spline.h>
 #include "parser.h"
-#include "parse_simple.h"
 #include "parse_weighted_point.h"
 #include "parse_spline.h"
 
 PUNK_ENGINE_BEGIN
 namespace Loader
 {
-    bool ParseSpline(Core::Buffer &buffer, Math::Spline &value)
+    bool ParseSpline(Core::Buffer &buffer, void* object)
     {
+		Math::ISpline* value = (Math::ISpline*)object;
+		Parser* parser = GetDefaultParser();
+
         CHECK_START(buffer);
         while (1)
         {
             Core::String word = buffer.ReadWord();
-            KeywordCode code = Parse(word);
+            KeywordCode code = ParseKeyword(word);
             switch(code)
             {
             case WORD_CLOSE_BRACKET:
             {
                 return true;
             }
-            case WORD_POINT:
+            case WORD_WEIGHTED_POINT:
             {
                 Math::WeightedPoint p;
-                ParseWeightedPoint(buffer, p);
-                value.AddPoint(p);
+                parser->Parse(WORD_WEIGHTED_POINT, buffer, p);
+                value->AddPoint(p);
             }
             break;
             default:
@@ -34,5 +36,7 @@ namespace Loader
         }
         return false;
     }
+
+	PUNK_REGISTER_PARSER(WORD_SPLINE, ParseSpline);
 }
 PUNK_ENGINE_END

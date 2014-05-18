@@ -3,147 +3,154 @@
 #include <scene/module.h>
 #include <ai/module.h>
 #include <system/logger/module.h>
-#include "parse_directional_light.h"
-#include "parse_terrain_mesh.h"
-#include "parse_sun.h"
-#include "parse_scene.h"
-#include "parse_river.h"
-#include "parse_curve_path.h"
-#include "parse_navi_mesh.h"
-#include "parse_material.h"
-#include "parse_static_mesh.h"
-#include "parse_skin_mesh.h"
-#include "parse_armature.h"
-#include "parse_action.h"
-#include "parse_animation.h"
-#include "parse_map_description.h"
-#include "parse_transform.h"
 #include "parser.h"
 
 PUNK_ENGINE_BEGIN
 namespace Loader
 {
-    Core::Object* ParseAnything(Core::Buffer& buffer)
+    Core::IObject* ParseAnything(Core::Buffer& buffer)
     {		
+		Core::IFactory* factory = Core::GetFactory();
+		Parser* parser = GetDefaultParser();
         while (!buffer.IsEnd())
         {
             Core::String word = buffer.ReadWord();
-            KeywordCode code = Parse(word);
+            KeywordCode code = ParseKeyword(word);
             switch(code)
             {
-            case WORD_MAPDESCTEXT:
+            /*case WORD_MAPDESCTEXT:
             {				
                 std::unique_ptr<Attributes::Terrain> terrain(new Attributes::Terrain);
-                ParseMapDescription(buffer, terrain.get());
+                parser->Parse(WORD_MAPDESCTEXT, buffer, (void)terrain.get());
                 return terrain.release();
-            }
+            }*/
 			case WORD_TRANSFORMTEXT:
 			{
 				Core::String word = buffer.ReadWord();
 				if (word == L"transform") {
-					std::unique_ptr<Attributes::Transform> transform(new Attributes::Transform);
-					ParseTransform(buffer, transform.get());
-					return transform.release();
+					Attributes::ITransform* transform;
+					factory->CreateInstance(Attributes::IID_ITransform, (void**)&transform);
+					parser->Parse(WORD_TRANSFORM, buffer, (void*)transform);
+					return transform;
 				}
+			}
+			case WORD_ARMATURE_SCHEMA_TEXT:
+			{
+				Core::String word = buffer.ReadWord();
+				Attributes::IArmatureSchema* schema;
+				factory->CreateInstance(Attributes::IID_IArmatureSchema, (void**)&schema);
+				parser->Parse(WORD_ARMATURE_SCHEMA, buffer, (void*)schema);
+				return schema;
 			}
             case WORD_ARMATURETEXT:
             {
-                Core::String word = buffer.ReadWord();                
-                std::unique_ptr<Attributes::Armature> armature;
-                if (word == L"male_armature")
-                {
-                    armature.reset(new Attributes::HumanMaleArmature);
-                }
-                else
-                {
-                    armature.reset(new Attributes::Armature);
-                }
-
-                ParseArmature(buffer, armature.get());                
-                return armature.release();
+                Core::String word = buffer.ReadWord();         
+				Attributes::IArmature* armature;
+				factory->CreateInstance(Attributes::IID_IArmature, (void**)&armature);
+				parser->Parse(WORD_ARMATURE, buffer, (void*)armature);
+				return armature;
             }
             case WORD_ACTIONTEXT:
             {
                 Core::String word = buffer.ReadWord();
-                std::unique_ptr<Attributes::Action> action;
-                if (word == L"male_walk")
-                    action.reset(new Attributes::ActionMaleWalk);
-                else
-                    action.reset(new Attributes::Action);
-                ParseAction(buffer, action.get());
-                return action.release();
+                Attributes::IAction* action;
+				factory->CreateInstance(Attributes::IID_IAction, (void**)&action);
+                parser->Parse(WORD_ACTION, buffer, action);
+                return action;
             }
             case WORD_STATICMESHTEXT:
             {
                 Core::String word = buffer.ReadWord();
-                std::unique_ptr<Attributes::StaticGeometry> mesh(new Attributes::StaticGeometry);
-                ParseStaticMesh(buffer, mesh.get());                
+				Attributes::IGeometry* mesh{ nullptr };
+				factory->CreateInstance(Attributes::IID_IGeometry, (void**)&mesh);
+				parser->Parse(WORD_STATIC_MESH, buffer, mesh);
                 mesh->SetName(word);
-                return mesh.release();
+                return mesh;
             }
                 break;
             case WORD_MATERIALTEXT:
             {                
                 Core::String word = buffer.ReadWord();
-                std::unique_ptr<Attributes::Material> material(new Attributes::Material);
-                ParseMaterial(buffer, material.get());                
-                return material.release();
+				Attributes::IMaterial* material{ nullptr };
+				factory->CreateInstance(Attributes::IID_IMaterial, (void**)&material);
+				parser->Parse(WORD_MATERIAL, buffer, material);
+				return material;
             }
             case WORD_NAVIMESHTEXT:
             {
                 Core::String word = buffer.ReadWord();
-                std::unique_ptr<AI::NaviMesh> navi_mesh(new AI::NaviMesh);
-                ParseNaviMesh(buffer, navi_mesh.get());
-                return navi_mesh.release();
+				AI::INaviMesh* navi_mesh{ nullptr };
+				parser->Parse(WORD_NAVI_MESH, buffer, navi_mesh);
+				return navi_mesh;
             }
             case WORD_PATHTEXT:
             {
                 Core::String word = buffer.ReadWord();
-                std::unique_ptr<AI::CurvePath> path(new AI::CurvePath);
-                ParseCurvePath(buffer, path.get());                
-                return path.release();
+				AI::ICurvePath* path{ nullptr };
+				Core::GetFactory()->CreateInstance(AI::IID_ICurvePath, (void**)&path);
+				parser->Parse(WORD_CURVE_PATH, buffer, path);
+				return path;
             }
-            case WORD_RIVERTEXT:
+            /*case WORD_RIVERTEXT:
             {
                 Core::String word = buffer.ReadWord();
                 std::unique_ptr<Attributes::River> river(new Attributes::River);
                 ParseRiver(buffer, *river);                
                 return river.release();
-            }
+            }*/
             case WORD_SCENETEXT:
             {
-                Scene::ISceneGraphUniquePtr graph = Scene::CreateScene();
-                ParseSceneGraph(buffer, graph.get());
-                return Cast<Core::Object*>(graph.release());
+				Scene::ISceneGraph* graph{ nullptr };
+				Core::GetFactory()->CreateInstance(Scene::IID_ISceneGraph, (void**)&graph);
+				parser->Parse(WORD_SCENE_GRAPH, buffer, graph);
+				return graph;
             }
-            case WORD_SUNTEXT:
+           /* case WORD_SUNTEXT:
             {
                 Core::String word = buffer.ReadWord();
                 std::unique_ptr<Attributes::Sun> sun(new Attributes::Sun);
                 ParseSun(buffer, *sun);
                 return sun.release();
-            }
-            case WORD_TERRAINTEXT:
+            }*/
+            /*case WORD_TERRAINTEXT:
             {
                 Core::String word = buffer.ReadWord();
-                std::unique_ptr<Attributes::TerrainMesh> mesh(new Attributes::TerrainMesh);
+				Attributes::ITerrainMesh > mesh{ nullptr };
                 ParseTerrainMesh(buffer, *mesh);
                 return mesh.release();
-            }
+            }*/
             case WORD_SKINMESH_TEXT:
             {
                 Core::String word = buffer.ReadWord();
-                std::unique_ptr<Attributes::SkinGeometry> mesh(new Attributes::SkinGeometry);
-                ParseSkinMesh(buffer, mesh.get());
-                return mesh.release();
+				Attributes::IGeometry* mesh{ nullptr };
+				Core::GetFactory()->CreateInstance(Attributes::IID_IGeometry, (void**)&mesh);
+				parser->Parse(WORD_SKIN_MESH, buffer, mesh);
+                return mesh;
             }
             case WORD_DIRLIGHTTEXT:
             {
                 Core::String word = buffer.ReadWord();
-                std::unique_ptr<Attributes::DirectionalLight> light(new Attributes::DirectionalLight);
-                ParseDirectionalLight(buffer, light.get());
-                return light.release();
+				Attributes::IDirectionalLight* light{ nullptr };
+				Core::GetFactory()->CreateInstance(Attributes::IID_IDirectionalLight, (void**)&light);
+                parser->Parse(WORD_DIRECTIONAL_LIGHT, buffer, light);
+                return light;
             }
+			case WORD_POINTLIGHTTEXT:
+			{
+				Core::String word = buffer.ReadWord();
+				Attributes::IPointLight* light{ nullptr };
+				Core::GetFactory()->CreateInstance(Attributes::IID_IPointLight, (void**)&light);
+				parser->Parse(WORD_POINT_LIGHT, buffer, light);
+				return light;
+			}
+			case WORD_SPOTLIGHTTEXT:
+			{
+				Core::String word = buffer.ReadWord();
+				Attributes::ISpotLight* light{ nullptr };
+				Core::GetFactory()->CreateInstance(Attributes::IID_ISpotLight, (void**)&light);
+				parser->Parse(WORD_SPOT_LIGHT, buffer, light);
+				return light;
+			}
             default:
                 throw Error::LoaderException(L"Unexpected keyword " + word);
             }

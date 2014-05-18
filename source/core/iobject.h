@@ -41,6 +41,8 @@ namespace Core {
 	template<class T>
 	using UniquePtr = std::unique_ptr < T, void(*)(IObject*) > ;
 
+	using IObjectUniquePtr = UniquePtr < IObject > ;
+
 #define PUNK_OBJECT_DEFAULT_IMPL(T) \
 	public:\
 	void SetOwner(IObject* object) {\

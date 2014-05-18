@@ -18,6 +18,11 @@ else:
     from . import punk_export_material
     from . import punk_export_armature
     from . import punk_export_action
+    from . import punk_export_texture_slots
+    from . import punk_export_light
+    from . import punk_export_light_node
+    from . import punk_export_path
+    from . import punk_export_path_node
 
 from .punk_export_base import *
 
@@ -405,6 +410,9 @@ def export_model(context, filepath, anim_in_separate_file):
     export_materials = punk_get_export_func("MATERIALS")
     export_armatures = punk_get_export_func("ARMATURES")
     export_actions = punk_get_export_func("ACTIONS")
+    export_point_lights = punk_get_export_func("POINT_LIGHTS")
+    export_directional_lights = punk_get_export_func("DIRECTIONAL_LIGHTS")
+    export_paths = punk_get_export_func("PATHS")
 
     if export_object == None:
         return
@@ -428,16 +436,20 @@ def export_model(context, filepath, anim_in_separate_file):
         export_materials(f)
         export_actions(f)
         export_armatures(f)
+        export_point_lights(f)
+        export_directional_lights(f)
+        export_paths(f)
 #        export_suns(f)
 #        export_navi_meshes(f)
 #        export_terrains(f)
 #        export_rivers(f)
-#        export_paths(f)
 #        export_cameras(f)
 #        export_point_lamps(f)
 #        export_dir_lamps(f)
         f.close()
         return {'FINISHED'}
+    except BaseException as err:
+        print("Error {0}".format(err))
     finally:
         os.chdir(path)
     

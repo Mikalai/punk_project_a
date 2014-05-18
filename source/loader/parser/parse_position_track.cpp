@@ -1,11 +1,13 @@
+#include <attributes/animation/module.h>
 #include "parser.h"
-#include "parse_position_track.h"
 
 PUNK_ENGINE_BEGIN
 namespace Loader
 {
-    bool ParsePositionTrack(Core::Buffer& buffer, Attributes::AnimationTrack<Math::vec3>& value)
+    bool ParsePositionTrack(Core::Buffer& buffer, void* object)
     {
+		Attributes::AnimationTrack<Math::vec3>* value = (Attributes::AnimationTrack<Math::vec3>*)object;
+		Parser* parser = GetDefaultParser();
         CHECK_START(buffer);
         while (1)
         {
@@ -22,9 +24,11 @@ namespace Loader
             Math::vec3 v;
             v.Set(x,y,z);
 
-            value.AddKey(frame, v);
+            value->AddKey(frame, v);
         }
         throw Error::LoaderException(L"Unable to parse position track");
     }
+
+	PUNK_REGISTER_PARSER(WORD_POSITION_TRACK, ParsePositionTrack);
 }
 PUNK_ENGINE_END

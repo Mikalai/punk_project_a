@@ -10,7 +10,7 @@ namespace Loader
     {
         try
         {
-            Core::Object* object = ParsePunkFile(Path());
+            Core::IObject* object = ParsePunkFile(Path());
             SetResult(object);
             State(AsyncParserTask::AsyncSuccess);
             OnComplete(this);
@@ -51,14 +51,14 @@ namespace Loader
         m_state = state;
     }
 
-    Core::Object* AsyncParserTask::Release()
+    Core::IObject* AsyncParserTask::Release()
     {
         auto res = m_object;
         m_object = nullptr;
         return res;
     }
 
-    void AsyncParserTask::SetResult(Core::Object *value)
+    void AsyncParserTask::SetResult(Core::IObject *value)
     {
         m_object = value;
     }

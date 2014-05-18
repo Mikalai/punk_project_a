@@ -1,5 +1,4 @@
-#include <ostream>
-#include <istream>
+#include <core/factory.h>
 #include "animation.h"
 
 PUNK_ENGINE_BEGIN
@@ -11,6 +10,19 @@ namespace Attributes
 	}
 
     Animation::~Animation() {}
+
+	void Animation::QueryInterface(const Core::Guid& type, void** object) {
+		if (!object)
+			return;
+
+		if (type == IID_IAnimation ||
+			type == Core::IID_IObject) {
+			*object = (void*)this;
+			AddRef();
+		}
+		else
+			*object = nullptr;
+	}
 
 	void Animation::AddPositionKey(int frame, Math::vec3& position)
 	{
@@ -57,5 +69,13 @@ namespace Attributes
     {
         m_name = value;
     }    
+
+	void CreateAnimation(void** object) {
+		if (!object)
+			return;
+		*object = (void*)(new Animation);
+	}
+
+	PUNK_REGISTER_CREATOR(IID_IAnimation, CreateAnimation);
 }
 PUNK_ENGINE_END

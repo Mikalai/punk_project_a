@@ -8,7 +8,7 @@
 #include <system/concurrency/module.h>
 
 PUNK_ENGINE_BEGIN
-namespace Core { class Object; }
+namespace Core { class IObject; }
 namespace Scene { class INode; }
 namespace Loader
 {
@@ -23,9 +23,9 @@ namespace Loader
 
         StateType State();
         void State(StateType state);
-        Core::Object* Release();
+        Core::IObject* Release();
         const Core::String& Path() const;
-        void SetResult(Core::Object* value);
+        void SetResult(Core::IObject* value);
         void Run(void* data) override;
         Scene::INode* GetNode() const;
         Core::ActionSlot<AsyncParserTask*> OnComplete;
@@ -33,7 +33,7 @@ namespace Loader
     private:
         System::ThreadMutex m_mutex;
         StateType m_state;
-        Core::Object* m_object;
+        Core::IObject* m_object;
         Core::String m_path;        
         Scene::INode* m_node;
     };    

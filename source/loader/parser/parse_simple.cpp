@@ -17,13 +17,13 @@ namespace Loader
     ///	Returns false if couldn't find open bracket in the buffer
     bool CheckIntegrity(Core::Buffer& buffer)
     {
-        if (Parse(buffer.ReadWord()) != WORD_OPEN_BRACKET)
+        if (ParseKeyword(buffer.ReadWord()) != WORD_OPEN_BRACKET)
             return false;
         return true;
     }
 
     /// This function convert a string representation of the file into code
-    KeywordCode Parse(const Core::String& word)
+    KeywordCode ParseKeyword(const Core::String& word)
     {
         for (unsigned i = 0; i < sizeof(Keyword)/sizeof(Record); i++)
         {
@@ -32,12 +32,22 @@ namespace Loader
 			}
         }
         throw Error::LoaderException(Core::String("Unknown keyword {0}").arg(word));
-        return WORD_BAD_KEYWORD;
     }
 
-    bool ParseFloat(Core::Buffer& buffer, float& value)
+	const Core::String GetKeyword(KeywordCode code) {
+		for (unsigned i = 0; i < sizeof(Keyword) / sizeof(Record); i++)
+		{
+			if (code == Keyword[i].code) {
+				return Keyword[i].word;
+			}
+		}
+		throw Error::LoaderException(Core::String("Unknown code {0}").arg(code));
+	}
+
+    bool ParseFloat(Core::Buffer& buffer, void* object)
     {
-        value = buffer.ReadWord().ToFloat();
+		float* value = (float*)object;
+        *value = buffer.ReadWord().ToFloat();
         return true;
     }
 
@@ -54,20 +64,22 @@ namespace Loader
         return true;
     }
 
-    bool ParseVector3f(Core::Buffer& buffer, Math::vec3& value)
+    bool ParseVector3f(Core::Buffer& buffer, void* object)
     {
-        value[0] = buffer.ReadWord().ToFloat();
-        value[1] = buffer.ReadWord().ToFloat();
-        value[2] = buffer.ReadWord().ToFloat();
+		Math::vec3* value = (Math::vec3*)object;
+        (*value)[0] = buffer.ReadWord().ToFloat();
+		(*value)[1] = buffer.ReadWord().ToFloat();
+		(*value)[2] = buffer.ReadWord().ToFloat();
         return true;
     }
 
-    bool ParseQuaternionf(Core::Buffer &buffer, Math::quat &value)
+    bool ParseQuaternionf(Core::Buffer &buffer, void* object)
     {
-        value[0] = buffer.ReadWord().ToFloat();
-        value[1] = buffer.ReadWord().ToFloat();
-        value[2] = buffer.ReadWord().ToFloat();
-        value[3] = buffer.ReadWord().ToFloat();
+		Math::quat* value = (Math::quat*)object;
+        (*value)[0] = buffer.ReadWord().ToFloat();
+		(*value)[1] = buffer.ReadWord().ToFloat();
+		(*value)[2] = buffer.ReadWord().ToFloat();
+		(*value)[3] = buffer.ReadWord().ToFloat();
         return true;
     }
 
@@ -104,21 +116,23 @@ namespace Loader
         return true;
     }
 
-    bool ParseMatrix4x4f(Core::Buffer& buffer, Math::mat4& value)
+    bool ParseMatrix4x4f(Core::Buffer& buffer, void* object)
     {
+		Math::mat4* value = (Math::mat4*)object;
         for (int i = 0; i < 16; ++i)
-            value[i] = buffer.ReadWord().ToFloat();
-        value = value.Transposed();
+            (*value)[i] = buffer.ReadWord().ToFloat();
+        *value = value->Transposed();
         return true;
     }
 
-    bool ParseString(Core::Buffer& buffer, Core::String& value)
+    bool ParseString(Core::Buffer& buffer, void* object)
     {
-        value = buffer.ReadWord();
+		Core::String* value = (Core::String*)object;
+        *value = buffer.ReadWord();
         return true;
     }
 
-    bool ParseBlockedString(Core::Buffer& buffer, Core::String& value)
+    bool ParseBlockedString(Core::Buffer& buffer, void* value)
     {
         CHECK_START(buffer);
         if (!ParseString(buffer, value))
@@ -127,7 +141,7 @@ namespace Loader
         return true;
     }
 
-    bool ParseBlockedFloat(Core::Buffer& buffer, float& value)
+    bool ParseBlockedFloat(Core::Buffer& buffer, void* value)
     {
         CHECK_START(buffer);
         if (!ParseFloat(buffer, value))
@@ -145,19 +159,19 @@ namespace Loader
         return true;
     }
 
-    bool ParseBlockedVector3f(Core::Buffer& buffer, Math::vec3& value)
-    {
+    bool ParseBlockedVector3f(Core::Buffer& buffer, void* object)
+    {		
         CHECK_START(buffer);
-        if (!ParseVector3f(buffer, value))
+        if (!ParseVector3f(buffer, object))
             throw Error::LoaderException(L"Unable to parse blocked vec3f");
         CHECK_END(buffer);
         return true;
     }
 
-    bool ParseBlockedQuaternionf(Core::Buffer &buffer, Math::quat &value)
-    {
+    bool ParseBlockedQuaternionf(Core::Buffer &buffer, void* object)
+    {		
         CHECK_START(buffer);
-        if (!ParseQuaternionf(buffer, value))
+        if (!ParseQuaternionf(buffer, object))
             throw Error::LoaderException(L"Unable to parse blocked quat");
         CHECK_END(buffer);
         return true;
@@ -190,17 +204,18 @@ namespace Loader
         return true;
     }
 
-    bool ParseBlockedMatrix4x4f(Core::Buffer& buffer, Math::mat4& value)
-    {
+    bool ParseBlockedMatrix4x4f(Core::Buffer& buffer, void* object)
+    {		
         CHECK_START(buffer);
-        if (!ParseMatrix4x4f(buffer, value))
+        if (!ParseMatrix4x4f(buffer, object))
             throw Error::LoaderException(L"Unable to parse mat4f");
         CHECK_END(buffer);
         return true;
     }
 
-    bool ParseVector3fv(Core::Buffer& buffer, Math::vec3v& value)
+    bool ParseVector3fv(Core::Buffer& buffer, void* object)
     {
+		Math::vec3v* value = (Math::vec3v*)object;
         CHECK_START(buffer);
         while (1)
         {
@@ -216,7 +231,7 @@ namespace Loader
             Math::vec3 v;
             v.Set(x,y,z);
 
-            value.push_back(v);
+            value->push_back(v);
         }
         throw Error::LoaderException(L"Unable to parse array ov vec3f");
     }
@@ -323,5 +338,11 @@ namespace Loader
 		throw Error::LoaderException(L"Unable to parse vector of vec4<vec2f>");
 	}
 
+	PUNK_REGISTER_PARSER(WORD_VEC3F, ParseBlockedVector3f);
+	PUNK_REGISTER_PARSER(WORD_VEC3FV, ParseVector3fv);
+	PUNK_REGISTER_PARSER(WORD_MATRIX4X4F, ParseBlockedMatrix4x4f);
+	PUNK_REGISTER_PARSER(WORD_FLOAT, ParseBlockedFloat);
+	PUNK_REGISTER_PARSER(WORD_STRING, ParseBlockedString);
+	PUNK_REGISTER_PARSER(WORD_QUAT, ParseBlockedQuaternionf);
 }
 PUNK_ENGINE_END

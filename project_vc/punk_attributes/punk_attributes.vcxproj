@@ -165,9 +165,7 @@
     <ClCompile Include="..\..\source\attributes\animation\action_male_walk.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\source\attributes\animation\animation.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\animation\animation.cpp" />
     <ClCompile Include="..\..\source\attributes\animation\animation_mixer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -306,9 +304,7 @@
     <ClInclude Include="..\..\source\attributes\animation\action_male_walk.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="..\..\source\attributes\animation\animation.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\animation\animation.h" />
     <ClInclude Include="..\..\source\attributes\animation\animation_mixer.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -321,6 +317,8 @@
     <ClInclude Include="..\..\source\attributes\animation\bone_animation.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\..\source\attributes\animation\iaction.h" />
+    <ClInclude Include="..\..\source\attributes\animation\ianimation.h" />
     <ClInclude Include="..\..\source\attributes\animation\interface.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>

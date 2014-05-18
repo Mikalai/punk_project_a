@@ -11,7 +11,7 @@ namespace Scene {
 	class ISceneGraph;
 }
 namespace Core {
-	class Object;
+	class IObject;
 }
 namespace Loader {
 
@@ -51,7 +51,7 @@ namespace Loader {
 
 	struct CmdAddLoadedObject : public Scene::Command<LoaderDomain, (int)LoaderCommands::AddLoadedObject> {
 		Scene::INode* node{ nullptr };
-		Core::Object* object{ nullptr };
+		Core::IObject* object{ nullptr };
 	};
 
 	struct CmdSetGraph : public Scene::Command<LoaderDomain, (int)LoaderCommands::SetNewGraph> {

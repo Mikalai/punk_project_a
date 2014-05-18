@@ -6,11 +6,11 @@
 //PUNK_ENGINE_BEGIN
 //namespace Core {
 //    class Buffer;
-//    class Object;
+//    class IObject;
 //}
 //namespace Loader {
-//    void SaveTerrainMesh(Core::Buffer *buffer, const Core::Object *o);
-//    void LoadTerrainMesh(Core::Buffer *buffer, Core::Object *o);
+//    void SaveTerrainMesh(Core::Buffer *buffer, const Core::IObject *o);
+//    void LoadTerrainMesh(Core::Buffer *buffer, Core::IObject *o);
 //}
 //PUNK_ENGINE_END
 //

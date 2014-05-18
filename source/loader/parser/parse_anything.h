@@ -5,11 +5,11 @@
 
 PUNK_ENGINE_BEGIN
 namespace Core {
-    class Object;
-    class Buffer;
+	class IObject;
+	class Buffer;
 }
 namespace Loader {
-extern Core::Object* ParseAnything(Core::Buffer& buffer);
+	extern Core::IObject* ParseAnything(Core::Buffer& buffer);
 }
 PUNK_ENGINE_END
 

@@ -4,38 +4,14 @@ SCENETEXT
     Transform
   }
   *entity_name {
-    Armature.transform
+    NurbsPath.transform
   }
   *node {
     *name {
-      Armature
+      Path
     }
     *entity_name {
-      Armature.armature
-    }
-    *node {
-      *name {
-        Material
-      }
-      *entity_name {
-        Material.material
-      }
-      *node {
-        *name {
-          Transform
-        }
-        *entity_name {
-          Cube.transform
-        }
-        *node {
-          *name {
-            Skin
-          }
-          *entity_name {
-            Cube.skin
-          }
-        }
-      }
+      NurbsPath.path
     }
   }
 }

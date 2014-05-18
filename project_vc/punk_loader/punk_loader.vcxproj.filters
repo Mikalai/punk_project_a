@@ -143,9 +143,6 @@
     <ClCompile Include="..\..\source\loader\parser\parse_curve_path_node.cpp">
       <Filter>parser</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\loader\parser\parse_directional_light.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\loader\parser\parse_location_indoor.cpp">
       <Filter>parser</Filter>
     </ClCompile>
@@ -212,9 +209,6 @@
     <ClCompile Include="..\..\source\loader\parser\parse_spline.cpp">
       <Filter>parser</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\loader\parser\parse_static_mesh.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\loader\parser\parse_static_mesh_node.cpp">
       <Filter>parser</Filter>
     </ClCompile>
@@ -259,6 +253,12 @@
     </ClCompile>
     <ClCompile Include="..\..\source\loader\loader_commands.cpp" />
     <ClCompile Include="..\..\source\loader\loader_tasks.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_geometry.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_light.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\loader\async_parser.h" />
@@ -479,9 +479,6 @@
     <ClInclude Include="..\..\source\loader\parser\parse_spline.h">
       <Filter>parser</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\loader\parser\parse_static_mesh.h">
-      <Filter>parser</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\loader\parser\parse_static_mesh_node.h">
       <Filter>parser</Filter>
     </ClInclude>
@@ -527,6 +524,9 @@
     <ClInclude Include="parse_transform.h" />
     <ClInclude Include="..\..\source\loader\loader_commands.h" />
     <ClInclude Include="..\..\source\loader\loader_tasks.h" />
+    <ClInclude Include="..\..\source\loader\parser\parse_geometry.h">
+      <Filter>parser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="serializer">

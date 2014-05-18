@@ -1,11 +1,14 @@
+#include <attributes/animation/module.h>
 #include "parser.h"
-#include "parse_rotation_track.h"
 
 PUNK_ENGINE_BEGIN
 namespace Loader
 {
-    bool ParseRotationTrack(Core::Buffer& buffer, Attributes::AnimationTrack<Math::quat>& value)
+    bool ParseRotationTrack(Core::Buffer& buffer, void* object)
     {
+		Attributes::AnimationTrack<Math::quat>* value = (Attributes::AnimationTrack<Math::quat>*)object;
+		Parser* parser = GetDefaultParser();
+
         CHECK_START(buffer);
         while (1)
         {
@@ -23,9 +26,11 @@ namespace Loader
             Math::quat v;
             v.Set(w,x,y,z);
 
-            value.AddKey(frame, v);
+            value->AddKey(frame, v);
         }
         throw Error::LoaderException(L"Unable to parse rotation track");
     }
+
+	PUNK_REGISTER_PARSER(WORD_ROTATION_TRACK, ParseRotationTrack);
 }
 PUNK_ENGINE_END

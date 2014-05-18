@@ -9,7 +9,7 @@ namespace Math
 {
 	class Graph;
 
-	class PUNK_ENGINE_API GraphVertex
+	class PUNK_ENGINE_LOCAL GraphVertex
 	{
 	public:
 		GraphVertex(Graph* graph, void* data = nullptr);

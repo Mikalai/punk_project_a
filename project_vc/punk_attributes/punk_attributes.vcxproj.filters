@@ -466,6 +466,12 @@
     <ClInclude Include="..\..\source\attributes\camera\module.h">
       <Filter>camera</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\attributes\animation\iaction.h">
+      <Filter>animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\animation\ianimation.h">
+      <Filter>animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="water">

@@ -1,18 +1,22 @@
-#include <attributes/skinning/module.h>
+#include <attributes/skinning/ibone.h>
+#include <math/quat.h>
+#include <math/vec3.h>
 #include "parser.h"
-#include "parse_simple.h"
 
 PUNK_ENGINE_BEGIN
 namespace Loader
 {
-    bool ParseBone(Core::Buffer& buffer, Attributes::Bone* bone)
+    bool ParseBone(Core::Buffer& buffer, void* object)
     {
+		Parser* parser = GetDefaultParser();
+		Attributes::IBone* bone = (Attributes::IBone*)object;
+
         CHECK_START(buffer);
         Core::String name, parent;
         while (1)
         {
             const Core::String word = buffer.ReadWord();
-            KeywordCode code = Parse(word);
+            KeywordCode code = ParseKeyword(word);
             switch(code)
             {
             case WORD_CLOSE_BRACKET:
@@ -20,35 +24,35 @@ namespace Loader
             case WORD_NAME:
             {
                 Core::String name;
-                ParseBlockedString(buffer, name);
+                parser->Parse(WORD_STRING, buffer, (void*)&name);
                 bone->SetName(name);
             }
                 break;
             case WORD_PARENT:
             {
-                Core::String name;
-                ParseBlockedString(buffer, name);
-                bone->SetParentName(name);
+                std::uint32_t index;
+				parser->Parse(WORD_UINT32, buffer, (void*)&index);
+                bone->SetParent(index);
             }
                 break;
-            case WORD_LOCAL_MATRIX:
+            case WORD_POSITION:
             {
-                Math::mat4 m;
-                ParseBlockedMatrix4x4f(buffer, m);
-                bone->SetLocalMatrix(m);
+                Math::vec3 v;
+                parser->Parse(WORD_VEC3F, buffer, (void*)&v);
+                bone->SetRestPosition(v);
             }
                 break;
-            case WORD_BONE_MATRIX:
-            {
-                Math::mat4 m;
-                ParseBlockedMatrix4x4f(buffer, m);
-                //bone->SetBoneMatrix(m);
-            }
-                break;
+			case WORD_ROTATION:
+			{
+				Math::quat q;
+				parser->Parse(WORD_QUAT, buffer, (void*)&q);
+				bone->SetRestRotation(q);
+			}
+				break;
             case WORD_LENGTH:
             {
                 float l;
-                ParseBlockedFloat(buffer, l);
+                parser->Parse(WORD_FLOAT, buffer, (void*)&l);
                 bone->SetLength(l);
             }
                 break;
@@ -58,5 +62,7 @@ namespace Loader
         }
         return false;
     }
+
+	PUNK_REGISTER_PARSER(WORD_BONE, ParseBone);
 }
 PUNK_ENGINE_END

@@ -1,24 +1,29 @@
+#include <core/ifactory.h>
 #include <core/module.h>
 #include <scene/module.h>
-#include "parse_scene_node.h"
 #include "parser.h"
 
 PUNK_ENGINE_BEGIN
 namespace Loader
 {
-	PUNK_ENGINE_LOCAL bool ParseSceneGraph(Core::Buffer& buffer, Scene::ISceneGraph* value)
+	PUNK_ENGINE_LOCAL bool ParseSceneGraph(Core::Buffer& buffer, void* object)
     {
+		Scene::ISceneGraph* value = (Scene::ISceneGraph*)object;
+		Parser* parser = GetDefaultParser();
+
         while (!buffer.IsEnd())
         {
             Core::String word = buffer.ReadWord();
-            switch(Parse(word))
+            switch(ParseKeyword(word))
             {
             case WORD_CLOSE_BRACKET:
             return true;
             case WORD_NODE:
             {
-                Scene::INode* node = Scene::CreateRootNode(value);
-                ParseSceneNode(buffer, node);
+				Scene::INode* node{ nullptr };
+				Core::GetFactory()->CreateInstance(Scene::IID_INode, (void**)&node);
+                parser->Parse(WORD_NODE, buffer, node);
+				value->GetRoot()->AddChild(node);
                 //value->SetRoot(node.release());
             }
             break;            

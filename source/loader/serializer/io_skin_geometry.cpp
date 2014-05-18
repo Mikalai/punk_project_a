@@ -6,7 +6,7 @@
 //
 //PUNK_ENGINE_BEGIN
 //namespace Loader {
-//    void SaveSkinGeometry(Core::Buffer* buffer, const Core::Object* object)
+//    void SaveSkinGeometry(Core::Buffer* buffer, const Core::IObject* object)
 //    {
 //        SaveGeometry(buffer, object);
 //        const Attributes::SkinGeometry* s = Cast<const Attributes::SkinGeometry*>(object);
@@ -17,7 +17,7 @@
 //        //s->m_cpu_cache.Save(buffer);
 //    }
 //
-//    void LoadSkinGeometry(Core::Buffer* buffer, Core::Object* object)
+//    void LoadSkinGeometry(Core::Buffer* buffer, Core::IObject* object)
 //    {
 //        LoadGeometry(buffer, object);
 //        Attributes::SkinGeometry* s = Cast<Attributes::SkinGeometry*>(object);

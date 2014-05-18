@@ -4,6 +4,7 @@
 #include <memory>
 #include <config.h>
 #include <cstdint>
+#include <core/iobject.h>
 #include <core/action.h>
 #include "attribute.h"
 #include "node_state.h"
@@ -14,7 +15,9 @@ namespace Scene {
 
     class ISceneGraph;
 
-    class INode {
+	DEFINE_PUNK_GUID(IID_INode, "995D98AA-3787-4115-B445-496DA2E5067B");
+
+    class INode : public virtual Core::IObject {
     public:
         virtual void SetAttribute(IAttribute* value) = 0;
         virtual IAttribute* GetAttribute(const Core::String&, std::uint64_t type) const = 0;
@@ -23,16 +26,12 @@ namespace Scene {
         virtual void RemoveAttribute(const Core::String& name, std::uint64_t type) = 0;
         virtual INode* GetParent() = 0;
         virtual const INode* GetParent() const = 0;
-        virtual std::uint64_t GetChildrenCount() const = 0;
         virtual INode* GetChild(std::uint64_t index) = 0;
         virtual const INode* GetChild(std::uint64_t index) const = 0;
-        virtual void AddChild(INode* child) = 0;
         virtual NodeState GetState() const = 0;
         virtual void SetState(NodeState value) = 0;
         virtual void RemoveChild(INode* child, bool depth) = 0;
         virtual INode* FindChild(IAttribute* attribute, bool depth) = 0;
-        virtual void AddRef() = 0;
-        virtual void Release() = 0;        
         virtual ISceneGraph* GetSceneGraph() = 0;
 		virtual void SetSceneGraph(ISceneGraph* graph) = 0;
 

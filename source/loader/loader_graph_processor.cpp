@@ -23,7 +23,7 @@ namespace Loader {
 			throw Error::LoaderException("Can't process internall command. Wrong domain.");
 		if (cmd->index == (int)LoaderCommands::LoadFile) {
 			CmdLoadFile* task = (CmdLoadFile*)cmd;
-			Core::Object* o = ParsePunkFile(task->filename);
+			Core::IObject* o = ParsePunkFile(task->filename);
 			auto graph = dynamic_cast<Scene::ISceneGraph*>(o);
 			if (graph) {
 				auto node = graph->ReleaseRoot();
@@ -75,26 +75,7 @@ namespace Loader {
 		}
 		else if (cmd->index == (int)LoaderCommands::AddLoadedObject) {
 			CmdAddLoadedObject* add_loaded_object = (CmdAddLoadedObject*)cmd;
-			Scene::INode* node = add_loaded_object->node;
-			Core::Object* object = add_loaded_object->object;
-			m_logger->Info("Create new node for " + object->GetType()->GetName());
-			Scene::INode* child = Scene::CreateNode(node);
-			child->Set<Core::String>("Owner", GetName());
-			child->Set<Core::String>("Type", object->GetType()->GetName());
-			if (Attributes::StaticGeometry::Type() == object->GetType()) {
-				Attributes::StaticGeometry* geom = (Attributes::StaticGeometry*)object;
-				child->Set<Core::String>("Name", geom->GetName());
-				child->Set<Attributes::StaticGeometry>("Data", geom);
-			}
-			else if (Attributes::Transform::Type() == object->GetType()) {
-				child->Set<Attributes::Transform>("Data", (Attributes::Transform*)object);
-			}
-			else if (Attributes::Material::Type() == object->GetType()) {
-				child->Set<Attributes::Material>("Data", (Attributes::Material*)object);
-			}
-			else 
-				throw Error::LoaderException("Unsupported type " + object->GetType()->GetName());
-			child->Set<Core::Object>("Data", object);			
+			OnCmdAddLoadedObject(add_loaded_object);			
 		}
 		else if (cmd->index == (int)LoaderCommands::SetNewGraph) {
 			CmdSetGraph* set_graph = (CmdSetGraph*)cmd;			
@@ -105,6 +86,39 @@ namespace Loader {
 				this, &LoaderGraphProcessor::ChildRemoved));
 			Process(GetGraph()->GetRoot(), &LoaderGraphProcessor::OnNodeAdded);			
 		}
+	}
+
+	void LoaderGraphProcessor::OnCmdAddLoadedObject(CmdAddLoadedObject* add_loaded_object) {
+		Scene::INode* node = add_loaded_object->node;
+		Core::IObjectUniquePtr object{ add_loaded_object->object, Core::DestroyObject };
+		m_logger->Info("Create new node");
+		Scene::INode* child = Scene::CreateNode(node);
+		child->Set<Core::String>("Owner", GetName());		
+		{
+			Attributes::IGeometry* geometry = nullptr;
+			object->QueryInterface(Attributes::IID_IGeometry, (void**)&geometry);
+			if (geometry) {
+				child->Set<Attributes::IGeometry>(geometry->GetName(), geometry);
+				return;
+			}			
+		}
+		{
+			Attributes::ITransform* tranform{ nullptr };
+			object->QueryInterface(Attributes::IID_ITransform, (void**)&tranform);
+			if (tranform) {
+				child->Set<Attributes::ITransform>("Transform", tranform);
+				return;
+			}
+		}
+		{
+			Attributes::IMaterial* material{ nullptr };
+			object->QueryInterface(Attributes::IID_IMaterial, (void**)&material);
+			if (material) {
+				child->Set<Attributes::IMaterial>(material->GetName(), material);
+				return;
+			}
+		}
+		throw Error::LoaderException("Unsupported type");
 	}
 
 	void LoaderGraphProcessor::SetGraph(Scene::ISceneGraph *graph) {
@@ -124,7 +138,7 @@ namespace Loader {
 	}
 
 	bool LoaderGraphProcessor::Delete(Scene::INode *node) {
-		node->Remove<Core::Object>(L"Loader.Data");
+		node->Remove<Core::IObject>(L"Loader.Data");
 		return false;
 	}
 
@@ -156,7 +170,7 @@ namespace Loader {
 		AddCommand(cmd);
 	}
 
-	void LoaderGraphProcessor::AddLoadedObject(Scene::INode *node, Core::Object *o) {
+	void LoaderGraphProcessor::AddLoadedObject(Scene::INode *node, Core::IObject *o) {
 		CmdAddLoadedObject* cmd = new CmdAddLoadedObject;
 		cmd->node = node;
 		cmd->object = o;

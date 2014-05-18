@@ -6,7 +6,7 @@
 #include <math/vec2.h>
 #include <math/matrix.h>
 #include <math/smart_matrix.h>
-#include <attributes/data/material.h>
+#include <attributes/material/imaterial.h>
 #include "terrain_cell.h"
 
 PUNK_ENGINE_BEGIN
@@ -43,8 +43,8 @@ namespace Attributes
 		TerrainCell* GetCell(int x, int y) { return m_cells.At(y, x); }
 		const TerrainCell* GetCell(int x, int y) const { return m_cells.At(y, x); }
 
-		Material* GetMaterial() { return m_material; }
-		void SetMaterial(Material* value) { m_material = value; }
+		IMaterial* GetMaterial() { return m_material; }
+		void SetMaterial(IMaterial* value) { m_material = value; }
 
 	private:
 
@@ -64,7 +64,7 @@ namespace Attributes
 
 		//	should be destroyed
 		Math::Matrix<TerrainCell*> m_cells;
-		Material* m_material;
+		IMaterial* m_material;
 	};
 
 	typedef Terrain* TerrainRef;

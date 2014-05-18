@@ -1,19 +1,18 @@
-#include <ai/module.h>
 #include <math/weighted_point.h>
 #include "parser.h"
-#include "parse_simple.h"
-#include "parse_weighted_point.h"
 
 PUNK_ENGINE_BEGIN
 namespace Loader
 {
-    bool ParseWeightedPoint(Core::Buffer &buffer, Math::WeightedPoint& value)
+    bool ParseWeightedPoint(Core::Buffer &buffer,  void* object)
     {
+		Parser* parser = GetDefaultParser();
+		Math::WeightedPoint* value = (Math::WeightedPoint*)object;
         CHECK_START(buffer);
         while (1)
         {
             Core::String word = buffer.ReadWord();
-            KeywordCode code = Parse(word);
+            KeywordCode code = ParseKeyword(word);
             switch(code)
             {
             case WORD_CLOSE_BRACKET:
@@ -23,15 +22,15 @@ namespace Loader
             case WORD_WEIGHT:
             {
                 float v;
-                ParseBlockedFloat(buffer, v);
-                value.SetWeight(v);
+                parser->Parse(WORD_FLOAT, buffer, v);
+                value->SetWeight(v);
             }
             break;
             case WORD_POSITION:
             {
                 Math::vec4 v;
-                ParseBlockedVector4f(buffer, v);
-                value.SetPoint(v);
+                parser->Parse(WORD_VEC3F, buffer, v);
+                value->SetPoint(v);
             }
             break;
             default:
@@ -40,5 +39,7 @@ namespace Loader
         }
         return false;
     }
+
+	PUNK_REGISTER_PARSER(WORD_WEIGHTED_POINT, ParseWeightedPoint);
 }
 PUNK_ENGINE_END

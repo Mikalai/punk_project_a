@@ -8,10 +8,21 @@ PUNK_ENGINE_BEGIN
 namespace Loader
 {	
 	enum KeywordCode
-	{
+	{		
 		WORD_BAD_KEYWORD,					// 0
+		WORD_ANY,
 		WORD_OPEN_BRACKET,					// 1
 		WORD_CLOSE_BRACKET,					// 2
+		WORD_VEC3F,
+		WROD_VEC4F, 
+		WORD_VEC3FV,
+		WORD_VEC3IV,
+		WORD_QUAT,
+		WORD_UINT32,
+		WORD_FLOAT,
+		WORD_MATRIX4X4F,
+		WORD_FACTOR,
+		WORD_STRING,
 		WORD_OBJECT,						// 3
 		WORD_BOUNDING_BOX,					// 4
 		WORD_LOCATION,						// 5
@@ -28,7 +39,6 @@ namespace Loader
 		WORD_NORMALS,						// 11
 		WORD_FACES,							// 12
 		WORD_VERTEX_POSITIONS_ID,			// 13
-		WORD_BONES_WEIGHT,					// 14
 		WORD_ARMATURE,						// 15
 		WORD_ARMATURE_NODE,
 		WORD_BONE,							// 16
@@ -46,7 +56,7 @@ namespace Loader
 		WORD_MATERIAL,					// 6
 		WORD_NORMAL_MAP,					// 6
 		WORD_DIFFUSE_MAP,					// 6
-        WORD_SPECULAR_MAP,					// 6
+		WORD_SPECULAR_MAP,					// 6
 		WORD_MATERIALS,					// 6
 		WORD_GIMBAL_TRANSFORM,					// 6
 		WORD_ACTION,					// 6
@@ -56,28 +66,29 @@ namespace Loader
 		WORD_TIMING,					// 6
 		WORD_PARENT_INVERSED_MATRIX,					// 6
 		WORD_LENGTH,					// 6
-        WORD_ALPHA,									//{ , "*alpha" },
-        WORD_AMBIENT,								//{ , "*ambient" },
-        WORD_DARKNESS,								//{ , "*darkness" },
-        WORD_DIFFUSE_COLOR,							//{ , "*diffuse_color" },
-        WORD_DIFFUSE_FRESNEL,						//{ , "*diffuse_fresne" },
-        WORD_DIFFUSE_FRESNEL_FACTOR,				//{ , "*diffuse_fresnel_factor" },
-        WORD_DIFFUSE_INTENSITY,						//{ , "*diffuse_intensity" },
-        WORD_EMIT,									//{ , "*emit" },
-        WORD_MIRROR_COLOR,							//{ , "*mirror_color" },
-        WORD_ROUGHNESS,								//{ , "*roughness" },
-        WORD_SPECULAR_ALPHA,						//{ , "*specular_alpha" },
-        WORD_SPECULAR_COLOR,						//{ , "*specular_color" },
-        WORD_SPECULAR_HARDNESS,						//{ , "*specular_hardness" },
-        WORD_SPECULAR_INTENSITY,					//{ , "*specular_intensity" },
-        WORD_SPECULAR_IOR,							//{ , "*specular_ior" },
-        WORD_SPECULAR_SLOPE,						//{ , "*specular_slope" },
-        WORD_TRANSLUCENCY,							//{ , "*translucency" },
+		WORD_ALPHA,									//{ , "*alpha" },
+		WORD_AMBIENT,								//{ , "*ambient" },
+		WORD_DARKNESS,								//{ , "*darkness" },
+		WORD_DIFFUSE_COLOR,							//{ , "*diffuse_color" },
+		WORD_DIFFUSE_FRESNEL,						//{ , "*diffuse_fresne" },
+		WORD_DIFFUSE_FRESNEL_FACTOR,				//{ , "*diffuse_fresnel_factor" },
+		WORD_DIFFUSE_INTENSITY,						//{ , "*diffuse_intensity" },
+		WORD_EMIT,									//{ , "*emit" },
+		WORD_MIRROR_COLOR,							//{ , "*mirror_color" },
+		WORD_ROUGHNESS,								//{ , "*roughness" },
+		WORD_SPECULAR_ALPHA,						//{ , "*specular_alpha" },
+		WORD_SPECULAR_COLOR,						//{ , "*specular_color" },
+		WORD_SPECULAR_HARDNESS,						//{ , "*specular_hardness" },
+		WORD_SPECULAR_INTENSITY,					//{ , "*specular_intensity" },
+		WORD_SPECULAR_IOR,							//{ , "*specular_ior" },
+		WORD_SPECULAR_SLOPE,						//{ , "*specular_slope" },
+		WORD_TRANSLUCENCY,							//{ , "*translucency" },
 		WORD_SOUND,					// 6
 		WORD_FILENAME,					// 6
 		WORD_VOLUME,					// 6
 		WORD_PITCH,					// 6
 		WORD_MAX_DISTANCE,					// 6
+		WORD_TRANSFORM,
 		WORD_REFERENCE_DISTANCE,					// 6
 		WORD_CONE_ANGLE_INNER,					// 6
 		WORD_CONE_ANGLE_OUTER,					// 6
@@ -129,8 +140,10 @@ namespace Loader
 		WORD_STATICMESHTEXT,
         WORD_MATERIALTEXT,
         WORD_NAVIMESHTEXT,
+		WORD_NAVI_MESH,
         WORD_PATHTEXT,
         WORD_POINT,
+		WORD_WEIGHTED_POINT,
         WORD_SPLINE,
         WORD_POSITION,
         WORD_WEIGHT,
@@ -138,10 +151,10 @@ namespace Loader
         WORD_IMAGE,
         WORD_SUN,
         WORD_SUN_NODE,
-        WORD_SPECULAR_INTENSITY_MAP,
-        WORD_TEXTURE_SLOT,
+        WORD_SPECULAR_INTENSITY_MAP,		
         WORD_RIVERTEXT,
         WORD_SCENETEXT,
+		WORD_SCENE_GRAPH,
         WORD_SUNTEXT,
         WORD_NAVIMESH_NODE,
         WORD_PATH_NODE,
@@ -157,8 +170,21 @@ namespace Loader
         WORD_ENTITY_NAME,
         WORD_DIRECTION,
         WORD_DIRLIGHTTEXT,
+		WORD_SPOTLIGHTTEXT,
+		WORD_POINTLIGHTTEXT,
 		WORD_TRANSFORMTEXT,
-		WORD_ARMATURE_SCHEMA
+		WORD_ARMATURE_SCHEMA_TEXT,
+		WORD_ARMATURE_SCHEMA,
+		WORD_VERTEX_BONES_WEIGHTS,
+		WORD_VERTEX_INDEX,
+		WORD_BONES_WEIGHTS,
+		WORD_WEIGHTS,
+		WORD_DIFFUSE_TEXTURE_SLOT,
+		WORD_NORMAL_TEXTURE_SLOT,
+		WORD_SPECULAR_TEXTURE_SLOT,
+		WORD_DIRECTIONAL_LIGHT,
+		WORD_SPOT_LIGHT,
+		WORD_CURVE_PATH
 	};
 
 	struct Record
@@ -187,7 +213,6 @@ namespace Loader
         { WORD_NORMALS,					"*normals" },
         { WORD_FACES,					"*faces" },
         { WORD_VERTEX_POSITIONS_ID,		"*vertex_positions_id" },
-        { WORD_BONES_WEIGHT,			"*bones_weight" },
         { WORD_ARMATURE_NODE,			"*armature_node" },
         { WORD_ARMATURE,				"*armature" },
         { WORD_BONE,					"*bone" },
@@ -269,6 +294,7 @@ namespace Loader
         { WORD_CONVEX_MESH,				"*convex_mesh" },
         { WORD_MATERIAL_NODE,			"*material_node" },
         { WORD_TRANSFORM_NODE,			"*transform_node"},
+		{ WORD_TRANSFORM,				"*transform" },
         { WORD_PORTAL,					"*porta" },
         { WORD_PORTAL_NODE,				"*portal_node" },
         { WORD_STATIC_MESH,				"*static_mesh" },
@@ -290,7 +316,6 @@ namespace Loader
         { WORD_SCALE,                   "*scale" },
         { WORD_IMAGE,                   "*image" },
         { WORD_SPECULAR_INTENSITY_MAP,  "*specular_intensity_map" },
-        { WORD_TEXTURE_SLOT,            "*texture_slot" },
         { WORD_ARMATURETEXT,			"ARMATURETEXT" },
         { WORD_ACTIONTEXT,				"ACTIONTEXT" },
         { WORD_STATICMESHTEXT,			"STATICMESHTEXT" },
@@ -317,11 +342,24 @@ namespace Loader
         { WORD_ENTITY_NAME,             "*entity_name" },
         { WORD_DIRECTION,               "*direction" },
         { WORD_DIRLIGHTTEXT,            "DIRLAMPTEXT" },
+		{ WORD_SPOTLIGHTTEXT,			"SPOTLIGHTTEXT" },
+		{ WORD_POINTLIGHTTEXT,			"POINTLIGHTTEXT" },
 		{ WORD_TRANSFORMTEXT,			"TRANSFORMTEXT" },
-		{ WORD_ARMATURE_SCHEMA,			"*armature_schema"}
+		{ WORD_ARMATURE_SCHEMA,			"*armature_schema"},
+		{ WORD_ARMATURE_SCHEMA_TEXT,	"ARMATURESCHEMATEXT" },
+		{ WORD_FACTOR,					"*factor"},
+		{ WORD_DIFFUSE_TEXTURE_SLOT,	"*diffuse_texture_slot" },
+		{ WORD_NORMAL_TEXTURE_SLOT,		"*normal_texture_slot" },
+		{ WORD_SPECULAR_TEXTURE_SLOT,	"*specular_texture_slot" },
+		{ WORD_VERTEX_BONES_WEIGHTS,	"*vertex_bones_weights" },
+		{ WORD_VERTEX_INDEX,			"*vertex_index" },
+		{ WORD_BONES_WEIGHTS,			"*bones_weights" },
+		{ WORD_WEIGHTS,					"*weights" },
+		{ WORD_WEIGHTED_POINT,			"*weighted_point" } 
 	};
 
-    extern KeywordCode Parse(const Core::String& word);
+    KeywordCode ParseKeyword(const Core::String& word);
+	const Core::String GetKeyword(KeywordCode code);
 }
 PUNK_ENGINE_END
 

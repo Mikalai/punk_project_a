@@ -29,6 +29,7 @@
     <PtvsTargetsFile>$(VSToolsPath)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="punk_export_light_node.py" />
     <Compile Include="punk_export.py" />
     <Compile Include="punk_export_action.py" />
     <Compile Include="punk_export_armature.py" />
@@ -46,6 +47,7 @@
     <Compile Include="punk_export_normals.py" />
     <Compile Include="punk_export_object.py" />
     <Compile Include="punk_export_path.py" />
+    <Compile Include="punk_export_path_node.py" />
     <Compile Include="punk_export_river.py" />
     <Compile Include="punk_export_skin_mesh.py" />
     <Compile Include="punk_export_skin_mesh_node.py" />

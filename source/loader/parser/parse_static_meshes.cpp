@@ -14,7 +14,7 @@
 
 //            Core::String word = buffer.ReadWord();
 //            KeywordCode index;
-//            switch(index = Parse(word))
+//            switch(index = ParseKeyword(word))
 //            {
 //            case WORD_CLOSE_BRACKET:
 //                return true;

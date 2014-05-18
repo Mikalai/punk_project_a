@@ -7,7 +7,7 @@
 //PUNK_ENGINE_BEGIN
 //namespace Loader {
 //
-//    void SaveStaticGeometry(Core::Buffer *buffer, const Core::Object *o)
+//    void SaveStaticGeometry(Core::Buffer *buffer, const Core::IObject *o)
 //    {
 //        SaveGeometry(buffer, o);
 //        const Attributes::StaticGeometry* g = Cast<const Attributes::StaticGeometry*>(o);
@@ -16,7 +16,7 @@
 //        SaveMatrix4f(buffer, g->GetWorldOffset());
 //    }
 //
-//    void LoadStaticGeometry(Core::Buffer *buffer, Core::Object *o)
+//    void LoadStaticGeometry(Core::Buffer *buffer, Core::IObject *o)
 //    {
 //        LoadGeometry(buffer, o);
 //        Attributes::StaticGeometry* g = Cast<Attributes::StaticGeometry*>(o);

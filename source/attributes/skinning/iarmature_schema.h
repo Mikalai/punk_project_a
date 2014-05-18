@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <config.h>
 #include <memory>
+#include <core/iobject.h>
 
 PUNK_ENGINE_BEGIN
 namespace Core { class String; }
@@ -11,7 +12,9 @@ namespace Attributes {
 	
 	class IBone;
 
-	class IArmatureSchema {
+	DEFINE_PUNK_GUID(IID_IArmatureSchema, "3D4368D1-471B-43FE-BCAF-51E389775B3E");
+
+	class IArmatureSchema : public virtual Core::IObject {
 	public:
 		virtual std::uint32_t GetBonesCount() const = 0;
 		virtual IBone* GetBone(std::uint32_t index) = 0;
@@ -26,11 +29,7 @@ namespace Attributes {
 		virtual void AddSupportedAction(const Core::String& name) = 0;
 	};
 
-	using IArmatureSchemaUniquePtr = std::unique_ptr < IArmatureSchema, void(*)(IArmatureSchema*) > ;
-
-	extern PUNK_ENGINE_API IArmatureSchemaUniquePtr CreateArmatureSchema();
-	extern PUNK_ENGINE_API void DestroyArmatureSchema(IArmatureSchema* value);
-
+	using IArmatureSchemaUniquePtr = Core::UniquePtr < IArmatureSchema > ;
 }
 PUNK_ENGINE_END
 
