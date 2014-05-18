@@ -4,13 +4,9 @@
 #include "transform/module.h"
 #include "geometry/module.h"
 #include "animation/module.h"
-#include "data/module.h"
+#include "light/module.h"
+#include "material/module.h"
+#include "animation/module.h"
 #include "skinning/module.h"
-#include "controllers/controllers.h"
-#include "motions/motion.h"
-#include "manager/manager.h"
-#include "terrain/module.h"
-#include "objects/module.h"
-#include "water/module.h"
 
 #endif

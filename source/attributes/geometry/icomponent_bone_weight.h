@@ -6,6 +6,7 @@
 #include <config.h>
 #include <cstdint>
 #include <math/vec4.h>
+#include <math/mat4.h>
 
 PUNK_ENGINE_BEGIN
 namespace Core {

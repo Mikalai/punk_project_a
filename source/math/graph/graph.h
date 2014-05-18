@@ -11,7 +11,7 @@ namespace Math
 	class GraphVertex;
 	class GraphEdge;
 
-	class PUNK_ENGINE_API Graph
+	class PUNK_ENGINE_LOCAL Graph
 	{
 	public:
 
