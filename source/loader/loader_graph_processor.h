@@ -34,7 +34,7 @@ namespace Loader {
         void ChildRemoved(Scene::INode* parent, Scene::INode* child);
 
         void LoadFile(Scene::INode* node, const Core::String& filename);
-        void AddLoadedObject(Scene::INode* node, Core::Object* o);
+        void AddLoadedObject(Scene::INode* node, Core::IObject* o);
 
 	protected:
 		void OnStartProcessing() override;
@@ -43,6 +43,7 @@ namespace Loader {
 		void OnPostUpdate(Scene::CommandBase* command) override;
 		void OnWaitProcessingComplete() override;
 
+		void OnCmdAddLoadedObject(CmdAddLoadedObject* add_loaded_object);
 	private:
 		System::ILogger* m_logger{ System::GetDefaultLogger() };
     };

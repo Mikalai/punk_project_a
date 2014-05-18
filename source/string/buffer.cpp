@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include <memory.h>
+#include <string/string_error.h>
 #include "buffer.h"
 #include "string.h"
 
@@ -90,6 +91,9 @@ namespace Core {
         }
 
         const String ReadWord() {
+			if (m_current > m_buffer + m_capacity)
+				throw Error::StringOutOfBufferRange(0);
+
             unsigned char* p = 0;
             for (p = m_current; (p < m_buffer + m_capacity) && (*p == '\n' || *p == '\r' || *p == '\t' || *p == ' '); p++);
             m_current = p;

@@ -40,7 +40,7 @@
 ////		}
 ////
 ////#define CHECK_END(buffer)\
-////	if (Parse(buffer.ReadWord()) != WORD_CLOSE_BRACKET)\
+////	if (ParseKeyword(buffer.ReadWord()) != WORD_CLOSE_BRACKET)\
 ////		{\
 ////		out_error() << L"Integrity check failed" << std::endl;\
 ////		}
@@ -240,7 +240,7 @@
 //			LoadFromBuffer(buffer);				
 //		}
 //
-//		/// Parse actions
+//		/// ParseKeyword actions
 //
 //
 //		
@@ -257,7 +257,7 @@
 //					return;
 //				}
 //
-//				switch(int index = Parse(buffer.ReadWord()))
+//				switch(int index = ParseKeyword(buffer.ReadWord()))
 //				{
 //				case WORD_CLOSE_BRACKET:
 //					return;
@@ -303,7 +303,7 @@
 //					return;
 //				}
 //
-//				switch(int index = Parse(buffer.ReadWord()))
+//				switch(int index = ParseKeyword(buffer.ReadWord()))
 //				{
 //				case WORD_CLOSE_BRACKET:
 //					return;
@@ -355,7 +355,7 @@
 //					return;
 //				}
 //
-//				switch(int index = Parse(buffer.ReadWord()))
+//				switch(int index = ParseKeyword(buffer.ReadWord()))
 //				{
 //				case WORD_CLOSE_BRACKET:
 //					return;
@@ -399,7 +399,7 @@
 //			System::string name, parent;
 //			while (1)
 //			{
-//				switch(int code = Parse(buffer.ReadWord()))
+//				switch(int code = ParseKeyword(buffer.ReadWord()))
 //				{
 //				case WORD_CLOSE_BRACKET:
 //					return;
@@ -440,7 +440,7 @@
 //
 //
 //		///// This function convert a string representation of the file into code
-//		//KeywordCode Parse(System::string& word)
+//		//KeywordCode ParseKeyword(System::string& word)
 //		//{
 //		//	for (int i = 0; i < sizeof(Keyword)/sizeof(void*); i++)
 //		//	{
@@ -454,7 +454,7 @@
 //		///// Simple check of file integrity. if brackets mismatch occured we stop parsing
 //		//bool CheckIntegrity(System::Buffer& buffer)
 //		//{
-//		//	if (Parse(buffer.ReadWord()) != WORD_OPEN_BRACKET)
+//		//	if (ParseKeyword(buffer.ReadWord()) != WORD_OPEN_BRACKET)
 //		//		return false;
 //		//	return true;
 //		//}

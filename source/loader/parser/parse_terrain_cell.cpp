@@ -13,7 +13,7 @@ namespace Loader
         while (!buffer.IsEnd())
         {
             Core::String word = buffer.ReadWord();
-            switch(Parse(word))
+            switch(ParseKeyword(word))
             {
             case WORD_CLOSE_BRACKET:
                 return true;

@@ -1,61 +1,65 @@
-#include <attributes/data/transform.h>
+#include <attributes/transform/itransform.h>
 #include "parser.h"
 #include "parse_simple.h"
-#include "parse_static_mesh.h"
 
 PUNK_ENGINE_BEGIN
 namespace Loader {
 
-    bool ParseTransform(Core::Buffer &buffer, Attributes::Transform *transform) {
-        CHECK_START(buffer);
-        while (1)
-        {
-            if (buffer.IsEnd())
-                throw Error::LoaderException(L"Can't parse object");
+	PUNK_ENGINE_LOCAL bool ParseTransform(Core::Buffer &buffer, void* object) {
 
-            Core::String word = buffer.ReadWord();
+		Attributes::ITransform* transform = (Attributes::ITransform*)object;
+		Parser* parser = GetDefaultParser();
 
-            KeywordCode code = Parse(word);
-            switch(code)
-            {
-            case WORD_CLOSE_BRACKET:
-                return true;            
-            case WORD_LOCATION:
-            {
-                Math::vec3 value;
-                ParseBlockedVector3f(buffer, value);
-                transform->SetPosition(value);
-            }
-                break;
-            case WORD_ROTATION:
-            {
-                Math::quat value;
-                ParseBlockedQuaternionf(buffer, value);
-                transform->SetRotation(value);
-            }
-                break;
-            case WORD_SCALE:
-            {
-                Math::vec3 value;
-                ParseBlockedVector3f(buffer, value);
-                transform->SetScale(value);
-            }
-                break;
-            case WORD_ENTITY_NAME:
-            {
-                Core::String value;
-                ParseBlockedString(buffer, value);
-            }
-                break;
-            case WORD_BOUNDING_BOX:
-            {
-                Math::BoundingBox bbox;
-            }
-                break;
-            default:
-                throw Error::LoaderException(L"Unexpected keyword " + word);
-            }
-        }
-    }
+		CHECK_START(buffer);
+		while (1)
+		{
+			if (buffer.IsEnd())
+				throw Error::LoaderException(L"Can't parse object");
+
+			Core::String word = buffer.ReadWord();
+
+			KeywordCode code = ParseKeyword(word);
+			switch (code)
+			{
+			case WORD_CLOSE_BRACKET:
+				return true;
+			case WORD_LOCATION:
+			{
+				Math::vec3 value;
+				parser->Parse<Math::vec3>(WORD_VEC3F, buffer, value);
+				transform->SetPosition(value);
+			}
+				break;
+			case WORD_ROTATION:
+			{
+				Math::quat value;
+				parser->Parse<Math::quat>(WORD_QUAT, buffer, value);
+				transform->SetRotation(value);
+			}
+				break;
+			case WORD_SCALE:
+			{
+				Math::vec3 value;
+				parser->Parse<Math::vec3>(WORD_QUAT, buffer, value);
+				transform->SetScale(value);
+			}
+				break;
+			case WORD_ENTITY_NAME:
+			{
+				Core::String value;
+				parser->Parse<Core::String>(WORD_STRING, buffer, value);
+			}
+				break;
+			case WORD_BOUNDING_BOX:
+			{
+			}
+				break;
+			default:
+				throw Error::LoaderException(L"Unexpected keyword " + word);
+			}
+		}
+	}
+
+	PUNK_REGISTER_PARSER(WORD_TRANSFORMTEXT, ParseTransform);
 }
 PUNK_ENGINE_END

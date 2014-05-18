@@ -7,7 +7,7 @@
 //
 //PUNK_ENGINE_BEGIN
 //namespace Loader {
-//    void SaveTerrainMesh(Core::Buffer *buffer, const Core::Object *o)
+//    void SaveTerrainMesh(Core::Buffer *buffer, const Core::IObject *o)
 //    {
 //        SaveObject(buffer, o);
 //        const Attributes::TerrainMesh* m = Cast<const Attributes::TerrainMesh*>(o);
@@ -16,7 +16,7 @@
 //        SaveStaticGeometry(buffer, m->GetGeometry());
 //    }
 //
-//    void LoadTerrainMesh(Core::Buffer *buffer, Core::Object *o)
+//    void LoadTerrainMesh(Core::Buffer *buffer, Core::IObject *o)
 //    {
 //        LoadObject(buffer, o);
 //        Attributes::TerrainMesh* m = Cast<Attributes::TerrainMesh*>(o);

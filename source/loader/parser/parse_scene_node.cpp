@@ -2,14 +2,15 @@
 #include <attributes/module.h>
 #include <scene/module.h>
 #include "parser.h"
-#include "parse_simple.h"
-#include "parse_scene_node.h"
 
 PUNK_ENGINE_BEGIN
 namespace Loader {
     
-	PUNK_ENGINE_LOCAL bool ParseSceneNode(Core::Buffer& buffer, Scene::INode* node)
+	PUNK_ENGINE_LOCAL bool ParseSceneNode(Core::Buffer& buffer, void* object)
     {
+		Scene::INode* node = (Scene::INode*)object;
+		Parser* parser = GetDefaultParser();
+
         CHECK_START(buffer);
         while (1)
         {
@@ -18,7 +19,7 @@ namespace Loader {
 
             Core::String word = buffer.ReadWord();
 
-            KeywordCode code = Parse(word);
+            KeywordCode code = ParseKeyword(word);
             switch(code)
             {
             case WORD_CLOSE_BRACKET:
@@ -33,14 +34,14 @@ namespace Loader {
             case WORD_NAME:
             {
                 Core::String name;
-                ParseBlockedString(buffer, name);
+                parser->Parse<Core::String>(WORD_STRING, buffer, name);
                 node->SetAttribute(new Scene::Attribute<Core::String>("Name", name));
             }
                 break;
             case WORD_ENTITY_NAME:
             {
                 Core::String value;
-                ParseBlockedString(buffer, value);
+                parser->Parse<Core::String>(WORD_STRING, buffer, value);
                 node->SetAttribute(new Scene::Attribute<Core::String>("Type", "FileProxy"));
                 node->SetAttribute(new Scene::Attribute<Core::String>("Filename", value));
             }
@@ -50,5 +51,7 @@ namespace Loader {
             }
         }
     }
+
+	PUNK_REGISTER_PARSER(WORD_NODE, ParseSceneNode);
 }
 PUNK_ENGINE_END

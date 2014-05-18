@@ -1,15 +1,15 @@
 #include <attributes/animation/module.h>
-#include "parse_simple.h"
 #include "parser.h"
-#include "parse_animation.h"
-#include "parse_position_track.h"
 #include "parse_rotation_track.h"
 
 PUNK_ENGINE_BEGIN
 namespace Loader
 {
-    bool ParseAnimation(Core::Buffer& buffer, Attributes::Animation* animation)
+    bool ParseAnimation(Core::Buffer& buffer, void* object)
     {
+		Attributes::IAnimation* animation = (Attributes::IAnimation*)object;
+		Parser* parser = GetDefaultParser();
+
         CHECK_START(buffer);
 
         Core::String name;
@@ -22,7 +22,7 @@ namespace Loader
             }
 
             const Core::String word = buffer.ReadWord();
-            KeywordCode index = Parse(word);
+            KeywordCode index = ParseKeyword(word);
             switch(index)
             {
             case WORD_CLOSE_BRACKET:
@@ -30,21 +30,21 @@ namespace Loader
             case WORD_NAME:
             {
                 Core::String name;
-                ParseBlockedString(buffer, name);
+                parser->Parse(WORD_STRING, buffer, name);
                 animation->SetName(name);
             }
                 break;
             case WORD_POSITION_TRACK:
             {
                 Attributes::AnimationTrack<Math::vec3> track;
-                ParsePositionTrack(buffer, track);
+                parser->Parse(WORD_POSITION_TRACK, buffer, &track);
                 animation->SetPositionTrack(track);
             }
                 break;
             case WORD_ROTATION_TRACK:
             {
                 Attributes::AnimationTrack<Math::quat> track;
-                ParseRotationTrack(buffer, track);
+                parser->Parse(WORD_ROTATION_TRACK, buffer, track);
                 animation->SetRotationTrack(track);
             }
                 break;
@@ -54,5 +54,7 @@ namespace Loader
         }
         return false;
     }
+	
+	PUNK_REGISTER_PARSER(WORD_OBJECT_ANIMATION, ParseAnimation);
 }
 PUNK_ENGINE_END

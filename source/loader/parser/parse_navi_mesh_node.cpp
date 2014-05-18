@@ -9,7 +9,7 @@
 //        while (1)
 //        {
 //            const Core::String word = buffer.ReadWord();
-//            KeywordCode code = Parse(word);
+//            KeywordCode code = ParseKeyword(word);
 //            switch(code)
 //            {
 //            case WORD_CLOSE_BRACKET:

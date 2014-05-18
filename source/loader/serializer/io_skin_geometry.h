@@ -6,11 +6,11 @@
 //PUNK_ENGINE_BEGIN
 //namespace Core {
 //    class Buffer;
-//    class Object;
+//    class IObject;
 //}
 //namespace Loader {
-//    void SaveSkinGeometry(Core::Buffer* buffer, const Core::Object* object);
-//    void LoadSkinGeometry(Core::Buffer* buffer, Core::Object* object);
+//    void SaveSkinGeometry(Core::Buffer* buffer, const Core::IObject* object);
+//    void LoadSkinGeometry(Core::Buffer* buffer, Core::IObject* object);
 //}
 //PUNK_ENGINE_END
 //

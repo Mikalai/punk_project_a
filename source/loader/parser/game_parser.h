@@ -40,7 +40,7 @@ namespace Attributes
 
 	//extern SceneObjectIterator* operator ++ (int i, SceneObjectIterator&);
 
-	//class PUNK_ENGINE_API Scene : public Core::Object
+	//class PUNK_ENGINE_API Scene : public Core::IObject
 	//{
 	//	struct SceneImpl;
 	//	std::auto_ptr<SceneImpl> impl_scene;

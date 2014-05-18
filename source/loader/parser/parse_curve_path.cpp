@@ -1,19 +1,20 @@
-#include <ai/module.h>
+#include <core/ifactory.h>
+#include <ai/icurvepath.h>
 #include "parser.h"
-#include "parse_simple.h"
-#include "parse_spline.h"
-#include "parse_curve_path.h"
 
 PUNK_ENGINE_BEGIN
 namespace Loader
 {
-    bool ParseCurvePath(Core::Buffer &buffer, AI::CurvePath *value)
+    bool ParseCurvePath(Core::Buffer &buffer, void* object)
     {
+		AI::ICurvePath *value = (AI::ICurvePath*)object;
+		Parser* parser = GetDefaultParser();
+
         CHECK_START(buffer);
         while (1)
         {
             Core::String word = buffer.ReadWord();
-            KeywordCode code = Parse(word);
+            KeywordCode code = ParseKeyword(word);
             switch(code)
             {
             case WORD_CLOSE_BRACKET:
@@ -22,8 +23,8 @@ namespace Loader
             }
             case WORD_SPLINE:
             {
-                Math::Spline spline;
-                ParseSpline(buffer, spline);
+				Math::ISpline* spline{ nullptr };
+                parser->Parse(WORD_SPLINE, buffer, spline);
                 value->AddSpline(spline);
             }
             break;
@@ -33,5 +34,8 @@ namespace Loader
         }
         return false;
     }
+
+	PUNK_REGISTER_PARSER(WORD_CURVE_PATH, ParseCurvePath);
+
 }
 PUNK_ENGINE_END

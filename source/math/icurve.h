@@ -4,6 +4,7 @@
 #include <config.h>
 #include <core/iobject.h>
 #include <vector>
+#include <math/vec3.h>
 
 PUNK_ENGINE_BEGIN
 namespace Math {

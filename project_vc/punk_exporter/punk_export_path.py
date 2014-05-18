@@ -18,7 +18,7 @@ def export_path(f, object):
     for spline in curve.splines:
         start_block(f, "*spline")
         for point in spline.points:
-            start_block(f, "*point")
+            start_block(f, "*weighted_point")
             export_float(f, "*weight", point.weight)
             export_vec4(f, "*position", point.co)
             end_block(f)
@@ -30,6 +30,7 @@ def export_path(f, object):
     return
     
 def export_paths(f): 
+    print("Export *path")
     if not ("*path" in used_entities.keys()):
         return    
     for object in used_entities["*path"]:
