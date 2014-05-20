@@ -177,7 +177,6 @@
     <ClInclude Include="..\..\source\scene\scene_worker.h" />
     <ClInclude Include="..\..\source\scene\iattribute.h" />
     <ClInclude Include="..\..\source\scene\iscene_manager.h" />
-    <ClInclude Include="..\..\source\scene\igraph_processor_base.h" />
     <ClInclude Include="..\..\source\scene\inode.h" />
     <ClInclude Include="..\..\source\scene\iprocessor.h" />
     <ClInclude Include="..\..\source\scene\iscene_graph.h" />

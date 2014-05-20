@@ -39,6 +39,7 @@ namespace Scene {
 			m_processor = nullptr;
 		}
 	}
+	
 	void SceneWorker::WaitProcessStart() {
 		m_process_mutex.Lock();		
 	}
@@ -86,6 +87,11 @@ namespace Scene {
 		}
 		return m_delete;
 	}	
+
+	void SceneWorker::Start() {
+		m_thread.Start(new LoaderWorkItem, this);
+		m_thread.Resume();
+	}
 
 	void SceneWorker::Stop() {
 		m_delete = true;

@@ -24,7 +24,6 @@
     <ClInclude Include="..\..\source\scene\scene_helper.h" />
     <ClInclude Include="..\..\source\scene\scene_processor.h" />
     <ClInclude Include="..\..\source\scene\command.h" />
-    <ClInclude Include="..\..\source\scene\igraph_processor_base.h" />
     <ClInclude Include="..\..\source\scene\iprocessor.h" />
     <ClInclude Include="..\..\source\scene\iscene_manager.h" />
     <ClInclude Include="..\..\source\scene\scene_worker.h" />
