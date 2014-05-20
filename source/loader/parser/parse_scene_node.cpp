@@ -1,4 +1,5 @@
 #include <memory>
+#include <core/factory.h>
 #include <attributes/module.h>
 #include <scene/module.h>
 #include "parser.h"
@@ -26,7 +27,8 @@ namespace Loader {
                 return true;
             case WORD_NODE:
             {
-                Scene::INode* child = Scene::CreateNode(node);
+				Scene::INode* child = nullptr;
+				Core::GetFactory()->CreateInstance(Scene::IID_INode, (void**)&child);
                 ParseSceneNode(buffer, child);
                 //node->AddChild(child.release());
             }

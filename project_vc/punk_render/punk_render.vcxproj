@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\render\error\module.h" />
+    <ClInclude Include="..\..\source\render\irender_processor.h" />
     <ClInclude Include="..\..\source\render\module.h" />
     <ClInclude Include="..\..\source\render\render_commands.h" />
     <ClInclude Include="..\..\source\render\render_processor.h" />

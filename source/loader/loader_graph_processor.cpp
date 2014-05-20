@@ -1,4 +1,5 @@
-#include <core/object.h>
+#include <core/ifactory.h>
+#include <core/iobject.h>
 #include <attributes/module.h>
 #include <loader/parser/parse_punk_file.h>
 #include "loader/error/loader_error.h"
@@ -41,10 +42,10 @@ namespace Loader {
 		}
 		else if (cmd->index == (int)LoaderCommands::SetNewGraph) {
 			CmdSetGraph* task = (CmdSetGraph*)cmd;
-			AssignGraph(task->new_graph);
+			SetGraph(task->new_graph);
 			CmdSetGraph* command = new CmdSetGraph;
 			command->new_graph = GetGraph();
-			AddCommand(command);
+			SendSyncCommand(command);
 		}
 
 	}
@@ -79,7 +80,7 @@ namespace Loader {
 		}
 		else if (cmd->index == (int)LoaderCommands::SetNewGraph) {
 			CmdSetGraph* set_graph = (CmdSetGraph*)cmd;			
-			AssignGraph(set_graph->new_graph);
+			SetGraph(set_graph->new_graph);
 			GetGraph()->SubscribeOnNodeAdded(new Core::Action<LoaderGraphProcessor, Scene::INode*, Scene::INode*>(
 				this, &LoaderGraphProcessor::ChildAdded));
 			GetGraph()->SubscribeOnNodeRemoved(new Core::Action<LoaderGraphProcessor, Scene::INode*, Scene::INode*>(
@@ -92,7 +93,8 @@ namespace Loader {
 		Scene::INode* node = add_loaded_object->node;
 		Core::IObjectUniquePtr object{ add_loaded_object->object, Core::DestroyObject };
 		m_logger->Info("Create new node");
-		Scene::INode* child = Scene::CreateNode(node);
+		Scene::INode* child{ nullptr };
+		Core::GetFactory()->CreateInstance(Scene::IID_INode, (void**)&child);
 		child->Set<Core::String>("Owner", GetName());		
 		{
 			Attributes::IGeometry* geometry = nullptr;
@@ -124,13 +126,15 @@ namespace Loader {
 	void LoaderGraphProcessor::SetGraph(Scene::ISceneGraph *graph) {
 		CmdSetGraph* task = new CmdSetGraph;
 		task->new_graph = graph;
-		AddInternalCommand(task);
+		SendAsyncCommand(task);
 	}
 
 	bool LoaderGraphProcessor::Process(Scene::INode *node, bool (LoaderGraphProcessor::*func)(Scene::INode *)) {
 		if ((this->*func)(node)) {
 			for (std::uint64_t i = 0, max_i = node->GetChildrenCount(); i < max_i; ++i) {
-				if (Process(node->GetChild(i), func))
+				Scene::INode* child = dynamic_cast<Scene::INode*>(node->GetChild(i));
+				if (child)
+				if (Process(child, func))
 					return true;
 			}
 		}
@@ -146,35 +150,35 @@ namespace Loader {
 		CmdAdd* cmd = new CmdAdd;
 		cmd->child = child;
 		cmd->parent = parent;
-		AddCommand(cmd);
+		SendSyncCommand(cmd);
 	}
 
 	void LoaderGraphProcessor::RemoveChild(Scene::INode *parent, Scene::INode *child) {
 		CmdRemove* cmd = new CmdRemove;
 		cmd->child = child;
 		cmd->parent = parent;
-		AddCommand(cmd);
+		SendSyncCommand(cmd);
 	}
 
 	void LoaderGraphProcessor::ChildAdded(Scene::INode *parent, Scene::INode *child) {
 		CmdNodeAdded* cmd = new CmdNodeAdded;
 		cmd->parent = parent;
 		cmd->new_node = child;
-		AddCommand(cmd);
+		SendSyncCommand(cmd);
 	}
 
 	void LoaderGraphProcessor::ChildRemoved(Scene::INode *parent, Scene::INode *child) {
 		CmdNodeRemoved* cmd = new CmdNodeRemoved;
 		cmd->parent = parent;
 		cmd->old_node = child;
-		AddCommand(cmd);
+		SendSyncCommand(cmd);
 	}
 
 	void LoaderGraphProcessor::AddLoadedObject(Scene::INode *node, Core::IObject *o) {
 		CmdAddLoadedObject* cmd = new CmdAddLoadedObject;
 		cmd->node = node;
 		cmd->object = o;
-		AddCommand(cmd);
+		SendSyncCommand(cmd);
 	}
 
 
@@ -191,7 +195,7 @@ namespace Loader {
 				CmdLoadFile* task = new CmdLoadFile;
 				task->node = node;
 				task->filename = node->GetSceneGraph()->GetSourcePath() + *path;
-				AddInternalCommand(task);
+				SendAsyncCommand(task);
 			}
 		}
 		return true;

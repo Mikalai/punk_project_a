@@ -55,7 +55,7 @@ namespace Render {
 		Scene::INodeUniquePtr CreateRenderNode(const Core::String& name);
 
 	private:
-		Graphics::ICanvasUniquePtr m_canvas{ nullptr, Graphics::DestroyCanvas };
+		Graphics::ICanvasUniquePtr m_canvas{ nullptr, Core::DestroyObject };
 		Scene::INode* m_camera_node{ nullptr };
 	};
 

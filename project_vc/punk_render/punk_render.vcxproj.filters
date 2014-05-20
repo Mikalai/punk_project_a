@@ -7,6 +7,7 @@
     <ClInclude Include="..\..\source\render\error\module.h">
       <Filter>error</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\render\irender_processor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\render\render_processor.cpp" />

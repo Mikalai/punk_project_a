@@ -271,6 +271,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\source\loader\async_parser.h" />
     <ClInclude Include="..\..\source\loader\error\loader_error.h" />
+    <ClInclude Include="..\..\source\loader\iloader_processor.h" />
     <ClInclude Include="..\..\source\loader\loader_cache.h" />
     <ClInclude Include="..\..\source\loader\loader_commands.h" />
     <ClInclude Include="..\..\source\loader\loader_graph_processor.h" />

@@ -527,6 +527,7 @@
     <ClInclude Include="..\..\source\loader\parser\parse_geometry.h">
       <Filter>parser</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\loader\iloader_processor.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="serializer">
