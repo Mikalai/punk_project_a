@@ -17,7 +17,7 @@ namespace Core {
 			, m_this{ _this }
 		{
 			if (m_owner)
-				m_owner->Add(m_this);
+				m_owner->AddChild(m_this);
 		}
 
 		~Container() {
@@ -39,7 +39,7 @@ namespace Core {
 			return m_owner;
 		}
 
-		void Add(T* value) {
+		void AddChild(T* value) {
 			if (value == nullptr)
 				throw Core::Error::CoreException("Object reference is null");
 

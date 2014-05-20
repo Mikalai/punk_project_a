@@ -3,7 +3,7 @@
 
 #include "inode.h"
 #include "iscene_graph.h"
-#include "igraph_processor.h"
-#include "graph_processor_base.h"
+#include "iscene_manager.h"
+#include "iscene_worker.h"
 
 #endif	//	_H_PUNK_SCENE_MODULE

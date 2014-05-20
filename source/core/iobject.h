@@ -26,7 +26,7 @@ namespace Core {
 		virtual const IObject* GetOwner() const = 0;
 		virtual const Core::String ToString() const = 0;
 		virtual std::uint64_t GetType() = 0;
-		virtual void Add(IObject* object) = 0;
+		virtual void AddChild(IObject* object) = 0;
 		virtual void RemoveChild(IObject* object, bool depth = false) = 0;
 		virtual void RemoveChild(std::uint32_t index) = 0;
 		virtual IObject* GetChild(std::uint32_t index) = 0;
@@ -84,8 +84,8 @@ namespace Core {
 		return typeid(T).hash_code();\
 		}\
 	\
-	void Add(IObject* object) {\
-		m_container.Add(object);\
+	void AddChild(IObject* object) {\
+		m_container.AddChild(object);\
 		}\
 	\
 	void RemoveChild(IObject* object, bool depth) {\
@@ -141,8 +141,8 @@ namespace Core {
 		return typeid(T).hash_code();\
 			}\
 	\
-	void Add(IObject* object) {\
-		m_container.Add(object);\
+	void AddChild(IObject* object) {\
+		m_container.AddChild(object);\
 			}\
 	\
 	void RemoveChild(IObject* object, bool depth) {\
@@ -201,8 +201,8 @@ namespace Core {
 		return typeid(T).hash_code();\
 				}\
 	\
-	void Add(IObject* object) {\
-		m_container.Add(object);\
+	void AddChild(IObject* object) {\
+		m_container.AddChild(object);\
 				}\
 	\
 	void RemoveChild(IObject* object, bool depth) {\

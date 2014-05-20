@@ -24,14 +24,8 @@ namespace Scene {
 		virtual int GetAttributesCount(std::uint64_t type) const = 0;
 		virtual std::vector<IAttribute*> GetAttributes(std::uint64_t type) const = 0;
         virtual void RemoveAttribute(const Core::String& name, std::uint64_t type) = 0;
-        virtual INode* GetParent() = 0;
-        virtual const INode* GetParent() const = 0;
-        virtual INode* GetChild(std::uint64_t index) = 0;
-        virtual const INode* GetChild(std::uint64_t index) const = 0;
         virtual NodeState GetState() const = 0;
         virtual void SetState(NodeState value) = 0;
-        virtual void RemoveChild(INode* child, bool depth) = 0;
-        virtual INode* FindChild(IAttribute* attribute, bool depth) = 0;
         virtual ISceneGraph* GetSceneGraph() = 0;
 		virtual void SetSceneGraph(ISceneGraph* graph) = 0;
 
@@ -104,11 +98,7 @@ namespace Scene {
     };
 
     using INodeUniquePtr = std::unique_ptr<INode, void (*)(INode*)>;
-
-    extern PUNK_ENGINE_API INode* CreateRootNode(ISceneGraph* grap);
-    extern PUNK_ENGINE_API INode* CreateNode(INode* parent);
-	extern PUNK_ENGINE_API INodeUniquePtr CreateNode();
-    extern PUNK_ENGINE_API void DestroyNode(INode* node);
+    
 }
 PUNK_ENGINE_END
 
