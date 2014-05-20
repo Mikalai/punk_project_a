@@ -162,23 +162,24 @@
     <ClCompile Include="..\..\source\scene\attribute.cpp" />
     <ClCompile Include="..\..\source\scene\command.cpp" />
     <ClCompile Include="..\..\source\scene\graph_processor.cpp" />
-    <ClCompile Include="..\..\source\scene\graph_processor_base.cpp" />
+    <ClCompile Include="..\..\source\scene\scene_manager.cpp" />
+    <ClCompile Include="..\..\source\scene\scene_worker.cpp" />
     <ClCompile Include="..\..\source\scene\node.cpp" />
     <ClCompile Include="..\..\source\scene\scene_graph.cpp" />
     <ClCompile Include="..\..\source\scene\scene_helper.cpp" />
     <ClCompile Include="..\..\source\scene\scene_processor.cpp" />
-    <ClCompile Include="..\..\source\scene\task.cpp" />
-    <ClCompile Include="..\..\source\scene\transform_graph.cpp" />
-    <ClCompile Include="..\..\source\scene\transform_node.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\scene\attribute.h" />
     <ClInclude Include="..\..\source\scene\command.h" />
-    <ClInclude Include="..\..\source\scene\graph_processor_base.h" />
+    <ClInclude Include="..\..\source\scene\iscene_worker.h" />
+    <ClInclude Include="..\..\source\scene\scene_manager.h" />
+    <ClInclude Include="..\..\source\scene\scene_worker.h" />
     <ClInclude Include="..\..\source\scene\iattribute.h" />
-    <ClInclude Include="..\..\source\scene\igraph_processor.h" />
+    <ClInclude Include="..\..\source\scene\iscene_manager.h" />
+    <ClInclude Include="..\..\source\scene\igraph_processor_base.h" />
     <ClInclude Include="..\..\source\scene\inode.h" />
-    <ClInclude Include="..\..\source\scene\interface.h" />
+    <ClInclude Include="..\..\source\scene\iprocessor.h" />
     <ClInclude Include="..\..\source\scene\iscene_graph.h" />
     <ClInclude Include="..\..\source\scene\iscene_processor.h" />
     <ClInclude Include="..\..\source\scene\module.h" />
@@ -187,9 +188,6 @@
     <ClInclude Include="..\..\source\scene\scene_graph.h" />
     <ClInclude Include="..\..\source\scene\scene_helper.h" />
     <ClInclude Include="..\..\source\scene\scene_processor.h" />
-    <ClInclude Include="..\..\source\scene\task.h" />
-    <ClInclude Include="..\..\source\scene\transform_graph.h" />
-    <ClInclude Include="..\..\source\scene\transform_node.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

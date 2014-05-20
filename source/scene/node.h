@@ -17,25 +17,16 @@ namespace Scene
         explicit Node(INode* parent);
         virtual ~Node();
 
-        virtual void SetAttribute(IAttribute* value) override;
-        virtual IAttribute* GetAttribute(const Core::String&, std::uint64_t type) const override;
-		virtual int GetAttributesCount(std::uint64_t type) const override;
-		virtual std::vector<IAttribute*> GetAttributes(std::uint64_t type) const override;
-        virtual void RemoveAttribute(const Core::String& name, std::uint64_t type) override;
-        virtual INode* GetParent() override;
-        virtual const INode* GetParent() const override;
-        virtual std::uint64_t GetChildrenCount() const override;
-        virtual INode* GetChild(std::uint64_t index) override;
-        virtual const INode* GetChild(std::uint64_t index) const override;
-        virtual void AddChild(INode* child) override;
-        virtual NodeState GetState() const override;
-        virtual void SetState(NodeState value) override;
-        virtual void RemoveChild(INode* child, bool depth) override;
-        virtual INode* FindChild(IAttribute* attribute, bool depth) override;
-        virtual void AddRef() override;
-        virtual void Release() override;        
-        virtual ISceneGraph* GetSceneGraph() override;
-		virtual void SetSceneGraph(ISceneGraph* graph) override;
+		void QueryInterface(const Core::Guid& type, void** object) override;
+        void SetAttribute(IAttribute* value) override;
+        IAttribute* GetAttribute(const Core::String&, std::uint64_t type) const override;
+		int GetAttributesCount(std::uint64_t type) const override;
+		std::vector<IAttribute*> GetAttributes(std::uint64_t type) const override;
+        void RemoveAttribute(const Core::String& name, std::uint64_t type) override;
+        NodeState GetState() const override;
+        void SetState(NodeState value) override;
+        ISceneGraph* GetSceneGraph() override;
+		void SetSceneGraph(ISceneGraph* graph) override;
 
         ///
         /// \brief MarkToDelete
@@ -55,8 +46,7 @@ namespace Scene
         ///
         bool CanDelete() override;
 
-    private:
-        std::uint64_t m_ref_count;
+    private:        
         NodeState m_state {NodeState::Inactive};
         std::uint64_t m_id {0};
         INode* m_parent {nullptr};
@@ -64,6 +54,8 @@ namespace Scene
         std::map<std::pair<Core::String, std::uint64_t>, IAttribute*> m_attributes;
         ISceneGraph* m_scene_graph {nullptr};
         std::atomic<int> m_delete_count;
+
+		PUNK_OBJECT_DEFAULT_IMPL3(Node)
     };
 }
 PUNK_ENGINE_END

@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <utility>
+#include <core/ifactory.h>
 #include <iostream>
 #include "iscene_graph.h"
 #include <system/concurrency/module.h>
@@ -87,33 +88,7 @@ namespace Scene {
         catch(...) {
 
         }
-    }
-
-    INode* Node::GetParent() {
-        return m_parent;
-    }
-
-    const INode* Node::GetParent() const {
-        return m_parent;
-    }
-
-    std::uint64_t Node::GetChildrenCount() const {
-        return m_children.size();
-    }
-
-    INode* Node::GetChild(std::uint64_t index) {
-        return m_children[index];
-    }
-
-    const INode* Node::GetChild(std::uint64_t index) const {
-        return m_children[index];
-    }
-
-    void Node::AddChild(INode *child) {
-        m_children.push_back(child);
-		child->SetSceneGraph(GetSceneGraph());		
-		GetSceneGraph()->OnNodeAdded(this, child);
-    }
+    }    
 
 	void Node::SetSceneGraph(ISceneGraph* graph) {
 		m_scene_graph = graph;
@@ -130,42 +105,8 @@ namespace Scene {
         m_state = value;
     }
 
-    void Node::RemoveChild(INode* child, bool depth) {
-        auto it = std::find(m_children.begin(), m_children.end(), child);
-        if (it != m_children.end()) {
-            m_children.erase(it);
-            delete child;
-        }
-        else if (depth) {
-            for (auto c : m_children)
-                c->RemoveChild(child, depth);
-        }
-    }
-
-    INode* Node::FindChild(IAttribute* attribute, bool depth) {
-        for (INode* child : m_children) {
-            if (child->GetAttribute(attribute->GetName(), attribute->GetTypeID()))
-                return child;
-        }
-        if (depth)
-            for (INode* child : m_children) {
-                INode* res = child->FindChild(attribute, depth);
-                if (res)
-                    return res;
-            }
-        return nullptr;
-    }
-
     ISceneGraph* Node::GetSceneGraph() {
         return m_scene_graph;
-    }
-
-    void Node::AddRef() {
-        ++m_ref_count;
-    }
-
-    void Node::Release() {
-        --m_ref_count;
     }
 
     void Node::MarkToDelete() {
@@ -180,23 +121,26 @@ namespace Scene {
         return m_delete_count == 0;
     }
 
-    extern PUNK_ENGINE_API INode* CreateRootNode(ISceneGraph* graph) {        
-		return new Node{ graph };
-    }
-
-    extern PUNK_ENGINE_API INode* CreateNode(INode* parent) {        
-		return new Node{ parent };
-    }
-
-	extern PUNK_ENGINE_API INodeUniquePtr CreateNode() {
-		INodeUniquePtr ptr{ new Node, DestroyNode };
-		return ptr;
+	void Node::QueryInterface(const Core::Guid& type, void** object) {
+		if (!object)
+			return;
+		if (type == Core::IID_IObject ||
+			type == IID_INode) {
+			*object = (void*)this;
+			AddRef();
+		}
+		else
+			*object = nullptr;
 	}
 
-    extern PUNK_ENGINE_API void DestroyNode(INode* node) {
-        Node* n = dynamic_cast<Node*>(node);
-        delete n;
-    }
+
+	void CreateNode(void** node) {
+		if (!node)
+			return;
+		*node = (void*)(new (Node));
+	}
+
+	PUNK_REGISTER_CREATOR(IID_INode, CreateNode);
 
 }
 PUNK_ENGINE_END
