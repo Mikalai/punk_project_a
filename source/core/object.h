@@ -24,7 +24,7 @@ namespace Core {
 		const IObject* GetOwner() const override;
 		const Core::String ToString() const override;
 		std::uint64_t GetType() override;
-		void Add(IObject* object) override;
+		void AddChild(IObject* object) override;
 		void RemoveChild(IObject* object, bool depth = false) override;
 		void RemoveChild(std::uint32_t index) override;
 		IObject* GetChild(std::uint32_t index) override;

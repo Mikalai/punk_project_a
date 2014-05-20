@@ -221,6 +221,9 @@
     <ClInclude Include="..\..\source\system\logger\message_logger.h" />
     <ClInclude Include="..\..\source\system\logger\module.h" />
     <ClInclude Include="..\..\source\system\module.h" />
+    <ClInclude Include="..\..\source\system\module\imodule_manager.h" />
+    <ClInclude Include="..\..\source\system\module\module.h" />
+    <ClInclude Include="..\..\source\system\module\module_manager.h" />
     <ClInclude Include="..\..\source\system\profiler.h" />
     <ClInclude Include="..\..\source\system\resource.h" />
     <ClInclude Include="..\..\source\system\resource_creator.h" />
@@ -294,6 +297,7 @@
     <ClCompile Include="..\..\source\system\logger\logger.cpp" />
     <ClCompile Include="..\..\source\system\logger\log_consumer.cpp" />
     <ClCompile Include="..\..\source\system\logger\message_logger.cpp" />
+    <ClCompile Include="..\..\source\system\module\module_manager.cpp" />
     <ClCompile Include="..\..\source\system\profiler.cpp" />
     <ClCompile Include="..\..\source\system\serializable.cpp" />
     <ClCompile Include="..\..\source\system\storable.cpp" />

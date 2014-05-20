@@ -251,6 +251,15 @@
     <ClInclude Include="..\..\source\system\input\iconsole.h">
       <Filter>input</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\system\module\imodule_manager.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\module\module_manager.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\module\module.h">
+      <Filter>module</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\system\config_file.cpp" />
@@ -401,6 +410,9 @@
     <ClCompile Include="..\..\source\system\window\x11_window.cpp">
       <Filter>window</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\system\module\module_manager.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="aop">
@@ -435,6 +447,9 @@
     </Filter>
     <Filter Include="window">
       <UniqueIdentifier>{cf1173b4-5210-4f2e-8dfc-4b4d3fa23526}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module">
+      <UniqueIdentifier>{9f47dfe6-9719-45c9-a557-3cbd2f182ad1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
