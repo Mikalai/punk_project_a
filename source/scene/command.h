@@ -11,6 +11,8 @@ namespace Scene {
 	class PUNK_ENGINE_API CommandBase {
 	public:
 		virtual ~CommandBase() {}
+		virtual CommandBase* Clone() { return new CommandBase(*this); }
+
 		union
 		{
 			struct {
