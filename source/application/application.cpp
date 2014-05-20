@@ -1,3 +1,4 @@
+#include <system/module.h>
 #include <render/module.h>
 #include <loader/module.h>
 #include <scene/module.h>
@@ -5,8 +6,11 @@
 
 PUNK_ENGINE_BEGIN
 namespace Runtime {
-	
+
 	Application::Application() {
+
+		LoadBasicModules();
+
 		m_logger->Info("Create application");
 		m_factory->CreateInstance(Scene::IID_ISceneManager, (void**)&m_scene_manager);
 
@@ -24,6 +28,21 @@ namespace Runtime {
 		m_scene_manager = nullptr;
 	}
 
+	void Application::LoadBasicModules() {
+		std::vector<Core::String> modules{ { L"punk_scene", L"punk_attributes", L"punk_ai", L"punk_application", L"punk_core",
+			L"punk_error", L"punk_font", L"punk_graphics", L"punk_image", L"punk_loader",
+			L"punk_math", L"punk_render", L"punk_string", L"punk_system" } };
+
+		for (auto& module : modules) {
+			try{
+				System::LoadModule(module);
+				m_logger->Info("Module loaded '" + module + "'");
+			}
+			catch (...) {
+				m_logger->Error("Can't load " + module);
+			}
+		}
+	}
 	Scene::ISceneManager* Application::GetSceneManager() {
 		return m_scene_manager;
 	}

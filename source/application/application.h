@@ -16,6 +16,9 @@ namespace Runtime {
 		void QueryInterface(const Core::Guid& type, void** object);
 		Scene::ISceneManager* GetSceneManager() override;
 		void Run() override;
+
+	private:
+		void LoadBasicModules();
 	public:
 		Scene::ISceneManager* m_scene_manager{ nullptr };
 		System::ILogger* m_logger{ System::GetDefaultLogger() };
