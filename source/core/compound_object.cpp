@@ -24,7 +24,7 @@
 //                DESTROY_INSTANCE();
 //            }
 
-////            bool CompoundObject::Add(Object* value)
+////            bool CompoundObject::AddChild(Object* value)
 ////            {
 ////                if (value == nullptr)
 ////                    return false;
@@ -96,7 +96,7 @@
 ////                CompoundObject* owner = As<CompoundObject*>(child->GetOwner());
 ////                if (owner)
 ////                    owner->Remove(child);
-////                parent->Add(child);
+////                parent->AddChild(child);
 ////                child->SetOwner(parent);
 ////            }
 

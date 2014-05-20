@@ -28,7 +28,7 @@
 //                return o.release();
 //            }
 
-//            void Factory::Add(unsigned id, Object* (*F)())
+//            void Factory::AddChild(unsigned id, Object* (*F)())
 //            {
 //                if (id == 0)
 //                    return;
@@ -37,7 +37,7 @@
 //                m_creator[id-1] = F;
 //            }
 
-//            void Factory::Add(unsigned id, void (*F)(Buffer*, const Object*))
+//            void Factory::AddChild(unsigned id, void (*F)(Buffer*, const Object*))
 //            {
 //                if (id == 0)
 //                    return;
@@ -46,7 +46,7 @@
 //                m_saver[id-1] = F;
 //            }
 
-//            void Factory::Add(unsigned id, void (*F)(Buffer*, Object*))
+//            void Factory::AddChild(unsigned id, void (*F)(Buffer*, Object*))
 //            {
 //                if (id == 0)
 //                    return;

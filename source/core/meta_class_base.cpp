@@ -31,21 +31,21 @@
 ////        return o.release();
 ////    }
 
-////    void Factory::Add(size_t id, Object* (*F)())
+////    void Factory::AddChild(size_t id, Object* (*F)())
 ////    {
 ////        if (id == 0)
 ////            return;
 ////        m_creator[id] = F;
 ////    }
 
-////    void Factory::Add(size_t id, void (*F)(Buffer*, const Object*))
+////    void Factory::AddChild(size_t id, void (*F)(Buffer*, const Object*))
 ////    {
 ////        if (id == 0)
 ////            return;
 ////        m_saver[id] = F;
 ////    }
 
-////    void Factory::Add(size_t id, void (*F)(Buffer*, Object*))
+////    void Factory::AddChild(size_t id, void (*F)(Buffer*, Object*))
 ////    {
 ////        if (id == 0)
 ////            return;

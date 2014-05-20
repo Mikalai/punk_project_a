@@ -17,7 +17,7 @@
 //            public:
 //                typedef std::vector<T*> InstanceCollection;
 
-//                void Add(Object* value) override
+//                void AddChild(Object* value) override
 //                {
 //                    value->SetLocalIndex(Instances.size());
 //                    Instances.push_back((T*)value);
@@ -83,9 +83,9 @@
 //            //        static Object* Create(unsigned id);
 //            //        static void Save(Buffer* buffer, const Object* o);
 //            //        static Object* Load(Buffer* buffer);
-//            //        static void Add(size_t id, Object* (*F)());
-//            //        static void Add(size_t id, void (*F)(Buffer*, const Object*));
-//            //        static void Add(size_t id, void (*F)(Buffer*, Object*));
+//            //        static void AddChild(size_t id, Object* (*F)());
+//            //        static void AddChild(size_t id, void (*F)(Buffer*, const Object*));
+//            //        static void AddChild(size_t id, void (*F)(Buffer*, Object*));
 //            //    private:
 //            //        static std::map<size_t, Object*(*)()> m_creator;
 //            //        static std::map<size_t, void (*)(Buffer*, const Object*)> m_saver;
@@ -100,14 +100,14 @@
 //            //            : Type(name, uid, parent)
 //            //        {
 //            //            if (Create)
-//            //                Factory::Add(Type.GetId(), T::Create);
+//            //                Factory::AddChild(Type.GetId(), T::Create);
 //            //            if (Save)
-//            //                Factory::Add(Type.GetId(), Save);
+//            //                Factory::AddChild(Type.GetId(), Save);
 //            //            if (Load)
-//            //                Factory::Add(Type.GetId(), Load);
+//            //                Factory::AddChild(Type.GetId(), Load);
 //            //        }
 
-//            //        void Add(T* value)
+//            //        void AddChild(T* value)
 //            //        {
 //            //            value->SetLocalIndex(Instances.size());
 //            //            Instances.push_back(value);

@@ -53,8 +53,8 @@ namespace Core {
 		return typeid(Object).hash_code();
 	}
 
-	void Object::Add(IObject* object) {
-		m_container.Add(object);
+	void Object::AddChild(IObject* object) {
+		m_container.AddChild(object);
 	}
 
 	void Object::RemoveChild(IObject* object, bool depth) {

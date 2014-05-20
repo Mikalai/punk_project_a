@@ -32,7 +32,7 @@ namespace Punk {
                 std::size_t GetInstanceCount() const;
                 Object* GetInstance(std::size_t index);
                 const Object* GetInstance(std::size_t index) const;
-                void Add(Object* value);
+                void AddChild(Object* value);
                 void Remove(Object* value);
 
                 __private::RttiImpl* impl {nullptr};
