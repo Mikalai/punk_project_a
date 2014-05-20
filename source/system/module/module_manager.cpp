@@ -11,8 +11,14 @@ PUNK_ENGINE_BEGIN
 namespace System {
 	extern PUNK_ENGINE_API void LoadModule(const Core::String& module) {
 #ifdef _WIN32
-		HMODULE hModole = LoadLibraryW((LPCWSTR)(module + ".dll").Data());
-		if (!hModole)
+		HMODULE hModule = GetModuleHandle((LPCWSTR)(module + ".dll").Data());
+		if (hModule) {
+			GetDefaultLogger()->Warning("Module '" + module + "' already loaded");
+			return;
+		}
+
+		hModule = LoadLibraryW((LPCWSTR)(module + ".dll").Data());
+		if (!hModule)
 			throw System::Error::SystemException("Can't load module " + module);
 		return;
 #endif
