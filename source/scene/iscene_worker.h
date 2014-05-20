@@ -15,12 +15,16 @@ namespace Scene {
 	public:
 		virtual void SetProcessor(ISceneProcessor* value) = 0;
 		virtual ISceneProcessor* GetProcessor() const = 0;
+		virtual void Start() = 0;
+		virtual void Stop() = 0;
 		virtual bool IsFinish() const = 0;
+		virtual void IndicateProcessStart() = 0;
 		virtual void WaitProcessStart() = 0;
 		virtual void PreProcess() = 0;
 		virtual void Process() = 0;
 		virtual void PostProcess() = 0;
 		virtual void IndicateProcessComplete() = 0;
+		virtual void WaitProcessComplete() = 0;
 	};
 
 }
