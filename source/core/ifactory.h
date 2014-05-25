@@ -2,6 +2,7 @@
 #define _H_IFACTORY
 
 #include <config.h>
+#include <initializer_list>
 #include <cstdint>
 
 PUNK_ENGINE_BEGIN
@@ -33,6 +34,12 @@ namespace Core {
 		return object;
 	}
 
+	template<class T>
+	void CreateInstance(void** object) {
+		if (!object)
+			return;
+		*object = (void*)(new T{});
+	}	
 }
 PUNK_ENGINE_END
 
