@@ -8,5 +8,6 @@
 #include "material/module.h"
 #include "animation/module.h"
 #include "skinning/module.h"
+#include "stubs/module.h"
 
 #endif

@@ -14,7 +14,7 @@ namespace Attributes {
 
 	class IGeometryCooker {
 	public:
-		virtual void Cook(IGeometry* geometry, Graphics::IVertexArray* va, Graphics::IIndexArray* ia) = 0;
+		virtual void Cook(IGeometry* geometry, Graphics::IVertexArray*& va, Graphics::IIndexArray*& ia) = 0;
 	};
 }
 PUNK_ENGINE_END
