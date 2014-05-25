@@ -2,6 +2,9 @@
 #define _H_PUNK_OPENGL_BUFFER
 
 #include <graphics/opengl/module.h>
+#include <graphics/primitives/vertex.h>
+#include <graphics/error/module.h>
+#include <graphics/primitives/gl_primitive/gl_attribute_configer.h>
 #include "ibufffer_object.h"
 
 PUNK_ENGINE_BEGIN
@@ -10,30 +13,127 @@ namespace Graphics {
 
 		class VideoMemory;
 
+		template<typename V>
         class PUNK_ENGINE_LOCAL VertexBufferObject : public IBufferObject
 		{
 		public:
-            //	Only VideoMemory can create it
-            VertexBufferObject();
-            virtual ~VertexBufferObject();
-            VertexBufferObject(const VertexBufferObject&) = delete;
-            VertexBufferObject& operator = (const VertexBufferObject&) = delete;
+			using CurrentVertex = V;
+		public:
 
-            void Create(const void* data, std::uint32_t m_size) override;
-            void Destroy() override;
-            void Bind() const override;
-            void Unbind() const override;
-            void* Map() override;
-            const void* Map() const override;
-            void Unmap() const override;
-            void CopyData(const void* data, std::uint32_t size) override;
-            bool IsValid() const override;
-            std::uint32_t GetSize() override;
+			VertexBufferObject(){};
 
-		private:					
+			void QueryInterface(const Core::Guid& type, void** object) override {
+				Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IBufferObject });
+			}
+
+			//	Only VideoMemory can create it
+			virtual ~VertexBufferObject() {
+				try {
+					Destroy();
+				}
+				catch (...)
+				{
+				}
+			}
+		
+			void Create(const CurrentVertex* data, std::uint32_t count) {
+				Create((void*)data, count*sizeof(Vertex<Args>));				
+			}
+
+			void Destroy() override {
+				if (m_index) {
+					GL_CALL(glDeleteBuffers(1, &m_index));
+					m_index = 0;
+				}
+			}
+
+			void Bind() const override {
+				if (!IsValid())
+					throw OpenGLInvalidValueException(L"Buffer is not valid");
+
+				GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, m_index));
+			}
+
+			void Unbind() const override {
+				if (!IsValid())
+					throw OpenGLInvalidValueException(L"Buffer is not valid");
+				GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, 0));
+			}
 			
-            GLuint m_index;
-            std::uint32_t m_size;
+			CurrentVertex* MapVB() {
+				void* data = Map();
+				return (CurrentVertex*)data;
+			}
+
+			const CurrentVertex* MapVB() const {
+				const void* data = Map();
+				return (CurrentVertex*)data;
+			}
+
+			void Unmap() const override {
+				Bind();
+				GL_CALL(glUnmapBuffer(GL_ARRAY_BUFFER));
+				Unbind();
+			}
+
+			void CopyData(const CurrentVertex* data, std::uint32_t count) {
+				CopyData((void*)data, count*sizeof(CurrentVertex));
+			}
+
+			bool IsValid() const override{
+				return m_index != 0;
+			}
+
+			std::uint32_t GetVertexCount() {
+				return m_size / sizeof(CurrentVertex);
+			}
+
+			std::uint32_t GetSize() override {
+				return m_size;
+			}
+					
+		private:					
+
+			void Create(const void* data, std::uint32_t size) override {
+				if (IsValid())
+					Destroy();
+
+				GL_CALL(glGenBuffers(1, &m_index));
+				GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, m_index));
+				GL_CALL(glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW));
+				GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, 0));
+				m_size = size;
+			}
+
+			void* Map() override {
+				Bind();
+				GL_CALL(GLvoid* buffer = glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE));
+				Unbind();
+				return buffer;
+			}
+
+			const void* Map() const override {
+				Bind();
+				GL_CALL(GLvoid* buffer = glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE));
+				Unbind();
+				return buffer;
+			}
+
+			void CopyData(const void* data, std::uint32_t size) {
+				if (m_size < size)
+					throw OpenGLOutOfMemoryException(Core::String(L"Vertex buffer is to small {0} to hold {1}").arg(m_size).arg(size));
+				Bind();
+				GL_CALL(glBufferSubData(GL_ARRAY_BUFFER, 0, size, data));
+				Unbind();
+			}			
+
+			GLuint m_index{ 0 };
+			std::uint32_t m_size{ 0 };
+
+			VertexBufferObject(const VertexBufferObject&) = delete;
+			VertexBufferObject& operator = (const VertexBufferObject&) = delete;
+
+			PUNK_OBJECT_DEFAULT_IMPL(VertexBufferObject<V>);
 		};
 	}
 }
