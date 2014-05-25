@@ -1,4 +1,5 @@
 #include <memory>
+#include <core/ifactory.h>
 #include <math/matrix_helper.h>
 #include <system/window/module.h>
 #include <graphics/text/module.h>
@@ -602,8 +603,9 @@ namespace Graphics
     {
         PushAllState();
         EnableLighting(false);
-        EnableTexturing(false);
-        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(GetVideoDriver());
+        EnableTexturing(false);		
+		IRenderableBuilderUniquePtr b{ Core::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::LINES);
         b->Vertex3fv(start);
         b->Vertex3fv(end);
@@ -638,7 +640,8 @@ namespace Graphics
         p2[1] = -1.0f + 2.0f * y2 / height;
         p2[2] = 0;
 
-        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(GetVideoDriver());
+		IRenderableBuilderUniquePtr b{ Core::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::LINES);
         b->Vertex3fv(p1);
         b->Vertex3fv(p2);
@@ -666,7 +669,8 @@ namespace Graphics
         p1[1] = -1.0f + 2.0f * y / height;
         p1[2] = 0;
 
-        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(GetVideoDriver());
+		IRenderableBuilderUniquePtr b{ Core::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::POINTS);
         b->Vertex3fv(p1);
         b->End();
@@ -680,7 +684,8 @@ namespace Graphics
         PushAllState();
         EnableLighting(false);
         EnableTexturing(false);
-        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(GetVideoDriver());
+		IRenderableBuilderUniquePtr b{ Core::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::POINTS);
         b->Vertex3fv(Math::vec3(x, y, z));
         b->End();
@@ -694,7 +699,8 @@ namespace Graphics
         PushAllState();
         EnableLighting(false);
         EnableTexturing(false);
-        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(GetVideoDriver());
+		IRenderableBuilderUniquePtr b{ Core::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::POINTS);
         b->Vertex3fv(v);
         b->End();
@@ -711,7 +717,8 @@ namespace Graphics
         SetProjectionMatrix(Math::CreateOrthographicProjection2(0, window->GetWidth(),
                                                                       0, window->GetHeight(),
                                                                      -1, 1));
-        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(GetVideoDriver());
+		IRenderableBuilderUniquePtr b{ Core::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::QUADS);
         b->TexCoord2f(0,0);
         b->Vertex3f(x, y, 0);
@@ -738,7 +745,8 @@ namespace Graphics
         EnableBlending(false);
         EnableLighting(false);
         EnableDepthTest(false);        
-        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(GetVideoDriver());
+		IRenderableBuilderUniquePtr b{ Core::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::LINES);
         int n = 32;
         float dphi = Math::PI / (float)n * 2.0f;
@@ -786,7 +794,8 @@ namespace Graphics
         SetProjectionMatrix(Math::CreateOrthographicProjection2(0, width, 0, height, -1, 1));
         SetViewMatrix(Math::CreateIdentity());
 
-        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(GetVideoDriver());
+		IRenderableBuilderUniquePtr b{ Core::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::QUADS);
         b->TexCoord2f(0, 0);
         b->Vertex3f(x, y, 0);

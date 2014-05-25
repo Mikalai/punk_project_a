@@ -13,6 +13,6 @@
 #include "itriangle_strip.h"
 #include "itriangles.h"
 #include "ilines.h"
-#include "renderable.h"
+#include "irenderable.h"
 
 #endif // MODULE_H

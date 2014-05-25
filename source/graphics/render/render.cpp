@@ -69,7 +69,7 @@ namespace Graphics {
 				CoreState* state = batch->m_state;
 				rc->Begin();
 				rc->BindParameters(*state);
-				renderable->Bind(rc->GetRequiredAttributesSet());
+				renderable->Bind();
 				renderable->Render();
 				renderable->Unbind();
 				rc->End();

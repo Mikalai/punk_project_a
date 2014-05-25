@@ -9,8 +9,8 @@ namespace Graphics
 		delete m_state;
 		m_state = nullptr;
         if (m_destroy) {
-            DestroyRenderable(m_renderable);
-			m_renderable = nullptr;
+            if (!m_renderable->Release())			
+				m_renderable = nullptr;
 		}
 	}
 }

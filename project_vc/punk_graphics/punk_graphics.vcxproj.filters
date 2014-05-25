@@ -536,6 +536,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\graphics\gpu_common_module.cpp" />
     <ClCompile Include="..\..\source\graphics\gpu_module.cpp" />
+    <ClCompile Include="..\..\source\graphics\primitives\gl_primitive\gl_renderable.cpp">
+      <Filter>primitives\gl_primitives</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\graphics\blending\blend_function.h">
@@ -1194,6 +1197,15 @@
     </ClInclude>
     <ClInclude Include="..\..\source\graphics\config.h" />
     <ClInclude Include="..\..\source\graphics\module.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\gl_primitive\gl_renderable.h">
+      <Filter>primitives\gl_primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\gl_primitive\gl_vertex_component_type.h">
+      <Filter>primitives\gl_primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\primitives\gl_primitive\gl_batch.h">
+      <Filter>primitives\gl_primitives</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_330.frag">

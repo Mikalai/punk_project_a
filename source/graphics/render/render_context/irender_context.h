@@ -9,6 +9,8 @@
 PUNK_ENGINE_BEGIN
 namespace Graphics
 {
+	class IVideoDriver;
+
 	enum class RenderPolicySet {
         Solid3D,
         SolidTextured2D,

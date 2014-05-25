@@ -199,6 +199,7 @@
     <ClCompile Include="..\..\source\graphics\primitives\frustum_mesh.cpp" />
     <ClCompile Include="..\..\source\graphics\primitives\gl_primitive\gl_attribute_configer.cpp" />
     <ClCompile Include="..\..\source\graphics\primitives\gl_primitive\gl_primitive_type.cpp" />
+    <ClCompile Include="..\..\source\graphics\primitives\gl_primitive\gl_renderable.cpp" />
     <ClCompile Include="..\..\source\graphics\primitives\grid_object.cpp" />
     <ClCompile Include="..\..\source\graphics\primitives\lines.cpp" />
     <ClCompile Include="..\..\source\graphics\primitives\points.cpp" />
@@ -366,8 +367,11 @@
     <ClInclude Include="..\..\source\graphics\primitives\cube_mesh.h" />
     <ClInclude Include="..\..\source\graphics\primitives\frustum_mesh.h" />
     <ClInclude Include="..\..\source\graphics\primitives\gl_primitive\gl_attribute_configer.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\gl_primitive\gl_batch.h" />
     <ClInclude Include="..\..\source\graphics\primitives\gl_primitive\gl_primitive_type.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\gl_primitive\gl_renderable.h" />
     <ClInclude Include="..\..\source\graphics\primitives\gl_primitive\gl_vertex_array_object.h" />
+    <ClInclude Include="..\..\source\graphics\primitives\gl_primitive\gl_vertex_component_type.h" />
     <ClInclude Include="..\..\source\graphics\primitives\gl_primitive\module.h" />
     <ClInclude Include="..\..\source\graphics\primitives\grid_object.h" />
     <ClInclude Include="..\..\source\graphics\primitives\iindex_array.h" />

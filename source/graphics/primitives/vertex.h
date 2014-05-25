@@ -46,7 +46,7 @@ namespace Graphics
 			flags		11
 	*/
 	template<typename... Components> struct Vertex;
-
+	
 	template<> struct Vertex<VertexComponent::Position>
 	{
 		typedef Vertex<VertexComponent::Position> T;
@@ -447,6 +447,22 @@ namespace Graphics
 		static constexpr size_t Texture0Offset() { return offsetof(T, m_texture0); }
 		static constexpr size_t BoneIDOffset() { return offsetof(T, m_bones_id); }
 		static constexpr size_t BoneWeightOffset() { return offsetof(T, m_bone_weights); }
+	};
+
+	template<class V, class C> struct Offset;
+
+	template<class V>
+	class Offset < V, VertexComponent::Position > {
+		static constexpr int Value() {
+			return V::PositionOffset();
+		}
+	};
+
+	template<class V>
+	class Offset < V, VertexComponent::Normal > {
+		static constexpr int Value() {
+			return V::NormalOffset();
+		}
 	};
 }
 PUNK_ENGINE_END

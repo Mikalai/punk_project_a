@@ -98,7 +98,7 @@ namespace Graphics {
         System::ILogger* m_logger {nullptr};
         IVideoDriverUniquePtr m_video_driver {nullptr, DestroyVideoDriver};
 
-		PUNK_OBJECT_DEFAULT_IMPL3(Canvas);
+		PUNK_OBJECT_DEFAULT_IMPL(Canvas);
     };
 }
 PUNK_ENGINE_END

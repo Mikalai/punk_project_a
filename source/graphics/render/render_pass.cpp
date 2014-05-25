@@ -4,6 +4,7 @@
 #include <graphics/video_driver/module.h>
 #include <graphics/state/module.h>
 #include <graphics/texture/module.h>
+#include <graphics/primitives/irenderable.h>
 #include "render_pass.h"
 #include "render_batch.h"
 
@@ -70,7 +71,7 @@ namespace Graphics {
        //     tc.Bind();
             policy->Begin();
             policy->BindParameters(*state);
-            renderable->Bind(policy->GetRequiredAttributesSet());
+            renderable->Bind();
             renderable->Render();
             renderable->Unbind();
             policy->End();

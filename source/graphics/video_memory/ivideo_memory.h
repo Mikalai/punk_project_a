@@ -10,8 +10,6 @@
 PUNK_ENGINE_BEGIN
 namespace Graphics
 {
-    class IBufferObject;
-
     class IVideoMemory
     {
     public:
@@ -19,12 +17,12 @@ namespace Graphics
         virtual std::uint32_t GetMaxMemoryUsage() const = 0;
         virtual std::uint32_t GetMemoryUsage() const = 0;
         virtual std::uint32_t GetMaxAvailableMemory() const = 0;
-        virtual IBufferObject* AllocatePixelBuffer(std::uint32_t size) = 0;
-        virtual void FreePixelBuffer(IBufferObject* value) = 0;
-        virtual IBufferObject* AllocateVertexBuffer(std::uint32_t size) = 0;
-        virtual void FreeVertexBuffer(IBufferObject* value) = 0;
-        virtual IBufferObject* AllocateIndexBuffer(std::uint32_t size) = 0;
-        virtual void FreeIndexBuffer(IBufferObject* value) = 0;
+        //virtual IBufferObject* AllocatePixelBuffer(std::uint32_t size) = 0;
+        //virtual void FreePixelBuffer(IBufferObject* value) = 0;
+        //virtual IBufferObject* AllocateVertexBuffer(std::uint32_t size) = 0;
+        //virtual void FreeVertexBuffer(IBufferObject* value) = 0;
+        //virtual IBufferObject* AllocateIndexBuffer(std::uint32_t size) = 0;
+        //virtual void FreeIndexBuffer(IBufferObject* value) = 0;
     };
 
     namespace Constructor {

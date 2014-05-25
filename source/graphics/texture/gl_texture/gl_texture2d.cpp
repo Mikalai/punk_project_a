@@ -67,7 +67,8 @@ namespace Graphics {
 
         void GlTexture2D::Clear()
         {
-            m_driver->GetVideoMemory()->FreePixelBuffer(m_pbo);
+			if (m_pbo->Release())
+				m_pbo = nullptr;
 
             if (m_texture_id)
             {
@@ -217,11 +218,12 @@ namespace Graphics {
         void* GlTexture2D::Map()
         {
             if (m_pbo)
-                throw OpenGLException(L"Texture already mapped");
-            m_pbo = dynamic_cast<PixelBufferObject*>(m_driver->GetVideoMemory()->AllocatePixelBuffer(m_width*m_height*m_pixel_size));
+                throw OpenGLException(L"Texture already mapped");			
+			m_pbo = new PixelBufferObject<std::uint8_t>();
+			m_pbo->Create(nullptr, m_width*m_height*m_pixel_size);
             void* ptr = m_pbo->Map();
-            if (!ptr)
-                m_driver->GetVideoMemory()->FreePixelBuffer(m_pbo);
+			if (!ptr)
+				m_pbo->Release();
             return ptr;
         }
 
@@ -236,8 +238,8 @@ namespace Graphics {
             m_pbo->Unbind();
             GL_CALL(glBindTexture(GL_TEXTURE_2D, 0));
 
-            m_driver->GetVideoMemory()->FreePixelBuffer(m_pbo);
-            m_pbo = nullptr;
+			if (!m_pbo->Release())
+				m_pbo = nullptr;
 
             if (m_use_mip_maps)
                 UpdateMipMaps();

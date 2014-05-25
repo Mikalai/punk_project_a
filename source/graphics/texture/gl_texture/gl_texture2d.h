@@ -51,7 +51,7 @@ namespace Graphics {
         private:
 
             GlVideoDriver* m_driver {nullptr};
-            PixelBufferObject* m_pbo {nullptr};
+            IBufferObject* m_pbo {nullptr};
             GLuint m_texture_id {0};
             GLsizei m_width {0};
             GLsizei m_height {0};
