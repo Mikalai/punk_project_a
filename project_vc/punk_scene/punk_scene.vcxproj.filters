@@ -1,33 +1,97 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\..\source\scene\attribute.cpp" />
-    <ClCompile Include="..\..\source\scene\graph_processor.cpp" />
-    <ClCompile Include="..\..\source\scene\node.cpp" />
-    <ClCompile Include="..\..\source\scene\scene_graph.cpp" />
-    <ClCompile Include="..\..\source\scene\scene_helper.cpp" />
-    <ClCompile Include="..\..\source\scene\scene_processor.cpp" />
-    <ClCompile Include="..\..\source\scene\command.cpp" />
-    <ClCompile Include="..\..\source\scene\scene_worker.cpp" />
-    <ClCompile Include="..\..\source\scene\scene_manager.cpp" />
+    <Filter Include="singlethreaded">
+      <UniqueIdentifier>{9cfcce95-c1af-42f2-8b91-4130fdc4156f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\source\scene\attribute.h" />
-    <ClInclude Include="..\..\source\scene\iattribute.h" />
-    <ClInclude Include="..\..\source\scene\inode.h" />
-    <ClInclude Include="..\..\source\scene\iscene_graph.h" />
-    <ClInclude Include="..\..\source\scene\iscene_processor.h" />
+    <ClCompile Include="..\..\source\scene\singlethreaded\attribute.cpp">
+      <Filter>singlethreaded</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\scene\singlethreaded\command.cpp">
+      <Filter>singlethreaded</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\scene\singlethreaded\graph_processor.cpp">
+      <Filter>singlethreaded</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\scene\singlethreaded\node.cpp">
+      <Filter>singlethreaded</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\scene\singlethreaded\scene_graph.cpp">
+      <Filter>singlethreaded</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\scene\singlethreaded\scene_helper.cpp">
+      <Filter>singlethreaded</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\scene\singlethreaded\scene_manager.cpp">
+      <Filter>singlethreaded</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\scene\singlethreaded\scene_processor.cpp">
+      <Filter>singlethreaded</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\scene\singlethreaded\scene_worker.cpp">
+      <Filter>singlethreaded</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\scene\singlethreaded\attribute.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\scene\singlethreaded\command.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\scene\singlethreaded\iattribute.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\scene\singlethreaded\inode.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\scene\singlethreaded\iprocessor.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\scene\singlethreaded\iscene_builder.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\scene\singlethreaded\iscene_manager.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\scene\singlethreaded\iscene_worker.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\scene\singlethreaded\module.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\scene\singlethreaded\node.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\scene\singlethreaded\node_state.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\scene\singlethreaded\scene_graph.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\scene\singlethreaded\scene_helper.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\scene\singlethreaded\scene_manager.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\scene\singlethreaded\scene_manipulator.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\scene\singlethreaded\scene_processor.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\scene\singlethreaded\scene_worker.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\scene\singlethreaded\iscene.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\scene\singlethreaded\iscene_observer.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\source\scene\module.h" />
-    <ClInclude Include="..\..\source\scene\node.h" />
-    <ClInclude Include="..\..\source\scene\node_state.h" />
-    <ClInclude Include="..\..\source\scene\scene_graph.h" />
-    <ClInclude Include="..\..\source\scene\scene_helper.h" />
-    <ClInclude Include="..\..\source\scene\scene_processor.h" />
-    <ClInclude Include="..\..\source\scene\command.h" />
-    <ClInclude Include="..\..\source\scene\iprocessor.h" />
-    <ClInclude Include="..\..\source\scene\iscene_manager.h" />
-    <ClInclude Include="..\..\source\scene\scene_worker.h" />
-    <ClInclude Include="..\..\source\scene\iscene_worker.h" />
-    <ClInclude Include="..\..\source\scene\scene_manager.h" />
   </ItemGroup>
 </Project>
