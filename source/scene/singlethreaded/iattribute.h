@@ -3,6 +3,7 @@
 
 #include <typeinfo>
 #include <config.h>
+#include <core/iobject.h>
 #include <string/module.h>
 
 PUNK_ENGINE_BEGIN
@@ -14,17 +15,21 @@ namespace SceneModule {
         virtual std::uint64_t GetTypeID() const = 0;
         virtual const Core::String& GetName() const = 0;
         virtual void SetName(const Core::String& name) = 0;
-        virtual void* GetRawData() const = 0;
-        virtual void SetRawData(void* value) = 0;
+        virtual Core::IObject* GetRawData() const = 0;
+        virtual void SetRawData(Core::IObject* value) = 0;
 
-        template<class T>
-        T* Get() {
-            return (T*)GetRawData();
+        template<typename T>
+		T* Get(const Core::Guid& type) {
+			T* object = nullptr;
+			GetRawData()->QueryInterface(type, (void**)&object);
+			if (object)
+				object->Release();
+			return object;
         }
 
         template<class T>
         void Set(T* value) {
-            SetRawData((void*)value);
+            SetRawData(value);
         }
     };
 

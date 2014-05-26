@@ -14,7 +14,7 @@
 //        {
 //            if (!owner)
 //                break;
-//            const Scene::Node* transform = As<const Scene::Node*>(owner);
+//            const SceneModule::Node* transform = As<const SceneModule::Node*>(owner);
 //            if (transform)
 //            {
 //                const Core::Object* data = transform->GetData();

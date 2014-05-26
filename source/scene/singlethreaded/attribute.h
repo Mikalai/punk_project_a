@@ -19,19 +19,19 @@ namespace SceneModule {
         std::uint64_t GetTypeID() const override;
         const Core::String& GetName() const override;
         void SetName(const Core::String& name) override;
-        void* GetRawData() const override;
-        void SetRawData(void* value) override;
+        Core::IObject* GetRawData() const override;
+        void SetRawData(Core::IObject* value) override;
 
     private:        
         Core::String m_name;
-        std::unique_ptr<T> m_data;
+		Core::UniquePtr<T> m_data{ nullptr, Core::DestroyObject };
         bool m_delete {true};
     };
 
     template<class T>
     inline Attribute<T>::Attribute(const Core::String &name, T* value, bool del)
         : m_name(name)
-        , m_data(value)
+        , m_data(value, Core::DestroyObject)
         , m_delete(del)
     {}
 
@@ -71,13 +71,15 @@ namespace SceneModule {
     }
 
     template<class T>
-    inline void* Attribute<T>::GetRawData() const {
-        return (void*)m_data.get();
+    inline Core::IObject* Attribute<T>::GetRawData() const {		
+		return m_data.get();
     }
 
     template<class T>
-    inline void Attribute<T>::SetRawData(void* value) {
-        m_data.reset((T*)value);
+    inline void Attribute<T>::SetRawData(Core::IObject* value) {
+		T* o = dynamic_cast<T*>(value);
+		if (o)
+			m_data.reset(o);
     }
 }
 PUNK_ENGINE_END

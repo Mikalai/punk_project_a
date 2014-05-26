@@ -1,4 +1,5 @@
 #include <core/ifactory.h>
+#include <attributes/stubs/module.h>
 #include <string/module.h>
 #include "iscene_observer.h"
 #include "scene_graph.h"
@@ -103,15 +104,18 @@ namespace SceneModule
 		return m_source_path;
 	}
 
-    extern PUNK_ENGINE_API ISceneGraphUniquePtr CreateSceneFromFile(const Core::String& path, const Core::String& file) {
-        ISceneGraphUniquePtr scene{new Scene, Core::DestroyObject};
+	extern PUNK_ENGINE_API ISceneGraphUniquePtr CreateSceneFromFile(const Core::String& path, const Core::String& file) {
+		ISceneGraphUniquePtr scene{ new Scene, Core::DestroyObject };
 		INode* node{ nullptr };
 		Core::GetFactory()->CreateInstance(IID_INode, (void**)&node);
 		node->SetSceneGraph(scene.get());
-		scene->SetSourcePath(path);
-        node->SetAttribute(new Attribute<Core::String>(L"Name", L"Root"));
-        node->SetAttribute(new Attribute<Core::String>(L"Type", L"FileProxy"));
-        node->SetAttribute(new Attribute<Core::String>(L"Filename", file));        
+		scene->SetSourcePath(path);	
+		{
+			Attributes::IFileStub* stub = nullptr;
+			Core::GetFactory()->CreateInstance(Attributes::IID_IFileStub, (void**)&stub);
+			stub->SetFilename(file);
+			node->SetAttribute(new Attribute<Attributes::IFileStub>(L"Filename", stub));
+		}
         return scene;
     }
 
