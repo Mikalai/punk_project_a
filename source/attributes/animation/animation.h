@@ -35,7 +35,7 @@ namespace Attributes {
 		AnimationTrack<Math::vec3> m_pos_track;
 		AnimationTrack<Math::quat> m_rot_track;
 		Core::String m_name;
-        PUNK_OBJECT_DEFAULT_IMPL3(Animation)
+        PUNK_OBJECT_DEFAULT_IMPL(Animation)
 	};    
 }
 PUNK_ENGINE_END

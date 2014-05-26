@@ -52,7 +52,7 @@ namespace Attributes {
 		float m_linear_attenuation;
 		float m_quadratic_attenuation;
 
-		PUNK_OBJECT_DEFAULT_IMPL3(Light)
+		PUNK_OBJECT_DEFAULT_IMPL(Light)
 	};
 }
 

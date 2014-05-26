@@ -9,7 +9,7 @@ namespace Attributes
 {
 	class Geometry;
 
-//	class PUNK_ENGINE_API Cube : public Core::IObject, public Scene::SceneGraphAdapter, public Physics::Adapter
+//	class PUNK_ENGINE_API Cube : public Core::IObject, public SceneModule::SceneGraphAdapter, public Physics::Adapter
 //	{
 //	public:
 //		Cube();
@@ -21,8 +21,8 @@ namespace Attributes
 //		void SetDimensions(const Math::vec3& value);
 //		const Math::vec3 GetDimensions() const;
 
-//		virtual void OnEnterSceneGraph(Scene::SceneGraph* graph, Scene::Node* node) override;
-//		virtual void OnLeaveSceneGraph(Scene::SceneGraph* graph) override;
+//		virtual void OnEnterSceneGraph(SceneModule::Scene* graph, SceneModule::Node* node) override;
+//		virtual void OnLeaveSceneGraph(SceneModule::Scene* graph) override;
 //		virtual void OnEnterVisibility() override;
 //		virtual void OnLostVisibility() override;
 

@@ -255,6 +255,8 @@
     <ClCompile Include="..\..\source\attributes\sound.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\source\attributes\stubs\file_stub.cpp" />
+    <ClCompile Include="..\..\source\attributes\stubs\text_attribute.cpp" />
     <ClCompile Include="..\..\source\attributes\terrain\terrain.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -502,6 +504,11 @@
     <ClInclude Include="..\..\source\attributes\sound.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\..\source\attributes\stubs\file_stub.h" />
+    <ClInclude Include="..\..\source\attributes\stubs\ifilestub.h" />
+    <ClInclude Include="..\..\source\attributes\stubs\itext_attribute.h" />
+    <ClInclude Include="..\..\source\attributes\stubs\module.h" />
+    <ClInclude Include="..\..\source\attributes\stubs\text_attribute.h" />
     <ClInclude Include="..\..\source\attributes\terrain\interface.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>

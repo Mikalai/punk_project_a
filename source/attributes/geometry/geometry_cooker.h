@@ -16,7 +16,7 @@ namespace Attributes {
 
 	class GeometryCooker : public IGeometryCooker {
 	public:
-		void Cook(IGeometry* geometry, Graphics::IVertexArray* va, Graphics::IIndexArray* ia) override;
+		void Cook(IGeometry* geometry, Graphics::IVertexArray*& va, Graphics::IIndexArray*& ia) override;
 	private:
 		void CookPositionNormalTangentBitangentTexture0(IGeometry* geometry, Graphics::IVertexArray*& va, Graphics::IIndexArray*& ia);
 		void CookPositionNormal(IGeometry* mesh, Graphics::IVertexArray*& _vb, Graphics::IIndexArray*& _ib);

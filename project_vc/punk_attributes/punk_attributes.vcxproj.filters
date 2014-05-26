@@ -154,6 +154,12 @@
     <ClCompile Include="..\..\source\attributes\camera\camera.cpp">
       <Filter>camera</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\attributes\stubs\file_stub.cpp">
+      <Filter>stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\stubs\text_attribute.cpp">
+      <Filter>stubs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\attributes\building.h" />
@@ -472,6 +478,21 @@
     <ClInclude Include="..\..\source\attributes\animation\ianimation.h">
       <Filter>animation</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\attributes\stubs\ifilestub.h">
+      <Filter>stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\stubs\module.h">
+      <Filter>stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\stubs\file_stub.h">
+      <Filter>stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\stubs\text_attribute.h">
+      <Filter>stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\stubs\itext_attribute.h">
+      <Filter>stubs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="water">
@@ -521,6 +542,9 @@
     </Filter>
     <Filter Include="camera">
       <UniqueIdentifier>{4dfa7d25-b918-4b87-a3ac-5d9eda026e97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stubs">
+      <UniqueIdentifier>{4d61cedd-d68c-4f05-9918-c9f0d13d50be}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

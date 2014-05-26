@@ -106,7 +106,7 @@ namespace Attributes
 		float m_specular_slope;
 		float m_translucency;				
 
-        PUNK_OBJECT_DEFAULT_IMPL3(Material)
+        PUNK_OBJECT_DEFAULT_IMPL(Material)
 	};
 
 	typedef std::map<Core::String, Material> Materials;

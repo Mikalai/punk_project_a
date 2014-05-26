@@ -41,7 +41,7 @@ namespace Attributes
 		mutable bool m_need_update{ true };
 
 	private:
-		PUNK_OBJECT_DEFAULT_IMPL3(Transform)
+		PUNK_OBJECT_DEFAULT_IMPL(Transform)
 	};
 }
 PUNK_ENGINE_END

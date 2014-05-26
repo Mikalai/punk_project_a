@@ -6,9 +6,11 @@ PUNK_ENGINE_BEGIN
 namespace Attributes {
 
 	void GeometryCooker::Cook(IGeometry* mesh, 
-		Graphics::IVertexArray* vb, 
-		Graphics::IIndexArray* ib) {
+		Graphics::IVertexArray*& vb, 
+		Graphics::IIndexArray*& ib) {
 
+		vb = nullptr;
+		ib = nullptr;
 		if (mesh->HasVertexPositions() && mesh->HasVertexTextureCoordinates() && mesh->HasVertexNormals())
 			CookPositionNormalTangentBitangentTexture0(mesh, vb, ib);
 		else if (mesh->HasVertexPositions() && mesh->HasVertexTextureCoordinates())

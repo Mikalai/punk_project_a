@@ -6,9 +6,9 @@
 
 //namespace Attributes
 //{
-//	Scene::Node* CreateNode(const Utility::WorldDesc& world_desc, Scene::Node* parent, const Utility::ObjectDesc* value)
+//	SceneModule::Node* CreateNode(const Utility::WorldDesc& world_desc, SceneModule::Node* parent, const Utility::ObjectDesc* value)
 //	{
-//		//std::unique_ptr<Scene::Node> node(new Scene::Node());
+//		//std::unique_ptr<SceneModule::Node> node(new SceneModule::Node());
 //		//node->SetName(value->m_name);
 //		//if (parent != nullptr)
 //		//{
@@ -38,7 +38,7 @@
 //		//	node->SetData(new Proxy(world_desc, *value));
 //		//	if (!value->m_mesh_desc->m_material_ref.empty())
 //		//	{
-//		//		std::unique_ptr<Scene::Node> mat_node(new Scene::Node);
+//		//		std::unique_ptr<SceneModule::Node> mat_node(new SceneModule::Node);
 //		//		try
 //		//		{
 //		//			out_message() << "Adding material to the scene graph" << std::endl;
@@ -62,7 +62,7 @@
 //		//	out_message() << "Adding reference to the scene graph" << std::endl;
 //		//	if (parent == nullptr)
 //		//		return (out_error() << "Can't create reference object because there is no parent to look for the reference" << std::endl, nullptr);
-//		//	Scene::Node* n = parent->GetChild(value->m_reference);
+//		//	SceneModule::Node* n = parent->GetChild(value->m_reference);
 //		//	if (!n)
 //		//		return (out_error() << "Can't create reference object because node " << value->m_reference << " has got no data stored in" << std::endl, nullptr);
 //		//	node->SetData(n->GetData());
@@ -90,7 +90,7 @@
 //		return nullptr;
 //	}
 
-//	bool World::Traverse(Scene::NodeVisitor* value) const
+//	bool World::Traverse(SceneModule::NodeVisitor* value) const
 //	{
 //		//value->PreEnter();
 //		//auto res = m_root->Apply(value);
@@ -101,7 +101,7 @@
 
 //	World::World(const Utility::WorldDesc& value)
 //	{
-//		/*m_root.reset(new Scene::Node);
+//		/*m_root.reset(new SceneModule::Node);
 		
 //		for (auto object : value.m_children)
 //		{

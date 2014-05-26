@@ -100,7 +100,7 @@ namespace Attributes {
 		Math::mat4 m_armature_offset;
 		bool m_need_update{ true };
 
-        PUNK_OBJECT_DEFAULT_IMPL3(Geometry)
+        PUNK_OBJECT_DEFAULT_IMPL(Geometry)
 	};    
 }
 PUNK_ENGINE_END

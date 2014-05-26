@@ -15,9 +15,9 @@
 //		World(const Utility::WorldDesc& value);
 //		virtual ~World();
 
-//		bool Traverse(Scene::NodeVisitor* value) const;
+//		bool Traverse(SceneModule::NodeVisitor* value) const;
 //	private:
-//		std::unique_ptr<Scene::Node> m_root;
+//		std::unique_ptr<SceneModule::Node> m_root;
 //	};
 //}
 //PUNK_ENGINE_END
