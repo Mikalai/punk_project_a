@@ -1,5 +1,6 @@
 #include <core/ifactory.h>
 #include <system/errors/module.h>
+#include "iprocessor.h"
 #include "scene_manager.h"
 
 PUNK_ENGINE_BEGIN
@@ -24,6 +25,17 @@ namespace SceneModule {
 	void CreateSceneManager(void** object) {
 		if (!object)
 			return;
+	}
+
+	void SceneManager::AddProcessor(IProcessor* processor) {
+		m_processors.push_back(processor);
+		processor->SetSceneManager(this);
+	}
+
+	void SceneManager::Update(int dt) {
+		for (auto i : m_processors){
+			i->Update(dt);
+		}
 	}
 
 	PUNK_REGISTER_CREATOR(IID_ISceneManager, Core::CreateInstance<SceneManager>);

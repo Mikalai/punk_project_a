@@ -2,22 +2,19 @@
 #define _H_IPROCESSOR
 
 #include <config.h>
+#include <core/iobject.h>
 
 PUNK_ENGINE_BEGIN
 namespace SceneModule {
-	
-	class CommandBase;
 
-	class IProcessor {
+	class ISceneManager;
+
+	DEFINE_PUNK_GUID(IID_IProcessor, "2E907E18-8D08-401E-9C83-0710D9CA0CA4");
+	
+	class IProcessor : public virtual Core::IObject {
 	public:
-		virtual void OnInitialize() = 0;
-		virtual void OnDestroy() = 0;
-		virtual void OnStartProcessing() = 0;
-		virtual void OnIdle(int dt) = 0;
-		virtual void OnInternalUpdate(CommandBase* task) = 0;
-		virtual void OnPreUpdate(CommandBase* command) = 0;
-		virtual void OnPostUpdate(CommandBase* command) = 0;
-		virtual void OnWaitProcessingComplete() = 0;
+		virtual void SetSceneManager(ISceneManager* manager) = 0;
+		virtual void Update(int dt) = 0;
 	};
 }
 PUNK_ENGINE_END

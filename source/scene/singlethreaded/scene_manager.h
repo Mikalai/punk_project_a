@@ -17,7 +17,10 @@ namespace SceneModule {
 		virtual ~SceneManager();
 		void QueryInterface(const Core::Guid& type, void** object) override;
 		IScene* GetScene() override;
+		void AddProcessor(IProcessor* processor) override;
+		void Update(int dt) override;
 	private:
+		std::vector<IProcessor*> m_processors;
 		IScene* m_scene{ nullptr };
 		System::ILogger* m_logger{ System::GetDefaultLogger() };
 		Core::IFactory* m_factory{ Core::GetFactory() };
