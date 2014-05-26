@@ -5,8 +5,7 @@ PUNK_ENGINE_BEGIN
 namespace AI
 {
     NaviMesh::NaviMesh()
-		: m_container{ this, Core::GetRootObject() } {
-    }
+	{}
 
     NaviMesh::~NaviMesh() {
     }
