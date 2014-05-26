@@ -4,14 +4,14 @@ SCENETEXT
     Transform
   }
   *entity_name {
-    NurbsPath.transform
+    Cube.001.transform
   }
   *node {
     *name {
-      Path
+      Static
     }
     *entity_name {
-      NurbsPath.path
+      Cube.001.static
     }
   }
 }

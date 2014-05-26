@@ -10,14 +10,14 @@
 #include <math/module.h>
 #include <core/module.h>
 #include <error/module.h>
-#include <scene/module.h>
+#include <scene/singlethreaded/module.h>
 #include <application/iapplication.h>
 
 using namespace Punk::Engine;
 
 //void f(){
-//	Scene::ISceneGraphUniquePtr scene = Punk::Engine::Scene::CreateSceneFromFile("c:\\Projects\\game\\dev\\punk_project_a\\data\\maps\\map1\\", "level_1.pmd");
-//	Loader::LoaderGraphProcessor* proc = new Loader::LoaderGraphProcessor;
+//	SceneModule::ISceneGraphUniquePtr scene = Punk::Engine::SceneModule::CreateSceneFromFile("c:\\Projects\\game\\dev\\punk_project_a\\data\\maps\\map1\\", "level_1.pmd");
+//	Loader::IoObserver* proc = new Loader::IoObserver;
 //	Render::RenderProcessor* render_proc = new Render::RenderProcessor;
 //
 //	System::ITimerUniquePtr timer = System::CreateTimer();

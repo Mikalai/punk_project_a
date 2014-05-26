@@ -3,7 +3,7 @@
 
 //#include "system/component/module.h"
 
-//namespace Loader
+//namespace IoModule
 //{
 //    class FontBuilder;
 

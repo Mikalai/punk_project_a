@@ -1,7 +1,7 @@
 //#include "font_manager_component.h"
 //#include "font_builder.h"
 
-//namespace Loader
+//namespace IoModule
 //{
 //    REGISTER_COMPONENT(FontManagerComponent, new FontManagerComponent, {""})
 

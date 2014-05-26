@@ -32,7 +32,7 @@ namespace Punk {
 				Splines m_splines;
 				float m_total_length;				
 
-				PUNK_OBJECT_DEFAULT_IMPL3(Curve);
+				PUNK_OBJECT_DEFAULT_IMPL(Curve);
 			};			
 		}
 	}
