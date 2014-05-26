@@ -37,7 +37,7 @@ namespace System
 
         __private::MouseImpl* impl;
 
-        PUNK_OBJECT_DEFAULT_IMPL3(Mouse)
+        PUNK_OBJECT_DEFAULT_IMPL(Mouse)
 	};
 }
 PUNK_ENGINE_END

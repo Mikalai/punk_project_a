@@ -22,7 +22,7 @@ namespace System
         bool (*GetKeyStates() override)[256];
         KeyboardImpl* impl;        
 
-		PUNK_OBJECT_DEFAULT_IMPL3(Keyboard)
+		PUNK_OBJECT_DEFAULT_IMPL(Keyboard)
 	};    
 }
 PUNK_ENGINE_END

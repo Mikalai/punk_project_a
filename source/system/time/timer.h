@@ -31,7 +31,7 @@ namespace System
 
         TimerImpl* impl {nullptr};
 
-		PUNK_OBJECT_DEFAULT_IMPL3(Timer)
+		PUNK_OBJECT_DEFAULT_IMPL(Timer)
     };
 }
 PUNK_ENGINE_END

@@ -36,7 +36,6 @@ namespace System
 
     Mouse::Mouse()
         : impl(new __private::MouseImpl)
-		, m_container{ this, Core::GetRootObject() }
 	{
         GetDefaultLogger()->Info("Mouse created");
 	}

@@ -50,7 +50,6 @@ namespace System
 
 	KeyMap::KeyMap()
 		: impl(new KeyMapImpl)
-		, m_container{ this, Core::GetRootObject() }
 	{
 	}
 

@@ -13,8 +13,7 @@ namespace System {
     };
 
 	Keyboard::Keyboard() 
-        : impl(new KeyboardImpl)
-		, m_container{ this, Core::GetRootObject() } {
+        : impl(new KeyboardImpl) {
         GetDefaultLogger()->Info("Keyboard created");
     }
 

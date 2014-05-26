@@ -5,8 +5,7 @@
 PUNK_ENGINE_BEGIN
 namespace System {
 
-    Window::Window()
-		: m_container{ this, Core::GetRootObject() }
+    Window::Window()		
     {
     }
 

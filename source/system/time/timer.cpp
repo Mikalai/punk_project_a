@@ -104,7 +104,6 @@ namespace System
 
     Timer::Timer()
         : impl(new TimerImpl)
-		, m_container{ this, Core::GetRootObject() }
     {
     }
 
