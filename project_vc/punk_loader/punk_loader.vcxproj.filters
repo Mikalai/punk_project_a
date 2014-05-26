@@ -555,6 +555,7 @@
     <ClInclude Include="..\..\source\loader\singlethreaded\io_observer.h">
       <Filter>singlethreaded</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\loader\module.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="serializer">
