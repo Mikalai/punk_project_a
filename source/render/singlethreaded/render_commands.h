@@ -16,20 +16,20 @@ namespace Render {
 		MeshCooked
 	};
 
-	struct CmdSetNewScene : public Scene::Command < RenderDomain, (int)RenderCommands::SetNewScene > {
-		Scene::ISceneGraph* graph{ nullptr };
+	struct CmdSetNewScene : public SceneModule::Command < RenderDomain, (int)RenderCommands::SetNewScene > {
+		SceneModule::ISceneGraph* graph{ nullptr };
 	};
 
-	struct CmdShow : public Scene::Command < RenderDomain, (int)RenderCommands::Show > {
+	struct CmdShow : public SceneModule::Command < RenderDomain, (int)RenderCommands::Show > {
 		bool visible{ true };
 	};
 
-	struct CmdCookMesh : public Scene::Command < RenderDomain, (int)RenderCommands::CookMesh > {
-		Scene::INode* node_with_data{ nullptr };
+	struct CmdCookMesh : public SceneModule::Command < RenderDomain, (int)RenderCommands::CookMesh > {
+		SceneModule::INode* node_with_data{ nullptr };
 	};
 
-	struct CmdMeshCooked : public Scene::Command < RenderDomain, (int)RenderCommands::MeshCooked > {
-		Scene::INode* node_with_data{ nullptr };
+	struct CmdMeshCooked : public SceneModule::Command < RenderDomain, (int)RenderCommands::MeshCooked > {
+		SceneModule::INode* node_with_data{ nullptr };
 		Graphics::IRenderable* renderable{ nullptr };
 	};
 }

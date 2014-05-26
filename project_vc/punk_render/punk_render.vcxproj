@@ -162,14 +162,17 @@
     <ClInclude Include="..\..\source\render\error\module.h" />
     <ClInclude Include="..\..\source\render\module.h" />
     <ClInclude Include="..\..\source\render\singlethreaded\irender_observer.h" />
+    <ClInclude Include="..\..\source\render\singlethreaded\irender_processor.h" />
     <ClInclude Include="..\..\source\render\singlethreaded\module.h" />
     <ClInclude Include="..\..\source\render\singlethreaded\render_cache.h" />
     <ClInclude Include="..\..\source\render\singlethreaded\render_commands.h" />
     <ClInclude Include="..\..\source\render\singlethreaded\render_observer.h" />
+    <ClInclude Include="..\..\source\render\singlethreaded\render_processor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\render\singlethreaded\render_commands.cpp" />
     <ClCompile Include="..\..\source\render\singlethreaded\render_observer.cpp" />
+    <ClCompile Include="..\..\source\render\singlethreaded\render_processor.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

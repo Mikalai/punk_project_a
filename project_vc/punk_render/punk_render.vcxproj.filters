@@ -20,6 +20,12 @@
     <ClInclude Include="..\..\source\render\singlethreaded\render_cache.h">
       <Filter>singlethreaded</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\render\singlethreaded\irender_processor.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\render\singlethreaded\render_processor.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="error">
@@ -34,6 +40,9 @@
       <Filter>singlethreaded</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\render\singlethreaded\render_observer.cpp">
+      <Filter>singlethreaded</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\render\singlethreaded\render_processor.cpp">
       <Filter>singlethreaded</Filter>
     </ClCompile>
   </ItemGroup>
