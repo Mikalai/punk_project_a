@@ -3,7 +3,7 @@
 #include "parse_anything.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader
+namespace IoModule
 {
     Core::IObject* ParsePunkFile(const Core::String& path)
     {

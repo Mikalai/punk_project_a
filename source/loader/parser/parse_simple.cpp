@@ -12,7 +12,7 @@
 #include "parser.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader
+namespace IoModule
 {
     ///	Returns false if couldn't find open bracket in the buffer
     bool CheckIntegrity(Core::Buffer& buffer)

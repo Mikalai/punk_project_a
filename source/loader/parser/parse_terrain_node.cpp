@@ -1,9 +1,9 @@
 //#include "parse_functions.h"
 //#include "../../scene/module.h"
 
-//namespace Loader
+//namespace IoModule
 //{
-//    bool ParseTerrainNode(Core::Buffer &buffer, Scene::TerrainNode &value)
+//    bool ParseTerrainNode(Core::Buffer &buffer, SceneModule::TerrainNode &value)
 //    {
 //        CHECK_START(buffer);
 //        while (1)

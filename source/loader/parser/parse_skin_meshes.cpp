@@ -3,7 +3,7 @@
 
 //#include "parse_functions.h"
 
-//namespace Loader
+//namespace IoModule
 //{
 //    bool ParseSkinMeshes(Core::Buffer& buffer)
 //    {

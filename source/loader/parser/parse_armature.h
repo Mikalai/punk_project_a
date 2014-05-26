@@ -6,7 +6,7 @@
 //PUNK_ENGINE_BEGIN
 //namespace Core { class Buffer; }
 //namespace Attributes { class Armature; }
-//namespace Loader {
+//namespace IoModule {
 //    extern bool ParseArmature(Core::Buffer& buffer, Attributes::Armature* armature);
 //    extern bool ParseArmatures(Core::Buffer& buffer);
 //}

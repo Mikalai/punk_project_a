@@ -4,7 +4,7 @@
 //#include "io_curve.h"
 //
 //PUNK_ENGINE_BEGIN
-//namespace Loader {
+//namespace IoModule {
 //    void SaveCurve(Core::Buffer* buffer, const Math::Curve& o)
 //    {
 //        unsigned size = o.GetSplines().size();

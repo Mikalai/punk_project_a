@@ -1,7 +1,7 @@
 //#include "../../virtual/data/static_geometry.h"
 //#include "parse_functions.h"
 
-//namespace Loader
+//namespace IoModule
 //{
 //    bool ParseStaticMeshes(Core::Buffer& buffer)
 //    {

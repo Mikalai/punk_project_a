@@ -6,7 +6,7 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes { class Terrain; }
 namespace Core { class Buffer; }
-namespace Loader {
+namespace IoModule {
     extern bool ParseMapDescription(Core::Buffer& buffer, Attributes::Terrain* terrain);
 }
 PUNK_ENGINE_END

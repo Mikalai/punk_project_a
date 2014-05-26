@@ -6,7 +6,7 @@
 PUNK_ENGINE_BEGIN
 namespace Core { class Buffer ;}
 namespace Attributes { class TerrainRawDataSource; }
-namespace Loader {
+namespace IoModule {
     extern bool ParseTerrainRawDataSource(Core::Buffer& buffer, Attributes::TerrainRawDataSource& source);
 }
 PUNK_ENGINE_END

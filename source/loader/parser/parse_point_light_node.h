@@ -5,9 +5,9 @@
 
 //PUNK_ENGINE_BEGIN
 //namespace Core { class Buffer; }
-//namespace Scene { class Node; }
-//namespace Loader {
-//PUNK_ENGINE_LOCAL bool ParsePointLightNode(Core::Buffer& buffer, Scene::Node* value);
+//namespace SceneModule { class Node; }
+//namespace IoModule {
+//PUNK_ENGINE_LOCAL bool ParsePointLightNode(Core::Buffer& buffer, SceneModule::Node* value);
 //}
 //PUNK_ENGINE_END
 

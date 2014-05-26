@@ -6,7 +6,7 @@
 //PUNK_ENGINE_BEGIN
 //namespace Core { class Buffer; }
 //namespace Attributes { class SkinGeometry; }
-//namespace Loader {
+//namespace IoModule {
 //    extern bool ParseSkinMesh(Core::Buffer& buffer, Attributes::SkinGeometry* geometry);
 //}
 //PUNK_ENGINE_END

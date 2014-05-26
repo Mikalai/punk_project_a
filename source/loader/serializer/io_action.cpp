@@ -5,7 +5,7 @@
 //#include "io_action.h"
 //
 //PUNK_ENGINE_BEGIN
-//namespace Loader {
+//namespace IoModule {
 //    void SaveAction(Core::Buffer *buffer, const Core::IObject *o)
 //    {
 //        SaveObject(buffer, o);

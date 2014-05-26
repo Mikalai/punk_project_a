@@ -3,7 +3,7 @@
 #include "parse_rotation_track.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader
+namespace IoModule
 {
     bool ParseAnimation(Core::Buffer& buffer, void* object)
     {

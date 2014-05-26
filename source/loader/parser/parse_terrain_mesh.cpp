@@ -4,7 +4,7 @@
 #include "parse_terrain_mesh.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader {
+namespace IoModule {
 
     bool ParseTerrainMesh(Core::Buffer& buffer, Attributes::TerrainMesh& value)
     {

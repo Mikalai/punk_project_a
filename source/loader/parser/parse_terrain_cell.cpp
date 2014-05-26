@@ -5,7 +5,7 @@
 #include "parse_terrain_cell.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader
+namespace IoModule
 {
     bool ParseTerrainCell(Core::Buffer& buffer, Attributes::TerrainCell& cell)
     {

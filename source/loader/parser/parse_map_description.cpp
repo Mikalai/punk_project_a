@@ -5,7 +5,7 @@
 #include "parse_map_description.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader
+namespace IoModule
 {
     bool ParseMapDescription(Core::Buffer& buffer, Attributes::Terrain* terrain)
     {

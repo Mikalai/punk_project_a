@@ -4,7 +4,7 @@
 #include "parser.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader
+namespace IoModule
 {
     bool ParseBone(Core::Buffer& buffer, void* object)
     {

@@ -3,7 +3,7 @@
 #include "parse_simple.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader {
+namespace IoModule {
 
 	PUNK_ENGINE_LOCAL bool ParseTransform(Core::Buffer &buffer, void* object) {
 

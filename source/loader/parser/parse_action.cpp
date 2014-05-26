@@ -5,7 +5,7 @@
 //#include "parse_action.h"
 //
 //PUNK_ENGINE_BEGIN
-//namespace Loader
+//namespace IoModule
 //{
 //    bool ParseAction(Core::Buffer& buffer, Attributes::Action* action)
 //    {

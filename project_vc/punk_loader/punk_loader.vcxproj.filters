@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\..\source\loader\async_parser.cpp" />
-    <ClCompile Include="..\..\source\loader\loader_cache.cpp" />
-    <ClCompile Include="..\..\source\loader\loader_graph_processor.cpp" />
-    <ClCompile Include="..\..\source\loader\path_finder.cpp" />
     <ClCompile Include="..\..\source\loader\serializer\io_action.cpp">
       <Filter>serializer</Filter>
     </ClCompile>
@@ -251,21 +247,32 @@
     <ClCompile Include="..\..\source\loader\parser\parse_transform.cpp">
       <Filter>parser</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\loader\loader_commands.cpp" />
-    <ClCompile Include="..\..\source\loader\loader_tasks.cpp" />
     <ClCompile Include="..\..\source\loader\parser\parse_geometry.cpp">
       <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\loader\parser\parse_light.cpp">
       <Filter>parser</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\loader\singlethreaded\async_parser.cpp">
+      <Filter>singlethreaded</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\singlethreaded\loader_cache.cpp">
+      <Filter>singlethreaded</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\singlethreaded\loader_commands.cpp">
+      <Filter>singlethreaded</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\singlethreaded\loader_tasks.cpp">
+      <Filter>singlethreaded</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\singlethreaded\path_finder.cpp">
+      <Filter>singlethreaded</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\singlethreaded\io_observer.cpp">
+      <Filter>singlethreaded</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\source\loader\async_parser.h" />
-    <ClInclude Include="..\..\source\loader\loader_cache.h" />
-    <ClInclude Include="..\..\source\loader\loader_graph_processor.h" />
-    <ClInclude Include="..\..\source\loader\module.h" />
-    <ClInclude Include="..\..\source\loader\path_finder.h" />
     <ClInclude Include="..\..\source\loader\serializer\io_action.h">
       <Filter>serializer</Filter>
     </ClInclude>
@@ -521,13 +528,33 @@
     <ClInclude Include="..\..\source\loader\parser\parse_transform.h">
       <Filter>parser</Filter>
     </ClInclude>
-    <ClInclude Include="parse_transform.h" />
-    <ClInclude Include="..\..\source\loader\loader_commands.h" />
-    <ClInclude Include="..\..\source\loader\loader_tasks.h" />
     <ClInclude Include="..\..\source\loader\parser\parse_geometry.h">
       <Filter>parser</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\loader\iloader_processor.h" />
+    <ClInclude Include="..\..\source\loader\singlethreaded\async_parser.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\singlethreaded\loader_cache.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\singlethreaded\loader_commands.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\singlethreaded\loader_tasks.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\singlethreaded\module.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\singlethreaded\path_finder.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\singlethreaded\iio_observer.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\loader\singlethreaded\io_observer.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="serializer">
@@ -538,6 +565,9 @@
     </Filter>
     <Filter Include="error">
       <UniqueIdentifier>{239858c3-37d1-48bc-8db7-0c8b153b24bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="singlethreaded">
+      <UniqueIdentifier>{d1e53cee-fb2d-4e1c-89cb-03631734a51b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

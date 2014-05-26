@@ -5,7 +5,7 @@
 //#include "io_skin_geometry.h"
 //
 //PUNK_ENGINE_BEGIN
-//namespace Loader {
+//namespace IoModule {
 //    void SaveSkinGeometry(Core::Buffer* buffer, const Core::IObject* object)
 //    {
 //        SaveGeometry(buffer, object);

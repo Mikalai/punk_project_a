@@ -8,7 +8,7 @@
 //    class Buffer;
 //    class IObject;
 //}
-//namespace Loader {
+//namespace IoModule {
 //    void SaveHumanArmature(Core::Buffer *buffer, const Core::IObject *o);
 //    void LoadHumanArmature(Core::Buffer *buffer, Core::IObject *o);
 //    void SaveHumanMaleArmature(Core::Buffer *buffer, const Core::IObject *o);

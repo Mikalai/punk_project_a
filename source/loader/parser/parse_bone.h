@@ -6,7 +6,7 @@
 //PUNK_ENGINE_BEGIN
 //namespace Core { class Buffer; }
 //namespace Attributes { class Bone; }
-//namespace Loader {
+//namespace IoModule {
 //    extern bool ParseBone(Core::Buffer& buffer, Attributes::Bone* bone);
 //}
 //PUNK_ENGINE_END

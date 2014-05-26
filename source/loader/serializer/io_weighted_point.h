@@ -10,7 +10,7 @@ namespace Core {
 namespace Math {
     class WeightedPoint;
 }
-namespace Loader {
+namespace IoModule {
     void SaveWeightedPoint(Core::Buffer* buffer, const Math::WeightedPoint& value);
     void LoadWeightedPoint(Core::Buffer* buffer, Math::WeightedPoint& value);
 }

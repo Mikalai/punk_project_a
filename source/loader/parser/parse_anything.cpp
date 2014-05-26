@@ -6,7 +6,7 @@
 #include "parser.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader
+namespace IoModule
 {
     Core::IObject* ParseAnything(Core::Buffer& buffer)
     {		
@@ -100,8 +100,8 @@ namespace Loader
             }*/
             case WORD_SCENETEXT:
             {
-				Scene::ISceneGraph* graph{ nullptr };
-				Core::GetFactory()->CreateInstance(Scene::IID_ISceneGraph, (void**)&graph);
+				SceneModule::IScene* graph{ nullptr };
+				Core::GetFactory()->CreateInstance(SceneModule::IID_IScene, (void**)&graph);
 				parser->Parse(WORD_SCENE_GRAPH, buffer, graph);
 				return graph;
             }

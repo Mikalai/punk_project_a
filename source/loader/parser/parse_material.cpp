@@ -4,7 +4,7 @@
 #include "parser.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader
+namespace IoModule
 {
 	bool ParseMaterial(Core::Buffer& buffer, void* object)
 	{
@@ -179,7 +179,7 @@ namespace Loader
 		return false;
 	}
 
-	//    bool ParseMaterials(Core::Buffer& buffer, Scene::SceneGraph*)
+	//    bool ParseMaterials(Core::Buffer& buffer, SceneModule::Scene*)
 	//    {
 	//        CHECK_START(buffer);
 	//        Core::String name;

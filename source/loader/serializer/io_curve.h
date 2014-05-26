@@ -10,7 +10,7 @@
 //namespace Math {
 //    class Curve;
 //}
-//namespace Loader {
+//namespace IoModule {
 //    void SaveCurve(Core::Buffer* buffer, const Math::Curve& o);
 //    void LoadCurve(Core::Buffer* buffer, Math::Curve& o);
 //}

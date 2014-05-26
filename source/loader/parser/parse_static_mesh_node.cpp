@@ -1,9 +1,9 @@
 //#include "../../scene/module.h"
 //#include "parse_functions.h"
 
-//namespace Loader
+//namespace IoModule
 //{
-//    bool ParseStaticMeshNode(Core::Buffer& buffer, Scene::StaticMeshNode* mesh)
+//    bool ParseStaticMeshNode(Core::Buffer& buffer, SceneModule::StaticMeshNode* mesh)
 //    {
 //        CHECK_START(buffer);
 //        while (!buffer.IsEnd())

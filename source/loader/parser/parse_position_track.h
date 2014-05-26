@@ -7,7 +7,7 @@
 //
 //PUNK_ENGINE_BEGIN
 //namespace Core { class Buffer; }
-//namespace Loader {
+//namespace IoModule {
 //    extern bool ParsePositionTrack(Core::Buffer& buffer, Attributes::AnimationTrack<Math::vec3>& track);
 //}
 //PUNK_ENGINE_END

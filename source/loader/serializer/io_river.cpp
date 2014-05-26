@@ -6,7 +6,7 @@
 //#include "io_river.h"
 //
 //PUNK_ENGINE_BEGIN
-//namespace Loader {
+//namespace IoModule {
 //    void SaveRiver(Core::Buffer *buffer, const Core::IObject *o)
 //    {
 //        SaveObject(buffer, o);

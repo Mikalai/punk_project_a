@@ -6,7 +6,7 @@
 //PUNK_ENGINE_BEGIN
 //namespace Core { class Buffer; }
 //namespace Attributes { class StaticGeometry; }
-//namespace Loader {
+//namespace IoModule {
 //extern bool ParseStaticMesh(Core::Buffer& buffer, Attributes::StaticGeometry* geometry);
 //}
 //PUNK_ENGINE_END

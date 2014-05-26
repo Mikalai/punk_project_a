@@ -4,14 +4,14 @@
 #include <config.h>
 
 PUNK_ENGINE_BEGIN
-namespace Scene {
-    class SceneGraph;
+namespace SceneModule {
+    class Scene;
 }
 namespace Core {
     class Buffer;
 }
-namespace Loader {
-    extern bool ParseWorld(Core::Buffer& buffer, Scene::SceneGraph* scene);                           
+namespace IoModule {
+    extern bool ParseWorld(Core::Buffer& buffer, SceneModule::Scene* scene);                           
 }
 PUNK_ENGINE_END
 

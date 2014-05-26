@@ -7,7 +7,7 @@
 //
 //PUNK_ENGINE_BEGIN
 //using namespace Attributes;
-//namespace Loader {
+//namespace IoModule {
 //    void SaveArmature(Core::Buffer *buffer, const Core::IObject* o)
 //    {
 //        SaveObject(buffer, 0);

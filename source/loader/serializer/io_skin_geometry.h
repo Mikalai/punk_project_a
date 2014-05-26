@@ -8,7 +8,7 @@
 //    class Buffer;
 //    class IObject;
 //}
-//namespace Loader {
+//namespace IoModule {
 //    void SaveSkinGeometry(Core::Buffer* buffer, const Core::IObject* object);
 //    void LoadSkinGeometry(Core::Buffer* buffer, Core::IObject* object);
 //}

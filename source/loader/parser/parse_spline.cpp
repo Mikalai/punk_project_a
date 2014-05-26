@@ -5,7 +5,7 @@
 #include "parse_spline.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader
+namespace IoModule
 {
     bool ParseSpline(Core::Buffer &buffer, void* object)
     {

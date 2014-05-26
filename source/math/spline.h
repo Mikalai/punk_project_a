@@ -28,7 +28,7 @@ namespace Punk {
 				std::vector<WeightedPoint> m_points;
 				float m_total_length;
 
-				PUNK_OBJECT_DEFAULT_IMPL3(Spline)
+				PUNK_OBJECT_DEFAULT_IMPL(Spline)
 			};
 		}
 	}

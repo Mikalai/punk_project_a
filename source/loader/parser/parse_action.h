@@ -7,7 +7,7 @@
 //namespace Core {
 //    class Buffer;
 //}
-//namespace Loader {    
+//namespace IoModule {    
 //    extern bool ParseActions(Core::Buffer& buffer);
 //    extern bool ParseAction(Core::Buffer& buffer, Attributes::Action* action);
 //}

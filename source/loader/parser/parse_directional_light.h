@@ -10,7 +10,7 @@
 //namespace Core {
 //    class Buffer;
 //}
-//namespace Loader {
+//namespace IoModule {
 //    extern bool ParseDirectionalLight(Core::Buffer& buffer, Attributes::DirectionalLight* value);
 //}
 //PUNK_ENGINE_END

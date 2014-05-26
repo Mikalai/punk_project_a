@@ -5,7 +5,7 @@
 #include "serializer.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader {
+namespace IoModule {
 
     std::map<std::int64_t, void (*)(Core::Buffer*, const Core::IObject*)> g_savers;
     std::map<std::int64_t, void (*)(Core::Buffer*, Core::IObject*)> g_loader;

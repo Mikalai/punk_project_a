@@ -5,7 +5,7 @@
 //#include "io_curve_path.h"
 //
 //PUNK_ENGINE_BEGIN
-//namespace Loader {
+//namespace IoModule {
 //    void SaveCurvePath(Core::Buffer *buffer, const Core::IObject *o)
 //    {
 //        SaveObject(buffer, o);

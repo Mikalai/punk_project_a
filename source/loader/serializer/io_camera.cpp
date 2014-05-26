@@ -2,7 +2,7 @@
 //#include "io_object.h"
 //
 //PUNK_ENGINE_BEGIN
-//namespace Loader {
+//namespace IoModule {
 //    void SaveCamera(Core::Buffer* buffer, const Core::IObject* value)
 //    {
 //        SaveObject(buffer, value);

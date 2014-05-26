@@ -3,7 +3,7 @@
 #include "io_matrix.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader {
+namespace IoModule {
     void SaveMatrix4f(Core::Buffer* buffer, const Math::mat4& value) {
         for (int i = 0; i < 16; ++i)
             buffer->WriteReal32(value[i]);

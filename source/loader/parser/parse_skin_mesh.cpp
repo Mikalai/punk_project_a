@@ -5,7 +5,7 @@
 //#include "parse_skin_mesh.h"
 //
 //PUNK_ENGINE_BEGIN
-//namespace Loader
+//namespace IoModule
 //{
 //    bool ParseSkinMesh(Core::Buffer& buffer, Attributes::IGeometry* geometry)
 //    {

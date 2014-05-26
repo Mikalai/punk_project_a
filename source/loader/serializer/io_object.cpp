@@ -3,7 +3,7 @@
 //#include "io_object.h"
 //
 //PUNK_ENGINE_BEGIN
-//namespace Loader {
+//namespace IoModule {
 //    void SaveObject(Core::Buffer* buffer, const Core::IObject* o) {
 //        buffer->WriteSigned64(o->GetType()->GetId());
 //    }

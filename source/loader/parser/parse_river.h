@@ -6,7 +6,7 @@
 PUNK_ENGINE_BEGIN
 namespace Core { class Buffer; }
 namespace Attributes { class River; }
-namespace Loader {
+namespace IoModule {
     PUNK_ENGINE_LOCAL bool ParseRiver(Core::Buffer& buffer, Attributes::River& value);
 }
 PUNK_ENGINE_END

@@ -8,7 +8,7 @@
 //    class Buffer;
 //    class IObject;
 //}
-//namespace Loader {
+//namespace IoModule {
 //    void SaveCamera(Core::Buffer* buffer, const Core::IObject* value);
 //    void LoadCamera(Core::Buffer* buffer, Core::IObject* value);
 //}

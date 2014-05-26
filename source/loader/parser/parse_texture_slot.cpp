@@ -5,7 +5,7 @@
 #include "parser.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader
+namespace IoModule
 {
 	template<class T>
     bool ParseTextureSlot(Core::Buffer& buffer, void* object)

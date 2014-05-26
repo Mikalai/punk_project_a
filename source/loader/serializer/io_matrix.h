@@ -10,7 +10,7 @@ namespace Core {
 namespace Math {
     class mat4;
 }
-namespace Loader {
+namespace IoModule {
     void SaveMatrix4f(Core::Buffer* buffer, const Math::mat4& value);
     void LoadMatrix4f(Core::Buffer* buffer, Math::mat4& value);
 }

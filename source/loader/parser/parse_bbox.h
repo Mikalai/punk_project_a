@@ -5,7 +5,7 @@
 PUNK_ENGINE_BEGIN
 namespace Core { class Buffer; }
 namespace Math { class BoundingBox; }
-namespace Loader {
+namespace IoModule {
     extern bool ParseBoundingBox(Core::Buffer& buffer, Math::BoundingBox& value);
 }
 PUNK_ENGINE_END

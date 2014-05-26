@@ -7,7 +7,7 @@
 //
 //PUNK_ENGINE_BEGIN
 //namespace Core { class Buffe; }
-//namespace Loader {
+//namespace IoModule {
 //    extern bool ParseRotationTrack(Core::Buffer& buffer, Attributes::AnimationTrack<Math::quat>& track);
 //}
 //PUNK_ENGINE_END

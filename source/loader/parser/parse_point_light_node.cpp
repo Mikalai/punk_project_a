@@ -1,9 +1,9 @@
 //#include "../../virtual/data/lights/point_light.h"
 //#include "parse_functions.h"
 
-//namespace Loader
+//namespace IoModule
 //{
-//    bool ParsePointLightNode(Core::Buffer& buffer, Scene::PointLightNode* value)
+//    bool ParsePointLightNode(Core::Buffer& buffer, SceneModule::PointLightNode* value)
 //    {
 //        CHECK_START(buffer);
 //        std::unique_ptr<Attributes::PointLight> light(new Attributes::PointLight);

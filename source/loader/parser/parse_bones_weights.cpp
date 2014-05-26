@@ -4,7 +4,7 @@
 #include <utility>
 
 PUNK_ENGINE_BEGIN
-namespace Loader
+namespace IoModule
 {
 	bool ParseBonesWeights(Core::Buffer& buffer, void* object) {
 

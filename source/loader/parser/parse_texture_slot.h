@@ -6,7 +6,7 @@
 //PUNK_ENGINE_BEGIN
 //namespace Core { class Buffer; }
 //namespace Attributes { class TextureSlot; }
-//namespace Loader {
+//namespace IoModule {
 //    PUNK_ENGINE_LOCAL bool ParseTextureSlot(Core::Buffer& buffer, Attributes::TextureSlot& value);
 //}
 //PUNK_ENGINE_END

@@ -4,9 +4,9 @@
 //#include <config.h>
 //PUNK_ENGINE_BEGIN
 //namespace Core { class Buffer; }
-//namespace Scene { class INode; }
-//namespace Loader {
-//    PUNK_ENGINE_LOCAL bool ParseSceneNode(Core::Buffer& buffer, Scene::INode* node);
+//namespace SceneModule { class INode; }
+//namespace IoModule {
+//    PUNK_ENGINE_LOCAL bool ParseSceneNode(Core::Buffer& buffer, SceneModule::INode* node);
 //}
 //PUNK_ENGINE_END
 //

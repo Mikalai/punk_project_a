@@ -4,7 +4,7 @@
 #include "io_terrain_cell.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader {
+namespace IoModule {
     void SaveTerrainCell(Core::Buffer *buffer, const Attributes::TerrainCell* cell)
     {
         SaveVector2i(buffer, cell->GetLocation());

@@ -1,9 +1,9 @@
 //#include "../../virtual/data/material.h"
 //#include "parse_functions.h"
 
-//namespace Loader
+//namespace IoModule
 //{
-//    bool ParseMaterials(Core::Buffer& buffer, Scene::SceneGraph*)
+//    bool ParseMaterials(Core::Buffer& buffer, SceneModule::Scene*)
 //    {
 //        CHECK_START(buffer);
 //        Core::String name;

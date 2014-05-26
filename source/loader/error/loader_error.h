@@ -4,7 +4,7 @@
 #include <system/errors/module.h>
 
 PUNK_ENGINE_BEGIN
-namespace Loader {
+namespace IoModule {
     namespace Error {
         class PUNK_ENGINE_API LoaderException : public System::Error::SystemException {
             using System::Error::SystemException::SystemException;

@@ -6,7 +6,7 @@
 //#include <string/module.h>
 //
 //PUNK_ENGINE_BEGIN
-//namespace Loader {
+//namespace IoModule {
 //    bool ParseBonesWeights(Core::Buffer& buffer, std::vector<std::pair<int, float>>);
 //}
 //PUNK_ENGINE_END

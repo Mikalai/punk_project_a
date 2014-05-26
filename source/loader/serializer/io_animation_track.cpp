@@ -3,7 +3,7 @@
 #include "io_animation_track.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader {
+namespace IoModule {
     using namespace Attributes;
 
     void LoadAnimationTrack(Core::Buffer *buffer, AnimationTrack<Math::quat> &value)

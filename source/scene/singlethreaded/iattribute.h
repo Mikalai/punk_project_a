@@ -19,11 +19,8 @@ namespace SceneModule {
         virtual void SetRawData(Core::IObject* value) = 0;
 
         template<typename T>
-		T* Get(const Core::Guid& type) {
-			T* object = nullptr;
-			GetRawData()->QueryInterface(type, (void**)&object);
-			if (object)
-				object->Release();
+		T* Get() {
+			T* object = dynamic_cast<T*>(GetRawData());
 			return object;
         }
 

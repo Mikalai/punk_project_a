@@ -8,7 +8,7 @@
 //    class Buffer;
 //    class IObject;
 //}
-//namespace Loader {
+//namespace IoModule {
 //    PUNK_ENGINE_API void SaveGeometry(Core::Buffer* buffer, const Core::IObject* o);
 //    PUNK_ENGINE_API void LoadGeometry(Core::Buffer* buffer, Core::IObject* o);
 //}

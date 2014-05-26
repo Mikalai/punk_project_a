@@ -2,7 +2,7 @@
 //#include "parse_textures.h"
 //
 //PUNK_ENGINE_BEGIN
-//namespace Loader
+//namespace IoModule
 //{
 //    bool ParseTextures(Core::Buffer& buffer, int& slot, std::vector<std::array<Math::vec2, 3>>& value)
 //    {

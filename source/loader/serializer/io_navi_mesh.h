@@ -8,7 +8,7 @@
 //    class Buffer;
 //    class IObject;
 //}
-//namespace Loader {
+//namespace IoModule {
 //    void SaveNaviMesh(Core::Buffer *buffer, const Core::IObject *o);
 //    void LoadNaviMesh(Core::Buffer *buffer, Core::IObject *o);
 //}

@@ -5,7 +5,7 @@
 //#include "io_static_geometry.h"
 //
 //PUNK_ENGINE_BEGIN
-//namespace Loader {
+//namespace IoModule {
 //
 //    void SaveStaticGeometry(Core::Buffer *buffer, const Core::IObject *o)
 //    {

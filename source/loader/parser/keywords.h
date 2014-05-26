@@ -5,7 +5,7 @@
 #include <string/module.h>
 
 PUNK_ENGINE_BEGIN
-namespace Loader
+namespace IoModule
 {	
 	enum KeywordCode
 	{		

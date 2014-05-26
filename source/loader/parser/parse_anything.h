@@ -8,7 +8,7 @@ namespace Core {
 	class IObject;
 	class Buffer;
 }
-namespace Loader {
+namespace IoModule {
 	extern Core::IObject* ParseAnything(Core::Buffer& buffer);
 }
 PUNK_ENGINE_END

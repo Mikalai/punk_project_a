@@ -3,7 +3,7 @@
 #include "parser.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader {
+namespace IoModule {
 	std::unique_ptr<Parser> g_parser;
 
 	Parser* GetDefaultParser() {

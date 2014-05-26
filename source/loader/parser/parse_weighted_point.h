@@ -6,7 +6,7 @@
 //PUNK_ENGINE_BEGIN
 //namespace Core { class Buffer; }
 //namespace Math { class WeightedPoint; }
-//namespace Loader {
+//namespace IoModule {
 //    extern bool ParseWeightedPoint(Core::Buffer& buffer, Math::WeightedPoint& value);
 //}
 //PUNK_ENGINE_END

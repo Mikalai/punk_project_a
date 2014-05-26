@@ -2,7 +2,7 @@
 #include "io_string.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader {
+namespace IoModule {
     void SaveString(Core::Buffer* buffer, const Core::String& value) {
         buffer->WriteString(value);
     }

@@ -1,9 +1,9 @@
 //#include "../../scene/module.h"
 //#include "parse_functions.h"
 
-//namespace Loader
+//namespace IoModule
 //{
-//    bool ParseMaterialNode(Core::Buffer& buffer, Scene::MaterialNode* material)
+//    bool ParseMaterialNode(Core::Buffer& buffer, SceneModule::MaterialNode* material)
 //    {
 //        CHECK_START(buffer);
 //        while (!buffer.IsEnd())
@@ -23,28 +23,28 @@
 //                break;
 //            case WORD_STATIC_MESH_NODE:
 //            {
-//                std::unique_ptr<Scene::StaticMeshNode> node(new Scene::StaticMeshNode);
+//                std::unique_ptr<SceneModule::StaticMeshNode> node(new SceneModule::StaticMeshNode);
 //                ParseStaticMeshNode(buffer, node.get());
 //                material->Add(node.release());
 //            }
 //                break;
 //            case WORD_SKIN_MESH_NODE:
 //            {
-//                std::unique_ptr<Scene::SkinMeshNode> node(new Scene::SkinMeshNode);
+//                std::unique_ptr<SceneModule::SkinMeshNode> node(new SceneModule::SkinMeshNode);
 //                ParseSkinMeshNode(buffer, node.get());
 //                material->Add(node.release());
 //            }
 //                break;
 //            case WORD_TRANSFORM_NODE:
 //            {
-//                std::unique_ptr<Scene::TransformNode> node(new Scene::TransformNode);
+//                std::unique_ptr<SceneModule::TransformNode> node(new SceneModule::TransformNode);
 //                ParseTransformNode(buffer, node.get());
 //                material->Add(node.release());
 //            }
 //                break;
 //            case WORD_MATERIAL_NODE:
 //            {
-//                std::unique_ptr<Scene::MaterialNode> node(new Scene::MaterialNode);
+//                std::unique_ptr<SceneModule::MaterialNode> node(new SceneModule::MaterialNode);
 //                ParseMaterialNode(buffer, node.get());
 //                material->Add(node.release());
 //            }

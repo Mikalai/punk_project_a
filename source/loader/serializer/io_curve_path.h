@@ -8,7 +8,7 @@
 //    class IObject;
 //    class Buffer;
 //}
-//namespace Loader {
+//namespace IoModule {
 //    void SaveCurvePath(Core::Buffer *buffer, const Core::IObject *o);
 //    void LoadCurvePath(Core::Buffer *buffer, Core::IObject *o);
 //}

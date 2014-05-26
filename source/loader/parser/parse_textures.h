@@ -9,7 +9,7 @@
 //
 //PUNK_ENGINE_BEGIN
 //namespace Core { class Buffer; }
-//namespace Loader {
+//namespace IoModule {
 //    bool ParseTextures(Core::Buffer& buffer, std::map<Core::String, std::vector<std::array<Math::vec2, 4>>>& value);
 //}
 //PUNK_ENGINE_END

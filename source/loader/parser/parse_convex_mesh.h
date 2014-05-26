@@ -7,7 +7,7 @@
 //namespace Math {
 //    class ConvexShapeMesh;
 //}
-//namespace Loader {
+//namespace IoModule {
 //    extern bool ParseConvexMesh(Core::Buffer& buffer, Math::ConvexShapeMesh& mesh);
 //}
 //PUNK_ENGINE_END

@@ -10,7 +10,7 @@ namespace Core
     class String;
     class IObject;
 }
-namespace Loader
+namespace IoModule
 {
     extern PUNK_ENGINE_API Core::IObject* ParsePunkFile(const Core::String& path);
 }

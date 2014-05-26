@@ -1,9 +1,9 @@
 #include "../../scene/module.h"
 #include "parse_functions.h"
 
-namespace Loader
+namespace IoModule
 {
-//    bool ParseLocationIndoor(Core::Buffer& buffer, Scene::LocationIndoorNode* location)
+//    bool ParseLocationIndoor(Core::Buffer& buffer, SceneModule::LocationIndoorNode* location)
 //    {
 //        CHECK_START(buffer);
 //        while (!buffer.IsEnd())
@@ -36,21 +36,21 @@ namespace Loader
 //                break;
 //            case WORD_MATERIAL_NODE:
 //            {
-//                std::unique_ptr<Scene::MaterialNode> node(new Scene::MaterialNode);
+//                std::unique_ptr<SceneModule::MaterialNode> node(new SceneModule::MaterialNode);
 //                ParseMaterialNode(buffer, node.get());
 //                location->Add(node.release());
 //            }
 //                break;
 //            case WORD_TRANSFORM_NODE:
 //            {
-//                std::unique_ptr<Scene::TransformNode> node(new Scene::TransformNode);
+//                std::unique_ptr<SceneModule::TransformNode> node(new SceneModule::TransformNode);
 //                ParseTransformNode(buffer, node.get());
 //                location->Add(node.release());
 //            }
 //                break;
 //            case WORD_PORTAL_NODE:
 //            {
-//                std::unique_ptr<Scene::PortalNode> node(new Scene::PortalNode);
+//                std::unique_ptr<SceneModule::PortalNode> node(new SceneModule::PortalNode);
 //                ParsePortalNode(buffer, node.get());
 //                location->Add(node.release());
 //            }
