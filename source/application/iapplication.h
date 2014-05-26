@@ -5,7 +5,7 @@
 #include <core/iobject.h>
 
 PUNK_ENGINE_BEGIN
-namespace Scene {
+namespace SceneModule {
 	class ISceneManager;
 }
 namespace Runtime {
@@ -14,7 +14,7 @@ namespace Runtime {
 
 	class IApplication : public virtual Core::IObject {
 	public:				
-		virtual Scene::ISceneManager* GetSceneManager() = 0;
+		virtual SceneModule::ISceneManager* GetSceneManager() = 0;
 		virtual void Run() = 0;
 	};
 }

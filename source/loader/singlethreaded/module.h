@@ -6,7 +6,7 @@
 //#include "descriptors/descriptors.h"
 //#include "async_parser.h"
 //#include "path_finder.h"
-#include "iloader_processor.h"
+#include "iio_observer.h"
 
 //#include "elements\terrain.h"
 //#include "utility_lod.h"

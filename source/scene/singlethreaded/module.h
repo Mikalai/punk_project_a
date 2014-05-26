@@ -5,5 +5,7 @@
 #include "iscene.h"
 #include "iscene_manager.h"
 #include "iscene_observer.h"
+#include "iprocessor.h"
+
 
 #endif	//	_H_PUNK_SCENE_MODULE

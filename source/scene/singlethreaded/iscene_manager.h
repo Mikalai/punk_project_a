@@ -3,6 +3,7 @@
 
 #include <config.h>
 #include <core/iobject.h>
+#include "iscene.h"
 #include "command.h"
 
 PUNK_ENGINE_BEGIN
@@ -10,14 +11,16 @@ namespace SceneModule {
 
 	class INode;
     class IScene;
-	class ISceneProcessor;
+	class IProcessor;
 
 	DEFINE_PUNK_GUID(IID_ISceneManager, "D8138AD5-F05C-4209-83CF-A21697E0547A");
 
     class ISceneManager : public virtual Core::IObject {
     public:
 		virtual IScene* GetScene() = 0;
-		
+		virtual void AddProcessor(IProcessor* processor) = 0;
+		virtual void Update(int dt) = 0;
+
 		//	processor notifications
 		//virtual void SceneChangeStarted(ISceneProcessor* value) = 0;
 		//virtual void SceneChangeComplete(ISceneProcessor* value) = 0;

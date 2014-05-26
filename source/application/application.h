@@ -14,17 +14,17 @@ namespace Runtime {
 		Application();
 		virtual ~Application();
 		void QueryInterface(const Core::Guid& type, void** object);
-		Scene::ISceneManager* GetSceneManager() override;
+		SceneModule::ISceneManager* GetSceneManager() override;
 		void Run() override;
 
 	private:
 		void LoadBasicModules();
 	public:
-		Scene::ISceneManager* m_scene_manager{ nullptr };
+		SceneModule::ISceneManager* m_scene_manager{ nullptr };
 		System::ILogger* m_logger{ System::GetDefaultLogger() };
 		Core::IFactory* m_factory{ Core::GetFactory() };
 
-		PUNK_OBJECT_DEFAULT_IMPL3(Application)
+		PUNK_OBJECT_DEFAULT_IMPL(Application)
 	};
 }
 PUNK_ENGINE_END

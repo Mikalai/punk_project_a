@@ -1,3 +1,4 @@
+#include <core/ifactory.h>
 #include <system/module.h>
 #include <render/module.h>
 #include <loader/module.h>
@@ -12,15 +13,19 @@ namespace Runtime {
 		LoadBasicModules();
 
 		m_logger->Info("Create application");
-		m_factory->CreateInstance(Scene::IID_ISceneManager, (void**)&m_scene_manager);
+		m_factory->CreateInstance(SceneModule::IID_ISceneManager, (void**)&m_scene_manager);
 
-		Loader::ILoaderProcessor* loader = nullptr;
-		m_factory->CreateInstance(Loader::IID_ILoaderProcessor, (void**)&loader);
-		m_scene_manager->AddProcessor(loader);
+		IoModule::IIoObserver* loader = nullptr;
+		m_factory->CreateInstance(IoModule::IID_IIoObserver, (void**)&loader);
+		m_scene_manager->GetScene()->AddObserver(loader);
 
-		Render::IRenderProcessor* render = nullptr;
-		m_factory->CreateInstance(Render::IID_ISceneProcessor, (void**)&render);
-		m_scene_manager->AddProcessor(render);
+		Render::IRenderObserver* render_observer = nullptr;
+		m_factory->CreateInstance(Render::IID_IRenderObserver, (void**)&render_observer);
+		m_scene_manager->GetScene()->AddObserver(render_observer);
+
+		Render::IRenderProcessor* render_processor = nullptr;
+		m_factory->CreateInstance(Render::IID_IRenderProcessor, (void**)&render_processor);
+		m_scene_manager->AddProcessor(render_processor);
 	}
 
 	Application::~Application() {
@@ -43,35 +48,25 @@ namespace Runtime {
 			}
 		}
 	}
-	Scene::ISceneManager* Application::GetSceneManager() {
+	SceneModule::ISceneManager* Application::GetSceneManager() {
 		return m_scene_manager;
 	}
 
 	void Application::Run() {
-		m_scene_manager->WaitComplete();
+		System::ITimer* timer = nullptr;
+		m_factory->CreateInstance(System::IID_ITimer, (void**)&timer);
+		while (true) {			
+			int dt = (int)timer->GetElapsedMiliseconds();
+			timer->Reset();
+			m_scene_manager->Update(dt);
+		}
 	}
 
 	void Application::QueryInterface(const Core::Guid& type, void** object) {
-		if (!object)
-			return;
-
-		if (type == Core::IID_IObject ||
-			type == IID_IApplication) {
-			*object = (void*)this;
-			AddRef();
-		}
-		else
-			*object = nullptr;
+		Core::QueryInterface(this, type, object, { IID_IApplication, Core::IID_IObject });
 	}
 
-	void CreateApplication(void** object) {
-		if (!object)
-			return;
-
-		*object = (void*)(new Application);
-	}
-
-	PUNK_REGISTER_CREATOR(IID_IApplication, CreateApplication);
+	PUNK_REGISTER_CREATOR(IID_IApplication, Core::CreateInstance<Application>);
 
 }
 PUNK_ENGINE_END
