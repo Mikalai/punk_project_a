@@ -18,9 +18,6 @@
     <ClCompile Include="..\..\source\scene\singlethreaded\node.cpp">
       <Filter>singlethreaded</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\scene\singlethreaded\scene_graph.cpp">
-      <Filter>singlethreaded</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\scene\singlethreaded\scene_helper.cpp">
       <Filter>singlethreaded</Filter>
     </ClCompile>
@@ -31,6 +28,9 @@
       <Filter>singlethreaded</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\scene\singlethreaded\scene_worker.cpp">
+      <Filter>singlethreaded</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\scene\singlethreaded\scene.cpp">
       <Filter>singlethreaded</Filter>
     </ClCompile>
   </ItemGroup>
@@ -68,9 +68,6 @@
     <ClInclude Include="..\..\source\scene\singlethreaded\node_state.h">
       <Filter>singlethreaded</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\scene\singlethreaded\scene_graph.h">
-      <Filter>singlethreaded</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\scene\singlethreaded\scene_helper.h">
       <Filter>singlethreaded</Filter>
     </ClInclude>
@@ -93,5 +90,8 @@
       <Filter>singlethreaded</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\scene\module.h" />
+    <ClInclude Include="..\..\source\scene\singlethreaded\scene.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -9,7 +9,7 @@ namespace SceneModule {
 	
 	class ISceneProcessor;
 
-	DEFINE_PUNK_GUID(IID_ISceneWorker, "F7365F8D-0B41-40B2-BA40-406490692F7F");
+	DECLARE_PUNK_GUID(IID_ISceneWorker, "F7365F8D-0B41-40B2-BA40-406490692F7F");
 
 	class ISceneWorker : public virtual Core::IObject {
 	public:

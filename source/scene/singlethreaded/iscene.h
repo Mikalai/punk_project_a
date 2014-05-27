@@ -14,7 +14,7 @@ namespace SceneModule {
 	class IAttribute;
 	class ISceneObserver;
 
-	DEFINE_PUNK_GUID(IID_IScene, "3BA9C2DB-27C9-42BD-B3CC-AAEF16A91E19");
+	DECLARE_PUNK_GUID(IID_IScene, "3BA9C2DB-27C9-42BD-B3CC-AAEF16A91E19");
 
     class IScene : public virtual Core::IObject {
     public:

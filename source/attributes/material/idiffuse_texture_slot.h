@@ -7,7 +7,7 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes {
 
-	DEFINE_PUNK_GUID(IID_IDiffuseTextureSlot, "5E07C8F2-AC4A-41A8-8507-5F25749BAE09");
+	DECLARE_PUNK_GUID(IID_IDiffuseTextureSlot, "5E07C8F2-AC4A-41A8-8507-5F25749BAE09");
 
 	class IDiffuseTextureSlot : public virtual ITextureSlot {
 	public:

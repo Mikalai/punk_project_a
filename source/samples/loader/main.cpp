@@ -68,4 +68,5 @@ int main() {
 	catch (Core::Error::Exception& e) {
 		System::GetDefaultLogger()->Error("Fatal error");
 	}
+	getchar();
 }

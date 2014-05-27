@@ -6,7 +6,7 @@
 PUNK_ENGINE_BEGIN
 namespace Render {
 
-	DEFINE_PUNK_GUID(IID_IRenderProcessor, "3E4A2D17-923C-4E40-ADE5-A2551884BC96");
+	DECLARE_PUNK_GUID(IID_IRenderProcessor, "3E4A2D17-923C-4E40-ADE5-A2551884BC96");
 
 	class PUNK_ENGINE_LOCAL IRenderProcessor : public SceneModule::IProcessor {
 	public:

@@ -7,7 +7,9 @@
 #include "node.h"
 
 PUNK_ENGINE_BEGIN
-namespace SceneModule {
+namespace SceneModule {	
+
+	DEFINE_PUNK_GUID(IID_INode, "995D98AA-3787-4115-B445-496DA2E5067B");
 
 	Node::Node() {}
 
@@ -140,28 +142,14 @@ namespace SceneModule {
     }
 
 	void Node::QueryInterface(const Core::Guid& type, void** object) {
-		if (!object)
-			return;
-		if (type == Core::IID_IObject ||
-			type == IID_INode) {
-			*object = (void*)this;
-			AddRef();
-		}
-		else
-			*object = nullptr;
+		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_INode });		
 	}
 
 	void Node::AddChild(INode* node) {
 		m_children.push_back(node);
 	}
-
-	void CreateNode(void** node) {
-		if (!node)
-			return;
-		*node = (void*)(new (Node));
-	}
-
-	PUNK_REGISTER_CREATOR(IID_INode, CreateNode);
+		
+	PUNK_REGISTER_CREATOR(IID_INode, Core::CreateInstance<Node>);
 
 }
 PUNK_ENGINE_END

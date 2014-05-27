@@ -57,8 +57,6 @@ int main() {
 			return -1;
 		}
 
-		app->GetSceneManager()->
-
 		app->Run();
 	}
 	catch (System::Error::SystemException& e) {

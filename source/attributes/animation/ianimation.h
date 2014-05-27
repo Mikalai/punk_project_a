@@ -10,7 +10,7 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes {
 
-	DEFINE_PUNK_GUID(IID_IAnimation, "3B79F2D8-3FCA-4EDC-8DE2-F51B1E4BFA84");
+	DECLARE_PUNK_GUID(IID_IAnimation, "3B79F2D8-3FCA-4EDC-8DE2-F51B1E4BFA84");
 
 	class IAnimation : public virtual Core::IObject {
 	public:

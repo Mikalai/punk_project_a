@@ -6,8 +6,10 @@
 PUNK_ENGINE_BEGIN
 namespace SceneModule {
 
+	DEFINE_PUNK_GUID(IID_ISceneManager, "D8138AD5-F05C-4209-83CF-A21697E0547A");
+
 	SceneManager::SceneManager() {
-		m_factory->CreateInstance(IID_IScene, (void**)m_scene);
+		m_factory->CreateInstance(IID_IScene, (void**)&m_scene);
 	}
 
 	SceneManager::~SceneManager() {

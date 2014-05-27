@@ -11,7 +11,7 @@ namespace Math {
 	
 	class ISpline;
 
-	DEFINE_PUNK_GUID(IID_ICurve, "F5B0CB90-C275-4D02-A3E6-2852C1A40FA1");
+	DECLARE_PUNK_GUID(IID_ICurve, "F5B0CB90-C275-4D02-A3E6-2852C1A40FA1");
 
 	class ICurve : public virtual Core::IObject {
 	public:

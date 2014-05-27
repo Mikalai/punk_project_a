@@ -13,7 +13,7 @@ namespace SceneModule {
 	class IScene;
 	class ISceneManager;
 
-	DEFINE_PUNK_GUID(IID_ISceneProcessor, "C9E4809F-5BC3-4B9F-A58F-F38C84CC473C");
+	DECLARE_PUNK_GUID(IID_ISceneProcessor, "C9E4809F-5BC3-4B9F-A58F-F38C84CC473C");
 
     class ISceneObserver : public virtual Core::IObject {
     public:		

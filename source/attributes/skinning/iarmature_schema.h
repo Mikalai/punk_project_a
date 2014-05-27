@@ -12,7 +12,7 @@ namespace Attributes {
 	
 	class IBone;
 
-	DEFINE_PUNK_GUID(IID_IArmatureSchema, "3D4368D1-471B-43FE-BCAF-51E389775B3E");
+	DECLARE_PUNK_GUID(IID_IArmatureSchema, "3D4368D1-471B-43FE-BCAF-51E389775B3E");
 
 	class IArmatureSchema : public virtual Core::IObject {
 	public:

@@ -69,6 +69,8 @@ namespace IoModule {
 	void IoObserver::OnAttributeRemoved(SceneModule::INode* node, SceneModule::IAttribute* attribute) {
 
 	}
+
+	PUNK_REGISTER_CREATOR(IID_IIoObserver, Core::CreateInstance<IoObserver>);
 }
 
 PUNK_ENGINE_END

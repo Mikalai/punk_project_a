@@ -17,7 +17,7 @@ namespace Attributes {
 	class Action;
 	class IArmatureSchema;
 
-	DEFINE_PUNK_GUID(IID_IArmature, "A67EECF9-EC55-4830-93BA-3BDE1207B332");
+	DECLARE_PUNK_GUID(IID_IArmature, "A67EECF9-EC55-4830-93BA-3BDE1207B332");
 
 	class IArmature : public virtual Core::IObject {
 	public:

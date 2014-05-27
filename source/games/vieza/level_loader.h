@@ -1,7 +1,7 @@
 #ifndef _H_LEVEL_LOADER
 #define _H_LEVEL_LOADER
 
-#include <scene/iscene_processor.h>
+#include <scene/module.h>
 
 using namespace Punk::Engine;
 

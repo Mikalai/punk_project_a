@@ -7,7 +7,7 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes {
 
-	DEFINE_PUNK_GUID(IID_IFileStub, "FC0CCDCD-D26B-4BDE-A72B-A671C7A98450");
+	DECLARE_PUNK_GUID(IID_IFileStub, "FC0CCDCD-D26B-4BDE-A72B-A671C7A98450");
 
 	class IFileStub : public virtual Core::IObject {
 	public:

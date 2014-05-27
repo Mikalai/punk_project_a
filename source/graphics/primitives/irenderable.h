@@ -12,7 +12,7 @@
 PUNK_ENGINE_BEGIN
 namespace Graphics {
 
-	DEFINE_PUNK_GUID(IID_IRenderable, "ED9AECD3-AC54-4F10-99E1-1A2AE3D8B6BE");
+	DECLARE_PUNK_GUID(IID_IRenderable, "ED9AECD3-AC54-4F10-99E1-1A2AE3D8B6BE");
 
     class IRenderable : public virtual Core::IObject {
 	public:

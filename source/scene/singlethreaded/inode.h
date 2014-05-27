@@ -15,7 +15,7 @@ namespace SceneModule {
 
     class IScene;
 
-	DEFINE_PUNK_GUID(IID_INode, "995D98AA-3787-4115-B445-496DA2E5067B");
+	DECLARE_PUNK_GUID(IID_INode, "995D98AA-3787-4115-B445-496DA2E5067B");
 
     class INode : public virtual Core::IObject {
     public:

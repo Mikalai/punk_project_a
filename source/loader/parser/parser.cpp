@@ -13,8 +13,13 @@ namespace IoModule {
 	}
 
 	void Parser::AddParser(KeywordCode code, ParseFunction parser) {
-		System::GetDefaultLogger()->Info("Add parser for " + GetKeyword(code));
-		m_parser[code] = parser;
+		try {
+			System::GetDefaultLogger()->Info("Add parser for " + GetKeyword(code));
+			m_parser[code] = parser;
+		}
+		catch (Error::LoaderException& e) {
+			System::GetDefaultLogger()->Error("Failed to register parser. " + e.Message() + ". " + e.GetStack());
+		}
 	}
 
 	void Parser::RemoveParser(KeywordCode code) {

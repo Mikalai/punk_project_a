@@ -8,6 +8,8 @@
 PUNK_ENGINE_BEGIN
 namespace Runtime {
 
+	DEFINE_PUNK_GUID(IID_IApplication, "8F21934D-2557-4FC1-8875-B018221BCA60");
+
 	Application::Application() {
 
 		LoadBasicModules();
@@ -34,14 +36,17 @@ namespace Runtime {
 	}
 
 	void Application::LoadBasicModules() {
-		std::vector<Core::String> modules{ { L"punk_scene", L"punk_attributes", L"punk_ai", L"punk_application", L"punk_core",
-			L"punk_error", L"punk_font", L"punk_graphics", L"punk_image", L"punk_loader",
+		std::vector<Core::String> modules{ { L"punk_loader", L"punk_scene", L"punk_attributes", L"punk_ai", L"punk_application", L"punk_core",
+			L"punk_error", L"punk_font", L"punk_graphics", L"punk_image", 
 			L"punk_math", L"punk_render", L"punk_string", L"punk_system" } };
 
 		for (auto& module : modules) {
 			try{
 				System::LoadModule(module);
 				m_logger->Info("Module loaded '" + module + "'");
+			}
+			catch (System::Error::SystemException& e) {
+				m_logger->Error("Can't load " + module + ". " + e.Message() + ". " + e.GetStack());
 			}
 			catch (...) {
 				m_logger->Error("Can't load " + module);

@@ -8,7 +8,7 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes {
 
-	DEFINE_PUNK_GUID(IID_IText, "023C889E-1706-45C1-B02A-0755C11D27DB");
+	DECLARE_PUNK_GUID(IID_IText, "023C889E-1706-45C1-B02A-0755C11D27DB");
 	
 	class IText : public virtual Core::IObject {
 	public:

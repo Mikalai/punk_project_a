@@ -12,6 +12,7 @@ namespace SceneModule
 {
     class PUNK_ENGINE_LOCAL Scene : public IScene {
     public:
+		Scene();
         virtual ~Scene();
 		void QueryInterface(const Core::Guid& type, void** object) override;
         void Lock() override;

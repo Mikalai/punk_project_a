@@ -10,7 +10,7 @@ namespace SceneModule {
 }
 namespace Runtime {
 
-	DEFINE_PUNK_GUID(IID_IApplication, "8F21934D-2557-4FC1-8875-B018221BCA60");
+	DECLARE_PUNK_GUID(IID_IApplication, "8F21934D-2557-4FC1-8875-B018221BCA60");
 
 	class IApplication : public virtual Core::IObject {
 	public:				

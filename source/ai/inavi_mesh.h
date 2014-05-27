@@ -13,7 +13,7 @@ namespace Math {
 }
 namespace AI {
 	
-	DEFINE_PUNK_GUID(IID_INaviMesh, "F8A31959-7761-4670-930C-D71850C4A6C2");
+	DECLARE_PUNK_GUID(IID_INaviMesh, "F8A31959-7761-4670-930C-D71850C4A6C2");
 
 	class INaviMesh : public virtual Core::IObject {
 	public:

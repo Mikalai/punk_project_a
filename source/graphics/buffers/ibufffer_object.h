@@ -10,7 +10,7 @@ namespace Graphics {
 
     class IVideoMemory;
 
-	DEFINE_PUNK_GUID(IID_IBufferObject, "471E1C90-5A9C-4790-9C09-5E575D195EBB");
+	DECLARE_PUNK_GUID(IID_IBufferObject, "471E1C90-5A9C-4790-9C09-5E575D195EBB");
 
     class IBufferObject : public virtual Core::IObject {
     public:

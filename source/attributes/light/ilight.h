@@ -8,7 +8,7 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes {
 
-	DEFINE_PUNK_GUID(IID_ILight, "37CE363B-3A53-4903-820C-00A3333371D1");
+	DECLARE_PUNK_GUID(IID_ILight, "37CE363B-3A53-4903-820C-00A3333371D1");
 
 	class ILight : public virtual Core::IObject{
 	public:

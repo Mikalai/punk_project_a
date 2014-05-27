@@ -7,7 +7,7 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes {
 
-	DEFINE_PUNK_GUID(IID_ISpecularIntensityTextureSlot, "5CB07BFC-9A2D-4E1D-BE45-58395FE4AC90");
+	DECLARE_PUNK_GUID(IID_ISpecularIntensityTextureSlot, "5CB07BFC-9A2D-4E1D-BE45-58395FE4AC90");
 
 	class ISpecularIntensityTextureSlot : public virtual ITextureSlot {
 	public:

@@ -2,22 +2,24 @@
 #include <attributes/stubs/module.h>
 #include <string/module.h>
 #include "iscene_observer.h"
-#include "scene_graph.h"
+#include "scene.h"
 #include "node.h"
 
 PUNK_ENGINE_BEGIN
 namespace SceneModule
 {
+
+	Scene::Scene() {
+		Core::GetFactory()->CreateInstance(IID_INode, (void**)&m_root);
+	}
+
+	Scene::~Scene() {
+		Core::DestroyObject(m_root);
+		m_root = nullptr;
+	}
+
 	void Scene::QueryInterface(const Core::Guid& type, void** object) {
-		if (!object)
-			return;
-		if (type == IID_IScene ||
-			type == Core::IID_IObject) {
-			*object = (void*)this;
-			AddRef();
-		}
-		else
-			*object = nullptr;
+		Core::QueryInterface(this, type, object, { IID_IScene, Core::IID_IObject });
 	}
 
     void Scene::Lock() {
@@ -26,12 +28,7 @@ namespace SceneModule
 
     void Scene::Unlock() {
         m_lock.Unlock();
-    }
-
-    Scene::~Scene() {
-        Core::DestroyObject(m_root);
-        m_root = nullptr;
-    }
+    }    
 
     INode* Scene::GetRoot() {
         return m_root;
@@ -119,13 +116,7 @@ namespace SceneModule
         return scene;
     }
 
-    void CreateScene(void** object) {
-		if (!object)
-			return;
-		*object = (void*)(new Scene);
-    }
-
-	PUNK_REGISTER_CREATOR(IID_IScene, CreateScene);
+	PUNK_REGISTER_CREATOR(IID_IScene, Core::CreateInstance<Scene>);
 
 }
 PUNK_ENGINE_END
