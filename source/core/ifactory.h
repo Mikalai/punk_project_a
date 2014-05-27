@@ -36,8 +36,9 @@ namespace Core {
 
 	template<class T>
 	void CreateInstance(void** object) {
-		if (!object)
-			return;
+		if (!object) {
+			throw Core::Error::CoreException(Core::String("Can't create instance, because object '") + typeid(T).name() + "' is null");
+		}			
 		*object = (void*)(new T{});
 	}	
 }

@@ -8,8 +8,9 @@ namespace Core {
 
 	void Factory::CreateInstance(const Guid& type, void** object) {
 		auto it = m_creators.find(type);
-		if (it == m_creators.end())
+		if (it == m_creators.end()) {
 			throw Error::CoreException("Creator not found for " + type.ToString());
+		}			
 		it->second(object);
 	}
 

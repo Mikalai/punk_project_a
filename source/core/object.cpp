@@ -6,6 +6,7 @@
 //
 PUNK_ENGINE_BEGIN
 namespace Core {
+	DEFINE_PUNK_GUID(IID_IObject, "B07B8739-46DA-41FF-80FB-02243DBC2D19");
 //
 //	Object::Object(IObject* parent) {
 //		ICompoundObject* o = nullptr;

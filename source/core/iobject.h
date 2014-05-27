@@ -14,7 +14,7 @@ namespace Core {
 	class String;
 	class Guid;
 
-	DEFINE_PUNK_GUID(IID_IObject, "B07B8739-46DA-41FF-80FB-02243DBC2D19");
+	DECLARE_PUNK_GUID(IID_IObject, "B07B8739-46DA-41FF-80FB-02243DBC2D19");
 
 	class IObject {
 	public:

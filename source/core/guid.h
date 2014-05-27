@@ -8,11 +8,15 @@
 PUNK_ENGINE_BEGIN
 namespace Core {
 
-#define DEFINE_PUNK_GUID(T,V) static const Core::Guid T{ V }
+#define DECLARE_PUNK_GUID(T,V) static const Core::Guid T{ V }
+#define DEFINE_PUNK_GUID(T,V) //extern "C" PUNK_ENGINE_API const Core::Guid T{ V }
 
 	class PUNK_ENGINE_API Guid {
 	public:
 		Guid();
+		~Guid();
+		Guid(const Guid& value);
+		Guid& operator = (const Guid& value);
 		Guid(const Core::String& value);
 		const Core::String ToString() const;
 		void* ToPointer();
