@@ -13,7 +13,7 @@ namespace Runtime {
 
 		Application();
 		virtual ~Application();
-		void QueryInterface(const Core::Guid& type, void** object);
+		void QueryInterface(const Core::Guid& type, void** object) override;
 		SceneModule::ISceneManager* GetSceneManager() override;
 		void Run() override;
 

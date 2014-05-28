@@ -57,6 +57,9 @@ int main() {
 			return -1;
 		}
 
+		Core::IObject* o = nullptr;
+		app->QueryInterface(Core::IID_IObject, (void**)&o);
+
 		app->Run();
 	}
 	catch (System::Error::SystemException& e) {
