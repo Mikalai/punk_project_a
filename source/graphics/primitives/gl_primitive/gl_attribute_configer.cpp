@@ -6,13 +6,13 @@ PUNK_ENGINE_BEGIN
 namespace Graphics {
 	namespace OpenGL {
 
-		template<typename V, typename T, typename ... Args>
-		struct Configure : public Configure < V, Args > {
-			Configure() {
-				GL_CALL(glVertexAttribPointer(T::Slot(), T::Components(), GL_FLOAT, GL_FALSE, sizeof(T),
-					(void*)Offset<V, T>::Value));
-			}
-		};
+		//template<typename V, typename T, typename ... Args>
+		//struct Configure : public Configure < V, Args > {
+		//	Configure() {
+		//		GL_CALL(glVertexAttribPointer(T::Slot(), T::Components(), GL_FLOAT, GL_FALSE, sizeof(T),
+		//			(void*)Offset<V, T>::Value));
+		//	}
+		//};
 	}
 }
 PUNK_ENGINE_END

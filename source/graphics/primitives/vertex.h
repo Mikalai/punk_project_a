@@ -10,6 +10,207 @@
 PUNK_ENGINE_BEGIN
 namespace Graphics
 {
+
+	template<std::uint32_t _offset, class Component> struct ComponentAccessor;
+
+	template<std::uint32_t _offset>
+	struct ComponentAccessor <_offset, VertexComponent::Position > {
+		Math::vec4 m_position;
+		static constexpr std::uint32_t PositionOffset() {
+			return _offset;
+		}
+	};
+
+	template<std::uint32_t _offset>
+	struct ComponentAccessor <_offset, VertexComponent::Color > {
+		Math::vec4 m_color;
+		static constexpr std::uint32_t ColorOffset() {
+			return _offset;
+		}
+	};
+
+	template<std::uint32_t _offset>
+	struct ComponentAccessor < _offset, VertexComponent::Normal > {
+		Math::vec4 m_normal;
+		static constexpr std::uint32_t NormalOffset() {
+			return _offset;
+		}
+	};
+
+	template<std::uint32_t _offset>
+	struct ComponentAccessor < _offset, VertexComponent::Tangent > {
+		Math::vec4 m_tangent;
+		static constexpr std::uint32_t TangentOffset() {
+			return _offset;
+		}
+	};
+
+	template<std::uint32_t _offset>
+	struct ComponentAccessor < _offset, VertexComponent::Bitangent > {
+		Math::vec4 m_bitangent;
+		static constexpr std::uint32_t BitangentOffset() {
+			return _offset;
+		}
+	};
+
+	template<std::uint32_t _offset>
+	struct ComponentAccessor < _offset, VertexComponent::Texture0 > {
+		Math::vec4 m_texture0;
+		static constexpr std::uint32_t Texture0Offset() {
+			return _offset;
+		}
+	};
+
+	template<std::uint32_t _offset>
+	struct ComponentAccessor < _offset, VertexComponent::Texture1 > {
+		Math::vec4 m_texture1;
+		static constexpr std::uint32_t Texture1Offset() {
+			return _offset;
+		}
+	};
+
+	template<std::uint32_t _offset>
+	struct ComponentAccessor < _offset, VertexComponent::Texture2 > {
+		Math::vec4 m_texture2;
+		static constexpr std::uint32_t Texture2Offset() {
+			return _offset;
+		}
+	};
+
+	template<std::uint32_t _offset>
+	struct ComponentAccessor < _offset, VertexComponent::Texture3 > {
+		Math::vec4 m_texture3;
+		static constexpr std::uint32_t Texture3Offset() {
+			return _offset;
+		}
+	};
+
+	template<std::uint32_t _offset>
+	struct ComponentAccessor < _offset, VertexComponent::BoneID > {
+		Math::vec4 m_bone_id;
+		static constexpr std::uint32_t BoneId0Offset() {
+			return _offset;
+		}
+	};
+
+	template<std::uint32_t _offset>
+	struct ComponentAccessor < _offset, VertexComponent::BoneWeight > {
+		Math::vec4 m_bone_weight;
+		static constexpr std::uint32_t BoneWeightOffset() {
+			return _offset;
+		}
+	};
+
+	template<std::uint32_t _offset>
+	struct ComponentAccessor < _offset, VertexComponent::Flag > {
+		Math::vec4 m_flag;
+		static constexpr std::uint32_t FlagOffset() {
+			return _offset;
+		}
+	};
+
+	template<class V, class C> struct Offset;
+
+	template<class V>
+	class Offset < V, VertexComponent::Position > {
+		static constexpr int Value() {
+			return V::PositionOffset();
+		}
+	};
+
+	template<class V>
+	class Offset < V, VertexComponent::Normal > {
+		static constexpr int Value() {
+			return V::NormalOffset();
+		}
+	}; 
+
+	template<class V>
+	class Offset < V, VertexComponent::Tangent > {
+		static constexpr int Value() {
+			return V::TangentOffset();
+		}
+	};
+
+	template<class V>
+	class Offset < V, VertexComponent::Bitangent> {
+		static constexpr int Value() {
+			return V::BitangentOffset();
+		}
+	};
+
+	template<class V>
+	class Offset < V, VertexComponent::Color > {
+		static constexpr int Value() {
+			return V::ColorOffset();
+		}
+	};
+
+	template<class V>
+	class Offset < V, VertexComponent::Texture0 > {
+		static constexpr int Value() {
+			return V::Texture0Offset();
+		}
+	};
+
+	template<class V>
+	class Offset < V, VertexComponent::Texture1 > {
+		static constexpr int Value() {
+			return V::Texture1Offset();
+		}
+	};
+
+	template<class V>
+	class Offset < V, VertexComponent::Texture2 > {
+		static constexpr int Value() {
+			return V::Texture2Offset();
+		}
+	};
+
+	template<class V>
+	class Offset < V, VertexComponent::Texture3 > {
+		static constexpr int Value() {
+			return V::Texture3Offset();
+		}
+	};
+
+	template<class V>
+	class Offset < V, VertexComponent::BoneID > {
+		static constexpr int Value() {
+			return V::BoneIdOffset();
+		}
+	};
+
+	template<class V>
+	class Offset < V, VertexComponent::BoneWeight > {
+		static constexpr int Value() {
+			return V::BoneWeightOffset();
+		}
+	};
+
+	template<class V>
+	class Offset < V, VertexComponent::Flag > {
+		static constexpr int Value() {
+			return V::FlagOffset();
+		}
+	};
+
+	template<size_t _offset, std::uint64_t _value, typename ... Components> struct VertexBuilder;
+
+	template<size_t _offset, std::uint64_t _value, typename Component, typename ... Components>
+	struct VertexBuilder<_offset, _value, Component, Components...> : public ComponentAccessor<_offset, Component>, public VertexBuilder < _offset + Component::Size(), _value | Component::Value(), Components...>{
+	};
+
+	template<size_t _offset, std::uint64_t _value>
+	struct VertexBuilder<_offset, _value> {
+		static constexpr std::int64_t Value() {
+			return _value;
+		}
+	};
+
+	template<typename Component, typename ...Components>
+	struct Vertex : public VertexBuilder <0, 0, Component, Components... > {};
+
 //	template <typename T, typename M> M get_member_type(M T::*);
 //	template <typename T, typename M> T get_class_type(M T::*);
 //
@@ -45,7 +246,7 @@ namespace Graphics
 			bone weight	10
 			flags		11
 	*/
-	template<typename... Components> struct Vertex;
+	/*template<typename... Components> struct Vertex;
 	
 	template<> struct Vertex<VertexComponent::Position>
 	{
@@ -447,23 +648,8 @@ namespace Graphics
 		static constexpr size_t Texture0Offset() { return offsetof(T, m_texture0); }
 		static constexpr size_t BoneIDOffset() { return offsetof(T, m_bones_id); }
 		static constexpr size_t BoneWeightOffset() { return offsetof(T, m_bone_weights); }
-	};
-
-	template<class V, class C> struct Offset;
-
-	template<class V>
-	class Offset < V, VertexComponent::Position > {
-		static constexpr int Value() {
-			return V::PositionOffset();
-		}
-	};
-
-	template<class V>
-	class Offset < V, VertexComponent::Normal > {
-		static constexpr int Value() {
-			return V::NormalOffset();
-		}
-	};
+	};	
+	*/
 }
 PUNK_ENGINE_END
 
