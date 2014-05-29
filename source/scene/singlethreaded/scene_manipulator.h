@@ -12,7 +12,7 @@ namespace SceneModule {
 
 	class INode;
 
-	class ISceneManipulator : public virtual Core::IObject {
+	class ISceneManipulator : public Core::IObject {
 	public:
 		virtual void DestroyCurrentScene() = 0;
 		virtual void LoadSceneFromFile(const Core::String& filename);

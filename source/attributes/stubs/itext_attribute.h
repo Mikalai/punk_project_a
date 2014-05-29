@@ -10,7 +10,7 @@ namespace Attributes {
 
 	DECLARE_PUNK_GUID(IID_IText, "023C889E-1706-45C1-B02A-0755C11D27DB");
 	
-	class IText : public virtual Core::IObject {
+	class IText : public Core::IObject {
 	public:
 		virtual const Core::String GetText() const = 0;
 		virtual void SetText(const Core::String& value) = 0;

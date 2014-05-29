@@ -16,7 +16,7 @@ namespace SceneModule {
 
 	DECLARE_PUNK_GUID(IID_IScene, "3BA9C2DB-27C9-42BD-B3CC-AAEF16A91E19");
 
-    class IScene : public virtual Core::IObject {
+    class IScene : public Core::IObject {
     public:
         virtual void Lock() = 0;
         virtual void Unlock() = 0;

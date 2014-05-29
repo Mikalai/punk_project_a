@@ -11,7 +11,7 @@ namespace Attributes
 {
 	DECLARE_PUNK_GUID(IID_ITransform, "D5E28CA8-6751-46C3-8AE3-707FCFBF57A3");
 
-    class ITransform : public virtual Core::IObject {
+    class ITransform : public Core::IObject {
 	public:
 		virtual void SetMatrix(const Math::mat4& value) = 0;
 		virtual const Math::mat4& GetMatrix() const = 0;

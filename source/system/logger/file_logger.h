@@ -6,7 +6,7 @@
 //PUNK_ENGINE_BEGIN
 //namespace System
 //{
-//    class FileLogger : public virtual Logger
+//    class FileLogger : public Logger
 //    {
 //    public:
 //        FileLogger(const Core::String& filename);

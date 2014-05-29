@@ -15,7 +15,7 @@ namespace SceneModule {
 
 	DECLARE_PUNK_GUID(IID_ISceneManager, "D8138AD5-F05C-4209-83CF-A21697E0547A");
 
-    class ISceneManager : public virtual Core::IObject {
+    class ISceneManager : public Core::IObject {
     public:
 		virtual IScene* GetScene() = 0;
 		virtual void AddProcessor(IProcessor* processor) = 0;

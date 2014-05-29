@@ -1,3 +1,4 @@
+#include <stack>
 #include <core/ifactory.h>
 #include <core/iobject.h>
 #include <attributes/module.h>

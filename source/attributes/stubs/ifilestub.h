@@ -9,7 +9,7 @@ namespace Attributes {
 
 	DECLARE_PUNK_GUID(IID_IFileStub, "FC0CCDCD-D26B-4BDE-A72B-A671C7A98450");
 
-	class IFileStub : public virtual Core::IObject {
+	class IFileStub : public Core::IObject {
 	public:
 		virtual void SetFilename(const Core::String& value) = 0;
 		virtual const Core::String GetFilename() = 0;

@@ -14,7 +14,7 @@ namespace Attributes {
 
 	DECLARE_PUNK_GUID(IID_IArmatureSchema, "3D4368D1-471B-43FE-BCAF-51E389775B3E");
 
-	class IArmatureSchema : public virtual Core::IObject {
+	class IArmatureSchema : public Core::IObject {
 	public:
 		virtual std::uint32_t GetBonesCount() const = 0;
 		virtual IBone* GetBone(std::uint32_t index) = 0;

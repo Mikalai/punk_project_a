@@ -8,7 +8,7 @@
 
 PUNK_ENGINE_BEGIN
 namespace Runtime {
-	class PUNK_ENGINE_LOCAL Application : public virtual IApplication {
+	class PUNK_ENGINE_LOCAL Application : public IApplication {
 	public:
 
 		Application();

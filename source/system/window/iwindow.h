@@ -23,7 +23,7 @@ namespace System {
 
 	static const Core::Guid IID_IWindow{ "2CDB7400-50E8-4C02-B75D-DA9AA7524390" };
 
-    class IWindow : public virtual Core::IObject {
+    class IWindow : public Core::IObject {
     public:
 		virtual void Initialize(const WindowDescription& desc) = 0;
         virtual int GetDesktopWidth() const = 0;

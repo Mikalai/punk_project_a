@@ -19,7 +19,7 @@ namespace Attributes {
 
 	DECLARE_PUNK_GUID(IID_IArmature, "A67EECF9-EC55-4830-93BA-3BDE1207B332");
 
-	class IArmature : public virtual Core::IObject {
+	class IArmature : public Core::IObject {
 	public:
 		virtual const Math::vec3* GetBoneLocalPosition(std::uint32_t index) = 0;
 		virtual const Math::vec3* GetBoneGlobalPosition(std::uint32_t index) = 0;

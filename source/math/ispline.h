@@ -12,7 +12,7 @@ namespace Math {
 
 	class WeightedPoint;
 
-	class ISpline : public virtual Core::IObject {
+	class ISpline : public Core::IObject {
 	public:
 		virtual void AddPoint(const WeightedPoint& value) = 0;
 		virtual void AddPoints(const std::vector<WeightedPoint>& value) = 0;

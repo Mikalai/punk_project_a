@@ -47,7 +47,7 @@ namespace System
         HWND m_hwindow;
         bool m_use_parent_window;
         WindowDescription m_window_description;
-		ITimerUniquePtr m_timer{ nullptr, DestroyTimer };
+		ITimerUniquePtr m_timer{ nullptr, Core::DestroyObject };
 
         friend LRESULT CALLBACK WindowCallBack(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
     };	

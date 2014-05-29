@@ -9,7 +9,7 @@ namespace Attributes {
 
 	DECLARE_PUNK_GUID(IID_INormalTextureSlot, "B2F33B26-83ED-449F-8FD8-034775D51BB2");
 
-	class INormalTextureSlot : public virtual ITextureSlot {
+	class INormalTextureSlot : public ITextureSlot {
 	public:
 	};
 }

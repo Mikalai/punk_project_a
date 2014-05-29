@@ -52,7 +52,8 @@ namespace System {
 
     WindowWin::WindowWin()
     {
-		m_timer = CreateTimer();
+		m_timer = nullptr;
+		Core::GetFactory()->CreateInstance(System::IID_ITimer, (void**)&m_timer);
 	}
 
 	void WindowWin::Initialize(const WindowDescription& desc) {

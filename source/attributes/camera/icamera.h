@@ -12,7 +12,7 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-    class ICamera : public virtual Core::IObject
+    class ICamera : public Core::IObject
 	{
 	public:		
         const Math::mat4 GetProjectionMatrix();

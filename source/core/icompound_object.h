@@ -16,7 +16,7 @@ namespace Core {
 
 	DECLARE_PUNK_GUID(IID_ICompoundObject, "66607D07-9CD9-4BAD-9A65-1C4005F9E6E6");
 
-	class ICompoundObject : public virtual IObject {
+	class ICompoundObject : public IObject {
 	public:		
 		virtual void SetOwner(IObject* object) = 0;
 		virtual IObject* GetOwner() = 0;

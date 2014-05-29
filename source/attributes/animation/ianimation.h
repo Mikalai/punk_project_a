@@ -12,7 +12,7 @@ namespace Attributes {
 
 	DECLARE_PUNK_GUID(IID_IAnimation, "3B79F2D8-3FCA-4EDC-8DE2-F51B1E4BFA84");
 
-	class IAnimation : public virtual Core::IObject {
+	class IAnimation : public Core::IObject {
 	public:
 		virtual void AddPositionKey(int frame, Math::vec3& position) = 0;
 		virtual void AddRotationKey(int frame, Math::quat& rotation) = 0;

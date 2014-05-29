@@ -11,7 +11,7 @@ namespace Attributes
 {
 	DECLARE_PUNK_GUID(IID_ITextureSlot, "6040A5FF-D45D-467E-A17D-AF165F5D3CAC");
 
-	class ITextureSlot : public virtual Core::IObject
+	class ITextureSlot : public Core::IObject
 	{
 	public:
 		virtual void SetScale(const Math::vec3& value) = 0;

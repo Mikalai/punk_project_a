@@ -453,7 +453,7 @@ namespace Attributes {
 				vb[index].m_tangent.Set(tgn[0], tgn[1], tgn[2], det);
 				vb[index].m_bitangent.Set(btn[0], btn[1], btn[2], 0);
 
-				CookOneVertexWithBone(mesh, (*f)[j], vb[index].m_bones_id, vb[index].m_bone_weights);
+				CookOneVertexWithBone(mesh, (*f)[j], vb[index].m_bone_id, vb[index].m_bone_weight);
 
 				base_index.push_back((*f)[j]);
 				index++;

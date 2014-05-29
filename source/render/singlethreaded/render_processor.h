@@ -1,3 +1,4 @@
+#include <graphics/module.h>
 #include "irender_processor.h"
 
 PUNK_ENGINE_BEGIN
@@ -11,7 +12,7 @@ namespace Render {
 
 	private:
 		SceneModule::ISceneManager* m_manager{ nullptr };
-
+		Graphics::IVideoDriver* m_driver{ nullptr };
 		PUNK_OBJECT_DEFAULT_IMPL(RenderProcessor);
 	};
 }

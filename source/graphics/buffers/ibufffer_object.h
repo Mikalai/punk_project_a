@@ -12,7 +12,7 @@ namespace Graphics {
 
 	DECLARE_PUNK_GUID(IID_IBufferObject, "471E1C90-5A9C-4790-9C09-5E575D195EBB");
 
-    class IBufferObject : public virtual Core::IObject {
+    class IBufferObject : public Core::IObject {
     public:
         virtual void Create(const void* data, std::uint32_t m_size) = 0;
         virtual void Destroy() = 0;

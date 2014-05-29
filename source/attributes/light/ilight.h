@@ -10,7 +10,7 @@ namespace Attributes {
 
 	DECLARE_PUNK_GUID(IID_ILight, "37CE363B-3A53-4903-820C-00A3333371D1");
 
-	class ILight : public virtual Core::IObject{
+	class ILight : public Core::IObject{
 	public:
 		virtual void SetEnergy(float value) = 0;
 		virtual float GetEnergy() const = 0;
