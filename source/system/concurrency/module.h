@@ -2,7 +2,7 @@
 #define _H_SYSTEM_CONCURRENCY_MODULE
 
 #include "thread.h"
-#include "thread_pool.h"
+#include "ithread_pool.h"
 #include "semaphore.h"
 #include "thread_mutex.h"
 #include "process.h"

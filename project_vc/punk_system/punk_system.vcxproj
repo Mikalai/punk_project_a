@@ -164,6 +164,7 @@
     <ClInclude Include="..\..\source\system\commands\cmd_create_timer.h" />
     <ClInclude Include="..\..\source\system\concurrency\atomic.h" />
     <ClInclude Include="..\..\source\system\concurrency\atomicint.h" />
+    <ClInclude Include="..\..\source\system\concurrency\ithread_pool.h" />
     <ClInclude Include="..\..\source\system\concurrency\module.h" />
     <ClInclude Include="..\..\source\system\concurrency\monitor.h" />
     <ClInclude Include="..\..\source\system\concurrency\monitor_scope.h" />
