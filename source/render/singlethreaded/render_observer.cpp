@@ -6,7 +6,7 @@
 #include "render_observer.h"
 
 PUNK_ENGINE_BEGIN
-namespace Render {
+namespace LowLevelRender {
 
 	RenderObserver::RenderObserver() {}
 	RenderObserver::~RenderObserver() {}

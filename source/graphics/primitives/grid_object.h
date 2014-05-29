@@ -18,7 +18,7 @@
 //
 //        virtual void Bind(int64_t) override;
 //        virtual void Unbind() override;
-//        virtual void Render() override;
+//        virtual void LowLevelRender() override;
 //
 //	private:
 //		GridObject(const GridObject& quad) = delete;

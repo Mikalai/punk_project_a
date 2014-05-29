@@ -4,7 +4,7 @@
 #include <config.h>
 #include <scene/module.h>
 PUNK_ENGINE_BEGIN
-namespace Render {
+namespace LowLevelRender {
 
 	DECLARE_PUNK_GUID(IID_IRenderProcessor, "3E4A2D17-923C-4E40-ADE5-A2551884BC96");
 

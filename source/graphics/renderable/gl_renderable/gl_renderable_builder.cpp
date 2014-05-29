@@ -267,7 +267,7 @@ namespace Graphics
             ValidateEnd();
 
             //m_current_frame->BeginRendering();
-            //m_current_frame->Render(renderable);
+            //m_current_frame->LowLevelRender(renderable);
             //m_current_frame->EndRendering();
         }
 

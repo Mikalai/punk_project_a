@@ -1,5 +1,7 @@
 #include <math/vec2.h>
 #include <math/mat4.h>
+#include <core/ifactory.h>
+#include <graphics/error/module.h>
 #include <graphics/frame_buffer/module.h>
 #include <graphics/render/render_context/irender_context.h>
 #include <system/logger/module.h>
@@ -9,23 +11,69 @@
 
 PUNK_ENGINE_BEGIN
 namespace Graphics {
-    Render::Render(IVideoDriver* driver)
-    : m_driver{driver}
-    {
-        m_queue = new RenderQueue();
+
+
+	void LowLevelRender::QueryInterface(const Core::Guid& type, void** object) {
+		if (!object)
+			return;
+
+		if (type == Core::IID_IObject) {
+			*object = (void*)(Core::IObject*)this;
+			AddRef();
+			return;
+		}
+		else if (type == IID_ILowLevelRender) {
+			*object = (void*)(ILowLevelRender*)this;
+			AddRef();
+			return;
+		}
+	}
+
+	std::uint32_t LowLevelRender::AddRef() {
+		m_ref_count.fetch_add(1);
+		return m_ref_count;
+	}
+
+	std::uint32_t LowLevelRender::Release() {
+		if (!m_ref_count.fetch_sub(1)) {
+			delete this; \
+		}
+		return m_ref_count;
+	}
+
+    LowLevelRender::LowLevelRender()
+    {        
     }
 
-    Render::~Render()
+	void LowLevelRender::Initialize(IVideoDriver* driver) {
+		if (!m_initialized) {
+			m_driver = driver;
+			m_queue = new RenderQueue();
+			m_initialized = true;
+		}
+	}
+
+	void LowLevelRender::AssertInitialized() {
+		if (!m_initialized)
+			throw Error::GraphicsException("Not initialized");
+	}
+
+    LowLevelRender::~LowLevelRender()
     {
         m_driver = nullptr;
-		delete m_queue;
+		if (m_queue) {
+			delete m_queue;
+			m_queue = nullptr;
+		}
     }
 
-    IVideoDriver* Render::GetVideoDriver() {
+    IVideoDriver* LowLevelRender::GetVideoDriver() {
+		AssertInitialized();
         return m_driver;
     }
 
-    const Math::vec2 Render::FindZRange(const Math::mat4& view) {
+    const Math::vec2 LowLevelRender::FindZRange(const Math::mat4& view) {
+		AssertInitialized();
         float min = std::numeric_limits<float>::infinity();
         float max = -std::numeric_limits<float>::infinity();
 
@@ -43,13 +91,17 @@ namespace Graphics {
         return Math::vec2(min, max);
     }
 
-	IFrame* Render::BeginFrame() {
-		if (!m_frame.get())
-			m_frame = CreateFrame(this);		
+	IFrame* LowLevelRender::BeginFrame() {
+		AssertInitialized();
+		if (!m_frame.get()) {			
+			Core::GetFactory()->CreateInstance(IID_IFrame, (void**)&m_frame);			
+			m_frame->SetRender(this);
+		}
 		return m_frame.get();
 	}
 
-	void Render::EndFrame() {
+	void LowLevelRender::EndFrame() {
+		AssertInitialized();
 //#ifdef _DEBUG
 //		System::ILogger* log = System::GetDefaultLogger();
 //		log->Info("Begin AsyncBeginRendering");
@@ -62,7 +114,7 @@ namespace Graphics {
 			auto& batches = m_queue->GetBatches(rc_code);
 //#ifdef _DEBUG
 //			if (!batches.empty())
-//				log->Info(L"Render " + RenderPolicySetToString(rc_code));
+//				log->Info(L"LowLevelRender " + RenderPolicySetToString(rc_code));
 //#endif
 			for (Batch* batch : batches) {
 				IRenderable* renderable = batch->m_renderable;
@@ -70,7 +122,7 @@ namespace Graphics {
 				rc->Begin();
 				rc->BindParameters(*state);
 				renderable->Bind();
-				renderable->Render();
+				renderable->LowLevelRender();
 				renderable->Unbind();
 				rc->End();
 			}
@@ -82,17 +134,13 @@ namespace Graphics {
 
 	}
 
-    void Render::SubmitBatch(Batch *batch) {
+    void LowLevelRender::SubmitBatch(Batch *batch) {
+		AssertInitialized();
         m_queue->Add(batch);
     }
 
-    extern PUNK_ENGINE_API IRenderUniquePtr CreateRender(IVideoDriver* driver) {
-        return IRenderUniquePtr{new Render(driver), DestroyRender};
-    }
+	PUNK_REGISTER_CREATOR(IID_ILowLevelRender, Core::CreateInstance<LowLevelRender>);
 
-    extern PUNK_ENGINE_API void DestroyRender(IRender* value) {
-        Render* r = dynamic_cast<Render*>(value);
-        delete r;
-    }
+    
 }
 PUNK_ENGINE_END

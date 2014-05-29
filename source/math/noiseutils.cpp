@@ -1070,7 +1070,7 @@ void RendererImage::ClearGradient ()
   m_gradient.Clear ();
 }
 
-void RendererImage::Render ()
+void RendererImage::LowLevelRender ()
 {
   if ( m_pSourceNoiseMap == NULL
     || m_pDestImage == NULL
@@ -1239,7 +1239,7 @@ Color RendererNormalMap::CalcNormalColor (double nc, double nr, double nu,
   return Color (xc, yc, zc, 0);
 }
 
-void RendererNormalMap::Render ()
+void RendererNormalMap::LowLevelRender ()
 {
   if ( m_pSourceNoiseMap == NULL
     || m_pDestImage == NULL

@@ -99,7 +99,7 @@ namespace Graphics {
                 for (RenderBufferConfig& depth_config : depth_configs)
                 {
                     FrameBufferConfig fb_config;
-                    Core::String root = color_config.Name() + " " + depth_config.Name();
+                    Core::String root = color_config.Name() + " " + depth_config.Name();					
                     fb_config.Name(root);
                     fb_config.ColorFormat(color_config.Format());
                     fb_config.DepthFormat(depth_config.Format());
@@ -110,6 +110,7 @@ namespace Graphics {
 
                     try
                     {
+						System::GetDefaultLogger()->Info("Check frame buffer config " + fb_config.Name());
                         GlFrameBuffer frame_buffer(driver);
                         frame_buffer.Config(fb_config);
                         value.push_back(fb_config);
@@ -138,6 +139,7 @@ namespace Graphics {
 
                             try
                             {
+								System::GetDefaultLogger()->Info("Check frame buffer config " + fb_config.Name());
                                 GlFrameBuffer frame_buffer(driver);
                                 frame_buffer.Config(fb_config);
                                 value.push_back(fb_config);
@@ -155,6 +157,7 @@ namespace Graphics {
 
                             try
                             {
+								System::GetDefaultLogger()->Info("Check frame buffer config " + fb_config.Name());
                                 GlFrameBuffer frame_buffer(driver);
                                 frame_buffer.Config(fb_config);
 

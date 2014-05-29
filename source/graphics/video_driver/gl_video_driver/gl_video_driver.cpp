@@ -1,4 +1,5 @@
 #include <string.h>
+#include <core/ifactory.h>
 #include <graphics/video_memory/module.h>
 #include <graphics/frame_buffer/gl_frame_buffer/module.h>
 #include <graphics/texture/module.h>
@@ -10,91 +11,131 @@
 
 PUNK_ENGINE_BEGIN
 namespace Graphics {
-    namespace OpenGL {
+	namespace OpenGL {
 
-        GlVideoDriver::GlVideoDriver(ICanvas* canvas)
-            : m_canvas(canvas)
-            , m_caps(new GlVideoDriverSettings(this))
-            , m_memory(dynamic_cast<VideoMemory*>(Constructor::GetVideoMemory()))
-        {
-            m_caps->Load();
-            InitVfs(this);
-            InitRenderContexts(this);            
-        }
+		void GlVideoDriver::QueryInterface(const Core::Guid& type, void** object) {
+			if (!object)
+				return;
 
-        GlVideoDriver::~GlVideoDriver(){
-            DestroyRenderContexts();
-            delete m_caps; m_caps = nullptr;
-            Constructor::DestroyVideoMemory();
-        }
+			if (type == Core::IID_IObject) {
+				*object = (void*)(Core::IObject*)(ICanvas*)this;
+				AddRef();
+				return;
+			}
+			else if (type == IID_IVideoDriver) {
+				*object = (void*)(IVideoDriver*)this;
+				AddRef();
+				return;
+			}
+		}
 
-        bool GlVideoDriver::IsExtensionSupported(const char *extList, const char *extension) {
-            const char *start;
-            const char *where, *terminator;
-            /* Extension names should not have spaces. */
-            where = strchr(extension, ' ');
-            if ( where || *extension == '\0' )
-                return false;
+		std::uint32_t GlVideoDriver::AddRef() {
+			m_ref_count.fetch_add(1);
+			return m_ref_count;
+		}
 
-            for ( start = extList; ; ) {
-                where = strstr( start, extension );
+		std::uint32_t GlVideoDriver::Release() {
+			if (!m_ref_count.fetch_sub(1)) {
+				delete this; \
+			}
+			return m_ref_count;
+		}
 
-                if ( !where )
-                    break;
 
-                terminator = where + strlen( extension );
+		GlVideoDriver::GlVideoDriver()
+		{}
 
-                if ( where == start || *(where - 1) == ' ' )
-                    if ( *terminator == ' ' || *terminator == '\0' )
-                        return true;
+		GlVideoDriver::~GlVideoDriver(){
+			DestroyRenderContexts();
+			delete m_caps; m_caps = nullptr;
+			/*Constructor::DestroyVideoMemory();*/
+		}
 
-                start = terminator;
-            }
+		void GlVideoDriver::Initialize(ICanvas* canvas) {
+			if (!m_initialized) {
+				m_initialized = true;
+				m_canvas = canvas;
+				m_caps = new GlVideoDriverSettings(this);
+				m_caps->Load();
+				InitVfs(this);
+				InitRenderContexts(this);
+			}
+		}
 
-            return false;
-        }
+		void GlVideoDriver::AssertInitialize() const {
+			if (!m_initialized)
+				throw Error::GraphicsException("Driver is not initialized");
+		}
 
-        OpenGL::VideoMemory* GlVideoDriver::GetVideoMemory() {
-            return m_memory;
-        }
+		bool GlVideoDriver::IsExtensionSupported(const char *extList, const char *extension) {
+			AssertInitialize();
+			const char *start;
+			const char *where, *terminator;
+			/* Extension names should not have spaces. */
+			where = strchr(extension, ' ');
+			if (where || *extension == '\0')
+				return false;
 
-        const OpenGL::VideoMemory* GlVideoDriver::GetVideoMemory() const {
-            return m_memory;
-        }
+			for (start = extList;;) {
+				where = strstr(start, extension);
 
-        ICanvas* GlVideoDriver::GetCanvas() {
-            return m_canvas;
-        }
+				if (!where)
+					break;
 
-        VirtualFileSystem* GlVideoDriver::GetVirtualFileSystem() {
-            return m_vfs;
-        }
+				terminator = where + strlen(extension);
 
-        const VirtualFileSystem* GlVideoDriver::GetVirtualFileSystem() const {
-            return m_vfs;
-        }
+				if (where == start || *(where - 1) == ' ')
+					if (*terminator == ' ' || *terminator == '\0')
+						return true;
 
-        IVideoDriverSettings* GlVideoDriver::GetSettings()
-        {
-            return m_caps;
-        }        
+				start = terminator;
+			}
 
-		IRender* GlVideoDriver::GetRender() {
-			if (!m_render.get())
-				m_render = CreateRender(this);
+			return false;
+		}
+
+		OpenGL::VideoMemory* GlVideoDriver::GetVideoMemory() {
+			AssertInitialize();
+			return m_memory;
+		}
+
+		const OpenGL::VideoMemory* GlVideoDriver::GetVideoMemory() const {
+			AssertInitialize();
+			return m_memory;
+		}
+
+		ICanvas* GlVideoDriver::GetCanvas() {
+			AssertInitialize();
+			return m_canvas;
+		}
+
+		VirtualFileSystem* GlVideoDriver::GetVirtualFileSystem() {
+			AssertInitialize();
+			return m_vfs;
+		}
+
+		const VirtualFileSystem* GlVideoDriver::GetVirtualFileSystem() const {
+			AssertInitialize();
+			return m_vfs;
+		}
+
+		IVideoDriverSettings* GlVideoDriver::GetSettings()
+		{
+			AssertInitialize();
+			return m_caps;
+		}
+
+		ILowLevelRender* GlVideoDriver::GetRender() {
+			AssertInitialize();
+			if (!m_render.get()) {
+				Core::GetFactory()->CreateInstance(IID_ILowLevelRender, (void**)&m_render);
+				m_render->Initialize(this);
+			}
 			return m_render.get();
 		}
-    }
-	
-	extern PUNK_ENGINE_API IVideoDriverUniquePtr CreateVideoDriver(ICanvas* canvas) {
-		IVideoDriverUniquePtr ptr{ new OpenGL::GlVideoDriver{ canvas }, DestroyVideoDriver };
-		return ptr;
 	}
 
-	extern PUNK_ENGINE_API void DestroyVideoDriver(IVideoDriver* driver) {
-		OpenGL::GlVideoDriver* d = dynamic_cast<OpenGL::GlVideoDriver*>(driver);
-		delete d;
-	}
+	PUNK_REGISTER_CREATOR(IID_IVideoDriver, Core::CreateInstance < OpenGL::GlVideoDriver>);
 }
 
 

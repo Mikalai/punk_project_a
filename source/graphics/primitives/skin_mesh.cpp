@@ -206,9 +206,9 @@
 //        impl->Unbind();
 //    }
 //
-//    void SkinMesh::Render()
+//    void SkinMesh::LowLevelRender()
 //    {
-//        impl->Render();
+//        impl->LowLevelRender();
 //    }
 //
 //    bool SkinMesh::HasData()

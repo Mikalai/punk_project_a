@@ -11,12 +11,25 @@ PUNK_ENGINE_BEGIN
 namespace Graphics {
 	namespace OpenGL {
 
+		template<typename... Args> struct AttributeConfigure;
+
+		template<typename V> struct AttributeConfigure<V> {
+			static void Apply() {}
+		};
+
 		template<typename V, typename T, typename ... Args>
-		struct AttributeConfigure : public AttributeConfigure < V, Args > {
-			AttributeConfigure() {
+		struct AttributeConfigure<V, T, Args...> : public AttributeConfigure < V, Args... > {
+			/*AttributeConfigure() {
 				GL_CALL(glVertexAttribPointer(T::Slot(), T::Components(), GL_FLOAT, GL_FALSE, sizeof(V),
 					(void*)Offset<V, T>::Value()));
 				GL_CALL(glEnableVertexAttribArray(T::Slot()));
+			}*/
+
+			static void Apply() {
+				GL_CALL(glVertexAttribPointer(T::Slot(), T::Components(), GL_FLOAT, GL_FALSE, sizeof(V),
+					(void*)Offset<V, T>::Value()));
+				GL_CALL(glEnableVertexAttribArray(T::Slot()));
+				AttributeConfigure < V, Args... >::Apply();
 			}
 		};
 	}

@@ -10,7 +10,7 @@
 #include "render_cache.h"
 
 PUNK_ENGINE_BEGIN
-namespace Render {
+namespace LowLevelRender {
 
 	class PUNK_ENGINE_API RenderObserver : public IRenderObserver {
 	public:

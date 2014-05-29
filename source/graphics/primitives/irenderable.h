@@ -18,7 +18,7 @@ namespace Graphics {
 	public:
         virtual void Bind() = 0;
         virtual void Unbind() = 0;
-        virtual void Render() = 0;
+        virtual void LowLevelRender() = 0;
         virtual std::uint64_t GetMemoryUsage() = 0;
         virtual bool HasData() const = 0;
 		virtual void Cook(IVertexArray* vb, IIndexArray* ib) = 0;

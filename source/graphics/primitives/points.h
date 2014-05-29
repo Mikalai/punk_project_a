@@ -14,7 +14,7 @@
 //    void Cook(const IVertexArray* value);\
 //    virtual void Bind(std::int64_t) override;\
 //    virtual void Unbind() override;\
-//    virtual void Render() override;\
+//    virtual void LowLevelRender() override;\
 //    virtual std::uint64_t GetMemoryUsage() override; \
 //    virtual bool HasData() const override; \
 //private:\

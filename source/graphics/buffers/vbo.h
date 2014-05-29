@@ -4,7 +4,7 @@
 #include <graphics/opengl/module.h>
 #include <graphics/primitives/vertex.h>
 #include <graphics/error/module.h>
-#include <graphics/primitives/gl_primitive/gl_attribute_configer.h>
+//#include <graphics/primitives/gl_primitive/gl_attribute_configer.h>
 #include "ibufffer_object.h"
 
 PUNK_ENGINE_BEGIN
@@ -120,11 +120,16 @@ namespace Graphics {
 			}
 
 			void CopyData(const void* data, std::uint32_t size) {
-				if (m_size < size)
-					throw OpenGLOutOfMemoryException(Core::String(L"Vertex buffer is to small {0} to hold {1}").arg(m_size).arg(size));
-				Bind();
-				GL_CALL(glBufferSubData(GL_ARRAY_BUFFER, 0, size, data));
-				Unbind();
+				if (m_index == 0) {
+					Create(data, size);
+				}
+				else {
+					if (m_size < size)
+						throw OpenGLOutOfMemoryException(Core::String(L"Vertex buffer is to small {0} to hold {1}").arg(m_size).arg(size));
+					Bind();
+					GL_CALL(glBufferSubData(GL_ARRAY_BUFFER, 0, size, data));
+					Unbind();
+				}
 			}			
 
 			GLuint m_index{ 0 };

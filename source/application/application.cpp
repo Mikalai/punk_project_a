@@ -21,12 +21,12 @@ namespace Runtime {
 		m_factory->CreateInstance(IoModule::IID_IIoObserver, (void**)&loader);
 		m_scene_manager->GetScene()->AddObserver(loader);
 
-		Render::IRenderObserver* render_observer = nullptr;
-		m_factory->CreateInstance(Render::IID_IRenderObserver, (void**)&render_observer);
+		LowLevelRender::IRenderObserver* render_observer = nullptr;
+		m_factory->CreateInstance(LowLevelRender::IID_IRenderObserver, (void**)&render_observer);
 		m_scene_manager->GetScene()->AddObserver(render_observer);
 
-		Render::IRenderProcessor* render_processor = nullptr;
-		m_factory->CreateInstance(Render::IID_IRenderProcessor, (void**)&render_processor);
+		LowLevelRender::IRenderProcessor* render_processor = nullptr;
+		m_factory->CreateInstance(LowLevelRender::IID_IRenderProcessor, (void**)&render_processor);
 		m_scene_manager->AddProcessor(render_processor);
 	}
 
@@ -169,7 +169,7 @@ PUNK_ENGINE_END
 //		m_event_manager->Process();
 //
 //        if (GetVideoDriver())
-//            Render();
+//            LowLevelRender();
 //	}
 //
 //	void Application::WndOnMouseMiddleButtonUpEvent(System::MouseMiddleButtonUpEvent* event)
@@ -338,7 +338,7 @@ PUNK_ENGINE_END
 //
 //	}
 //
-//    void Application::Render()
+//    void Application::LowLevelRender()
 //    {
 //        Gpu::VideoDriver* driver = GetVideoDriver();
 //        if (!driver)

@@ -127,8 +127,8 @@
 //        impl->Unbind();
 //    }
 //
-//    void CubeObject::Render()
+//    void CubeObject::LowLevelRender()
 //    {
-//        impl->Render();
+//        impl->LowLevelRender();
 //    }
 //}

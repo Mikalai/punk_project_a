@@ -67,7 +67,7 @@ namespace Graphics {
 
         void GlTexture2D::Clear()
         {
-			if (m_pbo->Release())
+			if (m_pbo && m_pbo->Release())
 				m_pbo = nullptr;
 
             if (m_texture_id)

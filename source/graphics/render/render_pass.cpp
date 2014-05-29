@@ -72,7 +72,7 @@ namespace Graphics {
             policy->Begin();
             policy->BindParameters(*state);
             renderable->Bind();
-            renderable->Render();
+            renderable->LowLevelRender();
             renderable->Unbind();
             policy->End();
        //     tc.Unbind();

@@ -16,7 +16,7 @@
 //		void Cook(float width, float height);
 //        virtual void Bind(int64_t) override;
 //        virtual void Unbind() override;
-//        virtual void Render() override;
+//        virtual void LowLevelRender() override;
 //
 //    private:
 //        QuadObject(const QuadObject&) = delete;

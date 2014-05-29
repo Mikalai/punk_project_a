@@ -15,7 +15,7 @@
 //        virtual ~Renderable();
 //        virtual void Bind(std::int64_t);
 //        virtual void Unbind();
-//        virtual void Render();
+//        virtual void LowLevelRender();
 //        virtual std::uint64_t GetMemoryUsage();
 //        virtual bool HasData() const;
 //		virtual void Cook(PrimitiveType type, IVertexArray* vb, IIndexArray* ib);

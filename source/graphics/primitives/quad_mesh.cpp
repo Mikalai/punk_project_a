@@ -81,8 +81,8 @@
 //        impl->Unbind();
 //    }
 //
-//    void QuadObject::Render()
+//    void QuadObject::LowLevelRender()
 //    {
-//        impl->Render();
+//        impl->LowLevelRender();
 //    }
 //}

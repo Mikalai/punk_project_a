@@ -6,7 +6,7 @@
 
 PUNK_ENGINE_BEGIN
 
-namespace Render {
+namespace LowLevelRender {
 	static const int RenderDomain = 2;
 
 	enum class RenderCommands {

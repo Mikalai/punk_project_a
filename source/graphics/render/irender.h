@@ -2,6 +2,7 @@
 #define IRENDER_H
 
 #include <config.h>
+#include <core/iobject.h>
 #include <memory>
 
 PUNK_ENGINE_BEGIN
@@ -17,8 +18,11 @@ namespace Graphics {
     class IFrameBuffer;
     class IVideoDriver;
 
-    class IRender {
+	DECLARE_PUNK_GUID(IID_ILowLevelRender, "5B3310D7-3954-4047-ABF2-694B98355C79");
+
+    class ILowLevelRender : public Core::IObject {
     public:
+		virtual void Initialize(IVideoDriver* driver) = 0;
         virtual IVideoDriver* GetVideoDriver() = 0;       
         virtual void SubmitBatch(Batch* batch) = 0;
         virtual const Math::vec2 FindZRange(const Math::mat4& view) = 0;
@@ -26,10 +30,7 @@ namespace Graphics {
 		virtual void EndFrame() = 0;
     };
 
-    using IRenderUniquePtr = std::unique_ptr<IRender, void (*)(IRender*)>;
-
-    extern PUNK_ENGINE_API IRenderUniquePtr CreateRender(IVideoDriver* driver);
-    extern PUNK_ENGINE_API void DestroyRender(IRender* value);
+	using IRenderUniquePtr = Core::UniquePtr < ILowLevelRender > ;
 }
 PUNK_ENGINE_END
 

@@ -44,7 +44,7 @@
 //				SetVertexBuffer(vbuffer->GetVertexBuffer(), vbuffer->GetMemoryUsage());
 //			}
 //
-//			void Render()
+//			void LowLevelRender()
 //			{
 //				GLenum type = PrimitiveTypeToOpenGL(CurrentPrimitive);
 //				int size = sizeof(CurrentIndex);

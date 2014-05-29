@@ -19,8 +19,8 @@
 //    impl->Bind(value); }\
 //    void  TriangleStrip<VertexType>::Unbind() { \
 //    impl->Unbind(); }\
-//    void  TriangleStrip<VertexType>::Render() {\
-//    impl->Render();}\
+//    void  TriangleStrip<VertexType>::LowLevelRender() {\
+//    impl->LowLevelRender();}\
 //    std::uint64_t TriangleStrip<VertexType>::GetMemoryUsage() { \
 //    return impl->GetMemoryUsage(); } \
 //    bool TriangleStrip<VertexType>::HasData() const { \

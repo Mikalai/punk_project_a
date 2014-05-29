@@ -17,8 +17,8 @@
 //    impl->Bind(value); }\
 //    void  Lines<VertexType>::Unbind() { \
 //    impl->Unbind(); }\
-//    void  Lines<VertexType>::Render() {\
-//    impl->Render();} \
+//    void  Lines<VertexType>::LowLevelRender() {\
+//    impl->LowLevelRender();} \
 //    std::uint64_t Lines<VertexType>::GetMemoryUsage() { \
 //    return impl->GetMemoryUsage(); } \
 //    bool Lines<VertexType>::HasData() const { \

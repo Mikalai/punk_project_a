@@ -18,8 +18,8 @@
 //    impl->Bind(value); }\
 //    void  Points<VertexType>::Unbind() { \
 //    impl->Unbind(); }\
-//    void  Points<VertexType>::Render() {\
-//    impl->Render();}\
+//    void  Points<VertexType>::LowLevelRender() {\
+//    impl->LowLevelRender();}\
 //    std::uint64_t Points<VertexType>::GetMemoryUsage() { \
 //    return impl->GetMemoryUsage(); } \
 //    bool Points<VertexType>::HasData() const { \

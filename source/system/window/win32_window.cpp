@@ -15,13 +15,13 @@
 PUNK_ENGINE_BEGIN
 namespace System {    
     
-	void CreatePunkWindow(void** object) {
+	/*void CreatePunkWindow(void** object) {
 		if (!object)
 			return;
 		*object = (void*)(new WindowWin);
-	}
+	}*/
 
-	PUNK_REGISTER_CREATOR(IID_IWindow, CreatePunkWindow);
+	PUNK_REGISTER_CREATOR(IID_IWindow, Core::CreateInstance<WindowWin>);
 
 
 	typedef LRESULT (WINAPI *TWindowCallBack)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -53,7 +53,9 @@ namespace System {
     WindowWin::WindowWin()
     {
 		m_timer = nullptr;
-		Core::GetFactory()->CreateInstance(System::IID_ITimer, (void**)&m_timer);
+		ITimer* timer;
+		Core::GetFactory()->CreateInstance(System::IID_ITimer, (void**)&timer);
+		m_timer.reset(timer);
 	}
 
 	void WindowWin::Initialize(const WindowDescription& desc) {
@@ -463,7 +465,7 @@ namespace System {
             wc.hIcon = LoadIcon(0, IDI_APPLICATION);
             wc.hInstance = GetModuleHandle(0);
             wc.lpfnWndProc = WindowCallBack;
-            wc.lpszClassName = TEXT("Punk Render");
+            wc.lpszClassName = TEXT("Punk LowLevelRender");
             wc.lpszMenuName = 0;
             wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
 
@@ -482,7 +484,7 @@ namespace System {
 
             AdjustWindowRectEx(&rect, style, false, styleEx);
 
-            m_hwindow = CreateWindowEx(styleEx, TEXT("Punk Render"), TEXT("Punk Engine"), style,
+            m_hwindow = CreateWindowEx(styleEx, TEXT("Punk LowLevelRender"), TEXT("Punk Engine"), style,
                                        0, 0, rect.right-rect.left, rect.bottom-rect.top, 0, 0,
                                        GetModuleHandle(0), (void*)this);
 

@@ -26,7 +26,7 @@
 //			virtual ~GlRenderable();
 //			void Bind(std::int64_t) override;
 //			void Unbind() override;
-//			void Render() override;
+//			void LowLevelRender() override;
 //			std::uint64_t GetMemoryUsage() override;
 //			bool HasData() const override;
 //			void Cook(PrimitiveType type, IVertexArray* vb, IIndexArray* ib) override;

@@ -30,7 +30,7 @@ namespace Graphics {
 		template<PrimitiveType CurrentPrimitiveType, typename ... VC>
 		struct RenderPolicy<CurrentPrimitiveType, std::uint16_t, VC...> {
 			using IndexType = std::uint16_t;
-			static void Render(GlBatchCore<IndexType, VC...>& core) {
+			static void LowLevelRender(GlBatchCore<IndexType, VC...>& core) {
 				GLenum type = PrimitiveTypeToOpenGL(CurrentPrimitiveType);				
 				GL_CALL(glDrawElements(type, core.m_vao->GetIndexCount(), GL_SHORT, 0));
 			}
@@ -39,7 +39,7 @@ namespace Graphics {
 		template<PrimitiveType CurrentPrimitiveType, typename ... VC>
 		struct RenderPolicy<CurrentPrimitiveType, std::uint32_t, VC...> {
 			using IndexType = std::uint32_t;
-			static void Render(GlBatchCore<IndexType, VC...>& core) {
+			static void LowLevelRender(GlBatchCore<IndexType, VC...>& core) {
 				GLenum type = PrimitiveTypeToOpenGL(CurrentPrimitiveType);				
 				GL_CALL(glDrawElements(type, core.m_vao->GetIndexCount(), GL_UNSIGNED_INT, 0));				
 			}
@@ -48,7 +48,7 @@ namespace Graphics {
 		template<PrimitiveType CurrentPrimitiveType, typename ... VC>
 		struct RenderPolicy<CurrentPrimitiveType, std::nullptr_t, VC...> {
 			using IndexType = std::nullptr_t;
-			static void Render(GlBatchCore<IndexType, VC...>& core) {
+			static void LowLevelRender(GlBatchCore<IndexType, VC...>& core) {
 				GLenum type = PrimitiveTypeToOpenGL(CurrentPrimitiveType);				
 				GL_CALL(glDrawArrays(type, 0, core.m_vao->GetVertexCount()));				
 			}
@@ -78,8 +78,8 @@ namespace Graphics {
 				m_core.m_vao->Unbind();
 			}
 
-			void Render() override {
-				CurrentRenderPolicy::Render(m_core);
+			void LowLevelRender() override {
+				CurrentRenderPolicy::LowLevelRender(m_core);
 			}
 
 			std::uint64_t GetMemoryUsage() override {

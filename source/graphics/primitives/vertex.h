@@ -112,84 +112,84 @@ namespace Graphics
 	template<class V, class C> struct Offset;
 
 	template<class V>
-	class Offset < V, VertexComponent::Position > {
+	struct Offset < V, VertexComponent::Position > {
 		static constexpr int Value() {
 			return V::PositionOffset();
 		}
 	};
 
 	template<class V>
-	class Offset < V, VertexComponent::Normal > {
+	struct Offset < V, VertexComponent::Normal > {
 		static constexpr int Value() {
 			return V::NormalOffset();
 		}
 	}; 
 
 	template<class V>
-	class Offset < V, VertexComponent::Tangent > {
+	struct Offset < V, VertexComponent::Tangent > {
 		static constexpr int Value() {
 			return V::TangentOffset();
 		}
 	};
 
 	template<class V>
-	class Offset < V, VertexComponent::Bitangent> {
+	struct Offset < V, VertexComponent::Bitangent> {
 		static constexpr int Value() {
 			return V::BitangentOffset();
 		}
 	};
 
 	template<class V>
-	class Offset < V, VertexComponent::Color > {
+	struct Offset < V, VertexComponent::Color > {
 		static constexpr int Value() {
 			return V::ColorOffset();
 		}
 	};
 
 	template<class V>
-	class Offset < V, VertexComponent::Texture0 > {
+	struct Offset < V, VertexComponent::Texture0 > {
 		static constexpr int Value() {
 			return V::Texture0Offset();
 		}
 	};
 
 	template<class V>
-	class Offset < V, VertexComponent::Texture1 > {
+	struct Offset < V, VertexComponent::Texture1 > {
 		static constexpr int Value() {
 			return V::Texture1Offset();
 		}
 	};
 
 	template<class V>
-	class Offset < V, VertexComponent::Texture2 > {
+	struct Offset < V, VertexComponent::Texture2 > {
 		static constexpr int Value() {
 			return V::Texture2Offset();
 		}
 	};
 
 	template<class V>
-	class Offset < V, VertexComponent::Texture3 > {
+	struct Offset < V, VertexComponent::Texture3 > {
 		static constexpr int Value() {
 			return V::Texture3Offset();
 		}
 	};
 
 	template<class V>
-	class Offset < V, VertexComponent::BoneID > {
+	struct Offset < V, VertexComponent::BoneID > {
 		static constexpr int Value() {
 			return V::BoneIdOffset();
 		}
 	};
 
 	template<class V>
-	class Offset < V, VertexComponent::BoneWeight > {
+	struct Offset < V, VertexComponent::BoneWeight > {
 		static constexpr int Value() {
 			return V::BoneWeightOffset();
 		}
 	};
 
 	template<class V>
-	class Offset < V, VertexComponent::Flag > {
+	struct Offset < V, VertexComponent::Flag > {
 		static constexpr int Value() {
 			return V::FlagOffset();
 		}
@@ -208,8 +208,11 @@ namespace Graphics
 		}
 	};
 
-	template<typename Component, typename ...Components>
-	struct Vertex : public VertexBuilder <0, 0, Component, Components... > {};
+	template<typename ...Components>
+	struct Vertex : public VertexBuilder <0, 0, Components... > {
+		template<template<typename...> class T>
+		using Type = T < Components... > ;
+	};
 
 //	template <typename T, typename M> M get_member_type(M T::*);
 //	template <typename T, typename M> T get_class_type(M T::*);

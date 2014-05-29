@@ -313,8 +313,8 @@ namespace System
 		IBaseFilter*    cam  override;  hr = mon->BindToObject(0,0,IID_IBaseFilter, (void**)&cam);
 		hr = graph->AddFilter(cam, L"Capture Source"); // add web cam to graph as source
 		IEnumPins*      pins override;  hr = cam?cam->EnumPins(&pins):0;   // we need output pin to autogenerate rest of the graph
-		IPin*           pin  override;  hr = pins?pins->Next(1,&pin, 0):0; // via graph->Render
-		hr = graph->Render(pin); // graph builder now builds whole filter chain including MJPG decompression on some webcams
+		IPin*           pin  override;  hr = pins?pins->Next(1,&pin, 0):0; // via graph->LowLevelRender
+		hr = graph->LowLevelRender(pin); // graph builder now builds whole filter chain including MJPG decompression on some webcams
 		IEnumFilters*   fil  override;  hr = graph->EnumFilters(&fil); // from all newly added filters
 		IBaseFilter*    rnd  override;  hr = fil->Next(1,&rnd,0); // we find last one (renderer)
 		hr = rnd->EnumPins(&pins);  // because data we are intersted in are pumped to renderers input pin 

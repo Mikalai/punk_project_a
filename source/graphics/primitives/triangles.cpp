@@ -20,8 +20,8 @@
 //    impl->Bind(value); }\
 //    void  Triangles<VertexType, IndexType>::Unbind() { \
 //    impl->Unbind(); }\
-//    void  Triangles<VertexType, IndexType>::Render() {\
-//    impl->Render();} \
+//    void  Triangles<VertexType, IndexType>::LowLevelRender() {\
+//    impl->LowLevelRender();} \
 //    std::uint64_t Triangles<VertexType, IndexType>::GetMemoryUsage() { \
 //    return impl->GetMemoryUsage(); } \
 //    bool Triangles<VertexType, IndexType>::HasData() const { \

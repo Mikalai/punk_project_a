@@ -123,11 +123,16 @@ namespace Graphics {
 
 			void CopyData(const void* data, std::uint32_t size)
 			{
-				if (m_size < (GLsizei)size)
-					throw OpenGLOutOfMemoryException(L"Index buffer is to small " + Core::String::Convert(m_size) + L" to hold " + Core::String::Convert(size));
-				Bind();
-				GL_CALL(glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, size, data));
-				Unbind();
+				if (m_index == 0) {
+					Create(data, size);
+				}
+				else {
+					if (m_size < (GLsizei)size)
+						throw OpenGLOutOfMemoryException(L"Index buffer is to small " + Core::String::Convert(m_size) + L" to hold " + Core::String::Convert(size));
+					Bind();
+					GL_CALL(glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, size, data));
+					Unbind();
+				}
 			}
 			
 			private:

@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <config.h>
+#include <core/iobject.h>
 #include <images/formats.h>
 #include <cstdint>
 
@@ -22,20 +23,20 @@ namespace Graphics {
 	class IFrameBuffer;
 	class ICanvas;
 	class IVideoDriverSettings;
-	class IRender;
+	class ILowLevelRender;
 
-	class PUNK_ENGINE_API IVideoDriver
+	DECLARE_PUNK_GUID(IID_IVideoDriver, "A40FB690-DB16-44BA-AAE7-8F6D00315085");
+
+	class PUNK_ENGINE_API IVideoDriver : public Core::IObject
 	{
 	public:
+		virtual void Initialize(ICanvas* canvas) = 0;
 		virtual ICanvas* GetCanvas() = 0;		
 		virtual IVideoDriverSettings* GetSettings() = 0;
-		virtual IRender* GetRender() = 0;
+		virtual ILowLevelRender* GetRender() = 0;
 	};
 
-	using IVideoDriverUniquePtr = std::unique_ptr < IVideoDriver, void(*)(IVideoDriver*) > ;
-
-	extern PUNK_ENGINE_API IVideoDriverUniquePtr CreateVideoDriver(ICanvas* canvas);
-	extern PUNK_ENGINE_API void DestroyVideoDriver(IVideoDriver* driver);
+	using IVideoDriverUniquePtr = Core::UniquePtr < IVideoDriver > ;
 }
 PUNK_ENGINE_END
 

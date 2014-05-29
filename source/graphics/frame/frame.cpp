@@ -22,8 +22,7 @@
 PUNK_ENGINE_BEGIN
 namespace Graphics
 {
-    Frame::Frame(IRender* render)
-        : m_render{render}
+    Frame::Frame()
     {
 #ifdef _DEBUG
         System::GetDefaultLogger()->Info(L"Create Frame");
@@ -51,9 +50,13 @@ namespace Graphics
         }
     }  
 
-    IRender* Frame::GetRender() {
+    ILowLevelRender* Frame::GetRender() {
         return m_render;
     }
+
+	void Frame::SetRender(ILowLevelRender* render) {
+		m_render = render;
+	}
 
     void Frame::SetClearColor(const Math::vec4& value)
     {
@@ -70,6 +73,9 @@ namespace Graphics
         Top()->render_state->m_clear_depth = value;
     }
 
+	void Frame::QueryInterface(const Core::Guid& type, void** object) {
+		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IFrame });
+	}
 //    void Frame::Clear(bool color, bool depth, bool stencil)
 //    {
 //        if (!Top()->m_active_rendering)
@@ -857,14 +863,6 @@ namespace Graphics
 
     }
 
-    extern PUNK_ENGINE_API IFrameUniquePtr CreateFrame(IRender* render) {
-        IFrameUniquePtr frame{new Frame(render), DestroyFrame};
-        return frame;
-    }
-
-    extern PUNK_ENGINE_API void DestroyFrame(IFrame* f) {
-        Frame* frame = dynamic_cast<Frame*>(f);
-        delete frame;
-    }
+	PUNK_REGISTER_CREATOR(IID_IFrame, Core::CreateInstance<Frame>);    
 }
 PUNK_ENGINE_END

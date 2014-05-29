@@ -18,18 +18,17 @@ namespace Graphics
 {
 	namespace OpenGL
 	{
-		template<template<typename V, typename T, typename...> class T, typename>
+		template<template<typename...> class T, typename>
 		struct instantiate_with_arg_pack { };
 
-		template<
-			typename TT, typename VV,
-			template<typename V, typename T, typename...> class T,
-			template<typename V, typename T, typename...> class U,
+		template<			
+			template<typename...> class T,
+			template<typename...> class U,
 			typename... Ts
 		>
-		struct instantiate_with_arg_pack < T, U<TT, VV, Ts...> >
+		struct instantiate_with_arg_pack <T, U<Ts...> >
 		{
-			using type = T < TT, VV, Ts... > ;
+			using Type = T < U<Ts...>, Ts... > ;
 		};
 
 		template<class VB, class IB>
@@ -186,7 +185,7 @@ namespace Graphics
 		template<typename Vertex, typename Index>
 		struct VaoCookPolicy {
 			
-			using CurrentConfigurer = instantiate_with_arg_pack < AttributeConfigure, Vertex >;
+			using CurrentConfigurer = typename instantiate_with_arg_pack < AttributeConfigure, Vertex >::Type;
 
 			VaoCookPolicy(VaoCore<VertexBufferObject<Vertex>, IndexBufferObject<Index>>& core)
 				: m_core{ core }
@@ -201,16 +200,12 @@ namespace Graphics
 					delete m_core.m_vertex_buffer;
 				}
 				m_core.m_vertex_buffer = new VertexBufferObject < Vertex >;
-				m_core.m_vertex_buffer->Bind();
 				m_core.m_vertex_buffer->CopyData(vb->GetVertexBuffer(), vb->GetVertexCount());
-				m_core.m_vertex_buffer->Unbind();
 
 				if (m_core.m_index_buffer)
 					delete m_core.m_index_buffer;
 				m_core.m_index_buffer = new IndexBufferObject < Index >;
-				m_core.m_index_buffer->Bind();
 				m_core.m_index_buffer->CopyData(ib->GetIndexBuffer(), ib->GetIndexCount());
-				m_core.m_index_buffer->Unbind();
 
 				if (m_core.m_vao)
 				{
@@ -236,7 +231,7 @@ namespace Graphics
 		template<typename Vertex>
 		struct VaoCookPolicy<Vertex, std::nullptr_t> {
 
-			using CurrentConfigurer = instantiate_with_arg_pack < AttributeConfigure, Vertex >;
+			using CurrentConfigurer = typename instantiate_with_arg_pack < AttributeConfigure, Vertex >::Type;
 
 			VaoCookPolicy(VaoCore<VertexBufferObject<Vertex>, IndexBufferObject<std::nullptr_t>>& core)
 				: m_core{ core }
@@ -251,9 +246,7 @@ namespace Graphics
 					delete m_core.m_vertex_buffer;
 				}
 				m_core.m_vertex_buffer = new VertexBufferObject < Vertex >;
-				m_core.m_vertex_buffer->Bind();
 				m_core.m_vertex_buffer->CopyData(vb->GetVertexBuffer(), vb->GetVertexCount());
-				m_core.m_vertex_buffer->Unbind();
 				
 				if (m_core.m_vao)
 				{
@@ -265,7 +258,7 @@ namespace Graphics
 
 				m_core.m_vertex_buffer->Bind();
 
-				CurrentConfigurer p{};
+				CurrentConfigurer::Apply();
 
 				GL_CALL(glBindVertexArray(0));
 

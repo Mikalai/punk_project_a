@@ -358,7 +358,7 @@ namespace Graphics {
             else
                 return GetRenderContext(RenderPolicySet::SolidTextured2D);
         }
-        throw Error::GraphicsException(L"Render not found");
+        throw Error::GraphicsException(L"LowLevelRender not found");
     }
 
     IRenderContext* RenderSolidColored(CoreState* state)
@@ -381,7 +381,7 @@ namespace Graphics {
                 //	use color from uniform parameters
                 return GetRenderContext(RenderPolicySet::Solid3D);
         }
-        throw Error::GraphicsException(L"Render not found");
+        throw Error::GraphicsException(L"LowLevelRender not found");
     }
 
     IRenderContext* RenderSolid(CoreState* state)

@@ -18,6 +18,7 @@ namespace Core {
 	};
 
 	extern PUNK_ENGINE_API IFactory* GetFactory();		
+	extern PUNK_ENGINE_API void DestroyFactory();
 
 	struct RegisterCreator {
 		RegisterCreator(const Guid& type, void(*F)(void**)) {

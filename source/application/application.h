@@ -106,7 +106,7 @@ PUNK_ENGINE_END
 //		System::Timer m_timer;
 //        System::Mouse* m_mouse;
 //		void Step(System::Event* event);
-//		void Render();		
+//		void LowLevelRender();		
 //		void Resize(System::WindowResizeEvent* event);
 //		void KeyDown(System::KeyDownEvent* event);
 //		void KeyUp(System::KeyUpEvent* event);

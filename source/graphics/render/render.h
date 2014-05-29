@@ -13,11 +13,19 @@ namespace Graphics {
     class Batch;
     class RenderQueue;
 
-    class Render : public IRender
+    class LowLevelRender : public ILowLevelRender
     {
     public:
-        Render(IVideoDriver* driver);
-        virtual ~Render();
+        LowLevelRender();
+        virtual ~LowLevelRender();
+		
+		//	IObject
+		void QueryInterface(const Core::Guid& type, void** object) override;
+		std::uint32_t AddRef() override;
+		std::uint32_t Release() override;
+
+		//	ILowLevelRender
+		void Initialize(IVideoDriver* driver) override;
         IVideoDriver* GetVideoDriver() override;
         void SubmitBatch(Batch* batch) override;
         const Math::vec2 FindZRange(const Math::mat4& view) override;
@@ -25,9 +33,13 @@ namespace Graphics {
 		void EndFrame() override;
 
     private:
-        RenderQueue* m_queue;
-        IVideoDriver* m_driver;
-		IFrameUniquePtr m_frame{ nullptr, DestroyFrame };
+		void AssertInitialized();
+
+		bool m_initialized{ false };
+		RenderQueue* m_queue{ nullptr };
+		IVideoDriver* m_driver{ nullptr };
+		IFrameUniquePtr m_frame{ nullptr, Core::DestroyObject };
+		std::atomic<std::uint32_t> m_ref_count{ 1 };
     };
 }
 PUNK_ENGINE_END

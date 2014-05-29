@@ -5,7 +5,7 @@
 #include <graphics/module.h>
 
 PUNK_ENGINE_BEGIN
-namespace Render {
+namespace LowLevelRender {
 	class RenderGeoemetryCache {		
 	};
 }

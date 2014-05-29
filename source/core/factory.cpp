@@ -1,12 +1,14 @@
+#include <iostream>
 #include "factory.h"
 #include "core_error.h"
 
 PUNK_ENGINE_BEGIN
 namespace Core {
 
-	Factory g_factory;
+	static Factory* g_factory;
 
 	void Factory::CreateInstance(const Guid& type, void** object) {
+		std::wcout << L"Creating " << (wchar_t*)type.ToString().Data() << std::endl;
 		auto it = m_creators.find(type);
 		if (it == m_creators.end()) {
 			throw Error::CoreException("Creator not found for " + type.ToString());
@@ -25,7 +27,18 @@ namespace Core {
 	}
 
 	extern PUNK_ENGINE_API IFactory* GetFactory() {
-		return &g_factory;
+		if (!g_factory)
+			g_factory = new Factory;
+		return g_factory;
+	}
+
+	extern PUNK_ENGINE_API void DestroyFactory() {
+		if (g_factory)
+		{
+			delete g_factory;
+			g_factory = nullptr;
+		}
 	}
 }
 PUNK_ENGINE_END
+

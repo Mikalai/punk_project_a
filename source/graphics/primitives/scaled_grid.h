@@ -14,7 +14,7 @@
 //        virtual ~ScaledGridObject();
 //        virtual void Bind(int64_t) override;
 //        virtual void Unbind() override;
-//        virtual void Render() override;
+//        virtual void LowLevelRender() override;
 //
 //        void Cook(float width, float height, unsigned hor_slices, unsigned vert_slices, int levels);
 //		float GetTotalWidth() const;

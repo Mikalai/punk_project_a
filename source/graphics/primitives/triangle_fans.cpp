@@ -20,8 +20,8 @@
 //    impl->Bind(value); }\
 //    void  TriangleFan<VertexType>::Unbind() { \
 //    impl->Unbind(); }\
-//    void  TriangleFan<VertexType>::Render() {\
-//    impl->Render();}\
+//    void  TriangleFan<VertexType>::LowLevelRender() {\
+//    impl->LowLevelRender();}\
 //    std::uint64_t TriangleFan<VertexType>::GetMemoryUsage() { \
 //    return impl->GetMemoryUsage(); } \
 //    bool TriangleFan<VertexType>::HasData() const { \

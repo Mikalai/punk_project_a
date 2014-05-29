@@ -200,8 +200,8 @@
 //        impl->Unbind();
 //    }
 //
-//    void ScaledGridObject::Render()
+//    void ScaledGridObject::LowLevelRender()
 //    {
-//        impl->Render();
+//        impl->LowLevelRender();
 //    }
 //}

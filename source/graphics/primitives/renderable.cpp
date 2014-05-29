@@ -19,7 +19,7 @@
 //        throw Error::GraphicsException(L"Unbind() not implemented");
 //    }
 //
-//    void Renderable::Render()
+//    void Renderable::LowLevelRender()
 //    {
 //        throw Error::GraphicsException(L"Load() not implemented");
 //    }
