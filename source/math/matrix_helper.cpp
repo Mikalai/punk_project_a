@@ -141,19 +141,19 @@ namespace Math {
     const mat4 CreateOrthographicProjection2(float xmin, float xmax, float ymin, float ymax, float, float zmax)
     {
         Math::mat4 m;
-        m[0] = 2.0 / (xmax - xmin);
+        m[0] = 2.0f / (xmax - xmin);
         m[1] = 0;
         m[2] = 0;
         m[3] = 0;
 
         m[4] = 0;
-        m[5] = 2.0 / (ymax - ymin);
+        m[5] = 2.0f / (ymax - ymin);
         m[6] = 0;
         m[7] = 0;
 
         m[8] = 0;
         m[9] = 0;
-        m[10] = -2.0 / zmax;
+        m[10] = -2.0f / zmax;
         m[11] = 0;
 
         m[12] = - (xmax + xmin) / (xmax - xmin);

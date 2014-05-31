@@ -51,6 +51,7 @@ namespace LowLevelRender {
 			return;
 
 		m_frame_buffer->Bind();
+		m_frame_buffer->SetViewport(0, 0, 1024, 768);
 		m_frame_buffer->SetClearColor(0, 0, 1, 1);		
 		m_frame_buffer->SetClearFlag(true, true, true);
 		m_frame_buffer->Clear();
@@ -64,8 +65,8 @@ namespace LowLevelRender {
 		frame->DrawQuad(400, 100, 100, 100);
 		m_render->EndFrame();
 		m_frame_buffer->Unbind();
-		m_canvas->SwapBuffers();				
 		m_canvas->GetWindow()->Update(dt);
+		m_canvas->SwapBuffers();						
 	}
 
 	PUNK_REGISTER_CREATOR(IID_IRenderProcessor, Core::CreateInstance<RenderProcessor>);

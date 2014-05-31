@@ -83,9 +83,9 @@ namespace Graphics {
                 throw OpenGLInvalidValueException("Bad x " + Core::String::Convert(x));
             if (y < 0)
                 throw OpenGLInvalidValueException("Bad y " + Core::String::Convert(y));
-            if (x + width > m_width)
+            if (x + width > (int)m_width)
                 throw OpenGLInvalidValueException("Bad x offset " + Core::String::Convert(x + width) + ". Should be less or equal to " + Core::String::Convert(m_width));
-            if (y + height > m_height)
+            if (y + height > (int)m_height)
                 throw OpenGLInvalidValueException("Bad y offset " + Core::String::Convert(y + height) + ". Should be less or equal to " + Core::String::Convert(m_height));
 
 
@@ -399,7 +399,7 @@ namespace Graphics {
         void* data = (void*)image.GetData();
         std::vector<unsigned char> buffer(image.GetSizeInBytes());
         memcpy(&buffer[0], data, image.GetSizeInBytes());
-        return CreateTexture2D(width, height, internal_format, format, data, use_mipmaps, driver);
+        return CreateTexture2D((int)width, (int)height, internal_format, format, data, use_mipmaps, driver);
     }
 
 

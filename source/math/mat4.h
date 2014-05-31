@@ -13,7 +13,7 @@ namespace Punk {
 
         namespace Math {
 
-            class FrustumCore;
+            struct FrustumCore;
             class quat;
             class vec3;
             class vec2;

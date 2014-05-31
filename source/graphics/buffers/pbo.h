@@ -114,7 +114,7 @@ namespace Graphics
 
 			void CopyData(const void* data, std::uint32_t size)
 			{
-				if (m_size < size)
+				if (m_size < (int)size)
 					throw OpenGLOutOfMemoryException(L"pixel buffer is to small " + Core::String::Convert(m_size) + L" to hold " + Core::String::Convert(size));
 				Bind();
 				GL_CALL(glBufferSubData(GL_PIXEL_UNPACK_BUFFER, 0, size, data));

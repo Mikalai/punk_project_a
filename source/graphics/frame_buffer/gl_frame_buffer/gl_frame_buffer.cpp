@@ -200,7 +200,7 @@ namespace Graphics
                 throw OpenGLInvalidValueException(L"Color render buffer is invalid");
             Bind();
             buffer->Bind();
-            GL_CALL(glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, GL_RENDERBUFFER, buffer->Index()));
+            GL_CALL(glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + (GLenum)index, GL_RENDERBUFFER, buffer->Index()));
             Check();
             Unbind();
         }
@@ -238,7 +238,7 @@ namespace Graphics
                 throw OpenGLInvalidValueException(L"Invalid depth target");
 
             Bind();
-            GL_CALL(glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, buffer->GetId(), 0, index));
+            GL_CALL(glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, (GLint)buffer->GetId(), 0, index));
             Check();
             Unbind();
         }

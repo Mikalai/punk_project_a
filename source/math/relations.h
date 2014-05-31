@@ -24,7 +24,7 @@ namespace Math {
 	class ConvexShapeMesh;
 	class Rect;
 	class Line2D;
-	class FrustumCore;
+	struct FrustumCore;
 
 	enum class Relation {
 		INTERSECT,

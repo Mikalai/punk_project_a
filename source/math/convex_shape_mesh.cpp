@@ -21,8 +21,8 @@ namespace Math {
 			NormalsCollection m_normals;
 
 			void UpdateBoundingVolumes() {
-				m_bbox.Create(&m_points[0], m_points.size());
-				m_bsphere.Create(&m_points[0], m_points.size());
+				m_bbox.Create(&m_points[0], (std::uint32_t)m_points.size());
+				m_bsphere.Create(&m_points[0], (std::uint32_t)m_points.size());
 			}
 		};
 	}

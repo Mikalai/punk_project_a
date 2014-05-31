@@ -455,7 +455,7 @@ namespace Punk {
 
             const vec4 operator /(const vec4& a, double d)
             {
-                return vec4(a[0] / d, a[1] / d, a[2] / d, a[3] / d);
+				return vec4(a[0] / (float)d, a[1] / (float)d, a[2] / (float)d, a[3] / (float)d);
             }
 
             bool operator ==(const vec4& a, const vec4& b)

@@ -13,13 +13,13 @@ namespace Punk {
 
 			float DegToRad(float value)
 			{
-				auto res = value / 45.0 * atan(1);
+				auto res = value / 45.0f * atanf(1);
 				return res;
 			}
 
 			float RadToDeg(float value)
 			{
-				auto res = value / atan(1) * 45.0;
+				auto res = value / atanf(1) * 45.0f;
 				return res;
 			}
 
