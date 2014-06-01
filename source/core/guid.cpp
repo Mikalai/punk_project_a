@@ -56,6 +56,11 @@ namespace Core {
 		return (void*)this;
 	}
 
+
+	const Guid Guid::Empty() {
+		return Guid{};
+	}
+
 	const void* Guid::ToPointer() const {
 		return (const void*)this;
 	}
