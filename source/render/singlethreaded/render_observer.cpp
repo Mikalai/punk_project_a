@@ -30,8 +30,12 @@ namespace LowLevelRender {
 			Graphics::IRenderable* renderable = nullptr;
 			if (m_cooked_geometry.HasValue(geom))
 			{
-				renderable = m_cooked_geometry.GetValue(geom);
-				renderable->AddRef();
+				renderable = m_cooked_geometry.GetValue(geom);				
+				auto old = child->Get<Graphics::IRenderable>("Renderable");
+				if (old != renderable) {
+					renderable->AddRef();
+					child->Set<Graphics::IRenderable>("Renderable", renderable);
+				}
 			}
 			else
 			{
@@ -47,8 +51,8 @@ namespace LowLevelRender {
 				renderable->UnmapVertexVuffer(v);
 				renderable->UnmapIndexBuffer(ii);
 				m_cooked_geometry.AddValue(geom, renderable);				
-			}
-			child->Set<Graphics::IRenderable>("Renderable", renderable);
+				child->Set<Graphics::IRenderable>("Renderable", renderable);
+			}			
 		}
 		for (int i = 0, max_i = child->GetChildrenCount(); i < max_i; ++i) {
 			OnNodeAdded(child, child->GetChild(i));

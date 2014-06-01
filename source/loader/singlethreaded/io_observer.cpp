@@ -84,14 +84,18 @@ namespace IoModule {
 				o->QueryInterface(SceneModule::IID_IScene, (void**)&scene);
 				if (scene) {
 					SceneModule::INode* new_root = scene->GetRoot();
+					//	we will use this node from proxy scene, thus inc ref count, to protect delete when proxy scene will be deleted
 					new_root->AddRef();
 					m_scene->SetRoot(new_root);
+					//	we don't need proxy scene
+					scene->Release();
 				}
 			}			
 		}
 	}
 
 	void IoObserver::OnAttributeUpdated(SceneModule::INode* node, SceneModule::IAttribute* old_attribute, SceneModule::IAttribute* new_attribute) {
+		
 		OnAttributeAdded(node, new_attribute);
 	}
 

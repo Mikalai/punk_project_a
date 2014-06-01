@@ -29,6 +29,7 @@ namespace SceneModule {
     }
 
     Node::~Node() {
+		System::GetDefaultLogger()->Info("Destroy node");
         while (!m_children.empty()) {
             delete m_children.back();
             m_children.pop_back();

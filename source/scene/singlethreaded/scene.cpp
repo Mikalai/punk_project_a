@@ -87,9 +87,11 @@ namespace SceneModule
 	}
 
 	void Scene::OnAttributeAdded(INode* node, IAttribute* attribute) {
-		std::for_each(m_observers.begin(), m_observers.end(), [&node, &attribute](ISceneObserver* o) {
+		node->AddRef();
+		std::for_each(m_observers.begin(), m_observers.end(), [&node, &attribute](ISceneObserver* o) {			
 			o->OnAttributeAdded(node, attribute);
 		});
+		node->Release();
 	}
 
 	void Scene::OnAttributeRemoved(INode* node, IAttribute* attribute) {

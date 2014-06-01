@@ -128,7 +128,6 @@ namespace Graphics {
 			}
 		}
 		m_queue->Clear();
-		m_frame.reset();
 //#ifdef _DEBUG
 //		System::GetDefaultLogger()->Info("End AsyncBeginRendering");
 //#endif

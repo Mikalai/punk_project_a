@@ -61,10 +61,19 @@ namespace Runtime {
 		System::ITimer* timer = nullptr;
 		m_factory->CreateInstance(System::IID_ITimer, (void**)&timer);
 		timer->Reset();
+		int frame = 0;
+		float t = 0;
 		while (true) {			
 			float dt = timer->GetElapsedMiliseconds();
 			timer->Reset();
 			m_scene_manager->Update(dt);
+			frame++;
+			t += dt;
+			if (t > 1000.0f) {
+				t = 0;
+				System::GetDefaultLogger()->Info(Core::String("FPS: {0}").arg(frame));
+				frame = 0;
+			}
 		}
 	}
 
