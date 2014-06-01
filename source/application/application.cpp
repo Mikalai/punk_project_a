@@ -60,8 +60,9 @@ namespace Runtime {
 	void Application::Run() {
 		System::ITimer* timer = nullptr;
 		m_factory->CreateInstance(System::IID_ITimer, (void**)&timer);
+		timer->Reset();
 		while (true) {			
-			int dt = (int)timer->GetElapsedMiliseconds();
+			float dt = timer->GetElapsedMiliseconds();
 			timer->Reset();
 			m_scene_manager->Update(dt);
 		}

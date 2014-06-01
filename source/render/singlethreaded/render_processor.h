@@ -12,7 +12,7 @@ namespace LowLevelRender {
 		std::uint32_t AddRef() override;
 		std::uint32_t Release() override;
 		void SetSceneManager(SceneModule::ISceneManager* manager) override;
-		void Update(int dt) override;
+		void Update(float dt) override;
 
 	private:
 		SceneModule::ISceneManager* m_manager{ nullptr };

@@ -34,7 +34,7 @@ namespace SceneModule {
 		processor->SetSceneManager(this);
 	}
 
-	void SceneManager::Update(int dt) {
+	void SceneManager::Update(float dt) {
 		for (auto i : m_processors){
 			i->Update(dt);
 		}

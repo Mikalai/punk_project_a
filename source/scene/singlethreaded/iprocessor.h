@@ -14,7 +14,7 @@ namespace SceneModule {
 	class IProcessor : public Core::IObject {
 	public:
 		virtual void SetSceneManager(ISceneManager* manager) = 0;
-		virtual void Update(int dt) = 0;
+		virtual void Update(float dt) = 0;
 	};
 }
 PUNK_ENGINE_END

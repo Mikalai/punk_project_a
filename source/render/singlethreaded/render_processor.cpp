@@ -76,7 +76,7 @@ namespace LowLevelRender {
 		}
 	}
 
-	void RenderProcessor::Update(int dt) {
+	void RenderProcessor::Update(float dt) {
 		if (!m_manager)
 			return;
 
@@ -89,20 +89,20 @@ namespace LowLevelRender {
 		m_frame_buffer->Clear();
 		Graphics::IFrame* frame = m_render->BeginFrame();
 		static float t = 0;
-		t += 0.0001;
-		frame->EnableLighting(true);
+		t += (2.0 * Math::PI / 10.0f) * (dt / 1000.0f);
+		frame->PushAllState();
+		//frame->EnableLighting(true);
 		frame->SetWorldMatrix(Math::CreateRotation(0, 1, 0, t));
 		frame->SetViewMatrix(Math::CreateTargetCameraMatrix({ 2, 2, 2 }, { 0, 0, 0 }, { 0, 1, 0 }));
 		frame->SetProjectionMatrix(Math::CreatePerspectiveProjection(Math::PI/4.0f, 1024, 768, 0.1f, 100.0f));
 		frame->EnableDepthTest(true);
-		Process(frame, root);		
-		
-		/*static float t = 0;
-		t += 0.0001;
-		frame->DrawLine(100, 100, 200 * sin(t), 200);
-		frame->DrawLine(200, 200, 300, 100);
-		frame->DrawLine(300, 100, 100, 100);
-		frame->DrawQuad(400, 100, 100, 100);*/
+		Process(frame, root);
+		frame->PopAllState();
+				
+		//frame->DrawLine(100, 100, 200 * sin(t), 200);
+		//frame->DrawLine(200, 200, 300, 100);
+		//frame->DrawLine(300, 100, 100, 100);
+		//frame->DrawQuad(400, 100, 100, 100);
 		m_render->EndFrame();
 		//m_frame_buffer->Unbind();
 		m_canvas->GetWindow()->Update(dt);

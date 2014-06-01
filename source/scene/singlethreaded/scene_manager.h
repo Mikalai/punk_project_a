@@ -18,7 +18,7 @@ namespace SceneModule {
 		void QueryInterface(const Core::Guid& type, void** object) override;
 		IScene* GetScene() override;
 		void AddProcessor(IProcessor* processor) override;
-		void Update(int dt) override;
+		void Update(float dt) override;
 	private:
 		std::vector<IProcessor*> m_processors;
 		IScene* m_scene{ nullptr };

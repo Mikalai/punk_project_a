@@ -720,6 +720,7 @@ namespace Graphics
         PushAllState();
         EnableLighting(false);
         System::IWindow* window = GetVideoDriver()->GetCanvas()->GetWindow();
+		SetViewMatrix(Math::CreateIdentity());
         SetProjectionMatrix(Math::CreateOrthographicProjection2(0, window->GetWidth(),
                                                                       0, window->GetHeight(),
                                                                      -1, 1));

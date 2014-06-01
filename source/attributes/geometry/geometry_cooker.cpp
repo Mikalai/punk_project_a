@@ -59,12 +59,13 @@ namespace Attributes {
 
 		std::vector<unsigned> ib;
 		if (mesh->IsIndexed()) {
+			int index = 0;
 			ib.resize(mesh->GetTrianglesCount() * 3);
-			for (unsigned i = 0, max_i = mesh->GetTrianglesCount(); i < max_i; i++) {
+			for (unsigned i = 0; i < mesh->GetTrianglesCount(); i++) {
 				const Math::ivec3* t = mesh->GetTriangle(i);
-				ib[3 * i + 0] = t->X();
-				ib[3 * i + 1] = t->Y();
-				ib[3 * i + 2] = t->Z();
+				ib[3 * i + 0] = index++;
+				ib[3 * i + 1] = index++;
+				ib[3 * i + 2] = index++;
 			}
 		}
 
@@ -237,12 +238,13 @@ namespace Attributes {
 
 		std::vector<unsigned> ib;
 		if (mesh->IsIndexed()) {
+			int index = 0;
 			ib.resize(mesh->GetTrianglesCount() * 3);
-			for (unsigned i = 0, max_i = mesh->GetTrianglesCount(); i < max_i; i++) {
+			for (unsigned i = 0; i < mesh->GetTrianglesCount(); i++) {
 				const Math::ivec3* t = mesh->GetTriangle(i);
-				ib[3 * i + 0] = t->X();
-				ib[3 * i + 1] = t->Y();
-				ib[3 * i + 2] = t->Z();
+				ib[3 * i + 0] = index++;
+				ib[3 * i + 1] = index++;
+				ib[3 * i + 2] = index++;
 			}
 		}
 
@@ -282,12 +284,13 @@ namespace Attributes {
 
 		std::vector<unsigned> ib;
 		if (mesh->IsIndexed()) {
+			int index = 0;
 			ib.resize(mesh->GetTrianglesCount() * 3);
-			for (unsigned i = 0, max_i = mesh->GetTrianglesCount(); i < max_i; i++) {
+			for (unsigned i = 0; i < mesh->GetTrianglesCount(); i++) {
 				const Math::ivec3* t = mesh->GetTriangle(i);
-				ib[3 * i + 0] = t->X();
-				ib[3 * i + 1] = t->Y();
-				ib[3 * i + 2] = t->Z();
+				ib[3 * i + 0] = index++;
+				ib[3 * i + 1] = index++;
+				ib[3 * i + 2] = index++;
 			}
 		}
 
@@ -333,12 +336,13 @@ namespace Attributes {
 
 		std::vector<unsigned> ib;
 		if (mesh->IsIndexed()) {
+			int index = 0;
 			ib.resize(mesh->GetTrianglesCount() * 3);
-			for (unsigned i = 0, max_i = mesh->GetTrianglesCount(); i < max_i; i++) {
+			for (unsigned i = 0; i < mesh->GetTrianglesCount(); i++) {
 				const Math::ivec3* t = mesh->GetTriangle(i);
-				ib[3 * i + 0] = t->X();
-				ib[3 * i + 1] = t->Y();
-				ib[3 * i + 2] = t->Z();
+				ib[3 * i + 0] = index++;
+				ib[3 * i + 1] = index++;
+				ib[3 * i + 2] = index++;
 			}
 		}
 
@@ -430,12 +434,13 @@ namespace Attributes {
 
 		std::vector<unsigned> ib;
 		if (mesh->IsIndexed()) {
+			int index = 0;
 			ib.resize(mesh->GetTrianglesCount() * 3);
-			for (unsigned i = 0, max_i = mesh->GetTrianglesCount(); i < max_i; i++) {
+			for (unsigned i = 0; i < mesh->GetTrianglesCount(); i++) {
 				const Math::ivec3* t = mesh->GetTriangle(i);
-				ib[3 * i + 0] = t->X();
-				ib[3 * i + 1] = t->Y();
-				ib[3 * i + 2] = t->Z();
+				ib[3 * i + 0] = index++;
+				ib[3 * i + 1] = index++;
+				ib[3 * i + 2] = index++;
 			}
 		}
 

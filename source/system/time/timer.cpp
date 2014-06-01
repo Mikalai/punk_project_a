@@ -68,7 +68,7 @@ namespace System
 
 		double GetElapsedSeconds() const
 		{
-            double res = ::GetCurrentTime() - m_last_check;
+            double res = ((double)GetTickCount() - m_last_check) / (double)GetFrequency();
             return res;
 		}
 
@@ -79,7 +79,7 @@ namespace System
 
         double Reset()
 		{
-            m_last_check = (double)GetCurrentTime();
+			m_last_check = (double)GetTickCount();
             return m_last_check;
 		}
 
