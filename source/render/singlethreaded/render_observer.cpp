@@ -8,7 +8,11 @@
 PUNK_ENGINE_BEGIN
 namespace LowLevelRender {
 
-	RenderObserver::RenderObserver() {}
+	RenderObserver::RenderObserver() {
+		Core::GetFactory()->CreateInstance(Attributes::IID_IGeometryCooker, (void**)&m_geometry_cooker);
+		Core::GetFactory()->CreateInstance(Graphics::IID_IRenderableBuilder, (void**)&m_renderable_builder);
+	}
+
 	RenderObserver::~RenderObserver() {}
 	
 	void RenderObserver::QueryInterface(const Core::Guid& type, void** object) {
@@ -23,14 +27,31 @@ namespace LowLevelRender {
 		auto count = child->GetAttributesCountOfType<Attributes::IGeometry>();
 		for (int i = 0; i < count; ++i) {
 			auto geom = child->GetAttributeOfType<Attributes::IGeometry>(i);
+			Graphics::IRenderable* renderable = nullptr;
 			if (m_cooked_geometry.HasValue(geom))
-				continue;
-			Graphics::IVertexArray* vb;
-			Graphics::IIndexArray* ib;
-			m_geometry_cooker->Cook(geom, vb, ib);
-			auto renderable = m_renderable_builder->ToRenderable(Graphics::PrimitiveType::TRIANGLES, vb, ib);
-			m_cooked_geometry.AddValue(geom, renderable);
+			{
+				renderable = m_cooked_geometry.GetValue(geom);
+				renderable->AddRef();
+			}
+			else
+			{
+				Graphics::IVertexArray* vb;
+				Graphics::IIndexArray* ib;
+				m_geometry_cooker->Cook(geom, vb, ib);
+				renderable = m_renderable_builder->ToRenderable(Graphics::PrimitiveType::TRIANGLES, vb, ib);
+				delete vb;
+				delete ib;
+				void* v = renderable->MapVertexBuffer();
+				//((Math::vec4*)v)->X() = 4;
+				void* ii = renderable->MapIndexBuffer();
+				renderable->UnmapVertexVuffer(v);
+				renderable->UnmapIndexBuffer(ii);
+				m_cooked_geometry.AddValue(geom, renderable);				
+			}
 			child->Set<Graphics::IRenderable>("Renderable", renderable);
+		}
+		for (int i = 0, max_i = child->GetChildrenCount(); i < max_i; ++i) {
+			OnNodeAdded(child, child->GetChild(i));
 		}
 	}
 
@@ -39,7 +60,24 @@ namespace LowLevelRender {
 	}
 
 	void RenderObserver::OnAttributeAdded(SceneModule::INode* node, SceneModule::IAttribute* attribute) {
-
+		if (attribute->GetTypeID() == typeid(Attributes::IGeometry).hash_code()) {
+			auto geom = attribute->Get<Attributes::IGeometry>();
+			Graphics::IRenderable* renderable = nullptr;
+			if (m_cooked_geometry.HasValue(geom))
+			{
+				renderable = m_cooked_geometry.GetValue(geom);
+				renderable->AddRef();
+			}
+			else
+			{
+				Graphics::IVertexArray* vb;
+				Graphics::IIndexArray* ib;
+				m_geometry_cooker->Cook(geom, vb, ib);
+				renderable = m_renderable_builder->ToRenderable(Graphics::PrimitiveType::TRIANGLES, vb, ib);
+				m_cooked_geometry.AddValue(geom, renderable);
+			}
+			node->Set<Graphics::IRenderable>("Renderable", renderable);
+		}
 	}
 
 	void RenderObserver::OnAttributeUpdated(SceneModule::INode* node, SceneModule::IAttribute* old_attribute, SceneModule::IAttribute* new_attribute) {

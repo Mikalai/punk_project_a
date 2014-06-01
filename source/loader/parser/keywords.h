@@ -365,7 +365,8 @@ namespace IoModule
 			{ WORD_MATRIX4X4F, "*mat4x4f" },
 			{ WORD_FLOAT, "*float" },
 			{ WORD_STRING, "*string" },
-			{ WORD_QUAT, "*quat" }
+			{ WORD_QUAT, "*quat" },
+			{ WORD_SCENE_GRAPH, "*scene_graph" }
 	};
 
     KeywordCode ParseKeyword(const Core::String& word);

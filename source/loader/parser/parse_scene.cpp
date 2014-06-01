@@ -33,5 +33,7 @@ namespace IoModule
         }
         return false;
     }
+
+	PUNK_REGISTER_PARSER(WORD_SCENE_GRAPH, ParseSceneGraph);
 }
 PUNK_ENGINE_END

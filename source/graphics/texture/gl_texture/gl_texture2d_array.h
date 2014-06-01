@@ -13,7 +13,7 @@ namespace Graphics {
         public:
             GlTexture2DArray(const GlTexture2DArray&) = delete;
             GlTexture2DArray& operator = (const GlTexture2DArray&) = delete;
-            GlTexture2DArray(std::uint32_t width, std::uint32_t height, std::uint32_t size, Image::ImageFormat internal_format, Image::ImageFormat format, Image::DataType type, const void* data, bool use_mipmaps, IVideoDriver* driver);
+            GlTexture2DArray(std::uint32_t width, std::uint32_t height, std::uint32_t size, ImageModule::ImageFormat internal_format, ImageModule::ImageFormat format, ImageModule::DataType type, const void* data, bool use_mipmaps, IVideoDriver* driver);
             virtual ~GlTexture2DArray();
             virtual bool IsValid() const override;
             virtual std::uint32_t GetMemoryUsage() const override;

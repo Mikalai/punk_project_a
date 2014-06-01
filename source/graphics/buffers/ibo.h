@@ -41,14 +41,13 @@ namespace Graphics {
 			}
 
 			void Destroy() override {
-					{
 						if (m_index)
 						{
 							GL_CALL(glDeleteBuffers(1, &m_index));
 							m_index = 0;
 						}
-					}
 			}
+
 			void Bind() const override {
 				if (!IsValid())
 					throw OpenGLInvalidValueException(L"Buffer is not valid");

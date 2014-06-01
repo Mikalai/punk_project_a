@@ -221,10 +221,10 @@ namespace IoModule
         {
             Core::String word = buffer.ReadWord();
 
-            if (word == Keyword[WORD_CLOSE_BRACKET].word)
+            if (word == GetKeyword(WORD_CLOSE_BRACKET))
                 return true;
 
-            float x = buffer.ReadWord().ToFloat();
+			float x = word.ToFloat();
             float y = buffer.ReadWord().ToFloat();
             float z = buffer.ReadWord().ToFloat();
 
@@ -236,24 +236,48 @@ namespace IoModule
         throw Error::LoaderException(L"Unable to parse array ov vec3f");
     }
 
-    bool ParseVector3iv(Core::Buffer& buffer, std::vector<Math::ivec3>& value)
+	bool ParseIndexedVector3fv(Core::Buffer& buffer, void* object)
+	{
+		Math::vec3v* value = (Math::vec3v*)object;
+		CHECK_START(buffer);
+		while (1)
+		{
+			Core::String word = buffer.ReadWord();
+
+			if (word == GetKeyword(WORD_CLOSE_BRACKET))
+				return true;
+
+			float x = word.ToFloat();
+			float y = buffer.ReadWord().ToFloat();
+			float z = buffer.ReadWord().ToFloat();
+
+			Math::vec3 v;
+			v.Set(x, y, z);
+
+			value->push_back(v);
+		}
+		throw Error::LoaderException(L"Unable to parse array ov vec3f");
+	}
+
+    bool ParseVector3iv(Core::Buffer& buffer, void* object)
     {
+		Math::ivec3v* value = (Math::ivec3v*)object;
         CHECK_START(buffer);
         while (1)
         {
             Core::String word = buffer.ReadWord();
 
-            if (word == Keyword[WORD_CLOSE_BRACKET].word)
+			if (word == GetKeyword(WORD_CLOSE_BRACKET))
                 return true;
 
-            int x = buffer.ReadWord().ToInt32();
+			int x = word.ToInt32();
             int y = buffer.ReadWord().ToInt32();
             int z = buffer.ReadWord().ToInt32();
 
             Math::ivec3 v;
             v.Set(x,y,z);
 
-            value.push_back(v);
+            value->push_back(v);
         }
         throw Error::LoaderException(L"Unable to parse vector of vec3i");
     }
@@ -265,7 +289,7 @@ namespace IoModule
         {
             Core::String word = buffer.ReadWord();
 
-            if (word == Keyword[WORD_CLOSE_BRACKET].word)
+			if (word == GetKeyword(WORD_CLOSE_BRACKET))
                 return true;
 
             int x = word.ToInt32();
@@ -288,7 +312,7 @@ namespace IoModule
         {
             Core::String word = buffer.ReadWord();
 
-            if (word == Keyword[WORD_CLOSE_BRACKET].word)
+			if (word == GetKeyword(WORD_CLOSE_BRACKET))
                 return true;
 
             float u1 = word.ToFloat();
@@ -318,7 +342,7 @@ namespace IoModule
 		{
 			Core::String word = buffer.ReadWord();
 
-			if (word == Keyword[WORD_CLOSE_BRACKET].word)
+			if (word == GetKeyword(WORD_CLOSE_BRACKET))
 				return true;
 
 			float u1 = word.ToFloat();
@@ -340,6 +364,7 @@ namespace IoModule
 
 	PUNK_REGISTER_PARSER(WORD_VEC3F, ParseBlockedVector3f);
 	PUNK_REGISTER_PARSER(WORD_VEC3FV, ParseVector3fv);
+	PUNK_REGISTER_PARSER(WORD_VEC3IV, ParseVector3iv);
 	PUNK_REGISTER_PARSER(WORD_MATRIX4X4F, ParseBlockedMatrix4x4f);
 	PUNK_REGISTER_PARSER(WORD_FLOAT, ParseBlockedFloat);
 	PUNK_REGISTER_PARSER(WORD_STRING, ParseBlockedString);

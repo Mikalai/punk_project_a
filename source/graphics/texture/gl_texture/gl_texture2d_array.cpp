@@ -10,9 +10,9 @@ namespace Graphics {
         GlTexture2DArray::GlTexture2DArray(std::uint32_t width,
                                            std::uint32_t height,
                                            std::uint32_t size,
-                                           Image::ImageFormat internal_format,
-                                           Image::ImageFormat format,
-                                           Image::DataType type,
+                                           ImageModule::ImageFormat internal_format,
+                                           ImageModule::ImageFormat format,
+                                           ImageModule::DataType type,
                                            const void* data,
                                            bool use_mipmaps,
                                            IVideoDriver* driver)
@@ -105,7 +105,7 @@ namespace Graphics {
         }
     }
 
-    extern PUNK_ENGINE_API ITexture2DArrayUniquePtr CreateTexture2DArray(std::uint32_t width, std::uint32_t height, std::uint32_t size, Image::ImageFormat internal_format, Image::ImageFormat format, Image::DataType type, const void *data, bool use_mipmaps, IVideoDriver *driver) {
+    extern PUNK_ENGINE_API ITexture2DArrayUniquePtr CreateTexture2DArray(std::uint32_t width, std::uint32_t height, std::uint32_t size, ImageModule::ImageFormat internal_format, ImageModule::ImageFormat format, ImageModule::DataType type, const void *data, bool use_mipmaps, IVideoDriver *driver) {
         return ITexture2DArrayUniquePtr{new OpenGL::GlTexture2DArray(width, height, size, internal_format, format, type, data, use_mipmaps, driver), DestroyTexture2DArray};
     }
 

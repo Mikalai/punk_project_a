@@ -1,9 +1,26 @@
+#include <core/ifactory.h>
 #include <graphics/module.h>
 #include "geometry_cooker.h"
 #include "igeometry.h"
 
 PUNK_ENGINE_BEGIN
 namespace Attributes {
+
+	void GeometryCooker::QueryInterface(const Core::Guid& type, void** object) {
+		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IGeometryCooker });
+	}
+
+	std::uint32_t GeometryCooker::AddRef() {
+		return m_ref_count.fetch_add(1);
+	}
+
+	std::uint32_t GeometryCooker::Release() {
+		std::uint32_t v = m_ref_count;
+		if (!m_ref_count.fetch_sub(1)) {
+			delete this;
+		}
+		return --v;
+	}
 
 	void GeometryCooker::Cook(IGeometry* mesh, 
 		Graphics::IVertexArray*& vb, 
@@ -148,12 +165,13 @@ namespace Attributes {
 
 		std::vector<unsigned> ib;
 		if (mesh->IsIndexed()) {
+			int index = 0;
 			ib.resize(mesh->GetTrianglesCount() * 3);
 			for (unsigned i = 0; i < mesh->GetTrianglesCount(); i++) {
 				const Math::ivec3* t = mesh->GetTriangle(i);
-				ib[3 * i + 0] = t->X();
-				ib[3 * i + 1] = t->Y();
-				ib[3 * i + 2] = t->Z();
+				ib[3 * i + 0] = index++;
+				ib[3 * i + 1] = index++;
+				ib[3 * i + 2] = index++;
 			}
 		}
 
@@ -508,5 +526,6 @@ namespace Attributes {
 
 	}
 
+	PUNK_REGISTER_CREATOR(IID_IGeometryCooker, Core::CreateInstance<GeometryCooker>);
 }
 PUNK_ENGINE_END

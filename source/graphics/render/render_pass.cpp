@@ -30,7 +30,7 @@ namespace Graphics {
         auto w = m_driver->GetSettings()->GetShadowMapSize();
         auto h = m_driver->GetSettings()->GetShadowMapSize();
         if (!m_shadow_map) {
-            m_shadow_map = CreateTexture2D(w, h, Image::ImageFormat::DEPTH_COMPONENT16, nullptr, false, m_driver).release();
+            m_shadow_map = CreateTexture2D(w, h, ImageModule::ImageFormat::DEPTH_COMPONENT16, nullptr, false, m_driver).release();
         }
         else {
             m_shadow_map->Resize(w, h);

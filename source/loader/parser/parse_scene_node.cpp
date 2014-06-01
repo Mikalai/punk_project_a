@@ -30,7 +30,7 @@ namespace IoModule {
 				SceneModule::INode* child = nullptr;
 				Core::GetFactory()->CreateInstance(SceneModule::IID_INode, (void**)&child);
                 ParseSceneNode(buffer, child);
-                //node->AddChild(child.release());
+                node->AddChild(child);
             }
                 break;
             case WORD_NAME:
@@ -54,8 +54,10 @@ namespace IoModule {
 				{
 					Attributes::IFileStub* stub = nullptr;
 					Core::GetFactory()->CreateInstance(Attributes::IID_IFileStub, (void**)&stub);
-					if (stub)
+					if (stub) {
+						stub->SetFilename(value);
 						node->Set<Attributes::IFileStub>("Filename", stub);
+					}
 				}                
             }
                 break;

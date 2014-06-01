@@ -37,13 +37,13 @@ namespace Graphics
 			using CurrentIndex = typename IB::CurrentIndex;
 
 			IVideoDriver* m_driver{ nullptr };
-			GLuint m_index_count{ 0 };
+			//GLuint m_index_count{ 0 };
 			GLuint m_vao{ 0 };
-			unsigned m_vertex_size{ 0 };
-			bool m_was_modified{ true };
-			unsigned m_primitive_count{ 0 };
-			int m_vb_size{ 0 };
-			int m_ib_size{ 0 };
+			//unsigned m_vertex_size{ 0 };
+			//bool m_was_modified{ true };
+			//unsigned m_primitive_count{ 0 };
+			//int m_vb_size{ 0 };
+			//int m_ib_size{ 0 };
 			IndexBufferObject<CurrentIndex>* m_index_buffer{ nullptr };
 			VertexBufferObject<CurrentVertex>* m_vertex_buffer{ nullptr };
 		};
@@ -166,17 +166,29 @@ namespace Graphics
 
 			typename VB::CurrentVertex* MapVertexBuffer()
 			{
-				return m_core.m_vertex_buffer->Map();
+				return m_core.m_vertex_buffer->MapVB();
 			}
 
 			const typename VB::CurrentVertex* MapVertexBuffer() const
 			{
-				return m_core.m_vertex_buffer->Map();
+				return m_core.m_vertex_buffer->MapVB();
 			}
 
 			void UnmapVertexBuffer()
 			{
 				m_core.m_vertex_buffer->Unmap();
+			}
+
+			void* MapIndexBuffer() {
+				return nullptr;
+			}
+
+			const void* MapIndexBuffer() const {
+				return nullptr;
+			}
+
+			void UnmapIndexBuffer() {
+				;
 			}
 
 			VaoCore<VB, IndexBufferObject<std::nullptr_t>>& m_core;
@@ -218,11 +230,17 @@ namespace Graphics
 				m_core.m_vertex_buffer->Bind();
 				m_core.m_index_buffer->Bind();
 
-				CurrentConfigurer p{};
+				CurrentConfigurer::Apply();
 
 				GL_CALL(glBindVertexArray(0));
 
 				return true;
+			}
+
+			void InternalBind() {
+				m_core.m_vertex_buffer->Bind();
+				m_core.m_index_buffer->Bind();
+				CurrentConfigurer::Apply();
 			}
 
 			VaoCore<VertexBufferObject<Vertex>, IndexBufferObject<Index>>& m_core;
@@ -265,6 +283,11 @@ namespace Graphics
 				return true;
 			}
 
+			void InternalBind() {
+				m_core.m_vertex_buffer->Bind();
+				CurrentConfigurer::Apply();
+			}
+
 			VaoCore<VertexBufferObject<Vertex>, IndexBufferObject<std::nullptr_t>>& m_core;
 		};
 
@@ -295,15 +318,12 @@ namespace Graphics
 			void Bind()
 			{
 				GL_CALL(glBindVertexArray(m_core.m_vao));
+				InternalBind();
 			}
 
 			void Unbind()
 			{
 				GL_CALL(glBindVertexArray(0));
-				for (int i = 0; i < 16; i++)
-				{
-					GL_CALL(glDisableVertexAttribArray(i));
-				}
 			}										
 		};	
 	}

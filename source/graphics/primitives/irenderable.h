@@ -22,6 +22,10 @@ namespace Graphics {
         virtual std::uint64_t GetMemoryUsage() = 0;
         virtual bool HasData() const = 0;
 		virtual void Cook(IVertexArray* vb, IIndexArray* ib) = 0;
+		virtual void* MapVertexBuffer() = 0;
+		virtual void UnmapVertexVuffer(void*) = 0;
+		virtual void* MapIndexBuffer() = 0;
+		virtual void UnmapIndexBuffer(void*) = 0;
 	};
 
 	using IRenderableUniquePtr = Core::UniquePtr < IRenderable > ;    

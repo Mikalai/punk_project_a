@@ -26,9 +26,12 @@ namespace Graphics {
 			}*/
 
 			static void Apply() {
-				GL_CALL(glVertexAttribPointer(T::Slot(), T::Components(), GL_FLOAT, GL_FALSE, sizeof(V),
-					(void*)Offset<V, T>::Value()));
-				GL_CALL(glEnableVertexAttribArray(T::Slot()));
+				int slot = T::Slot();
+				int components = T::Components();
+				int offset = Offset<V, T>::Value();
+				int vertex_size = sizeof(V);
+				GL_CALL(glVertexAttribPointer(slot, components, GL_FLOAT, GL_FALSE, vertex_size, (void*)offset));
+				GL_CALL(glEnableVertexAttribArray(slot));
 				AttributeConfigure < V, Args... >::Apply();
 			}
 		};

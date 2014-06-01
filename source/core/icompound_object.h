@@ -98,7 +98,7 @@ namespace Core {
 		return m_container.GetChildrenCount();\
 			}\
 	private:\
-	std::atomic<std::uint32_t> m_ref_count; \
+	std::atomic<std::uint32_t> m_ref_count{1}; \
 	Core::Container<IObject> m_container{this, Core::GetRootObject()};
 
 #define PUNK_COMP_OBJECT_DEFAULT_IMPL2(T) \
@@ -173,7 +173,7 @@ namespace Core {
 		if (!m_ref_count.fetch_sub(1)) {\
 			delete this;\
 						}\
-		return m_ref_count;\
+		return m_ref_count{1};\
 			}\
 	\
 	const IObject* GetOwner() const {\

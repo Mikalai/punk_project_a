@@ -8,7 +8,7 @@
 #include <cstdint>
 
 PUNK_ENGINE_BEGIN
-namespace Image { class Image; }
+namespace ImageModule { class Image; }
 namespace Core {
 	class String;
 	class Buffer;

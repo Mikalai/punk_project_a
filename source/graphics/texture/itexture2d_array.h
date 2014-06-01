@@ -12,7 +12,7 @@ namespace Graphics {
 
     using ITexture2DArrayUniquePtr = std::unique_ptr<ITexture2DArray, void (*)(ITexture2DArray*)>;
 
-    extern PUNK_ENGINE_API ITexture2DArrayUniquePtr CreateTexture2DArray(std::uint32_t width, std::uint32_t height, std::uint32_t size, Image::ImageFormat internal_format, Image::ImageFormat format, Image::DataType type, const void *data, bool use_mipmaps, IVideoDriver *driver);
+    extern PUNK_ENGINE_API ITexture2DArrayUniquePtr CreateTexture2DArray(std::uint32_t width, std::uint32_t height, std::uint32_t size, ImageModule::ImageFormat internal_format, ImageModule::ImageFormat format, ImageModule::DataType type, const void *data, bool use_mipmaps, IVideoDriver *driver);
     extern PUNK_ENGINE_API void DestroyTexture2DArray(ITexture2DArray* value);
 }
 PUNK_ENGINE_END

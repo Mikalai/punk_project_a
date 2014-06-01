@@ -110,10 +110,10 @@ namespace SceneModule {
         }
     }    
 
-	void Node::SetSceneGraph(IScene* graph) {
+	void Node::SetScene(IScene* graph) {
 		m_scene_graph = graph;
 		for (auto child : m_children) {
-			child->SetSceneGraph(graph);
+			child->SetScene(graph);
 		}
 	}
 
@@ -147,6 +147,14 @@ namespace SceneModule {
 
 	void Node::AddChild(INode* node) {
 		m_children.push_back(node);
+	}
+
+	std::uint32_t Node::GetChildrenCount() const {
+		return (std::uint32_t)m_children.size();
+	}
+
+	INode* Node::GetChild(std::uint32_t index) {
+		return m_children.at(index);
 	}
 		
 	PUNK_REGISTER_CREATOR(IID_INode, Core::CreateInstance<Node>);

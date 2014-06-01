@@ -86,12 +86,12 @@ namespace Graphics
             (void)rect;
 		}
 
-        void DrawImage(float x, float y, const Image::Image& image)
+        void DrawImage(float x, float y, const ImageModule::IImage* image)
 		{
             (void)x; (void)y; (void)image;
 		}
 
-        void DrawImage(const Math::vec2& point, const Image::Image& image)
+        void DrawImage(const Math::vec2& point, const ImageModule::IImage* image)
 		{
             (void)point; (void)image;
 		}        
@@ -285,12 +285,12 @@ namespace Graphics
 		impl->DrawRect(rect);
 	}
 
-    void Painter::DrawImage(float x, float y, const Image::Image& image)
+    void Painter::DrawImage(float x, float y, const ImageModule::IImage* image)
 	{
 		impl->DrawImage(x, y, image);
 	}
 
-    void Painter::DrawImage(const Math::vec2& point, const Image::Image& image)
+    void Painter::DrawImage(const Math::vec2& point, const ImageModule::IImage* image)
 	{
 		impl->DrawImage(point, image);
 	}

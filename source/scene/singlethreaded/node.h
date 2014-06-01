@@ -19,6 +19,8 @@ namespace SceneModule
 
 		void QueryInterface(const Core::Guid& type, void** object) override;
 		void AddChild(INode* node) override;
+		std::uint32_t GetChildrenCount() const override;
+		INode* GetChild(std::uint32_t index) override;
         void SetAttribute(IAttribute* value) override;
         IAttribute* GetAttribute(const Core::String&, std::uint64_t type) const override;
 		IAttribute* GetAttribute(std::uint64_t type, std::uint32_t index) const override;
@@ -28,7 +30,7 @@ namespace SceneModule
         NodeState GetState() const override;
         void SetState(NodeState value) override;
         IScene* GetSceneGraph() override;
-		void SetSceneGraph(IScene* graph) override;
+		void SetScene(IScene* graph) override;
 
         ///
         /// \brief MarkToDelete

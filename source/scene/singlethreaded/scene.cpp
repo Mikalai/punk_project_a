@@ -11,6 +11,7 @@ namespace SceneModule
 
 	Scene::Scene() {
 		Core::GetFactory()->CreateInstance(IID_INode, (void**)&m_root);
+		m_root->SetScene(this);
 	}
 
 	Scene::~Scene() {
@@ -39,9 +40,12 @@ namespace SceneModule
     }
 
     void Scene::SetRoot(INode* node) {
-        if (m_root)
-            Core::DestroyObject(m_root);
+		if (m_root) {
+			OnNodeRemoved(nullptr, node);
+			Core::DestroyObject(m_root);
+		}
         m_root = node;
+		OnNodeAdded(nullptr, m_root);
     }
 
 	INode* Scene::ReleaseRoot() {
@@ -105,7 +109,7 @@ namespace SceneModule
 		ISceneGraphUniquePtr scene{ new Scene, Core::DestroyObject };
 		INode* node{ nullptr };
 		Core::GetFactory()->CreateInstance(IID_INode, (void**)&node);
-		node->SetSceneGraph(scene.get());
+		node->SetScene(scene.get());
 		scene->SetSourcePath(path);	
 		{
 			Attributes::IFileStub* stub = nullptr;

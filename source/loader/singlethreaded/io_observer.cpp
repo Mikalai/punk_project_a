@@ -17,7 +17,7 @@ namespace IoModule {
 	IoObserver::~IoObserver() {}
 
 	void IoObserver::QueryInterface(const Core::Guid& type, void** object) {
-
+		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IIoObserver });
 	}
 
 	void IoObserver::ProcessNode(SceneModule::INode* root) {
@@ -31,8 +31,29 @@ namespace IoModule {
 			for (auto i = 0; i < count; ++i) {
 				Attributes::IFileStub* stub = node->GetAttributeOfType<Attributes::IFileStub>(i);
 				auto filename = stub->GetFilename();
-				Core::IObject* o = ParsePunkFile(filename);
+				if (stub->IsLoaded())
+					continue;
+				if (stub->IsLoaded())
+					continue;
+				stub->SetLoading(true);
+				Core::IObject* o = ParsePunkFile(m_scene->GetSourcePath() + filename);
+				stub->SetLoaded(true);
+				{
+					Attributes::ITransform* transform = nullptr;
+					o->QueryInterface(Attributes::IID_ITransform, (void**)&transform);
+					if (transform)
+						node->Set<Attributes::ITransform>("Transform", transform);
+				}
+				{
+					Attributes::IGeometry* geometry = nullptr;
+					o->QueryInterface(Attributes::IID_IGeometry, (void**)&geometry);
+					if (geometry)
+						node->Set<Attributes::IGeometry>(geometry->GetName(), geometry);
+				}
+			}
 
+			for (int i = 0, max_i = (int)node->GetChildrenCount(); i < max_i; ++i) {
+				nodes.push(node->GetChild(i));
 			}
 		}
 	}
@@ -53,12 +74,19 @@ namespace IoModule {
 	void IoObserver::OnAttributeAdded(SceneModule::INode* node, SceneModule::IAttribute* attribute) {
 		if (attribute->GetTypeID() == typeid(Attributes::IFileStub).hash_code()) {
 			auto stub = attribute->Get<Attributes::IFileStub>();
-			Core::IObject* o = ParsePunkFile(stub->GetFilename());
+			Core::IObjectUniquePtr o{ ParsePunkFile(stub->GetFilename()), Core::DestroyObject };
 			{
 				Attributes::IGeometry* geom = nullptr;
-				o->QueryInterface(Attributes::IID_IGeometry, (void**)geom);
+				o->QueryInterface(Attributes::IID_IGeometry, (void**)&geom);
 				if (geom)
 					node->Set<Attributes::IGeometry>("Geometry", geom);
+				SceneModule::IScene* scene = nullptr;
+				o->QueryInterface(SceneModule::IID_IScene, (void**)&scene);
+				if (scene) {
+					SceneModule::INode* new_root = scene->GetRoot();
+					new_root->AddRef();
+					m_scene->SetRoot(new_root);
+				}
 			}			
 		}
 	}

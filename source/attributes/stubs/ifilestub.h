@@ -11,6 +11,10 @@ namespace Attributes {
 
 	class IFileStub : public Core::IObject {
 	public:
+		virtual bool IsLoaded() const = 0;
+		virtual bool IsLoading() const = 0;
+		virtual void SetLoading(bool value) = 0;
+		virtual void SetLoaded(bool value) = 0;
 		virtual void SetFilename(const Core::String& value) = 0;
 		virtual const Core::String GetFilename() = 0;
 	};

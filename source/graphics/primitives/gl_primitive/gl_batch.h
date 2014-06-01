@@ -90,6 +90,22 @@ namespace Graphics {
 				return true;
 			}
 
+			void* MapVertexBuffer() override {
+				return m_core.m_vao->MapVertexBuffer();
+			}
+
+			void UnmapVertexVuffer(void*) override {
+				m_core.m_vao->UnmapVertexBuffer();
+			}
+
+			void* MapIndexBuffer() {
+				return m_core.m_vao->MapIndexBuffer();
+			}
+
+			void UnmapIndexBuffer(void*) {
+				return m_core.m_vao->UnmapIndexBuffer();
+			}
+
 			void Cook(VertexArray<Vertex<VC...>>* vb, IndexArray<IT>* ib) {
 				m_core.m_vao->Cook(vb, ib);
 			}

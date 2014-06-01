@@ -60,7 +60,7 @@ namespace ImageModule {
 		}
 
 	private:
-		std::atomic<std::uint32_t> m_ref_count;
+		std::atomic<std::uint32_t> m_ref_count{ 1 };
 		std::uint32_t m_width;
 		std::uint32_t m_height;
 		ImageFormat m_format;

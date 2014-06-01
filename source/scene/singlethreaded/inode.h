@@ -20,6 +20,8 @@ namespace SceneModule {
     class INode : public Core::IObject {
     public:
 		virtual void AddChild(INode* node) = 0;
+		virtual std::uint32_t GetChildrenCount() const = 0;
+		virtual INode* GetChild(std::uint32_t index) = 0;
         virtual void SetAttribute(IAttribute* value) = 0;
         virtual IAttribute* GetAttribute(const Core::String&, std::uint64_t type) const = 0;
 		virtual IAttribute* GetAttribute(std::uint64_t type, std::uint32_t index) const = 0;
@@ -29,7 +31,7 @@ namespace SceneModule {
         virtual NodeState GetState() const = 0;
         virtual void SetState(NodeState value) = 0;
         virtual IScene* GetSceneGraph() = 0;
-		virtual void SetSceneGraph(IScene* graph) = 0;
+		virtual void SetScene(IScene* graph) = 0;
 
         ///
         /// \brief MarkToDelete

@@ -4,7 +4,7 @@
 #include <graphics/opengl/module.h>
 
 PUNK_ENGINE_BEGIN
-namespace Image{
+namespace ImageModule{
     enum class ImageFormat : unsigned;
     enum class DataType : unsigned;
 }
@@ -22,9 +22,9 @@ namespace Graphics {
         GLenum Convert(const TextureWrapDirection& value);
         GLenum Convert(const TextureCompareFunc& value);
         GLenum Convert(const TextureCompareMode& value);
-        GLenum Convert(const Image::ImageFormat& format);
-        GLenum Convert(const Image::DataType& value);
-        size_t PixelSize(const Image::ImageFormat& value);
+        GLenum Convert(const ImageModule::ImageFormat& format);
+        GLenum Convert(const ImageModule::DataType& value);
+        size_t PixelSize(const ImageModule::ImageFormat& value);
     }
 }
 PUNK_ENGINE_END

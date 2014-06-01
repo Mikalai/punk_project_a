@@ -43,8 +43,8 @@ namespace Graphics
 		void DrawLines(const std::vector<Math::Line2D>& lines);
 		void DrawEllipse(float xc, float yc, float major_axis, float minor_axis);
 		void DrawEllipse(const Math::Rect& rect);
-        void DrawImage(float x, float y, const Image::Image& image);
-        void DrawImage(const Math::vec2& point, const Image::Image& image);
+        void DrawImage(float x, float y, const ImageModule::IImage* image);
+        void DrawImage(const Math::vec2& point, const ImageModule::IImage* image);
 		void DrawRect(const Math::Rect& rect);
 		void DrawRect(float x, float y, float width, float height);
 		void DrawRoundedRect(float x, float y, float x_r, float y_r);

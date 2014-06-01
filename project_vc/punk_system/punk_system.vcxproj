@@ -145,7 +145,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>PUNK_ENGINE_EXPORTS;WIN32;WIN64;PUNK_ENGINE_EXPORTS;WIN32;WIN64;PUNK_ENGINE_EXPORTS;WIN32;WIN64;nitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PUNK_ENGINE_EXPORTS;WIN32;WIN64;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)..\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>

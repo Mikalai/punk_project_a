@@ -179,6 +179,7 @@
     <ClCompile Include="..\..\source\loader\parser\parse_location_indoor.cpp" />
     <ClCompile Include="..\..\source\loader\parser\parse_map_description.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\source\loader\parser\parse_material.cpp" />
     <ClCompile Include="..\..\source\loader\parser\parse_materials.cpp" />
@@ -192,9 +193,11 @@
     <ClCompile Include="..\..\source\loader\parser\parse_punk_file.cpp" />
     <ClCompile Include="..\..\source\loader\parser\parse_river.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\source\loader\parser\parse_river_node.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\source\loader\parser\parse_rotation_track.cpp" />
     <ClCompile Include="..\..\source\loader\parser\parse_scene.cpp" />
@@ -211,15 +214,19 @@
     <ClCompile Include="..\..\source\loader\parser\parse_sun_node.cpp" />
     <ClCompile Include="..\..\source\loader\parser\parse_terrain_cell.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\source\loader\parser\parse_terrain_mesh.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\source\loader\parser\parse_terrain_node.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\source\loader\parser\parse_terrain_raw_data_source.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\source\loader\parser\parse_textures.cpp" />
     <ClCompile Include="..\..\source\loader\parser\parse_texture_slot.cpp" />
@@ -253,9 +260,11 @@
     <ClCompile Include="..\..\source\loader\serializer\io_sun.cpp" />
     <ClCompile Include="..\..\source\loader\serializer\io_terrain_cell.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\source\loader\serializer\io_terrain_mesh.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\source\loader\serializer\io_transform.cpp" />
     <ClCompile Include="..\..\source\loader\serializer\io_vector.cpp" />
@@ -291,6 +300,7 @@
     <ClInclude Include="..\..\source\loader\parser\parse_location_indoor.h" />
     <ClInclude Include="..\..\source\loader\parser\parse_map_description.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\source\loader\parser\parse_material.h" />
     <ClInclude Include="..\..\source\loader\parser\parse_materials.h" />
@@ -305,9 +315,11 @@
     <ClInclude Include="..\..\source\loader\parser\parse_punk_file.h" />
     <ClInclude Include="..\..\source\loader\parser\parse_river.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\source\loader\parser\parse_river_node.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\source\loader\parser\parse_rotation_track.h" />
     <ClInclude Include="..\..\source\loader\parser\parse_scene.h" />
@@ -324,15 +336,19 @@
     <ClInclude Include="..\..\source\loader\parser\parse_sun_node.h" />
     <ClInclude Include="..\..\source\loader\parser\parse_terrain_cell.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\source\loader\parser\parse_terrain_mesh.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\source\loader\parser\parse_terrain_node.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\source\loader\parser\parse_terrain_raw_data_source.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\source\loader\parser\parse_textures.h" />
     <ClInclude Include="..\..\source\loader\parser\parse_texture_slot.h" />
@@ -366,9 +382,11 @@
     <ClInclude Include="..\..\source\loader\serializer\io_sun.h" />
     <ClInclude Include="..\..\source\loader\serializer\io_terrain_cell.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\source\loader\serializer\io_terrain_mesh.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\source\loader\serializer\io_transform.h" />
     <ClInclude Include="..\..\source\loader\serializer\io_vector.h" />

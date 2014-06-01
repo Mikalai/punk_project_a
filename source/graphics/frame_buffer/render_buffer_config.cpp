@@ -14,11 +14,11 @@ namespace Graphics
         return m_name;
     }
 
-    void RenderBufferConfig::Format(Image::ImageFormat value) {
+    void RenderBufferConfig::Format(ImageModule::ImageFormat value) {
         m_format = value;
     }
 
-    Image::ImageFormat RenderBufferConfig::Format() const {
+    ImageModule::ImageFormat RenderBufferConfig::Format() const {
         return m_format;
     }
 

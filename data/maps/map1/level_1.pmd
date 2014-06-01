@@ -4,14 +4,14 @@ SCENETEXT
     Transform
   }
   *entity_name {
-    Cube.001.transform
+    Cube.transform
   }
   *node {
     *name {
       Static
     }
     *entity_name {
-      Cube.001.static
+      Cube.static
     }
   }
 }

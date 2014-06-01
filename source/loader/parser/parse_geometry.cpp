@@ -67,6 +67,12 @@ namespace IoModule
 				geometry->SetVertexBonesWeights(b);
 			}
 				break;
+			case WORD_WORLD_MATRIX:
+			{
+				Math::mat4 m;
+				parser->Parse(WORD_MATRIX4X4F, buffer, m);				
+			}
+				break;
             default:
                 throw Error::LoaderException(L"Unexpected keyword " + word);
             }

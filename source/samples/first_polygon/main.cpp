@@ -3,13 +3,7 @@
 #include <error/module.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <string/module.h>
-#include <system/module.h>
-#include <math/module.h>
-#include <core/module.h>
-#include <error/module.h>
-#include <scene/singlethreaded/module.h>
-#include <application/iapplication.h>
+#include <punk_engine.h>
 
 using namespace Punk::Engine;
 
@@ -96,6 +90,12 @@ int main() {
 			System::GetDefaultLogger()->Error("Can't create application");
 			return -1;
 		}
+
+		app->GetSceneManager()->GetScene()->SetSourcePath("c:\\Projects\\game\\dev\\punk_project_a\\data\\maps\\map1\\");
+		Attributes::IFileStub* file;
+		Core::GetFactory()->CreateInstance(Attributes::IID_IFileStub, (void**)&file);
+		file->SetFilename("c:\\Projects\\game\\dev\\punk_project_a\\data\\maps\\map1\\level_1.pmd");
+		app->GetSceneManager()->GetScene()->GetRoot()->Set<Attributes::IFileStub>("LevelFile", file);
 
 		Core::IObject* o = nullptr;
 		app->QueryInterface(Core::IID_IObject, (void**)&o);

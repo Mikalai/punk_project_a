@@ -38,7 +38,7 @@ namespace Graphics
             m_color_texture = CreateTexture2D(config.Width(),
                         config.Height(),
                         config.ColorFormat(),
-                        Image::ImageFormat::RGBA, Image::DataType::Float, 0, true, GetVideoDriver());
+                        ImageModule::ImageFormat::RGBA, ImageModule::DataType::Float, 0, true, GetVideoDriver());
 
             if (GetVideoDriver()->GetSettings()->IsEnabledMultisampling()) {
                 m_resolve_rb = new GlFrameBuffer(GetVideoDriver());
@@ -57,7 +57,7 @@ namespace Graphics
                             config.Width(),
                             config.Height(),
                             config.DepthFormat(),
-                            Image::ImageFormat::DepthComponent, Image::DataType::Float, 0, false,
+                            ImageModule::ImageFormat::DepthComponent, ImageModule::DataType::Float, 0, false,
                             GetVideoDriver());
                 AttachColorTarget(0, m_color_texture.get());
                 AttachDepthTarget(m_depth_texture.get());
@@ -313,7 +313,7 @@ namespace Graphics
         return buffer;
     }
 
-    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, Image::ImageFormat color_format, Image::ImageFormat depth_format, IVideoDriver* driver)
+    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, ImageModule::ImageFormat color_format, ImageModule::ImageFormat depth_format, IVideoDriver* driver)
     {
         auto fb = driver->GetSettings()->GetFrameBufferConfig(0);
         fb.Width(width);
@@ -325,7 +325,7 @@ namespace Graphics
         return buffer;
     }
 
-    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, Image::ImageFormat color_format, Image::ImageFormat depth_format, int depth_samples, IVideoDriver* driver)
+    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, ImageModule::ImageFormat color_format, ImageModule::ImageFormat depth_format, int depth_samples, IVideoDriver* driver)
     {
         auto fb = driver->GetSettings()->GetFrameBufferConfig(0);
         fb.Width(width);
@@ -338,7 +338,7 @@ namespace Graphics
         return buffer;
     }
 
-    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, Image::ImageFormat color_format, Image::ImageFormat depth_format, int depth_samples, int coverage_samples, IVideoDriver* driver)
+    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, ImageModule::ImageFormat color_format, ImageModule::ImageFormat depth_format, int depth_samples, int coverage_samples, IVideoDriver* driver)
     {
         auto fb = driver->GetSettings()->GetFrameBufferConfig(0);
         fb.Width(width);
