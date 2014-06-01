@@ -43,8 +43,9 @@ namespace SceneModule
 		if (m_root) {
 			OnNodeRemoved(nullptr, node);
 			Core::DestroyObject(m_root);
-		}
-        m_root = node;
+		}		
+        m_root = node;		
+		m_root->SetScene(this);
 		OnNodeAdded(nullptr, m_root);
     }
 

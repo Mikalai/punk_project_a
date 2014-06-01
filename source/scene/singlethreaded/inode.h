@@ -91,12 +91,7 @@ namespace SceneModule {
 
         template<class T>
         void Set(const Core::String& name, T* value) {
-            SetAttribute(new Attribute<T>(name, value, true));
-        }
-
-        template<class T>
-        void Set(const Core::String &name, T value) {
-            SetAttribute(new Attribute<T>(name, new T(value), true));
+            SetAttribute(new Attribute<T>(name, value));
         }
 
 		template<class T>

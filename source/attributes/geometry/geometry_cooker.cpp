@@ -15,11 +15,11 @@ namespace Attributes {
 	}
 
 	std::uint32_t GeometryCooker::Release() {
-		std::uint32_t v = m_ref_count;
-		if (!m_ref_count.fetch_sub(1)) {
+		std::uint32_t v = (m_ref_count.fetch_sub(1) - 1);
+		if (!v) {
 			delete this;
 		}
-		return --v;
+		return v;
 	}
 
 	void GeometryCooker::Cook(IGeometry* mesh, 

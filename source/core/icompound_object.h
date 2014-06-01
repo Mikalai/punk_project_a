@@ -45,7 +45,7 @@ namespace Core {
 		}\
 	\
 	std::uint32_t Object::Release() {\
-		if (!m_ref_count.fetch_sub(1)) {\
+		if (!(m_ref_count.fetch_sub(1)-1)) {\
 			delete this;\
 				}\
 		return m_ref_count;\
@@ -113,7 +113,7 @@ namespace Core {
 			}\
 	\
 	std::uint32_t Release() {\
-		if (!m_ref_count.fetch_sub(1)) {\
+		if (!(m_ref_count.fetch_sub(1)-1)) {\
 			delete this;\
 						}\
 		return m_ref_count;\
@@ -170,7 +170,7 @@ namespace Core {
 			}\
 	\
 	std::uint32_t Release() {\
-		if (!m_ref_count.fetch_sub(1)) {\
+		if (!(m_ref_count.fetch_sub(1)-1) {\
 			delete this;\
 						}\
 		return m_ref_count{1};\

@@ -31,6 +31,9 @@ namespace Graphics
         virtual ~Frame();
 
 		void QueryInterface(const Core::Guid& type, void** object) override;
+		std::uint32_t AddRef() override;
+		std::uint32_t Release() override;
+
         ILowLevelRender* GetRender() override;
 		void SetRender(ILowLevelRender* render) override;
         void Submit(IRenderable* value, bool destroy = false) override;
@@ -191,7 +194,7 @@ namespace Graphics
 		Frame(const Frame&) = delete;
 		Frame& operator = (const Frame&) = delete;
 
-		PUNK_OBJECT_DEFAULT_IMPL(Frame)
+		std::atomic<std::uint32_t> m_ref_count{ 1 };
 	};
 }
 PUNK_ENGINE_END

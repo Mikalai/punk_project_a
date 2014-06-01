@@ -2,6 +2,7 @@
 #define ATTRIBUTE_H
 
 #include <memory>
+#include <system/logger/module.h>
 #include "iattribute.h"
 
 PUNK_ENGINE_BEGIN
@@ -12,8 +13,7 @@ namespace SceneModule {
     {
     public:
         Attribute();
-        Attribute(const Core::String& name, T* value, bool del = true);
-        Attribute(const Core::String& name, const T& value);
+		Attribute(const Core::String& name, T* value);
         virtual ~Attribute();
 
         std::uint64_t GetTypeID() const override;
@@ -25,20 +25,12 @@ namespace SceneModule {
     private:        
         Core::String m_name;
 		Core::UniquePtr<T> m_data{ nullptr, Core::DestroyObject };
-        bool m_delete {true};
     };
 
     template<class T>
-    inline Attribute<T>::Attribute(const Core::String &name, T* value, bool del)
+    inline Attribute<T>::Attribute(const Core::String &name, T* value)
         : m_name(name)
         , m_data(value, Core::DestroyObject)
-        , m_delete(del)
-    {}
-
-    template<class T>
-    inline Attribute<T>::Attribute(const Core::String &name, const T& value)
-        : m_name(name)
-        , m_data(new T(value))
     {}
 
     template<class T>
@@ -48,11 +40,8 @@ namespace SceneModule {
     {}
 
     template<class T>
-    inline Attribute<T>::~Attribute() {
-        if (m_delete)
-            m_data.reset();
-        else
-            m_data.release();
+    inline Attribute<T>::~Attribute() {        
+		System::GetDefaultLogger()->Info("Desotroy attrbute");
     }
 
     template<class T>

@@ -35,7 +35,7 @@ namespace Graphics {
 	}
 
 	std::uint32_t LowLevelRender::Release() {
-		if (!m_ref_count.fetch_sub(1)) {
+		if (!(m_ref_count.fetch_sub(1)-1)) {
 			delete this; \
 		}
 		return m_ref_count;
@@ -128,6 +128,7 @@ namespace Graphics {
 			}
 		}
 		m_queue->Clear();
+		m_frame.reset();
 //#ifdef _DEBUG
 //		System::GetDefaultLogger()->Info("End AsyncBeginRendering");
 //#endif

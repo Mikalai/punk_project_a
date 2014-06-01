@@ -35,10 +35,11 @@ namespace Graphics {
 		}
 
 		std::uint32_t GlVideoDriver::Release() {
-			if (!m_ref_count.fetch_sub(1)) {
-				delete this; \
+			std::uint32_t v = (m_ref_count.fetch_sub(1) - 1);
+			if (!v) {
+				delete this;
 			}
-			return m_ref_count;
+			return v;
 		}
 
 

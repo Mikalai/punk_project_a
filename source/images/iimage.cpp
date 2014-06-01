@@ -25,7 +25,7 @@ namespace ImageModule {
 
 		std::uint32_t Release() override {
 			std::uint32_t value = m_ref_count;
-			if (!m_ref_count.fetch_sub(1)) {
+			if (!(m_ref_count.fetch_sub(1)-1)) {
 				delete this;
 			}
 			value--;

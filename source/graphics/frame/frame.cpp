@@ -22,6 +22,18 @@
 PUNK_ENGINE_BEGIN
 namespace Graphics
 {
+	std::uint32_t Frame::AddRef() {
+		return m_ref_count.fetch_add(1);
+	}
+
+	std::uint32_t Frame::Release() {
+		std::uint32_t v = m_ref_count.fetch_sub(1);
+		if (!--v) {
+			delete this;
+		}
+		return v;
+	}
+
     Frame::Frame()
     {
 #ifdef _DEBUG
