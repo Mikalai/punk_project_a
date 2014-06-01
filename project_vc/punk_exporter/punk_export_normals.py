@@ -19,7 +19,7 @@ def export_normals(f, mesh):
     #   f.write("%d\n" % len(mesh.vertices))
     for vertex in mesh.vertices:
         make_offset(f)
-        f.write("{0} {1} {2} {3}\n".format(vertex.index, vertex.normal.x, vertex.normal.y, vertex.normal.z))
+        f.write("{0} {1} {2}\n".format(vertex.normal.x, vertex.normal.y, vertex.normal.z))
     end_block(f)
     return
     
