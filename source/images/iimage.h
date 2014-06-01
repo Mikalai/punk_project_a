@@ -25,6 +25,8 @@ namespace ImageModule {
 		virtual void* GetData() = 0;
 	};
 
+	using IImageUniquePtr = Core::UniquePtr < IImage > ;
+
 	template<ImageFormat format>
 	class ImageAccessor
 	{

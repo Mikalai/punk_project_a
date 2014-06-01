@@ -2,9 +2,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClInclude Include="..\..\source\images\formats.h" />
-    <ClInclude Include="..\..\source\images\image_file.h" />
     <ClInclude Include="..\..\source\images\module.h" />
-    <ClInclude Include="..\..\source\images\png_file.h" />
     <ClInclude Include="..\..\source\images\converter\yuy2_to_rgb.h">
       <Filter>converter</Filter>
     </ClInclude>
@@ -161,24 +159,6 @@
     <ClInclude Include="..\..\source\images\import_export\zlib\zutil.h">
       <Filter>import_export\zlib</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\images\internal_images\component.h">
-      <Filter>import_export\internal_images</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\images\internal_images\gray_image.h">
-      <Filter>import_export\internal_images</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\images\internal_images\image.h">
-      <Filter>import_export\internal_images</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\images\internal_images\image_impl.h">
-      <Filter>import_export\internal_images</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\images\internal_images\rgb_image.h">
-      <Filter>import_export\internal_images</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\images\internal_images\rgba_image.h">
-      <Filter>import_export\internal_images</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\images\iimage.h" />
     <ClInclude Include="..\..\source\images\types.h">
       <Filter>import_export</Filter>
@@ -202,8 +182,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\source\images\image_file.cpp" />
-    <ClCompile Include="..\..\source\images\png_file.cpp" />
     <ClCompile Include="..\..\source\images\converter\yuy2_to_rgb.cpp">
       <Filter>converter</Filter>
     </ClCompile>
@@ -600,18 +578,6 @@
     <ClCompile Include="..\..\source\images\import_export\zlib\zutil.c">
       <Filter>import_export\zlib</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\images\internal_images\gray_image.cpp">
-      <Filter>import_export\internal_images</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\images\internal_images\image.cpp">
-      <Filter>import_export\internal_images</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\images\internal_images\rgb_image.cpp">
-      <Filter>import_export\internal_images</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\images\internal_images\rgba_image.cpp">
-      <Filter>import_export\internal_images</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\images\iimage.cpp" />
     <ClCompile Include="..\..\source\images\import_export\image_reader.cpp">
       <Filter>import_export</Filter>
@@ -641,9 +607,6 @@
     </Filter>
     <Filter Include="import_export\zlib">
       <UniqueIdentifier>{50ae1ed2-9622-4982-9bea-f91f12c8b52c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="import_export\internal_images">
-      <UniqueIdentifier>{f004d43f-1468-4888-ab84-1d00237652cc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

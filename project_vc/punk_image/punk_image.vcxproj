@@ -165,7 +165,6 @@
     <ClInclude Include="..\..\source\images\formats.h" />
     <ClInclude Include="..\..\source\images\iimage.h" />
     <ClInclude Include="..\..\source\images\iimage_reader.h" />
-    <ClInclude Include="..\..\source\images\image_file.h" />
     <ClInclude Include="..\..\source\images\import_export\exporter.h" />
     <ClInclude Include="..\..\source\images\import_export\iimage_file_reader.h" />
     <ClInclude Include="..\..\source\images\import_export\image_file_types.h" />
@@ -218,24 +217,16 @@
     <ClInclude Include="..\..\source\images\import_export\zlib\zconf.h" />
     <ClInclude Include="..\..\source\images\import_export\zlib\zlib.h" />
     <ClInclude Include="..\..\source\images\import_export\zlib\zutil.h" />
-    <ClInclude Include="..\..\source\images\internal_images\component.h" />
-    <ClInclude Include="..\..\source\images\internal_images\gray_image.h" />
-    <ClInclude Include="..\..\source\images\internal_images\image.h" />
-    <ClInclude Include="..\..\source\images\internal_images\image_impl.h" />
-    <ClInclude Include="..\..\source\images\internal_images\rgba_image.h" />
-    <ClInclude Include="..\..\source\images\internal_images\rgb_image.h" />
     <ClInclude Include="..\..\source\images\module.h" />
     <ClInclude Include="..\..\source\images\pixel.h" />
     <ClInclude Include="..\..\source\images\pixel_data_accessor.h" />
     <ClInclude Include="..\..\source\images\pixel_offset.h" />
     <ClInclude Include="..\..\source\images\pixel_size_accessor.h" />
-    <ClInclude Include="..\..\source\images\png_file.h" />
     <ClInclude Include="..\..\source\images\types.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\images\converter\yuy2_to_rgb.cpp" />
     <ClCompile Include="..\..\source\images\iimage.cpp" />
-    <ClCompile Include="..\..\source\images\image_file.cpp" />
     <ClCompile Include="..\..\source\images\import_export\exporter.cpp" />
     <ClCompile Include="..\..\source\images\import_export\image_reader.cpp" />
     <ClCompile Include="..\..\source\images\import_export\importer.cpp" />
@@ -372,11 +363,6 @@
     <ClCompile Include="..\..\source\images\import_export\zlib\trees.c" />
     <ClCompile Include="..\..\source\images\import_export\zlib\uncompr.c" />
     <ClCompile Include="..\..\source\images\import_export\zlib\zutil.c" />
-    <ClCompile Include="..\..\source\images\internal_images\gray_image.cpp" />
-    <ClCompile Include="..\..\source\images\internal_images\image.cpp" />
-    <ClCompile Include="..\..\source\images\internal_images\rgba_image.cpp" />
-    <ClCompile Include="..\..\source\images\internal_images\rgb_image.cpp" />
-    <ClCompile Include="..\..\source\images\png_file.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\source\images\converter\yuy2_to_rgb.cl" />

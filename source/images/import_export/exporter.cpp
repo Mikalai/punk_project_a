@@ -1,7 +1,6 @@
 #include "exporter.h"
 #include "png_exporter.h"
 #include "images/error/module.h"
-#include "images/internal_images/image.h"
 #include "string/string.h"
 
 PUNK_ENGINE_BEGIN
