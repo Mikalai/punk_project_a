@@ -6,7 +6,7 @@
 
 PUNK_ENGINE_BEGIN
 namespace Core { class Buffer; }
-namespace Image {
+namespace ImageModule {
 
 	class PUNK_ENGINE_API ImageFile
 	{

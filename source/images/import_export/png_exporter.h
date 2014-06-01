@@ -4,12 +4,12 @@
 #include "exporter.h"
 
 PUNK_ENGINE_BEGIN
-namespace Image
+namespace ImageModule
 {
 	class PngExporter : public Exporter
 	{
 	public:
-        virtual void Export(const Core::String& filename, const Image& image);
+        virtual void Export(const Core::String& filename, const IImage* image);
 	};
 }
 PUNK_ENGINE_END

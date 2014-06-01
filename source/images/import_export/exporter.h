@@ -5,14 +5,14 @@
 
 PUNK_ENGINE_BEGIN
 namespace Core { class String; }
-namespace Image
+namespace ImageModule
 {
-	class Image;
+	class IImage;
 
 	class PUNK_ENGINE_API Exporter
 	{
 	public:
-        virtual void Export(const Core::String& filename, const Image& image);
+        virtual void Export(const Core::String& filename, const IImage* image);
 	};
 }
 PUNK_ENGINE_END

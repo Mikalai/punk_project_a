@@ -52,6 +52,15 @@ namespace Core {
                 m_current = m_buffer + m_capacity;
         }
 
+		void SetOffset(std::uint32_t value, int dir) {
+			if (dir == SEEK_CUR)
+				m_current += value;
+			else if (dir == SEEK_END)
+				m_current = m_buffer + m_capacity - value;
+			else if (dir == SEEK_SET)
+				m_current = m_buffer + value;
+		}
+
         bool IsEnd() const {
             return m_current - m_buffer >= (std::ptrdiff_t)m_capacity;
         }
@@ -199,6 +208,10 @@ namespace Core {
     void Buffer::SetPosition(std::uint32_t value) {
         impl->SetPosition(value);
     }
+
+	void Buffer::SetOffset(std::uint32_t pos, int dir) {
+		impl->SetOffset(pos, dir);
+	}
 
     bool Buffer::IsEnd() const {
         return impl->IsEnd();

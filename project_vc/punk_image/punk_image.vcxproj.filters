@@ -23,19 +23,7 @@
     <ClInclude Include="..\..\source\images\import_export\importer_impl.h">
       <Filter>import_export</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\images\import_export\jpg_importer.h">
-      <Filter>import_export</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\images\import_export\openexr_importer.h">
-      <Filter>import_export</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\images\import_export\png_exporter.h">
-      <Filter>import_export</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\images\import_export\png_importer.h">
-      <Filter>import_export</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\images\import_export\tiff_importer.h">
       <Filter>import_export</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\images\import_export\libjpeg\cderror.h">
@@ -191,6 +179,27 @@
     <ClInclude Include="..\..\source\images\internal_images\rgba_image.h">
       <Filter>import_export\internal_images</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\images\iimage.h" />
+    <ClInclude Include="..\..\source\images\types.h">
+      <Filter>import_export</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\images\pixel_offset.h" />
+    <ClInclude Include="..\..\source\images\pixel_data_accessor.h" />
+    <ClInclude Include="..\..\source\images\pixel_size_accessor.h" />
+    <ClInclude Include="..\..\source\images\pixel.h" />
+    <ClInclude Include="..\..\source\images\iimage_reader.h" />
+    <ClInclude Include="..\..\source\images\import_export\image_file_types.h">
+      <Filter>import_export</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\images\import_export\iimage_file_reader.h">
+      <Filter>import_export</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\images\import_export\reader_policy.h">
+      <Filter>import_export</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\images\import_export\png_reader.h">
+      <Filter>import_export</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\images\image_file.cpp" />
@@ -204,16 +213,10 @@
     <ClCompile Include="..\..\source\images\import_export\importer.cpp">
       <Filter>import_export</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\images\import_export\jpg_importer.cpp">
-      <Filter>import_export</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\images\import_export\openexr_importer.cpp">
       <Filter>import_export</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\images\import_export\png_exporter.cpp">
-      <Filter>import_export</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\images\import_export\png_importer.cpp">
       <Filter>import_export</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\images\import_export\tiff_importer.cpp">
@@ -608,6 +611,13 @@
     </ClCompile>
     <ClCompile Include="..\..\source\images\internal_images\rgba_image.cpp">
       <Filter>import_export\internal_images</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\images\iimage.cpp" />
+    <ClCompile Include="..\..\source\images\import_export\image_reader.cpp">
+      <Filter>import_export</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\images\import_export\jpg_reader.h">
+      <Filter>import_export</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

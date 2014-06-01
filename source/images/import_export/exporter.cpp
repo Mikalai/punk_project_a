@@ -5,9 +5,9 @@
 #include "string/string.h"
 
 PUNK_ENGINE_BEGIN
-namespace Image
+namespace ImageModule
 {
-    void Exporter::Export(const Core::String& filename, const Image& image)
+    void Exporter::Export(const Core::String& filename, const IImage* image)
     {
         if (filename.EndWith(".png"))
 		{

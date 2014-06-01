@@ -4,7 +4,7 @@
 #include "system/errors/module.h"
 
 PUNK_ENGINE_BEGIN
-namespace Image
+namespace ImageModule
 {
     namespace Error {
         class PUNK_ENGINE_API ImageException : public System::Error::SystemException {

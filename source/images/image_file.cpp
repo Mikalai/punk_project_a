@@ -3,7 +3,7 @@
 #include "image_file.h"
 
 PUNK_ENGINE_BEGIN
-namespace Image
+namespace ImageModule
 {
 	ImageFile::Rep::Rep() : m_data(0), 
 		m_width(0), 

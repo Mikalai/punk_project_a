@@ -163,11 +163,14 @@
     <ClInclude Include="..\..\source\images\error\image_exceptions.h" />
     <ClInclude Include="..\..\source\images\error\module.h" />
     <ClInclude Include="..\..\source\images\formats.h" />
+    <ClInclude Include="..\..\source\images\iimage.h" />
+    <ClInclude Include="..\..\source\images\iimage_reader.h" />
     <ClInclude Include="..\..\source\images\image_file.h" />
     <ClInclude Include="..\..\source\images\import_export\exporter.h" />
+    <ClInclude Include="..\..\source\images\import_export\iimage_file_reader.h" />
+    <ClInclude Include="..\..\source\images\import_export\image_file_types.h" />
     <ClInclude Include="..\..\source\images\import_export\importer.h" />
     <ClInclude Include="..\..\source\images\import_export\importer_impl.h" />
-    <ClInclude Include="..\..\source\images\import_export\jpg_importer.h" />
     <ClInclude Include="..\..\source\images\import_export\libjpeg\cderror.h" />
     <ClInclude Include="..\..\source\images\import_export\libjpeg\cdjpeg.h" />
     <ClInclude Include="..\..\source\images\import_export\libjpeg\jconfig.h" />
@@ -202,10 +205,8 @@
     <ClInclude Include="..\..\source\images\import_export\libtiff\tif_fax3.h" />
     <ClInclude Include="..\..\source\images\import_export\libtiff\tif_predict.h" />
     <ClInclude Include="..\..\source\images\import_export\libtiff\uvcode.h" />
-    <ClInclude Include="..\..\source\images\import_export\openexr_importer.h" />
     <ClInclude Include="..\..\source\images\import_export\png_exporter.h" />
-    <ClInclude Include="..\..\source\images\import_export\png_importer.h" />
-    <ClInclude Include="..\..\source\images\import_export\tiff_importer.h" />
+    <ClInclude Include="..\..\source\images\import_export\reader_policy.h" />
     <ClInclude Include="..\..\source\images\import_export\zlib\crc32.h" />
     <ClInclude Include="..\..\source\images\import_export\zlib\deflate.h" />
     <ClInclude Include="..\..\source\images\import_export\zlib\gzguts.h" />
@@ -224,14 +225,21 @@
     <ClInclude Include="..\..\source\images\internal_images\rgba_image.h" />
     <ClInclude Include="..\..\source\images\internal_images\rgb_image.h" />
     <ClInclude Include="..\..\source\images\module.h" />
+    <ClInclude Include="..\..\source\images\pixel.h" />
+    <ClInclude Include="..\..\source\images\pixel_data_accessor.h" />
+    <ClInclude Include="..\..\source\images\pixel_offset.h" />
+    <ClInclude Include="..\..\source\images\pixel_size_accessor.h" />
     <ClInclude Include="..\..\source\images\png_file.h" />
+    <ClInclude Include="..\..\source\images\types.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\images\converter\yuy2_to_rgb.cpp" />
+    <ClCompile Include="..\..\source\images\iimage.cpp" />
     <ClCompile Include="..\..\source\images\image_file.cpp" />
     <ClCompile Include="..\..\source\images\import_export\exporter.cpp" />
+    <ClCompile Include="..\..\source\images\import_export\image_reader.cpp" />
     <ClCompile Include="..\..\source\images\import_export\importer.cpp" />
-    <ClCompile Include="..\..\source\images\import_export\jpg_importer.cpp" />
+    <ClCompile Include="..\..\source\images\import_export\jpg_reader.h" />
     <ClCompile Include="..\..\source\images\import_export\libjpeg\cdjpeg.c" />
     <ClCompile Include="..\..\source\images\import_export\libjpeg\jaricom.c" />
     <ClCompile Include="..\..\source\images\import_export\libjpeg\jcarith.c" />
@@ -345,7 +353,9 @@
     <ClCompile Include="..\..\source\images\import_export\libtiff\tif_zip.c" />
     <ClCompile Include="..\..\source\images\import_export\openexr_importer.cpp" />
     <ClCompile Include="..\..\source\images\import_export\png_exporter.cpp" />
-    <ClCompile Include="..\..\source\images\import_export\png_importer.cpp" />
+    <ClInclude Include="..\..\source\images\import_export\png_reader.h">
+      <FileType>CppCode</FileType>
+    </ClInclude>
     <ClCompile Include="..\..\source\images\import_export\tiff_importer.cpp" />
     <ClCompile Include="..\..\source\images\import_export\zlib\adler32.c" />
     <ClCompile Include="..\..\source\images\import_export\zlib\compress.c" />

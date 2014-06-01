@@ -24,6 +24,7 @@ namespace Core
         Buffer(std::uint32_t size);
         ~Buffer();
         void SetPosition(std::uint32_t pos);
+		void SetOffset(std::uint32_t pos, int dir);
         std::uint32_t GetPosition() const;
         std::uint32_t GetSize() const;
         void SetSize(std::uint32_t size);

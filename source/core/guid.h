@@ -21,6 +21,7 @@ namespace Core {
 		const Core::String ToString() const;
 		void* ToPointer();
 		const void* ToPointer() const;
+		static const Guid Empty();
 	private:
 		struct GuidCore {
 			std::uint32_t Data1;
