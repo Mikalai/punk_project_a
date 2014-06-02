@@ -17,6 +17,8 @@ namespace Attributes {
 
 		///	IObject
 		void QueryInterface(const Core::Guid& type, void** object) override;
+		std::uint32_t AddRef() override;
+		std::uint32_t Release() override;
 
 		//	ILight
 		void SetEnergy(float value) override { m_energy = value; }
@@ -52,7 +54,7 @@ namespace Attributes {
 		float m_linear_attenuation;
 		float m_quadratic_attenuation;
 
-		PUNK_OBJECT_DEFAULT_IMPL(Light)
+		std::atomic<std::uint32_t> m_ref_count{ 1 };
 	};
 }
 
