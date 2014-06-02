@@ -732,10 +732,10 @@ def export_point_lamp(object):
     global text_offset
     old = text_offset 
     text_offset = 0
-    file = object.data.name + ".point_lamp"
+    file = object.data.name + ".point_light"
     print(file)
     f = open(file, "w")
-    f.write("POINTLAMPTEXT\n") 
+    f.write("POINTLIGHTTEXT\n") 
     lamp = object.data        
     start_block(f, lamp.name)
     export_vec3(f, "*color", lamp.color)
@@ -750,9 +750,9 @@ def export_point_lamp(object):
          
          
 def export_point_lamps(f):
-    if not ("*point_lamp" in used_entities.keys()):
+    if not ("*point_light" in used_entities.keys()):
         return
-    for object in used_entities["*point_lamp"]:
+    for object in used_entities["*point_light"]:
         data = object.data
         if data != None:
             export_point_lamp(object)
@@ -762,10 +762,10 @@ def export_directional_light(object):
     global text_offset
     old = text_offset 
     text_offset = 0
-    file = object.data.name + ".dir_lamp"
+    file = object.data.name + ".dir_light"
     print(file)
     f = open(file, "w")
-    f.write("DIRLAMPTEXT\n") 
+    f.write("DIRLIGHTTEXT\n") 
     lamp = object.data        
     start_block(f, lamp.name)
     export_vec3(f, "*color", lamp.color)
@@ -778,9 +778,9 @@ def export_directional_light(object):
     return
 
 def export_dir_lamps(f):
-    if not ("*directional_lamp" in used_entities.keys()):
+    if not ("*directional_light" in used_entities.keys()):
         return
-    for object in used_entities["*directional_lamp"]:
+    for object in used_entities["*directional_light"]:
         data = object.data
         if data != None:
             export_directional_light(object)

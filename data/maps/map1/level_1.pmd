@@ -39,7 +39,7 @@ SCENETEXT
         PointLight
       }
       *entity_name {
-        Lamp.point_lamp
+        Lamp.point_light
       }
     }
   }

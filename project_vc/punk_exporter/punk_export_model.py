@@ -183,15 +183,15 @@ import platform
 #    start_block(f, "*node")
 #    export_string(f, "*name", object.name + "_transform")
 #    export_object_matrix(f, object)
-#    if type(object.data) == bpy.types.PointLamp:
-#        push_entity("*point_lamp", object)
-#        export_string(f, "*entity_name", object.data.name + ".point_lamp")
-#    elif type(object.data) == bpy.types.SunLamp:
-#        push_entity("*directional_lamp", object)
-#        export_string(f, "*entity_name", object.data.name + ".dir_lamp")
-#    elif type(object.data) == bpy.types.SpotLamp:
-#        push_entity("*spot_lamp", object)
-#        export_string(f, "*entity_name", object.data.name + ".spot_lamp")
+#    if type(object.data) == bpy.types.PointLight:
+#        push_entity("*point_light", object)
+#        export_string(f, "*entity_name", object.data.name + ".point_light")
+#    elif type(object.data) == bpy.types.SunLight:
+#        push_entity("*directional_light", object)
+#        export_string(f, "*entity_name", object.data.name + ".dir_light")
+#    elif type(object.data) == bpy.types.SpotLight:
+#        push_entity("*spot_light", object)
+#        export_string(f, "*entity_name", object.data.name + ".spot_light")
 #    end_block(f)
 #    return
  

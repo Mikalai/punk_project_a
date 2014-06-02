@@ -18,9 +18,9 @@ namespace IoModule
                 || filename.EndWith(L".action")
                 || filename.EndWith(L".path")
                 || filename.EndWith(L".navi_mesh")
-                || filename.EndWith(L".dir_lamp")
-                || filename.EndWith(L".point_lamp")
-                || filename.EndWith(L".spot_lamp"))
+                || filename.EndWith(L".dir_light")
+                || filename.EndWith(L".point_light")
+                || filename.EndWith(L".spot_light"))
             return System::Environment::Instance()->GetModelFolder() + filename;
 
         if (filename.EndWith(L".jpg")
