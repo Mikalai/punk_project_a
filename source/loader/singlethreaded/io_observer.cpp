@@ -76,19 +76,30 @@ namespace IoModule {
 			auto stub = attribute->Get<Attributes::IFileStub>();
 			Core::IObjectUniquePtr o{ ParsePunkFile(stub->GetFilename()), Core::DestroyObject };
 			{
-				Attributes::IGeometry* geom = nullptr;
-				o->QueryInterface(Attributes::IID_IGeometry, (void**)&geom);
-				if (geom)
-					node->Set<Attributes::IGeometry>("Geometry", geom);
-				SceneModule::IScene* scene = nullptr;
-				o->QueryInterface(SceneModule::IID_IScene, (void**)&scene);
-				if (scene) {
-					SceneModule::INode* new_root = scene->GetRoot();
-					//	we will use this node from proxy scene, thus inc ref count, to protect delete when proxy scene will be deleted
-					new_root->AddRef();
-					m_scene->SetRoot(new_root);
-					//	we don't need proxy scene
-					scene->Release();
+				{
+					Attributes::IGeometry* geom = nullptr;
+					o->QueryInterface(Attributes::IID_IGeometry, (void**)&geom);
+					if (geom)
+						node->Set<Attributes::IGeometry>(geom->GetName(), geom);
+				}
+				{
+					SceneModule::IScene* scene = nullptr;
+					o->QueryInterface(SceneModule::IID_IScene, (void**)&scene);
+					if (scene) {
+						SceneModule::INode* new_root = scene->GetRoot();
+						//	we will use this node from proxy scene, thus inc ref count, to protect delete when proxy scene will be deleted
+						new_root->AddRef();
+						m_scene->SetRoot(new_root);
+						//	we don't need proxy scene
+						scene->Release();
+					}
+				}
+				{
+					Attributes::IMaterial* material = nullptr;
+					o->QueryInterface(Attributes::IID_IMaterial, (void**)&material);
+					if (material) {
+						node->Set<Attributes::IMaterial>(material->GetName(), material);
+					}
 				}
 			}			
 		}

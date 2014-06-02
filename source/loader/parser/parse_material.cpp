@@ -53,7 +53,7 @@ namespace IoModule
 			case WORD_DIFFUSE_COLOR:
 			{
 				Math::vec3 value;
-				parser->Parse(WORD_FLOAT, buffer, &value);
+				parser->Parse(WORD_VEC3F, buffer, &value);
 				mat->SetDiffuseColor(Math::vec4(value, mat->GetAlpha()));
 			}
 				break;
@@ -178,6 +178,8 @@ namespace IoModule
 		}
 		return false;
 	}
+
+	PUNK_REGISTER_PARSER(WORD_MATERIAL, ParseMaterial);
 
 	//    bool ParseMaterials(Core::Buffer& buffer, SceneModule::Scene*)
 	//    {

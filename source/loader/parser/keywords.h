@@ -227,7 +227,7 @@ namespace IoModule
 			{ WORD_ROT_Z, "*rot_z" },
 			{ WORD_PARENT, "*parent" },
 			{ WORD_TEXTURE_COORD, "*tex_coord" },
-			{ WORD_MATERIAL, "*materia" },
+			{ WORD_MATERIAL, "*material" },
 			{ WORD_NORMAL_MAP, "*normal_map" },
 			{ WORD_DIFFUSE_MAP, "*diffuse_map" },
 			{ WORD_SPECULAR_MAP, "*specular_map" },
