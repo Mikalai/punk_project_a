@@ -1,4 +1,5 @@
 #include <math/vec4.h>
+#include <core/ifactory.h>
 #include <graphics/video_driver/gl_video_driver/module.h>
 #include <graphics/frame_buffer/frame_buffer_config.h>
 #include <graphics/texture/gl_texture/module.h>
@@ -35,10 +36,13 @@ namespace Graphics
             count++;
             GL_CALL(glGenFramebuffers(1, &m_fb));
 
-            m_color_texture = CreateTexture2D(config.Width(),
-                        config.Height(),
-                        config.ColorFormat(),
-                        ImageModule::ImageFormat::RGBA, ImageModule::DataType::Float, 0, true, GetVideoDriver());
+			m_color_texture.reset(Core::CreateInstance<ITexture2D>(IID_ITexture2D));
+			if (m_color_texture.get()) {
+				m_color_texture->Initialize(config.Width(),
+					config.Height(),
+					config.ColorFormat(),
+					ImageModule::ImageFormat::RGBA, ImageModule::DataType::Float, 0, true, GetVideoDriver());
+			}
 
             if (GetVideoDriver()->GetSettings()->IsEnabledMultisampling()) {
                 m_resolve_rb = new GlFrameBuffer(GetVideoDriver());
@@ -53,12 +57,15 @@ namespace Graphics
                 AttachDepthTarget(m_depth_rb);
             }
             else {
-                m_depth_texture = CreateTexture2D(
-                            config.Width(),
-                            config.Height(),
-                            config.DepthFormat(),
-                            ImageModule::ImageFormat::DepthComponent, ImageModule::DataType::Float, 0, false,
-                            GetVideoDriver());
+				m_depth_texture.reset(Core::CreateInstance<ITexture2D>(IID_ITexture2D));
+				if (m_depth_texture.get()) {
+					m_depth_texture->Initialize(
+						config.Width(),
+						config.Height(),
+						config.DepthFormat(),
+						ImageModule::ImageFormat::DepthComponent, ImageModule::DataType::Float, 0, false,
+						GetVideoDriver());
+				}
                 AttachColorTarget(0, m_color_texture.get());
                 AttachDepthTarget(m_depth_texture.get());
             }

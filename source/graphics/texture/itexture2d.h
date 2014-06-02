@@ -14,8 +14,18 @@ namespace ImageModule { class IImage; }
 namespace Graphics {
     class IVideoDriver;
 
-    class PUNK_ENGINE_API ITexture2D : public ITexture {
+	DECLARE_PUNK_GUID(IID_ITexture2D, "42ECD9F3-6028-4396-B242-974EC637607A");
+
+    class ITexture2D : public ITexture {
     public:
+		virtual void Initialize(ImageModule::ImageFormat internalformat, std::uint32_t width, std::uint32_t height, std::int32_t border, ImageModule::ImageFormat format, ImageModule::DataType type, const void *pixels, bool use_mipmaps, IVideoDriver* driver) = 0;
+		virtual void Initialize(int width, int height, ImageModule::ImageFormat internal_format, ImageModule::ImageFormat format, ImageModule::DataType type, const void* data, bool use_mipmaps, IVideoDriver* driver) = 0;
+		virtual void Initialize(int width, int height, ImageModule::ImageFormat format, const void* data, bool use_mipmaps, IVideoDriver* driver) = 0;
+		virtual void Initialize(int width, int height, ImageModule::ImageFormat internal_format, ImageModule::ImageFormat format, const void* data, bool use_mipmaps, IVideoDriver* driver) = 0;
+		virtual void Initialize(const ImageModule::IImage* image, bool use_mipmaps, IVideoDriver* driver) = 0;
+		virtual void Initialize(const Core::String& path, bool use_mipmaps, IVideoDriver* driver) = 0;
+		virtual void Initialize(Core::Buffer* buffer, bool use_mip_maps, IVideoDriver* driver) = 0;
+		virtual void Initialize(const ImageModule::IImage* mage, ImageModule::ImageFormat internal_format, bool use_mipmaps, IVideoDriver* driver) = 0;		
         virtual void CopyFromCpu(std::int32_t x, std::int32_t y, std::uint32_t width, std::uint32_t height, const void* data) = 0;
         virtual void Resize(std::uint32_t width, std::uint32_t height) = 0;
         virtual void Fill(std::uint8_t data) = 0;
@@ -25,18 +35,9 @@ namespace Graphics {
         virtual void Unmap(void* data) = 0;
     };
 
-    using ITexture2DUniquePtr = std::unique_ptr<ITexture2D, void (*)(ITexture2D*)>;
+    using ITexture2DUniquePtr = Core::UniquePtr<ITexture2D>;
 
-    extern PUNK_ENGINE_API ITexture2DUniquePtr CreateTexture2D(ImageModule::ImageFormat internalformat, std::uint32_t width, std::uint32_t height, std::int32_t border, ImageModule::ImageFormat format, ImageModule::DataType type, const void *pixels, bool use_mipmaps, IVideoDriver* driver);
-    extern PUNK_ENGINE_API ITexture2DUniquePtr CreateTexture2D(int width, int height, ImageModule::ImageFormat internal_format, ImageModule::ImageFormat format, ImageModule::DataType type, const void* data, bool use_mipmaps, IVideoDriver* driver);
-    extern PUNK_ENGINE_API ITexture2DUniquePtr CreateTexture2D(int width, int height, ImageModule::ImageFormat format, const void* data, bool use_mipmaps, IVideoDriver* driver);
-    extern PUNK_ENGINE_API ITexture2DUniquePtr CreateTexture2D(int width, int height, ImageModule::ImageFormat internal_format, ImageModule::ImageFormat format, const void* data, bool use_mipmaps, IVideoDriver* driver);
-    extern PUNK_ENGINE_API ITexture2DUniquePtr CreateTexture2D(const ImageModule::IImage* image, bool use_mipmaps, IVideoDriver* driver);
-    extern PUNK_ENGINE_API ITexture2DUniquePtr CreateTexture2D(const Core::String& path, bool use_mipmaps, IVideoDriver* driver);
-    extern PUNK_ENGINE_API ITexture2DUniquePtr CreateTexture2D(Core::Buffer* buffer, bool use_mip_maps, IVideoDriver* driver);
-    extern PUNK_ENGINE_API ITexture2DUniquePtr CreateTexture2D(const ImageModule::IImage* mage, ImageModule::ImageFormat internal_format, bool use_mipmaps, IVideoDriver* driver);
-
-    extern "C" PUNK_ENGINE_API void DestroyTexture2D(ITexture2D* value);
+    
 }
 PUNK_ENGINE_END
 

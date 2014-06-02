@@ -11,34 +11,50 @@ namespace Graphics {
 
         class PUNK_ENGINE_LOCAL GlTexture2DArray : public ITexture2DArray {
         public:
-            GlTexture2DArray(const GlTexture2DArray&) = delete;
-            GlTexture2DArray& operator = (const GlTexture2DArray&) = delete;
-            GlTexture2DArray(std::uint32_t width, std::uint32_t height, std::uint32_t size, ImageModule::ImageFormat internal_format, ImageModule::ImageFormat format, ImageModule::DataType type, const void* data, bool use_mipmaps, IVideoDriver* driver);
-            virtual ~GlTexture2DArray();
-            virtual bool IsValid() const override;
-            virtual std::uint32_t GetMemoryUsage() const override;
-            virtual void SetMinFilter(TextureFilter value) override;
-            virtual void SetMagFilter(TextureFilter value) override;
-            virtual void SetWrapMode(TextureWrapDirection dir, TextureWrapMode mode) override;
-            virtual void SetCompareFunction(TextureCompareFunc value) override;
-            virtual void SetCompareMode(TextureCompareMode value) override;
-            virtual void Bind() override;
-            virtual void Bind(int slot) override;
-            virtual void Unbind() override;
-            virtual IVideoDriver* GetVideoDriver() override;
+			GlTexture2DArray();
+			virtual ~GlTexture2DArray();
+
+			//	IObject
+			void QueryInterface(const Core::Guid& type, void** object) override;
+			std::uint32_t AddRef() override;
+			std::uint32_t Release() override;
+            
+			//	ITexture2DArray
+			void Inititalize(std::uint32_t width,
+				std::uint32_t height,
+				std::uint32_t size,
+				ImageModule::ImageFormat internal_format,
+				ImageModule::ImageFormat format,
+				ImageModule::DataType type,
+				const void* data,
+				bool use_mipmaps,
+				IVideoDriver* driver) override;
+
+            bool IsValid() const override;
+            std::uint32_t GetMemoryUsage() const override;
+            void SetMinFilter(TextureFilter value) override;
+            void SetMagFilter(TextureFilter value) override;
+            void SetWrapMode(TextureWrapDirection dir, TextureWrapMode mode) override;
+            void SetCompareFunction(TextureCompareFunc value) override;
+            void SetCompareMode(TextureCompareMode value) override;
+            void Bind() override;
+            void Bind(int slot) override;
+            void Unbind() override;
+            IVideoDriver* GetVideoDriver() override;
             GLuint GetId() const;
 
         private:
-            IVideoDriver* m_video_driver;
-            GLuint m_texture_id;
-            int m_width;
-            int m_height;
-            int m_depth;
-            int m_slot;
-            GLenum m_internal_format;
-            GLenum m_format;
-            GLenum m_type;
-            bool m_use_mip_maps;
+			IVideoDriver* m_video_driver{ nullptr };
+			GLuint m_texture_id{ 0 };
+			int m_width{ 0 };
+			int m_height{ 0 };
+			int m_depth{ 0 };
+			int m_slot{ 0 };
+			GLenum m_internal_format{ 0 };
+			GLenum m_format{ 0 };
+			GLenum m_type{ 0 };
+			bool m_use_mip_maps{ false };
+			std::atomic<std::uint32_t> m_ref_count{ 1 };
         };
     }
 }

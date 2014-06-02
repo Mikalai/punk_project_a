@@ -2,6 +2,7 @@
 #define TEXTURE_H
 
 #include <cstdint>
+#include <core/iobject.h>
 #include "texture_filter.h"
 #include "texture_wrap.h"
 #include "texture_compare_func.h"
@@ -12,7 +13,7 @@ namespace Graphics
 {
     class IVideoDriver;
 
-    class ITexture
+    class ITexture : public Core::IObject
     {
     public:
         virtual bool IsValid() const = 0;
