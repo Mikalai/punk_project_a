@@ -427,8 +427,11 @@ def export_model(context, filepath, anim_in_separate_file):
     try:
         f = open(filepath, 'w')
         f.write("SCENETEXT\n")
+        start_block(f, "*node")
+        export_string(f, "*name", "Root")
         for obj in bpy.context.selected_objects:
             export_object(f, obj)
+        end_block(f)    # *node
         os.chdir(path)
         export_static_meshes(f)
         export_skin_meshes(f)

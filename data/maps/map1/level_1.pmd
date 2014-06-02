@@ -1,24 +1,45 @@
 SCENETEXT
 *node {
   *name {
-    Material
+    Root
   }
-  *entity_name {
-    Material.material
+  *node {
+    *name {
+      Material
+    }
+    *entity_name {
+      Material.material
+    }
+    *node {
+      *name {
+        Transform
+      }
+      *entity_name {
+        Cube.transform
+      }
+      *node {
+        *name {
+          Static
+        }
+        *entity_name {
+          Cube.static
+        }
+      }
+    }
   }
   *node {
     *name {
       Transform
     }
     *entity_name {
-      Cube.transform
+      Lamp.transform
     }
     *node {
       *name {
-        Static
+        PointLight
       }
       *entity_name {
-        Cube.static
+        Lamp.point_lamp
       }
     }
   }

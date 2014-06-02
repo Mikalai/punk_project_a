@@ -23,12 +23,12 @@ def export_light_node(f, object):
         if type(light) == bpy.types.PointLamp:
             print("PointLamp")
             export_string(f, "*name", "PointLight")
-            export_string(f, "*entity_name", object.name + ".point_light")
+            export_string(f, "*entity_name", object.name + ".point_lamp")
             push_entity("*point_lamp", object)
         elif type(light) == bpy.types.SunLamp:
             print("DirectionalLamp")
             export_string(f, "*name", "DirectionalLight")
-            export_string(f, "*entity_name", object.name + ".directional_light")
+            export_string(f, "*entity_name", object.name + ".directional_lamp")
             push_entity("*directional_lamp", object)
         else:
             raise Exception("Unsupported light type")
