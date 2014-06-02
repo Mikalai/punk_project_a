@@ -17,10 +17,11 @@ namespace LowLevelRender {
 	}
 
 	std::uint32_t RenderProcessor::Release() {
-		if (!m_ref_count.fetch_sub(1)) {
+		std::uint32_t v = m_ref_count.fetch_sub(1) - 1;
+		if (!v) {
 			delete this; \
 		}
-		return m_ref_count;
+		return v;
 	}
 
 	void RenderProcessor::SetSceneManager(SceneModule::ISceneManager* manager) {
@@ -68,6 +69,29 @@ namespace LowLevelRender {
 				auto renderable = node->GetAttributeOfType<Graphics::IRenderable>(i);
 				if (renderable)
 					frame->Submit(renderable);
+			}
+			return;
+		}
+		count = node->GetAttributesCountOfType<Attributes::IMaterial>();
+		if (count != 0) {
+			for (int i = 0; i < count; ++i){
+				auto material = node->GetAttributeOfType<Attributes::IMaterial>(i);
+				if (material){
+					frame->PushAllState();
+					frame->SetDiffuseColor(material->GetDiffuseColor());
+					frame->SetSpecularColor(material->GetSpecularColor());
+					frame->SetAmbientColor(material->GetAmbient());
+					if (material->GetDiffuseTextureSlot())
+						frame->SetDiffuseMap(0, material->GetDiffuseTextureSlot()->GetTexture(), 0);
+					if (material->GetNormalTextureSlot())
+						frame->SetNormalMap(material->GetNormalTextureSlot()->GetTexture(), 1);
+					if (material->GetSpecularTextureSlot())
+						frame->SetSpecularMap(material->GetSpecularTextureSlot()->GetTexture(), 2);
+					for (int i = 0, max_i = node->GetChildrenCount(); i < max_i; ++i) {
+						Process(frame, node->GetChild(i));
+					}
+					frame->PopAllState();
+				}
 			}
 			return;
 		}

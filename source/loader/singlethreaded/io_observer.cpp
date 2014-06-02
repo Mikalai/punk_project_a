@@ -50,6 +50,13 @@ namespace IoModule {
 					if (geometry)
 						node->Set<Attributes::IGeometry>(geometry->GetName(), geometry);
 				}
+				{
+					Attributes::IMaterial* material = nullptr;
+					o->QueryInterface(Attributes::IID_IMaterial, (void**)&material);
+					if (material) {
+						node->Set<Attributes::IMaterial>(material->GetName(), material);
+					}
+				}
 			}
 
 			for (int i = 0, max_i = (int)node->GetChildrenCount(); i < max_i; ++i) {
