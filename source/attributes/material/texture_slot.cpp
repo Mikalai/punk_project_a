@@ -37,5 +37,14 @@ namespace Attributes
     float TextureSlot::GetFactor() const {
         return m_factor;
     }
+
+	void TextureSlot::SetTexture(Graphics::ITexture2D* value) {
+		value->AddRef();
+		m_texture_2d.reset(value);
+	}
+
+	Graphics::ITexture2D* TextureSlot::GetTexture() {
+		return m_texture_2d.get();
+	}
 }
 PUNK_ENGINE_END

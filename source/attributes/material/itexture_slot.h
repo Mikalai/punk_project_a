@@ -4,6 +4,7 @@
 #include <config.h>
 #include <math/vec3.h>
 #include <string/string.h>
+#include <graphics/texture/module.h>
 #include <core/iobject.h>
 
 PUNK_ENGINE_BEGIN
@@ -19,7 +20,7 @@ namespace Attributes
 		virtual void SetFilename(const Core::String& value) = 0;
 		virtual const Core::String& GetFilename() const = 0;
 		virtual void SetFactor(float value) = 0;
-		virtual float GetFactor() const = 0;
+		virtual float GetFactor() const = 0;		
 	};
 }
 PUNK_ENGINE_END

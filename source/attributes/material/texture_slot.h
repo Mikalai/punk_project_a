@@ -29,11 +29,14 @@ namespace Attributes
 		const Core::String& GetFilename() const override;
 		void SetFactor(float value) override;
 		float GetFactor() const override;
+		void SetTexture(Graphics::ITexture2D* value) override;
+		Graphics::ITexture2D* GetTexture() override;
 
     private:
         Math::vec3 m_scale;
         Core::String m_image_filename;
 		float m_factor{ 1.0f };
+		Core::UniquePtr<Graphics::ITexture2D> m_texture_2d{ nullptr, Core::DestroyObject };
     };
 }
 PUNK_ENGINE_END

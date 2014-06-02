@@ -11,6 +11,8 @@ namespace Attributes {
 
 	class IDiffuseTextureSlot : public ITextureSlot {
 	public:
+		virtual void SetTexture(Graphics::ITexture2D* value) = 0;
+		virtual Graphics::ITexture2D* GetTexture() = 0;
 	};
 }
 PUNK_ENGINE_END
