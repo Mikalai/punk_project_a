@@ -15,7 +15,7 @@ def export_camera_node(f, object):
 
     if object.data == None:
         return
-    mesh = object.data    
+    camera = object.data    
 
     start_block(f, "*node")
     export_string(f, "*name", "Transform")
@@ -24,7 +24,13 @@ def export_camera_node(f, object):
     
     start_block(f, "*node")
     export_string(f, "*name", "Camera")
-    export_string(f, "*entity_name", object.data.name + ".camera")
+    if (camera.type == "PERSP"):
+        export_string(f, "*entity_name", object.data.name + ".perspective_camera")
+    elif (camera.type == "ORTHO"):
+        export_string(f, "*entity_name", object.data.name + ".ortho_camera")
+    elif (camera.type == "PANO"):
+        export_string(f, "*entity_name", object.data.name + ".panoramic_camera")
+
     push_entity("*camera", object)
 
     for child in object.children:
@@ -39,20 +45,31 @@ def export_camera(f, object):
     global text_offset
     old = text_offset 
     text_offset = 0
-    
-    file = object.data.name + ".camera"    
-    f = open(file, "w")
-    f.write("CAMERATEXT\n")
-    
-    camera = object.data
+
+    camera = object.data    
+
+    if (camera.type == "PERSP"):
+        file = object.data.name + ".perspective_camera"    
+        f = open(file, "w")
+        f.write("PERSPCAMERATEXT\n")    
+    elif (camera.type == "ORTHO"):
+        file = object.data.name + ".ortho_camera"    
+        f = open(file, "w")
+        f.write("ORTHOCAMERATEXT\n")    
+    elif (camera.type == "PANO"):
+        file = object.data.name + ".panoramic_camera"    
+        f = open(file, "w")
+        f.write("PANOCAMERATEXT\n")    
+       
     start_block(f, "*camera")
-    export_string(f, "*name", camera.name)
-    export_string(f, "*type", camera.type)
+    export_string(f, "*name", camera.name)    
     export_float(f, "*fov", camera.angle)
     export_float(f, "*near", camera.clip_start)
     export_float(f, "*far", camera.clip_end)
     export_float(f, "*focus", camera.dof_distance)
-    export_float(f, "*ortho_scale", camera.ortho_scale)   
+
+    if (camera.type == "ORTHO"):
+        export_float(f, "*ortho_scale", camera.ortho_scale)   
     end_block(f)
     
     f.close()        
