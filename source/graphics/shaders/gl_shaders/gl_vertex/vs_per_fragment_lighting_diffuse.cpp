@@ -1,3 +1,4 @@
+#include <sstream>
 #include "vs_per_fragment_lighting_diffuse.h"
 
 PUNK_ENGINE_BEGIN
@@ -16,7 +17,7 @@ namespace Graphics
         {
             uProjViewWorld = m_rc->GetUniformLocation("uProjViewWorld");
             uNormalMatrix = m_rc->GetUniformLocation("uNormalMatrix");
-            uViewWorld = m_rc->GetUniformLocation("uViewWorld");
+            uViewWorld = m_rc->GetUniformLocation("uViewWorld");	
         }
 
         void VsPerFragmentLightingDiffuse::BindParameters(const CoreState& params)
@@ -26,7 +27,7 @@ namespace Graphics
             const Math::mat4 view_world = params.view_state->m_view * params.batch_state->m_world;
             m_rc->SetUniformMatrix4f(uProjViewWorld, proj_view_world);
             m_rc->SetUniformMatrix3f(uNormalMatrix, normal_matrix);
-            m_rc->SetUniformMatrix4f(uViewWorld, view_world);
+            m_rc->SetUniformMatrix4f(uViewWorld, view_world);			
         }
 
         int64_t VsPerFragmentLightingDiffuse::GetRequiredAttributesSet() const

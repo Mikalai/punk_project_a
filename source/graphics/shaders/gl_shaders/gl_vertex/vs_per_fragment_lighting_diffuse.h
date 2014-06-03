@@ -21,6 +21,8 @@ namespace Graphics
             unsigned uNormalMatrix;
             unsigned uViewWorld;
             unsigned uProjViewWorld;
+
+			LightSourceShaderParameters uLight[BaseState::MAX_LIGHTS];
         };
     }
 }

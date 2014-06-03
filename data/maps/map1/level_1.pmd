@@ -3,44 +3,4 @@ SCENETEXT
   *name {
     Root
   }
-  *node {
-    *name {
-      Material
-    }
-    *entity_name {
-      Material.material
-    }
-    *node {
-      *name {
-        Transform
-      }
-      *entity_name {
-        Cube.transform
-      }
-      *node {
-        *name {
-          Static
-        }
-        *entity_name {
-          Cube.static
-        }
-      }
-    }
-  }
-  *node {
-    *name {
-      Transform
-    }
-    *entity_name {
-      Lamp.transform
-    }
-    *node {
-      *name {
-        PointLight
-      }
-      *entity_name {
-        Lamp.point_light
-      }
-    }
-  }
 }

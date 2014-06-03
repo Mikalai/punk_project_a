@@ -17,6 +17,7 @@ namespace Graphics {
     class Batch;
     class IFrameBuffer;
     class IVideoDriver;
+	class IRenderQueue;
 
 	DECLARE_PUNK_GUID(IID_ILowLevelRender, "5B3310D7-3954-4047-ABF2-694B98355C79");
 
@@ -28,6 +29,7 @@ namespace Graphics {
         virtual const Math::vec2 FindZRange(const Math::mat4& view) = 0;
 		virtual IFrame* BeginFrame() = 0;
 		virtual void EndFrame() = 0;
+		virtual IRenderQueue* GetRenderQueue() = 0;
     };
 
 	using IRenderUniquePtr = Core::UniquePtr < ILowLevelRender > ;

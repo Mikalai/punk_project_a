@@ -23,18 +23,7 @@ namespace Graphics
             unsigned uProjViewWorld;
             unsigned uView;
 
-            unsigned uLightPosition[BaseState::MAX_LIGHTS];
-            unsigned uLightDirection[BaseState::MAX_LIGHTS];
-            unsigned uLightDiffuse[BaseState::MAX_LIGHTS];
-
-            unsigned uConstantAttenuation[BaseState::MAX_LIGHTS];
-            unsigned uLinearAttenuation[BaseState::MAX_LIGHTS];
-            unsigned uQuadricAttenuation[BaseState::MAX_LIGHTS];
-
-            unsigned uMode[BaseState::MAX_LIGHTS]; //	0 - Constant, 1 - Linear, 2 - Quadric
-            unsigned uSpotExponent[BaseState::MAX_LIGHTS];
-            unsigned uType[BaseState::MAX_LIGHTS];	//	0 - point, 1 - linear
-
+			LightSourceShaderParameters uLight[BaseState::MAX_LIGHTS];
 		};
 	}
 }

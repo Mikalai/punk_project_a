@@ -1,5 +1,5 @@
 
-const int MAX_LIGHTS = 8;
+const int MAX_LIGHTS = 1;
 
 const int POINT_LIGHT = 0;
 const int DIRECTION_LIGHT = 1;

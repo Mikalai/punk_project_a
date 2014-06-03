@@ -215,7 +215,7 @@
     <ClCompile Include="..\..\source\graphics\primitives\triangle_strip.cpp" />
     <ClCompile Include="..\..\source\graphics\renderable\gl_renderable\gl_renderable_builder.cpp" />
     <ClCompile Include="..\..\source\graphics\renderable\renderable_builder.cpp" />
-    <ClCompile Include="..\..\source\graphics\render\render.cpp" />
+    <ClCompile Include="..\..\source\graphics\render\irender.cpp" />
     <ClCompile Include="..\..\source\graphics\render\render_batch.cpp" />
     <ClCompile Include="..\..\source\graphics\render\render_context\gl_render_context\gl_rc_dynamic.cpp" />
     <ClCompile Include="..\..\source\graphics\render\render_context\gl_render_context\gl_rc_instances.cpp" />
@@ -223,7 +223,7 @@
     <ClCompile Include="..\..\source\graphics\render\render_context\irender_context.cpp" />
     <ClCompile Include="..\..\source\graphics\render\render_context\render_context_select.cpp" />
     <ClCompile Include="..\..\source\graphics\render\render_pass.cpp" />
-    <ClCompile Include="..\..\source\graphics\render\render_queue.cpp" />
+    <ClCompile Include="..\..\source\graphics\render\irender_queue.cpp" />
     <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump.cpp" />
     <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_diffuse_color.cpp" />
     <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_diffuse_color_specular.cpp" />
@@ -406,7 +406,6 @@
     <ClInclude Include="..\..\source\graphics\renderable\renderable_builder.h" />
     <ClInclude Include="..\..\source\graphics\render\irender.h" />
     <ClInclude Include="..\..\source\graphics\render\module.h" />
-    <ClInclude Include="..\..\source\graphics\render\render.h" />
     <ClInclude Include="..\..\source\graphics\render\render_batch.h" />
     <ClInclude Include="..\..\source\graphics\render\render_context\gl_render_context\gl_rc_dynamic.h" />
     <ClInclude Include="..\..\source\graphics\render\render_context\gl_render_context\gl_rc_instances.h" />
@@ -415,7 +414,7 @@
     <ClInclude Include="..\..\source\graphics\render\render_context\irender_context.h" />
     <ClInclude Include="..\..\source\graphics\render\render_context\render_context_select.h" />
     <ClInclude Include="..\..\source\graphics\render\render_pass.h" />
-    <ClInclude Include="..\..\source\graphics\render\render_queue.h" />
+    <ClInclude Include="..\..\source\graphics\render\irender_queue.h" />
     <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump.h" />
     <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_diffuse_color.h" />
     <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_diffuse_color_specular.h" />

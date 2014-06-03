@@ -264,16 +264,10 @@
     <ClCompile Include="..\..\source\graphics\primitives\gl_primitive\gl_primitive_type.cpp">
       <Filter>primitives\gl_primitives</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\graphics\render\render.cpp">
-      <Filter>render</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\graphics\render\render_batch.cpp">
       <Filter>render</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\graphics\render\render_pass.cpp">
-      <Filter>render</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\graphics\render\render_queue.cpp">
       <Filter>render</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\graphics\render\render_context\irender_context.cpp">
@@ -538,6 +532,12 @@
     <ClCompile Include="..\..\source\graphics\gpu_module.cpp" />
     <ClCompile Include="..\..\source\graphics\primitives\gl_primitive\gl_renderable.cpp">
       <Filter>primitives\gl_primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\irender_queue.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\irender.cpp">
+      <Filter>render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -814,16 +814,10 @@
     <ClInclude Include="..\..\source\graphics\render\module.h">
       <Filter>render</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\graphics\render\render.h">
-      <Filter>render</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\graphics\render\render_batch.h">
       <Filter>render</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\graphics\render\render_pass.h">
-      <Filter>render</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\graphics\render\render_queue.h">
       <Filter>render</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\graphics\render\render_context\irender_context.h">
@@ -1205,6 +1199,9 @@
     </ClInclude>
     <ClInclude Include="..\..\source\graphics\primitives\gl_primitive\gl_batch.h">
       <Filter>primitives\gl_primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\irender_queue.h">
+      <Filter>render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

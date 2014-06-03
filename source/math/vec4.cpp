@@ -9,6 +9,13 @@
 namespace Punk {
     namespace Engine {
         namespace Math {
+
+			vec4::vec4(const std::initializer_list<float>& v) {
+				for (size_t i = 0; i < v.size() && i < 4; ++i) {
+					m_v[i] = *(v.begin() + i);
+				}
+			}
+
             vec4::vec4()
 				: m_v{ { 0, 0, 0, 0 } } {}
 

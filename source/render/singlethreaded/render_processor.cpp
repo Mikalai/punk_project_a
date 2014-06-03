@@ -48,7 +48,7 @@ namespace LowLevelRender {
 		m_canvas->Release();
 	}
 
-	void Process(Graphics::IFrame* frame, SceneModule::INode* node) {
+	void RenderProcessor::Process(Graphics::IFrame* frame, SceneModule::INode* node) {
 		int count = node->GetAttributesCountOfType<Attributes::ITransform>();
 		if (count != 0) {
 			for (int i = 0; i < count; ++i) {
@@ -95,6 +95,20 @@ namespace LowLevelRender {
 			}
 			return;
 		}
+		count = node->GetAttributesCountOfType<Attributes::ILight>();
+		if (count != 0) {
+			for (int i = 0; i < count; ++i) {
+				auto light = node->GetAttributeOfType<Attributes::ILight>(i);
+				if (light) {
+					Core::UniquePtr<Attributes::IPointLight> point_light{ nullptr, Core::DestroyObject };
+					light->QueryInterface(Attributes::IID_IPointLight, (void**)&point_light);
+					if (point_light.get()) {
+						auto p = frame->GetWorldMatrix() * Math::vec3(0, 0, 0);
+						m_point_lights.push_back(LightCache < Attributes::IPointLight > {point_light.get(), p});
+					}
+				}
+			}
+		}
 		for (int i = 0, max_i = (int)node->GetChildrenCount(); i < max_i; ++i) {
 			Process(frame, node->GetChild(i));
 		}
@@ -105,7 +119,10 @@ namespace LowLevelRender {
 			return;
 
 		auto root = m_manager->GetScene()->GetRoot();		
-		
+		m_point_lights.clear();
+		m_spot_lights.clear();
+		m_dir_light.clear();
+
 		//m_frame_buffer->Bind();		
 		m_frame_buffer->SetViewport(0, 0, 1024, 768);
 		m_frame_buffer->SetClearColor(0, 0, 1, 1);		
@@ -115,12 +132,31 @@ namespace LowLevelRender {
 		static float t = 0;
 		t += (2.0 * Math::PI / 10.0f) * (dt / 1000.0f);
 		frame->PushAllState();
-		//frame->EnableLighting(true);
+		frame->EnableLighting(true);
+		frame->SetLightModel(Graphics::LightModel::PerFragmentDiffuse);
 		frame->SetWorldMatrix(Math::CreateRotation(0, 1, 0, t));
 		frame->SetViewMatrix(Math::CreateTargetCameraMatrix({ 2, 2, 2 }, { 0, 0, 0 }, { 0, 1, 0 }));
 		frame->SetProjectionMatrix(Math::CreatePerspectiveProjection(Math::PI/4.0f, 1024, 768, 0.1f, 100.0f));
 		frame->EnableDepthTest(true);
 		Process(frame, root);
+
+		if (!m_point_lights.empty()) {
+			auto light = m_point_lights[0].m_light;
+			auto pos = m_point_lights[0].m_position;
+			std::vector<Graphics::Batch*> batches;
+			frame->GetRender()->GetRenderQueue()->SelectBatches(batches, Graphics::SelectCriteria::SelectByLightEnabled());
+			for (auto& batch : batches) {
+
+				auto& light_state = batch->m_state->light_state->m_lights[0];
+				light_state.Enable();
+				light_state.SetDiffuseColor(light->GetDiffuseColor());
+				light_state.SetAmbientColor({ 0.1f, 0.1f, 0.1f, 0.1f});
+				light_state.SetPosition(pos);
+				light_state.SetType(Graphics::LightType::Point);
+				light_state.SetSpecularColor(light->GetSpecularColor());
+			}
+		}
+
 		frame->PopAllState();
 				
 		//frame->DrawLine(100, 100, 200 * sin(t), 200);

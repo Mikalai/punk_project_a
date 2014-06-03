@@ -6,6 +6,7 @@ AUTHOR: Mikalai Abramau
 #ifndef _H_PUNK_MATH_VEC4
 #define _H_PUNK_MATH_VEC4
 
+#include <initializer_list>
 #include <vector>
 #include <array>
 #include <config.h>
@@ -24,6 +25,7 @@ namespace Punk {
             class PUNK_ENGINE_API vec4 {
             public:
                 vec4();
+				vec4(const std::initializer_list<float>& value);
                 vec4(float x, float y, float z, float w);
                 vec4(float x);
                 vec4(const vec4& origin, const vec4& destination);

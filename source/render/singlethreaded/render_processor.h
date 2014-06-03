@@ -15,6 +15,21 @@ namespace LowLevelRender {
 		void Update(float dt) override;
 
 	private:
+
+		void Process(Graphics::IFrame* frame, SceneModule::INode* node);
+
+		template<class T>
+		struct LightCache {
+			T* m_light;
+			Math::vec3 m_position;
+			LightCache(T* light, Math::vec3 world_pos)
+				: m_light{ light }
+				, m_position{ world_pos } {}
+		};
+
+		std::vector<LightCache<Attributes::IPointLight>> m_point_lights;
+		std::vector<LightCache<Attributes::IDirectionalLight>> m_dir_light;
+		std::vector<LightCache<Attributes::ISpotLight*>> m_spot_lights;
 		SceneModule::ISceneManager* m_manager{ nullptr };
 		Graphics::ICanvas* m_canvas{ nullptr };
 		Graphics::IVideoDriver* m_driver{ nullptr };

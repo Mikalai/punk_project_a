@@ -1,3 +1,7 @@
+#include <config.h>
+#include <system/concurrency/module.h>
+#include <graphics/frame/iframe.h>
+#include "irender.h"
 #include <math/vec2.h>
 #include <math/mat4.h>
 #include <core/ifactory.h>
@@ -5,13 +9,45 @@
 #include <graphics/frame_buffer/module.h>
 #include <graphics/render/render_context/irender_context.h>
 #include <system/logger/module.h>
-#include "render.h"
-#include "render_queue.h"
+#include "irender_queue.h"
 #include "render_batch.h"
 
 PUNK_ENGINE_BEGIN
 namespace Graphics {
 
+	class IFrameBuffer;
+	class Batch;
+	class RenderQueue;
+
+	class LowLevelRender : public ILowLevelRender
+	{
+	public:
+		LowLevelRender();
+		virtual ~LowLevelRender();
+
+		//	IObject
+		void QueryInterface(const Core::Guid& type, void** object) override;
+		std::uint32_t AddRef() override;
+		std::uint32_t Release() override;
+
+		//	ILowLevelRender
+		void Initialize(IVideoDriver* driver) override;
+		IVideoDriver* GetVideoDriver() override;
+		void SubmitBatch(Batch* batch) override;
+		const Math::vec2 FindZRange(const Math::mat4& view) override;
+		IFrame* BeginFrame() override;
+		void EndFrame() override;
+		IRenderQueue* GetRenderQueue() override;
+
+	private:
+		void AssertInitialized();
+
+		bool m_initialized{ false };
+		IRenderQueueUniquePtr m_queue{ nullptr, Core::DestroyObject };
+		IVideoDriver* m_driver{ nullptr };
+		IFrameUniquePtr m_frame{ nullptr, Core::DestroyObject };
+		std::atomic<std::uint32_t> m_ref_count{ 1 };
+	};
 
 	void LowLevelRender::QueryInterface(const Core::Guid& type, void** object) {
 		if (!object)
@@ -48,7 +84,7 @@ namespace Graphics {
 	void LowLevelRender::Initialize(IVideoDriver* driver) {
 		if (!m_initialized) {
 			m_driver = driver;
-			m_queue = new RenderQueue();
+			Core::GetFactory()->CreateInstance(IID_IRenderQueue, (void**)&m_queue);			
 			m_initialized = true;
 		}
 	}
@@ -61,10 +97,6 @@ namespace Graphics {
     LowLevelRender::~LowLevelRender()
     {
         m_driver = nullptr;
-		if (m_queue) {
-			delete m_queue;
-			m_queue = nullptr;
-		}
     }
 
     IVideoDriver* LowLevelRender::GetVideoDriver() {
@@ -138,6 +170,10 @@ namespace Graphics {
 		AssertInitialized();
         m_queue->Add(batch);
     }
+
+	IRenderQueue* LowLevelRender::GetRenderQueue() {
+		return m_queue.get();
+	}
 
 	PUNK_REGISTER_CREATOR(IID_ILowLevelRender, Core::CreateInstance<LowLevelRender>);
 
