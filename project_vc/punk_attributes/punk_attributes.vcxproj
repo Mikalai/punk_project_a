@@ -477,7 +477,6 @@
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\light\idirectional_light.h" />
     <ClInclude Include="..\..\source\attributes\light\ilight.h" />
-    <ClInclude Include="..\..\source\attributes\light\light.h" />
     <ClInclude Include="..\..\source\attributes\light\light_set.h" />
     <ClInclude Include="..\..\source\attributes\light\ipoint_light.h" />
     <ClInclude Include="..\..\source\attributes\light\ispot_light.h" />

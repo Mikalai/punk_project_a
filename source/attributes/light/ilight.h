@@ -18,6 +18,8 @@ namespace Attributes {
 		virtual const Math::vec3& GetDiffuseColor() const = 0;
 		virtual void SetSpecularColor(const Math::vec3& value) = 0;
 		virtual const Math::vec3& GetSpecularColor() const = 0;
+		virtual void SetName(const Core::String& value) = 0;
+		virtual const Core::String GetName() const = 0;
 	};
 }
 PUNK_ENGINE_END

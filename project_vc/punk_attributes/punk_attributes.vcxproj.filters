@@ -415,9 +415,6 @@
     <ClInclude Include="..\..\source\attributes\light\ilight.h">
       <Filter>light</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\attributes\light\light.h">
-      <Filter>light</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\attributes\light\idirectional_light.h">
       <Filter>light</Filter>
     </ClInclude>

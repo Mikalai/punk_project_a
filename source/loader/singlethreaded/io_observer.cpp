@@ -57,6 +57,13 @@ namespace IoModule {
 						node->Set<Attributes::IMaterial>(material->GetName(), material);
 					}
 				}
+				{
+					Attributes::ILight* point_light = nullptr;
+					o->QueryInterface(Attributes::IID_ILight, (void**)&point_light);
+					if (point_light) {
+						node->Set<Attributes::ILight>(point_light->GetName(), point_light);
+					}
+				}
 			}
 
 			for (int i = 0, max_i = (int)node->GetChildrenCount(); i < max_i; ++i) {
