@@ -12,12 +12,13 @@ def export_point_lamp(object):
     global text_offset
     old = text_offset 
     text_offset = 0
-    file = object.data.name + ".point_light"
+    file = object.name + ".point_light"
     print(file)
     f = open(file, "w")
     f.write("POINTLIGHTTEXT\n") 
     lamp = object.data        
     start_block(f, lamp.name)
+    export_string(f, "*name", lamp.name)
     export_vec3(f, "*color", lamp.color)
     export_float(f, "*distance", lamp.distance)
     export_float(f, "*energy", lamp.energy)
