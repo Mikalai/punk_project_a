@@ -4,13 +4,13 @@ point_light {
     point_light
   }
   *color {
-    0.8993749618530273 0.0 1.0
+    1.0 1.0 1.0
   }
   *distance {
     29.999982833862305
   }
   *energy {
-    0.64000004529953
+    1.0
   }
   *linear_attenuation {
     0.0

@@ -1,0 +1,24 @@
+CAMERATEXT
+*camera {
+  *name {
+    FirstCamera
+  }
+  *type {
+    PERSP
+  }
+  *fov {
+    0.8575560450553894
+  }
+  *near {
+    0.10000000149011612
+  }
+  *far {
+    100.0
+  }
+  *focus {
+    0.0
+  }
+  *ortho_scale {
+    7.314285755157471
+  }
+}
