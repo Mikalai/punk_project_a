@@ -109,6 +109,23 @@ namespace LowLevelRender {
 				}
 			}
 		}
+		count = node->GetAttributesCountOfType<Attributes::ICamera>();
+		if (count != 0) {
+			for (int i = 0; i < count; ++i) {
+				auto camera = node->GetAttributeOfType<Attributes::ICamera>(i);
+				if (camera) {
+					Core::UniquePtr<Attributes::IPerspectiveCamera> perspective_camera{ nullptr, Core::DestroyObject };
+					camera->QueryInterface(Attributes::IID_IPerspectiveCamera, (void**)&perspective_camera);
+					if (perspective_camera.get()) {
+						auto p = frame->GetWorldMatrix() * Math::vec3(0, 0, 0);
+						auto d = (frame->GetWorldMatrix() * Math::vec4{ perspective_camera->GetDirection(), 0 }).XYZ();
+						m_perspective_camera.m_camera = perspective_camera.get();
+						m_perspective_camera.m_position = p;
+						m_perspective_camera.m_direction = d;
+					}
+				}
+			}
+		}
 		for (int i = 0, max_i = (int)node->GetChildrenCount(); i < max_i; ++i) {
 			Process(frame, node->GetChild(i));
 		}
@@ -134,7 +151,7 @@ namespace LowLevelRender {
 		frame->PushAllState();
 		frame->EnableLighting(true);
 		frame->SetLightModel(Graphics::LightModel::PerFragmentDiffuse);
-		frame->SetWorldMatrix(Math::CreateRotation(0, 1, 0, t));
+	//	frame->SetWorldMatrix(Math::CreateRotation(0, 1, 0, t));
 		frame->SetViewMatrix(Math::CreateTargetCameraMatrix({ 2, 2, 2 }, { 0, 0, 0 }, { 0, 1, 0 }));
 		frame->SetProjectionMatrix(Math::CreatePerspectiveProjection(Math::PI/4.0f, 1024, 768, 0.1f, 100.0f));
 		frame->EnableDepthTest(true);
@@ -154,6 +171,18 @@ namespace LowLevelRender {
 				light_state.SetPosition(pos);
 				light_state.SetType(Graphics::LightType::Point);
 				light_state.SetSpecularColor(light->GetSpecularColor());
+			}
+		}
+
+		if (m_perspective_camera.m_camera) {
+			std::vector<Graphics::Batch*> batches;
+			frame->GetRender()->GetRenderQueue()->SelectBatches(batches, Graphics::SelectCriteria::SelectAll());
+			for (auto& batch : batches) {
+				batch->m_state->view_state->m_camera_position = m_perspective_camera.m_position;
+				batch->m_state->view_state->m_znear = m_perspective_camera.m_camera->GetNearClipPlane();
+				batch->m_state->view_state->m_zfar = m_perspective_camera.m_camera->GetFarClipPlane();
+				batch->m_state->view_state->m_projection = m_perspective_camera.m_camera->GetProjectionMatrix();
+				batch->m_state->view_state->m_view = Math::CreateFreeCameraMatrix(m_perspective_camera.m_position, m_perspective_camera.m_direction, m_perspective_camera.m_camera->GetUpVector());
 			}
 		}
 

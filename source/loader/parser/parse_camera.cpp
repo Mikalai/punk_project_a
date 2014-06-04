@@ -62,6 +62,13 @@ namespace IoModule
 				//	TODO: ignore
 			}
 				break;
+			case WORD_UP_VECTOR:
+			{
+				Math::vec3 up_vector;
+				parser->Parse<Math::vec3>(WORD_VEC3F, buffer, up_vector);
+				camera->SetUpVector(up_vector);
+			}
+				break;
 			default:
 				throw Error::LoaderException(L"Unexpected keyword " + word);
 			}

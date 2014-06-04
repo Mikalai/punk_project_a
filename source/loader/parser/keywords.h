@@ -188,7 +188,8 @@ namespace IoModule
 		WORD_CAMERATEXT,
 		WORD_PERSPECTIVE_CAMERA,
 		WORD_ORTHO_CAMERA,
-		WORD_PANORAMIC_CAMERA
+		WORD_PANORAMIC_CAMERA,
+		WORD_UP_VECTOR
 	};
 
 	struct Record
@@ -374,7 +375,8 @@ namespace IoModule
 			{ WORD_CAMERATEXT, "CAMERATEXT" },
 			{ WORD_PERSPECTIVE_CAMERA, "*perspective_camera" },
 			{ WORD_ORTHO_CAMERA, "*ortho_camera" },
-			{ WORD_PANORAMIC_CAMERA, "*panoramic_camera" }
+			{ WORD_PANORAMIC_CAMERA, "*panoramic_camera" },
+			{ WORD_UP_VECTOR, "*up_vector" }
 	};
 
     KeywordCode ParseKeyword(const Core::String& word);

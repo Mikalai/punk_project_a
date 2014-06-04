@@ -27,6 +27,20 @@ namespace LowLevelRender {
 				, m_position{ world_pos } {}
 		};
 
+		template<class T>
+		struct CameraCache {
+			T* m_camera;
+			Math::vec3 m_position;
+			Math::vec3 m_direction;
+
+			CameraCache(T* camera = nullptr, Math::vec3 world_pos = Math::vec3{ 0, 0, 0 }, Math::vec3 dir = Math::vec3{ 0, 0, -1 })
+				: m_camera{ camera }
+				, m_position{ world_pos }
+				, m_direction{ dir }
+				{}
+		};
+		
+		CameraCache<Attributes::IPerspectiveCamera> m_perspective_camera;
 		std::vector<LightCache<Attributes::IPointLight>> m_point_lights;
 		std::vector<LightCache<Attributes::IDirectionalLight>> m_dir_light;
 		std::vector<LightCache<Attributes::ISpotLight*>> m_spot_lights;

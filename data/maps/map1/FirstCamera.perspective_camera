@@ -15,4 +15,7 @@ CAMERATEXT
   *focus {
     0.0
   }
+  *up_vector {
+    0 0 1
+  }
 }
