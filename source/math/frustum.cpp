@@ -20,11 +20,11 @@ namespace Punk {
 			
 			Frustum::Frustum() {}
 
-			const ClipSpace Frustum::GetClipSpaceFromPoint(const Math::vec3& p){
+			const ClipSpace Frustum::GetClipSpaceFromPoint(const Math::vec3& p) const {
 				return FrustumBuildClipSpaceFromPoint(m_core, p);
 			}
 
-			const ClipSpace Frustum::GetClipSpace(){
+			const ClipSpace Frustum::GetClipSpace() const {
 				return FrustumToClipSpace(m_core);
 			}
 
@@ -36,13 +36,49 @@ namespace Punk {
 				return FrustumCreatePerspectiveProjectionMatrix(m_core);
 			}
 
-			const vec2 Frustum::GetZRange(const Math::mat4& view) {
+			const vec2 Frustum::GetZRange(const Math::mat4& view) const {
 				return FrustumFindZRange(m_core, view);
 			}
 
 			Frustum& Frustum::Transform(const vec3 &center, const vec3 &view_dir, const vec3 &_up) {
 				FrustumTransform(m_core, center, view_dir, _up);
 				return *this;
+			}
+
+			void Frustum::SetNearDistance(float znear) {
+				m_core.neard = znear;
+			}
+
+			void Frustum::SetFarDistance(float zfar) {
+				m_core.fard = zfar;
+			}
+
+			void Frustum::SetFov(float fov) {
+				m_core.fov = fov;
+			}
+
+			void Frustum::SetAspectRatio(float width, float height) {
+				m_core.ratio = width / height;
+			}
+
+			void Frustum::SetAspectRatio(float aspect) {
+				m_core.ratio = aspect;
+			}
+
+			float Frustum::GetFov() const {
+				return m_core.fov;
+			}
+
+			float Frustum::GetFarDistance() const {
+				return m_core.fard;
+			}
+
+			float Frustum::GetAspectRation() const {
+				return m_core.ratio;
+			}
+
+			float Frustum::GetNearDistance() const {
+				return m_core.neard;
 			}
 
             const ClipSpace FrustumToClipSpace(const FrustumCore &f) {
@@ -178,6 +214,8 @@ namespace Punk {
             const Math::mat4 FrustumCreatePerspectiveProjectionMatrix(const FrustumCore& f) {
                 return Math::CreatePerspectiveProjection(f.fov, f.ratio, 1, f.neard, f.fard);
             }
+
+			
 
             const Math::vec2 FrustumFindZRange(const FrustumCore& f, const Math::mat4& view) {
                 // find the z-range of the current frustum as seen from the light

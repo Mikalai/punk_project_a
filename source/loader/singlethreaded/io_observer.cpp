@@ -64,6 +64,12 @@ namespace IoModule {
 						node->Set<Attributes::ILight>(point_light->GetName(), point_light);
 					}
 				}
+				{
+					Attributes::ICamera* camera = nullptr;
+					o->QueryInterface(Attributes::IID_ICamera, (void**)&camera);
+					if (camera)
+						node->Set<Attributes::ICamera>(camera->GetName(), camera);
+				}
 			}
 
 			for (int i = 0, max_i = (int)node->GetChildrenCount(); i < max_i; ++i) {

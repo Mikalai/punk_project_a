@@ -151,6 +151,17 @@ namespace IoModule
 				parser->Parse(WORD_SPOT_LIGHT, buffer, light);
 				return light;
 			}
+			case WORD_CAMERATEXT:
+			{
+				Core::String word = buffer.ReadWord();
+				if (ParseKeyword(word) == WORD_PERSPECTIVE_CAMERA) {
+					Attributes::IPerspectiveCamera* camera{ nullptr };
+					Core::GetFactory()->CreateInstance(Attributes::IID_IPerspectiveCamera, (void**)&camera);
+					parser->Parse(WORD_PERSPECTIVE_CAMERA, buffer, camera);
+					return camera;
+				}
+				return nullptr;
+			}
             default:
                 throw Error::LoaderException(L"Unexpected keyword " + word);
             }

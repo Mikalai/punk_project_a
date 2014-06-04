@@ -55,7 +55,7 @@ SCENETEXT
         Camera
       }
       *entity_name {
-        FirstCamera.camera
+        FirstCamera.perspective_camera
       }
     }
   }

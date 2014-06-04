@@ -1,10 +1,7 @@
 CAMERATEXT
-*camera {
+*perspective_camera {
   *name {
     FirstCamera
-  }
-  *type {
-    PERSP
   }
   *fov {
     0.8575560450553894

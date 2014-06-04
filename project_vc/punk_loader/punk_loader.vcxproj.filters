@@ -271,6 +271,9 @@
     <ClCompile Include="..\..\source\loader\singlethreaded\io_observer.cpp">
       <Filter>singlethreaded</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_camera.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\loader\serializer\io_action.h">
@@ -373,9 +376,6 @@
       <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\loader\parser\keywords.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\loader\parser\parse_action.h">
       <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\loader\parser\parse_animation.h">
