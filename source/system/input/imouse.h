@@ -7,7 +7,7 @@
 PUNK_ENGINE_BEGIN
 namespace System
 {
-    class Window;
+    class IWindow;
     enum class MouseButtons { LeftButton = 0, RightButton, MiddleButton };
 
 	static const Core::Guid IID_IMouse{ "CCC4818A-8BB3-4713-8DD1-006411F62EF0" };
@@ -19,7 +19,7 @@ namespace System
         virtual void LockInWindow(bool value) = 0;
         virtual void SetButtonState(MouseButtons button, bool state) = 0;
         virtual bool GetButtonState(MouseButtons button) const = 0;
-        virtual void BindCursorToWindow(Window* window) = 0;
+        virtual void BindCursorToWindow(IWindow* window) = 0;
 
         virtual int GetGlobalX() const = 0;
         virtual int GetGlobalY() const = 0;
@@ -28,7 +28,7 @@ namespace System
 
         virtual bool IsLocked() const = 0;
         virtual bool IsVisible() const = 0;
-        virtual Window* GetBoundedWindow() const = 0;
+        virtual IWindow* GetBoundedWindow() const = 0;
     };
 
     IMouse* GetMouse();

@@ -17,31 +17,31 @@ namespace Core {
 		virtual void UnregisterCreator(const Guid& type) = 0;
 	};
 
-	extern PUNK_ENGINE_API IFactory* GetFactory();		
+	extern PUNK_ENGINE_API IFactory* GetFactory();
 	extern PUNK_ENGINE_API void DestroyFactory();
 
 	struct RegisterCreator {
 		RegisterCreator(const Guid& type, void(*F)(void**)) {
-			GetFactory()->RegisterCreator(type, F); 
+			GetFactory()->RegisterCreator(type, F);
 		}
 	};
 
-#define PUNK_REGISTER_CREATOR(T, F) Core::RegisterCreator g_##T##creator{T, (F)}
+#define PUNK_REGISTER_CREATOR(T, F) Core::RegisterCreator g_##T##creator{T, F}
 
-	template<class T>
+	template<class T, class I = T>
 	T* CreateInstance(const Guid& type) {
 		T* object = nullptr;
-		GetFactory()->CreateInstance(type, (void**)&object);
+		GetFactory()->CreateInstance(type, (void**)(I*)&object);
 		return object;
 	}
 
-	template<class T>
+	template<class T, class I = T>
 	void CreateInstance(void** object) {
 		if (!object) {
 			throw Core::Error::CoreException(Core::String("Can't create instance, because object '") + typeid(T).name() + "' is null");
-		}			
-		*object = (void*)(new T{});
-	}	
+		}
+		*object = (void*)(I*)(new T{});
+	}
 }
 PUNK_ENGINE_END
 

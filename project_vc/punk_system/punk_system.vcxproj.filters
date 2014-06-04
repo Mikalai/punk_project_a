@@ -140,9 +140,6 @@
     <ClInclude Include="..\..\source\system\input\module.h">
       <Filter>input</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\system\input\mouse.h">
-      <Filter>input</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\system\logger\console_consumer.h">
       <Filter>logger</Filter>
     </ClInclude>
@@ -359,9 +356,6 @@
     <ClCompile Include="..\..\source\system\input\keymap.cpp">
       <Filter>input</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\system\input\mouse.cpp">
-      <Filter>input</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\system\logger\console_consumer.cpp">
       <Filter>logger</Filter>
     </ClCompile>
@@ -415,6 +409,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\system\module\module_manager.cpp">
       <Filter>module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\input\imouse.cpp">
+      <Filter>input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

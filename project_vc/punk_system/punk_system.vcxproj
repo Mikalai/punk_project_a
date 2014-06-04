@@ -210,7 +210,6 @@
     <ClInclude Include="..\..\source\system\input\keymap.h" />
     <ClInclude Include="..\..\source\system\input\ikeymap.h" />
     <ClInclude Include="..\..\source\system\input\module.h" />
-    <ClInclude Include="..\..\source\system\input\mouse.h" />
     <ClInclude Include="..\..\source\system\input\imouse.h" />
     <ClInclude Include="..\..\source\system\logger\console_consumer.h" />
     <ClInclude Include="..\..\source\system\logger\default_logger.h" />
@@ -290,7 +289,7 @@
     <ClCompile Include="..\..\source\system\input\input_component.cpp" />
     <ClCompile Include="..\..\source\system\input\keyboard.cpp" />
     <ClCompile Include="..\..\source\system\input\keymap.cpp" />
-    <ClCompile Include="..\..\source\system\input\mouse.cpp" />
+    <ClCompile Include="..\..\source\system\input\imouse.cpp" />
     <ClCompile Include="..\..\source\system\logger\console_consumer.cpp" />
     <ClCompile Include="..\..\source\system\logger\default_logger.cpp" />
     <ClCompile Include="..\..\source\system\logger\error_logger.cpp" />
