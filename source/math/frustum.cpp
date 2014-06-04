@@ -17,69 +17,33 @@
 namespace Punk {
     namespace Engine {
         namespace Math {
-            //    Frustum::Frustum()
-            //        : m_fov(0)
-            //        , m_zfar(0)
-            //        , m_znear(0)
-            //        , m_aspect(0)
-            //        , m_need_update(true)
-            //    {}
+			
+			Frustum::Frustum() {}
 
-            //    Frustum::Frustum(const mat4 &projection_matrix)
-            //        : m_projection_matrix(projection_matrix)
-            //    {}
+			const ClipSpace Frustum::GetClipSpaceFromPoint(const Math::vec3& p){
+				return FrustumBuildClipSpaceFromPoint(m_core, p);
+			}
 
-            //    void Frustum::SetFovY(float value)
-            //    {
-            //        m_fov = value;
-            //        m_need_update = true;
-            //    }
+			const ClipSpace Frustum::GetClipSpace(){
+				return FrustumToClipSpace(m_core);
+			}
 
-            //    void Frustum::SetAspectRatio(float value)
-            //    {
-            //        m_aspect = value;
-            //        m_need_update = true;
-            //    }
+			void Frustum::SetPerspectiveProjectionMatrix(const Math::mat4& value) {
+				m_core = FrustumCreateFromProjectionMatrix(value);
+			}
 
-            //    void Frustum::SetNearPlane(float value)
-            //    {
-            //        m_znear = value;
-            //        m_need_update = true;
-            //    }
+			const Math::mat4 Frustum::GetPerspectiveProjectionMatrix() const {
+				return FrustumCreatePerspectiveProjectionMatrix(m_core);
+			}
 
-            //    void Frustum::SetFarPlane(float value)
-            //    {
-            //        m_zfar = value;
-            //        m_need_update = true;
-            //    }
+			const vec2 Frustum::GetZRange(const Math::mat4& view) {
+				return FrustumFindZRange(m_core, view);
+			}
 
-            //    const Plane& Frustum::GetPlane(FrustumPlane value) const
-            //    {
-            //        return m_planes[static_cast<int>(value)];
-            //    }
-
-            //    const mat4 Frustum::GetProjectionMatrix()
-            //    {
-            //        return mat4::CreatePerspectiveProjection(m_fov, m_aspect, 1, m_znear, m_zfar);
-            //    }
-
-            //    const Math::vec3& Frustum::GetPoint(FrustumPoints value) const
-            //    {
-            //        return m_points[value];
-            //    }
-
-            //    const Math::vec3& Frustum::GetTransformedPoint(FrustumPoints value) const
-            //    {
-            //        return m_transformed_points[value];
-            //    }
-
-            //    void Frustum::SetTransformMatrix(const Math::mat4& value)
-            //    {
-            //        for (int i = 0; i != 8; ++i)
-            //        {
-            //            m_transformed_points[i] = value * m_points[i];
-            //        }
-            //    }
+			Frustum& Frustum::Transform(const vec3 &center, const vec3 &view_dir, const vec3 &_up) {
+				FrustumTransform(m_core, center, view_dir, _up);
+				return *this;
+			}
 
             const ClipSpace FrustumToClipSpace(const FrustumCore &f) {
                 Plane p[6];

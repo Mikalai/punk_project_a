@@ -13,12 +13,25 @@ namespace Punk {
 
             struct FrustumCore
             {
-                float neard;
-                float fard;
-                float fov;
-                float ratio;
+				float neard{ 0.1f };
+				float fard{ 100.0f };
+				float fov{ 1.0f };
+				float ratio{ 1.33f };
                 vec3  point[8];
             };
+
+			class PUNK_ENGINE_API Frustum {
+			public:
+				Frustum();
+				const ClipSpace GetClipSpaceFromPoint(const Math::vec3& p);
+				const ClipSpace GetClipSpace();
+				void SetPerspectiveProjectionMatrix(const Math::mat4& value);
+				const Math::mat4 GetPerspectiveProjectionMatrix() const;
+				const vec2 GetZRange(const Math::mat4& view);				
+				Frustum& Transform(const vec3 &center, const vec3 &view_dir, const vec3 &_up);
+			private:
+				FrustumCore m_core;
+			};
 
             PUNK_ENGINE_API const ClipSpace FrustumBuildClipSpaceFromPoint(const FrustumCore& f, const Math::vec3& p);
             PUNK_ENGINE_API const ClipSpace FrustumToClipSpace(const FrustumCore& f);
