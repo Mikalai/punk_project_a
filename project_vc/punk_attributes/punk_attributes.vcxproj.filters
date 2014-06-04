@@ -460,9 +460,6 @@
     <ClInclude Include="..\..\source\attributes\material\inormal_texture_slot.h">
       <Filter>material</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\attributes\camera\camera.h">
-      <Filter>camera</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\attributes\camera\icamera.h">
       <Filter>camera</Filter>
     </ClInclude>
@@ -489,6 +486,9 @@
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\stubs\itext_attribute.h">
       <Filter>stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\camera\iperspective_camera.h">
+      <Filter>camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

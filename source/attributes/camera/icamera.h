@@ -2,7 +2,7 @@
 #define _H_PUNK_CAMERA
 
 #include <config.h>
-#include <core/object.h>
+#include <core/iobject.h>
 #include <math/mat4.h>
 #include <math/line3d.h>
 #include <math/frustum.h>
@@ -10,52 +10,27 @@
 #include <math/rect.h>
 
 PUNK_ENGINE_BEGIN
+namespace System {
+	class IWindow;
+}
 namespace Attributes
 {
+	DECLARE_PUNK_GUID(IID_ICamera, "C709623C-A93F-4BA5-B0EC-8B9E7BC60283");
+
     class ICamera : public Core::IObject
 	{
 	public:		
-        const Math::mat4 GetProjectionMatrix();
-		const Math::mat4 GetViewMatrix() const;
-		const Math::vec3 GetDirection() const { return m_direction; }
-		const Math::vec3 GetUpVector() const { return m_up; }
-		const Math::ClipSpace ToClipSpace() const;        
-
-		void SetYaw(float value);
-		void SetRoll(float value);
-		void SetPitch(float value);
-
-		void SetYawRollPitch(float yaw, float roll, float pitch);
-		void SetYawRollPitch(const Math::vec3& yrp);
-
-		const Math::vec3& GetYawRollPitch() const { return m_yrp; }
-		float GetYaw() const { return m_yrp[0]; }
-		float GetRoll() const { return m_yrp[1]; }
-		float GetPitch() const { return m_yrp[2]; }
-
-		const Math::vec3& GetRightVector() const { return m_right; }
-
-        Math::FrustumCore& GetFrustum() { return m_frustum; }
-        const Math::FrustumCore& GetFrustum() const { return m_frustum; }
-
-		const Math::Rect& GetViewport() const { return m_viewport; }
-		void SetViewport(float x, float y, float width, float height) { m_viewport.Set(x, y, width, height); }
-
-		const Math::Line3D GetWorldRay(float view_x, float view_y);
-	private:
-		Math::vec3 m_yrp;	//	yaw roll pitch
-		Math::vec3 m_position;
-		Math::vec3 m_direction;
-		Math::vec3 m_right;
-		Math::vec3 m_up;
-		Math::mat4 m_view_matrix;
-        Math::mat4 m_proj_matrix;
-        Math::FrustumCore m_frustum;
-		Math::Rect m_viewport;
-
-		void UpdateInternals();
-
-        PUNK_OBJECT_DEFAULT_IMPL(Camera)
+		virtual void SetName(const Core::String& value) = 0;
+		virtual const Core::String GetName() const = 0;
+		virtual const Math::mat4 GetProjectionMatrix() const = 0;		
+		virtual const Math::vec3 GetDirection() const = 0;
+		virtual void SetDirection(const Math::vec3& value) = 0;
+		virtual const Math::vec3 GetUpVector() const = 0;
+		virtual void SetUpVector(const Math::vec3& value) = 0;
+		virtual const Math::ClipSpace GetClipSpace() const = 0;		
+		virtual void BindToWindow(System::IWindow* window) = 0;
+		virtual System::IWindow* GetWindow() const = 0;
+		virtual const Math::vec2 GetZRange(const Math::mat4& view) const = 0;
 	};    
 }
 PUNK_ENGINE_END

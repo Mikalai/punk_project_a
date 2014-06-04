@@ -23,12 +23,21 @@ namespace Punk {
 			class PUNK_ENGINE_API Frustum {
 			public:
 				Frustum();
-				const ClipSpace GetClipSpaceFromPoint(const Math::vec3& p);
-				const ClipSpace GetClipSpace();
+				const ClipSpace GetClipSpaceFromPoint(const Math::vec3& p) const;
+				const ClipSpace GetClipSpace() const;
 				void SetPerspectiveProjectionMatrix(const Math::mat4& value);
 				const Math::mat4 GetPerspectiveProjectionMatrix() const;
-				const vec2 GetZRange(const Math::mat4& view);				
+				const vec2 GetZRange(const Math::mat4& view) const;				
 				Frustum& Transform(const vec3 &center, const vec3 &view_dir, const vec3 &_up);
+				void SetNearDistance(float znear);				
+				void SetFarDistance(float zfar);				
+				void SetFov(float fov);				
+				void SetAspectRatio(float width, float height);				
+				void SetAspectRatio(float aspect);
+				float GetFov() const;
+				float GetFarDistance() const;
+				float GetAspectRation() const;
+				float GetNearDistance() const;
 			private:
 				FrustumCore m_core;
 			};
