@@ -64,6 +64,7 @@ def export_camera(f, object):
     export_float(f, "*near", camera.clip_start)
     export_float(f, "*far", camera.clip_end)
     export_float(f, "*focus", camera.dof_distance)
+    export_vec3(f, "*up_vector", [0, 0, 1])
 
     if (camera.type == "ORTHO"):
         export_float(f, "*ortho_scale", camera.ortho_scale)   
