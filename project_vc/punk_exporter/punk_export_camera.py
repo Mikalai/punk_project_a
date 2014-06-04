@@ -48,20 +48,17 @@ def export_camera(f, object):
 
     camera = object.data    
 
-    if (camera.type == "PERSP"):
-        file = object.data.name + ".perspective_camera"    
-        f = open(file, "w")
-        f.write("PERSPCAMERATEXT\n")    
-    elif (camera.type == "ORTHO"):
-        file = object.data.name + ".ortho_camera"    
-        f = open(file, "w")
-        f.write("ORTHOCAMERATEXT\n")    
-    elif (camera.type == "PANO"):
-        file = object.data.name + ".panoramic_camera"    
-        f = open(file, "w")
-        f.write("PANOCAMERATEXT\n")    
+    file = object.data.name + ".perspective_camera"    
+    f = open(file, "w")
+    f.write("CAMERATEXT\n")        
        
-    start_block(f, "*camera")
+    if (camera.type == "PERSP"):
+        start_block(f, "*perspective_camera")
+    elif (camera.type == "ORTHO"):
+        start_block(f, "*ortho_camera")
+    elif (camera.type == "PANO"):
+        start_block(f, "*panoramic_camera")
+    
     export_string(f, "*name", camera.name)    
     export_float(f, "*fov", camera.angle)
     export_float(f, "*near", camera.clip_start)
