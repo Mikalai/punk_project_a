@@ -38,8 +38,10 @@ namespace Graphics
 			}
 
 			void Cook() {
-				auto path = System::Environment::Instance()->GetShaderFolder() + GetShaderFile(RenderContextType::NoLightSolidColor, ShaderType::Vertex);
-				m_index = ShaderCooker::CookFromFile(ShaderType::Vertex, path);
+				System::Folder f;
+				f.Open(System::Environment::Instance()->GetShaderFolder());				
+				m_index = ShaderCooker::CookFromFile(ShaderType::Vertex, 
+					GetShaderFile(RenderContextType::NoLightSolidColor, ShaderType::Vertex));
 			}
 
 			GLuint m_index;
@@ -75,8 +77,10 @@ namespace Graphics
 			}
 
 			void Cook() {
-				auto path = System::Environment::Instance()->GetShaderFolder() + GetShaderFile(RenderContextType::NoLightSolidColor, ShaderType::Fragment);
-				m_index = ShaderCooker::CookFromFile(ShaderType::Fragment, path);
+				System::Folder f;
+				f.Open(System::Environment::Instance()->GetShaderFolder());				
+				m_index = ShaderCooker::CookFromFile(ShaderType::Fragment, 
+					GetShaderFile(RenderContextType::NoLightSolidColor, ShaderType::Fragment));
 			}
 
 			GLuint m_index{ 0 };

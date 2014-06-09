@@ -318,6 +318,8 @@ namespace Graphics
 				return new CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Normal>::Type;
 			else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0>::Value())
 				return new CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0> ::Type;
+			else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Tangent, VertexComponent::Bitangent, VertexComponent::Texture0>::Value())
+				return new CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Normal, VertexComponent::Tangent, VertexComponent::Bitangent, VertexComponent::Texture0> ::Type;
 			else
 				throw Error::OpenGLException("Unsupported vertex type");
 		}

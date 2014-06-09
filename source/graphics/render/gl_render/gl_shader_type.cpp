@@ -25,7 +25,8 @@ namespace Graphics {
 		static const ShaderFile g_vertex_shaders[] = {
 			ShaderFile(RenderContextType::NoRender, L""),
 			ShaderFile(RenderContextType::NoLightSolidColor, L"solid_color_3d_330.vert"),
-			ShaderFile(RenderContextType::LightPerFragmentDiffuse, L"per_fragment_lighting_diffuse_330.vert")
+			ShaderFile(RenderContextType::LightPerFragmentDiffuse, L"per_fragment_lighting_diffuse_330.vert"),
+			ShaderFile(RenderContextType::LightPerFragmentTextureDiffuse, L"per_fragment_lighting_tex_diffuse_330.vert")
 		};
 		/*ShaderFile(RenderContextType::BVertexBumpMapping, L"bump_330.vert"),
 		ShaderFile(RenderContextType::VertexBumpMappingShadowMap, L"bump_330_shadow_map.vert"),
@@ -74,7 +75,8 @@ namespace Graphics {
 		static const ShaderFile g_fragment_shaders[] = {
 			ShaderFile(RenderContextType::NoRender, L""),
 			ShaderFile(RenderContextType::NoLightSolidColor, L"solid_color_3d_330.frag"),
-			ShaderFile(RenderContextType::LightPerFragmentDiffuse, L"per_fragment_lighting_diffuse_330.frag")
+			ShaderFile(RenderContextType::LightPerFragmentDiffuse, L"per_fragment_lighting_diffuse_330.frag"),
+			ShaderFile(RenderContextType::LightPerFragmentTextureDiffuse, L"per_fragment_lighting_tex_diffuse_330.frag")
 		};
 
 		/*ShaderFile(RenderContextType::VertexBumpMapping, L"bump_330.vert"),

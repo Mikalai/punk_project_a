@@ -552,9 +552,7 @@
     <ClInclude Include="..\..\source\graphics\render\gl_render\fs_per_fragment_lighting_diffuse_specular.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_per_fragment_lighting_tex_diffuse.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\gl_light_per_fragment_texture_diffuse.h" />
     <ClInclude Include="..\..\source\graphics\render\gl_render\fs_per_fragment_lighting_tex_diffuse_specular.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>

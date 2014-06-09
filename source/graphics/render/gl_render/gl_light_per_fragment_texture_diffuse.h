@@ -1,5 +1,5 @@
-#ifndef _H_PUNK_OPENGL_LIGHT_PER_FRAGMENT_DIFFUSE
-#define _H_PUNK_OPENGL_LIGHT_PER_FRAGMENT_DIFFUSE
+#ifndef _H_PUNK_OPENGL_LIGHT_PER_FRAGMENT_TEXTURE_DIFFUSE
+#define _H_PUNK_OPENGL_LIGHT_PER_FRAGMENT_TEXTURE_DIFFUSE
 
 #include <sstream>
 #include <graphics/primitives/vertex.h>
@@ -13,7 +13,7 @@ namespace Graphics
 	namespace OpenGL
 	{
 		template<>
-		struct ShaderAspect < RenderContextType::LightPerFragmentDiffuse, ShaderType::Vertex > {
+		struct ShaderAspect < RenderContextType::LightPerFragmentTextureDiffuse, ShaderType::Vertex > {
 
 			ShaderAspect(GlRenderContextBase* rc)
 				: m_rc{ rc } {}
@@ -23,6 +23,7 @@ namespace Graphics
 				uProjViewWorld = m_rc->GetUniformLocation("uProjViewWorld");
 				uNormalMatrix = m_rc->GetUniformLocation("uNormalMatrix");
 				uViewWorld = m_rc->GetUniformLocation("uViewWorld");
+				uTextureMatrix = m_rc->GetUniformLocation("uTextureMatrix");
 			}
 
 			void BindParameters(const CoreState& params)
@@ -33,12 +34,14 @@ namespace Graphics
 				m_rc->SetUniformMatrix4f(uProjViewWorld, proj_view_world);
 				m_rc->SetUniformMatrix3f(uNormalMatrix, normal_matrix);
 				m_rc->SetUniformMatrix4f(uViewWorld, view_world);
+				m_rc->SetUniformMatrix4f(uTextureMatrix, params.batch_state->m_texture_matrix);
 			}
 
 			int64_t GetRequiredAttributesSet() const
 			{
 				return VertexComponent::Position::Value()
-					| VertexComponent::Normal::Value();
+					| VertexComponent::Normal::Value()
+					| VertexComponent::Texture0::Value();
 			}
 
 			GLuint GetIndex() {
@@ -47,9 +50,10 @@ namespace Graphics
 
 			void Cook() {
 				System::Folder f;
-				f.Open(System::Environment::Instance()->GetShaderFolder());					
+				f.Open(System::Environment::Instance()->GetShaderFolder());				
+					
 				m_index = ShaderCooker::CookFromFile(ShaderType::Vertex, 
-					GetShaderFile(RenderContextType::LightPerFragmentDiffuse, ShaderType::Vertex));
+					GetShaderFile(RenderContextType::LightPerFragmentTextureDiffuse, ShaderType::Vertex));
 			}
 
 			GLuint m_index;
@@ -57,10 +61,12 @@ namespace Graphics
 			unsigned uNormalMatrix;
 			unsigned uViewWorld;
 			unsigned uProjViewWorld;
+			unsigned uTextureMatrix;
+			unsigned uDiffuseMap;
 		};
 
 		template<>
-		struct ShaderAspect<RenderContextType::LightPerFragmentDiffuse, ShaderType::Fragment> {
+		struct ShaderAspect<RenderContextType::LightPerFragmentTextureDiffuse, ShaderType::Fragment> {
 
 			ShaderAspect(GlRenderContextBase* rc)
 				: m_rc{ rc }
@@ -68,8 +74,9 @@ namespace Graphics
 
 			void InitUniforms()
 			{
-				uDiffuseColor = m_rc->GetUniformLocation("uDiffuseColor");
 				uView = m_rc->GetUniformLocation("uView");
+				uDiffuseColor = m_rc->GetUniformLocation("uDiffuseColor");
+				uDiffuseMap = m_rc->GetUniformLocation("uDiffuseMap");
 				for (int i = 0; i != BaseState::MAX_LIGHTS; ++i)
 				{
 					std::stringstream stream;
@@ -81,9 +88,9 @@ namespace Graphics
 			void BindParameters(const CoreState& params)
 			{
 				m_rc->SetUniformVector4f(uDiffuseColor, params.batch_state->m_material.m_diffuse_color);
-				m_rc->SetUniformMatrix4f(uView, params.view_state->m_view);
+				m_rc->SetUniformInt(uDiffuseMap, params.texture_state->m_diffuse_slot[0]);
 
-				for (int i = 0; i != BaseState::MAX_LIGHTS; ++i)
+				for (unsigned i = 0; i != params.light_state->m_used_lights; ++i)
 				{
 					m_rc->SetUniformLight(uLight[i], params.light_state->m_lights[i]);
 				}
@@ -102,18 +109,19 @@ namespace Graphics
 				System::Folder f;
 				f.Open(System::Environment::Instance()->GetShaderFolder());
 				const char* names[] = { "/light.glsl" };
-				m_index = ShaderCooker::CookFromFileWithHeaders(ShaderType::Fragment, 
-					GetShaderFile(RenderContextType::LightPerFragmentDiffuse, ShaderType::Fragment), 1, names);				
+				m_index = ShaderCooker::CookFromFileWithHeaders(ShaderType::Fragment,
+					GetShaderFile(RenderContextType::LightPerFragmentTextureDiffuse, ShaderType::Fragment), 1, names);
 			}
 
 			GLuint m_index{ 0 };
 			GlRenderContextBase* m_rc;
-			unsigned uDiffuseColor;
 			unsigned uView;
+			unsigned uDiffuseColor;
+			unsigned uDiffuseMap;
 			LightSourceShaderParameters uLight[BaseState::MAX_LIGHTS];
 		};
 	}
 }
 PUNK_ENGINE_END
 
-#endif	//	_H_PUNK_OPENGL_LIGHT_PER_FRAGMENT_DIFFUSE
+#endif	//	_H_PUNK_OPENGL_LIGHT_PER_FRAGMENT_TEXTURE_DIFFUSE

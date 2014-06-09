@@ -16,6 +16,20 @@ namespace ImageModule {
 		}
 	};
 
+	template<>
+	struct PixelSizeAccessor < ImageFormat::RGB > {
+		constexpr static std::uint32_t GetSize() {
+			return 3 * GetDataTypeSize<DataType::Byte>::Value();
+		}
+	};
+
+	template<>
+	struct PixelSizeAccessor < ImageFormat::ALPHA > {
+		constexpr static std::uint32_t GetSize() {
+			return GetDataTypeSize<DataType::Byte>::Value();
+		}
+	};
+
 }
 PUNK_ENGINE_END
 
