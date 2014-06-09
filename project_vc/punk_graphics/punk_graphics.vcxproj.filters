@@ -981,9 +981,6 @@
     <ClInclude Include="..\..\source\graphics\render\gl_render\fs_per_fragment_lighting_tex_diffuse_specular.h">
       <Filter>render\gl_render</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_per_vertex_lighting_diffuse.h">
-      <Filter>render\gl_render</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\graphics\render\gl_render\fs_per_vertex_lighting_diffuse_shadow_simple.h">
       <Filter>render\gl_render</Filter>
     </ClInclude>
@@ -1153,6 +1150,9 @@
       <Filter>render\gl_render</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\graphics\render\gl_render\gl_render_context.h">
+      <Filter>render\gl_render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\gl_light_per_fragment_diffuse.h">
       <Filter>render\gl_render</Filter>
     </ClInclude>
   </ItemGroup>

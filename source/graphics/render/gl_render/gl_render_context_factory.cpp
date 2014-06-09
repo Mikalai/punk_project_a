@@ -7,6 +7,7 @@
 #include <graphics/render/irender_context_factory.h>
 #include "gl_render_context.h"
 #include "gl_no_light_solid_color.h"
+#include "gl_light_per_fragment_diffuse.h"
 
 PUNK_ENGINE_BEGIN
 namespace Graphics {
@@ -65,7 +66,7 @@ namespace Graphics {
 			case Punk::Engine::Graphics::RenderContextType::NoRender:
 				break;
 			case Punk::Engine::Graphics::RenderContextType::NoLightSolidColor:
-				return new GlRenderContext<RenderContextType::NoLightSolidColor>();
+				return new GlRenderContext<RenderContextType::NoLightSolidColor>;
 			case Punk::Engine::Graphics::RenderContextType::NoLightSolidColorTextured:
 				break;
 			case Punk::Engine::Graphics::RenderContextType::NoLightSolidColorSkinning:
@@ -129,7 +130,7 @@ namespace Graphics {
 			case Punk::Engine::Graphics::RenderContextType::BumpMappingTextureDiffuseSpecularSkinningShadowingCascade:
 				break;
 			case Punk::Engine::Graphics::RenderContextType::LightPerFragmentDiffuse:
-				break;
+				return new GlRenderContext < RenderContextType::LightPerFragmentDiffuse > ;
 			case Punk::Engine::Graphics::RenderContextType::LightPerFragmentDiffuseShadowingSimple:
 				break;
 			case Punk::Engine::Graphics::RenderContextType::LightPerFragmentDiffuseShadowingCascade:
