@@ -28,9 +28,9 @@ namespace Attributes {
 
 		vb = nullptr;
 		ib = nullptr;
-		if (mesh->HasVertexPositions() && mesh->HasVertexTextureCoordinates() && mesh->HasVertexNormals())
+		if (mesh->HasVertexPositions() && mesh->HasFaceTextureCoordinates() && mesh->HasVertexNormals())
 			CookPositionNormalTangentBitangentTexture0(mesh, vb, ib);
-		else if (mesh->HasVertexPositions() && mesh->HasVertexTextureCoordinates())
+		else if (mesh->HasVertexPositions() && mesh->HasFaceTextureCoordinates())
 			CookPositionTexture0(mesh, vb, ib);
 		else if (mesh->HasVertexPositions() && mesh->HasVertexNormals())
 			CookPositionNormal(mesh, vb, ib);
@@ -52,7 +52,7 @@ namespace Attributes {
 
 		if (!mesh->HasVertexPositions())
 			throw System::Error::SystemException(L"Can't create static mesh from empty vertex list in mesh descriptor");
-		if (!mesh->HasVertexTextureCoordinates())
+		if (!mesh->HasFaceTextureCoordinates())
 			throw System::Error::SystemException(L"Can't create static mesh from mesh descriptor with empty texture coordinates list");
 		if (!mesh->HasVertexNormals())
 			throw System::Error::SystemException(L"Can't create static mesh from mesh descriptor with empty normals list");
