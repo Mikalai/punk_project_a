@@ -44,13 +44,15 @@ namespace LowLevelRender {
 		std::vector<LightCache<Attributes::IPointLight>> m_point_lights;
 		std::vector<LightCache<Attributes::IDirectionalLight>> m_dir_light;
 		std::vector<LightCache<Attributes::ISpotLight*>> m_spot_lights;
-		SceneModule::ISceneManager* m_manager{ nullptr };
-		Graphics::ICanvas* m_canvas{ nullptr };
+		SceneModule::ISceneManager* m_manager{ nullptr };		
 		Graphics::IVideoDriver* m_driver{ nullptr };
 		Graphics::ILowLevelRender* m_render{ nullptr };
 		Graphics::IFrameBuffer* m_frame_buffer{ nullptr };
 		Graphics::IFrame* m_frame{ nullptr };	
 		std::atomic<std::uint32_t> m_ref_count{ 1 };
+
+	public:
+		static Graphics::ICanvasUniquePtr Canvas;
 	};
 }
 PUNK_ENGINE_END

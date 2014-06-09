@@ -12,7 +12,7 @@
 PUNK_ENGINE_BEGIN
 namespace LowLevelRender {
 
-	class PUNK_ENGINE_API RenderObserver : public IRenderObserver {
+	class PUNK_ENGINE_LOCAL RenderObserver : public IRenderObserver {
 	public:
 		RenderObserver();
 		virtual ~RenderObserver();
@@ -27,7 +27,7 @@ namespace LowLevelRender {
 	private:
 		Core::ObjectPool<Attributes::IGeometry*, Graphics::IRenderable*> m_cooked_geometry;
 		std::map<SceneModule::INode*, RenderGeoemetryCache> m_geometry_cache;
-		Graphics::ICanvasUniquePtr m_canvas{ nullptr, Core::DestroyObject };
+		//Graphics::ICanvasUniquePtr m_canvas{ nullptr, Core::DestroyObject };
 		SceneModule::IScene* m_scene{ nullptr };
 		SceneModule::INode* m_camera_node{ nullptr };
 		Attributes::IGeometryCooker* m_geometry_cooker{ nullptr };

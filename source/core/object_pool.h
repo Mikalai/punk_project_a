@@ -44,6 +44,7 @@ namespace Core {
 			it2->second;
 			if (value)
 				*value = it2->second;
+			return true;
 		}
 
 		std::map<Key, Value> m_container;

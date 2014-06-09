@@ -7,6 +7,8 @@
 PUNK_ENGINE_BEGIN
 namespace LowLevelRender {
 
+	Graphics::ICanvasUniquePtr RenderProcessor::Canvas{ nullptr, Core::DestroyObject };
+
 	void RenderProcessor::QueryInterface(const Core::Guid& type, void** object) {		
 		Core::QueryInterface(this, type, object, { IID_IRenderProcessor, Core::IID_IObject });
 	}
@@ -32,11 +34,13 @@ namespace LowLevelRender {
 		auto factory = Core::GetFactory();
 		Core::IObject* object;
 		factory->CreateInstance(Graphics::IID_ICanvas, (void**)&object);
-		object->QueryInterface(Graphics::IID_ICanvas, (void**)&m_canvas);
-		object->Release();
-		m_canvas->Initialize(Graphics::CanvasDescription{});
-		m_canvas->GetWindow()->Open();
-		m_driver = m_canvas->GetVideoDriver();
+		if (!Canvas.get()) {
+			object->QueryInterface(Graphics::IID_ICanvas, (void**)&Canvas);
+			object->Release();
+			Canvas->Initialize(Graphics::CanvasDescription{});
+			Canvas->GetWindow()->Open();
+		}		
+		m_driver = Canvas->GetVideoDriver();
 		m_render = m_driver->GetRender();
 		m_frame_buffer = Graphics::GetBackbuffer();
 		/*Core::GetFactory()->CreateInstance(Graphics::IID_IFrame, (void**)&m_frame);
@@ -44,8 +48,7 @@ namespace LowLevelRender {
 	}
 
 	RenderProcessor::~RenderProcessor() {
-		m_frame->Release();
-		m_canvas->Release();
+		m_frame->Release();		
 	}
 
 	void RenderProcessor::Process(Graphics::IFrame* frame, SceneModule::INode* node) {
@@ -150,6 +153,7 @@ namespace LowLevelRender {
 		t += (2.0 * Math::PI / 10.0f) * (dt / 1000.0f);
 		frame->PushAllState();
 		frame->EnableLighting(true);
+		frame->EnableTexturing(true);
 		frame->SetLightModel(Graphics::LightModel::PerFragmentDiffuse);
 	//	frame->SetWorldMatrix(Math::CreateRotation(0, 1, 0, t));
 		frame->SetViewMatrix(Math::CreateTargetCameraMatrix({ 2, 2, 2 }, { 0, 0, 0 }, { 0, 1, 0 }));
@@ -194,8 +198,8 @@ namespace LowLevelRender {
 		//frame->DrawQuad(400, 100, 100, 100);
 		m_render->EndFrame();
 		//m_frame_buffer->Unbind();
-		m_canvas->GetWindow()->Update(dt);
-		m_canvas->SwapBuffers();						
+		Canvas->GetWindow()->Update(dt);
+		Canvas->SwapBuffers();						
 	}
 
 	PUNK_REGISTER_CREATOR(IID_IRenderProcessor, Core::CreateInstance<RenderProcessor>);

@@ -9,6 +9,7 @@
 #include <scene/singlethreaded/module.h>
 #include <application/iapplication.h>
 #include <attributes/module.h>
+#include <graphics/module.h>
 
 //#include "gui/module.h"
 //#include "gpu/module.h"

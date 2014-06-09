@@ -48,7 +48,7 @@ namespace ImageModule {
 		}
 
 		ImageFormat GetFormat() const override {
-			return m_format;
+			return Format;
 		}
 
 		const void* GetData() const override {
@@ -63,7 +63,7 @@ namespace ImageModule {
 		std::atomic<std::uint32_t> m_ref_count{ 1 };
 		std::uint32_t m_width;
 		std::uint32_t m_height;
-		ImageFormat m_format;
+		//ImageFormat m_format;
 		std::vector<std::uint8_t> m_data;
 	};	
 
@@ -399,5 +399,7 @@ namespace ImageModule {
 	}
 
 	PUNK_REGISTER_CREATOR(IID_IRgbaImage, Core::CreateInstance < Image<ImageFormat::RGBA>>);
+	PUNK_REGISTER_CREATOR(IID_IRgbImage, Core::CreateInstance < Image<ImageFormat::RGB>>);
+	PUNK_REGISTER_CREATOR(IID_IAlphaImage, Core::CreateInstance < Image<ImageFormat::ALPHA>>);
 }
 PUNK_ENGINE_END

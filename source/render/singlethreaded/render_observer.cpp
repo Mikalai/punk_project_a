@@ -1,9 +1,12 @@
+#include <images/module.h>
+#include <system/environment.h>
 #include <core/ifactory.h>
 #include <graphics/module.h>
 #include <attributes/module.h>
 #include <scene/module.h>
 #include <system/module.h>
 #include "render_observer.h"
+#include "render_processor.h"
 
 PUNK_ENGINE_BEGIN
 namespace LowLevelRender {
@@ -25,7 +28,7 @@ namespace LowLevelRender {
 
 	void RenderObserver::OnNodeAdded(SceneModule::INode* parent, SceneModule::INode* child) {
 		auto count = child->GetAttributesCountOfType<Attributes::IGeometry>();
-		for (int i = 0; i < count; ++i) {
+		for (int i = 0; i < (int)count; ++i) {
 			auto geom = child->GetAttributeOfType<Attributes::IGeometry>(i);
 			Graphics::IRenderable* renderable = nullptr;
 			if (m_cooked_geometry.HasValue(geom))
@@ -56,6 +59,25 @@ namespace LowLevelRender {
 		}
 		for (int i = 0, max_i = child->GetChildrenCount(); i < max_i; ++i) {
 			OnNodeAdded(child, child->GetChild(i));
+		}
+
+		count = child->GetAttributesCountOfType<Attributes::IMaterial>();
+		for (int i = 0; i < (int)count; ++i) {
+			auto material = child->GetAttributeOfType<Attributes::IMaterial>(i);
+			auto diffuse_slot = material->GetDiffuseTextureSlot();
+			if (diffuse_slot) {
+				System::Folder folder;
+				folder.Open(System::Environment::Instance()->GetTextureFolder());
+				ImageModule::IImageReaderUniquePtr image_reader{ nullptr, Core::DestroyObject };
+				Core::GetFactory()->CreateInstance(ImageModule::IID_IImageReader, (void**)&image_reader);
+				ImageModule::IImageUniquePtr image{ nullptr, Core::DestroyObject };
+				image.reset(image_reader->Read(diffuse_slot->GetFilename()));
+				Graphics::ITexture2DUniquePtr texture{ nullptr, Core::DestroyObject };
+				Core::GetFactory()->CreateInstance(Graphics::IID_ITexture2D, (void**)&texture);
+				if (texture)
+					texture->Initialize(image.get(), true, RenderProcessor::Canvas->GetVideoDriver());				
+				diffuse_slot->SetTexture(texture.get());
+			}
 		}
 	}
 

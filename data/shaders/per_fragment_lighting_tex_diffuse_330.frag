@@ -54,4 +54,5 @@ void main()
     }
     vec4 diffuse_texture = texture2D(uDiffuseMap, vVertexTextureCoord0);
     vFragmentColor = light_color * uDiffuseColor * diffuse_texture;
+	//vFragmentColor = vec4(1 + 0.5*vVertexTextureCoord0, 0, 1);
 }
