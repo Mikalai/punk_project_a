@@ -23,6 +23,12 @@ namespace Attributes
         TextureSlot();
 		virtual ~TextureSlot();
 
+		//	IObject
+		void QueryInterface(const Core::Guid& type, void** object) override;
+		std::uint32_t AddRef() override;
+		std::uint32_t Release() override;
+
+		//	ITextureSlot
 		void SetScale(const Math::vec3& value) override;
 		const Math::vec3& GetScale() const override;
 		void SetFilename(const Core::String& value) override;
@@ -37,6 +43,7 @@ namespace Attributes
         Core::String m_image_filename;
 		float m_factor{ 1.0f };
 		Core::UniquePtr<Graphics::ITexture2D> m_texture_2d{ nullptr, Core::DestroyObject };
+		std::atomic<std::uint32_t> m_ref_count{ 1 };
     };
 }
 PUNK_ENGINE_END
