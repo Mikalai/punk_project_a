@@ -335,8 +335,9 @@ namespace IoModule
         throw Error::LoaderException(L"Unable to parse vector of vec4<vec2f>");
     }
 
-	bool ParseVector3Vector2fv(Core::Buffer& buffer, std::vector<std::array<Math::vec2, 3>>& value)
+	bool ParseVector3Vector2fv(Core::Buffer& buffer, void* o)
 	{
+		std::vector<std::array<Math::vec2, 3>>* value = (std::vector<std::array<Math::vec2, 3>>*)o;
 		CHECK_START(buffer);
 		while (1)
 		{
@@ -357,7 +358,7 @@ namespace IoModule
 			v[1].Set(u2, v2);
 			v[2].Set(u3, v3);			
 
-			value.push_back(v);
+			value->push_back(v);
 		}
 		throw Error::LoaderException(L"Unable to parse vector of vec4<vec2f>");
 	}
@@ -369,5 +370,6 @@ namespace IoModule
 	PUNK_REGISTER_PARSER(WORD_FLOAT, ParseBlockedFloat);
 	PUNK_REGISTER_PARSER(WORD_STRING, ParseBlockedString);
 	PUNK_REGISTER_PARSER(WORD_QUAT, ParseBlockedQuaternionf);
+	PUNK_REGISTER_PARSER(WORD_VEC3VEC2VF, ParseVector3Vector2fv);
 }
 PUNK_ENGINE_END

@@ -331,7 +331,7 @@
     <ClInclude Include="..\..\source\loader\parser\parse_skin_meshes.h" />
     <ClInclude Include="..\..\source\loader\parser\parse_skin_mesh_node.h" />
     <ClInclude Include="..\..\source\loader\parser\parse_spline.h" />
-    <ClInclude Include="..\..\source\loader\parser\parse_geometry.h" />
+    <ClCompile Include="..\..\source\loader\parser\parse_texture_coordinates.h" />
     <ClInclude Include="..\..\source\loader\parser\parse_static_meshes.h" />
     <ClInclude Include="..\..\source\loader\parser\parse_static_mesh_node.h" />
     <ClInclude Include="..\..\source\loader\parser\parse_sun.h" />

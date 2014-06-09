@@ -23,6 +23,7 @@ namespace IoModule
 		WORD_MATRIX4X4F,
 		WORD_FACTOR,
 		WORD_STRING,
+		WORD_VEC3VEC2VF,
 		WORD_OBJECT,						// 3
 		WORD_BOUNDING_BOX,					// 4
 		WORD_LOCATION,						// 5
@@ -367,6 +368,7 @@ namespace IoModule
 			{ WORD_VEC3F, "*vec3f" },
 			{ WORD_VEC3FV, "*vec3fv" },
 			{ WORD_VEC3IV, "*vec3iv" },
+			{ WORD_VEC3VEC2VF, "*vec3vec2vf" },
 			{ WORD_MATRIX4X4F, "*mat4x4f" },
 			{ WORD_FLOAT, "*float" },
 			{ WORD_STRING, "*string" },

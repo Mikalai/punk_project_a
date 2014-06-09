@@ -55,9 +55,9 @@ namespace IoModule
                 break;
             case WORD_TEXTURE:
             {
-                std::vector<std::array<Math::vec2, 3>> t;
-                parser->Parse(WORD_TEXTURE, buffer, t);
-                geometry->SetFaceTextureCoordinates(0, t);
+                std::vector<std::vector<std::array<Math::vec2, 3>>> t;
+                parser->Parse(WORD_TEXTURE_COORD, buffer, &t);
+                geometry->SetFaceTextureCoordinates(t);
             }
                 break;
 			case WORD_BONES_WEIGHTS:
