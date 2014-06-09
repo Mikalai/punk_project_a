@@ -49,14 +49,14 @@ namespace Graphics {
 
 			void Bind() const override {
 				if (!IsValid())
-					throw OpenGLInvalidValueException(L"Buffer is not valid");
+					throw Error::OpenGLInvalidValueException(L"Buffer is not valid");
 
 				GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, m_index));
 			}
 
 			void Unbind() const override {
 				if (!IsValid())
-					throw OpenGLInvalidValueException(L"Buffer is not valid");
+					throw Error::OpenGLInvalidValueException(L"Buffer is not valid");
 				GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, 0));
 			}
 			
@@ -125,7 +125,7 @@ namespace Graphics {
 				}
 				else {
 					if (m_size < size)
-						throw OpenGLOutOfMemoryException(Core::String(L"Vertex buffer is to small {0} to hold {1}").arg(m_size).arg(size));
+						throw Error::OpenGLOutOfMemoryException(Core::String(L"Vertex buffer is to small {0} to hold {1}").arg(m_size).arg(size));
 					Bind();
 					GL_CALL(glBufferSubData(GL_ARRAY_BUFFER, 0, size, data));
 					Unbind();

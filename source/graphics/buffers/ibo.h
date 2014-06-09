@@ -50,14 +50,14 @@ namespace Graphics {
 
 			void Bind() const override {
 				if (!IsValid())
-					throw OpenGLInvalidValueException(L"Buffer is not valid");
+					throw Error::OpenGLInvalidValueException(L"Buffer is not valid");
 
 				GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_index));
 			}
 
 			void Unbind() const override {
 				if (!IsValid())
-					throw OpenGLInvalidValueException(L"Buffer is not valid");
+					throw Error::OpenGLInvalidValueException(L"Buffer is not valid");
 				GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 			}
 			T* MapIB() {
@@ -127,7 +127,7 @@ namespace Graphics {
 				}
 				else {
 					if (m_size < (GLsizei)size)
-						throw OpenGLOutOfMemoryException(L"Index buffer is to small " + Core::String::Convert(m_size) + L" to hold " + Core::String::Convert(size));
+						throw Error::OpenGLOutOfMemoryException(L"Index buffer is to small " + Core::String::Convert(m_size) + L" to hold " + Core::String::Convert(size));
 					Bind();
 					GL_CALL(glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, size, data));
 					Unbind();

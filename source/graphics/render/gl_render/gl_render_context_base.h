@@ -1,28 +1,35 @@
 #ifndef _H_PUNK_OPENGL_DUMMY_RENDER_CONTEXT
 #define _H_PUNK_OPENGL_DUMMY_RENDER_CONTEXT
 
-#include <graphics/render/render_context/irender_context.h>
-#include <graphics/shaders/gl_shaders/gl_shader_type.h>
-#include <graphics/shaders/gl_shaders/gl_shader_types/module.h>
+#include <graphics/state/module.h>
+#include <graphics/render/irender_context.h>
+#include <graphics/render/render_context_type.h>
 #include <math/vec4.h>
 #include <math/mat4.h>
+
+#include "gl_shader.h"
+#include "gl_light_source_parameters.h"
+#include "gl_material_parameters.h"
+#include "gl_fog_parameters.h"
+
 
 PUNK_ENGINE_BEGIN
 namespace Graphics {
     namespace OpenGL {
-
-        class Shader;
-
-        class OpenGLRenderContext : public IRenderContext
+		
+        class PUNK_ENGINE_LOCAL GlRenderContextBase : public IRenderContext
 		{
 		public:
-            OpenGLRenderContext(RenderPolicySet policy);
-            OpenGLRenderContext(RenderPolicySet policy, ShaderCollection VS, ShaderCollection FS, ShaderCollection GS);
-			virtual void Begin() override;
-			virtual void End() override;
-			virtual void Init() override;
-            virtual RenderPolicySet GetPolicy() override;
-			virtual ~OpenGLRenderContext();
+            GlRenderContextBase(RenderContextType policy);
+			virtual ~GlRenderContextBase();
+
+            // IRenderContext
+			void Begin() override;
+			void ApplyState(const CoreState& state) override;
+			void End() override;		
+			RenderContextType GetType() const override { return m_policy; }
+
+			void SetShaders(ShaderBase* vs, ShaderBase* fs, ShaderBase* gs);
 
 			bool SetUniformVector4f(const char * name, const float* value);
             bool SetUniformVector4f(const char * name, const Math::vec4& value);
@@ -72,16 +79,18 @@ namespace Graphics {
 			void GetAttribute(int index, float* out);			
 			void SetUpOpenGL(const CoreState& state);
 
-		protected:
-			Shader* m_vertex_shader;
-			Shader* m_fragment_shader;
-			Shader* m_geometry_shader;
-            RenderPolicySet m_policy{RenderPolicySet::End};
+		private:
+			void Initialize();
+			bool m_initialized{ false };
+			ShaderBase* m_vertex_shader;
+			ShaderBase* m_fragment_shader;
+			ShaderBase* m_geometry_shader;
+            RenderContextType m_policy{RenderContextType::NoRender};
 
 			unsigned m_program;
-		};
+		};		
 
-        template<ShaderCollection VS, ShaderCollection FS, ShaderCollection GS> class RenderContextPolicy;
+        //template<ShaderCollection VS, ShaderCollection FS, ShaderCollection GS> class RenderContextPolicy;
 	}
 }
 PUNK_ENGINE_END

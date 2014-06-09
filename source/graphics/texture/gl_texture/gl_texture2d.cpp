@@ -15,7 +15,7 @@ namespace Graphics {
 
 		void GlTexture2D::AssertInitialized() const {
 			if (!m_initialized)
-				throw Error::GraphicsException("Texture2D is not initialized");
+				throw Error::OpenGLException("Texture2D is not initialized");
 		}
 
         GlTexture2D::GlTexture2D()
@@ -87,13 +87,13 @@ namespace Graphics {
         {
 			AssertInitialized();
             if (x < 0)
-                throw OpenGLInvalidValueException("Bad x " + Core::String::Convert(x));
+				throw Error::OpenGLInvalidValueException("Bad x " + Core::String::Convert(x));
             if (y < 0)
-                throw OpenGLInvalidValueException("Bad y " + Core::String::Convert(y));
+				throw Error::OpenGLInvalidValueException("Bad y " + Core::String::Convert(y));
             if (x + width > (int)m_width)
-                throw OpenGLInvalidValueException("Bad x offset " + Core::String::Convert(x + width) + ". Should be less or equal to " + Core::String::Convert(m_width));
+				throw Error::OpenGLInvalidValueException("Bad x offset " + Core::String::Convert(x + width) + ". Should be less or equal to " + Core::String::Convert(m_width));
             if (y + height > (int)m_height)
-                throw OpenGLInvalidValueException("Bad y offset " + Core::String::Convert(y + height) + ". Should be less or equal to " + Core::String::Convert(m_height));
+				throw Error::OpenGLInvalidValueException("Bad y offset " + Core::String::Convert(y + height) + ". Should be less or equal to " + Core::String::Convert(m_height));
 
 
             GL_CALL(glBindTexture(GL_TEXTURE_2D, m_texture_id));
@@ -159,7 +159,7 @@ namespace Graphics {
 			case ImageModule::ImageFormat::RGBA:
 				return ImageModule::ImageFormat::RGBA;
 			default:
-				throw Error::GraphicsException(L"Can't find suitable internal format");
+				throw Error::OpenGLException(L"Can't find suitable internal format");
 			}
 		}
 
@@ -180,7 +180,7 @@ namespace Graphics {
             case GL_DEPTH_COMPONENT32:
                 return GL_DEPTH_COMPONENT;
             default:
-                throw OpenGLInvalidImageFormat(L"Can't find suitable internal format");
+				throw Error::OpenGLInvalidImageFormat(L"Can't find suitable internal format");
             }
         }
 
@@ -244,7 +244,7 @@ namespace Graphics {
         void* GlTexture2D::Map()
         {
             if (m_pbo)
-                throw OpenGLException(L"Texture already mapped");			
+                throw Error::OpenGLException(L"Texture already mapped");			
 			m_pbo = new PixelBufferObject<std::uint8_t>();
 			m_pbo->Create(nullptr, m_width*m_height*m_pixel_size);
             void* ptr = m_pbo->Map();
@@ -256,7 +256,7 @@ namespace Graphics {
         void GlTexture2D::Unmap(void*)
         {
             if (!m_pbo)
-                throw OpenGLException("Texture was not mapped");
+                throw Error::OpenGLException("Texture was not mapped");
             m_pbo->Unmap();
             GL_CALL(glBindTexture(GL_TEXTURE_2D, m_texture_id));
             m_pbo->Bind();

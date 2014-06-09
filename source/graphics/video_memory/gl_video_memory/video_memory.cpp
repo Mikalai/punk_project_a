@@ -54,7 +54,7 @@ namespace Graphics {
         void VideoMemory::SetMaxMemoryUsage(std::uint32_t value)
 		{
             (void)value;
-            throw Error::GraphicsException(L"VideoMemory::SetMaxMemoryUsage not implemented");
+			throw Error::OpenGLException(L"VideoMemory::SetMaxMemoryUsage not implemented");
 		}
 
         std::uint32_t VideoMemory::GetMaxMemoryUsage() const
@@ -156,7 +156,7 @@ namespace Graphics {
         bool VideoMemory::VerifyMemory(std::uint32_t size)
 		{
 			if (m_core.m_mem_usage + size >= m_core.m_max_mem_usage)
-				throw OpenGLOutOfMemoryException(L"Not enough video memory to allocate buffer");
+				throw Error::OpenGLOutOfMemoryException(L"Not enough video memory to allocate buffer");
 			return true;
 		}
 

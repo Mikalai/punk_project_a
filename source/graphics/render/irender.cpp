@@ -1,15 +1,17 @@
 #include <config.h>
 #include <system/concurrency/module.h>
 #include <graphics/frame/iframe.h>
+#include <graphics/primitives/module.h>
 #include "irender.h"
 #include <math/vec2.h>
 #include <math/mat4.h>
 #include <core/ifactory.h>
 #include <graphics/error/module.h>
 #include <graphics/frame_buffer/module.h>
-#include <graphics/render/render_context/irender_context.h>
+#include <graphics/render/irender_context.h>
 #include <system/logger/module.h>
 #include "irender_queue.h"
+#include "irender_context_factory.h"
 #include "render_batch.h"
 
 PUNK_ENGINE_BEGIN
@@ -38,11 +40,13 @@ namespace Graphics {
 		IFrame* BeginFrame() override;
 		void EndFrame() override;
 		IRenderQueue* GetRenderQueue() override;
+		IRenderContextFactory* GetRenderContextFactory() override { return m_rc_factory.get(); }
 
 	private:
 		void AssertInitialized();
 
 		bool m_initialized{ false };
+		IRenderContextFactoryUniquePtr m_rc_factory{ nullptr, Core::DestroyObject };
 		IRenderQueueUniquePtr m_queue{ nullptr, Core::DestroyObject };
 		IVideoDriver* m_driver{ nullptr };
 		IFrameUniquePtr m_frame{ nullptr, Core::DestroyObject };
@@ -85,6 +89,9 @@ namespace Graphics {
 		if (!m_initialized) {
 			m_driver = driver;
 			Core::GetFactory()->CreateInstance(IID_IRenderQueue, (void**)&m_queue);			
+			m_queue->Initialize(this);
+			Core::GetFactory()->CreateInstance(IID_IRenderContextFactory, (void**)&m_rc_factory);
+			m_rc_factory->Initialize(driver);
 			m_initialized = true;
 		}
 	}
@@ -109,8 +116,8 @@ namespace Graphics {
         float min = std::numeric_limits<float>::infinity();
         float max = -std::numeric_limits<float>::infinity();
 
-        for (int i = 0; i < GetIndex(RenderPolicySet::End); ++i) {
-            RenderPolicySet rc_code = (RenderPolicySet)i;
+        for (int i = 0; i < GetIndex(RenderContextType::TotalCount); ++i) {
+            RenderContextType rc_code = (RenderContextType)i;
             auto& batches = m_queue->GetBatches(rc_code);
             for (Batch* o : batches) {
                 auto transf = view*o->m_state->batch_state->m_bsphere.GetCenter();
@@ -138,9 +145,9 @@ namespace Graphics {
 //		System::ILogger* log = System::GetDefaultLogger();
 //		log->Info("Begin AsyncBeginRendering");
 //#endif				
-		for (int i = 0; i < GetIndex(RenderPolicySet::End); ++i) {
-			RenderPolicySet rc_code = (RenderPolicySet)i;
-			IRenderContext *rc = GetRenderContext(rc_code);
+		for (int i = 0; i < GetIndex(RenderContextType::TotalCount); ++i) {
+			RenderContextType rc_code = (RenderContextType)i;
+			IRenderContext *rc = m_rc_factory->GetOrCreateContext(rc_code);
 			if (!rc)
 				continue;
 			auto& batches = m_queue->GetBatches(rc_code);
@@ -152,7 +159,7 @@ namespace Graphics {
 				IRenderable* renderable = batch->m_renderable;
 				CoreState* state = batch->m_state;
 				rc->Begin();
-				rc->BindParameters(*state);
+				rc->ApplyState(*state);
 				renderable->Bind();
 				renderable->LowLevelRender();
 				renderable->Unbind();

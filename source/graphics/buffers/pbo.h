@@ -44,14 +44,14 @@ namespace Graphics
 
 			void Bind() const override        {
 				if (!IsValid())
-					throw OpenGLInvalidValueException(L"Buffer is not valid");
+					throw Error::OpenGLInvalidValueException(L"Buffer is not valid");
 
 				GL_CALL(glBindBuffer(GL_PIXEL_UNPACK_BUFFER, m_index));
 			}
 
 			void Unbind() const override        {
 				if (!IsValid())
-					throw OpenGLInvalidValueException(L"Buffer is not valid");
+					throw Error::OpenGLInvalidValueException(L"Buffer is not valid");
 				GL_CALL(glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0));
 			}
 
@@ -115,7 +115,7 @@ namespace Graphics
 			void CopyData(const void* data, std::uint32_t size)
 			{
 				if (m_size < (int)size)
-					throw OpenGLOutOfMemoryException(L"pixel buffer is to small " + Core::String::Convert(m_size) + L" to hold " + Core::String::Convert(size));
+					throw Error::OpenGLOutOfMemoryException(L"pixel buffer is to small " + Core::String::Convert(m_size) + L" to hold " + Core::String::Convert(size));
 				Bind();
 				GL_CALL(glBufferSubData(GL_PIXEL_UNPACK_BUFFER, 0, size, data));
 				Unbind();

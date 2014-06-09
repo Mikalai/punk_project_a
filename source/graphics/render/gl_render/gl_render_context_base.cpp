@@ -1,17 +1,17 @@
 #include <sstream>
 #include <system/environment.h>
-#include <graphics/shaders/gl_shaders/gl_shader.h>
+
+#include <graphics/render/gl_render/gl_shader_base.h>
 #include <graphics/error/module.h>
 #include <graphics/opengl/module.h>
 #include <graphics/blending/gl_blending.h>
-#include "gl_render_context.h"
+#include "gl_render_context_base.h"
 
 PUNK_ENGINE_BEGIN
-namespace Graphics
-{
-	namespace OpenGL
-	{
-        OpenGLRenderContext::OpenGLRenderContext(RenderPolicySet policy)
+namespace Graphics {
+	namespace OpenGL {
+
+        GlRenderContextBase::GlRenderContextBase(RenderContextType policy)
 			: m_program(0)
             , m_policy{policy}
 		{
@@ -20,113 +20,97 @@ namespace Graphics
 			m_geometry_shader = nullptr;
 		}
 
-        OpenGLRenderContext::OpenGLRenderContext(RenderPolicySet policy, ShaderCollection VS, ShaderCollection FS, ShaderCollection GS)
-			: m_program(0)
-            , m_policy{policy}
-        {
-			m_vertex_shader = nullptr;
-			m_fragment_shader = nullptr;
-			m_geometry_shader = nullptr;
-
-            auto path = System::Environment::Instance()->GetShaderFolder();
-			m_vertex_shader = new Shader(ShaderType::Vertex);
-            m_vertex_shader->CookFromFile(path + GetShaderFile(VS));
-
-			m_fragment_shader = new Shader(ShaderType::Fragment);
-            m_fragment_shader->CookFromFile(path + GetShaderFile(FS));
-
-            if (GS != ShaderCollection::No)
-            {
-				m_geometry_shader = new Shader(ShaderType::Geometry);
-                m_geometry_shader->CookFromFile(path + GetShaderFile(GS));
-            }
-
-        }
-
-		void OpenGLRenderContext::Begin()
+		void GlRenderContextBase::Begin()
 		{
-			Init();
-            GL_CALL(glUseProgram(m_program));
+			if (!m_initialized)
+				Initialize();
+			GL_CALL(glUseProgram(m_program));
+		}
+		
+		void GlRenderContextBase::ApplyState(const CoreState& state) {
+			m_vertex_shader->ApplyState(state);
+			m_fragment_shader->ApplyState(state);
+			if (m_geometry_shader)
+				m_geometry_shader->ApplyState(state);
+			SetUpOpenGL(state);
 		}
 
-		void OpenGLRenderContext::End()
+		void GlRenderContextBase::End()
 		{
-            GL_CALL(glUseProgram(0));
+			GL_CALL(glUseProgram(0));
 		}
 
-        RenderPolicySet OpenGLRenderContext::GetPolicy()
-        {
-            return m_policy;
-        }
-
-		void OpenGLRenderContext::Init()
+		void GlRenderContextBase::SetShaders(ShaderBase *vs, ShaderBase *fs, ShaderBase *gs)
 		{
-			try
+			if ((m_vertex_shader = vs))
+				m_vertex_shader->Connect(this);
+			if ((m_fragment_shader = fs))
+				m_fragment_shader->Connect(this);
+			if ((m_geometry_shader = gs))
+				m_geometry_shader->Connect(this);
+			m_initialized = false;
+		}
+
+		void GlRenderContextBase::Initialize()
+		{
+			if (m_program)
 			{
-				if (m_was_modified || !m_program)
+				GL_CALL(glDeleteProgram(m_program));
+			}
+			GL_CALL(m_program = glCreateProgram());
+			try {
+				if (m_vertex_shader && m_vertex_shader->GetIndex())
 				{
-					if (m_program)
-					{
-                        GL_CALL(glDeleteProgram(m_program));
-					}
-                    GL_CALL(m_program = glCreateProgram());
-					if (m_vertex_shader)
-					{
-                        GL_CALL(glAttachShader(m_program, m_vertex_shader->GetIndex()));
-					}
-					else
-					{
-                        throw Error::GraphicsException(L"Vertex shader not set");
-					}
-
-					if (m_fragment_shader)
-					{
-                        GL_CALL(glAttachShader(m_program, m_fragment_shader->GetIndex()));
-					}
-					else
-					{
-                        throw Error::GraphicsException(L"Fragment shader not set");
-					}
-
-					if (m_geometry_shader)
-					{
-                        GL_CALL(glAttachShader(m_program, m_geometry_shader->GetIndex()));
-					}
-
-                    GL_CALL(glLinkProgram(m_program));
-
-					GLint status;
-                    GL_CALL(glGetProgramiv(m_program, GL_LINK_STATUS, &status));
-					if (status == GL_TRUE)
-					{
-                        GL_CALL(glValidateProgram(m_program));
-                        GL_CALL(glGetProgramiv(m_program, GL_VALIDATE_STATUS, &status));
-						if (status != GL_TRUE)
-						{
-                            throw Error::GraphicsException(L"Shader program validation failed");
-						}
-
-					}
-					else
-					{
-                        throw Error::GraphicsException(L"Unable to link shader program");
-					}
-					m_was_modified = false;
-
-					InitUniforms();
+					GL_CALL(glAttachShader(m_program, m_vertex_shader->GetIndex()));
 				}
+				else
+					throw Error::OpenGLException(L"Vertex shader not set");
+
+				if (m_fragment_shader && m_fragment_shader->GetIndex())
+				{
+					GL_CALL(glAttachShader(m_program, m_fragment_shader->GetIndex()));
+				}
+				else
+					throw Error::OpenGLException(L"Fragment shader not set");
+
+				if (m_geometry_shader && m_geometry_shader->GetIndex())
+				{
+					GL_CALL(glAttachShader(m_program, m_geometry_shader->GetIndex()));
+				}
+
+				GL_CALL(glLinkProgram(m_program));
+
+				GLint status;
+				GL_CALL(glGetProgramiv(m_program, GL_LINK_STATUS, &status));
+				if (status == GL_TRUE)
+				{
+					GL_CALL(glValidateProgram(m_program));
+					GL_CALL(glGetProgramiv(m_program, GL_VALIDATE_STATUS, &status));
+					if (status != GL_TRUE)
+						throw Error::OpenGLException(L"Shader program validation failed");
+				}
+				else
+					throw Error::OpenGLException(L"Unable to link shader program");
+
+				if (m_vertex_shader)
+					m_vertex_shader->Initialize();
+				if (m_fragment_shader)
+					m_fragment_shader->Initialize();
+				if (m_geometry_shader)
+					m_geometry_shader->Initialize();
+
+				m_initialized = true;
 			}
-			catch(...)
-			{
-                GL_CALL(glDeleteProgram(m_program));
+			catch (...){
+				GL_CALL(glDeleteProgram(m_program));
 				m_program = 0;
-                throw;
+				throw;
 			}
-		}
+		}		
 
 #define STRICT 0
 
-		bool OpenGLRenderContext::SetUniformVector4f(const char * name, const float* value)
+		bool GlRenderContextBase::SetUniformVector4f(const char * name, const float* value)
 		{
             GL_CALL(int index = glGetUniformLocation ( m_program, name ));
 			if (index == -1)
@@ -141,12 +125,12 @@ namespace Graphics
 			return true;
 		}
 
-        bool OpenGLRenderContext::SetUniformVector4f(const char *name, const Math::vec4 &value)
+        bool GlRenderContextBase::SetUniformVector4f(const char *name, const Math::vec4 &value)
         {
             return SetUniformVector4f(name, &value[0]);
         }
 
-		bool OpenGLRenderContext::SetUniformVector4f( int index, const float* value )
+		bool GlRenderContextBase::SetUniformVector4f( int index, const float* value )
 		{
 			if (index == -1)
             {
@@ -160,12 +144,12 @@ namespace Graphics
 			return true;
 		}
 
-        bool OpenGLRenderContext::SetUniformVector4f(int index, const Math::vec4 &value)
+        bool GlRenderContextBase::SetUniformVector4f(int index, const Math::vec4 &value)
         {
             return SetUniformVector4f(index, &value[0]);
         }
 
-		bool OpenGLRenderContext::SetUniformVector3f(const char * name, const float* value )
+		bool GlRenderContextBase::SetUniformVector3f(const char * name, const float* value )
 		{
             GL_CALL(int index = glGetUniformLocation(m_program, name));
 			if (index == -1)
@@ -180,12 +164,12 @@ namespace Graphics
 			return true;
 		}
 
-        bool OpenGLRenderContext::SetUniformVector3f(const char *name, const Math::vec3 &value)
+        bool GlRenderContextBase::SetUniformVector3f(const char *name, const Math::vec3 &value)
         {
             return SetUniformVector3f(name, &value[0]);
         }
 
-		bool OpenGLRenderContext::SetUniformVector3f(int index, const float* value)
+		bool GlRenderContextBase::SetUniformVector3f(int index, const float* value)
 		{
 			if (index == -1)
             {
@@ -199,12 +183,12 @@ namespace Graphics
 			return true;
 		}
 
-        bool OpenGLRenderContext::SetUniformVector3f(int index, const Math::vec3 &value)
+        bool GlRenderContextBase::SetUniformVector3f(int index, const Math::vec3 &value)
         {
             return SetUniformVector3f(index, &value[0]);
         }
 
-		bool OpenGLRenderContext::SetUniformVector2f(const char * name, const float* value )
+		bool GlRenderContextBase::SetUniformVector2f(const char * name, const float* value )
 		{
             GL_CALL(int index = glGetUniformLocation ( m_program, name ));
 			if (index == -1)
@@ -219,12 +203,12 @@ namespace Graphics
 			return true;
 		}
 
-        bool OpenGLRenderContext::SetUniformVector2f(const char *name, const Math::vec2 &value)
+        bool GlRenderContextBase::SetUniformVector2f(const char *name, const Math::vec2 &value)
         {
             return SetUniformVector2f(name, &value[0]);
         }
 
-		bool OpenGLRenderContext::SetUniformVector2f(int index, const float* value )
+		bool GlRenderContextBase::SetUniformVector2f(int index, const float* value )
 		{
 			if (index == -1)
             {
@@ -238,12 +222,12 @@ namespace Graphics
 			return true;
 		}
 
-        bool OpenGLRenderContext::SetUniformVector2f(int index, const Math::vec2 &value)
+        bool GlRenderContextBase::SetUniformVector2f(int index, const Math::vec2 &value)
         {
             return SetUniformVector2f(index, &value[0]);
         }
 
-		bool OpenGLRenderContext::SetUniformFloat(const char * name, float value)
+		bool GlRenderContextBase::SetUniformFloat(const char * name, float value)
 		{
             GL_CALL(int index = glGetUniformLocation(m_program, name));
 			if (index == -1)
@@ -258,7 +242,7 @@ namespace Graphics
 			return true;
 		}
 
-		bool OpenGLRenderContext::SetUniformFloat(int index, float value)
+		bool GlRenderContextBase::SetUniformFloat(int index, float value)
 		{
 			if (index == -1)
             {
@@ -272,7 +256,7 @@ namespace Graphics
 			return true;
 		}
 
-		bool OpenGLRenderContext::SetUniformInt(const char * name, int value)
+		bool GlRenderContextBase::SetUniformInt(const char * name, int value)
 		{
             GL_CALL(int index = glGetUniformLocation ( m_program, name ));
 			if (index == -1)
@@ -287,7 +271,7 @@ namespace Graphics
 			return true;
 		}
 
-		bool OpenGLRenderContext::SetUniformInt(int index, int value)
+		bool GlRenderContextBase::SetUniformInt(int index, int value)
 		{
 			if (index == -1)
             {
@@ -301,7 +285,7 @@ namespace Graphics
 			return true;
 		}
 
-        bool OpenGLRenderContext::SetUniformBool(int index, bool value)
+        bool GlRenderContextBase::SetUniformBool(int index, bool value)
         {
             if (index == -1)
             {
@@ -315,7 +299,7 @@ namespace Graphics
             return true;
         }
 
-		bool OpenGLRenderContext::SetUniformMatrix2f(const char * name, const float* value)
+		bool GlRenderContextBase::SetUniformMatrix2f(const char * name, const float* value)
 		{
             GL_CALL(int index = glGetUniformLocation(m_program, name));
 			if (index == -1)
@@ -330,12 +314,12 @@ namespace Graphics
 			return true;
 		}
 
-        bool OpenGLRenderContext::SetUniformMatrix2f(const char *name, const Math::mat2 &value)
+        bool GlRenderContextBase::SetUniformMatrix2f(const char *name, const Math::mat2 &value)
         {
             return SetUniformMatrix2f(name, &value[0]);
         }
 
-        bool OpenGLRenderContext::SetUniformMatrix2f(int index, const float* value)
+        bool GlRenderContextBase::SetUniformMatrix2f(int index, const float* value)
 		{		
 			if (index == -1)
             {
@@ -349,12 +333,12 @@ namespace Graphics
 			return true;
 		}
 
-        bool OpenGLRenderContext::SetUniformMatrix2f(int index, const Math::mat2 &value)
+        bool GlRenderContextBase::SetUniformMatrix2f(int index, const Math::mat2 &value)
         {
             return SetUniformMatrix2f(index, &value[0]);
         }
 
-		bool OpenGLRenderContext::SetUniformMatrix3f(const char * name, const float* value)
+		bool GlRenderContextBase::SetUniformMatrix3f(const char * name, const float* value)
 		{
             GL_CALL(int index = glGetUniformLocation (m_program, name));
             if (index == -1)
@@ -369,12 +353,12 @@ namespace Graphics
 			return true;
 		}
 
-        bool OpenGLRenderContext::SetUniformMatrix3f(const char * name, const Math::mat3& value)
+        bool GlRenderContextBase::SetUniformMatrix3f(const char * name, const Math::mat3& value)
         {
             return SetUniformMatrix3f(name, &value[0]);
         }
 
-		bool OpenGLRenderContext::SetUniformMatrix3f( int index, const float* value)
+		bool GlRenderContextBase::SetUniformMatrix3f( int index, const float* value)
 		{		
 			if (index == -1)
             {
@@ -388,12 +372,12 @@ namespace Graphics
 			return true;
 		}
 
-        bool OpenGLRenderContext::SetUniformMatrix3f(int index, const Math::mat3 &value)
+        bool GlRenderContextBase::SetUniformMatrix3f(int index, const Math::mat3 &value)
         {
             return SetUniformMatrix3f(index, &value[0]);
         }
 
-		bool OpenGLRenderContext::SetUniformMatrix4f(const char * name, const float* value)
+		bool GlRenderContextBase::SetUniformMatrix4f(const char * name, const float* value)
 		{
             GL_CALL(int index = glGetUniformLocation (m_program, name));
 			if (index == -1)
@@ -408,12 +392,12 @@ namespace Graphics
 			return true;
 		}
 
-        bool OpenGLRenderContext::SetUniformMatrix4f(const char *name, const Math::mat4 &value)
+        bool GlRenderContextBase::SetUniformMatrix4f(const char *name, const Math::mat4 &value)
         {
             return SetUniformMatrix4f(name, &value[0]);
         }
 
-		bool OpenGLRenderContext::SetUniformMatrix4f( int index, const float* value)
+		bool GlRenderContextBase::SetUniformMatrix4f( int index, const float* value)
 		{
 			if (index == -1)
             {
@@ -427,12 +411,12 @@ namespace Graphics
 			return true;
 		}
 
-        bool OpenGLRenderContext::SetUniformMatrix4f(int index, const Math::mat4 &value)
+        bool GlRenderContextBase::SetUniformMatrix4f(int index, const Math::mat4 &value)
         {
             return SetUniformMatrix4f(index, &value[0]);
         }
 
-		bool OpenGLRenderContext::SetUniformArrayMatrix4f(int index, int count, const float* value)
+		bool GlRenderContextBase::SetUniformArrayMatrix4f(int index, int count, const float* value)
 		{
 			if (index == -1)
             {
@@ -446,12 +430,12 @@ namespace Graphics
 			return true;
 		}
 
-        bool OpenGLRenderContext::SetUniformArrayMatrix4f(int index, int count, const Math::mat4* value)
+        bool GlRenderContextBase::SetUniformArrayMatrix4f(int index, int count, const Math::mat4* value)
         {
             return SetUniformArrayMatrix4f(index, count, (float*)value);
         }
 
-        bool OpenGLRenderContext::SetUniformLight(const LightSourceShaderParameters &light, const LightParameters &value)
+        bool GlRenderContextBase::SetUniformLight(const LightSourceShaderParameters &light, const LightParameters &value)
         {
             SetUniformInt(light.enabled, value.IsEnabled());
             if (value.IsEnabled())
@@ -472,7 +456,7 @@ namespace Graphics
             return true;
         }
 
-        bool OpenGLRenderContext::SetUniformMaterial(const MaterialShaderParameters &material, const Material &value)
+        bool GlRenderContextBase::SetUniformMaterial(const MaterialShaderParameters &material, const Material &value)
         {
             SetUniformVector4f(material.diffuse, value.m_diffuse_color);
             SetUniformVector4f(material.specular, value.m_specular_color);
@@ -480,7 +464,7 @@ namespace Graphics
 			return true;
         }
 
-		int OpenGLRenderContext::GetUniformLocation(const char * name)
+		int GlRenderContextBase::GetUniformLocation(const char * name)
 		{
             GL_CALL(GLint res = glGetUniformLocation(m_program, name));
             if (res == -1)
@@ -494,7 +478,7 @@ namespace Graphics
 			return res;
 		}
 
-		void OpenGLRenderContext::GetUniformVector(const char * name, float* out)
+		void GlRenderContextBase::GetUniformVector(const char * name, float* out)
 		{
             GL_CALL(int index = glGetUniformLocation ( m_program, name ));
 			if (index == -1)
@@ -508,7 +492,7 @@ namespace Graphics
             GL_CALL(glGetUniformfv(m_program, index, out));
 		}
 
-		bool OpenGLRenderContext::SetTexture(const char * name, int texUnit)
+		bool GlRenderContextBase::SetTexture(const char * name, int texUnit)
 		{
             GL_CALL(int index = glGetUniformLocation ( m_program, name ));
 			if (index == -1)
@@ -523,7 +507,7 @@ namespace Graphics
 			return true;
 		}
 
-		bool OpenGLRenderContext::SetTexture(int index, int texUnit)
+		bool GlRenderContextBase::SetTexture(int index, int texUnit)
 		{
 			if (index == -1)
             {
@@ -537,7 +521,7 @@ namespace Graphics
 			return true;
 		}
 
-		bool OpenGLRenderContext::BindAttributeTo(int index, const char * name)
+		bool GlRenderContextBase::BindAttributeTo(int index, const char * name)
 		{
 			if (index == -1)
             {
@@ -551,7 +535,7 @@ namespace Graphics
 			return true;
 		}
 
-		bool OpenGLRenderContext::SetAttribute(const char * name, const float* value)
+		bool GlRenderContextBase::SetAttribute(const char * name, const float* value)
 		{
             GL_CALL(int index = glGetAttribLocation(m_program, name));
 			if (index == -1)
@@ -566,7 +550,7 @@ namespace Graphics
 			return true;
 		}
 
-		bool OpenGLRenderContext::SetAttribute(int index, const float* value)
+		bool GlRenderContextBase::SetAttribute(int index, const float* value)
 		{
 			if (index == -1)
 				return false;
@@ -574,7 +558,7 @@ namespace Graphics
 			return true;
 		}
 
-		int OpenGLRenderContext::IndexForAttrName(const char * name)
+		int GlRenderContextBase::IndexForAttrName(const char * name)
 		{
             GL_CALL(int index = glGetAttribLocation(m_program, name));
 			if (index == -1)
@@ -588,7 +572,7 @@ namespace Graphics
             return index;
 		}
 
-		void OpenGLRenderContext::GetAttribute(const char * name, float* out)
+		void GlRenderContextBase::GetAttribute(const char * name, float* out)
 		{
             GL_CALL(int index = glGetAttribLocation(m_program, name));
 			if (index == -1)
@@ -602,14 +586,14 @@ namespace Graphics
             GL_CALL(glGetVertexAttribfv ( index, GL_CURRENT_VERTEX_ATTRIB, out));
 		}
 
-		void OpenGLRenderContext::GetAttribute(int index, float* out)
+		void GlRenderContextBase::GetAttribute(int index, float* out)
 		{
 			if (index == -1)
 				return;
             GL_CALL(glGetVertexAttribfv(index, GL_CURRENT_VERTEX_ATTRIB, out));
 		}
 
-		OpenGLRenderContext::~OpenGLRenderContext()
+		GlRenderContextBase::~GlRenderContextBase()
 		{
 			delete m_vertex_shader;
 			m_vertex_shader = nullptr;
@@ -625,7 +609,7 @@ namespace Graphics
 			m_program = 0;
 		}
 
-		void OpenGLRenderContext::SetUpOpenGL(const CoreState &state)
+		void GlRenderContextBase::SetUpOpenGL(const CoreState &state)
 		{
             GL_CALL(glLineWidth(state.render_state->m_line_width));
             GL_CALL(glPointSize(state.render_state->m_point_size));
@@ -663,7 +647,7 @@ namespace Graphics
 			}
 		}
 
-        const LightSourceShaderParameters OpenGLRenderContext::GetUniformLightLocation(const char* name)
+        const LightSourceShaderParameters GlRenderContextBase::GetUniformLightLocation(const char* name)
         {
             LightSourceShaderParameters uLight;
             {
@@ -752,7 +736,7 @@ namespace Graphics
             return uLight;
         }
 
-        const MaterialShaderParameters OpenGLRenderContext::GetUniformaMaterialLocation(const char* name)
+        const MaterialShaderParameters GlRenderContextBase::GetUniformaMaterialLocation(const char* name)
         {
             MaterialShaderParameters material;
             {
@@ -776,7 +760,7 @@ namespace Graphics
             return material;
         }
 
-        const FogShaderParameters OpenGLRenderContext::GetUniformFogLocation(const char* name)
+        const FogShaderParameters GlRenderContextBase::GetUniformFogLocation(const char* name)
         {
             FogShaderParameters fog;
 			memset(&fog, 0, sizeof(fog));

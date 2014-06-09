@@ -51,7 +51,7 @@ namespace Graphics
             if (src_type == PrimitiveType::QUADS)
             {
                 if (in.size() % 4 != 0)
-                    throw Error::GraphicsException(L"Invalid vertex buffer. Count of vertex is not devided by 4");
+                    throw Error::OpenGLException(L"Invalid vertex buffer. Count of vertex is not devided by 4");
 
                 inout.clear();
 
@@ -80,7 +80,7 @@ namespace Graphics
             if (src_type == PrimitiveType::POLYGON)
             {
                 if (in.size() < 3)
-                    throw Error::GraphicsException(L"Invalid vertex buffer. Not enough points");
+                    throw Error::OpenGLException(L"Invalid vertex buffer. Not enough points");
                 inout.clear();
 
                 for (size_t i = 1; i != in.size() - 1; ++i)
@@ -121,7 +121,7 @@ namespace Graphics
         IRenderable* GlRenderableBuilder::BuildVertexBufferPC(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& color)
         {
             if (position.size() != color.size())
-                throw Error::GraphicsException(L"Position and color buffer has different size");
+                throw Error::OpenGLException(L"Position and color buffer has different size");
 
             typedef Vertex<VertexComponent::Position, VertexComponent::Color> VertexType;
             std::vector<VertexType> vb;
@@ -147,7 +147,7 @@ namespace Graphics
         IRenderable* GlRenderableBuilder::BuildVertexBufferPT(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& texcoord)
         {
             if (position.size() != texcoord.size())
-                throw Error::GraphicsException(L"Position and texture buffer has different size");
+				throw Error::OpenGLException(L"Position and texture buffer has different size");
 
             typedef Vertex<VertexComponent::Position, VertexComponent::Texture0> VertexType;
             std::vector<VertexType> vb;
@@ -173,7 +173,7 @@ namespace Graphics
         IRenderable* GlRenderableBuilder::BuildVertexBufferPTC(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& texcoord, const std::vector<Math::vec4>& color)
         {
             if (position.size() != texcoord.size() || position.size() != color.size())
-                throw Error::GraphicsException(L"Position, texture or color buffer has different size");
+                throw Error::OpenGLException(L"Position, texture or color buffer has different size");
 
             typedef Vertex<VertexComponent::Position, VertexComponent::Color, VertexComponent::Texture0> VertexType;
             std::vector<VertexType> vb;
@@ -202,7 +202,7 @@ namespace Graphics
         IRenderable* GlRenderableBuilder::BuildVertexBufferPN(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& normal)
         {
             if (position.size() != normal.size())
-                throw Error::GraphicsException(L"Position and normal buffer has different size");
+				throw Error::OpenGLException(L"Position and normal buffer has different size");
 
             typedef Vertex<VertexComponent::Position, VertexComponent::Normal> VertexType;
             std::vector<VertexType> vb;
@@ -228,7 +228,7 @@ namespace Graphics
         IRenderable* GlRenderableBuilder::BuildVertexBufferPNT0(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& normal, const std::vector<Math::vec4>& texcoord)
         {
             if (position.size() != texcoord.size() || position.size() != normal.size())
-                throw Error::GraphicsException(L"Position, texture or normal buffer has different size");
+				throw Error::OpenGLException(L"Position, texture or normal buffer has different size");
 
             typedef Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0> VertexType;
             std::vector<VertexType> vb;
@@ -293,7 +293,7 @@ namespace Graphics
             else if (c == Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0>::Value())
                 renderable = BuildVertexBufferPNT0(m_vertex, m_normal, m_texcoord);
             else
-                throw Error::GraphicsException(L"Unsupported vertex type in RenderableBuilder");
+				throw Error::OpenGLException(L"Unsupported vertex type in RenderableBuilder");
             return renderable;
         }
 
@@ -319,7 +319,7 @@ namespace Graphics
 			else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0>::Value())
 				return new CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0> ::Type;
 			else
-				throw Error::GraphicsException("Unsupported vertex type");
+				throw Error::OpenGLException("Unsupported vertex type");
 		}
 		template<PrimitiveType PT>
 		IRenderable* CreateRenderable(std::uint64_t vertex_type, std::uint64_t index_size) {
@@ -333,7 +333,7 @@ namespace Graphics
 				return CreateRenderable<PT, std::nullptr_t>(vertex_type);
 			}
 			else
-				throw Error::GraphicsException("Unsupported index size");			
+				throw Error::OpenGLException("Unsupported index size");			
 		}
 
 		IRenderable* CreateRenderable(PrimitiveType type, std::uint64_t vertex_type, std::uint64_t index_size){
@@ -380,7 +380,7 @@ namespace Graphics
 				result = CreateRenderable<PrimitiveType::POLYGON>(vertex_type, index_size);
 				break;
 			default:
-				throw Error::GraphicsException("Can't create renderable of specified primitive type");
+				throw Error::OpenGLException("Can't create renderable of specified primitive type");
 			}
 			return result;
 		}

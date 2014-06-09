@@ -152,10 +152,10 @@ namespace Graphics {
 
         HGLRC tempContext;
         if ((tempContext = wglCreateContext(deviceContext)) == NULL)
-            throw OpenGL::OpenGLCreateContextError(L"Can't create temporary opengl context");
+            throw OpenGL::Error::OpenGLCreateContextError(L"Can't create temporary opengl context");
 
         if (!wglMakeCurrent(deviceContext, tempContext))
-            throw OpenGL::OpenGLContextMakeCurrentError(L"Can't set created context to be current");
+			throw OpenGL::Error::OpenGLContextMakeCurrentError(L"Can't set created context to be current");
 
         PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsARB = NULL;
 
@@ -169,10 +169,10 @@ namespace Graphics {
         wglCreateContextAttribsARB = (PFNWGLCREATECONTEXTATTRIBSARBPROC)OpenGL::GetGraphicsProcAddress("wglCreateContextAttribsARB");
 
         if (!(m_opengl_context = wglCreateContextAttribsARB(deviceContext, 0, attributes)))
-            throw OpenGL::OpenGLCreateContextError(L"Can't create opengl 3.x context");
+            throw OpenGL::Error::OpenGLCreateContextError(L"Can't create opengl 3.x context");
 
         if (!wglMakeCurrent(deviceContext, m_opengl_context))
-            throw OpenGL::OpenGLContextMakeCurrentError(L"Can't set opengl 3.x context to be current");
+            throw OpenGL::Error::OpenGLContextMakeCurrentError(L"Can't set opengl 3.x context to be current");
 
         wglDeleteContext(tempContext);
 

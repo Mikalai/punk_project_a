@@ -206,7 +206,7 @@ namespace Graphics
 			bool Cook(VertexArray<Vertex>* vb, IndexArray<Index>* ib)
 			{
 				if (glGetError() != GL_NO_ERROR)
-					throw OpenGLException(L"Error came from upper subroutine to me... Will not work");
+					throw Error::OpenGLException(L"Error came from upper subroutine to me... Will not work");
 
 				if (m_core.m_vertex_buffer) {
 					delete m_core.m_vertex_buffer;
@@ -258,7 +258,7 @@ namespace Graphics
 			bool Cook(VertexArray<Vertex>* vb, IndexArray<std::nullptr_t>* ib)
 			{
 				if (glGetError() != GL_NO_ERROR)
-					throw OpenGLException(L"Error came from upper subroutine to me... Will not work");
+					throw Error::OpenGLException(L"Error came from upper subroutine to me... Will not work");
 
 				if (m_core.m_vertex_buffer) {
 					delete m_core.m_vertex_buffer;

@@ -46,8 +46,7 @@ namespace Graphics {
 		GlVideoDriver::GlVideoDriver()
 		{}
 
-		GlVideoDriver::~GlVideoDriver(){
-			DestroyRenderContexts();
+		GlVideoDriver::~GlVideoDriver(){			
 			delete m_caps; m_caps = nullptr;
 			/*Constructor::DestroyVideoMemory();*/
 		}
@@ -59,13 +58,12 @@ namespace Graphics {
 				m_caps = new GlVideoDriverSettings(this);
 				m_caps->Load();
 				InitVfs(this);
-				InitRenderContexts(this);
 			}
 		}
 
 		void GlVideoDriver::AssertInitialize() const {
 			if (!m_initialized)
-				throw Error::GraphicsException("Driver is not initialized");
+				throw Error::OpenGLException("Driver is not initialized");
 		}
 
 		bool GlVideoDriver::IsExtensionSupported(const char *extList, const char *extension) {

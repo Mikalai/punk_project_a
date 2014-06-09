@@ -1,9 +1,13 @@
-#include <core/ifactory.h>
-#include <graphics/error/module.h>
-#include <graphics/render/render_context/render_context_select.h>
 #include <vector>
 #include <array>
+#include <core/ifactory.h>
+#include <graphics/state/module.h>
+#include <graphics/error/module.h>
+#include "render_context_select.h"
+#include "render_batch.h"
+#include "irender.h"
 #include "irender_queue.h"
+#include "irender_context_factory.h"
 #include "render_batch.h"
 
 PUNK_ENGINE_BEGIN
@@ -21,18 +25,35 @@ namespace Graphics {
 		std::uint32_t Release() override;
 
 		//	IRenderQueue
+		void Initialize(ILowLevelRender* render) override;
 		void Add(Batch* m_batch) override;;
 		void Clear() override;;
-		std::vector<Batch*>& GetBatches(RenderPolicySet render_context_code) override;;
+		std::vector<Batch*>& GetBatches(RenderContextType render_context_code) override;;
 		virtual void SelectBatches(std::vector<Batch*>& result, const SelectCriteria& criteria) override;
 	private:
-		std::array<std::vector<Batch*>, (int)RenderPolicySet::End> m_states;
+		void AssertInitialized();
+	private:
+		bool m_initialized{ false };
+		std::array<std::vector<Batch*>, GetIndex(RenderContextType::TotalCount)> m_states;
 		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		ILowLevelRender* m_render{ nullptr };
 	};
 
 	RenderQueue::RenderQueue() {}
 
 	RenderQueue::~RenderQueue() {}
+
+	void RenderQueue::AssertInitialized() {
+		if (!m_initialized)
+			throw Error::GraphicsException("RenderQueue is not initialized");
+	}
+
+	void RenderQueue::Initialize(ILowLevelRender* render) {
+		if (!m_initialized) {
+			m_render = render;
+			m_initialized = true;
+		}
+	}
 
 	void RenderQueue::QueryInterface(const Core::Guid& type, void** object) {
 		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IRenderQueue });
@@ -60,17 +81,21 @@ namespace Graphics {
 	}
 
 	void RenderQueue::Add(Batch *m_batch) {
-		IRenderContext* context = SelectRenderContext(m_batch->m_state);
+		AssertInitialized();
+		RenderContextType policy = SelectRenderContext(m_batch->m_state);
+		auto context = m_render->GetRenderContextFactory()->GetOrCreateContext(policy);
 		if (!context)
 			throw Error::GraphicsException(L"RenderContext not supported");
-		m_states[(int)context->GetPolicy()].push_back(m_batch);
+		m_states[GetIndex(context->GetType())].push_back(m_batch);
 	}
 
-	std::vector<Batch*>& RenderQueue::GetBatches(RenderPolicySet render_context_code) {
+	std::vector<Batch*>& RenderQueue::GetBatches(RenderContextType render_context_code) {
+		AssertInitialized();
 		return m_states[GetIndex(render_context_code)];
 	}
 
 	void RenderQueue::SelectBatches(std::vector<Batch*>& result, const SelectCriteria& criteria) {
+		AssertInitialized();
 		if (criteria.criteria_all) {
 			for (auto& rc : m_states) {
 				result.insert(result.end(), rc.begin(), rc.end());

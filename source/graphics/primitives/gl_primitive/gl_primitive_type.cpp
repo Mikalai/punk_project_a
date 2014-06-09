@@ -32,7 +32,7 @@ namespace Graphics {
 			case PrimitiveType::QUADS:	//	if QUADS are used, they should be internally converted to triangles
 				return PrimitiveType::TRIANGLES;
 			default:
-				throw OpenGLException(L"Unsupported primitive type");
+				throw Error::OpenGLException(L"Unsupported primitive type");
 			}
 		}
 
@@ -65,7 +65,7 @@ namespace Graphics {
             case PrimitiveType::QUADS:	//	if QUADS are used, they should be internally converted to triangles
 				return GL_TRIANGLES;
             default:
-                throw OpenGLException(L"Unsupported primitive type");
+                throw Error::OpenGLException(L"Unsupported primitive type");
 			}
 		}
 	}

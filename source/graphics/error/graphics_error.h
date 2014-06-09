@@ -21,11 +21,7 @@ namespace Graphics {
 
         class PUNK_ENGINE_API CantSetFullscreenError : public GraphicsException {
             using GraphicsException::GraphicsException;
-        };        
-
-        class PUNK_ENGINE_API InvalidFrameBufferTarget : public GraphicsException {
-            using GraphicsException::GraphicsException;
-        };
+        };                
     }
 }
 PUNK_ENGINE_END

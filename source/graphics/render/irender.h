@@ -18,6 +18,7 @@ namespace Graphics {
     class IFrameBuffer;
     class IVideoDriver;
 	class IRenderQueue;
+	class IRenderContextFactory;
 
 	DECLARE_PUNK_GUID(IID_ILowLevelRender, "5B3310D7-3954-4047-ABF2-694B98355C79");
 
@@ -30,6 +31,7 @@ namespace Graphics {
 		virtual IFrame* BeginFrame() = 0;
 		virtual void EndFrame() = 0;
 		virtual IRenderQueue* GetRenderQueue() = 0;
+		virtual IRenderContextFactory* GetRenderContextFactory() = 0;
     };
 
 	using IRenderUniquePtr = Core::UniquePtr < ILowLevelRender > ;

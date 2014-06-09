@@ -1,7 +1,7 @@
 #include <core/ifactory.h>
 #include <graphics/error/module.h>
 #include <graphics/renderable/module.h>
-#include <graphics/render/render_context/irender_context.h>
+#include <graphics/render/irender_context.h>
 #include <graphics/video_driver/module.h>
 #include <graphics/state/module.h>
 #include <graphics/texture/module.h>
@@ -73,7 +73,7 @@ namespace Graphics {
         {
        //     tc.Bind();
             policy->Begin();
-            policy->BindParameters(*state);
+            policy->ApplyState(*state);
             renderable->Bind();
             renderable->LowLevelRender();
             renderable->Unbind();

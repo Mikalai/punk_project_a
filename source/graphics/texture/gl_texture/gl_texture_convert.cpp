@@ -21,7 +21,7 @@ namespace Graphics {
             case ImageModule::DataType::UnsignedShort:
                 return GL_UNSIGNED_SHORT;
             }
-            throw OpenGLInvalidImageDataType(L"Invalid texture data type");
+            throw Error::OpenGLInvalidImageDataType(L"Invalid texture data type");
         }
 
         GLenum Convert(const TextureFilter& value) {
@@ -39,7 +39,7 @@ namespace Graphics {
             case TextureFilter::LinearMipmapLinear:
                 return GL_LINEAR_MIPMAP_LINEAR;
             }
-            throw OpenGLInvalidTextureFilter(L"Invalid texture filter");
+			throw Error::OpenGLInvalidTextureFilter(L"Invalid texture filter");
         }
 
         GLenum Convert(const TextureWrapMode& value) {
@@ -55,7 +55,7 @@ namespace Graphics {
             case TextureWrapMode::MirrorClampToEdge:
                 return GL_MIRROR_CLAMP_TO_EDGE_EXT;
             default:
-                throw OpenGLInvalidTextureWrapMode(L"Invalid texture wrap mode");
+				throw Error::OpenGLInvalidTextureWrapMode(L"Invalid texture wrap mode");
             }
         }
 
@@ -68,7 +68,7 @@ namespace Graphics {
             case TextureWrapDirection::T:
                 return GL_TEXTURE_WRAP_T;
             default:
-                throw OpenGLInvalidTextureWrapDirection(L"Invalid texture wrap direction");
+				throw Error::OpenGLInvalidTextureWrapDirection(L"Invalid texture wrap direction");
             }
         }
 
@@ -91,7 +91,7 @@ namespace Graphics {
             case TextureCompareFunc::TextureNever:
                 return GL_NEVER;
             default:
-                throw OpenGLInvalidTextureCompareFunc("Invalid texture compare func");
+                throw Error::OpenGLInvalidTextureCompareFunc("Invalid texture compare func");
             }
         }
 
@@ -102,7 +102,7 @@ namespace Graphics {
             case TextureCompareMode::CompareRefToTexture:
                 return GL_COMPARE_REF_TO_TEXTURE;
             default:
-                throw OpenGLInvalidTextureCompareMode("Invalid texture compare func");
+				throw Error::OpenGLInvalidTextureCompareMode("Invalid texture compare func");
             }
         }
 
@@ -269,7 +269,7 @@ namespace Graphics {
                 //case ImageModule::ImageFormat::IMAGE_FORMAT_LUMINANCE_FLOAT16 : return GL_LUMINANCE_FLOAT16_ATI ;
                 //case ImageModule::ImageFormat::IMAGE_FORMAT_LUMINANCE_ALPHA_FLOAT16 : return GL_LUMINANCE_ALPHA_FLOAT16_ATI ;
             default:
-                throw OpenGLInvalidImageFormat(L"Unbelievable, but image format is not supported");
+				throw Error::OpenGLInvalidImageFormat(L"Unbelievable, but image format is not supported");
             }
         }
     }

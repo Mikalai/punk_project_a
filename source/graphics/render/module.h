@@ -5,7 +5,8 @@
 #include "render_pass.h"
 #include "irender.h"
 #include "irender_queue.h"
-#include "render_context/irender_context.h"
-#include "render_context/render_context_select.h"
+#include "irender_context.h"
+#include "irender_context_factory.h"
+#include "render_context_select.h"
 
 #endif // H_PUNK_GPU_RENDER_MODULE_H

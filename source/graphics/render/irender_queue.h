@@ -3,18 +3,19 @@
 
 #include <config.h>
 #include <core/iobject.h>
-#include <graphics/render/render_context/irender_context.h>
+#include <graphics/render/irender_context.h>
 
 PUNK_ENGINE_BEGIN
 namespace Graphics {
 
     class Batch;
+	class ILowLevelRender;
 
 	struct SelectCriteria {
 		bool criteria_all{ false };
 		bool criteria_render_policy{ false };
 		bool criteria_light_enabled{ false };
-		RenderPolicySet render_context_code{ RenderPolicySet::Solid3D };
+		RenderContextType render_context_code{ RenderContextType::NoLightSolidColor };
 
 		static const SelectCriteria SelectAll(){
 			SelectCriteria criteria;
@@ -22,7 +23,7 @@ namespace Graphics {
 			return criteria;
 		}
 
-		static const SelectCriteria SelectByRenderPolicy(RenderPolicySet value) {
+		static const SelectCriteria SelectByRenderPolicy(RenderContextType value) {
 			SelectCriteria criteria;
 			criteria.criteria_render_policy = true;
 			criteria.render_context_code = value;
@@ -42,9 +43,10 @@ namespace Graphics {
 	class IRenderQueue : public Core::IObject
 	{
 	public:
+		virtual void Initialize(ILowLevelRender* render) = 0;
 		virtual void Add(Batch* m_batch) = 0;
 		virtual void Clear() = 0;
-		virtual std::vector<Batch*>& GetBatches(RenderPolicySet policy) = 0;
+		virtual std::vector<Batch*>& GetBatches(RenderContextType policy) = 0;
 		virtual void SelectBatches(std::vector<Batch*>& result, const SelectCriteria& criteria) = 0;
 	};
 

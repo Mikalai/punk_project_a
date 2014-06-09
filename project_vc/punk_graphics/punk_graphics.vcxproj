@@ -215,81 +215,187 @@
     <ClCompile Include="..\..\source\graphics\primitives\triangle_strip.cpp" />
     <ClCompile Include="..\..\source\graphics\renderable\gl_renderable\gl_renderable_builder.cpp" />
     <ClCompile Include="..\..\source\graphics\renderable\renderable_builder.cpp" />
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_bump.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_bump_diffuse_color.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_bump_diffuse_color_specular.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_bump_shadow_map.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_bump_tex_diffuse.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_bump_tex_diffuse_specular.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_depth.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_grass.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_gui.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_light.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_painter.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_particle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_per_fragment_lighting_diffuse.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_per_fragment_lighting_diffuse_specular.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_per_fragment_lighting_tex_diffuse.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_per_fragment_lighting_tex_diffuse_specular.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_per_vertex_lighting_diffuse.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_per_vertex_lighting_diffuse_shadow_simple.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_per_vertex_lighting_tex_diffuse.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_pfl_diffuse_simple_shadow.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_shadow_single.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_skinning.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_solid_textured.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_solid_textured_2d_array.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_solid_vertex_color.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_terrain.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\fs_text_solid.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\gl_rc_dynamic.cpp" />
+    <ClCompile Include="..\..\source\graphics\render\gl_render\gl_rc_instances.cpp" />
+    <ClCompile Include="..\..\source\graphics\render\gl_render\gl_render_context_base.cpp" />
+    <ClCompile Include="..\..\source\graphics\render\gl_render\gl_shader_base.cpp" />
+    <ClCompile Include="..\..\source\graphics\render\gl_render\gl_shader_cooker.cpp" />
+    <ClCompile Include="..\..\source\graphics\render\gl_render\gl_shader_type.cpp" />
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_bump.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_bump_diffuse_color.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_bump_diffuse_color_specular.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_bump_shadow_map.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_bump_tex_diffuse.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_bump_tex_diffuse_specular.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_depth.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_grass.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_gui.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_light.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_painter.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_particle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_particle_system.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_per_fragment_lighting_diffuse.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_per_fragment_lighting_diffuse_specular.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_per_fragment_lighting_tex_diffuse.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_per_fragment_lighting_tex_diffuse_specular.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_per_vertex_lighting.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_per_vertex_lighting_diffuse.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_per_vertex_lighting_diffuse_shadow_simple.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_per_vertex_lighting_diffuse_specular.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_per_vertex_lighting_tex_diffuse.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_pfl_diffuse_simple_shadow.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_skinning_bump.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_skinning_depth.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_solid_vertex_color.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_terrain.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_transformed_textured_3d.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\vs_transform_3d.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\source\graphics\render\irender.cpp" />
+    <ClCompile Include="..\..\source\graphics\render\irender_context.cpp" />
     <ClCompile Include="..\..\source\graphics\render\render_batch.cpp" />
-    <ClCompile Include="..\..\source\graphics\render\render_context\gl_render_context\gl_rc_dynamic.cpp" />
-    <ClCompile Include="..\..\source\graphics\render\render_context\gl_render_context\gl_rc_instances.cpp" />
-    <ClCompile Include="..\..\source\graphics\render\render_context\gl_render_context\gl_render_context.cpp" />
-    <ClCompile Include="..\..\source\graphics\render\render_context\irender_context.cpp" />
-    <ClCompile Include="..\..\source\graphics\render\render_context\render_context_select.cpp" />
+    <ClCompile Include="..\..\source\graphics\render\render_context_select.cpp" />
+    <ClCompile Include="..\..\source\graphics\render\render_context_type.cpp" />
     <ClCompile Include="..\..\source\graphics\render\render_pass.cpp" />
     <ClCompile Include="..\..\source\graphics\render\irender_queue.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_diffuse_color.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_diffuse_color_specular.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_shadow_map.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_tex_diffuse.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_tex_diffuse_specular.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_depth.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_grass.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_gui.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_light.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_painter.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_particle.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_fragment_lighting_diffuse.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_fragment_lighting_diffuse_specular.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_fragment_lighting_tex_diffuse.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_fragment_lighting_tex_diffuse_specular.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_vertex_lighting_diffuse.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_vertex_lighting_diffuse_shadow_simple.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_vertex_lighting_tex_diffuse.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_pfl_diffuse_simple_shadow.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_shadow_single.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_skinning.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_solid_color.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_solid_textured.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_solid_textured_2d_array.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_solid_vertex_color.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_terrain.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_text_solid.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_shader.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_shader_type.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_diffuse_color.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_diffuse_color_specular.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_shadow_map.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_tex_diffuse.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_tex_diffuse_specular.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_depth.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_grass.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_gui.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_light.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_painter.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_particle.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_particle_system.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_fragment_lighting_diffuse.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_fragment_lighting_diffuse_specular.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_fragment_lighting_tex_diffuse.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_fragment_lighting_tex_diffuse_specular.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting_diffuse.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting_diffuse_shadow_simple.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting_diffuse_specular.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting_tex_diffuse.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_pfl_diffuse_simple_shadow.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_skinning_bump.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_skinning_depth.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_solid_color.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_solid_vertex_color.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_terrain.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_transformed_textured_3d.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_transform_3d.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\shader_builder.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\shader_data_type.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\shader_function.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\shader_type.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\shader_uniform_table.cpp" />
-    <ClCompile Include="..\..\source\graphics\shaders\shader_var_table.cpp" />
     <ClCompile Include="..\..\source\graphics\state\gpu_state.cpp" />
     <ClCompile Include="..\..\source\graphics\texture\gl_texture\gl_texture2d.cpp" />
     <ClCompile Include="..\..\source\graphics\texture\gl_texture\gl_texture2d_array.cpp" />
@@ -404,90 +510,201 @@
     <ClInclude Include="..\..\source\graphics\renderable\irenderable_builder.h" />
     <ClInclude Include="..\..\source\graphics\renderable\module.h" />
     <ClInclude Include="..\..\source\graphics\renderable\renderable_builder.h" />
+    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_bump.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_bump_diffuse_color.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_bump_diffuse_color_specular.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_bump_shadow_map.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_bump_tex_diffuse.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_bump_tex_diffuse_specular.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_depth.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_grass.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_gui.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_light.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_painter.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\gl_render_context.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_per_fragment_lighting_diffuse.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_per_fragment_lighting_diffuse_specular.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_per_fragment_lighting_tex_diffuse.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_per_fragment_lighting_tex_diffuse_specular.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_per_vertex_lighting_diffuse.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_per_vertex_lighting_diffuse_shadow_simple.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_per_vertex_lighting_tex_diffuse.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_pfl_diffuse_simple_shadow.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_shadow_single.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_skinning.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClCompile Include="..\..\source\graphics\render\gl_render\gl_render_context_factory.cpp">
+      <FileType>CppHeader</FileType>
+    </ClCompile>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_solid_textured.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_solid_textured_2d_array.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_solid_vertex_color.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_terrain.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\fs_text_solid.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\gl_fog_parameters.h" />
+    <ClInclude Include="..\..\source\graphics\render\gl_render\gl_ishader.h" />
+    <ClInclude Include="..\..\source\graphics\render\gl_render\gl_light_source_parameters.h" />
+    <ClInclude Include="..\..\source\graphics\render\gl_render\gl_material_parameters.h" />
+    <ClInclude Include="..\..\source\graphics\render\gl_render\gl_no_light_solid_color.h" />
+    <ClInclude Include="..\..\source\graphics\render\gl_render\gl_rc_dynamic.h" />
+    <ClInclude Include="..\..\source\graphics\render\gl_render\gl_rc_instances.h" />
+    <ClInclude Include="..\..\source\graphics\render\gl_render\gl_render_context_base.h" />
+    <ClInclude Include="..\..\source\graphics\render\gl_render\gl_shader.h" />
+    <ClInclude Include="..\..\source\graphics\render\gl_render\gl_shader_base.h" />
+    <ClInclude Include="..\..\source\graphics\render\gl_render\gl_shader_cooker.h" />
+    <ClInclude Include="..\..\source\graphics\render\gl_render\gl_shader_type.h" />
+    <ClInclude Include="..\..\source\graphics\render\gl_render\module.h" />
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_bump.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_bump_diffuse_color.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_bump_diffuse_color_specular.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_bump_shadow_map.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_bump_tex_diffuse.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_bump_tex_diffuse_specular.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_depth.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_grass.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_gui.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_light.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_painter.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_particle.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_particle_system.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_per_fragment_lighting_diffuse.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_per_fragment_lighting_diffuse_specular.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_per_fragment_lighting_tex_diffuse.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_per_fragment_lighting_tex_diffuse_specular.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_per_vertex_lighting.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_per_vertex_lighting_diffuse.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_per_vertex_lighting_diffuse_shadow_simple.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_per_vertex_lighting_diffuse_specular.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_per_vertex_lighting_tex_diffuse.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_pfl_diffuse_simple_shadow.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_skinning_bump.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_skinning_depth.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_solid_vertex_color.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_terrain.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_transformed_textured_3d.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\render\gl_render\vs_transform_3d.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\..\source\graphics\render\irender.h" />
+    <ClInclude Include="..\..\source\graphics\render\irender_context.h" />
+    <ClInclude Include="..\..\source\graphics\render\irender_context_factory.h" />
+    <ClInclude Include="..\..\source\graphics\render\ishader.h" />
     <ClInclude Include="..\..\source\graphics\render\module.h" />
     <ClInclude Include="..\..\source\graphics\render\render_batch.h" />
-    <ClInclude Include="..\..\source\graphics\render\render_context\gl_render_context\gl_rc_dynamic.h" />
-    <ClInclude Include="..\..\source\graphics\render\render_context\gl_render_context\gl_rc_instances.h" />
-    <ClInclude Include="..\..\source\graphics\render\render_context\gl_render_context\gl_render_context.h" />
-    <ClInclude Include="..\..\source\graphics\render\render_context\gl_render_context\module.h" />
-    <ClInclude Include="..\..\source\graphics\render\render_context\irender_context.h" />
-    <ClInclude Include="..\..\source\graphics\render\render_context\render_context_select.h" />
+    <ClInclude Include="..\..\source\graphics\render\render_context_select.h" />
+    <ClInclude Include="..\..\source\graphics\render\render_context_type.h" />
     <ClInclude Include="..\..\source\graphics\render\render_pass.h" />
     <ClInclude Include="..\..\source\graphics\render\irender_queue.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_diffuse_color.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_diffuse_color_specular.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_shadow_map.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_tex_diffuse.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_bump_tex_diffuse_specular.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_depth.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_grass.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_gui.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_light.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_painter.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_particle.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_fragment_lighting_diffuse.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_fragment_lighting_diffuse_specular.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_fragment_lighting_tex_diffuse.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_fragment_lighting_tex_diffuse_specular.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_vertex_lighting_diffuse.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_vertex_lighting_diffuse_shadow_simple.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_per_vertex_lighting_tex_diffuse.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_pfl_diffuse_simple_shadow.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_shadow_single.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_skinning.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_solid_color.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_solid_textured.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_solid_textured_2d_array.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_solid_vertex_color.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_terrain.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_fragment\fs_text_solid.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_shader.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_shader_impl.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_shader_type.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_shader_types\gl_fog_parameters.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_shader_types\gl_light_source_parameters.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_shader_types\gl_material_parameters.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_shader_types\module.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_diffuse_color.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_diffuse_color_specular.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_shadow_map.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_tex_diffuse.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_bump_tex_diffuse_specular.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_depth.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_grass.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_gui.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_light.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_painter.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_particle.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_particle_system.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_fragment_lighting_diffuse.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_fragment_lighting_diffuse_specular.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_fragment_lighting_tex_diffuse.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_fragment_lighting_tex_diffuse_specular.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting_diffuse.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting_diffuse_shadow_simple.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting_diffuse_specular.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_per_vertex_lighting_tex_diffuse.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_pfl_diffuse_simple_shadow.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_skinning_bump.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_skinning_depth.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_solid_color.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_solid_vertex_color.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_terrain.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_transformed_textured_3d.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\gl_vertex\vs_transform_3d.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\gl_shaders\module.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\module.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\shader_builder.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\shader_data_type.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\shader_function.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\shader_type.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\shader_uniform_table.h" />
-    <ClInclude Include="..\..\source\graphics\shaders\shader_var_table.h" />
+    <ClInclude Include="..\..\source\graphics\render\shader_type.h" />
     <ClInclude Include="..\..\source\graphics\state\gpu_state.h" />
     <ClInclude Include="..\..\source\graphics\state\module.h" />
     <ClInclude Include="..\..\source\graphics\texture\gl_texture\gl_texture2d.h" />
@@ -529,80 +746,80 @@
     <ClInclude Include="..\..\source\graphics\video_memory\module.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_330_shadow_map.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_330_shadow_map.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_diffuse_color_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_diffuse_color_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_diffuse_color_specular_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_diffuse_color_specular_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_tex_diffuse_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_tex_diffuse_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_tex_diffuse_specular_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\bump_tex_diffuse_specular_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\depth.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\depth.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\draw_normals.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\draw_normals.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\grass_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\grass_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\gui_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\gui_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\light.glsl" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\line_2d_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\line_2d_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\line_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\line_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\line_3d_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\line_3d_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\material.glsl" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\normals_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\normals_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\painter_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\painter_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\particle_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\particle_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_diffuse_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_diffuse_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_diffuse_simple_shadow.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_diffuse_simple_shadow.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_diffuse_specular_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_diffuse_specular_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_tex_diffuse_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_tex_diffuse_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_tex_diffuse_specular_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_fragment_lighting_tex_diffuse_specular_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_vertex_lighting_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_vertex_lighting_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_vertex_lighting_diffuse_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_vertex_lighting_diffuse_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_vertex_lighting_diffuse_simple_shadow.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_vertex_lighting_diffuse_simple_shadow.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_vertex_lighting_tex_diffuse_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\per_vertex_lighting_tex_diffuse_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\skinning_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\skinning_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\skinning_bump_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\skinning_depth_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_color_2d_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_color_2d_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_color_3d_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_color_3d_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_textured_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_textured_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_texture_2d_array.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_vertex_color.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\solid_vertex_color.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\static_mesh_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\static_mesh_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\terrain_330 - Copy.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\terrain_330 - Copy.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\terrain_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\terrain_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\textured_2d_330.frag" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\textured_2d_330.vert" />
-    <None Include="..\..\source\graphics\shaders\gl_shaders\glsl\text_color_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\bump_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\bump_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\bump_330_shadow_map.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\bump_330_shadow_map.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\bump_diffuse_color_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\bump_diffuse_color_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\bump_diffuse_color_specular_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\bump_diffuse_color_specular_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\bump_tex_diffuse_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\bump_tex_diffuse_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\bump_tex_diffuse_specular_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\bump_tex_diffuse_specular_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\depth.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\depth.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\draw_normals.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\draw_normals.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\grass_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\grass_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\gui_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\gui_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\light.glsl" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\line_2d_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\line_2d_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\line_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\line_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\line_3d_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\line_3d_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\material.glsl" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\normals_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\normals_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\painter_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\painter_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\particle_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\particle_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\per_fragment_lighting_diffuse_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\per_fragment_lighting_diffuse_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\per_fragment_lighting_diffuse_simple_shadow.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\per_fragment_lighting_diffuse_simple_shadow.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\per_fragment_lighting_diffuse_specular_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\per_fragment_lighting_diffuse_specular_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\per_fragment_lighting_tex_diffuse_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\per_fragment_lighting_tex_diffuse_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\per_fragment_lighting_tex_diffuse_specular_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\per_fragment_lighting_tex_diffuse_specular_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\per_vertex_lighting_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\per_vertex_lighting_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\per_vertex_lighting_diffuse_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\per_vertex_lighting_diffuse_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\per_vertex_lighting_diffuse_simple_shadow.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\per_vertex_lighting_diffuse_simple_shadow.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\per_vertex_lighting_tex_diffuse_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\per_vertex_lighting_tex_diffuse_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\skinning_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\skinning_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\skinning_bump_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\skinning_depth_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\solid_color_2d_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\solid_color_2d_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\solid_color_3d_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\solid_color_3d_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\solid_textured_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\solid_textured_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\solid_texture_2d_array.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\solid_vertex_color.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\solid_vertex_color.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\static_mesh_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\static_mesh_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\terrain_330 - Copy.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\terrain_330 - Copy.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\terrain_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\terrain_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\textured_2d_330.frag" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\textured_2d_330.vert" />
+    <None Include="..\..\source\graphics\render\gl_render\glsl\text_color_330.frag" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
