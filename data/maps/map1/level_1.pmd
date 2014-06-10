@@ -5,6 +5,246 @@ SCENETEXT
   }
   *node {
     *name {
+      Material
+    }
+    *entity_name {
+      Material.material
+    }
+    *node {
+      *name {
+        Transform
+      }
+      *entity_name {
+        Cube.011.transform
+      }
+      *node {
+        *name {
+          Static
+        }
+        *entity_name {
+          Cube.011.static
+        }
+      }
+    }
+  }
+  *node {
+    *name {
+      Material.001
+    }
+    *entity_name {
+      Material.001.material
+    }
+    *node {
+      *name {
+        Transform
+      }
+      *entity_name {
+        Cube.010.transform
+      }
+      *node {
+        *name {
+          Static
+        }
+        *entity_name {
+          Cube.010.static
+        }
+      }
+    }
+  }
+  *node {
+    *name {
+      Material.001
+    }
+    *entity_name {
+      Material.001.material
+    }
+    *node {
+      *name {
+        Transform
+      }
+      *entity_name {
+        Cube.009.transform
+      }
+      *node {
+        *name {
+          Static
+        }
+        *entity_name {
+          Cube.009.static
+        }
+      }
+    }
+  }
+  *node {
+    *name {
+      Material
+    }
+    *entity_name {
+      Material.material
+    }
+    *node {
+      *name {
+        Transform
+      }
+      *entity_name {
+        Cube.008.transform
+      }
+      *node {
+        *name {
+          Static
+        }
+        *entity_name {
+          Cube.008.static
+        }
+      }
+    }
+  }
+  *node {
+    *name {
+      Material
+    }
+    *entity_name {
+      Material.material
+    }
+    *node {
+      *name {
+        Transform
+      }
+      *entity_name {
+        Cube.007.transform
+      }
+      *node {
+        *name {
+          Static
+        }
+        *entity_name {
+          Cube.007.static
+        }
+      }
+    }
+  }
+  *node {
+    *name {
+      Material.001
+    }
+    *entity_name {
+      Material.001.material
+    }
+    *node {
+      *name {
+        Transform
+      }
+      *entity_name {
+        Cube.006.transform
+      }
+      *node {
+        *name {
+          Static
+        }
+        *entity_name {
+          Cube.006.static
+        }
+      }
+    }
+  }
+  *node {
+    *name {
+      Material.001
+    }
+    *entity_name {
+      Material.001.material
+    }
+    *node {
+      *name {
+        Transform
+      }
+      *entity_name {
+        Cube.005.transform
+      }
+      *node {
+        *name {
+          Static
+        }
+        *entity_name {
+          Cube.005.static
+        }
+      }
+    }
+  }
+  *node {
+    *name {
+      Material
+    }
+    *entity_name {
+      Material.material
+    }
+    *node {
+      *name {
+        Transform
+      }
+      *entity_name {
+        Cube.004.transform
+      }
+      *node {
+        *name {
+          Static
+        }
+        *entity_name {
+          Cube.004.static
+        }
+      }
+    }
+  }
+  *node {
+    *name {
+      Material
+    }
+    *entity_name {
+      Material.material
+    }
+    *node {
+      *name {
+        Transform
+      }
+      *entity_name {
+        Cube.003.transform
+      }
+      *node {
+        *name {
+          Static
+        }
+        *entity_name {
+          Cube.003.static
+        }
+      }
+    }
+  }
+  *node {
+    *name {
+      Material.001
+    }
+    *entity_name {
+      Material.001.material
+    }
+    *node {
+      *name {
+        Transform
+      }
+      *entity_name {
+        Cube.002.transform
+      }
+      *node {
+        *name {
+          Static
+        }
+        *entity_name {
+          Cube.002.static
+        }
+      }
+    }
+  }
+  *node {
+    *name {
       Material.001
     }
     *entity_name {
@@ -23,6 +263,30 @@ SCENETEXT
         }
         *entity_name {
           Cube.001.static
+        }
+      }
+    }
+  }
+  *node {
+    *name {
+      Material
+    }
+    *entity_name {
+      Material.material
+    }
+    *node {
+      *name {
+        Transform
+      }
+      *entity_name {
+        Cube.transform
+      }
+      *node {
+        *name {
+          Static
+        }
+        *entity_name {
+          Cube.static
         }
       }
     }
