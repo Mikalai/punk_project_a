@@ -1,4 +1,5 @@
 #include <core/ifactory.h>
+#include <system/logger/module.h>
 #include <graphics/video_memory/gl_video_memory/module.h>
 #include <graphics/buffers/module.h>
 #include <graphics/opengl/module.h>
@@ -41,6 +42,7 @@ namespace Graphics {
         GlTexture2D::~GlTexture2D()
         {
             Clear();
+			System::GetDefaultLogger()->Debug("GlTexture2D destroyed ");
         }
 
         std::uint32_t GlTexture2D::GetMemoryUsage() const
@@ -214,19 +216,19 @@ namespace Graphics {
             GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT));
             GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT));
 
-            GL_CALL(glTexImage2D(GL_TEXTURE_2D, 0, m_internal_format, m_width, m_height, 0, m_format, m_internal_type, 0));
+			GL_CALL(glTexImage2D(GL_TEXTURE_2D, 0, m_internal_format, m_width, m_height, 0, m_format, m_internal_type, source));
             GL_CALL(glBindTexture(GL_TEXTURE_2D, 0));
 
             //	if data available than copy them
-            if (source)
-            {
-                void* data = Map();
-                if (data)
-                {
-                    memcpy(data, source, m_width * m_height * m_pixel_size);
-                    Unmap(0);
-                }
-            }
+            //if (source)
+            //{
+            //    void* data = Map();
+            //    if (data)
+            //    {
+            //        memcpy(data, source, m_width * m_height * m_pixel_size);
+            //        Unmap(0);
+            //    }
+            //}
             if (m_use_mip_maps)
                 UpdateMipMaps();
 

@@ -1,6 +1,7 @@
 #ifndef _H_PUNK_OPENGL_LIGHT_PER_FRAGMENT_TEXTURE_DIFFUSE
 #define _H_PUNK_OPENGL_LIGHT_PER_FRAGMENT_TEXTURE_DIFFUSE
 
+#include <typeinfo>
 #include <sstream>
 #include <graphics/primitives/vertex.h>
 #include "gl_shader.h"
@@ -71,6 +72,10 @@ namespace Graphics
 			ShaderAspect(GlRenderContextBase* rc)
 				: m_rc{ rc }
 			{}
+
+			~ShaderAspect() {
+				System::GetDefaultLogger()->Debug(Core::String("Destroy ") + typeid(*this).name());
+			}
 
 			void InitUniforms()
 			{

@@ -1,6 +1,7 @@
 #include <memory>
 #include <core/ifactory.h>
 #include <images/module.h>
+#include <system/logger/module.h>
 #include <system/environment.h>
 #include "material.h"
 #include "texture_slot.h"
@@ -12,7 +13,7 @@ namespace Attributes
     {}
 
 	TextureSlot::~TextureSlot() {
-
+		System::GetDefaultLogger()->Debug("TextureSlot destroyed");
 	}
 
 	void TextureSlot::QueryInterface(const Core::Guid& type, void** object) {

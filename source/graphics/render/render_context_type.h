@@ -125,7 +125,7 @@ namespace Graphics {
 
 	PUNK_ENGINE_API const Core::String RenderPolicySetToString(RenderContextType policy);
 
-	inline constexpr int GetIndex(RenderContextType policy) {
+	inline int GetIndex(RenderContextType policy) {
 		return (int)policy;
 	}
 }

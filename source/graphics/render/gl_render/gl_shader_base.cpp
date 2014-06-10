@@ -19,6 +19,7 @@ namespace Graphics
 
 		ShaderBase::~ShaderBase()
         {
+			shader_logger->Debug("ShaderBase destroyed");
         }
 	}
 }

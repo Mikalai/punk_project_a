@@ -29,7 +29,7 @@ namespace Graphics {
 			GlRenderContextBase* CreateContext(RenderContextType type);
 		private:
 			IVideoDriver* m_driver{ nullptr };
-			std::array<GlRenderContextBase*, GetIndex(RenderContextType::TotalCount)> m_contexts;
+			std::array<GlRenderContextBase*, (int)RenderContextType::TotalCount> m_contexts;
 			std::atomic<std::uint32_t> m_ref_count;
 		};
 

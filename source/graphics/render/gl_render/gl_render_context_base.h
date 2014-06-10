@@ -78,6 +78,7 @@ namespace Graphics {
 			void GetAttribute(const char * name, float* out);
 			void GetAttribute(int index, float* out);			
 			void SetUpOpenGL(const CoreState& state);
+			void BindTextures(const CoreState& state);
 
 		private:
 			void Initialize();

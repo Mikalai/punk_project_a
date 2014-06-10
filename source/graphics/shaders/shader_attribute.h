@@ -31,7 +31,7 @@ namespace Graphics
 		const char* m_name;
 	};
 
-	const std::array < ShaderAttributeNameMapping, GetIndex(ShaderDataType::TotalCount) > ShaderAttributeMap
+	const std::array < ShaderAttributeNameMapping, int(ShaderDataType::TotalCount) > ShaderAttributeMap
 	{
 		{
 			{ ShaderAttributeTable::VertexPosition, "VertexPosition" },

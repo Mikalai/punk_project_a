@@ -128,11 +128,13 @@ namespace Punk {
 				free(pSym);
 #endif	//	_M_AMD64
 #ifdef _M_IX86
+				Core::StringList list;
+
 				STACKFRAME64 stack_frame;
 				memset(&stack_frame, 0, sizeof(stack_frame));
 				stack_frame.AddrPC.Offset = c.Eip;
 				stack_frame.AddrPC.Mode = AddrModeFlat;
-				stack_frame.AddrFrame.Offset = c.RbEbp;
+				stack_frame.AddrFrame.Offset = c.Ebp;
 				stack_frame.AddrFrame.Mode = AddrModeFlat;
 				stack_frame.AddrStack.Offset = c.Esp;
 				stack_frame.AddrStack.Mode = AddrModeFlat;
@@ -149,7 +151,11 @@ namespace Punk {
 
 				for (int i = 0; ; i++)
 				{
-					result += L"\n";
+					Core::String module_name;
+					Core::String function;
+					Core::String line_number;
+					Core::String file;
+					
 					if (!StackWalk64(IMAGE_FILE_MACHINE_I386,
 						GetCurrentProcess(),
 						GetCurrentThread(),
@@ -160,7 +166,7 @@ namespace Punk {
 						SymGetModuleBase64,
 						0))
 					{
-						result += String(L"Can't make stack trace");
+						list.Push(L"Can't make stack trace");
 						break;
 					}
 
@@ -171,26 +177,19 @@ namespace Punk {
 						if (SymGetSymFromAddr64(GetCurrentProcess(), stack_frame.AddrPC.Offset, &displacement, pSym))
 						{
 							char buf[1024];
-							result += String(pSym->Name) + L" ";
-							UnDecorateSymbolName(pSym->Name, buf, 1024, UNDNAME_NAME_ONLY);
-							result += String(buf) + L" ";
+							/*result += Core::String(pSym->Name) + L" ";
+							UnDecorateSymbolName(pSym->Name, buf, 1024, UNDNAME_NAME_ONLY);*/
+							//result += Core::String(buf) + L" ";
 							UnDecorateSymbolName(pSym->Name, buf, 1024, UNDNAME_COMPLETE);
-							result += String(buf) + L" ";
-						}
-						else
-						{
-							result += String(L"Error in SymGetSymFromAddr64");
+							function = Core::String(buf);
 						}
 
-						DWORD displ override;
+
+						DWORD displ = 0;
 						if (SymGetLineFromAddr64(GetCurrentProcess(), stack_frame.AddrPC.Offset, &displ, &line))
 						{
-							result += String::Convert((int)line.LineNumber, 10) + L" ";
-							result += String(line.FileName) + L" ";
-						}
-						else
-						{
-							result += String(L"Error in SymGetLineFromAddr64");
+							line_number = Core::String::Convert((int)line.LineNumber, 10);
+							file = Core::String(line.FileName);
 						}
 
 						IMAGEHLP_MODULE64 module;
@@ -199,8 +198,7 @@ namespace Punk {
 
 						if (SymGetModuleInfo64(GetCurrentProcess(), stack_frame.AddrPC.Offset, &module))
 						{
-							result += String(module.ModuleName) + L" ";
-							result += String(module.LoadedImageName) + L"\n";
+							module_name = Core::String(module.ModuleName);
 						}
 					}
 

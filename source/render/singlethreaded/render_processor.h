@@ -1,4 +1,6 @@
 #include <graphics/module.h>
+#include <attributes/module.h>
+#include <math/vec3.h>
 #include "irender_processor.h"
 
 PUNK_ENGINE_BEGIN
@@ -33,23 +35,23 @@ namespace LowLevelRender {
 			Math::vec3 m_position;
 			Math::vec3 m_direction;
 
-			CameraCache(T* camera = nullptr, Math::vec3 world_pos = Math::vec3{ 0, 0, 0 }, Math::vec3 dir = Math::vec3{ 0, 0, -1 })
+			CameraCache(T* camera, Math::vec3 world_pos, Math::vec3 dir)
 				: m_camera{ camera }
 				, m_position{ world_pos }
 				, m_direction{ dir }
 				{}
 		};
 		
-		CameraCache<Attributes::IPerspectiveCamera> m_perspective_camera;
-		std::vector<LightCache<Attributes::IPointLight>> m_point_lights;
-		std::vector<LightCache<Attributes::IDirectionalLight>> m_dir_light;
-		std::vector<LightCache<Attributes::ISpotLight*>> m_spot_lights;
-		SceneModule::ISceneManager* m_manager{ nullptr };		
+		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		SceneModule::ISceneManager* m_manager{ nullptr };
 		Graphics::IVideoDriver* m_driver{ nullptr };
 		Graphics::ILowLevelRender* m_render{ nullptr };
 		Graphics::IFrameBuffer* m_frame_buffer{ nullptr };
-		Graphics::IFrame* m_frame{ nullptr };	
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		Graphics::IFrame* m_frame{ nullptr };		
+		std::vector<LightCache<Attributes::IPointLight>> m_point_lights;
+		std::vector<LightCache<Attributes::IDirectionalLight>> m_dir_light;
+		std::vector<LightCache<Attributes::ISpotLight>> m_spot_lights;
+		CameraCache<Attributes::IPerspectiveCamera> m_perspective_camera{ nullptr, { 0, 0, 0 }, { 0, 0, -1 } };
 
 	public:
 		static Graphics::ICanvasUniquePtr Canvas;

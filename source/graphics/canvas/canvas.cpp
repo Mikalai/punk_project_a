@@ -457,6 +457,6 @@ namespace Graphics {
 
 #endif	//	 _WIN32
 
-	PUNK_REGISTER_CREATOR(IID_ICanvas, Core::CreateInstance<Canvas>);
+	PUNK_REGISTER_CREATOR(IID_ICanvas, (Core::CreateInstance<Canvas, ICanvas>));
 }
 PUNK_ENGINE_END

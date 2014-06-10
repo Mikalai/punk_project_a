@@ -1,4 +1,5 @@
 #include <config.h>
+#include <string/buffer.h>
 #include "gl_shader_cooker.h"
 
 PUNK_ENGINE_BEGIN

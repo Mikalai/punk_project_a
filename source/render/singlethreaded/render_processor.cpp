@@ -1,7 +1,7 @@
-#include <attributes/module.h>
 #include <core/ifactory.h>
-#include <graphics/module.h>
 #include <system/module.h>
+#include <graphics/module.h>
+#include <attributes/module.h>
 #include "render_processor.h"
 
 PUNK_ENGINE_BEGIN
@@ -21,7 +21,7 @@ namespace LowLevelRender {
 	std::uint32_t RenderProcessor::Release() {
 		std::uint32_t v = m_ref_count.fetch_sub(1) - 1;
 		if (!v) {
-			delete this; \
+			delete this;
 		}
 		return v;
 	}

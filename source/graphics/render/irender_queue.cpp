@@ -34,7 +34,7 @@ namespace Graphics {
 		void AssertInitialized();
 	private:
 		bool m_initialized{ false };
-		std::array<std::vector<Batch*>, GetIndex(RenderContextType::TotalCount)> m_states;
+		std::array<std::vector<Batch*>, (int)RenderContextType::TotalCount> m_states;
 		std::atomic<std::uint32_t> m_ref_count{ 1 };
 		ILowLevelRender* m_render{ nullptr };
 	};

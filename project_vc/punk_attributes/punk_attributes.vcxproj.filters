@@ -519,9 +519,6 @@
     <Filter Include="data">
       <UniqueIdentifier>{5a4761dd-57fe-449a-9588-b86cc37b44f8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="controllers">
-      <UniqueIdentifier>{2f13fc1d-b217-48fa-bd2e-fd0a5f1a67a0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="animation">
       <UniqueIdentifier>{4643c854-3321-42d0-bdbb-8709c1aa8018}</UniqueIdentifier>
     </Filter>
@@ -542,6 +539,9 @@
     </Filter>
     <Filter Include="stubs">
       <UniqueIdentifier>{4d61cedd-d68c-4f05-9918-c9f0d13d50be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="controllers">
+      <UniqueIdentifier>{2f13fc1d-b217-48fa-bd2e-fd0a5f1a67a0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

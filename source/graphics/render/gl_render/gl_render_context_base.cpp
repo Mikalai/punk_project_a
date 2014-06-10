@@ -1,6 +1,8 @@
 #include <sstream>
+#include <system/logger/module.h>
 #include <system/environment.h>
 
+#include <graphics/texture/module.h>
 #include <graphics/render/gl_render/gl_shader_base.h>
 #include <graphics/error/module.h>
 #include <graphics/opengl/module.h>
@@ -28,11 +30,11 @@ namespace Graphics {
 		}
 		
 		void GlRenderContextBase::ApplyState(const CoreState& state) {
+			SetUpOpenGL(state);
 			m_vertex_shader->ApplyState(state);
 			m_fragment_shader->ApplyState(state);
 			if (m_geometry_shader)
-				m_geometry_shader->ApplyState(state);
-			SetUpOpenGL(state);
+				m_geometry_shader->ApplyState(state);			
 		}
 
 		void GlRenderContextBase::End()
@@ -595,6 +597,7 @@ namespace Graphics {
 
 		GlRenderContextBase::~GlRenderContextBase()
 		{
+			System::GetDefaultLogger()->Debug("GlRenderContextBase destroyed");
 			delete m_vertex_shader;
 			m_vertex_shader = nullptr;
 			delete m_fragment_shader;
@@ -644,6 +647,43 @@ namespace Graphics {
 			else
 			{
                 GL_CALL(glDisable(GL_BLEND));
+			}
+
+			BindTextures(state);
+		}
+
+		void GlRenderContextBase::BindTextures(const CoreState& state) {
+			if (state.render_state->m_enable_texture)
+			{
+				if (state.texture_state->m_texture_array && state.texture_state->m_texture_array_slot != -1)
+				{
+					state.texture_state->m_texture_array->Bind(state.texture_state->m_texture_array_slot);
+					for (int i = 0; i != 4; ++i)
+						if (state.texture_state->m_diffuse_map[i] && state.texture_state->m_diffuse_slot[0] != -1)
+							state.texture_state->m_diffuse_map[i]->Bind(state.texture_state->m_diffuse_slot[i]);
+					if (state.texture_state->m_height_map && state.texture_state->m_height_map_slot != -1)
+						state.texture_state->m_height_map->Bind(state.texture_state->m_height_map_slot);
+					if (state.texture_state->m_normal_map && state.texture_state->m_normal_map_slot != -1)
+						state.texture_state->m_normal_map->Bind(state.texture_state->m_normal_map_slot);
+					if (state.texture_state->m_shadow_map && state.texture_state->m_shadow_map_slot != -1)
+						state.texture_state->m_shadow_map->Bind(state.texture_state->m_shadow_map_slot);
+					if (state.texture_state->m_text_map && state.texture_state->m_text_map_slot != -1)
+						state.texture_state->m_text_map->Bind(state.texture_state->m_text_map_slot);
+				}
+				else
+				{
+					for (int i = 0; i != 4; ++i)
+						if (state.texture_state->m_diffuse_map[i] && state.texture_state->m_diffuse_slot[0] != -1)
+							state.texture_state->m_diffuse_map[i]->Bind(state.texture_state->m_diffuse_slot[i]);
+					if (state.texture_state->m_height_map && state.texture_state->m_height_map_slot != -1)
+						state.texture_state->m_height_map->Bind(state.texture_state->m_height_map_slot);
+					if (state.texture_state->m_normal_map && state.texture_state->m_normal_map_slot != -1)
+						state.texture_state->m_normal_map->Bind(state.texture_state->m_normal_map_slot);
+					if (state.texture_state->m_shadow_map && state.texture_state->m_shadow_map_slot != -1)
+						state.texture_state->m_shadow_map->Bind(state.texture_state->m_shadow_map_slot);
+					if (state.texture_state->m_text_map && state.texture_state->m_text_map_slot != -1)
+						state.texture_state->m_text_map->Bind(state.texture_state->m_text_map_slot);
+				}
 			}
 		}
 
