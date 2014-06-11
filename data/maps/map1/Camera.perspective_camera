@@ -1,0 +1,21 @@
+CAMERATEXT
+*perspective_camera {
+  *name {
+    Camera
+  }
+  *fov {
+    0.8696230053901672
+  }
+  *near {
+    1.0
+  }
+  *far {
+    1000.0
+  }
+  *focus {
+    0.0
+  }
+  *up_vector {
+    0 0 1
+  }
+}
