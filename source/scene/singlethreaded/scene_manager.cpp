@@ -13,6 +13,10 @@ namespace SceneModule {
 	}
 
 	SceneManager::~SceneManager() {
+		while (!m_processors.empty()) {
+			m_processors.back()->Release();
+			m_processors.pop_back();
+		}
 		m_scene->Release();
 	}	
 
@@ -30,6 +34,7 @@ namespace SceneModule {
 	}
 
 	void SceneManager::AddProcessor(IProcessor* processor) {
+		processor->AddRef();
 		m_processors.push_back(processor);
 		processor->SetSceneManager(this);
 	}

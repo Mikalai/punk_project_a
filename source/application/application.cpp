@@ -21,13 +21,13 @@ namespace Runtime {
 		m_factory->CreateInstance(IoModule::IID_IIoObserver, (void**)&loader);
 		m_scene_manager->GetScene()->AddObserver(loader);
 
-		LowLevelRender::IRenderObserver* render_observer = nullptr;
-		m_factory->CreateInstance(LowLevelRender::IID_IRenderObserver, (void**)&render_observer);
-		m_scene_manager->GetScene()->AddObserver(render_observer);
+		m_factory->CreateInstance(LowLevelRender::IID_IRenderModule, (void**)&m_render_module);
 
-		LowLevelRender::IRenderProcessor* render_processor = nullptr;
-		m_factory->CreateInstance(LowLevelRender::IID_IRenderProcessor, (void**)&render_processor);
-		m_scene_manager->AddProcessor(render_processor);
+		m_render_module->QueryInterface(LowLevelRender::IID_IRenderProcessor, (void**)&m_render_processor);
+		m_render_module->QueryInterface(LowLevelRender::IID_IRenderObserver, (void**)&m_render_observer);
+		
+		m_scene_manager->GetScene()->AddObserver(m_render_observer.get());		
+		m_scene_manager->AddProcessor(m_render_processor.get());
 	}
 
 	Application::~Application() {

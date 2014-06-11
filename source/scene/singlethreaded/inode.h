@@ -107,7 +107,7 @@ namespace SceneModule {
 		}
     };
 
-    using INodeUniquePtr = std::unique_ptr<INode, void (*)(INode*)>;
+	using INodeUniquePtr = Core::UniquePtr < INode > ;
     
 }
 PUNK_ENGINE_END

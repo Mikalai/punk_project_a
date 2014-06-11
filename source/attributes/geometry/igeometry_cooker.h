@@ -19,6 +19,8 @@ namespace Attributes {
 	public:
 		virtual void Cook(IGeometry* geometry, Graphics::IVertexArray*& va, Graphics::IIndexArray*& ia) = 0;
 	};
+
+	using IGeometryCookerUniquePtr = Core::UniquePtr < IGeometryCooker > ;
 }
 PUNK_ENGINE_END
 

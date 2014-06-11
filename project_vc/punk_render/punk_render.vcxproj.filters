@@ -23,7 +23,7 @@
     <ClInclude Include="..\..\source\render\singlethreaded\irender_processor.h">
       <Filter>singlethreaded</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\render\singlethreaded\render_processor.h">
+    <ClInclude Include="..\..\source\render\singlethreaded\irender_module.h">
       <Filter>singlethreaded</Filter>
     </ClInclude>
   </ItemGroup>
@@ -42,7 +42,7 @@
     <ClCompile Include="..\..\source\render\singlethreaded\render_observer.cpp">
       <Filter>singlethreaded</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\render\singlethreaded\render_processor.cpp">
+    <ClCompile Include="..\..\source\render\singlethreaded\irender_module.cpp">
       <Filter>singlethreaded</Filter>
     </ClCompile>
   </ItemGroup>

@@ -260,6 +260,9 @@
     <ClInclude Include="..\..\source\system\concurrency\ithread_pool.h">
       <Filter>concurrency</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\system\module\imodule.h">
+      <Filter>module</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\system\config_file.cpp" />
@@ -407,11 +410,11 @@
     <ClCompile Include="..\..\source\system\window\x11_window.cpp">
       <Filter>window</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\system\module\module_manager.cpp">
-      <Filter>module</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\system\input\imouse.cpp">
       <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\module\imodule_manager.cpp">
+      <Filter>module</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

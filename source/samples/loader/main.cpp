@@ -18,7 +18,7 @@ using namespace Punk::Engine;
 //void f(){
 //	SceneModule::ISceneGraphUniquePtr scene = Punk::Engine::SceneModule::CreateSceneFromFile("c:\\Projects\\game\\dev\\punk_project_a\\data\\maps\\map1\\", "level_1.pmd");
 //	Loader::IoObserver* proc = new Loader::IoObserver;
-//	LowLevelRender::RenderProcessor* render_proc = new LowLevelRender::RenderProcessor;
+//	LowLevelRender::RenderModule* render_proc = new LowLevelRender::RenderModule;
 //
 //	System::ITimerUniquePtr timer = System::CreateTimer();
 //

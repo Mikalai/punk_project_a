@@ -55,16 +55,21 @@ namespace SceneModule
 		return result;
 	}
 
-	void Scene::AddObserver(ISceneObserver* observer) {
+	void Scene::AddObserver(ISceneObserver* observer) {		
 		auto it = m_observers.find(observer);
 		if (it == m_observers.end()) {
+			observer->AddRef();
 			m_observers.insert(observer);
 			observer->SetScene(this);
 		}
 	}
 
 	void Scene::RemoveObserver(ISceneObserver* observer) {
-		m_observers.erase(observer);
+		auto it = m_observers.find(observer);
+		if (it != m_observers.end()) {
+			m_observers.erase(observer);
+			observer->Release();
+		}
 	}
 
 
