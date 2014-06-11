@@ -50,8 +50,7 @@ def export_directional_light(object):
     f.write("DIRLIGHTTEXT\n") 
     lamp = object.data        
     start_block(f, lamp.name)
-    export_vec3(f, "*color", lamp.color)
-    export_float(f, "*distance", lamp.distance)
+    export_vec3(f, "*color", lamp.color)    
     export_float(f, "*energy", lamp.energy)
     export_vec3(f, "*direction", [0, 0, 1])
     end_block(f);
