@@ -24,8 +24,10 @@ namespace LowLevelRender {
 		struct LightCache {
 			T* m_light;
 			Math::vec3 m_position;
-			LightCache(T* light, Math::vec3 world_pos)
+			Math::vec3 m_direction;
+			LightCache(T* light, Math::vec3 world_pos, Math::vec3 world_dir)
 				: m_light{ light }
+				, m_direction{ world_dir }
 				, m_position{ world_pos } {}
 		};
 

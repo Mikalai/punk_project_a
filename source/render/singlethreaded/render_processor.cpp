@@ -107,7 +107,16 @@ namespace LowLevelRender {
 					light->QueryInterface(Attributes::IID_IPointLight, (void**)&point_light);
 					if (point_light.get()) {
 						auto p = frame->GetWorldMatrix() * Math::vec3(0, 0, 0);
-						m_point_lights.push_back(LightCache < Attributes::IPointLight > {point_light.get(), p});
+						m_point_lights.push_back(LightCache < Attributes::IPointLight > {point_light.get(), p, { 0, 0, 0 }});
+						continue;
+					}
+					Core::UniquePtr<Attributes::IDirectionalLight> dir_light{ nullptr, Core::DestroyObject };
+					light->QueryInterface(Attributes::IID_IDirectionalLight, (void**)&dir_light);
+					if (dir_light.get()) {
+						auto p = frame->GetWorldMatrix() * Math::vec3(0, 0, 0);
+						auto d = (frame->GetWorldMatrix() * Math::vec4{ dir_light->GetDirection(), 0 }).XYZ();
+						m_dir_light.push_back(LightCache < Attributes::IDirectionalLight > {dir_light.get(), p, d});
+						continue;
 					}
 				}
 			}
@@ -174,6 +183,25 @@ namespace LowLevelRender {
 				light_state.SetAmbientColor({ 0.1f, 0.1f, 0.1f, 0.1f});
 				light_state.SetPosition(pos);
 				light_state.SetType(Graphics::LightType::Point);
+				light_state.SetSpecularColor(light->GetSpecularColor());
+			}
+		}
+
+		if (!m_dir_light.empty()) {
+			auto light = m_dir_light[0].m_light;
+			auto pos = m_dir_light[0].m_position;
+			auto dir = m_dir_light[0].m_direction;
+			std::vector<Graphics::Batch*> batches;
+			frame->GetRender()->GetRenderQueue()->SelectBatches(batches, Graphics::SelectCriteria::SelectByLightEnabled());
+			for (auto& batch : batches) {
+
+				auto& light_state = batch->m_state->light_state->m_lights[0];
+				light_state.Enable();
+				light_state.SetDiffuseColor(light->GetDiffuseColor());
+				light_state.SetAmbientColor({ 0.1f, 0.1f, 0.1f, 0.1f });
+				light_state.SetDirection(dir);
+				light_state.SetPosition(pos);
+				light_state.SetType(Graphics::LightType::Direction);
 				light_state.SetSpecularColor(light->GetSpecularColor());
 			}
 		}

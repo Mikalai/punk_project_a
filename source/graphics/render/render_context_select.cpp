@@ -322,7 +322,7 @@ namespace Graphics {
 
 	RenderContextType RenderLightingWithoutShadows(CoreState *state)
     {
-        if (state->render_state->m_enable_texture)
+        if (state->render_state->m_enable_texture && state->texture_state->m_diffuse_map[0])
         {
             if (state->render_state->m_enable_diffuse_shading)
             {

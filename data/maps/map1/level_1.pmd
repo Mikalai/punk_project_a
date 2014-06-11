@@ -1,54 +1,54 @@
 SCENETEXT
-*node {
-  *name {
-    Root
-  }
   *node {
     *name {
-      Transform
-    }
-    *entity_name {
-      Camera.transform
+      Root
     }
     *node {
       *name {
-        Camera
+        Transform
       }
       *entity_name {
-        Camera.perspective_camera
+        Camera.transform
       }
-    }
-  }
-  *node {
-    *name {
-      Transform
-    }
-    *entity_name {
-      level_1_terrain.transform
+      *node {
+        *name {
+          Camera
+        }
+        *entity_name {
+          Camera.perspective_camera
+        }
+      }
     }
     *node {
       *name {
-        Static
+        Transform
       }
       *entity_name {
-        terrain_mesh.static
+        level_1_terrain.transform
       }
-    }
-  }
-  *node {
-    *name {
-      Transform
-    }
-    *entity_name {
-      Sun.001.transform
+      *node {
+        *name {
+          Static
+        }
+        *entity_name {
+          terrain_mesh.static
+        }
+      }
     }
     *node {
       *name {
-        DirectionalLight
+        Transform
       }
       *entity_name {
-        Sun.001.directional_light
+        Sun.001.transform
+      }
+      *node {
+        *name {
+          DirectionalLight
+        }
+        *entity_name {
+          Sun.001.directional_light
+        }
       }
     }
   }
-}
