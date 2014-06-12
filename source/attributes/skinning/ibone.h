@@ -4,6 +4,7 @@
 #include <config.h>
 #include <cstdint>
 #include <memory>
+#include <core/iobject.h>
 
 PUNK_ENGINE_BEGIN
 namespace Core {
@@ -14,7 +15,10 @@ namespace Math {
 	class quat;
 }
 namespace Attributes {
-	class IBone {
+
+	DECLARE_PUNK_GUID(IID_IBone, "58B3E09C-8DC9-4A13-BC04-A76D74DF5C65");
+
+	class IBone : public Core::IObject {
 	public:
 		virtual void SetIndex(std::uint32_t value) = 0;
 		virtual std::uint32_t GetIndex() const = 0;
@@ -34,9 +38,7 @@ namespace Attributes {
 		virtual std::uint32_t GetChild(std::uint32_t index) = 0;
 	};
 
-	using IBoneUniquePtr = std::unique_ptr < IBone, void(*)(IBone*) > ;
-	extern PUNK_ENGINE_API IBoneUniquePtr CreateBone();
-	extern PUNK_ENGINE_API void DestroyBone(IBone* value);
+	using IBoneUniquePtr = Core::UniquePtr < IBone > ;
 }
 PUNK_ENGINE_END
 

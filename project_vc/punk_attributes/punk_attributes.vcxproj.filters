@@ -43,12 +43,6 @@
     <ClCompile Include="..\..\source\attributes\terrain\terrain_view_processor.cpp">
       <Filter>terrain</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\attributes\skinning\armature.cpp">
-      <Filter>skinning</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\attributes\skinning\bone.cpp">
-      <Filter>skinning</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\attributes\skinning\human_armature.cpp">
       <Filter>skinning</Filter>
     </ClCompile>
@@ -130,9 +124,6 @@
     <ClCompile Include="..\..\source\attributes\geometry\static_geometry.cpp">
       <Filter>geometry</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\attributes\skinning\armature_schema.cpp">
-      <Filter>skinning</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\attributes\light\light_set.cpp">
       <Filter>light</Filter>
     </ClCompile>
@@ -159,6 +150,15 @@
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\stubs\text_attribute.cpp">
       <Filter>stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\skinning\iarmature.cpp">
+      <Filter>skinning</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\skinning\ibone.cpp">
+      <Filter>skinning</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\skinning\iarmature_schema.cpp">
+      <Filter>skinning</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

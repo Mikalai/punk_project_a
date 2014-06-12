@@ -1,54 +1,46 @@
 SCENETEXT
+*node {
+  *name {
+    Root
+  }
   *node {
     *name {
-      Root
+      Transform
+    }
+    *entity_name {
+      Armature.transform
     }
     *node {
       *name {
-        Transform
+        Armature
       }
       *entity_name {
-        Camera.transform
+        Armature.armature
       }
       *node {
         *name {
-          Camera
+          Material
         }
         *entity_name {
-          Camera.perspective_camera
+          Material.material
         }
-      }
-    }
-    *node {
-      *name {
-        Transform
-      }
-      *entity_name {
-        level_1_terrain.transform
-      }
-      *node {
-        *name {
-          Static
-        }
-        *entity_name {
-          terrain_mesh.static
-        }
-      }
-    }
-    *node {
-      *name {
-        Transform
-      }
-      *entity_name {
-        Sun.001.transform
-      }
-      *node {
-        *name {
-          DirectionalLight
-        }
-        *entity_name {
-          Sun.001.directional_light
+        *node {
+          *name {
+            Transform
+          }
+          *entity_name {
+            Cube.transform
+          }
+          *node {
+            *name {
+              Skin
+            }
+            *entity_name {
+              Cube.skin
+            }
+          }
         }
       }
     }
   }
+}
