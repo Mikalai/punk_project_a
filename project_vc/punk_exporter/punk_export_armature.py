@@ -60,11 +60,13 @@ def export_armature(object):
     end_block(f)    #*armature
     f.close()        
 
-    file = object.data.name + ".armature"
+    file = object.name + ".armature"
     print(file)
     f = open(file, "w")
     f.write("ARMATURETEXT\n")    
+    start_block(f, object.name)
     export_string(f, "*armature_schema", object.data.name + ".armature_schema")    
+    end_block(f)
     f.close()        
         
     text_offset = old
@@ -93,7 +95,7 @@ def export_armature_node(f, object):
     armature = object.data
     start_block(f, "*node")
     export_string(f, "*name", "Armature")
-    export_string(f, "*entity_name", armature.name + ".armature")
+    export_string(f, "*entity_name", object.name + ".armature")
     push_entity("*armature", object)
 
     for child in object.children:
