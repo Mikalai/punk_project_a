@@ -8,14 +8,14 @@ SCENETEXT
       Transform
     }
     *entity_name {
-      Armature.transform
+      ArmatureInstance.transform
     }
     *node {
       *name {
         Armature
       }
       *entity_name {
-        Armature.armature
+        ArmatureInstance.armature
       }
       *node {
         *name {
@@ -40,6 +40,38 @@ SCENETEXT
             }
           }
         }
+      }
+    }
+  }
+  *node {
+    *name {
+      Transform
+    }
+    *entity_name {
+      Lamp.transform
+    }
+    *node {
+      *name {
+        PointLight
+      }
+      *entity_name {
+        Lamp.point_light
+      }
+    }
+  }
+  *node {
+    *name {
+      Transform
+    }
+    *entity_name {
+      Camera.transform
+    }
+    *node {
+      *name {
+        Camera
+      }
+      *entity_name {
+        Camera.perspective_camera
       }
     }
   }

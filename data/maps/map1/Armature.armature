@@ -1,4 +1,6 @@
 ARMATURETEXT
-*armature_schema {
-  Armature.armature_schema
+Armature {
+  *armature_schema {
+    Armature.armature_schema
+  }
 }

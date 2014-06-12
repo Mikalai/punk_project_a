@@ -1,7 +1,7 @@
 SKINMESHTEXT
 Cube {
   *armature_schema {
-    Armature
+    ArmatureInstance
   }
   *world_matrix {
     1.0 0.0 0.0 0.0

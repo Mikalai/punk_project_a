@@ -29,11 +29,14 @@ namespace Attributes {
 		std::uint32_t GetSupportedActionsCount() const override;
 		const Core::String& GetSupportedAction(std::uint32_t index) const override;
 		void AddSupportedAction(const Core::String& name) override;
+		void SetName(const Core::String& value) override;
+		const Core::String& GetName() const override;
 	private:
+		std::atomic<std::uint32_t> m_ref_count{ 1 };
 		std::vector<IBone*> m_bones;
 		std::vector<std::uint32_t> m_root;
-		std::vector<Core::String> m_supported_actions;
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		std::vector<Core::String> m_supported_actions;		
+		Core::String m_name;
 	};
 
 	void ArmatureSchema::QueryInterface(const Core::Guid& type, void** object) {
@@ -51,6 +54,13 @@ namespace Attributes {
 		return v;
 	}
 
+	void ArmatureSchema::SetName(const Core::String& value) {
+		m_name = value;
+	}
+
+	const Core::String& ArmatureSchema::GetName() const {
+		return m_name;
+	}
 
 	ArmatureSchema::~ArmatureSchema() {
 		while (!m_bones.empty()) {
@@ -92,6 +102,7 @@ namespace Attributes {
 	}
 
 	void ArmatureSchema::AddBone(IBone* value) {
+		value->AddRef();
 		auto index = value->GetIndex();
 		if (m_bones.size() <= index)
 			m_bones.resize(index + 1);

@@ -1,5 +1,5 @@
 ARMATURESCHEMATEXT
-Armature {
+ArmatureSchema {
   *action_ref {
     animation
   }
