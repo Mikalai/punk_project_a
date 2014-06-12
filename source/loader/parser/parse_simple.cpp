@@ -51,9 +51,10 @@ namespace IoModule
         return true;
     }
 
-    bool ParseInteger(Core::Buffer& buffer, int& value)
+    bool ParseInteger32(Core::Buffer& buffer, void* object)
     {
-        value = buffer.ReadWord().ToInt32();
+		int* value = (int*)object;
+        *value = buffer.ReadWord().ToInt32();
         return true;
     }
 
@@ -150,10 +151,10 @@ namespace IoModule
         return true;
     }
 
-    bool ParseBlockedInteger(Core::Buffer& buffer, int& value)
+    bool ParseBlockedInteger32(Core::Buffer& buffer, void* value)
     {
         CHECK_START(buffer);
-        if (!ParseInteger(buffer, value))
+        if (!ParseInteger32(buffer, value))
             throw Error::LoaderException(L"Unable to parse blocked float number");
         CHECK_END(buffer);
         return true;
@@ -371,5 +372,6 @@ namespace IoModule
 	PUNK_REGISTER_PARSER(WORD_STRING, ParseBlockedString);
 	PUNK_REGISTER_PARSER(WORD_QUAT, ParseBlockedQuaternionf);
 	PUNK_REGISTER_PARSER(WORD_VEC3VEC2VF, ParseVector3Vector2fv);
+	PUNK_REGISTER_PARSER(WORD_UINT32, ParseBlockedInteger32);
 }
 PUNK_ENGINE_END

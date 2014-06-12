@@ -40,6 +40,7 @@ namespace IoModule
 				Attributes::IArmatureSchema* schema;
 				factory->CreateInstance(Attributes::IID_IArmatureSchema, (void**)&schema);
 				parser->Parse(WORD_ARMATURE_SCHEMA, buffer, (void*)schema);
+				schema->SetName(word);
 				return schema;
 			}
             case WORD_ARMATURETEXT:

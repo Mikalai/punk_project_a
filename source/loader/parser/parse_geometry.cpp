@@ -25,6 +25,13 @@ namespace IoModule
             {
             case WORD_CLOSE_BRACKET:
                 return true;
+			case WORD_ARMATURE_SCHEMA:
+			{
+				Core::String name;
+				parser->Parse<Core::String>(WORD_STRING, buffer, name);
+				geometry->SetArmatureSchema(name);
+			}
+				break;
             case WORD_NAME:
             {
                 Core::String name;

@@ -277,6 +277,9 @@
     <ClCompile Include="..\..\source\loader\parser\parse_texture_coordinates.h">
       <Filter>parser</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_armature_schema.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\loader\serializer\io_action.h">
@@ -385,9 +388,6 @@
       <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\loader\parser\parse_anything.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\loader\parser\parse_armature.h">
       <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\loader\parser\parse_armature_node.h">

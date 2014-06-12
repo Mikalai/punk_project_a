@@ -306,7 +306,9 @@
     </ClCompile>
     <ClInclude Include="..\..\source\loader\parser\parse_animation.h" />
     <ClInclude Include="..\..\source\loader\parser\parse_anything.h" />
-    <ClInclude Include="..\..\source\loader\parser\parse_armature.h" />
+    <ClCompile Include="..\..\source\loader\parser\parse_armature_schema.cpp">
+      <FileType>CppHeader</FileType>
+    </ClCompile>
     <ClInclude Include="..\..\source\loader\parser\parse_armature_node.h" />
     <ClInclude Include="..\..\source\loader\parser\parse_bbox.h" />
     <ClInclude Include="..\..\source\loader\parser\parse_bone.h" />

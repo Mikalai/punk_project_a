@@ -27,6 +27,8 @@ namespace Attributes {
 		virtual std::uint32_t GetSupportedActionsCount() const = 0;
 		virtual const Core::String& GetSupportedAction(std::uint32_t index) const = 0;
 		virtual void AddSupportedAction(const Core::String& name) = 0;
+		virtual void SetName(const Core::String& value) = 0;
+		virtual const Core::String& GetName() const = 0;
 	};
 
 	using IArmatureSchemaUniquePtr = Core::UniquePtr < IArmatureSchema > ;
