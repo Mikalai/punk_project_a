@@ -10,12 +10,14 @@ from copy import deepcopy
 #   used to export animation data
 #
 def export_action_ref(f, object):
+    print("Export action ref")
     if object.animation_data == None:
+        print("Animation data is empty")
         return
     animation = object.animation_data
     for track in animation.nla_tracks:        
         for strip in track.strips:
-            export_string(f, "*action_ref", strip.name)
+            export_string(f, "*action_ref", strip.action.name)
     return
 
 #
