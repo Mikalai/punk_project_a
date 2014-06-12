@@ -296,6 +296,10 @@ namespace Graphics
         Top()->render_state->m_enable_skinning = value;
     }
 
+	bool Frame::IsEnabledSkinning() const {
+		return Top()->render_state->m_enable_skinning;
+	}
+
     void Frame::SetBoneMatrix(int bone_index, const Math::mat4& value)
     {
         Top()->batch_state->m_bone_matrix[bone_index] = value;

@@ -90,6 +90,7 @@ namespace Graphics
         void EnableSpecularShading(bool value) override;
         //void EnableBumpMapping(bool value) override;
         void EnableSkinning(bool value) override;
+		bool IsEnabledSkinning() const override;
         void EnableWireframe(bool value) override;
         void EnableTerrainRendering(bool value) override;
         void EnableLighting(bool value) override;

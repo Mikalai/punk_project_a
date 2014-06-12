@@ -179,8 +179,13 @@ namespace LowLevelRender {
 		if (count != 0) {
 			for (int i = 0; i < count; ++i) {
 				auto renderable = node->GetAttributeOfType<Graphics::IRenderable>(i);
-				if (renderable)
+				if (renderable) {
+					frame->PushAllState();
+					if (frame->IsEnabledSkinning())
+						frame->EnableSkinning(renderable->GetVertexFormat() & (Graphics::VertexComponent::BoneID::Value() | Graphics::VertexComponent::BoneID::Value()));
 					frame->Submit(renderable);
+					frame->PopAllState();
+				}
 			}
 			return;
 		}
@@ -272,6 +277,7 @@ namespace LowLevelRender {
 		frame->PushAllState();
 		frame->EnableLighting(true);
 		frame->EnableTexturing(true);
+		frame->EnableSkinning(true);
 		frame->SetLightModel(Graphics::LightModel::PerFragmentDiffuse);
 	//	frame->SetWorldMatrix(Math::CreateRotation(0, 1, 0, t));
 		frame->SetViewMatrix(Math::CreateTargetCameraMatrix({ 2, 2, 2 }, { 0, 0, 0 }, { 0, 1, 0 }));

@@ -86,6 +86,7 @@ namespace Graphics
         virtual void EnableSpecularShading(bool value) = 0;
         //void EnableBumpMapping(bool value) = 0;
         virtual void EnableSkinning(bool value) = 0;
+		virtual bool IsEnabledSkinning() const = 0;
         virtual void EnableWireframe(bool value) = 0;
         virtual void EnableTerrainRendering(bool value) = 0;
         virtual void EnableLighting(bool value) = 0;

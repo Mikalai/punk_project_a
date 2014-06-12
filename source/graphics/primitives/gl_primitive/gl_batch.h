@@ -110,6 +110,10 @@ namespace Graphics {
 				m_core.m_vao->Cook(vb, ib);
 			}
 
+			std::uint64_t GetVertexFormat() override {
+				return Vertex<VC...>::Value();
+			}
+
 		private:
 
 			void Cook(IVertexArray* vb, IIndexArray* ib) {

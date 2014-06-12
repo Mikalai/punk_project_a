@@ -26,6 +26,7 @@ namespace Graphics {
 		virtual void UnmapVertexVuffer(void*) = 0;
 		virtual void* MapIndexBuffer() = 0;
 		virtual void UnmapIndexBuffer(void*) = 0;
+		virtual std::uint64_t GetVertexFormat() = 0;
 	};
 
 	using IRenderableUniquePtr = Core::UniquePtr < IRenderable > ;    
