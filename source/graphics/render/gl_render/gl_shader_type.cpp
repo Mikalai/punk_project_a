@@ -26,6 +26,7 @@ namespace Graphics {
 			ShaderFile(RenderContextType::NoRender, L""),
 			ShaderFile(RenderContextType::NoLightSolidColor, L"solid_color_3d_330.vert"),
 			ShaderFile(RenderContextType::LightPerFragmentDiffuse, L"per_fragment_lighting_diffuse_330.vert"),
+			ShaderFile(RenderContextType::LightPerFragmentDiffuseSkinning, L"per_fragment_lighting_diffuse_skinning_330.vert"),
 			ShaderFile(RenderContextType::LightPerFragmentTextureDiffuse, L"per_fragment_lighting_tex_diffuse_330.vert")
 		};
 		/*ShaderFile(RenderContextType::BVertexBumpMapping, L"bump_330.vert"),
@@ -76,6 +77,7 @@ namespace Graphics {
 			ShaderFile(RenderContextType::NoRender, L""),
 			ShaderFile(RenderContextType::NoLightSolidColor, L"solid_color_3d_330.frag"),
 			ShaderFile(RenderContextType::LightPerFragmentDiffuse, L"per_fragment_lighting_diffuse_330.frag"),
+			ShaderFile(RenderContextType::LightPerFragmentDiffuseSkinning, L"per_fragment_lighting_diffuse_330.frag"),
 			ShaderFile(RenderContextType::LightPerFragmentTextureDiffuse, L"per_fragment_lighting_tex_diffuse_330.frag")
 		};
 

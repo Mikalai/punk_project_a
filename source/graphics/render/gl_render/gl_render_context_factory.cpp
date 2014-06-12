@@ -9,6 +9,7 @@
 #include "gl_no_light_solid_color.h"
 #include "gl_light_per_fragment_diffuse.h"
 #include "gl_light_per_fragment_texture_diffuse.h"
+#include "gl_light_per_fragment_diffuse_skinning.h"
 
 PUNK_ENGINE_BEGIN
 namespace Graphics {
@@ -137,7 +138,7 @@ namespace Graphics {
 			case Punk::Engine::Graphics::RenderContextType::LightPerFragmentDiffuseShadowingCascade:
 				break;
 			case Punk::Engine::Graphics::RenderContextType::LightPerFragmentDiffuseSkinning:
-				break;
+				return new GlRenderContext < RenderContextType::LightPerFragmentDiffuseSkinning > ;
 			case Punk::Engine::Graphics::RenderContextType::LightPerFragmentDiffuseSkinningShadowingSimple:
 				break;
 			case Punk::Engine::Graphics::RenderContextType::LightPerFragmentDiffuseSkinningShadowingCascade:
