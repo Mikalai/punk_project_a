@@ -30,6 +30,8 @@ namespace Attributes {
 		ib = nullptr;
 		if (mesh->HasVertexPositions() && mesh->HasFaceTextureCoordinates() && mesh->HasVertexNormals())
 			CookPositionNormalTangentBitangentTexture0(mesh, vb, ib);
+		else if (mesh->HasVertexPositions() && mesh->HasVertexNormals() && mesh->HasVertexBoneWeights())
+			CookPositionNormalBonesWeights(mesh, vb, ib);
 		else if (mesh->HasVertexPositions() && mesh->HasFaceTextureCoordinates())
 			CookPositionTexture0(mesh, vb, ib);
 		else if (mesh->HasVertexPositions() && mesh->HasVertexNormals())
@@ -521,6 +523,103 @@ namespace Attributes {
 					v->m_normal = norm;
 					v->m_tangent.Set(tang[0], tang[1], tang[2], w);
 					v->m_bitangent = btan;
+				}
+			}
+		}
+
+		_vb = new VertexArray<CurrentVertex>(vb);
+		if (mesh->IsIndexed())
+			_ib = new IndexArray<unsigned>(ib);
+
+	}
+
+	void GeometryCooker::CookPositionNormalBonesWeights(IGeometry* mesh, 
+		Graphics::IVertexArray*& _vb, 
+		Graphics::IIndexArray*& _ib)
+	{
+		using namespace Graphics;
+		using CurrentVertex = Vertex<VertexComponent::Position,
+			VertexComponent::Normal,
+			VertexComponent::BoneID,
+			VertexComponent::BoneWeight>;
+
+		if (!mesh)
+			throw System::Error::SystemException(L"Can't created skinned mesh from NULL mesh descriptor");
+		if (!mesh->HasVertexPositions())
+			throw System::Error::SystemException(L"Can't create skinned mesh from empty vertex list in mesh descriptor");
+		if (!mesh->HasVertexNormals())
+			throw System::Error::SystemException(L"Can't create skinned mesh from mesh descriptor with empty normals list");
+		if (!mesh->HasVertexBoneWeights())
+			throw System::Error::SystemException(L"Can't create skinned mesh from mesh descriptor with empty bones weights list");
+
+		std::vector<unsigned> ib;
+		if (mesh->IsIndexed()) {
+			int index = 0;
+			ib.resize(mesh->GetTrianglesCount() * 3);
+			for (unsigned i = 0; i < mesh->GetTrianglesCount(); i++) {
+				const Math::ivec3* t = mesh->GetTriangle(i);
+				ib[3 * i + 0] = index++;
+				ib[3 * i + 1] = index++;
+				ib[3 * i + 2] = index++;
+			}
+		}
+
+		std::vector<CurrentVertex> vb(mesh->GetTrianglesCount() * 3);
+
+		std::vector<int> base_index;		/// contains vertex index in the source array
+		int index = 0;
+		for (unsigned i = 0, max_i = mesh->GetTrianglesCount(); i < max_i; i++)
+		{
+			const Math::ivec3* f = mesh->GetTriangle(i);
+			const Math::vec3* position[3] = { mesh->GetVertexPosition(f->X()), mesh->GetVertexPosition(f->Y()), mesh->GetVertexPosition(f->Z()) };
+			const Math::vec3* normal[3] = { mesh->GetVertexNormal(f->X()), mesh->GetVertexNormal(f->Y()), mesh->GetVertexNormal(f->Z()) };
+
+			Math::vec3 tgn;
+			Math::vec3 nrm;
+			Math::vec3 btn;
+			float det;
+
+			//	for each vertex in the triangle
+			for (int j = 0; j < 3; ++j)
+			{
+				int index_0 = j;
+				int index_1 = (j + 1) % 3;
+				int index_2 = (j + 2) % 3;
+
+				vb[index].m_position = *position[index_0];
+				vb[index].m_normal = *normal[index_0];
+
+				CookOneVertexWithBone(mesh, (*f)[j], vb[index].m_bone_id, vb[index].m_bone_weight);
+
+				base_index.push_back((*f)[j]);
+				index++;
+			}
+		}
+
+		/// Smooth TBN
+		std::vector<int> mask(vb.size());
+		for (int i = 0; i < (int)vb.size(); i++)
+		{
+			Math::vec3 norm;
+			Math::vec3 tang;
+			Math::vec3 btan;
+			for (int j = 0; j < (int)vb.size(); j++)
+			{
+				CurrentVertex* v = &vb[j];
+				if (base_index[j] == i)
+				{
+					norm += v->m_normal.XYZ();
+				}
+			}
+
+			norm.Normalize();
+
+			for (int j = 0; j < (int)vb.size(); j++)
+			{
+				CurrentVertex* v = &vb[j];
+				if (base_index[j] == i)
+				{
+					v->m_normal = norm;
 				}
 			}
 		}

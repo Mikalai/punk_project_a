@@ -88,7 +88,7 @@ namespace Graphics
 	template<std::uint32_t _offset>
 	struct ComponentAccessor < _offset, VertexComponent::BoneID > {
 		Math::vec4 m_bone_id;
-		static constexpr std::uint32_t BoneId0Offset() {
+		static constexpr std::uint32_t BoneIdOffset() {
 			return _offset;
 		}
 	};

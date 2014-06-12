@@ -352,10 +352,10 @@ namespace LowLevelRender {
 			if (m_cooked_geometry.HasValue(geom))
 			{
 				renderable = m_cooked_geometry.GetValue(geom);
-				auto old = child->Get<Graphics::IRenderable>("Renderable");
+				auto old = child->Get<Graphics::IRenderable>(geom->GetName());
 				if (old != renderable) {
 					renderable->AddRef();
-					child->Set<Graphics::IRenderable>("Renderable", renderable);
+					child->Set<Graphics::IRenderable>(geom->GetName(), renderable);
 				}
 			}
 			else
@@ -372,7 +372,7 @@ namespace LowLevelRender {
 				renderable->UnmapVertexVuffer(v);
 				renderable->UnmapIndexBuffer(ii);
 				m_cooked_geometry.AddValue(geom, renderable);
-				child->Set<Graphics::IRenderable>("Renderable", renderable);
+				child->Set<Graphics::IRenderable>(geom->GetName(), renderable);
 			}
 		}
 		for (int i = 0, max_i = child->GetChildrenCount(); i < max_i; ++i) {
@@ -420,7 +420,7 @@ namespace LowLevelRender {
 				renderable = m_renderable_builder->ToRenderable(Graphics::PrimitiveType::TRIANGLES, vb, ib);
 				m_cooked_geometry.AddValue(geom, renderable);
 			}
-			node->Set<Graphics::IRenderable>("Renderable", renderable);
+			node->Set<Graphics::IRenderable>(geom->GetName(), renderable);
 		}
 	}
 
