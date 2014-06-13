@@ -55,7 +55,7 @@ namespace SceneModule
 		return result;
 	}
 
-	void Scene::AddObserver(ISceneObserver* observer) {		
+	void Scene::AddObserver(IObserver* observer) {		
 		auto it = m_observers.find(observer);
 		if (it == m_observers.end()) {
 			observer->AddRef();
@@ -64,7 +64,7 @@ namespace SceneModule
 		}
 	}
 
-	void Scene::RemoveObserver(ISceneObserver* observer) {
+	void Scene::RemoveObserver(IObserver* observer) {
 		auto it = m_observers.find(observer);
 		if (it != m_observers.end()) {
 			m_observers.erase(observer);
@@ -74,33 +74,33 @@ namespace SceneModule
 
 
     void Scene::OnNodeAdded(INode* parent, INode* child) {
-		std::for_each(m_observers.begin(), m_observers.end(), [&parent, &child](ISceneObserver* o) {
+		std::for_each(m_observers.begin(), m_observers.end(), [&parent, &child](IObserver* o) {
 			o->OnNodeAdded(parent, child);
 		});
     }
 
     void Scene::OnNodeRemoved(INode* parent, INode* child) {
-		std::for_each(m_observers.begin(), m_observers.end(), [&parent, &child](ISceneObserver* o) {
+		std::for_each(m_observers.begin(), m_observers.end(), [&parent, &child](IObserver* o) {
 			o->OnNodeRemoved(parent, child);
 		});
     }
 
 	void Scene::OnAttributeUpdated(INode* node, IAttribute* old_attribute, IAttribute* new_attribute) {
-		std::for_each(m_observers.begin(), m_observers.end(), [&node, &old_attribute, new_attribute](ISceneObserver* o) {
+		std::for_each(m_observers.begin(), m_observers.end(), [&node, &old_attribute, new_attribute](IObserver* o) {
 			o->OnAttributeUpdated(node, old_attribute, new_attribute);
 		});
 	}
 
 	void Scene::OnAttributeAdded(INode* node, IAttribute* attribute) {
 		node->AddRef();
-		std::for_each(m_observers.begin(), m_observers.end(), [&node, &attribute](ISceneObserver* o) {			
+		std::for_each(m_observers.begin(), m_observers.end(), [&node, &attribute](IObserver* o) {			
 			o->OnAttributeAdded(node, attribute);
 		});
 		node->Release();
 	}
 
 	void Scene::OnAttributeRemoved(INode* node, IAttribute* attribute) {
-		std::for_each(m_observers.begin(), m_observers.end(), [&node, &attribute](ISceneObserver* o) {
+		std::for_each(m_observers.begin(), m_observers.end(), [&node, &attribute](IObserver* o) {
 			o->OnAttributeRemoved(node, attribute);
 		});
 	}
@@ -128,7 +128,7 @@ namespace SceneModule
         return scene;
     }
 
-	PUNK_REGISTER_CREATOR(IID_IScene, Core::CreateInstance<Scene>);
+	PUNK_REGISTER_CREATOR(IID_IScene, (Core::CreateInstance<Scene, IScene>));
 
 }
 PUNK_ENGINE_END

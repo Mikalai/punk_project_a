@@ -14,6 +14,6 @@ namespace Attributes {
 		m_text = value;
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IText, Core::CreateInstance<Text>);
+	PUNK_REGISTER_CREATOR(IID_IText, (Core::CreateInstance<Text, IText>));
 }
 PUNK_ENGINE_END

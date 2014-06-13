@@ -3,6 +3,7 @@
 
 #include <typeinfo>
 #include <config.h>
+#include <core/action.h>
 #include <core/iobject.h>
 #include <string/module.h>
 
@@ -17,6 +18,7 @@ namespace SceneModule {
         virtual void SetName(const Core::String& name) = 0;
         virtual Core::IObject* GetRawData() const = 0;
         virtual void SetRawData(Core::IObject* value) = 0;
+		virtual void OnUpdate(Core::ActionBase<IAttribute*>* action) = 0;
 
         template<typename T>
 		T* Get() {

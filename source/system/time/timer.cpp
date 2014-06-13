@@ -135,6 +135,6 @@ namespace System
         return impl->GetTime();
     }
 
-	PUNK_REGISTER_CREATOR(IID_ITimer, Core::CreateInstance<Timer>);
+	PUNK_REGISTER_CREATOR(IID_ITimer, (Core::CreateInstance<Timer, ITimer>));
 }
 PUNK_ENGINE_END

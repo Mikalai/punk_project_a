@@ -134,7 +134,7 @@ namespace Graphics {
 		}
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IVideoDriver, Core::CreateInstance < OpenGL::GlVideoDriver>);
+	PUNK_REGISTER_CREATOR(IID_IVideoDriver, (Core::CreateInstance < OpenGL::GlVideoDriver, IVideoDriver>));
 }
 
 

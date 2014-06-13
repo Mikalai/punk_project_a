@@ -1,3 +1,6 @@
+#ifndef _H_IRENDER_MODULE
+#define _H_IRENDER_MODULE
+
 #include <config.h>
 #include <core/iobject.h>
 
@@ -11,3 +14,5 @@ namespace LowLevelRender {
 	};
 }
 PUNK_ENGINE_END
+
+#endif	//	_H_IRENDER_MODULE

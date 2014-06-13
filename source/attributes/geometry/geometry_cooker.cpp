@@ -630,6 +630,6 @@ namespace Attributes {
 
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IGeometryCooker, Core::CreateInstance<GeometryCooker>);
+	PUNK_REGISTER_CREATOR(IID_IGeometryCooker, (Core::CreateInstance<GeometryCooker, IGeometryCooker>));
 }
 PUNK_ENGINE_END

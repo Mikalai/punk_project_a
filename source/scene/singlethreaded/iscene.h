@@ -12,7 +12,7 @@ namespace SceneModule {
 
     class INode;
 	class IAttribute;
-	class ISceneObserver;
+	class IObserver;
 
 	DECLARE_PUNK_GUID(IID_IScene, "3BA9C2DB-27C9-42BD-B3CC-AAEF16A91E19");
 
@@ -25,8 +25,8 @@ namespace SceneModule {
         virtual void SetRoot(INode* node) = 0;
 		virtual INode* ReleaseRoot() = 0;		
 		
-		virtual void AddObserver(ISceneObserver* observer) = 0;
-		virtual void RemoveObserver(ISceneObserver* observer) = 0;
+		virtual void AddObserver(IObserver* observer) = 0;
+		virtual void RemoveObserver(IObserver* observer) = 0;
 
         virtual void OnNodeAdded(INode* parent, INode* child) = 0;
         virtual void OnNodeRemoved(INode* parent, INode* child) = 0;		

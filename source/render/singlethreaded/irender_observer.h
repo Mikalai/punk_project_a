@@ -9,7 +9,7 @@ namespace LowLevelRender {
 		
 	DECLARE_PUNK_GUID(IID_IRenderObserver, "2C586D1B-EF96-49CA-AB81-59581E6B0170");
 
-	class IRenderObserver : public SceneModule::ISceneObserver {
+	class IRenderObserver : public SceneModule::IObserver {
 
 	};
 }

@@ -21,8 +21,8 @@ namespace SceneModule
         const INode* GetRoot() const override;
         void SetRoot(INode* node) override;
 		INode* ReleaseRoot() override;
-		void AddObserver(ISceneObserver* observer) override;
-		void RemoveObserver(ISceneObserver* observer) override;
+		void AddObserver(IObserver* observer) override;
+		void RemoveObserver(IObserver* observer) override;
 		void OnNodeAdded(INode* parent, INode* child) override;
 		void OnNodeRemoved(INode* parent, INode* child) override;
 		void OnAttributeAdded(INode* node, IAttribute* attribute) override;
@@ -31,7 +31,7 @@ namespace SceneModule
 		void SetSourcePath(const Core::String& path) override;
 		const Core::String GetSourcePath() const override;
     private:
-		std::set<ISceneObserver*> m_observers;
+		std::set<IObserver*> m_observers;
         Core::ActionSlot<INode*, INode*> m_on_added_actions;
         Core::ActionSlot<INode*, INode*> m_on_removed_action;
 		Core::ActionSlot<INode*, IAttribute*> m_on_attribute_added;

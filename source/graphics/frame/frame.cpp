@@ -880,6 +880,6 @@ namespace Graphics
 
     }
 
-	PUNK_REGISTER_CREATOR(IID_IFrame, Core::CreateInstance<Frame>);    
+	PUNK_REGISTER_CREATOR(IID_IFrame, (Core::CreateInstance<Frame, IFrame>));    
 }
 PUNK_ENGINE_END

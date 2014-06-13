@@ -126,7 +126,7 @@ namespace Graphics {
         }
     }
 
-	PUNK_REGISTER_CREATOR(IID_ITexture2DArray, Core::CreateInstance<OpenGL::GlTexture2DArray>);
+	PUNK_REGISTER_CREATOR(IID_ITexture2DArray, (Core::CreateInstance<OpenGL::GlTexture2DArray, ITexture2DArray>));
 }
 PUNK_ENGINE_END
 

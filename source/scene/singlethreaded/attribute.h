@@ -21,10 +21,12 @@ namespace SceneModule {
         void SetName(const Core::String& name) override;
         Core::IObject* GetRawData() const override;
         void SetRawData(Core::IObject* value) override;
+		void OnUpdate(Core::ActionBase<IAttribute*>* action) override;
 
     private:        
         Core::String m_name;
 		Core::UniquePtr<T> m_data{ nullptr, Core::DestroyObject };
+		std::vector < Core::ActionBase<IAttribute*>*> m_update_actions;
     };
 
     template<class T>
@@ -42,6 +44,11 @@ namespace SceneModule {
     template<class T>
     inline Attribute<T>::~Attribute() {        
 		System::GetDefaultLogger()->Info("Desotroy attrbute " + m_name);
+		while (!m_update_actions.empty()) {
+			m_update_actions.back()->Release();
+			m_update_actions.pop_back();
+		}
+
     }
 
     template<class T>
@@ -69,7 +76,16 @@ namespace SceneModule {
 		T* o = dynamic_cast<T*>(value);
 		if (o)
 			m_data.reset(o);
+		for (auto action : m_update_actions) {
+			(*action)(this);
+		}
     }
+
+	template<class T>
+	inline void Attribute<T>::OnUpdate(Core::ActionBase<IAttribute*>* action) {
+		action->AddRef();
+		m_update_actions.push_back(action);
+	}
 }
 PUNK_ENGINE_END
 

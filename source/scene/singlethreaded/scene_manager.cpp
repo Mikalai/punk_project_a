@@ -45,6 +45,6 @@ namespace SceneModule {
 		}
 	}
 
-	PUNK_REGISTER_CREATOR(IID_ISceneManager, Core::CreateInstance<SceneManager>);
+	PUNK_REGISTER_CREATOR(IID_ISceneManager, (Core::CreateInstance<SceneManager, ISceneManager>));
 }
 PUNK_ENGINE_END

@@ -21,7 +21,7 @@ namespace System {
 		*object = (void*)(new WindowWin);
 	}*/
 
-	PUNK_REGISTER_CREATOR(IID_IWindow, Core::CreateInstance<WindowWin>);
+	PUNK_REGISTER_CREATOR(IID_IWindow, (Core::CreateInstance<WindowWin, IWindow>));
 
 
 	typedef LRESULT (WINAPI *TWindowCallBack)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);

@@ -28,14 +28,14 @@ namespace Core {
 
 #define PUNK_REGISTER_CREATOR(T, F) Core::RegisterCreator g_##T##creator{T, F}
 
-	template<class T, class I = T>
-	T* CreateInstance(const Guid& type) {
-		T* object = nullptr;
+	template<class I>
+	I* CreateInstance(const Guid& type) {
+		I* object = nullptr;
 		GetFactory()->CreateInstance(type, (void**)(I*)&object);
 		return object;
 	}
 
-	template<class T, class I = T>
+	template<class T, class I>
 	void CreateInstance(void** object) {
 		if (!object) {
 			throw Core::Error::CoreException(Core::String("Can't create instance, because object '") + typeid(T).name() + "' is null");

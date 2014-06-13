@@ -245,7 +245,7 @@ namespace Graphics {
 			m_driver = driver;
 		}
 
-		PUNK_REGISTER_CREATOR(IID_IRenderContextFactory, Core::CreateInstance<GlRenderContextFactory>);
+		PUNK_REGISTER_CREATOR(IID_IRenderContextFactory, (Core::CreateInstance<GlRenderContextFactory, IRenderContextFactory>));
 
 	}
 }

@@ -15,6 +15,6 @@ namespace Attributes {
 		return m_filename;
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IFileStub, Core::CreateInstance<FileStub>);
+	PUNK_REGISTER_CREATOR(IID_IFileStub, (Core::CreateInstance<FileStub, IFileStub>));
 }
 PUNK_ENGINE_END

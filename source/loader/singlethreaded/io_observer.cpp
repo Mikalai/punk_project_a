@@ -70,6 +70,12 @@ namespace IoModule {
 					if (camera)
 						node->Set<Attributes::ICamera>(camera->GetName(), camera);
 				}
+				{
+					Attributes::IArmature* armature = nullptr;
+					o->QueryInterface(Attributes::IID_IArmature, (void**)&armature);
+					if (armature)
+						node->Set<Attributes::IArmature>(armature->GetName(), armature);
+				}
 			}
 
 			for (int i = 0, max_i = (int)node->GetChildrenCount(); i < max_i; ++i) {
@@ -134,7 +140,7 @@ namespace IoModule {
 
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IIoObserver, Core::CreateInstance<IoObserver>);
+	PUNK_REGISTER_CREATOR(IID_IIoObserver, (Core::CreateInstance<IoObserver, IIoObserver>));
 }
 
 PUNK_ENGINE_END

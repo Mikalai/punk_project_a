@@ -125,6 +125,6 @@ namespace Attributes
 		return m_name;
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IMaterial, Core::CreateInstance<Material>);
+	PUNK_REGISTER_CREATOR(IID_IMaterial, (Core::CreateInstance<Material, IMaterial>));
 }
 PUNK_ENGINE_END

@@ -158,7 +158,7 @@ namespace SceneModule {
 		return m_children.at(index);
 	}
 		
-	PUNK_REGISTER_CREATOR(IID_INode, Core::CreateInstance<Node>);
+	PUNK_REGISTER_CREATOR(IID_INode, (Core::CreateInstance<Node, INode>));
 
 }
 PUNK_ENGINE_END

@@ -182,7 +182,7 @@ namespace Graphics {
 		return m_queue.get();
 	}
 
-	PUNK_REGISTER_CREATOR(IID_ILowLevelRender, Core::CreateInstance<LowLevelRender>);
+	PUNK_REGISTER_CREATOR(IID_ILowLevelRender, (Core::CreateInstance<LowLevelRender, ILowLevelRender>));
 
     
 }

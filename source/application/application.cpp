@@ -81,7 +81,7 @@ namespace Runtime {
 		Core::QueryInterface(this, type, object, { IID_IApplication, Core::IID_IObject });
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IApplication, Core::CreateInstance<Application>);
+	PUNK_REGISTER_CREATOR(IID_IApplication, (Core::CreateInstance<Application, IApplication>));
 
 }
 PUNK_ENGINE_END
