@@ -12,8 +12,7 @@ namespace Attributes {
 
 	DECLARE_PUNK_GUID(IID_IAnimation, "3B79F2D8-3FCA-4EDC-8DE2-F51B1E4BFA84");
 
-
-	class IAnimation : public Core::IObject {
+		class IAnimation : public Core::IObject {
 	public:
 		virtual std::uint32_t GetDuration() const = 0;
 		virtual std::int32_t GetFirstFrame() const = 0;

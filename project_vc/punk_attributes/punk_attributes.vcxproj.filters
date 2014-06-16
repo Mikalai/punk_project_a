@@ -106,9 +106,6 @@
     <ClCompile Include="..\..\source\attributes\animation\bone_animation.cpp">
       <Filter>animation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\attributes\animation\object_animation.cpp">
-      <Filter>animation</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\attributes\animation\object_animation_mixer.cpp">
       <Filter>animation</Filter>
     </ClCompile>
@@ -167,6 +164,9 @@
       <Filter>animation</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\animation\ianimation.cpp">
+      <Filter>animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\animation\ikeyframe_interpolator.cpp">
       <Filter>animation</Filter>
     </ClCompile>
   </ItemGroup>
@@ -355,9 +355,6 @@
     <ClInclude Include="..\..\source\attributes\animation\module.h">
       <Filter>animation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\attributes\animation\object_animation.h">
-      <Filter>animation</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\attributes\animation\object_animation_mixer.h">
       <Filter>animation</Filter>
     </ClInclude>
@@ -500,6 +497,9 @@
       <Filter>animation</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\animation\itrack.h">
+      <Filter>animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\animation\ikeyframe_interpolator.h">
       <Filter>animation</Filter>
     </ClInclude>
   </ItemGroup>
