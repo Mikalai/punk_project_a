@@ -166,6 +166,9 @@
     <ClCompile Include="..\..\source\attributes\animation\itrack.cpp">
       <Filter>animation</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\attributes\animation\ianimation.cpp">
+      <Filter>animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\attributes\building.h" />
@@ -332,9 +335,6 @@
       <Filter>animation</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\animation\action_male_walk.h">
-      <Filter>animation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\attributes\animation\animation.h">
       <Filter>animation</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\animation\animation_mixer.h">

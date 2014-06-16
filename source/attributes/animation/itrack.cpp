@@ -7,6 +7,14 @@ namespace Attributes {
 
 	class TrackImpl : public ITrack {
 	public:
+
+		~TrackImpl() {
+			while (!m_frames.empty()) {
+				m_frames.back()->Release();
+				m_frames.pop_back();
+			}
+		}
+
 		//	IObject
 		void QueryInterface(const Core::Guid& type, void** object) {
 			Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_ITrack });
