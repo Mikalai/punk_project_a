@@ -160,6 +160,9 @@
     <ClCompile Include="..\..\source\attributes\skinning\iarmature_schema.cpp">
       <Filter>skinning</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\attributes\animation\ikeyframe.cpp">
+      <Filter>animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\attributes\building.h" />
@@ -489,6 +492,9 @@
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\camera\iperspective_camera.h">
       <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\animation\ikeyframe.h">
+      <Filter>animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

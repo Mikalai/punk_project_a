@@ -1,7 +1,7 @@
 POINTLIGHTTEXT
-Lamp {
+point_light {
   *name {
-    Lamp
+    point_light
   }
   *color {
     1.0 1.0 1.0
