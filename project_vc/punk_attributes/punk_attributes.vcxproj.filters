@@ -163,6 +163,9 @@
     <ClCompile Include="..\..\source\attributes\animation\ikeyframe.cpp">
       <Filter>animation</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\attributes\animation\itrack.cpp">
+      <Filter>animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\attributes\building.h" />
@@ -494,6 +497,9 @@
       <Filter>camera</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\animation\ikeyframe.h">
+      <Filter>animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\animation\itrack.h">
       <Filter>animation</Filter>
     </ClInclude>
   </ItemGroup>

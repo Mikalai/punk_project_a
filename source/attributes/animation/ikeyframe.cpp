@@ -47,7 +47,7 @@ namespace Attributes {
 	};
 
 	template<class Key>
-	class KeyFrameImpl : public IKeyFrame {
+	class KeyFrameImpl : public KeyFrame<Key> {
 	public:
 		KeyFrameImpl();
 		
