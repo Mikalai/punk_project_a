@@ -5,7 +5,6 @@ PUNK_ENGINE_BEGIN
 namespace System
 {
     AsyncLoader::AsyncLoader()
-		: m_container{ this, Core::GetRootObject() }
     {
     }
 

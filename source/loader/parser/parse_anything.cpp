@@ -6,7 +6,7 @@
 #include "parser.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader
+namespace IoModule
 {
     Core::IObject* ParseAnything(Core::Buffer& buffer)
     {		
@@ -40,6 +40,7 @@ namespace Loader
 				Attributes::IArmatureSchema* schema;
 				factory->CreateInstance(Attributes::IID_IArmatureSchema, (void**)&schema);
 				parser->Parse(WORD_ARMATURE_SCHEMA, buffer, (void*)schema);
+				schema->SetName(word);
 				return schema;
 			}
             case WORD_ARMATURETEXT:
@@ -100,8 +101,8 @@ namespace Loader
             }*/
             case WORD_SCENETEXT:
             {
-				Scene::ISceneGraph* graph{ nullptr };
-				Core::GetFactory()->CreateInstance(Scene::IID_ISceneGraph, (void**)&graph);
+				SceneModule::IScene* graph{ nullptr };
+				Core::GetFactory()->CreateInstance(SceneModule::IID_IScene, (void**)&graph);
 				parser->Parse(WORD_SCENE_GRAPH, buffer, graph);
 				return graph;
             }
@@ -150,6 +151,17 @@ namespace Loader
 				Core::GetFactory()->CreateInstance(Attributes::IID_ISpotLight, (void**)&light);
 				parser->Parse(WORD_SPOT_LIGHT, buffer, light);
 				return light;
+			}
+			case WORD_CAMERATEXT:
+			{
+				Core::String word = buffer.ReadWord();
+				if (ParseKeyword(word) == WORD_PERSPECTIVE_CAMERA) {
+					Attributes::IPerspectiveCamera* camera{ nullptr };
+					Core::GetFactory()->CreateInstance(Attributes::IID_IPerspectiveCamera, (void**)&camera);
+					parser->Parse(WORD_PERSPECTIVE_CAMERA, buffer, camera);
+					return camera;
+				}
+				return nullptr;
 			}
             default:
                 throw Error::LoaderException(L"Unexpected keyword " + word);

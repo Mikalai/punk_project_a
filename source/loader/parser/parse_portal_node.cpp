@@ -1,9 +1,9 @@
 //#include "../../scene/module.h"
 //#include "parse_functions.h"
 
-//namespace Loader
+//namespace IoModule
 //{
-//    bool ParsePortalNode(Core::Buffer& buffer, Scene::PortalNode* node)
+//    bool ParsePortalNode(Core::Buffer& buffer, SceneModule::PortalNode* node)
 //    {
 //        CHECK_START(buffer);
 

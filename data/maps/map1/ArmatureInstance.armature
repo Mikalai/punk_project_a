@@ -1,0 +1,6 @@
+ARMATURETEXT
+ArmatureInstance {
+  *armature_schema {
+    ArmatureSchema.armature_schema
+  }
+}

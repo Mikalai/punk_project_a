@@ -1,9 +1,11 @@
+#include <core/ifactory.h>
 #include <graphics/error/module.h>
 #include <graphics/renderable/module.h>
-#include <graphics/render/render_context/irender_context.h>
+#include <graphics/render/irender_context.h>
 #include <graphics/video_driver/module.h>
 #include <graphics/state/module.h>
 #include <graphics/texture/module.h>
+#include <graphics/primitives/irenderable.h>
 #include "render_pass.h"
 #include "render_batch.h"
 
@@ -29,7 +31,9 @@ namespace Graphics {
         auto w = m_driver->GetSettings()->GetShadowMapSize();
         auto h = m_driver->GetSettings()->GetShadowMapSize();
         if (!m_shadow_map) {
-            m_shadow_map = CreateTexture2D(w, h, Image::ImageFormat::DEPTH_COMPONENT16, nullptr, false, m_driver).release();
+			m_shadow_map = Core::CreateInstance<ITexture2D>(IID_ITexture2D);
+            if (m_shadow_map)
+				m_shadow_map->Initialize(w, h, ImageModule::ImageFormat::DEPTH_COMPONENT16, nullptr, false, m_driver);
         }
         else {
             m_shadow_map->Resize(w, h);
@@ -69,9 +73,9 @@ namespace Graphics {
         {
        //     tc.Bind();
             policy->Begin();
-            policy->BindParameters(*state);
-            renderable->Bind(policy->GetRequiredAttributesSet());
-            renderable->Render();
+            policy->ApplyState(*state);
+            renderable->Bind();
+            renderable->LowLevelRender();
             renderable->Unbind();
             policy->End();
        //     tc.Unbind();

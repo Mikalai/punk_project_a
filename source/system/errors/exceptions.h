@@ -1,7 +1,7 @@
 #ifndef _H_PUNK_SYSTEM_EXCEPTIONS
 #define _H_PUNK_SYSTEM_EXCEPTIONS
 
-#include <error/module.h>
+#include <core/core_error.h>
 #include "String/String.h"
 
 PUNK_ENGINE_BEGIN

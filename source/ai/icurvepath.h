@@ -10,7 +10,7 @@ namespace Core {
 }
 namespace AI {
 
-	DEFINE_PUNK_GUID(IID_ICurvePath, "7B1EBE2B-6E2E-467A-BE39-EF7890622C41");
+	DECLARE_PUNK_GUID(IID_ICurvePath, "7B1EBE2B-6E2E-467A-BE39-EF7890622C41");
 
 	class ICurvePath : public Math::ICurve {
 	public:

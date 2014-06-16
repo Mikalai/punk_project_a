@@ -5,7 +5,7 @@
 //#include "io_bone.h"
 //
 //PUNK_ENGINE_BEGIN
-//namespace Loader {
+//namespace IoModule {
 //
 //    void SaveBone(Core::Buffer* buffer, const Attributes::Bone& b)
 //    {

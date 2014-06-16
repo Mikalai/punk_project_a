@@ -6,7 +6,7 @@
 //PUNK_ENGINE_BEGIN
 //namespace Core { class Buffer; }
 //namespace Attributes { class Sun; }
-//namespace Loader {
+//namespace IoModule {
 //    PUNK_ENGINE_LOCAL bool ParseSun(Core::Buffer& buffer, Attributes::Sun& value);
 //}
 //PUNK_ENGINE_END

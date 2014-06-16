@@ -8,16 +8,16 @@
 PUNK_ENGINE_BEGIN
 namespace Core {
 
-	template<class T, class Owner = T>
+	template<class T, class Owner = T, class This = Owner>
 	class Container {
 	public:
 
-		Container(T* _this, Owner* parent)
+		Container(This* _this, Owner* parent)
 			: m_owner{ parent }
 			, m_this{ _this }
-		{
+		{			
 			if (m_owner)
-				m_owner->Add(m_this);
+				m_owner->AddChild(m_this);
 		}
 
 		~Container() {
@@ -27,7 +27,7 @@ namespace Core {
 			}
 		}
 
-		void SetOwner(T* object) {
+		void SetOwner(Owner* object) {
 			m_owner = object;
 		}
 
@@ -39,7 +39,7 @@ namespace Core {
 			return m_owner;
 		}
 
-		void Add(T* value) {
+		void AddChild(T* value) {
 			if (value == nullptr)
 				throw Core::Error::CoreException("Object reference is null");
 
@@ -97,7 +97,7 @@ namespace Core {
 
 
 	private:
-		T* m_this{ nullptr };
+		This* m_this{ nullptr };
 		Owner* m_owner{ nullptr };
 		std::vector < T* > m_children;
 	};

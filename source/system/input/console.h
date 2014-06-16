@@ -52,7 +52,7 @@ namespace System
 		int m_x, m_y;
 #endif
 
-		PUNK_OBJECT_DEFAULT_IMPL3(Console)
+		PUNK_OBJECT_DEFAULT_IMPL(Console)
 	};
 }
 PUNK_ENGINE_END

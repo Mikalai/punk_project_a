@@ -1912,7 +1912,7 @@ namespace noise
     /// - Pass a NoiseMap object to the SetSourceNoiseMap() method.
     /// - Pass an Image object to the SetDestImage() method.
     /// - Pass an Image object to the SetBackgroundImage() method (optional)
-    /// - Call the Render() method.
+    /// - Call the LowLevelRender() method.
     class RendererImage
     {
 
@@ -1968,7 +1968,7 @@ namespace noise
 
         /// Clears the color gradient.
         ///
-        /// Before calling the Render() method, the application must specify a
+        /// Before calling the LowLevelRender() method, the application must specify a
         /// new color gradient with at least two gradient points.
         void ClearGradient ();
 
@@ -2117,13 +2117,13 @@ namespace noise
         /// The background image and the destination image can safely refer to
         /// the same image, although in this case, the destination image is
         /// irretrievably blended into the background image.
-        void Render ();
+        void LowLevelRender ();
 
         /// Sets the background image.
         ///
         /// @param backgroundImage The background image.
         ///
-        /// If a background image has been specified, the Render() method
+        /// If a background image has been specified, the LowLevelRender() method
         /// blends the pixels from the background image onto the corresponding
         /// pixels in the destination image.  The blending weights are
         /// determined by the alpha channel in the pixels in the destination
@@ -2141,7 +2141,7 @@ namespace noise
         /// @param destImage The destination image.
         ///
         /// The destination image will contain the rendered image after a
-        /// successful call to the Render() method.
+        /// successful call to the LowLevelRender() method.
         ///
         /// The destination image must exist throughout the lifetime of this
         /// object unless another image replaces that image.
@@ -2162,7 +2162,7 @@ namespace noise
         /// - 270.0 degrees is south.
         ///
         /// Make sure the light source is enabled via a call to the
-        /// EnableLight() method before calling the Render() method.
+        /// EnableLight() method before calling the LowLevelRender() method.
         void SetLightAzimuth (double lightAzimuth)
         {
           m_lightAzimuth = lightAzimuth;
@@ -2174,7 +2174,7 @@ namespace noise
         /// @param lightBrightness The brightness of the light source.
         ///
         /// Make sure the light source is enabled via a call to the
-        /// EnableLight() method before calling the Render() method.
+        /// EnableLight() method before calling the LowLevelRender() method.
         void SetLightBrightness (double lightBrightness)
         {
           m_lightBrightness = lightBrightness;
@@ -2186,7 +2186,7 @@ namespace noise
         /// @param lightColor The light color.
         ///
         /// Make sure the light source is enabled via a call to the
-        /// EnableLight() method before calling the Render() method.
+        /// EnableLight() method before calling the LowLevelRender() method.
         void SetLightColor (const Color& lightColor)
         {
           m_lightColor = lightColor;
@@ -2211,7 +2211,7 @@ namespace noise
         /// use is ( 1.0 / @a h ).
         ///
         /// Make sure the light source is enabled via a call to the
-        /// EnableLight() method before calling the Render() method.
+        /// EnableLight() method before calling the LowLevelRender() method.
         void SetLightContrast (double lightContrast)
         {
           if (lightContrast <override.0) {
@@ -2231,7 +2231,7 @@ namespace noise
         /// - 90 degrees is straight up.
         ///
         /// Make sure the light source is enabled via a call to the
-        /// EnableLight() method before calling the Render() method.
+        /// EnableLight() method before calling the LowLevelRender() method.
         void SetLightElev (double lightElev)
         {
           m_lightElev = lightElev;
@@ -2245,7 +2245,7 @@ namespace noise
         /// A good value for intensity is 2.0.
         ///
         /// Make sure the light source is enabled via a call to the
-        /// EnableLight() method before calling the Render() method.
+        /// EnableLight() method before calling the LowLevelRender() method.
         void SetLightIntensity (double lightIntensity)
         {
           if (lightIntensity < 0.0) {
@@ -2378,7 +2378,7 @@ namespace noise
     /// steps:
     /// - Pass a NoiseMap object to the SetSourceNoiseMap() method.
     /// - Pass an Image object to the SetDestImage() method.
-    /// - Call the Render() method.
+    /// - Call the LowLevelRender() method.
     class RendererNormalMap
     {
 
@@ -2451,7 +2451,7 @@ namespace noise
         /// @post The original contents of the destination image is destroyed.
         ///
         /// @throw noise::ExceptionInvalidParam See the preconditions.
-        void Render ();
+        void LowLevelRender ();
 
         /// Sets the bump height.
         ///
@@ -2474,7 +2474,7 @@ namespace noise
         /// @param destImage The destination image.
         ///
         /// The destination image will contain the normal map after a
-        /// successful call to the Render() method.
+        /// successful call to the LowLevelRender() method.
         ///
         /// The destination image must exist throughout the lifetime of this
         /// object unless another image replaces that image.

@@ -1,33 +1,55 @@
-//#ifndef SHADER_BUILDER_H
-//#define SHADER_BUILDER_H
+#ifndef SHADER_BUILDER_H
+#define SHADER_BUILDER_H
 
-//#include <vector>
-//#include "shader_type.h"
-//#include "shader_uniform_table.h"
-//#include "shader_var_table.h"
+#include <sstream>
+#include <config.h>
+#include <vector>
+#include "shader_data_type.h"
+#include "shader_type.h"
+#include "shader_uniform_variable.h"
+#include "shader_attribute.h"
+#include "shader_variable.h"
 
-//namespace Gpu
-//{
-//    class ShaderBuilder
-//    {
-//    public:
-//        ShaderBuilder();
+PUNK_ENGINE_BEGIN
+namespace Graphics
+{
 
-//        void Version(int value);
-//        int Version() const;
+	template<typename AttributesBlock, typename UniformBlocks, typename GlobalInput, typename GlobalOutput>
+	struct ShaderBuilder {
 
-//        void AddUniform(ShaderUniformTable value);
-//        void AddInputVariable(ShaderVarTable value);
-//        void AddOutputVaruable(ShaderVarTable value);
+		static const std::string ToString() {
+			std::stringstream stream;
+			stream << UniformBlocks::ToString() << std::endl;
+			stream << AttributesBlock::ToString() << std::endl;			
+			stream << GlobalInput::ToString() << std::endl;
+			stream << GlobalOutput::ToString() << std::endl;
+			return stream.str();
+		}
+	};
 
-//        const std::string ToString();
 
-//    private:
-//        int m_version;
-//        std::vector<ShaderUniformTable> m_uniforms;
-//        std::vector<ShaderVarTable> m_input;
-//        std::vector<ShaderVarTable> m_output;
-//    };
-//}
 
-//#endif // SHADER_BUILDER_H
+    /*class ShaderBuilder
+    {
+    public:
+        ShaderBuilder();
+
+        void Version(int value);
+        int Version() const;
+
+        void AddUniform(ShaderUniformTable value);
+        void AddInputVariable(ShaderVarTable value);
+        void AddOutputVaruable(ShaderVarTable value);
+
+        const std::string ToString();
+
+    private:
+        int m_version;
+        std::vector<ShaderUniformTable> m_uniforms;
+        std::vector<ShaderVarTable> m_input;
+        std::vector<ShaderVarTable> m_output;
+    };*/
+}
+PUNK_ENGINE_END
+
+#endif // SHADER_BUILDER_H

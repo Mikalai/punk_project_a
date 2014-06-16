@@ -1,7 +1,7 @@
 #ifndef CORE_ERROR_H
 #define CORE_ERROR_H
 
-#include "error/module.h"
+#include <error/module.h>
 #include "String/String.h"
 
 PUNK_ENGINE_BEGIN

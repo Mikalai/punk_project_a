@@ -1,5 +1,4 @@
-
-#ifdef _WIN32
+#ifdef WIN32
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif // NOMINMAX
@@ -10,7 +9,7 @@
 #include <sys/stat.h>
 #endif
 
-#include <String/module.h>
+#include <string/module.h>
 #include <system/errors/module.h>
 #include "folder.h"
 
@@ -24,7 +23,7 @@ namespace System
     }
 
     bool Folder::Open(const Core::String& name) {
-#ifdef _WIN32
+#ifdef WIN32
         m_prev_folder_name = GetCurrentFolder();
         if (SetCurrentDirectoryW((LPCWSTR)name.ToWchar().Data()) == TRUE) {
             return true;
@@ -53,7 +52,7 @@ namespace System
     bool Folder::IsContain(const Core::String& name) const
     {
 
-#ifdef _WIN32
+#ifdef WIN32
         WIN32_FIND_DATA dir;
         HANDLE file;
 
@@ -97,7 +96,7 @@ namespace System
 
     void Folder::Close()
     {
-#ifdef _WIN32
+#ifdef WIN32
         SetCurrentDirectoryW((LPCWSTR)m_prev_folder_name.ToWchar().Data());
 #elif defined __gnu_linux__
         auto buffer = m_prev_folder_name.ToUtf8();
@@ -110,7 +109,7 @@ namespace System
     {
         Core::StringList res;
 
-#ifdef _WIN32
+#ifdef WIN32
         WIN32_FIND_DATA dir;
         wchar_t dirName[256];
         GetCurrentDirectoryW(256, dirName);
@@ -139,7 +138,7 @@ namespace System
 
     void Folder::DeleteFile(const Core::String& path)
     {
-#ifdef _WIN32
+#ifdef WIN32
         ::DeleteFileW((LPCWSTR)path.ToWchar().Data());
 #elif defined __gnu_linux__
         unlink(&path.ToUtf8()[0]);
@@ -151,7 +150,7 @@ namespace System
     {
         Core::StringList res;
 
-#ifdef _WIN32
+#ifdef WIN32
         WIN32_FIND_DATA dir;
         wchar_t dirName[256];
         GetCurrentDirectoryW(256, dirName);
@@ -176,7 +175,7 @@ namespace System
 
     const Core::String Folder::GetCurrentFolder()
     {
-#ifdef _WIN32
+#ifdef WIN32
         wchar_t buf[MAX_PATH];
         GetCurrentDirectoryW(MAX_PATH, buf);
         return Core::String(buf);
@@ -198,7 +197,7 @@ namespace System
 
     void Folder::SetCurrentFolder(const Core::String& value)
     {
-#ifdef _WIN32
+#ifdef WIN32
         SetCurrentDirectoryW((LPCWSTR)value.ToWchar().Data());
 #elif defined __gnu_linux__
         chdir(&value.ToUtf8()[0]);

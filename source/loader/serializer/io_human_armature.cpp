@@ -3,7 +3,7 @@
 //#include "io_armature.h"
 //
 //PUNK_ENGINE_BEGIN
-//namespace Loader {
+//namespace IoModule {
 //    void SaveHumanArmature(Core::Buffer *buffer, const Core::IObject *o)
 //    {
 //        SaveArmature(buffer, o);

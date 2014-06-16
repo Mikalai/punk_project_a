@@ -61,7 +61,7 @@ namespace Punk {
 			{
 				//	find min p
 				int min = 0;
-				for (int i = 1, max_i = points.size(); i != max_i; ++i)
+				for (int i = 1, max_i = (int)points.size(); i != max_i; ++i)
 				{
 					if (points[i].Y() < points[min].Y())
 						min = i;
@@ -83,7 +83,7 @@ namespace Punk {
 				stack.push_back(points[0]);
 				stack.push_back(points[1]);
 
-				for (int i = 2, max_i = points.size(); i < max_i; ++i)
+				for (int i = 2, max_i = (int)points.size(); i < max_i; ++i)
 				{
 					const vec2* a = &stack[stack.size() - 2];
 					const vec2* b = &stack[stack.size() - 1];

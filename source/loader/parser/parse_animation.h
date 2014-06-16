@@ -10,7 +10,7 @@ namespace Core {
 namespace Attributes {
     class Animation;
 }
-namespace Loader {
+namespace IoModule {
     extern bool ParseAnimation(Core::Buffer& buffer, Attributes::Animation* animation);
 }
 PUNK_ENGINE_END

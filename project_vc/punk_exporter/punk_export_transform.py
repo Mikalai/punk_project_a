@@ -13,6 +13,11 @@ def export_transform(object):
     f = open(file, "w")
     f.write("TRANSFORMTEXT\n")
     start_block(f, "transform")
+    if object.animation_data != None:
+        animation = object.animation_data
+        for track in animation.nla_tracks:        
+            for strip in track.strips:
+                export_string(f, "*action_ref", strip.action.name)
     export_location(f, object)
     end_block(f)
     f.close()

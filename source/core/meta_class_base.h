@@ -14,7 +14,7 @@ namespace Punk {
                 virtual ~ClassBase() {}
                 virtual size_t GetInstanceCount() const = 0;
                 virtual Object* GetInstance(size_t index) const = 0;
-                virtual void Add(Object*) = 0;
+                virtual void AddChild(Object*) = 0;
                 virtual void Remove(Object*) = 0;
             };            
         }

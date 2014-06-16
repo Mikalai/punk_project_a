@@ -7,7 +7,7 @@
 #include <string/module.h>
 
 PUNK_ENGINE_BEGIN
-namespace Loader {
+namespace IoModule {
     PUNK_ENGINE_API void SaveVector2f(Core::Buffer* buffer, const Math::vec2& value);
     PUNK_ENGINE_API void LoadVector2f(Core::Buffer* buffer, Math::vec2& value);
     PUNK_ENGINE_API void SaveVector2i(Core::Buffer* buffer, const Math::ivec2& value);

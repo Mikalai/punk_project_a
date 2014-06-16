@@ -1,7 +1,7 @@
 #include "io_vector.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader {
+namespace IoModule {
     PUNK_ENGINE_API void SaveVector2f(Core::Buffer* buffer, const Math::vec2& value) {
         for (int i = 0; i < 2; ++i)
             buffer->WriteReal32(value[i]);

@@ -13,7 +13,7 @@ namespace Graphics {
 
 	static const Core::Guid IID_ICanvas{ "32DD4B5D-3DA5-4738-A740-744077E1B223" };
 
-    class ICanvas : public virtual Core::IObject {
+    class ICanvas : public Core::IObject {
     public:
 		virtual void Initialize(const CanvasDescription& desc) = 0;
         virtual void SetFullscreen(bool value) = 0;

@@ -1,3 +1,4 @@
+#include <core/ifactory.h>
 #include <graphics/module.h>
 #include "geometry_cooker.h"
 #include "igeometry.h"
@@ -5,13 +6,33 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes {
 
-	void GeometryCooker::Cook(IGeometry* mesh, 
-		Graphics::IVertexArray* vb, 
-		Graphics::IIndexArray* ib) {
+	void GeometryCooker::QueryInterface(const Core::Guid& type, void** object) {
+		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IGeometryCooker });
+	}
 
-		if (mesh->HasVertexPositions() && mesh->HasVertexTextureCoordinates() && mesh->HasVertexNormals())
+	std::uint32_t GeometryCooker::AddRef() {
+		return m_ref_count.fetch_add(1);
+	}
+
+	std::uint32_t GeometryCooker::Release() {
+		std::uint32_t v = (m_ref_count.fetch_sub(1) - 1);
+		if (!v) {
+			delete this;
+		}
+		return v;
+	}
+
+	void GeometryCooker::Cook(IGeometry* mesh, 
+		Graphics::IVertexArray*& vb, 
+		Graphics::IIndexArray*& ib) {
+
+		vb = nullptr;
+		ib = nullptr;
+		if (mesh->HasVertexPositions() && mesh->HasFaceTextureCoordinates() && mesh->HasVertexNormals())
 			CookPositionNormalTangentBitangentTexture0(mesh, vb, ib);
-		else if (mesh->HasVertexPositions() && mesh->HasVertexTextureCoordinates())
+		else if (mesh->HasVertexPositions() && mesh->HasVertexNormals() && mesh->HasVertexBoneWeights())
+			CookPositionNormalBonesWeights(mesh, vb, ib);
+		else if (mesh->HasVertexPositions() && mesh->HasFaceTextureCoordinates())
 			CookPositionTexture0(mesh, vb, ib);
 		else if (mesh->HasVertexPositions() && mesh->HasVertexNormals())
 			CookPositionNormal(mesh, vb, ib);
@@ -33,19 +54,20 @@ namespace Attributes {
 
 		if (!mesh->HasVertexPositions())
 			throw System::Error::SystemException(L"Can't create static mesh from empty vertex list in mesh descriptor");
-		if (!mesh->HasVertexTextureCoordinates())
+		if (!mesh->HasFaceTextureCoordinates())
 			throw System::Error::SystemException(L"Can't create static mesh from mesh descriptor with empty texture coordinates list");
 		if (!mesh->HasVertexNormals())
 			throw System::Error::SystemException(L"Can't create static mesh from mesh descriptor with empty normals list");
 
 		std::vector<unsigned> ib;
 		if (mesh->IsIndexed()) {
+			int index = 0;
 			ib.resize(mesh->GetTrianglesCount() * 3);
-			for (unsigned i = 0, max_i = mesh->GetTrianglesCount(); i < max_i; i++) {
+			for (unsigned i = 0; i < mesh->GetTrianglesCount(); i++) {
 				const Math::ivec3* t = mesh->GetTriangle(i);
-				ib[3 * i + 0] = t->X();
-				ib[3 * i + 1] = t->Y();
-				ib[3 * i + 2] = t->Z();
+				ib[3 * i + 0] = index++;
+				ib[3 * i + 1] = index++;
+				ib[3 * i + 2] = index++;
 			}
 		}
 
@@ -146,12 +168,13 @@ namespace Attributes {
 
 		std::vector<unsigned> ib;
 		if (mesh->IsIndexed()) {
+			int index = 0;
 			ib.resize(mesh->GetTrianglesCount() * 3);
 			for (unsigned i = 0; i < mesh->GetTrianglesCount(); i++) {
 				const Math::ivec3* t = mesh->GetTriangle(i);
-				ib[3 * i + 0] = t->X();
-				ib[3 * i + 1] = t->Y();
-				ib[3 * i + 2] = t->Z();
+				ib[3 * i + 0] = index++;
+				ib[3 * i + 1] = index++;
+				ib[3 * i + 2] = index++;
 			}
 		}
 
@@ -217,12 +240,13 @@ namespace Attributes {
 
 		std::vector<unsigned> ib;
 		if (mesh->IsIndexed()) {
+			int index = 0;
 			ib.resize(mesh->GetTrianglesCount() * 3);
-			for (unsigned i = 0, max_i = mesh->GetTrianglesCount(); i < max_i; i++) {
+			for (unsigned i = 0; i < mesh->GetTrianglesCount(); i++) {
 				const Math::ivec3* t = mesh->GetTriangle(i);
-				ib[3 * i + 0] = t->X();
-				ib[3 * i + 1] = t->Y();
-				ib[3 * i + 2] = t->Z();
+				ib[3 * i + 0] = index++;
+				ib[3 * i + 1] = index++;
+				ib[3 * i + 2] = index++;
 			}
 		}
 
@@ -262,12 +286,13 @@ namespace Attributes {
 
 		std::vector<unsigned> ib;
 		if (mesh->IsIndexed()) {
+			int index = 0;
 			ib.resize(mesh->GetTrianglesCount() * 3);
-			for (unsigned i = 0, max_i = mesh->GetTrianglesCount(); i < max_i; i++) {
+			for (unsigned i = 0; i < mesh->GetTrianglesCount(); i++) {
 				const Math::ivec3* t = mesh->GetTriangle(i);
-				ib[3 * i + 0] = t->X();
-				ib[3 * i + 1] = t->Y();
-				ib[3 * i + 2] = t->Z();
+				ib[3 * i + 0] = index++;
+				ib[3 * i + 1] = index++;
+				ib[3 * i + 2] = index++;
 			}
 		}
 
@@ -313,12 +338,13 @@ namespace Attributes {
 
 		std::vector<unsigned> ib;
 		if (mesh->IsIndexed()) {
+			int index = 0;
 			ib.resize(mesh->GetTrianglesCount() * 3);
-			for (unsigned i = 0, max_i = mesh->GetTrianglesCount(); i < max_i; i++) {
+			for (unsigned i = 0; i < mesh->GetTrianglesCount(); i++) {
 				const Math::ivec3* t = mesh->GetTriangle(i);
-				ib[3 * i + 0] = t->X();
-				ib[3 * i + 1] = t->Y();
-				ib[3 * i + 2] = t->Z();
+				ib[3 * i + 0] = index++;
+				ib[3 * i + 1] = index++;
+				ib[3 * i + 2] = index++;
 			}
 		}
 
@@ -410,12 +436,13 @@ namespace Attributes {
 
 		std::vector<unsigned> ib;
 		if (mesh->IsIndexed()) {
+			int index = 0;
 			ib.resize(mesh->GetTrianglesCount() * 3);
-			for (unsigned i = 0, max_i = mesh->GetTrianglesCount(); i < max_i; i++) {
+			for (unsigned i = 0; i < mesh->GetTrianglesCount(); i++) {
 				const Math::ivec3* t = mesh->GetTriangle(i);
-				ib[3 * i + 0] = t->X();
-				ib[3 * i + 1] = t->Y();
-				ib[3 * i + 2] = t->Z();
+				ib[3 * i + 0] = index++;
+				ib[3 * i + 1] = index++;
+				ib[3 * i + 2] = index++;
 			}
 		}
 
@@ -451,7 +478,7 @@ namespace Attributes {
 				vb[index].m_tangent.Set(tgn[0], tgn[1], tgn[2], det);
 				vb[index].m_bitangent.Set(btn[0], btn[1], btn[2], 0);
 
-				CookOneVertexWithBone(mesh, (*f)[j], vb[index].m_bones_id, vb[index].m_bone_weights);
+				CookOneVertexWithBone(mesh, (*f)[j], vb[index].m_bone_id, vb[index].m_bone_weight);
 
 				base_index.push_back((*f)[j]);
 				index++;
@@ -506,5 +533,103 @@ namespace Attributes {
 
 	}
 
+	void GeometryCooker::CookPositionNormalBonesWeights(IGeometry* mesh, 
+		Graphics::IVertexArray*& _vb, 
+		Graphics::IIndexArray*& _ib)
+	{
+		using namespace Graphics;
+		using CurrentVertex = Vertex<VertexComponent::Position,
+			VertexComponent::Normal,
+			VertexComponent::BoneID,
+			VertexComponent::BoneWeight>;
+
+		if (!mesh)
+			throw System::Error::SystemException(L"Can't created skinned mesh from NULL mesh descriptor");
+		if (!mesh->HasVertexPositions())
+			throw System::Error::SystemException(L"Can't create skinned mesh from empty vertex list in mesh descriptor");
+		if (!mesh->HasVertexNormals())
+			throw System::Error::SystemException(L"Can't create skinned mesh from mesh descriptor with empty normals list");
+		if (!mesh->HasVertexBoneWeights())
+			throw System::Error::SystemException(L"Can't create skinned mesh from mesh descriptor with empty bones weights list");
+
+		std::vector<unsigned> ib;
+		if (mesh->IsIndexed()) {
+			int index = 0;
+			ib.resize(mesh->GetTrianglesCount() * 3);
+			for (unsigned i = 0; i < mesh->GetTrianglesCount(); i++) {
+				const Math::ivec3* t = mesh->GetTriangle(i);
+				ib[3 * i + 0] = index++;
+				ib[3 * i + 1] = index++;
+				ib[3 * i + 2] = index++;
+			}
+		}
+
+		std::vector<CurrentVertex> vb(mesh->GetTrianglesCount() * 3);
+
+		std::vector<int> base_index;		/// contains vertex index in the source array
+		int index = 0;
+		for (unsigned i = 0, max_i = mesh->GetTrianglesCount(); i < max_i; i++)
+		{
+			const Math::ivec3* f = mesh->GetTriangle(i);
+			const Math::vec3* position[3] = { mesh->GetVertexPosition(f->X()), mesh->GetVertexPosition(f->Y()), mesh->GetVertexPosition(f->Z()) };
+			const Math::vec3* normal[3] = { mesh->GetVertexNormal(f->X()), mesh->GetVertexNormal(f->Y()), mesh->GetVertexNormal(f->Z()) };
+
+			Math::vec3 tgn;
+			Math::vec3 nrm;
+			Math::vec3 btn;
+			float det;
+
+			//	for each vertex in the triangle
+			for (int j = 0; j < 3; ++j)
+			{
+				int index_0 = j;
+				int index_1 = (j + 1) % 3;
+				int index_2 = (j + 2) % 3;
+
+				vb[index].m_position = *position[index_0];
+				vb[index].m_normal = *normal[index_0];
+
+				CookOneVertexWithBone(mesh, (*f)[j], vb[index].m_bone_id, vb[index].m_bone_weight);
+
+				base_index.push_back((*f)[j]);
+				index++;
+			}
+		}
+
+		/// Smooth TBN
+		std::vector<int> mask(vb.size());
+		for (int i = 0; i < (int)vb.size(); i++)
+		{
+			Math::vec3 norm;
+			Math::vec3 tang;
+			Math::vec3 btan;
+			for (int j = 0; j < (int)vb.size(); j++)
+			{
+				CurrentVertex* v = &vb[j];
+				if (base_index[j] == i)
+				{
+					norm += v->m_normal.XYZ();
+				}
+			}
+
+			norm.Normalize();
+
+			for (int j = 0; j < (int)vb.size(); j++)
+			{
+				CurrentVertex* v = &vb[j];
+				if (base_index[j] == i)
+				{
+					v->m_normal = norm;
+				}
+			}
+		}
+
+		_vb = new VertexArray<CurrentVertex>(vb);
+		if (mesh->IsIndexed())
+			_ib = new IndexArray<unsigned>(ib);
+
+	}
+
+	PUNK_REGISTER_CREATOR(IID_IGeometryCooker, (Core::CreateInstance<GeometryCooker, IGeometryCooker>));
 }
 PUNK_ENGINE_END

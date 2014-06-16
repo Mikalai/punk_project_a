@@ -5,7 +5,7 @@
 //#include "io_sun.h"
 //
 //PUNK_ENGINE_BEGIN
-//namespace Loader {
+//namespace IoModule {
 //
 //    void SaveSun(Core::Buffer *buffer, const Core::IObject *o)
 //    {

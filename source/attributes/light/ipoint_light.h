@@ -6,9 +6,9 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes {
 
-	DEFINE_PUNK_GUID(IID_IPointLight, "A47DC1CE-9234-4A05-9456-114A1363DC02");
+	DECLARE_PUNK_GUID(IID_IPointLight, "A47DC1CE-9234-4A05-9456-114A1363DC02");
 
-	class IPointLight : public virtual ILight {	
+	class IPointLight : public ILight {	
 	public:		
 		virtual void SetDistance(float value) = 0;
 		virtual float GetDistance() const = 0;

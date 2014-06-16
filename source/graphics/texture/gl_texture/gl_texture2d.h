@@ -13,9 +13,15 @@ namespace Graphics {
 
         class PUNK_ENGINE_LOCAL GlTexture2D : public ITexture2D {
         public:
-            GlTexture2D(IVideoDriver* driver);
-            GlTexture2D(GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid *pixels, GLboolean use_mipmaps, IVideoDriver* driver);
+            GlTexture2D();
             virtual ~GlTexture2D();
+
+			//	IObject
+			void QueryInterface(const Core::Guid& type, void** object) override;
+			std::uint32_t AddRef() override;
+			std::uint32_t Release() override;
+
+			//	ITexture
             bool IsValid() const override;
             std::uint32_t GetMemoryUsage() const override;
             void SetMinFilter(TextureFilter value) override;
@@ -27,6 +33,16 @@ namespace Graphics {
             void Bind(std::int32_t slot) override;
             void Unbind() override;
             IVideoDriver* GetVideoDriver() override;
+
+			//	ITexture2D
+			void Initialize(ImageModule::ImageFormat internalformat, std::uint32_t width, std::uint32_t height, std::int32_t border, ImageModule::ImageFormat format, ImageModule::DataType type, const void *pixels, bool use_mipmaps, IVideoDriver* driver) override;
+			void Initialize(int width, int height, ImageModule::ImageFormat internal_format, ImageModule::ImageFormat format, ImageModule::DataType type, const void* data, bool use_mipmaps, IVideoDriver* driver) override;
+			void Initialize(int width, int height, ImageModule::ImageFormat format, const void* data, bool use_mipmaps, IVideoDriver* driver) override;
+			void Initialize(int width, int height, ImageModule::ImageFormat internal_format, ImageModule::ImageFormat format, const void* data, bool use_mipmaps, IVideoDriver* driver) override;
+			void Initialize(const ImageModule::IImage* image, bool use_mipmaps, IVideoDriver* driver) override;
+			void Initialize(const Core::String& path, bool use_mipmaps, IVideoDriver* driver) override;
+			void Initialize(Core::Buffer* buffer, bool use_mip_maps, IVideoDriver* driver) override;
+			void Initialize(const ImageModule::IImage* mage, ImageModule::ImageFormat internal_format, bool use_mipmaps, IVideoDriver* driver) override;
             void CopyFromCpu(std::int32_t x, std::int32_t y, std::uint32_t width, std::uint32_t height, const void* data) override;
             void Resize(std::uint32_t width, std::uint32_t height) override;
             void Fill(std::uint8_t data) override;
@@ -42,16 +58,19 @@ namespace Graphics {
             void SetCompareFunction(GLenum value);
             void SetCompareMode(GLenum value);
 
-            GLsizei GetPixelSize(GLenum format);
-            GLenum GetInternalFormat(GLenum format);
-            GLboolean Create(GLsizei width, GLsizei height, GLenum internal_format, GLenum format, GLenum type, const GLvoid* source, GLboolean use_mipmaps);
+            static GLsizei GetPixelSize(GLenum format);
+            static GLenum GetInternalFormat(GLenum format);
+			static ImageModule::ImageFormat GetInternalFormat(ImageModule::ImageFormat format);
+			GLboolean Create(GLsizei width, GLsizei height, GLenum internal_format, GLenum format, GLenum type, const GLvoid* source, GLboolean use_mipmaps, IVideoDriver* driver);
             void Clear();
             void UpdateMipMaps();
             GLuint GetIndex() const;
         private:
-
-            GlVideoDriver* m_driver {nullptr};
-            PixelBufferObject* m_pbo {nullptr};
+			void AssertInitialized() const;
+		private:
+			bool m_initialized = false;
+            IVideoDriver* m_driver {nullptr};
+            IBufferObject* m_pbo {nullptr};
             GLuint m_texture_id {0};
             GLsizei m_width {0};
             GLsizei m_height {0};
@@ -61,6 +80,7 @@ namespace Graphics {
             GLenum m_format {0};
             GLenum m_internal_format {0};
             GLenum m_internal_type {0};
+			std::atomic<std::uint32_t> m_ref_count{ 1 };
         };
     }
 }

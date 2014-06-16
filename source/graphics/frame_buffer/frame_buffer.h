@@ -26,8 +26,8 @@ namespace Graphics {
     protected:
         FrameBufferConfig* m_config {nullptr};
         IVideoDriver* m_driver {nullptr};
-        ITexture2DUniquePtr m_color_texture {nullptr, DestroyTexture2D};
-        ITexture2DUniquePtr m_depth_texture {nullptr, DestroyTexture2D};
+        ITexture2DUniquePtr m_color_texture {nullptr, Core::DestroyObject};
+		ITexture2DUniquePtr m_depth_texture{ nullptr, Core::DestroyObject};
     };    
 }
 PUNK_ENGINE_END

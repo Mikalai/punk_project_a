@@ -6,7 +6,7 @@
 PUNK_ENGINE_BEGIN
 namespace Core { class Buffer; }
 namespace AI { class NaviMesh; }
-namespace Loader {
+namespace IoModule {
     extern bool ParseNaviMesh(Core::Buffer& buffer, AI::NaviMesh* value);
 }
 PUNK_ENGINE_END

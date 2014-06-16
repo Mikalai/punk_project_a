@@ -6,7 +6,7 @@
 //PUNK_ENGINE_BEGIN
 //namespace Core { class Buffer; }
 //namespace Math { class Spline; }
-//namespace Loader {
+//namespace IoModule {
 //    extern bool ParseSpline(Core::Buffer& buffer, Math::Spline& value);
 //}
 //PUNK_ENGINE_END

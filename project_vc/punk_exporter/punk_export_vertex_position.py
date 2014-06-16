@@ -15,7 +15,7 @@ def export_vertex_position(f, mesh):
     #f.write("%d\n" % len(mesh.vertices))
     for vertex in mesh.vertices:
         make_offset(f)
-        f.write("{0} {1} {2} {3}\n".format(vertex.index, vertex.co.x, vertex.co.y, vertex.co.z))
+        f.write("{0} {1} {2}\n".format(vertex.co.x, vertex.co.y, vertex.co.z))
 
     end_block(f)
     return

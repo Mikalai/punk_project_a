@@ -33,7 +33,7 @@ namespace AI
         Core::String m_name;
 		Math::ICurve* m_curve{ nullptr };
     private:
-        PUNK_OBJECT_DEFAULT_IMPL3(CurvePath)
+        PUNK_OBJECT_DEFAULT_IMPL(CurvePath)
     };
 }
 PUNK_ENGINE_END

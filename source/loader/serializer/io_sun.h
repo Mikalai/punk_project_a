@@ -8,7 +8,7 @@
 //    class Buffer;
 //    class IObject;
 //}
-//namespace Loader {
+//namespace IoModule {
 //    void SaveSun(Core::Buffer *buffer, const Core::IObject *o);
 //    void LoadSun(Core::Buffer *buffer, Core::IObject *o);
 //}

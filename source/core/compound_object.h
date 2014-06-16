@@ -16,7 +16,7 @@
 //        virtual const String ToString() const;
 //        virtual ~CompoundObject();
 
-//        bool Add(Object* object);
+//        bool AddChild(Object* object);
 
 //        bool Remove(Object* object, bool depth = false);
 //        bool Remove(int index);

@@ -1,9 +1,9 @@
 //#include "parse_functions.h"
 //#include "../../scene/module.h"
 
-//namespace Loader
+//namespace IoModule
 //{
-//    bool ParseRiverNode(Core::Buffer &buffer, Scene::RiverNode &value)
+//    bool ParseRiverNode(Core::Buffer &buffer, SceneModule::RiverNode &value)
 //    {
 //        CHECK_START(buffer);
 //        while (1)

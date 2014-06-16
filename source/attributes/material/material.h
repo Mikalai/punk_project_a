@@ -23,8 +23,13 @@ namespace Attributes
         Material(const Material&) = delete;
         Material& operator = (const Material&) = delete;
         virtual ~Material();
-
+		
+		//	IObject
 		void QueryInterface(const Core::Guid& type, void** object) override;
+		std::uint32_t AddRef() override;
+		std::uint32_t Release() override;
+
+		//	IMaterial
 		void SetDiffuseTextureSlot(IDiffuseTextureSlot* value) override { m_diffuse_textue_slot = value; }
 		void SetNormalTextureSlot(INormalTextureSlot* value) override { m_normal_texture_slot = value; }
 		void SetSpecularTextureSlot(ISpecularIntensityTextureSlot* value) override { m_specular_texture_slot = value; }
@@ -105,8 +110,7 @@ namespace Attributes
 		float m_specular_index_of_refraction;
 		float m_specular_slope;
 		float m_translucency;				
-
-        PUNK_OBJECT_DEFAULT_IMPL3(Material)
+		std::atomic<std::uint32_t> m_ref_count{ 1 };
 	};
 
 	typedef std::map<Core::String, Material> Materials;

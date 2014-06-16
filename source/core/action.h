@@ -3,6 +3,8 @@
 
 #include <algorithm>
 #include <vector>
+#include <cstdint>
+#include <atomic>
 #include "config.h"
 //#include <core/atomicint.h>
 
@@ -19,28 +21,32 @@ namespace Core {
             */
     class MetaAction
     {
-    public:
+    public:		
+    
+		std::uint32_t AddRef()
+		{
+			return m_ref_count.fetch_add(1);
+		}
 
-//        void AddRef()
-//        {
-//            m_ref_count.FetchAndAddAcquire(1);
-//        }
+		std::uint32_t Release()
+		{
+			auto v = m_ref_count.fetch_sub(1) - 1;
+			if (!v)
+				delete this;
+			return v;
+		}
 
-//        void Release()
-//        {
-//            if (!m_ref_count.FetchAndAddRelease(-1))
-//                delete this;
-//        }
-
-//    private:
-//        AtomicInt m_ref_count {1};
+	protected:
+		virtual ~MetaAction() {}
+    private:		
+		std::atomic<std::uint32_t> m_ref_count{ 1 };
     };
 
     template<typename... Types>
     class ActionBase : public MetaAction
     {
     public:
-        virtual void operator () (Types...) = 0;
+        virtual void operator () (Types...) = 0;			
     };
 
     template<>
@@ -66,9 +72,10 @@ namespace Core {
                 (m_object->*m_method)(value...);
             }
         }
+
     private:
         O* m_object;
-        void (O::*m_method)(Types...);
+        void (O::*m_method)(Types...);		
     };
 
     template<typename... T>

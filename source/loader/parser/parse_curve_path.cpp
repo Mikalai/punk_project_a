@@ -3,7 +3,7 @@
 #include "parser.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader
+namespace IoModule
 {
     bool ParseCurvePath(Core::Buffer &buffer, void* object)
     {

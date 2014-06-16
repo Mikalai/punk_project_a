@@ -13,5 +13,6 @@
 #include "rtti.h"
 #include "static_information.h"
 #include "component/module.h"
+#include "object_pool.h"
 
 #endif // MODULE_H

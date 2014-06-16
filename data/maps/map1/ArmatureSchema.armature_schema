@@ -1,0 +1,66 @@
+ARMATURESCHEMATEXT
+ArmatureSchema {
+  *action_ref {
+    animation
+  }
+  *action_ref {
+    another_animation
+  }
+  *bone {
+    *index {
+      0
+    }
+    *name {
+      Bone
+    }
+    *length {
+      2.0
+    }
+    *position {
+      0.0 0.0 0.0
+    }
+    *rotation {
+      0.7071068286895752 0.7071068286895752 0.0 0.0
+    }
+  }
+  *bone {
+    *index {
+      1
+    }
+    *name {
+      Bone.001
+    }
+    *length {
+      2.0000000000000058
+    }
+    *parent {
+      0
+    }
+    *position {
+      0.0 2.0 0.0
+    }
+    *rotation {
+      1.0 0.0 0.0 0.0
+    }
+  }
+  *bone {
+    *index {
+      2
+    }
+    *name {
+      Bone.002
+    }
+    *length {
+      2.0000000000000058
+    }
+    *parent {
+      1
+    }
+    *position {
+      0.0 2.0 0.0
+    }
+    *rotation {
+      1.0 0.0 0.0 0.0
+    }
+  }
+}

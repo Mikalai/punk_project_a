@@ -6,9 +6,9 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-	DEFINE_PUNK_GUID(IID_ISpotLight, "179A7B61-C0CD-4BB3-9C39-1D3DB75E2511");
+	DECLARE_PUNK_GUID(IID_ISpotLight, "179A7B61-C0CD-4BB3-9C39-1D3DB75E2511");
 
-    class ISpotLight : public virtual ILight {
+    class ISpotLight : public ILight {
     public:
     };
 }

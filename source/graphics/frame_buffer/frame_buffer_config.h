@@ -15,11 +15,11 @@ namespace Graphics
         const Core::String& Name() const;
         void Name(const Core::String& value);
 
-        Image::ImageFormat ColorFormat() const;
-        void ColorFormat(Image::ImageFormat value);
+        ImageModule::ImageFormat ColorFormat() const;
+        void ColorFormat(ImageModule::ImageFormat value);
 
-        Image::ImageFormat DepthFormat() const;
-        void DepthFormat(Image::ImageFormat value);
+        ImageModule::ImageFormat DepthFormat() const;
+        void DepthFormat(ImageModule::ImageFormat value);
 
         int RedBitsCount() const;
         void RedBitsCount(int value);
@@ -41,8 +41,8 @@ namespace Graphics
 
     private:
         Core::String m_name;
-        Image::ImageFormat m_color_format;
-        Image::ImageFormat m_depth_format;
+        ImageModule::ImageFormat m_color_format;
+        ImageModule::ImageFormat m_depth_format;
         int m_red_bits;
         int m_depth_bits;
         int m_depth_samples;

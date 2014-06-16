@@ -12,9 +12,9 @@ namespace Attributes {
 	
 	class IBone;
 
-	DEFINE_PUNK_GUID(IID_IArmatureSchema, "3D4368D1-471B-43FE-BCAF-51E389775B3E");
+	DECLARE_PUNK_GUID(IID_IArmatureSchema, "3D4368D1-471B-43FE-BCAF-51E389775B3E");
 
-	class IArmatureSchema : public virtual Core::IObject {
+	class IArmatureSchema : public Core::IObject {
 	public:
 		virtual std::uint32_t GetBonesCount() const = 0;
 		virtual IBone* GetBone(std::uint32_t index) = 0;
@@ -27,6 +27,8 @@ namespace Attributes {
 		virtual std::uint32_t GetSupportedActionsCount() const = 0;
 		virtual const Core::String& GetSupportedAction(std::uint32_t index) const = 0;
 		virtual void AddSupportedAction(const Core::String& name) = 0;
+		virtual void SetName(const Core::String& value) = 0;
+		virtual const Core::String& GetName() const = 0;
 	};
 
 	using IArmatureSchemaUniquePtr = Core::UniquePtr < IArmatureSchema > ;

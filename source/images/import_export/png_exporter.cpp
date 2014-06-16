@@ -1,17 +1,17 @@
 #include <stdio.h>
-#include "string/module.h"
+#include <string/module.h>
+#include <images/error/module.h>
+#include <images/iimage.h>
 #include "png_exporter.h"
-#include "images/internal_images/image.h"
-#include "images/error/module.h"
 
 #ifdef USE_LIB_PNG
 #include <libpng/png.h>
 #endif // USE_LIB_PNG
 
 PUNK_ENGINE_BEGIN
-namespace Image
+namespace ImageModule
 {
-    void PngExporter::Export(const Core::String& filename, const Image& image)
+    void PngExporter::Export(const Core::String& filename, const IImage* image)
 	{
         #ifdef USE_LIB_PNG
 		FILE *fp;
@@ -76,20 +76,24 @@ namespace Image
 		*/
 
 		int format;
-		switch (image.GetImageFormat())
+		int bits;
+		switch (image->GetFormat())
 		{
         case ImageFormat::ALPHA:
 			format = PNG_COLOR_TYPE_GRAY;
+			bits = 8;
 			break;
         case ImageFormat::RGB:
 			format = PNG_COLOR_TYPE_RGB;
+			bits = 24;
 			break;
 		case ImageFormat::RGBA:
 			format = PNG_COLOR_TYPE_RGBA;
+			bits = 32;
 			break;
 		}
 
-		png_set_IHDR(png_ptr, info_ptr, image.GetWidth(), image.GetHeight(), image.GetBitDepth(), format,
+		png_set_IHDR(png_ptr, info_ptr, image->GetWidth(), image->GetHeight(), bits, format,
 			PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
 
 
@@ -131,10 +135,10 @@ namespace Image
 		if (format == PNG_COLOR_TYPE_RGBA)
 			mult = 4;
 
-		png_bytepp row_pointers = new png_bytep[image.GetHeight()];
-		for (int k = 0; k < (int)image.GetHeight(); k++)
+		png_bytepp row_pointers = new png_bytep[image->GetHeight()];
+		for (int k = 0; k < (int)image->GetHeight(); k++)
 		{
-			unsigned char *ptr = (unsigned char*)(image.GetData()) + k*image.GetWidth()*mult;
+			unsigned char *ptr = (unsigned char*)(image->GetData()) + k*image->GetWidth()*mult;
 			row_pointers[k] = ptr;
 		}
 

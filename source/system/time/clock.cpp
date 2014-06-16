@@ -11,7 +11,6 @@ PUNK_ENGINE_BEGIN
 namespace System {
 
 	Clock::Clock()
-		: m_container{ this, Core::GetRootObject() }
 	{                
         m_time = 0;
         m_us = 0;
@@ -144,6 +143,10 @@ namespace System {
         str[24] = L'\0';
         return str;
 #endif
+	}
+
+	const Core::String Clock::ToString() const {
+		return "Clock";
 	}
 
     const Core::String Clock::SysTimeNowAsLocal()

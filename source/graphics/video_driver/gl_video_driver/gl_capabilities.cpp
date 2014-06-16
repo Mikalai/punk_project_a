@@ -99,7 +99,7 @@ namespace Graphics {
                 for (RenderBufferConfig& depth_config : depth_configs)
                 {
                     FrameBufferConfig fb_config;
-                    Core::String root = color_config.Name() + " " + depth_config.Name();
+                    Core::String root = color_config.Name() + " " + depth_config.Name();					
                     fb_config.Name(root);
                     fb_config.ColorFormat(color_config.Format());
                     fb_config.DepthFormat(depth_config.Format());
@@ -110,6 +110,7 @@ namespace Graphics {
 
                     try
                     {
+						System::GetDefaultLogger()->Info("Check frame buffer config " + fb_config.Name());
                         GlFrameBuffer frame_buffer(driver);
                         frame_buffer.Config(fb_config);
                         value.push_back(fb_config);
@@ -138,6 +139,7 @@ namespace Graphics {
 
                             try
                             {
+								System::GetDefaultLogger()->Info("Check frame buffer config " + fb_config.Name());
                                 GlFrameBuffer frame_buffer(driver);
                                 frame_buffer.Config(fb_config);
                                 value.push_back(fb_config);
@@ -155,6 +157,7 @@ namespace Graphics {
 
                             try
                             {
+								System::GetDefaultLogger()->Info("Check frame buffer config " + fb_config.Name());
                                 GlFrameBuffer frame_buffer(driver);
                                 frame_buffer.Config(fb_config);
 
@@ -177,19 +180,19 @@ namespace Graphics {
             RenderBufferConfig config;
             config.Name("RGBA8");
             config.Bits(8);
-            config.Format(Image::ImageFormat::RGBA8);
+            config.Format(ImageModule::ImageFormat::RGBA8);
             value.push_back(config);
 
             config.Name("RGB10_A2");
             config.Bits(10);
-            config.Format(Image::ImageFormat::RGB10_A2);
+            config.Format(ImageModule::ImageFormat::RGB10_A2);
             value.push_back(config);
 
             if (IsSupported("GL_EXT_texture_sRGB", driver) && IsSupported("GL_EXT_framebuffer_sRGB", driver))
             {
                 config.Name("sRGB8_A8");
                 config.Bits(8);
-                config.Format(Image::ImageFormat::SRGB8_ALPHA8);
+                config.Format(ImageModule::ImageFormat::SRGB8_ALPHA8);
                 value.push_back(config);
             }
 
@@ -197,12 +200,12 @@ namespace Graphics {
             {
                 config.Name("RGBA16F");
                 config.Bits(16);
-                config.Format(Image::ImageFormat::RGBA16F);
+                config.Format(ImageModule::ImageFormat::RGBA16F);
                 value.push_back(config);
 
                 config.Name("RGBA32F");
                 config.Bits(32);
-                config.Format(Image::ImageFormat::RGBA32F);
+                config.Format(ImageModule::ImageFormat::RGBA32F);
                 value.push_back(config);
             }
 
@@ -210,7 +213,7 @@ namespace Graphics {
             {
                 config.Name("RG11F_B10F");
                 config.Bits(11);
-                config.Format(Image::ImageFormat::R11F_G11F_B10F);
+                config.Format(ImageModule::ImageFormat::R11F_G11F_B10F);
                 value.push_back(config);
             }
         }
@@ -220,14 +223,14 @@ namespace Graphics {
             RenderBufferConfig config;
             config.Name("D24");
             config.Bits(24);
-            config.Format(Image::ImageFormat::DEPTH_COMPONENT24);
+            config.Format(ImageModule::ImageFormat::DEPTH_COMPONENT24);
             value.push_back(config);
 
             if (IsSupported("GL_NV_depth_buffer_float", driver))
             {
                 config.Name("D32F");
                 config.Bits(32);
-                config.Format(Image::ImageFormat::DEPTH_COMPONENT32F);
+                config.Format(ImageModule::ImageFormat::DEPTH_COMPONENT32F);
                 value.push_back(config);
             }
         }

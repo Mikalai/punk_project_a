@@ -14,12 +14,14 @@ namespace Graphics {
         class GlRenderableBuilder : public RenderableBuilder
         {
         public:
-            GlRenderableBuilder(IVideoDriver* driver);
+            GlRenderableBuilder();
             virtual ~GlRenderableBuilder();
 
+			void QueryInterface(const Core::Guid& type, void** object) override;
             void Begin(const PrimitiveType& value) override;
             IRenderable* ToRenderable() override;
             void End() override;
+			IRenderable* ToRenderable(PrimitiveType type, IVertexArray* vb, IIndexArray* ib) override;
 
         private:
 
@@ -29,6 +31,8 @@ namespace Graphics {
             IRenderable* BuildVertexBufferPTC(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& texcoord, const std::vector<Math::vec4>& color);
             IRenderable* BuildVertexBufferPN(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& normal);
             IRenderable* BuildVertexBufferPNT0(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& normal, const std::vector<Math::vec4>& texcoord);
+
+			PUNK_OBJECT_DEFAULT_IMPL(RenderableBuilder)
         };
     }
 }

@@ -5,9 +5,9 @@
 //
 //PUNK_ENGINE_BEGIN
 //namespace Core { class Buffer; }
-//namespace Scene { class ISceneGraph; }
-//namespace Loader {
-//    PUNK_ENGINE_LOCAL bool ParseSceneGraph(Core::Buffer& buffer, Scene::ISceneGraph* value);
+//namespace SceneModule { class ISceneGraph; }
+//namespace IoModule {
+//    PUNK_ENGINE_LOCAL bool ParseSceneGraph(Core::Buffer& buffer, SceneModule::ISceneGraph* value);
 //}
 //PUNK_ENGINE_END
 //

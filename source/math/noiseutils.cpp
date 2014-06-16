@@ -399,36 +399,36 @@ void NoiseMap::TakeOwnership (NoiseMap& source)
 //////////////////////////////////////////////////////////////////////////////
 // Image class
 
-Image::Image ()
+ImageModule::Image ()
 {
   InitObj ();
 }
 
-Image::Image (int width, int height)
+ImageModule::Image (int width, int height)
 {
   InitObj ();
   SetSize (width, height);
 }
 
-Image::Image (const Image& rhs)
+ImageModule::Image (const Image& rhs)
 {
   InitObj ();
   CopyImage (rhs);
 }
 
-Image::~Image ()
+ImageModule::~Image ()
 {
   delete[] m_pImage;
 }
 
-Image& Image::operator= (const Image& rhs)
+Image& ImageModule::operator= (const Image& rhs)
 {
   CopyImage (rhs);
 
   return *this;
 }
 
-void Image::Clear (const Color& value)
+void ImageModule::Clear (const Color& value)
 {
   if (m_pImage != NULL) {
     for (int y override; y < m_height; y++) {
@@ -440,7 +440,7 @@ void Image::Clear (const Color& value)
   }
 }
 
-void Image::CopyImage (const Image& source)
+void ImageModule::CopyImage (const Image& source)
 {
   // Resize the image buffer, then copy the slabs from the source image
   // buffer to this image buffer.
@@ -455,13 +455,13 @@ void Image::CopyImage (const Image& source)
   m_borderValue = source.m_borderValue;
 }
 
-void Image::DeleteImageAndReset ()
+void ImageModule::DeleteImageAndReset ()
 {
   delete[] m_pImage;
   InitObj ();
 }
 
-Color Image::GetValue (int x, int y) const
+Color ImageModule::GetValue (int x, int y) const
 {
   if (m_pImage != NULL) {
     if (x >= 0 && x < m_width && y >= 0 && y < m_height) {
@@ -473,7 +473,7 @@ Color Image::GetValue (int x, int y) const
   return m_borderValue;
 }
 
-void Image::InitObj ()
+void ImageModule::InitObj ()
 {
   m_pImage  = NULL;
   m_height  override;
@@ -483,7 +483,7 @@ void Image::InitObj ()
   m_borderValue = Color (0, 0, 0, 0);
 }
 
-void Image::ReclaimMem ()
+void ImageModule::ReclaimMem ()
 {
   size_t newMemUsage = CalcMinMemUsage (m_width, m_height);
   if (m_memUsed > newMemUsage) {
@@ -503,7 +503,7 @@ void Image::ReclaimMem ()
   }
 }
 
-void Image::SetSize (int width, int height)
+void ImageModule::SetSize (int width, int height)
 {
   if (width < 0 || height < 0
     || width > RASTER_MAX_WIDTH || height > RASTER_MAX_HEIGHT) {
@@ -536,7 +536,7 @@ void Image::SetSize (int width, int height)
   }
 }
 
-void Image::SetValue (int x, int y, const Color& value)
+void ImageModule::SetValue (int x, int y, const Color& value)
 {
   if (m_pImage != NULL) {
     if (x >= 0 && x < m_width && y >= 0 && y < m_height) {
@@ -545,7 +545,7 @@ void Image::SetValue (int x, int y, const Color& value)
   }
 }
 
-void Image::TakeOwnership (Image& source)
+void ImageModule::TakeOwnership (Image& source)
 {
   // Copy the values and the image buffer from the source image to this image.
   // Now this image pwnz the source buffer.
@@ -1070,7 +1070,7 @@ void RendererImage::ClearGradient ()
   m_gradient.Clear ();
 }
 
-void RendererImage::Render ()
+void RendererImage::LowLevelRender ()
 {
   if ( m_pSourceNoiseMap == NULL
     || m_pDestImage == NULL
@@ -1239,7 +1239,7 @@ Color RendererNormalMap::CalcNormalColor (double nc, double nr, double nu,
   return Color (xc, yc, zc, 0);
 }
 
-void RendererNormalMap::Render ()
+void RendererNormalMap::LowLevelRender ()
 {
   if ( m_pSourceNoiseMap == NULL
     || m_pDestImage == NULL

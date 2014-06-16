@@ -8,7 +8,7 @@
 //    class Buffer;
 //    class IObject;
 //}
-//namespace Loader {
+//namespace IoModule {
 //    void SaveTerrainMesh(Core::Buffer *buffer, const Core::IObject *o);
 //    void LoadTerrainMesh(Core::Buffer *buffer, Core::IObject *o);
 //}

@@ -9,7 +9,7 @@
 //#include <string/module.h>
 //
 //PUNK_ENGINE_BEGIN
-//namespace Loader {
+//namespace IoModule {
 //    extern bool ParseFloat(Core::Buffer& buffer, float& value);
 //    extern bool ParseInteger(Core::Buffer& buffer, int& value);
 //    extern bool ParseVector2f(Core::Buffer& buffer, Math::vec2& value);

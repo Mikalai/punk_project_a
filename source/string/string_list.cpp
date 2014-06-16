@@ -73,7 +73,7 @@ namespace Core {
 	}
 
 	std::uint32_t StringList::Size() const {
-		return impl->m_list.size();
+		return (std::uint32_t)impl->m_list.size();
 	}
 
 	StringList& StringList::operator << (const String& value) {

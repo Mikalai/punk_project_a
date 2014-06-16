@@ -8,7 +8,7 @@
 //    class IObject;
 //    class Buffer;
 //}
-//namespace Loader {
+//namespace IoModule {
 //    void SaveAction(Core::Buffer *buffer, const Core::IObject *o);
 //    void LoadAction(Core::Buffer *buffer, Core::IObject *o);
 //}

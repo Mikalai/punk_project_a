@@ -2,7 +2,7 @@
 #include "parser.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader
+namespace IoModule
 {
     bool ParsePositionTrack(Core::Buffer& buffer, void* object)
     {

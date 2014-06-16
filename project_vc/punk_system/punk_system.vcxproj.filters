@@ -140,9 +140,6 @@
     <ClInclude Include="..\..\source\system\input\module.h">
       <Filter>input</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\system\input\mouse.h">
-      <Filter>input</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\system\logger\console_consumer.h">
       <Filter>logger</Filter>
     </ClInclude>
@@ -251,6 +248,21 @@
     <ClInclude Include="..\..\source\system\input\iconsole.h">
       <Filter>input</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\system\module\imodule_manager.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\module\module_manager.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\module\module.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\concurrency\ithread_pool.h">
+      <Filter>concurrency</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\module\imodule.h">
+      <Filter>module</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\system\config_file.cpp" />
@@ -347,9 +359,6 @@
     <ClCompile Include="..\..\source\system\input\keymap.cpp">
       <Filter>input</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\system\input\mouse.cpp">
-      <Filter>input</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\system\logger\console_consumer.cpp">
       <Filter>logger</Filter>
     </ClCompile>
@@ -401,6 +410,12 @@
     <ClCompile Include="..\..\source\system\window\x11_window.cpp">
       <Filter>window</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\system\input\imouse.cpp">
+      <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\module\imodule_manager.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="aop">
@@ -435,6 +450,9 @@
     </Filter>
     <Filter Include="window">
       <UniqueIdentifier>{cf1173b4-5210-4f2e-8dfc-4b4d3fa23526}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module">
+      <UniqueIdentifier>{9f47dfe6-9719-45c9-a557-3cbd2f182ad1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -5,7 +5,7 @@
 //#include <attributes/animation/animation_mixer.h>
 //
 //PUNK_ENGINE_BEGIN
-//namespace Loader {
+//namespace IoModule {
 //    PUNK_ENGINE_API void SaveAnimationMixer(Core::Buffer* buffer, const Core::IObject* anim);
 //    PUNK_ENGINE_API void LoadAnimationMixer(Core::Buffer* buffer, Core::IObject* anim);
 //}

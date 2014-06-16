@@ -4,7 +4,7 @@
 //#include "parse_sun.h"
 //
 //PUNK_ENGINE_BEGIN
-//namespace Loader
+//namespace IoModule
 //{
 //    bool ParseSun(Core::Buffer &buffer, Attributes::Sun &value)
 //    {

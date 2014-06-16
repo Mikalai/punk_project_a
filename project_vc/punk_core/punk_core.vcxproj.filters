@@ -60,5 +60,7 @@
     <ClInclude Include="..\..\source\core\ifactory.h" />
     <ClInclude Include="..\..\source\core\factory.h" />
     <ClInclude Include="..\..\source\core\guid.h" />
+    <ClInclude Include="..\..\source\core\icompound_object.h" />
+    <ClInclude Include="..\..\source\core\object_pool.h" />
   </ItemGroup>
 </Project>

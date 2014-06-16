@@ -9,6 +9,7 @@
 PUNK_ENGINE_BEGIN
 namespace Graphics {
 
+
     template<typename IndexType> class IndexArray : public IIndexArray  {
     public:
 
@@ -36,16 +37,27 @@ namespace Graphics {
             return GetIndexCount()*GetIndexSize();
         }
 
-        void* GetIndexBuffer() override {
-            return (void*)&m_array[0];
+        IndexType* GetIndexBuffer() {
+            return &m_array[0];
         }
 
-        const void* GetIndexBuffer() const override {
-            return (const void*)&m_array[0];
+        const IndexType* GetIndexBuffer() const {
+            return &m_array[0];
         }
     private:
+		
+		void* GetBuffer() override {
+			return (void*)&m_array[0];
+		}
+
+		const void* GetBuffer() const override {
+			return (const void*)&m_array[0];
+		}
+
         std::vector<IndexType> m_array;
     };
+
+	template<> class IndexArray < std::nullptr_t > {};
 }
 PUNK_ENGINE_END
 

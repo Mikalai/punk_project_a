@@ -1,0 +1,15 @@
+TRANSFORMTEXT
+transform {
+  *action_ref {
+    cube_animation_2
+  }
+  *location {
+    0.0 0.0 0.0
+  }
+  *rotation {
+    0.4432472586631775 0.0 0.0 0.8963994979858398
+  }
+  *scale {
+    1.0 1.0 1.0
+  }
+}

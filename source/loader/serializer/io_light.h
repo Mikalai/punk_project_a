@@ -11,7 +11,7 @@
 //    class String;
 //    class IObject;
 //}
-//namespace Loader {
+//namespace IoModule {
 //    Attributes::PointLight* CreateFromFile(const Core::String& path);
 //    Attributes::PointLight* CreateFromStream(std::istream& stream);
 //

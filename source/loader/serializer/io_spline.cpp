@@ -4,7 +4,7 @@
 #include "io_spline.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader {
+namespace IoModule {
     void SaveSpline(Core::Buffer* buffer, const Math::Spline& spline)
     {
         unsigned size = spline.GetTotalLength();

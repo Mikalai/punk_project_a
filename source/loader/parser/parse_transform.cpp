@@ -3,7 +3,7 @@
 #include "parse_simple.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader {
+namespace IoModule {
 
 	PUNK_ENGINE_LOCAL bool ParseTransform(Core::Buffer &buffer, void* object) {
 
@@ -40,7 +40,7 @@ namespace Loader {
 			case WORD_SCALE:
 			{
 				Math::vec3 value;
-				parser->Parse<Math::vec3>(WORD_QUAT, buffer, value);
+				parser->Parse<Math::vec3>(WORD_VEC3F, buffer, value);
 				transform->SetScale(value);
 			}
 				break;
@@ -60,6 +60,6 @@ namespace Loader {
 		}
 	}
 
-	PUNK_REGISTER_PARSER(WORD_TRANSFORMTEXT, ParseTransform);
+	PUNK_REGISTER_PARSER(WORD_TRANSFORM, ParseTransform);
 }
 PUNK_ENGINE_END

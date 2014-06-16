@@ -13,11 +13,8 @@
 PUNK_ENGINE_BEGIN
 namespace System { class ILogger; }
 namespace Graphics {
-    namespace OpenGL {
-
-		class PixelBufferObject;
-		class VertexBufferObject;
-		class IndexBufferObject;        
+		
+	namespace OpenGL {		
 
 		/**
 		*	This class is responsible for video memory usage
@@ -35,12 +32,12 @@ namespace Graphics {
             std::uint32_t GetMaxMemoryUsage() const override;
             std::uint32_t GetMemoryUsage() const override;
             std::uint32_t GetMaxAvailableMemory() const override;
-            PixelBufferObject* AllocatePixelBuffer(std::uint32_t size) override;
-            void FreePixelBuffer(IBufferObject* value) override;
-            VertexBufferObject* AllocateVertexBuffer(std::uint32_t size) override;
-            void FreeVertexBuffer(IBufferObject* value) override;
-            IndexBufferObject* AllocateIndexBuffer(std::uint32_t size) override;
-            void FreeIndexBuffer(IBufferObject* value) override;
+   //         IBufferObject* AllocatePixelBuffer(std::uint32_t size) override;
+   //         void FreePixelBuffer(IBufferObject* value) override;
+			//IBufferObject* AllocateVertexBuffer(std::uint32_t size) override;
+   //         void FreeVertexBuffer(IBufferObject* value) override;
+			//IBufferObject* AllocateIndexBuffer(std::uint32_t size) override;
+   //         void FreeIndexBuffer(IBufferObject* value) override;
 
 		private:
 
@@ -64,9 +61,9 @@ namespace Graphics {
 
 			Core m_core;
 
-            std::vector<PixelBufferObject*> m_pbo_list;
+            /*std::vector<PixelBufferObject*> m_pbo_list;
 			std::vector<VertexBufferObject*> m_vbo_list;
-			std::vector<IndexBufferObject*> m_ibo_list;
+			std::vector<IndexBufferObject*> m_ibo_list;*/
             System::ILogger* m_logger {nullptr};
 		};
 	}

@@ -4,14 +4,14 @@
 //#include <config.h>
 
 //PUNK_ENGINE_BEGIN
-//namespace Scene {
+//namespace SceneModule {
 //    class Node;
 //}
 //namespace Core {
 //    class Buffer;
 //}
-//namespace Loader {
-//PUNK_ENGINE_LOCAL bool ParseBoneNode(Core::Buffer& buffer, Scene::Node* node);
+//namespace IoModule {
+//PUNK_ENGINE_LOCAL bool ParseBoneNode(Core::Buffer& buffer, SceneModule::Node* node);
 //}
 //PUNK_ENGINE_END
 

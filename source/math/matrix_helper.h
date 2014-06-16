@@ -9,7 +9,7 @@ namespace Math {
     class vec3;
     class quat;
     class mat4;
-    class FrustumCore;
+    struct FrustumCore;
 
 	PUNK_ENGINE_API const mat4 CreatePositionRotationScaleMatrix(const Math::vec3& position, const Math::quat& rotation, const Math::vec3& scale);
     PUNK_ENGINE_API const mat4 CreateTargetCameraMatrix(const vec3& eye, const vec3& target, const vec3& up);

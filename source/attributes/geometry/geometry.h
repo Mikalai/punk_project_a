@@ -68,6 +68,7 @@ namespace Attributes {
 
 		//	texture_face
 		std::uint32_t GetFaceTextureCoordinatesSlotsCount() const override;
+		void SetFaceTextureCoordinates(const std::vector<std::vector<std::array<Math::vec2, 3>>>& value) override;
 		void SetFaceTextureCoordinates(std::uint32_t slot, const std::vector<std::array<Math::vec2, 3>>& value) override;
 		void SetFaceTextureCoordinate(std::uint32_t slot, std::uint32_t triangle_index, std::uint32_t vertex_index, const Math::vec2& t) override;
 		const Math::vec2* GetFaceTextureCoordinate(std::uint32_t slot, std::uint32_t triangle_index, int vertex_index) const override;
@@ -100,7 +101,7 @@ namespace Attributes {
 		Math::mat4 m_armature_offset;
 		bool m_need_update{ true };
 
-        PUNK_OBJECT_DEFAULT_IMPL3(Geometry)
+        PUNK_OBJECT_DEFAULT_IMPL(Geometry)
 	};    
 }
 PUNK_ENGINE_END

@@ -6,7 +6,7 @@
 //#include "io_light.h"
 //
 //PUNK_ENGINE_BEGIN
-//namespace Loader {
+//namespace IoModule {
 //
 //    void SaveLight(Core::Buffer* buffer, const Core::IObject* object)
 //    {

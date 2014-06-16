@@ -4,7 +4,7 @@
 #include "parse_terrain_raw_data_source.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader
+namespace IoModule
 {
     bool ParseTerrainRawDataSource(Core::Buffer& buffer, Attributes::TerrainRawDataSource& source)
     {

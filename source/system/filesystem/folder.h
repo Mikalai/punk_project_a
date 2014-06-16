@@ -2,7 +2,7 @@
 #define H_PUNK_SYSTEM_FOLDER
 
 #include <config.h>
-#include <String/String.h>
+#include <string/string.h>
 
 PUNK_ENGINE_BEGIN
 namespace System

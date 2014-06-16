@@ -15,7 +15,7 @@
 //            {
 //            public:
 //                static Object* Create(unsigned id);
-//                static void Add(unsigned id, Object* (*F)());
+//                static void AddChild(unsigned id, Object* (*F)());
 //            private:
 //                static std::vector<Object*(*)()> m_creator;
 //                static std::vector<void (*)(Buffer*, const Object*)> m_saver;
@@ -29,14 +29,14 @@
 //                StaticInformation<T>(const string& name, size_t uid, void (*Save)(Buffer*, const Object*), void (*Load)(Buffer*, Object*), const Rtti* parent)
 //                    : Type(name, uid, parent)
 //                {
-//                    Factory::Add(Type.GetId(), T::Create);
+//                    Factory::AddChild(Type.GetId(), T::Create);
 //                    if (Save)
-//                        Factory::Add(Type.GetId(), Save);
+//                        Factory::AddChild(Type.GetId(), Save);
 //                    if (Load)
-//                        Factory::Add(Type.GetId(), Load);
+//                        Factory::AddChild(Type.GetId(), Load);
 //                }
 
-//                void Add(T* value)
+//                void AddChild(T* value)
 //                {
 //                    value->SetLocalIndex(Instances.size());
 //                    Instances.push_back(value);

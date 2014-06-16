@@ -4,20 +4,7 @@
 namespace Gpu
 {
     enum class ShaderVarTable {
-        VertexWorldPosition,
-        VertexViewWorldPosition,
-        VertexProjectionViewWorldPosition,
-        VertexWorldNormal,
-        VertexViewWorldNormal,
-        VertexTextureCoordinate0,
-        VertexTextureCoordinate1,
-        VertexTextureCoordinate2,
-        VertexTextureCoordinate3,
-        ViewDirection,
-        LightDirection,
-        LightPosition,
-        FragmentColor,
-        DiffuseColor,
+
 
     };
 }

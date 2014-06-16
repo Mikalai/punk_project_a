@@ -13,12 +13,12 @@ namespace Punk {
                 : m_value(value) {}
 
             float PerspectiveDecoder::GetFovX() const {
-                float fovx = ArcTan(1.0 / m_value[0]) * 2.0f; //  TODO: Not sure
+                float fovx = ArcTan(1.0f / m_value[0]) * 2.0f; //  TODO: Not sure
                 return fovx;
             }
 
             float PerspectiveDecoder::GetFovY() const {
-                float fovy = ArcTan(1.0 / m_value[5]) * 2.0f;
+                float fovy = ArcTan(1.0f / m_value[5]) * 2.0f;
                 return fovy;
             }
 

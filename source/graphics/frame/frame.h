@@ -19,7 +19,7 @@ namespace Graphics
     class ITextSurface;
     class IRenderable;
     class IFrameBuffer;
-    class IRender;
+    class ILowLevelRender;
 
 	class Batch;    
 
@@ -27,10 +27,15 @@ namespace Graphics
 	{
 	public:
 
-        Frame(IRender* driver);
+        Frame();
         virtual ~Frame();
 
-        IRender* GetRender() override;
+		void QueryInterface(const Core::Guid& type, void** object) override;
+		std::uint32_t AddRef() override;
+		std::uint32_t Release() override;
+
+        ILowLevelRender* GetRender() override;
+		void SetRender(ILowLevelRender* render) override;
         void Submit(IRenderable* value, bool destroy = false) override;
         void SetClipSpace(const Math::ClipSpace& value) override;
         const Math::ClipSpace& GetClipSpace() const override;
@@ -85,6 +90,7 @@ namespace Graphics
         void EnableSpecularShading(bool value) override;
         //void EnableBumpMapping(bool value) override;
         void EnableSkinning(bool value) override;
+		bool IsEnabledSkinning() const override;
         void EnableWireframe(bool value) override;
         void EnableTerrainRendering(bool value) override;
         void EnableLighting(bool value) override;
@@ -182,12 +188,14 @@ namespace Graphics
 		std::stack<CoreState*> m_state;
 
         //	next should not be deleted in destructor        
-        IRender* m_render;
+		ILowLevelRender* m_render{ nullptr };
         std::vector<ITextSurface*> m_texts;
-        ITexture2DArray* m_shadow_maps;        
+		ITexture2DArray* m_shadow_maps{ nullptr };
 
 		Frame(const Frame&) = delete;
 		Frame& operator = (const Frame&) = delete;
+
+		std::atomic<std::uint32_t> m_ref_count{ 1 };
 	};
 }
 PUNK_ENGINE_END

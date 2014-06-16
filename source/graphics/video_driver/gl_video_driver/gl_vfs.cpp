@@ -29,7 +29,7 @@ namespace Graphics {
         VirtualFileSystem::VirtualFileSystem(GlVideoDriver *impl)
             : m_driver(impl) {
             if (!IsShaderIncludeSupported(impl))
-                throw OpenGLException(L"GL_ARB_shading_language_include not supported");
+                throw Error::OpenGLException(L"GL_ARB_shading_language_include not supported");
         }
 
         void VirtualFileSystem::RegisterNamedString(const char *name, const char *string) {

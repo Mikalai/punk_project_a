@@ -48,7 +48,7 @@
 //namespace Utility
 //{
 //
-//	struct Scene::SceneImpl
+//	struct SceneModule::SceneImpl
 //	{					
 //		typedef std::map<System::string, Math::Matrix<BoneFrame> > CookedAnimation;
 //		typedef std::vector<std::shared_ptr<CookedAnimation>> CookedAnimationCollection;
@@ -1240,33 +1240,33 @@
 ///** Interface implementaion goes here */
 //namespace Utility
 //{
-//	Scene::Scene()
+//	SceneModule::Scene()
 //		: impl_scene(new SceneImpl())
 //	{}
 //
-//	Scene::Scene(const Scene& scene)
+//	SceneModule::Scene(const Scene& scene)
 //		: impl_scene(new SceneImpl(*scene.impl_scene))
 //	{}
 //
-//	Scene& Scene::operator = (const Scene& scene)
+//	Scene& SceneModule::operator = (const Scene& scene)
 //	{
 //		Scene temp(scene);
 //		std::swap(impl_scene, temp.impl_scene);
 //		return *this;
 //	}
 //
-//	Scene::~Scene()
+//	SceneModule::~Scene()
 //	{
 //		impl_scene.reset(0);
 //	}
 //
-//	void Scene::Load(const System::string& filename)
+//	void SceneModule::Load(const System::string& filename)
 //	{
 //		impl_scene.reset(new SceneImpl);
 //		impl_scene->Load(filename);
 //	}
 //
-//	StaticMesh* Scene::CookStaticMesh(const System::string& name) const
+//	StaticMesh* SceneModule::CookStaticMesh(const System::string& name) const
 //	{
 //		Utility::Entity* obj = impl_scene->FindObjectByName(name);
 //		if (!obj)
@@ -1274,7 +1274,7 @@
 //		return impl_scene->CookStaticMesh(*obj);
 //	}
 //
-//	StaticMesh* Scene::CookSkinnedMesh(const System::string& name) const
+//	StaticMesh* SceneModule::CookSkinnedMesh(const System::string& name) const
 //	{
 //		Utility::Entity* obj = impl_scene->FindObjectByName(name);
 //		if (!obj)
@@ -1282,82 +1282,82 @@
 //		return impl_scene->CookSkinnedMesh(*obj, *impl_scene->m_armature_collection.begin()->second.get());
 //	}
 //
-//	int Scene::GetArmatureCount() const
+//	int SceneModule::GetArmatureCount() const
 //	{
 //		return impl_scene->GetArmatureCount();
 //	}
 //
-//	Armature* Scene::GetArmature(const System::string& name) 
+//	Armature* SceneModule::GetArmature(const System::string& name) 
 //	{
 //		return impl_scene->GetArmature(name);
 //	}
 //
-//	const System::string Scene::GetArmatureName(int index) const
+//	const System::string SceneModule::GetArmatureName(int index) const
 //	{
 //		return impl_scene->GetArmatureName(index);
 //	}
 //
-//	/*Math::OctTree& Scene::GetOctTree()
+//	/*Math::OctTree& SceneModule::GetOctTree()
 //	{
 //	return impl_scene->GetOctTree();
 //	}*/
 //
-//	bool Scene::IntersectWithRay(const Math::Vector3<float>& start, const Math::Vector3<float>& end, IntersectionCollection& res)
+//	bool SceneModule::IntersectWithRay(const Math::Vector3<float>& start, const Math::Vector3<float>& end, IntersectionCollection& res)
 //	{
 //		return impl_scene->IntersectWithRay(start, end, res);
 //	}
 //
-//	Entity* Scene::FindObjectByName(const System::string& name)
+//	Entity* SceneModule::FindObjectByName(const System::string& name)
 //	{
 //		return impl_scene->FindObjectByName(name);
 //	}
 //
-//	const Entity* Scene::FindObjectByName(const System::string& name) const
+//	const Entity* SceneModule::FindObjectByName(const System::string& name) const
 //	{
 //		return impl_scene->FindObjectByName(name);
 //	}
 //
-//	Bone* Scene::FindBoneByName(const System::string& name)
+//	Bone* SceneModule::FindBoneByName(const System::string& name)
 //	{
 //		return impl_scene->FindBoneByName(name);
 //	}
 //
-//	const Bone* Scene::FindBoneByName(const System::string& name) const
+//	const Bone* SceneModule::FindBoneByName(const System::string& name) const
 //	{
 //		return impl_scene->FindBoneByName(name);
 //	}
 //
-//	Animation* Scene::FindAnimationByName(const System::string& name)
+//	Animation* SceneModule::FindAnimationByName(const System::string& name)
 //	{
 //		return impl_scene->FindAnimationByName(name);
 //	}
 //
-//	const Animation* Scene::FindAnimationByName(const System::string& name) const
+//	const Animation* SceneModule::FindAnimationByName(const System::string& name) const
 //	{
 //		return impl_scene->FindAnimationByName(name);
 //	}
 //
-//	unsigned Scene::GetObjectsCount() const
+//	unsigned SceneModule::GetObjectsCount() const
 //	{
 //		return impl_scene->GetObjectsCount();
 //	}
 //
-//	const System::string Scene::GetObjectName(int index) const
+//	const System::string SceneModule::GetObjectName(int index) const
 //	{
 //		return impl_scene->GetObjectName(index);
 //	}
 //
-//	void Scene::PrintDebug()
+//	void SceneModule::PrintDebug()
 //	{
 //		impl_scene->PrintDebug();
 //	}
 //
-//	void Scene::Save(std::ostream& stream)
+//	void SceneModule::Save(std::ostream& stream)
 //	{
 //		impl_scene->Save(stream);
 //	}
 //
-//	void Scene::Load(std::istream& stream)
+//	void SceneModule::Load(std::istream& stream)
 //	{
 //		impl_scene.reset(new SceneImpl);
 //		impl_scene->Load(stream);

@@ -4,11 +4,11 @@
 #include "parser.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader
+namespace IoModule
 {
 	PUNK_ENGINE_LOCAL bool ParseSceneGraph(Core::Buffer& buffer, void* object)
     {
-		Scene::ISceneGraph* value = (Scene::ISceneGraph*)object;
+		SceneModule::IScene* value = (SceneModule::IScene*)object;
 		Parser* parser = GetDefaultParser();
 
         while (!buffer.IsEnd())
@@ -20,8 +20,8 @@ namespace Loader
             return true;
             case WORD_NODE:
             {
-				Scene::INode* node{ nullptr };
-				Core::GetFactory()->CreateInstance(Scene::IID_INode, (void**)&node);
+				SceneModule::INode* node{ nullptr };
+				Core::GetFactory()->CreateInstance(SceneModule::IID_INode, (void**)&node);
                 parser->Parse(WORD_NODE, buffer, node);
 				value->GetRoot()->AddChild(node);
                 //value->SetRoot(node.release());
@@ -33,5 +33,7 @@ namespace Loader
         }
         return false;
     }
+
+	PUNK_REGISTER_PARSER(WORD_SCENE_GRAPH, ParseSceneGraph);
 }
 PUNK_ENGINE_END

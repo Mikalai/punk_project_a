@@ -3,10 +3,10 @@
 #include "parse_rotation_track.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader
-{
-    bool ParseAnimation(Core::Buffer& buffer, void* object)
-    {
+namespace IoModule {
+
+    bool ParseAnimation(Core::Buffer& buffer, void* object) {
+
 		Attributes::IAnimation* animation = (Attributes::IAnimation*)object;
 		Parser* parser = GetDefaultParser();
 
@@ -14,10 +14,9 @@ namespace Loader
 
         Core::String name;
 
-        while (1)
-        {
-            if (buffer.IsEnd())
-            {
+        while (1) {
+        
+			if (buffer.IsEnd()) {
                 throw Error::LoaderException(L"Can't parse object");
             }
 

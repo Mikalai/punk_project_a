@@ -3,7 +3,7 @@
 #include "parser.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader
+namespace IoModule
 {
     bool ParseDirectionalLight(Core::Buffer& buffer, void* object)
     {
@@ -60,6 +60,13 @@ namespace Loader
 			{
 			case WORD_CLOSE_BRACKET:				
 				return true;
+			case WORD_NAME:
+			{
+				Core::String name;
+				parser->Parse<Core::String>(WORD_STRING, buffer, name);
+				light->SetName(name);
+			}
+				break;
 			case WORD_COLOR:
 			{
 				Math::vec3 color;

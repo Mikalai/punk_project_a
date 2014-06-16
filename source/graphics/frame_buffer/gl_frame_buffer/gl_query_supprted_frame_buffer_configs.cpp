@@ -745,7 +745,7 @@
 //    glDisable(GL_FRAGMENT_PROGRAM_ARB);
 
 //    //
-//    // Render the UI
+//    // LowLevelRender the UI
 //    //
 //    glMatrixMode(GL_PROJECTION);
 //    glPushMatrix();

@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <config.h>
+#include <core/iobject.h>
 #include <graphics/state/module.h>
 #include <core/poolable.h>
 
@@ -19,15 +20,18 @@ namespace Graphics
     class ITextSurface;
     class IRenderable;
     class IFrameBuffer;
-    class IRender;
+    class ILowLevelRender;
 
     class Batch;
 
-    class PUNK_ENGINE_API IFrame
+	DECLARE_PUNK_GUID(IID_IFrame, "AF81422A-F379-418D-B869-7BC24216080F");
+
+    class IFrame : public Core::IObject
     {
     public:
 
-        virtual IRender* GetRender() = 0;
+        virtual ILowLevelRender* GetRender() = 0;
+		virtual void SetRender(ILowLevelRender* render) = 0;
         virtual void Submit(IRenderable* value, bool destroy = false) = 0;
         virtual void SetClipSpace(const Math::ClipSpace& value) = 0;
         virtual const Math::ClipSpace& GetClipSpace() const = 0;
@@ -82,6 +86,7 @@ namespace Graphics
         virtual void EnableSpecularShading(bool value) = 0;
         //void EnableBumpMapping(bool value) = 0;
         virtual void EnableSkinning(bool value) = 0;
+		virtual bool IsEnabledSkinning() const = 0;
         virtual void EnableWireframe(bool value) = 0;
         virtual void EnableTerrainRendering(bool value) = 0;
         virtual void EnableLighting(bool value) = 0;
@@ -170,10 +175,7 @@ namespace Graphics
         virtual const Math::vec2 FindZRange(const Math::mat4& view) const = 0;
     };
 
-    using IFrameUniquePtr = std::unique_ptr<IFrame, void (*)(IFrame*)>;
-
-    extern PUNK_ENGINE_API IFrameUniquePtr CreateFrame(IRender* render);
-    extern PUNK_ENGINE_API void DestroyFrame(IFrame*);
+	using IFrameUniquePtr = Core::UniquePtr < IFrame > ;
 }
 PUNK_ENGINE_END
 

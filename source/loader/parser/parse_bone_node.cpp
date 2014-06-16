@@ -2,9 +2,9 @@
 //#include "parser.h"
 
 //PUNK_ENGINE_BEGIN
-//namespace Loader
+//namespace IoModule
 //{
-//    bool ParseBoneNode(Core::Buffer& buffer, Scene::BoneNode* bone)
+//    bool ParseBoneNode(Core::Buffer& buffer, SceneModule::BoneNode* bone)
 //    {
 //        CHECK_START(buffer);
 //        while (!buffer.IsEnd())
@@ -24,7 +24,7 @@
 //                break;
 //            case WORD_TRANSFORM_NODE:
 //            {
-//                std::unique_ptr<Scene::TransformNode> node(new Scene::TransformNode);
+//                std::unique_ptr<SceneModule::TransformNode> node(new SceneModule::TransformNode);
 //                ParseTransformNode(buffer, node.get());
 //                bone->Add(node.release());
 //            }

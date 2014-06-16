@@ -14,15 +14,15 @@ namespace Graphics {
         void Name(const Core::String& value);
         const Core::String& Name() const;
 
-        void Format(Image::ImageFormat value);
-        Image::ImageFormat Format() const;
+        void Format(ImageModule::ImageFormat value);
+        ImageModule::ImageFormat Format() const;
 
         void Bits(int value);
         int Bits() const;
 
     private:
         Core::String m_name;
-        Image::ImageFormat m_format;
+        ImageModule::ImageFormat m_format;
         int m_bits;
     };
 }

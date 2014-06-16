@@ -1,6 +1,5 @@
 #include <memory>
-#include <istream>
-#include <ostream>
+#include <core/ifactory.h>
 #include <string/module.h>
 #include "texture_slot.h"
 #include "material.h"
@@ -9,11 +8,6 @@ PUNK_ENGINE_BEGIN
 namespace Attributes
 {
 
-	void CreateMaterial(void** object) {
-		if (!object)
-			return;
-		*object = (void*)(new Material);
-	}
 
     Material::Material()
 		: m_diffuse_color(0.1f, 0.1f, 0.1f, 1.0f)
@@ -44,6 +38,19 @@ namespace Attributes
 		}
 		else
 			*object = nullptr;
+	}
+
+	std::uint32_t Material::Release() {
+		std::uint32_t v = m_ref_count.fetch_sub(1) - 1;
+		if (!v) {
+			delete this;
+		}
+		return v;
+	}
+
+	std::uint32_t Material::AddRef() {
+		m_ref_count.fetch_add(1);
+		return m_ref_count;
 	}
 
 //	Material::Material(const Utility::MaterialDesc& desc)
@@ -117,5 +124,7 @@ namespace Attributes
 	{
 		return m_name;
 	}
+
+	PUNK_REGISTER_CREATOR(IID_IMaterial, (Core::CreateInstance<Material, IMaterial>));
 }
 PUNK_ENGINE_END

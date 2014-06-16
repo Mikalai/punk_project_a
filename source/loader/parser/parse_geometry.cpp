@@ -5,7 +5,7 @@
 #include "parser.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader
+namespace IoModule
 {
     bool ParseGeometry(Core::Buffer& buffer, void* object)
     {
@@ -25,6 +25,13 @@ namespace Loader
             {
             case WORD_CLOSE_BRACKET:
                 return true;
+			case WORD_ARMATURE_SCHEMA:
+			{
+				Core::String name;
+				parser->Parse<Core::String>(WORD_STRING, buffer, name);
+				geometry->SetArmatureSchema(name);
+			}
+				break;
             case WORD_NAME:
             {
                 Core::String name;
@@ -55,9 +62,9 @@ namespace Loader
                 break;
             case WORD_TEXTURE:
             {
-                std::vector<std::array<Math::vec2, 3>> t;
-                parser->Parse(WORD_TEXTURE, buffer, t);
-                geometry->SetFaceTextureCoordinates(0, t);
+                std::vector<std::vector<std::array<Math::vec2, 3>>> t;
+                parser->Parse(WORD_TEXTURE_COORD, buffer, &t);
+                geometry->SetFaceTextureCoordinates(t);
             }
                 break;
 			case WORD_BONES_WEIGHTS:
@@ -65,6 +72,12 @@ namespace Loader
 				std::vector<std::vector<std::pair<int, float>>> b;
 				parser->Parse(WORD_BONES_WEIGHTS, buffer, (void*)&b);
 				geometry->SetVertexBonesWeights(b);
+			}
+				break;
+			case WORD_WORLD_MATRIX:
+			{
+				Math::mat4 m;
+				parser->Parse(WORD_MATRIX4X4F, buffer, m);				
 			}
 				break;
             default:

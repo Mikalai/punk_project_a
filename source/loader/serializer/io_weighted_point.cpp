@@ -3,7 +3,7 @@
 #include "io_weighted_point.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader {
+namespace IoModule {
     void SaveWeightedPoint(Core::Buffer* buffer, const Math::WeightedPoint& value)
     {
         buffer->WriteReal32(value.GetWeight());

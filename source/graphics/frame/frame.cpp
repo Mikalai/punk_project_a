@@ -1,4 +1,5 @@
 #include <memory>
+#include <core/ifactory.h>
 #include <math/matrix_helper.h>
 #include <system/window/module.h>
 #include <graphics/text/module.h>
@@ -21,8 +22,19 @@
 PUNK_ENGINE_BEGIN
 namespace Graphics
 {
-    Frame::Frame(IRender* render)
-        : m_render{render}
+	std::uint32_t Frame::AddRef() {
+		return m_ref_count.fetch_add(1);
+	}
+
+	std::uint32_t Frame::Release() {
+		std::uint32_t v = m_ref_count.fetch_sub(1);
+		if (!--v) {
+			delete this;
+		}
+		return v;
+	}
+
+    Frame::Frame()
     {
 #ifdef _DEBUG
         System::GetDefaultLogger()->Info(L"Create Frame");
@@ -50,9 +62,13 @@ namespace Graphics
         }
     }  
 
-    IRender* Frame::GetRender() {
+    ILowLevelRender* Frame::GetRender() {
         return m_render;
     }
+
+	void Frame::SetRender(ILowLevelRender* render) {
+		m_render = render;
+	}
 
     void Frame::SetClearColor(const Math::vec4& value)
     {
@@ -69,6 +85,9 @@ namespace Graphics
         Top()->render_state->m_clear_depth = value;
     }
 
+	void Frame::QueryInterface(const Core::Guid& type, void** object) {
+		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IFrame });
+	}
 //    void Frame::Clear(bool color, bool depth, bool stencil)
 //    {
 //        if (!Top()->m_active_rendering)
@@ -276,6 +295,10 @@ namespace Graphics
     {
         Top()->render_state->m_enable_skinning = value;
     }
+
+	bool Frame::IsEnabledSkinning() const {
+		return Top()->render_state->m_enable_skinning;
+	}
 
     void Frame::SetBoneMatrix(int bone_index, const Math::mat4& value)
     {
@@ -602,8 +625,9 @@ namespace Graphics
     {
         PushAllState();
         EnableLighting(false);
-        EnableTexturing(false);
-        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(GetVideoDriver());
+        EnableTexturing(false);		
+		IRenderableBuilderUniquePtr b{ Core::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::LINES);
         b->Vertex3fv(start);
         b->Vertex3fv(end);
@@ -638,7 +662,8 @@ namespace Graphics
         p2[1] = -1.0f + 2.0f * y2 / height;
         p2[2] = 0;
 
-        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(GetVideoDriver());
+		IRenderableBuilderUniquePtr b{ Core::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::LINES);
         b->Vertex3fv(p1);
         b->Vertex3fv(p2);
@@ -666,7 +691,8 @@ namespace Graphics
         p1[1] = -1.0f + 2.0f * y / height;
         p1[2] = 0;
 
-        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(GetVideoDriver());
+		IRenderableBuilderUniquePtr b{ Core::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::POINTS);
         b->Vertex3fv(p1);
         b->End();
@@ -680,7 +706,8 @@ namespace Graphics
         PushAllState();
         EnableLighting(false);
         EnableTexturing(false);
-        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(GetVideoDriver());
+		IRenderableBuilderUniquePtr b{ Core::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::POINTS);
         b->Vertex3fv(Math::vec3(x, y, z));
         b->End();
@@ -694,7 +721,8 @@ namespace Graphics
         PushAllState();
         EnableLighting(false);
         EnableTexturing(false);
-        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(GetVideoDriver());
+		IRenderableBuilderUniquePtr b{ Core::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::POINTS);
         b->Vertex3fv(v);
         b->End();
@@ -708,10 +736,12 @@ namespace Graphics
         PushAllState();
         EnableLighting(false);
         System::IWindow* window = GetVideoDriver()->GetCanvas()->GetWindow();
+		SetViewMatrix(Math::CreateIdentity());
         SetProjectionMatrix(Math::CreateOrthographicProjection2(0, window->GetWidth(),
                                                                       0, window->GetHeight(),
                                                                      -1, 1));
-        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(GetVideoDriver());
+		IRenderableBuilderUniquePtr b{ Core::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::QUADS);
         b->TexCoord2f(0,0);
         b->Vertex3f(x, y, 0);
@@ -738,7 +768,8 @@ namespace Graphics
         EnableBlending(false);
         EnableLighting(false);
         EnableDepthTest(false);        
-        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(GetVideoDriver());
+		IRenderableBuilderUniquePtr b{ Core::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::LINES);
         int n = 32;
         float dphi = Math::PI / (float)n * 2.0f;
@@ -786,7 +817,8 @@ namespace Graphics
         SetProjectionMatrix(Math::CreateOrthographicProjection2(0, width, 0, height, -1, 1));
         SetViewMatrix(Math::CreateIdentity());
 
-        IRenderableBuilderUniquePtr b = CreateRenderableBuilder(GetVideoDriver());
+		IRenderableBuilderUniquePtr b{ Core::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::QUADS);
         b->TexCoord2f(0, 0);
         b->Vertex3f(x, y, 0);
@@ -848,14 +880,6 @@ namespace Graphics
 
     }
 
-    extern PUNK_ENGINE_API IFrameUniquePtr CreateFrame(IRender* render) {
-        IFrameUniquePtr frame{new Frame(render), DestroyFrame};
-        return frame;
-    }
-
-    extern PUNK_ENGINE_API void DestroyFrame(IFrame* f) {
-        Frame* frame = dynamic_cast<Frame*>(f);
-        delete frame;
-    }
+	PUNK_REGISTER_CREATOR(IID_IFrame, (Core::CreateInstance<Frame, IFrame>));    
 }
 PUNK_ENGINE_END

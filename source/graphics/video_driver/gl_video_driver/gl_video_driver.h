@@ -26,11 +26,17 @@ namespace Graphics
         class PUNK_ENGINE_LOCAL GlVideoDriver : public VideoDriver {
         public:
             //	constructoion part
-            GlVideoDriver(ICanvas* canvas);
+            GlVideoDriver();
             virtual ~GlVideoDriver();
+			
+			void QueryInterface(const Core::Guid& type, void** object) override;
+			std::uint32_t AddRef() override;
+			std::uint32_t Release() override;
+
+			virtual void Initialize(ICanvas* canvas) override;
             ICanvas* GetCanvas() override;                        
             IVideoDriverSettings* GetSettings() override;
-			IRender* GetRender() override;
+			ILowLevelRender* GetRender() override;
 
             VideoMemory* GetVideoMemory();
             const VideoMemory* GetVideoMemory() const;
@@ -43,12 +49,15 @@ namespace Graphics
             int m_shader_version;
             int m_opengl_version;
             ICanvas* m_canvas {nullptr};
-            OpenGL::VideoMemory* m_memory;            
-            VirtualFileSystem* m_vfs;
-            GlVideoDriverSettings* m_caps;
-			IRenderUniquePtr m_render{ nullptr, DestroyRender };
+			OpenGL::VideoMemory* m_memory{ nullptr };
+			VirtualFileSystem* m_vfs{ nullptr };
+			GlVideoDriverSettings* m_caps{ nullptr };
+			IRenderUniquePtr m_render{ nullptr, Core::DestroyObject };
+			bool m_initialized{ false };
+			std::atomic<std::uint32_t> m_ref_count{ 1 };
 
         private:
+			void AssertInitialize() const;
             bool IsExtensionSupported(const char *extList, const char *extension);
             void Init();
             void Clear();

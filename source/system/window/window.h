@@ -89,8 +89,7 @@ namespace System
         Core::ActionSlot<const IdleEvent&> OnIdleEvent;
         bool m_initialized = false;                       
 
-		PUNK_OBJECT_DEFAULT_IMPL3(Window)
-		
+		PUNK_OBJECT_DEFAULT_IMPL(Window)		
 	};    
 }
 PUNK_ENGINE_END

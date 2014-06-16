@@ -145,7 +145,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>PUNK_ENGINE_EXPORTS;WIN32;WIN64;PUNK_ENGINE_EXPORTS;WIN32;WIN64;PUNK_ENGINE_EXPORTS;WIN32;WIN64;nitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PUNK_ENGINE_EXPORTS;WIN32;WIN64;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)..\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -164,6 +164,7 @@
     <ClInclude Include="..\..\source\system\commands\cmd_create_timer.h" />
     <ClInclude Include="..\..\source\system\concurrency\atomic.h" />
     <ClInclude Include="..\..\source\system\concurrency\atomicint.h" />
+    <ClInclude Include="..\..\source\system\concurrency\ithread_pool.h" />
     <ClInclude Include="..\..\source\system\concurrency\module.h" />
     <ClInclude Include="..\..\source\system\concurrency\monitor.h" />
     <ClInclude Include="..\..\source\system\concurrency\monitor_scope.h" />
@@ -209,7 +210,6 @@
     <ClInclude Include="..\..\source\system\input\keymap.h" />
     <ClInclude Include="..\..\source\system\input\ikeymap.h" />
     <ClInclude Include="..\..\source\system\input\module.h" />
-    <ClInclude Include="..\..\source\system\input\mouse.h" />
     <ClInclude Include="..\..\source\system\input\imouse.h" />
     <ClInclude Include="..\..\source\system\logger\console_consumer.h" />
     <ClInclude Include="..\..\source\system\logger\default_logger.h" />
@@ -221,6 +221,10 @@
     <ClInclude Include="..\..\source\system\logger\message_logger.h" />
     <ClInclude Include="..\..\source\system\logger\module.h" />
     <ClInclude Include="..\..\source\system\module.h" />
+    <ClInclude Include="..\..\source\system\module\imodule.h" />
+    <ClInclude Include="..\..\source\system\module\imodule_manager.h" />
+    <ClInclude Include="..\..\source\system\module\module.h" />
+    <ClInclude Include="..\..\source\system\module\module_manager.h" />
     <ClInclude Include="..\..\source\system\profiler.h" />
     <ClInclude Include="..\..\source\system\resource.h" />
     <ClInclude Include="..\..\source\system\resource_creator.h" />
@@ -286,7 +290,7 @@
     <ClCompile Include="..\..\source\system\input\input_component.cpp" />
     <ClCompile Include="..\..\source\system\input\keyboard.cpp" />
     <ClCompile Include="..\..\source\system\input\keymap.cpp" />
-    <ClCompile Include="..\..\source\system\input\mouse.cpp" />
+    <ClCompile Include="..\..\source\system\input\imouse.cpp" />
     <ClCompile Include="..\..\source\system\logger\console_consumer.cpp" />
     <ClCompile Include="..\..\source\system\logger\default_logger.cpp" />
     <ClCompile Include="..\..\source\system\logger\error_logger.cpp" />
@@ -294,6 +298,7 @@
     <ClCompile Include="..\..\source\system\logger\logger.cpp" />
     <ClCompile Include="..\..\source\system\logger\log_consumer.cpp" />
     <ClCompile Include="..\..\source\system\logger\message_logger.cpp" />
+    <ClCompile Include="..\..\source\system\module\imodule_manager.cpp" />
     <ClCompile Include="..\..\source\system\profiler.cpp" />
     <ClCompile Include="..\..\source\system\serializable.cpp" />
     <ClCompile Include="..\..\source\system\storable.cpp" />

@@ -6,19 +6,19 @@
 #include "keywords.h"
 
 #define CHECK_START(buffer)\
-    if (!Loader::CheckIntegrity(buffer))\
+    if (!IoModule::CheckIntegrity(buffer))\
 {\
     throw Error::LoaderException(L"Integrity check failed");\
     }
 
 #define CHECK_END(buffer)\
-    if (Loader::ParseKeyword(buffer.ReadWord()) != WORD_CLOSE_BRACKET)\
+    if (IoModule::ParseKeyword(buffer.ReadWord()) != WORD_CLOSE_BRACKET)\
 {\
     throw Error::LoaderException(L"Integrity check failed");\
     }
 
 PUNK_ENGINE_BEGIN
-namespace Loader {
+namespace IoModule {
     extern bool CheckIntegrity(Core::Buffer& buffer);
 
 	typedef bool (*ParseFunction)(Core::Buffer& buffer, void*);

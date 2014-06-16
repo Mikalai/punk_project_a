@@ -4,7 +4,7 @@
 #include "parser.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader
+namespace IoModule
 {
 	bool ParseMaterial(Core::Buffer& buffer, void* object)
 	{
@@ -53,7 +53,7 @@ namespace Loader
 			case WORD_DIFFUSE_COLOR:
 			{
 				Math::vec3 value;
-				parser->Parse(WORD_FLOAT, buffer, &value);
+				parser->Parse(WORD_VEC3F, buffer, &value);
 				mat->SetDiffuseColor(Math::vec4(value, mat->GetAlpha()));
 			}
 				break;
@@ -179,7 +179,9 @@ namespace Loader
 		return false;
 	}
 
-	//    bool ParseMaterials(Core::Buffer& buffer, Scene::SceneGraph*)
+	PUNK_REGISTER_PARSER(WORD_MATERIAL, ParseMaterial);
+
+	//    bool ParseMaterials(Core::Buffer& buffer, SceneModule::Scene*)
 	//    {
 	//        CHECK_START(buffer);
 	//        Core::String name;

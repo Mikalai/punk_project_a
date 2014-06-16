@@ -119,6 +119,10 @@ namespace Attributes
 		return m_texture_faces.size();
 	}
 
+	void Geometry::SetFaceTextureCoordinates(const std::vector<std::vector<std::array<Math::vec2, 3>>>& value) {
+		m_texture_faces = value;
+	}
+
 	void Geometry::SetFaceTextureCoordinates(std::uint32_t slot, const std::vector	<std::array<Math::vec2, 3>>& value) {
 		if (m_texture_faces.size() <= slot)
 			m_texture_faces.resize(slot+1);

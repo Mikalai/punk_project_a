@@ -20,10 +20,7 @@ namespace System
         virtual double Reset() = 0;
     };
 
-	using ITimerUniquePtr = std::unique_ptr < ITimer, void(*)(ITimer*) > ;
-
-    extern PUNK_ENGINE_API ITimerUniquePtr CreateTimer();
-    extern PUNK_ENGINE_API void DestroyTimer(ITimer* value);
+	using ITimerUniquePtr = Core::UniquePtr < ITimer > ;
 }
 PUNK_ENGINE_END
 

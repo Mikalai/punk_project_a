@@ -1,9 +1,9 @@
 //#include "../../scene/module.h"
 //#include "parse_functions.h"
 
-//namespace Loader
+//namespace IoModule
 //{
-//    bool ParseArmatureNode(Core::Buffer& buffer, Scene::ArmatureNode* armature_node)
+//    bool ParseArmatureNode(Core::Buffer& buffer, SceneModule::ArmatureNode* armature_node)
 //    {
 //        CHECK_START(buffer);
 //        while (!buffer.IsEnd())
@@ -23,14 +23,14 @@
 //                break;
 //            case WORD_MATERIAL_NODE:
 //            {
-//                std::unique_ptr<Scene::MaterialNode> node(new Scene::MaterialNode);
+//                std::unique_ptr<SceneModule::MaterialNode> node(new SceneModule::MaterialNode);
 //                ParseMaterialNode(buffer, node.get());
 //                armature_node->Add(node.release());
 //            }
 //                break;
 //            case WORD_BONE_NODE:
 //            {
-//                std::unique_ptr<Scene::BoneNode> node(new Scene::BoneNode);
+//                std::unique_ptr<SceneModule::BoneNode> node(new SceneModule::BoneNode);
 //                ParseBoneNode(buffer, node.get());
 //                armature_node->Add(node.release());
 //            }

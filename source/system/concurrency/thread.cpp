@@ -18,7 +18,7 @@ namespace System
     }
 
 #ifdef _WIN32
-        unsigned thread_func(void* data)
+        unsigned __stdcall thread_func(void* data)
 #elif defined __gnu_linux__
         void* thread_func(void* data = 0)
 #endif

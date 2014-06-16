@@ -30,7 +30,7 @@ namespace System
 	};
 
 	static const Core::Guid IID_IConsole{ "8F529ECF-9924-4562-87D6-25E144DFEFC8" };
-	class IConsole : public virtual Core::IObject
+	class IConsole : public Core::IObject
 	{
 	public:		
 		//	set new cursor position in console

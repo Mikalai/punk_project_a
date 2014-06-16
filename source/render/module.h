@@ -1,6 +1,8 @@
-#ifndef _H_RENDER_MODULE
-#define _H_RENDER_MODULE
+#ifndef _H_PUNK_RENDER_MODULE2
+#define _H_PUNK_RENDER_MODULE2
 
-#include "render_processor.h"
+#include "error/module.h"
+#include "singlethreaded/module.h"
 
-#endif	//	_H_RENDER_MODULE
+
+#endif	//	_H_PUNK_RENDER_MODULE2

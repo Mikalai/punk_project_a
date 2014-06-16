@@ -37,15 +37,35 @@ namespace Graphics {
 		if (!object)
 			return;
 
-		if (type == Core::IID_IObject ||
-			type == IID_ICanvas ||
-			type == System::IID_IWindow) {
-			*object = (void*)this;
+		if (type == Core::IID_IObject) {
+			*object = (void*)(Core::IObject*)(ICanvas*)this;
 			AddRef();
+			return;
 		}
-		else
-			*object = nullptr;
+		else if (type == IID_ICanvas) {
+			*object = (void*)(ICanvas*)this;
+			AddRef();
+			return;
+		}
+		else if (type == System::IID_IWindow) {
+			*object = (void*)(System::IWindow*)this;
+			AddRef();
+			return;
+		}
 	}
+
+	std::uint32_t Canvas::AddRef() {
+		m_ref_count.fetch_add(1);
+		return m_ref_count;
+	}
+
+	std::uint32_t Canvas::Release() {
+		if (!(m_ref_count.fetch_sub(1)-1)) {
+			delete this; \
+		}
+		return m_ref_count;
+	}
+
 
     void Canvas::SetFullscreen(bool flag) {
         m_canvas_description.fullscreen = flag;
@@ -132,10 +152,10 @@ namespace Graphics {
 
         HGLRC tempContext;
         if ((tempContext = wglCreateContext(deviceContext)) == NULL)
-            throw OpenGL::OpenGLCreateContextError(L"Can't create temporary opengl context");
+            throw OpenGL::Error::OpenGLCreateContextError(L"Can't create temporary opengl context");
 
         if (!wglMakeCurrent(deviceContext, tempContext))
-            throw OpenGL::OpenGLContextMakeCurrentError(L"Can't set created context to be current");
+			throw OpenGL::Error::OpenGLContextMakeCurrentError(L"Can't set created context to be current");
 
         PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsARB = NULL;
 
@@ -149,10 +169,10 @@ namespace Graphics {
         wglCreateContextAttribsARB = (PFNWGLCREATECONTEXTATTRIBSARBPROC)OpenGL::GetGraphicsProcAddress("wglCreateContextAttribsARB");
 
         if (!(m_opengl_context = wglCreateContextAttribsARB(deviceContext, 0, attributes)))
-            throw OpenGL::OpenGLCreateContextError(L"Can't create opengl 3.x context");
+            throw OpenGL::Error::OpenGLCreateContextError(L"Can't create opengl 3.x context");
 
         if (!wglMakeCurrent(deviceContext, m_opengl_context))
-            throw OpenGL::OpenGLContextMakeCurrentError(L"Can't set opengl 3.x context to be current");
+            throw OpenGL::Error::OpenGLContextMakeCurrentError(L"Can't set opengl 3.x context to be current");
 
         wglDeleteContext(tempContext);
 
@@ -212,7 +232,9 @@ namespace Graphics {
 
         SetFullscreen(m_canvas_description.fullscreen);
 
-        m_video_driver = CreateVideoDriver(this);
+		Core::GetFactory()->CreateInstance(IID_IVideoDriver, (void**)&m_video_driver);
+		m_video_driver->Initialize(this);
+
         OpenGL::glViewport(0, m_canvas_description.m_width, 0, m_canvas_description.m_height);
         OpenGL::glClearColor(0, 0, 1, 1);
         OpenGL::glClear(GL_DEPTH_BUFFER_BIT|GL_COLOR_BUFFER_BIT);
@@ -421,11 +443,11 @@ namespace Graphics {
 	}
 
 	void Canvas::Open() {
-		m_window->Open();
+		InternalCreate();		
 	}
 
 	void Canvas::Close() {
-		m_window->Close();
+		InternalDestroy();
 	}
 
 #ifdef _WIN32
@@ -435,13 +457,6 @@ namespace Graphics {
 
 #endif	//	 _WIN32
 
-
-    void CreateCanvas(void** object) {
-		if (!object)
-			return;
-		*object = (void*)(new Canvas);
-    }
-
-	PUNK_REGISTER_CREATOR(IID_ICanvas, CreateCanvas);
+	PUNK_REGISTER_CREATOR(IID_ICanvas, (Core::CreateInstance<Canvas, ICanvas>));
 }
 PUNK_ENGINE_END

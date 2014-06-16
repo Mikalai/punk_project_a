@@ -15,8 +15,8 @@ namespace Graphics {
         virtual std::uint64_t GetVertexCount() const = 0;
         virtual std::uint64_t GetVertexSize() const = 0;
         virtual std::uint64_t GetMemoryUsage() const = 0;
-        virtual void* GetVertexBuffer() = 0;
-        virtual const void* GetVertexBuffer() const = 0;
+        virtual void* GetBuffer() = 0;
+        virtual const void* GetBuffer() const = 0;
     };
 }
 PUNK_ENGINE_END

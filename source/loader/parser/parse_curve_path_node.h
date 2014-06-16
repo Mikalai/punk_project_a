@@ -4,8 +4,8 @@
 //#include <config.h>
 
 //PUNK_ENGINE_BEGIN
-//namespace Loader {
-//    bool ParsePathNode(Core::Buffer &buffer, Scene::PathNode &value)
+//namespace IoModule {
+//    bool ParsePathNode(Core::Buffer &buffer, SceneModule::PathNode &value)
 //}
 //PUNK_ENGINE_END
 

@@ -1,5 +1,4 @@
 
-#include "timer.h"
 #include <stdint.h>
 
 #ifdef _WIN32
@@ -10,6 +9,9 @@
 #elif defined __gnu_linux__
 #include <sys/time.h>
 #endif
+
+#include "timer.h"
+#include <core/ifactory.h>
 
 PUNK_ENGINE_BEGIN
 namespace System
@@ -66,7 +68,7 @@ namespace System
 
 		double GetElapsedSeconds() const
 		{
-            double res = ::GetCurrentTime() - m_last_check;
+            double res = ((double)GetTickCount() - m_last_check) / (double)GetFrequency();
             return res;
 		}
 
@@ -77,7 +79,7 @@ namespace System
 
         double Reset()
 		{
-            m_last_check = (double)GetCurrentTime();
+			m_last_check = (double)GetTickCount();
             return m_last_check;
 		}
 
@@ -104,7 +106,6 @@ namespace System
 
     Timer::Timer()
         : impl(new TimerImpl)
-		, m_container{ this, Core::GetRootObject() }
     {
     }
 
@@ -134,14 +135,6 @@ namespace System
         return impl->GetTime();
     }
 
-	extern PUNK_ENGINE_API ITimerUniquePtr CreateTimer() {
-		ITimerUniquePtr ptr{ new Timer{}, DestroyTimer };
-		return ptr;
-    }
-
-	extern PUNK_ENGINE_API void DestroyTimer(ITimer* value) {
-        Timer* timer = (Timer*)value;
-        delete timer;
-    }
+	PUNK_REGISTER_CREATOR(IID_ITimer, (Core::CreateInstance<Timer, ITimer>));
 }
 PUNK_ENGINE_END

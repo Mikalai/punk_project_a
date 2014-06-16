@@ -40,14 +40,23 @@ namespace Graphics {
             return GetVertexCount()*GetVertexSize();
         }
 
-        void* GetVertexBuffer() override {
-            return (void*)&m_array[0];
+        VertexType* GetVertexBuffer() {
+            return &m_array[0];
         }
 
-        const void* GetVertexBuffer() const override {
-            return (const void*)&m_array[0];
+		const VertexType* GetVertexBuffer() const {
+            return &m_array[0];
         }
     private:
+		
+		void* GetBuffer() override {
+			return (void*)&m_array[0];
+		}
+
+		const void* GetBuffer() const override {
+			return (const void*)&m_array[0];
+		}
+
         std::vector<VertexType> m_array;
     };
 }

@@ -1,9 +1,9 @@
 //#include "parse_functions.h"
 //#include "../../scene/module.h"
 
-//namespace Loader
+//namespace IoModule
 //{
-//    bool ParseNaviMeshNode(Core::Buffer& buffer, Scene::NaviMeshNode& value)
+//    bool ParseNaviMeshNode(Core::Buffer& buffer, SceneModule::NaviMeshNode& value)
 //    {
 //        CHECK_START(buffer);
 //        while (1)

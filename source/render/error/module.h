@@ -4,7 +4,7 @@
 #include <system/errors/module.h>
 
 PUNK_ENGINE_BEGIN
-namespace Render {
+namespace LowLevelRender {
 	namespace Error {
 		class PUNK_ENGINE_API RenderException : public System::Error::SystemException {
 			using System::Error::SystemException::SystemException;

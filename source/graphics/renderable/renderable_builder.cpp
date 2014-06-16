@@ -9,8 +9,8 @@
 PUNK_ENGINE_BEGIN
 namespace Graphics
 {
-    RenderableBuilder::RenderableBuilder(IVideoDriver* driver)
-		: m_driver(driver)
+    RenderableBuilder::RenderableBuilder()
+		: m_driver(nullptr)
 		, m_begin_active(false)
 	{}
 
@@ -19,8 +19,12 @@ namespace Graphics
             delete m_bsphere;
             m_bsphere = nullptr;
         }
-    }
+    }	
 
+	void RenderableBuilder::Initialize(IVideoDriver* driver) {
+		m_driver = driver;
+	}
+	
     void RenderableBuilder::Vertex3f(float x, float y, float z)
 	{
 		ValidateDraw();
@@ -131,6 +135,6 @@ namespace Graphics
     bool RenderableBuilder::IsValid() const
     {
         return !m_vertex.empty();
-    }
+    }	
 }
 PUNK_ENGINE_END

@@ -1,4 +1,5 @@
 #include <math/vec4.h>
+#include <core/ifactory.h>
 #include <graphics/video_driver/gl_video_driver/module.h>
 #include <graphics/frame_buffer/frame_buffer_config.h>
 #include <graphics/texture/gl_texture/module.h>
@@ -35,10 +36,13 @@ namespace Graphics
             count++;
             GL_CALL(glGenFramebuffers(1, &m_fb));
 
-            m_color_texture = CreateTexture2D(config.Width(),
-                        config.Height(),
-                        config.ColorFormat(),
-                        Image::ImageFormat::RGBA, Image::DataType::Float, 0, true, GetVideoDriver());
+			m_color_texture.reset(Core::CreateInstance<ITexture2D>(IID_ITexture2D));
+			if (m_color_texture.get()) {
+				m_color_texture->Initialize(config.Width(),
+					config.Height(),
+					config.ColorFormat(),
+					ImageModule::ImageFormat::RGBA, ImageModule::DataType::Float, 0, true, GetVideoDriver());
+			}
 
             if (GetVideoDriver()->GetSettings()->IsEnabledMultisampling()) {
                 m_resolve_rb = new GlFrameBuffer(GetVideoDriver());
@@ -53,12 +57,15 @@ namespace Graphics
                 AttachDepthTarget(m_depth_rb);
             }
             else {
-                m_depth_texture = CreateTexture2D(
-                            config.Width(),
-                            config.Height(),
-                            config.DepthFormat(),
-                            Image::ImageFormat::DepthComponent, Image::DataType::Float, 0, false,
-                            GetVideoDriver());
+				m_depth_texture.reset(Core::CreateInstance<ITexture2D>(IID_ITexture2D));
+				if (m_depth_texture.get()) {
+					m_depth_texture->Initialize(
+						config.Width(),
+						config.Height(),
+						config.DepthFormat(),
+						ImageModule::ImageFormat::DepthComponent, ImageModule::DataType::Float, 0, false,
+						GetVideoDriver());
+				}
                 AttachColorTarget(0, m_color_texture.get());
                 AttachDepthTarget(m_depth_texture.get());
             }
@@ -184,7 +191,7 @@ namespace Graphics
         {
             GlTexture2D* impl = dynamic_cast<GlTexture2D*>(buffer);
             if (!impl)
-                throw OpenGLInvalidValueException(L"Buffer is invalid");
+				throw Error::OpenGLInvalidValueException(L"Buffer is invalid");
 
             Bind();
             GL_CALL(glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, GL_TEXTURE_2D, impl->GetIndex(), 0));
@@ -197,10 +204,10 @@ namespace Graphics
         {
             GlColorRenderBuffer* buffer = dynamic_cast<GlColorRenderBuffer*>(b);
             if (!buffer)
-                throw OpenGLInvalidValueException(L"Color render buffer is invalid");
+				throw Error::OpenGLInvalidValueException(L"Color render buffer is invalid");
             Bind();
             buffer->Bind();
-            GL_CALL(glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, GL_RENDERBUFFER, buffer->Index()));
+            GL_CALL(glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + (GLenum)index, GL_RENDERBUFFER, buffer->Index()));
             Check();
             Unbind();
         }
@@ -209,7 +216,7 @@ namespace Graphics
         {
             GlTexture2D* impl = dynamic_cast<GlTexture2D*>(buffer);
             if (!impl)
-                throw OpenGLInvalidValueException(L"Depth buffer is invalid");
+				throw Error::OpenGLInvalidValueException(L"Depth buffer is invalid");
 
             Bind();
             buffer->Bind();
@@ -222,7 +229,7 @@ namespace Graphics
         {
             GlDepthRenderBuffer* buffer = dynamic_cast<GlDepthRenderBuffer*>(b);
             if (!buffer)
-                throw OpenGLInvalidValueException(L"Depth buffer is invalid");
+				throw Error::OpenGLInvalidValueException(L"Depth buffer is invalid");
 
             Bind();
             buffer->Bind();
@@ -235,10 +242,10 @@ namespace Graphics
         {
             GlTexture2DArray* buffer = dynamic_cast<GlTexture2DArray*>(b);
             if (!buffer)
-                throw OpenGLInvalidValueException(L"Invalid depth target");
+				throw Error::OpenGLInvalidValueException(L"Invalid depth target");
 
             Bind();
-            GL_CALL(glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, buffer->GetId(), 0, index));
+            GL_CALL(glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, (GLint)buffer->GetId(), 0, index));
             Check();
             Unbind();
         }
@@ -263,25 +270,25 @@ namespace Graphics
             if (result == GL_FRAMEBUFFER_COMPLETE)
                 return;
             else if (result == GL_FRAMEBUFFER_UNDEFINED)
-                throw OpenGLInvalidFramebuffer(L"GL_FRAMEBUFFER_UNDEFINED is returned if target is the default framebuffer, but the default framebuffer does not exist");
+				throw Error::OpenGLInvalidFramebuffer(L"GL_FRAMEBUFFER_UNDEFINED is returned if target is the default framebuffer, but the default framebuffer does not exist");
             else if (result == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT)
-                throw OpenGLInvalidFramebuffer(L"GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT is returned if any of the framebuffer attachment points are framebuffer incomplete");
+				throw Error::OpenGLInvalidFramebuffer(L"GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT is returned if any of the framebuffer attachment points are framebuffer incomplete");
             else if (result == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT)
-                throw OpenGLInvalidFramebuffer(L"GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT is returned if the framebuffer does not have at least one image attached to it");
+				throw Error::OpenGLInvalidFramebuffer(L"GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT is returned if the framebuffer does not have at least one image attached to it");
             else if (result == GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER)
-                throw OpenGLInvalidFramebuffer(L"GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER is returned if the value of GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE is GL_NONE for any color attachment point(s) named by GL_DRAWBUFFERi");
+				throw Error::OpenGLInvalidFramebuffer(L"GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER is returned if the value of GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE is GL_NONE for any color attachment point(s) named by GL_DRAWBUFFERi");
             else if (result == GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER)
-                throw OpenGLInvalidFramebuffer(L"GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER is returned if GL_READ_BUFFER is not GL_NONE and the value of GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE is GL_NONE for the color attachment point named by GL_READ_BUFFER.");
+				throw Error::OpenGLInvalidFramebuffer(L"GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER is returned if GL_READ_BUFFER is not GL_NONE and the value of GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE is GL_NONE for the color attachment point named by GL_READ_BUFFER.");
             else if (result == GL_FRAMEBUFFER_UNSUPPORTED)
-                throw OpenGLInvalidFramebuffer(L"GL_FRAMEBUFFER_UNSUPPORTED is returned if the combination of internal formats of the attached images violates an implementation-dependent set of restrictions.");
+				throw Error::OpenGLInvalidFramebuffer(L"GL_FRAMEBUFFER_UNSUPPORTED is returned if the combination of internal formats of the attached images violates an implementation-dependent set of restrictions.");
             else if (result == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE)
-                throw OpenGLInvalidFramebuffer(L"GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE is returned if the value of GL_RENDERBUFFER_SAMPLES is not the same for all attached renderbuffers; if the value of GL_TEXTURE_SAMPLES is the not same for all attached textures; or, if the attached images are a Mix of renderbuffers and textures, the value of GL_RENDERBUFFER_SAMPLES does not match the value of GL_TEXTURE_SAMPLES.");
+				throw Error::OpenGLInvalidFramebuffer(L"GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE is returned if the value of GL_RENDERBUFFER_SAMPLES is not the same for all attached renderbuffers; if the value of GL_TEXTURE_SAMPLES is the not same for all attached textures; or, if the attached images are a Mix of renderbuffers and textures, the value of GL_RENDERBUFFER_SAMPLES does not match the value of GL_TEXTURE_SAMPLES.");
             else if (result == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE)
-                throw OpenGLInvalidFramebuffer(L"GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE is also returned if the value of GL_TEXTURE_FIXED_SAMPLE_LOCATIONS is not the same for all attached textures; or, if the attached images are a Mix of renderbuffers and textures, the value of GL_TEXTURE_FIXED_SAMPLE_LOCATIONS is not GL_TRUE for all attached textures.");
+				throw Error::OpenGLInvalidFramebuffer(L"GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE is also returned if the value of GL_TEXTURE_FIXED_SAMPLE_LOCATIONS is not the same for all attached textures; or, if the attached images are a Mix of renderbuffers and textures, the value of GL_TEXTURE_FIXED_SAMPLE_LOCATIONS is not GL_TRUE for all attached textures.");
             else if (result == GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS)
-                throw OpenGLInvalidFramebuffer(L"GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS is returned if any framebuffer attachment is layered, and any populated attachment is not layered, or if all populated color attachments are not from textures of the same target.");
+				throw Error::OpenGLInvalidFramebuffer(L"GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS is returned if any framebuffer attachment is layered, and any populated attachment is not layered, or if all populated color attachments are not from textures of the same target.");
             else
-                throw OpenGLInvalidFramebuffer(L"Fuck");
+				throw Error::OpenGLInvalidFramebuffer(L"Fuck");
         }
 
         void GlFrameBuffer::SetPolygonOffset(float a, float b)
@@ -313,7 +320,7 @@ namespace Graphics
         return buffer;
     }
 
-    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, Image::ImageFormat color_format, Image::ImageFormat depth_format, IVideoDriver* driver)
+    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, ImageModule::ImageFormat color_format, ImageModule::ImageFormat depth_format, IVideoDriver* driver)
     {
         auto fb = driver->GetSettings()->GetFrameBufferConfig(0);
         fb.Width(width);
@@ -325,7 +332,7 @@ namespace Graphics
         return buffer;
     }
 
-    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, Image::ImageFormat color_format, Image::ImageFormat depth_format, int depth_samples, IVideoDriver* driver)
+    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, ImageModule::ImageFormat color_format, ImageModule::ImageFormat depth_format, int depth_samples, IVideoDriver* driver)
     {
         auto fb = driver->GetSettings()->GetFrameBufferConfig(0);
         fb.Width(width);
@@ -338,7 +345,7 @@ namespace Graphics
         return buffer;
     }
 
-    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, Image::ImageFormat color_format, Image::ImageFormat depth_format, int depth_samples, int coverage_samples, IVideoDriver* driver)
+    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, ImageModule::ImageFormat color_format, ImageModule::ImageFormat depth_format, int depth_samples, int coverage_samples, IVideoDriver* driver)
     {
         auto fb = driver->GetSettings()->GetFrameBufferConfig(0);
         fb.Width(width);

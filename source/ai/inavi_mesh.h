@@ -13,9 +13,9 @@ namespace Math {
 }
 namespace AI {
 	
-	DEFINE_PUNK_GUID(IID_INaviMesh, "F8A31959-7761-4670-930C-D71850C4A6C2");
+	DECLARE_PUNK_GUID(IID_INaviMesh, "F8A31959-7761-4670-930C-D71850C4A6C2");
 
-	class INaviMesh : public virtual Core::IObject {
+	class INaviMesh : public Core::IObject {
 	public:
 		virtual void SetTransform(const Math::mat4& value) = 0;
 		virtual const Math::mat4& GetTranform() const = 0;		

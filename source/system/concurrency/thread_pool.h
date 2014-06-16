@@ -21,23 +21,22 @@
 #include "thread.h"
 #include "monitor.h"
 #include "atomicint.h"
+#include "ithread_pool.h"
 
 PUNK_ENGINE_BEGIN
 namespace System {
     class ThreadPoolWorkItem;
 
-    class PUNK_ENGINE_API ThreadPool {
+    class PUNK_ENGINE_LOCAL ThreadPool : public IThreadPool {
 	public:
 		ThreadPool(int threads_count = 4);
-		~ThreadPool();
-
-        void EnqueueWorkItem(WorkItem* job, void* data = nullptr, bool auto_del = false);
-
-		void Lock();
-		void Unlock();
-		void Join();
-		bool IsFinish();
-		int HasJobs();
+		virtual ~ThreadPool();
+        void EnqueueWorkItem(WorkItem* job, void* data = nullptr, bool auto_del = false) override;
+		void Lock() override;
+		void Unlock() override;
+		void Join() override;
+		bool IsFinish() override;
+		int HasJobs() override;
 
 	private:
 		void Init(int thread_count);
@@ -56,8 +55,6 @@ namespace System {
 
         AtomicInt m_finish;
 	};
-
-    PUNK_ENGINE_API ThreadPool* GetThreadPool();
 }
 PUNK_ENGINE_END
 

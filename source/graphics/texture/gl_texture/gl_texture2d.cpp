@@ -1,3 +1,5 @@
+#include <core/ifactory.h>
+#include <system/logger/module.h>
 #include <graphics/video_memory/gl_video_memory/module.h>
 #include <graphics/buffers/module.h>
 #include <graphics/opengl/module.h>
@@ -9,51 +11,55 @@
 
 PUNK_ENGINE_BEGIN
 namespace Graphics {
-
-    Image::ImageFormat GetInternalFormat(Image::ImageFormat format) {
-        switch(format) {
-        case Image::ImageFormat::ALPHA:
-        case Image::ImageFormat::IMAGE_FORMAT_R32F:
-        case Image::ImageFormat::RED:
-            return Image::ImageFormat::RED;
-        case Image::ImageFormat::RGB:
-            return Image::ImageFormat::RGB;
-        case Image::ImageFormat::RGBA:
-            return Image::ImageFormat::RGBA;
-        default:
-            throw Error::GraphicsException(L"Can't find suitable internal format");
-        }
-    }
-
+    
     namespace OpenGL {
 
-        GlTexture2D::GlTexture2D(IVideoDriver* driver)
-            : m_driver(dynamic_cast<GlVideoDriver*>(driver))
-        {}
+		void GlTexture2D::AssertInitialized() const {
+			if (!m_initialized)
+				throw Error::OpenGLException("Texture2D is not initialized");
+		}
 
-        GlTexture2D::GlTexture2D(GLint internal_format, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid *pixels, GLboolean use_mipmaps, IVideoDriver *driver)
-            : m_driver(dynamic_cast<GlVideoDriver*>(driver))
-        {
-            Create(width, height, internal_format, format, type, pixels, use_mipmaps);
-        }
+        GlTexture2D::GlTexture2D()
+        {}        
+
+		void GlTexture2D::QueryInterface(const Core::Guid& type, void** object) {
+			Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_ITexture2D });
+		}
+
+		std::uint32_t  GlTexture2D::AddRef() {
+			m_ref_count.fetch_add(1);
+			return m_ref_count;
+		}
+
+		std::uint32_t  GlTexture2D::Release(){
+			std::uint32_t v = m_ref_count.fetch_sub(1) - 1;
+			if (!v) {
+				delete this;
+			}
+			return v;
+		}
 
         GlTexture2D::~GlTexture2D()
         {
             Clear();
+			System::GetDefaultLogger()->Debug("GlTexture2D destroyed ");
         }
 
         std::uint32_t GlTexture2D::GetMemoryUsage() const
         {
+			AssertInitialized();
             return (std::uint32_t)(m_pbo ? m_pbo->GetSize() : 0);
         }
 
         void GlTexture2D::Bind()
         {
+			AssertInitialized();
             GL_CALL(glBindTexture(GL_TEXTURE_2D, m_texture_id));
         }
 
         void GlTexture2D::Bind(GLint slot)
         {
+			AssertInitialized();
             m_bind_slot = slot;
             GL_CALL(glActiveTexture(GL_TEXTURE0 + slot));
             GL_CALL(glBindTexture(GL_TEXTURE_2D, m_texture_id));
@@ -61,31 +67,35 @@ namespace Graphics {
 
         void GlTexture2D::Unbind()
         {
+			AssertInitialized();
             GL_CALL(glActiveTexture(GL_TEXTURE0 + m_bind_slot));
             GL_CALL(glBindTexture(GL_TEXTURE_2D, 0));
         }
 
         void GlTexture2D::Clear()
         {
-            m_driver->GetVideoMemory()->FreePixelBuffer(m_pbo);
+			if (m_pbo && m_pbo->Release())
+				m_pbo = nullptr;
 
             if (m_texture_id)
             {
                 GL_CALL(glDeleteTextures(1, &m_texture_id));
                 m_texture_id = 0;
             }
+			m_initialized = false;
         }
 
         void GlTexture2D::CopyFromCpu(std::int32_t x, std::int32_t y, std::uint32_t width, std::uint32_t height, const void* data)
         {
+			AssertInitialized();
             if (x < 0)
-                throw OpenGLInvalidValueException("Bad x " + Core::String::Convert(x));
+				throw Error::OpenGLInvalidValueException("Bad x " + Core::String::Convert(x));
             if (y < 0)
-                throw OpenGLInvalidValueException("Bad y " + Core::String::Convert(y));
-            if (x + width > m_width)
-                throw OpenGLInvalidValueException("Bad x offset " + Core::String::Convert(x + width) + ". Should be less or equal to " + Core::String::Convert(m_width));
-            if (y + height > m_height)
-                throw OpenGLInvalidValueException("Bad y offset " + Core::String::Convert(y + height) + ". Should be less or equal to " + Core::String::Convert(m_height));
+				throw Error::OpenGLInvalidValueException("Bad y " + Core::String::Convert(y));
+            if (x + width > (int)m_width)
+				throw Error::OpenGLInvalidValueException("Bad x offset " + Core::String::Convert(x + width) + ". Should be less or equal to " + Core::String::Convert(m_width));
+            if (y + height > (int)m_height)
+				throw Error::OpenGLInvalidValueException("Bad y offset " + Core::String::Convert(y + height) + ". Should be less or equal to " + Core::String::Convert(m_height));
 
 
             GL_CALL(glBindTexture(GL_TEXTURE_2D, m_texture_id));
@@ -140,6 +150,21 @@ namespace Graphics {
             }
         }
 
+		ImageModule::ImageFormat GlTexture2D::GetInternalFormat(ImageModule::ImageFormat format) {
+			switch (format) {
+			case ImageModule::ImageFormat::ALPHA:
+			case ImageModule::ImageFormat::IMAGE_FORMAT_R32F:
+			case ImageModule::ImageFormat::RED:
+				return ImageModule::ImageFormat::RED;
+			case ImageModule::ImageFormat::RGB:
+				return ImageModule::ImageFormat::RGB;
+			case ImageModule::ImageFormat::RGBA:
+				return ImageModule::ImageFormat::RGBA;
+			default:
+				throw Error::OpenGLException(L"Can't find suitable internal format");
+			}
+		}
+
         GLenum GlTexture2D::GetInternalFormat(GLenum format)
         {
             switch(format)
@@ -157,12 +182,15 @@ namespace Graphics {
             case GL_DEPTH_COMPONENT32:
                 return GL_DEPTH_COMPONENT;
             default:
-                throw OpenGLInvalidImageFormat(L"Can't find suitable internal format");
+				throw Error::OpenGLInvalidImageFormat(L"Can't find suitable internal format");
             }
         }
 
-        GLboolean GlTexture2D::Create(GLsizei width, GLsizei height, GLenum internal_format, GLenum format, GLenum type, const GLvoid* source, GLboolean use_mipmaps)
-        {
+        GLboolean GlTexture2D::Create(GLsizei width, GLsizei height, GLenum internal_format, GLenum format, GLenum type, const GLvoid* source, GLboolean use_mipmaps, IVideoDriver* driver)
+        {			
+			if (m_initialized)
+				Clear();
+			m_driver = driver;
             m_width = width;
             m_height = height;
             m_internal_format = internal_format;
@@ -188,27 +216,28 @@ namespace Graphics {
             GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT));
             GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT));
 
-            GL_CALL(glTexImage2D(GL_TEXTURE_2D, 0, m_internal_format, m_width, m_height, 0, m_format, m_internal_type, 0));
+			GL_CALL(glTexImage2D(GL_TEXTURE_2D, 0, m_internal_format, m_width, m_height, 0, m_format, m_internal_type, source));
             GL_CALL(glBindTexture(GL_TEXTURE_2D, 0));
 
             //	if data available than copy them
-            if (source)
-            {
-                void* data = Map();
-                if (data)
-                {
-                    memcpy(data, source, m_width * m_height * m_pixel_size);
-                    Unmap(0);
-                }
-            }
+            //if (source)
+            //{
+            //    void* data = Map();
+            //    if (data)
+            //    {
+            //        memcpy(data, source, m_width * m_height * m_pixel_size);
+            //        Unmap(0);
+            //    }
+            //}
             if (m_use_mip_maps)
                 UpdateMipMaps();
 
+			m_initialized = true;
             return true;
         }
 
         void GlTexture2D::UpdateMipMaps()
-        {
+        {			
             GL_CALL(glBindTexture(GL_TEXTURE_2D, m_texture_id));
             GL_CALL(glGenerateMipmap(GL_TEXTURE_2D));
             GL_CALL(glBindTexture(GL_TEXTURE_2D, 0));
@@ -217,18 +246,19 @@ namespace Graphics {
         void* GlTexture2D::Map()
         {
             if (m_pbo)
-                throw OpenGLException(L"Texture already mapped");
-            m_pbo = dynamic_cast<PixelBufferObject*>(m_driver->GetVideoMemory()->AllocatePixelBuffer(m_width*m_height*m_pixel_size));
+                throw Error::OpenGLException(L"Texture already mapped");			
+			m_pbo = new PixelBufferObject<std::uint8_t>();
+			m_pbo->Create(nullptr, m_width*m_height*m_pixel_size);
             void* ptr = m_pbo->Map();
-            if (!ptr)
-                m_driver->GetVideoMemory()->FreePixelBuffer(m_pbo);
+			if (!ptr)
+				m_pbo->Release();
             return ptr;
         }
 
         void GlTexture2D::Unmap(void*)
         {
             if (!m_pbo)
-                throw OpenGLException("Texture was not mapped");
+                throw Error::OpenGLException("Texture was not mapped");
             m_pbo->Unmap();
             GL_CALL(glBindTexture(GL_TEXTURE_2D, m_texture_id));
             m_pbo->Bind();
@@ -236,8 +266,8 @@ namespace Graphics {
             m_pbo->Unbind();
             GL_CALL(glBindTexture(GL_TEXTURE_2D, 0));
 
-            m_driver->GetVideoMemory()->FreePixelBuffer(m_pbo);
-            m_pbo = nullptr;
+			if (!m_pbo->Release())
+				m_pbo = nullptr;
 
             if (m_use_mip_maps)
                 UpdateMipMaps();
@@ -334,77 +364,65 @@ namespace Graphics {
         {
             return m_driver;
         }
-    }
 
-    extern PUNK_ENGINE_API ITexture2DUniquePtr CreateTexture2D(Image::ImageFormat internalformat, std::uint32_t width, std::uint32_t height, std::int32_t border, Image::ImageFormat format, Image::DataType type, const void *pixels, bool use_mipmaps, IVideoDriver* driver) {
-        using namespace OpenGL;
-        return ITexture2DUniquePtr{new GlTexture2D(Convert(internalformat), width, height, border, Convert(format), Convert(type), pixels, use_mipmaps, driver), DestroyTexture2D};
-    }
+		void GlTexture2D::Initialize(ImageModule::ImageFormat internalformat, std::uint32_t width, std::uint32_t height, std::int32_t border, ImageModule::ImageFormat format, ImageModule::DataType type, const void *pixels, bool use_mipmaps, IVideoDriver* driver) {
+			Create(width, height, Convert(internalformat), Convert(format), Convert(type), pixels, use_mipmaps, driver);
+		}
 
-    extern PUNK_ENGINE_API ITexture2DUniquePtr CreateTexture2D(int width, int height, Image::ImageFormat internal_format, Image::ImageFormat format, const void* data, bool use_mipmaps, IVideoDriver* driver) {
-        return CreateTexture2D(width, height,
-                               internal_format, format,
-                               Image::DataType::IMAGE_DATA_TYPE_BYTE,
-                               data, use_mipmaps, driver);
-    }
+		void GlTexture2D::Initialize(int width, int height, ImageModule::ImageFormat internal_format, ImageModule::ImageFormat format, const void* data, bool use_mipmaps, IVideoDriver* driver) {
+			return Initialize(width, height,
+				internal_format, format,
+				ImageModule::DataType::Byte,
+				data, use_mipmaps, driver);
+		}
 
-    extern PUNK_ENGINE_API ITexture2DUniquePtr CreateTexture2D(int width, int height, Image::ImageFormat internal_format, Image::ImageFormat format, Image::DataType type, const void* data, bool use_mipmaps, IVideoDriver* driver) {
-        return Graphics::CreateTexture2D(internal_format, width, height, 0, format,
-                                            type, data, use_mipmaps, driver);
-    }
+		void GlTexture2D::Initialize(int width, int height, ImageModule::ImageFormat internal_format, ImageModule::ImageFormat format, ImageModule::DataType type, const void* data, bool use_mipmaps, IVideoDriver* driver) {
+			return Initialize(internal_format, width, height, 0, format,
+				type, data, use_mipmaps, driver);
+		}
 
-    extern PUNK_ENGINE_API ITexture2DUniquePtr CreateTexture2D(int width, int height, Image::ImageFormat format, const void* data, bool use_mipmaps, IVideoDriver* driver) {
-        auto internal_format = GetInternalFormat(format);
-        return CreateTexture2D(width, height,
-                               internal_format, format,
-                               Image::DataType::IMAGE_DATA_TYPE_BYTE,
-                               data, use_mipmaps, driver);
-    }
+		void GlTexture2D::Initialize(int width, int height, ImageModule::ImageFormat format, const void* data, bool use_mipmaps, IVideoDriver* driver) {
+			auto internal_format = GetInternalFormat(format);
+			return Initialize(width, height,
+				internal_format, format,
+				ImageModule::DataType::Byte,
+				data, use_mipmaps, driver);
+		}
 
-    extern PUNK_ENGINE_API ITexture2DUniquePtr CreateTexture2D(const Image::Image& image, bool use_mipmaps, IVideoDriver* driver) {
-        return CreateTexture2D(image.GetWidth(),
-                               image.GetHeight(),
-                               image.GetImageFormat(),
-                               image.GetData(),
-                               use_mipmaps, driver);
-    }
+		void GlTexture2D::Initialize(const ImageModule::IImage* image, bool use_mipmaps, IVideoDriver* driver) {
+			return Initialize(image->GetWidth(),
+				image->GetHeight(),
+				image->GetFormat(),
+				image->GetData(),
+				use_mipmaps, driver);
+		}
 
-    extern PUNK_ENGINE_API ITexture2DUniquePtr CreateTexture2D(const Core::String& path, bool use_mip_maps, IVideoDriver* driver)
-    {
-        Image::Importer importer;
-        std::unique_ptr<Image::Image> image(importer.LoadAnyImage(path));
+		void GlTexture2D::Initialize(const Core::String& path, bool use_mip_maps, IVideoDriver* driver)
+		{
+			ImageModule::IImageReaderUniquePtr reader{ nullptr, Core::DestroyObject };
+			Core::GetFactory()->CreateInstance(ImageModule::IID_IImageReader, (void**)&reader);
+			ImageModule::IImage* image = reader->Read(path);
+			return Initialize(image, use_mip_maps, driver);
+		}
 
-        if (image.get())
-        {
-            return CreateTexture2D(*image, use_mip_maps, driver);
-        }
-        else
-            throw Error::GraphicsException(L"Can't create texture from " + path);
-    }
+		void GlTexture2D::Initialize(Core::Buffer *buffer, bool use_mip_maps, IVideoDriver* driver)
+		{
+			ImageModule::IImageReaderUniquePtr reader{ nullptr, Core::DestroyObject };
+			Core::GetFactory()->CreateInstance(ImageModule::IID_IImageReader, (void**)&reader);
+			ImageModule::IImageUniquePtr image{ reader->Read(*buffer), Core::DestroyObject };
+			return Initialize(image.get(), use_mip_maps, driver);
+		}
 
-    extern PUNK_ENGINE_API ITexture2DUniquePtr CreateTexture2D(Core::Buffer *buffer, bool use_mip_maps, IVideoDriver* driver)
-    {
-        Image::Image image;
-        image.Load(buffer);
-        return CreateTexture2D(image, use_mip_maps, driver);
-    }
+		void GlTexture2D::Initialize(const ImageModule::IImage* image, ImageModule::ImageFormat internal_format, bool use_mipmaps, IVideoDriver* driver)
+		{
+			auto format = GetInternalFormat(image->GetFormat());
+			size_t width = image->GetWidth();
+			size_t height = image->GetHeight();
+			void* data = (void*)image->GetData();
+			Initialize((int)width, (int)height, internal_format, format, data, use_mipmaps, driver);
+		}
+    }   
 
-    extern PUNK_ENGINE_API ITexture2DUniquePtr CreateTexture2D(const Image::Image &image, Image::ImageFormat internal_format, bool use_mipmaps, IVideoDriver* driver)
-    {
-        auto format = GetInternalFormat(image.GetImageFormat());
-        size_t width = image.GetWidth();
-        size_t height = image.GetHeight();
-        void* data = (void*)image.GetData();
-        std::vector<unsigned char> buffer(image.GetSizeInBytes());
-        memcpy(&buffer[0], data, image.GetSizeInBytes());
-        return CreateTexture2D(width, height, internal_format, format, data, use_mipmaps, driver);
-    }
-
-
-    extern "C" PUNK_ENGINE_API void DestroyTexture2D(ITexture2D* value) {
-        using namespace OpenGL;
-        GlTexture2D* texture = dynamic_cast<GlTexture2D*>(value);
-        delete texture;
-    }
+	PUNK_REGISTER_CREATOR(IID_ITexture2D, (Core::CreateInstance<OpenGL::GlTexture2D, ITexture2D>));
 }
 PUNK_ENGINE_END

@@ -10,12 +10,14 @@ from copy import deepcopy
 #   used to export animation data
 #
 def export_action_ref(f, object):
+    print("Export action ref")
     if object.animation_data == None:
+        print("Animation data is empty")
         return
     animation = object.animation_data
     for track in animation.nla_tracks:        
         for strip in track.strips:
-            export_string(f, "*action_ref", strip.name)
+            export_string(f, "*action_ref", strip.action.name)
     return
 
 #
@@ -58,11 +60,13 @@ def export_armature(object):
     end_block(f)    #*armature
     f.close()        
 
-    file = object.data.name + ".armature"
+    file = object.name + ".armature"
     print(file)
     f = open(file, "w")
     f.write("ARMATURETEXT\n")    
+    start_block(f, object.name)
     export_string(f, "*armature_schema", object.data.name + ".armature_schema")    
+    end_block(f)
     f.close()        
         
     text_offset = old
@@ -91,7 +95,7 @@ def export_armature_node(f, object):
     armature = object.data
     start_block(f, "*node")
     export_string(f, "*name", "Armature")
-    export_string(f, "*entity_name", armature.name + ".armature")
+    export_string(f, "*entity_name", object.name + ".armature")
     push_entity("*armature", object)
 
     for child in object.children:

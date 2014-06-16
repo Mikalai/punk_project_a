@@ -17,7 +17,7 @@
 //        virtual ~StaticMesh();
 //        virtual void Bind(int64_t value) override;
 //        virtual void Unbind() override;
-//        virtual void Render() override;
+//        virtual void LowLevelRender() override;
 //        bool Cook(Virtual::StaticGeometry* desc);
 //        bool HasData();
 //

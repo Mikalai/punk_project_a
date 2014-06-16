@@ -5,7 +5,7 @@
 #include <string/module.h>
 
 PUNK_ENGINE_BEGIN
-namespace Loader {
+namespace IoModule {
     PUNK_ENGINE_API void SaveQuaternion(Core::Buffer* buffer, const Math::quat& value);
     PUNK_ENGINE_API void LoadQuaternion(Core::Buffer* buffer, Math::quat& value);
 }

@@ -44,7 +44,7 @@ namespace Graphics
 		unsigned Dec() { return --m_count; }
 
         static const unsigned MAX_BONES = 64;
-        static const unsigned MAX_LIGHTS = 8;
+        static const unsigned MAX_LIGHTS = 1;
 
 	private:
 		///	Unique index of current state

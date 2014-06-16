@@ -29,7 +29,7 @@ namespace System
         
         KeyMapImpl* impl;
 
-		PUNK_OBJECT_DEFAULT_IMPL3(KeyMap) //  TODO: Keymap can be saved
+		PUNK_OBJECT_DEFAULT_IMPL(KeyMap) //  TODO: Keymap can be saved
     };
 }
 PUNK_ENGINE_END

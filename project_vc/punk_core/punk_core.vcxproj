@@ -46,12 +46,14 @@
     <ClInclude Include="..\..\source\core\decl_property.h" />
     <ClInclude Include="..\..\source\core\factory.h" />
     <ClInclude Include="..\..\source\core\guid.h" />
+    <ClInclude Include="..\..\source\core\icompound_object.h" />
     <ClInclude Include="..\..\source\core\ifactory.h" />
     <ClInclude Include="..\..\source\core\iobject.h" />
     <ClInclude Include="..\..\source\core\meta_class.h" />
     <ClInclude Include="..\..\source\core\meta_class_base.h" />
     <ClInclude Include="..\..\source\core\module.h" />
     <ClInclude Include="..\..\source\core\object.h" />
+    <ClInclude Include="..\..\source\core\object_pool.h" />
     <ClInclude Include="..\..\source\core\pool.h" />
     <ClInclude Include="..\..\source\core\poolable.h" />
     <ClInclude Include="..\..\source\core\pool_manager.h" />

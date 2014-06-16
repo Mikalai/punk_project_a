@@ -3,7 +3,7 @@
 #include "parse_simple.h"
 
 PUNK_ENGINE_BEGIN
-namespace Loader
+namespace IoModule
 {
     bool ParseRiver(Core::Buffer &buffer, Attributes::River &value)
     {

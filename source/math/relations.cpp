@@ -937,7 +937,7 @@ namespace Math {
 			}
 
 			p = (FrustumPlane)((int)p + 1);
-			temp.SetPoints(&new_points[0], new_points.size());
+			temp.SetPoints(&new_points[0], (std::uint32_t)new_points.size());
 		}
 
 		//	create reduced frustum

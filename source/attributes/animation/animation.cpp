@@ -5,7 +5,6 @@ PUNK_ENGINE_BEGIN
 namespace Attributes
 {	
 	Animation::Animation()
-		: m_container{ this, Core::GetRootObject() }
 	{        
 	}
 

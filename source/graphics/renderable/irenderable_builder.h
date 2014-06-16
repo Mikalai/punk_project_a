@@ -3,6 +3,9 @@
 
 #include <memory>
 #include <config.h>
+#include <core/iobject.h>
+#include <graphics/primitives/iindex_array.h>
+#include <graphics/primitives/ivertex_array.h>
 
 PUNK_ENGINE_BEGIN
 
@@ -19,9 +22,12 @@ namespace Graphics {
     class IRenderable;
     class IVideoDriver;
 
-    class PUNK_ENGINE_API IRenderableBuilder
+	DECLARE_PUNK_GUID(IID_IRenderableBuilder, "D4CAB697-87AC-4574-A088-C0A287E7AFE5");
+
+    class IRenderableBuilder : public Core::IObject
     {
     public:
+		virtual void Initialize(IVideoDriver* driver) = 0;
         virtual void Begin(const PrimitiveType& value) = 0;
         virtual void Vertex3f(float x, float y, float z) = 0;
         virtual void Vertex3fv(const float* value) = 0;
@@ -39,12 +45,10 @@ namespace Graphics {
         virtual const Math::BoundingSphere* GetBoundingSphere() const = 0;
         virtual bool IsValid() const = 0;
         virtual IRenderable* ToRenderable() = 0;
+		virtual IRenderable* ToRenderable(PrimitiveType type, IVertexArray* vb, IIndexArray* ib) = 0;
     };
 
-    using IRenderableBuilderUniquePtr = std::unique_ptr<IRenderableBuilder, void (*)(IRenderableBuilder*)>;
-
-    extern PUNK_ENGINE_API IRenderableBuilderUniquePtr CreateRenderableBuilder(IVideoDriver* driver);
-    extern PUNK_ENGINE_API void DestroyRenderableBuilder(IRenderableBuilder* value);
+	using IRenderableBuilderUniquePtr = Core::UniquePtr < IRenderableBuilder > ;
 }
 PUNK_ENGINE_END
 

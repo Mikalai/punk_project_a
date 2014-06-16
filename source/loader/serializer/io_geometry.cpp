@@ -2,7 +2,7 @@
 //#include "io_geometry.h"
 //
 //PUNK_ENGINE_BEGIN
-//namespace Loader {
+//namespace IoModule {
 //    void SaveGeometry(Core::Buffer* buffer, const Core::IObject* o)
 //    {
 //        SaveObject(buffer, o);

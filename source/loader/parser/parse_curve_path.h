@@ -6,7 +6,7 @@
 //PUNK_ENGINE_BEGIN
 //namespace Core { class Buffer; }
 //namespace AI { class CurvePath; }
-//namespace Loader {
+//namespace IoModule {
 //    extern bool ParseCurvePath(Core::Buffer& buffer, AI::CurvePath* value);
 //}
 //PUNK_ENGINE_END

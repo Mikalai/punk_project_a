@@ -10,7 +10,7 @@ Material {
     1.0
   }
   *diffuse_color {
-    0.800000011920929 0.800000011920929 0.800000011920929
+    0.0 0.10914192348718643 0.800000011920929
   }
   *diffuse_fresnel {
     0.10000000149011612
@@ -50,16 +50,5 @@ Material {
   }
   *translucency {
     0.0
-  }
-  *diffuse_texture_slot {
-    *scale {
-      1.0 1.0 1.0
-    }
-    *image {
-      checker2.png
-    }
-    *factor {
-      1.0
-    }
   }
 }

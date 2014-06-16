@@ -43,12 +43,6 @@
     <ClCompile Include="..\..\source\attributes\terrain\terrain_view_processor.cpp">
       <Filter>terrain</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\attributes\skinning\armature.cpp">
-      <Filter>skinning</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\attributes\skinning\bone.cpp">
-      <Filter>skinning</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\attributes\skinning\human_armature.cpp">
       <Filter>skinning</Filter>
     </ClCompile>
@@ -112,9 +106,6 @@
     <ClCompile Include="..\..\source\attributes\animation\bone_animation.cpp">
       <Filter>animation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\attributes\animation\object_animation.cpp">
-      <Filter>animation</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\attributes\animation\object_animation_mixer.cpp">
       <Filter>animation</Filter>
     </ClCompile>
@@ -129,9 +120,6 @@
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\geometry\static_geometry.cpp">
       <Filter>geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\attributes\skinning\armature_schema.cpp">
-      <Filter>skinning</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\light\light_set.cpp">
       <Filter>light</Filter>
@@ -153,6 +141,33 @@
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\camera\camera.cpp">
       <Filter>camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\stubs\file_stub.cpp">
+      <Filter>stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\stubs\text_attribute.cpp">
+      <Filter>stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\skinning\iarmature.cpp">
+      <Filter>skinning</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\skinning\ibone.cpp">
+      <Filter>skinning</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\skinning\iarmature_schema.cpp">
+      <Filter>skinning</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\animation\ikeyframe.cpp">
+      <Filter>animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\animation\itrack.cpp">
+      <Filter>animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\animation\ianimation.cpp">
+      <Filter>animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\animation\ikeyframe_interpolator.cpp">
+      <Filter>animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -322,9 +337,6 @@
     <ClInclude Include="..\..\source\attributes\animation\action_male_walk.h">
       <Filter>animation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\attributes\animation\animation.h">
-      <Filter>animation</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\attributes\animation\animation_mixer.h">
       <Filter>animation</Filter>
     </ClInclude>
@@ -341,9 +353,6 @@
       <Filter>animation</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\animation\module.h">
-      <Filter>animation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\attributes\animation\object_animation.h">
       <Filter>animation</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\animation\object_animation_mixer.h">
@@ -409,9 +418,6 @@
     <ClInclude Include="..\..\source\attributes\light\ilight.h">
       <Filter>light</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\attributes\light\light.h">
-      <Filter>light</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\attributes\light\idirectional_light.h">
       <Filter>light</Filter>
     </ClInclude>
@@ -457,9 +463,6 @@
     <ClInclude Include="..\..\source\attributes\material\inormal_texture_slot.h">
       <Filter>material</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\attributes\camera\camera.h">
-      <Filter>camera</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\attributes\camera\icamera.h">
       <Filter>camera</Filter>
     </ClInclude>
@@ -470,6 +473,33 @@
       <Filter>animation</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\animation\ianimation.h">
+      <Filter>animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\stubs\ifilestub.h">
+      <Filter>stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\stubs\module.h">
+      <Filter>stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\stubs\file_stub.h">
+      <Filter>stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\stubs\text_attribute.h">
+      <Filter>stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\stubs\itext_attribute.h">
+      <Filter>stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\camera\iperspective_camera.h">
+      <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\animation\ikeyframe.h">
+      <Filter>animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\animation\itrack.h">
+      <Filter>animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\animation\ikeyframe_interpolator.h">
       <Filter>animation</Filter>
     </ClInclude>
   </ItemGroup>
@@ -501,9 +531,6 @@
     <Filter Include="data">
       <UniqueIdentifier>{5a4761dd-57fe-449a-9588-b86cc37b44f8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="controllers">
-      <UniqueIdentifier>{2f13fc1d-b217-48fa-bd2e-fd0a5f1a67a0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="animation">
       <UniqueIdentifier>{4643c854-3321-42d0-bdbb-8709c1aa8018}</UniqueIdentifier>
     </Filter>
@@ -521,6 +548,12 @@
     </Filter>
     <Filter Include="camera">
       <UniqueIdentifier>{4dfa7d25-b918-4b87-a3ac-5d9eda026e97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stubs">
+      <UniqueIdentifier>{4d61cedd-d68c-4f05-9918-c9f0d13d50be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="controllers">
+      <UniqueIdentifier>{2f13fc1d-b217-48fa-bd2e-fd0a5f1a67a0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

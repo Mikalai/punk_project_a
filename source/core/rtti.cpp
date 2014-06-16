@@ -92,7 +92,7 @@ namespace Punk {
                 return impl->instances[index];
             }
 
-//            void Rtti::Add(Object* value) {
+//            void Rtti::AddChild(Object* value) {
 //                value->SetLocalIndex(impl->instances.size());
 //                impl->instances.push_back(value);
 //            }

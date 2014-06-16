@@ -8,7 +8,7 @@ namespace Core {
     class Buffer;
     class String;
 }
-namespace Loader {
+namespace IoModule {
     void SaveString(Core::Buffer* buffer, const Core::String& value);
     void LoadString(Core::Buffer* buffer, Core::String& value);
 }

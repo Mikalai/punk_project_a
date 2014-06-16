@@ -12,7 +12,7 @@
 //		Physics::BulletRigidBody* m_body;
 //		Physics::BulletSimulator* m_simulator;
 //		Attributes::Geometry* m_geometry;
-//		Scene::TransformNode* m_node;
+//		SceneModule::TransformNode* m_node;
 //
 //		CubeImpl()
 //		{
@@ -89,13 +89,13 @@
 //		return impl->m_dim;
 //	}
 //
-//	void Cube::OnEnterSceneGraph(Scene::SceneGraph* graph, Scene::Node* node)
+//	void Cube::OnEnterSceneGraph(SceneModule::Scene* graph, SceneModule::Node* node)
 //	{
-//		impl->m_node = Cast<Scene::TransformNode*>(node);
+//		impl->m_node = Cast<SceneModule::TransformNode*>(node);
 //		impl->m_body->GetMotionState()->SetNode(impl->m_node);
 //	}
 //
-//	void Cube::OnLeaveSceneGraph(Scene::SceneGraph* graph)
+//	void Cube::OnLeaveSceneGraph(SceneModule::Scene* graph)
 //	{
 //		impl->m_node = nullptr;
 //		impl->m_body->GetMotionState()->SetNode(nullptr);

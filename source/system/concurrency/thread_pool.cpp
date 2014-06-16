@@ -7,7 +7,7 @@ namespace System
 {
     ThreadPool g_thread_pool;
 
-    PUNK_ENGINE_API ThreadPool* GetThreadPool() {
+    PUNK_ENGINE_API IThreadPool* GetThreadPool() {
         return &g_thread_pool;
     }
 

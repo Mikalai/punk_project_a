@@ -18,22 +18,22 @@ namespace Graphics
         m_name = value;
     }
 
-    Image::ImageFormat FrameBufferConfig::ColorFormat() const
+    ImageModule::ImageFormat FrameBufferConfig::ColorFormat() const
     {
         return m_color_format;
     }
 
-    void FrameBufferConfig::ColorFormat(Image::ImageFormat value)
+    void FrameBufferConfig::ColorFormat(ImageModule::ImageFormat value)
     {
         m_color_format = value;
     }
 
-    Image::ImageFormat FrameBufferConfig::DepthFormat() const
+    ImageModule::ImageFormat FrameBufferConfig::DepthFormat() const
     {
         return m_depth_format;
     }
 
-    void FrameBufferConfig::DepthFormat(Image::ImageFormat value)
+    void FrameBufferConfig::DepthFormat(ImageModule::ImageFormat value)
     {
         m_depth_format = value;
     }

@@ -28,10 +28,10 @@ namespace Math {
 }
 namespace Attributes {
 
-	DEFINE_PUNK_GUID(IID_IGeometry, "3B04856F-622F-4AAD-984D-0A0FA5C34B27");
+	DECLARE_PUNK_GUID(IID_IGeometry, "3B04856F-622F-4AAD-984D-0A0FA5C34B27");
 
 	class IGeometry 
-		: public virtual Core::IObject
+		: public Core::IObject
 		, public IPositionComponent
 		, public INormalComponent
 		, public IColorComponent

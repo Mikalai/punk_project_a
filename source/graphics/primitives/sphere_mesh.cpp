@@ -107,8 +107,8 @@
 //        impl->Unbind();
 //    }
 //
-//    void SphereObject::Render()
+//    void SphereObject::LowLevelRender()
 //    {
-//        impl->Render();
+//        impl->LowLevelRender();
 //    }
 //}

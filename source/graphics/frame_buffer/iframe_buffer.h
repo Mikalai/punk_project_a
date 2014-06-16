@@ -45,9 +45,9 @@ namespace Graphics {
     extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(IVideoDriver* driver);
     extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(const FrameBufferConfig& config, IVideoDriver* driver);
     extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, IVideoDriver* driver);
-    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, Image::ImageFormat color_format, Image::ImageFormat depth_color, IVideoDriver* driver);
-    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, Image::ImageFormat color_format, Image::ImageFormat depth_color, int depth_samples, IVideoDriver* driver);
-    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, Image::ImageFormat color_format, Image::ImageFormat depth_color, int depth_samples, int coverage_samples, IVideoDriver* driver);
+    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, ImageModule::ImageFormat color_format, ImageModule::ImageFormat depth_color, IVideoDriver* driver);
+    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, ImageModule::ImageFormat color_format, ImageModule::ImageFormat depth_color, int depth_samples, IVideoDriver* driver);
+    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, ImageModule::ImageFormat color_format, ImageModule::ImageFormat depth_color, int depth_samples, int coverage_samples, IVideoDriver* driver);
     extern PUNK_ENGINE_API IFrameBuffer* GetBackbuffer();
     extern PUNK_ENGINE_API void DestroyFrameBuffer(IFrameBuffer* buffer);
 }

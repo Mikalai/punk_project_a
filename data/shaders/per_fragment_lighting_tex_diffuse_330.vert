@@ -18,5 +18,5 @@ void main()
 	gl_Position = uProjViewWorld * vec4(rm_Vertex.xyz, 1.0);
         vViewVertexPosition = (uViewWorld * vec4(rm_Vertex.xyz, 1.0)).xyz;
         vViewVertexNormal = normalize(uNormalMatrix * rm_Normal.xyz);
-        vVertexTextureCoord0 = (uTextureMatrix * rm_Texcoord).xy;
+        vVertexTextureCoord0 = (uTextureMatrix * rm_Texcoord).xy;	
 }

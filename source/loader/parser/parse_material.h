@@ -6,9 +6,9 @@
 //PUNK_ENGINE_BEGIN
 //namespace Core { class Buffer; }
 //namespace Attributes { class Material; }
-//namespace Loader {
+//namespace IoModule {
 //    extern bool ParseMaterial(Core::Buffer& buffer, Attributes::Material* mat);
-//    //extern bool ParseMaterials(Core::Buffer& buffer, Scene::SceneGraph* scene);
+//    //extern bool ParseMaterials(Core::Buffer& buffer, SceneModule::Scene* scene);
 //}
 //PUNK_ENGINE_END
 //

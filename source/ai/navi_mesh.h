@@ -44,7 +44,7 @@ namespace AI {
         Normals m_normals;
         Faces m_faces;
 
-        PUNK_OBJECT_DEFAULT_IMPL3(NaviMesh)
+        PUNK_OBJECT_DEFAULT_IMPL(NaviMesh)
 	};
 }
 PUNK_ENGINE_END

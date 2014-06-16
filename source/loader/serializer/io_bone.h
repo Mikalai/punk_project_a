@@ -4,7 +4,7 @@
 //#include <attributes/skinning/bone.h>
 //
 //PUNK_ENGINE_BEGIN
-//namespace Loader {
+//namespace IoModule {
 //    PUNK_ENGINE_API void SaveBone(Core::Buffer*, const Attributes::Bone& bone);
 //    PUNK_ENGINE_API void LoadBone(Core::Buffer*, Attributes::Bone& bone);
 //}

@@ -17,14 +17,15 @@ namespace Graphics {
     class PUNK_ENGINE_LOCAL Canvas : public System::IWindow, public ICanvas {
     public:
         Canvas();
-        ~Canvas();
-
-		void Initialize(const CanvasDescription& desc = CanvasDescription()) override;
+        virtual ~Canvas();		
 
 		//	IObject
 		void QueryInterface(const Core::Guid& type, void** object) override;
+		std::uint32_t AddRef() override;
+		std::uint32_t Release() override;
 
 		//	ICanvas
+		void Initialize(const CanvasDescription& desc = CanvasDescription()) override;
         void SetFullscreen(bool value) override;
         System::IWindow* GetWindow() override;
         const CanvasDescription& GetDescription() override;
@@ -78,13 +79,11 @@ namespace Graphics {
 		void UnsubscribeIdleEvent(void(*Delegate)(const System::IdleEvent&)) override;
 		void Open() override;
 		void Close() override;
+		void InternalCreate() override;
+		void InternalDestroy() override;
 #ifdef _WIN32
 		HWND GetNativeHandle() override;
-#endif	//	 _WIN32
-
-    protected:
-        void InternalCreate() override;
-        void InternalDestroy() override;    
+#endif	//	 _WIN32        
 
     private:
         void OnResize(const System::WindowResizeEvent&);
@@ -96,9 +95,9 @@ namespace Graphics {
         int m_shader_version {0};
         int m_opengl_version {0};
         System::ILogger* m_logger {nullptr};
-        IVideoDriverUniquePtr m_video_driver {nullptr, DestroyVideoDriver};
-
-		PUNK_OBJECT_DEFAULT_IMPL3(Canvas);
+        IVideoDriverUniquePtr m_video_driver {nullptr, Core::DestroyObject};
+		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		
     };
 }
 PUNK_ENGINE_END

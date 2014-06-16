@@ -10,11 +10,12 @@ namespace Graphics {
 
     class PUNK_ENGINE_LOCAL RenderableBuilder : public IRenderableBuilder {
 	public:
-        RenderableBuilder(IVideoDriver* driver);
+        RenderableBuilder();
         RenderableBuilder(const RenderableBuilder&) = delete;
         RenderableBuilder& operator = (const RenderableBuilder&) = delete;
         virtual ~RenderableBuilder();
-
+		
+		void Initialize(IVideoDriver* driver) override;
         void Vertex3f(float x, float y, float z) override;
         void Vertex3fv(const float* value) override;
         void Vertex3fv(const Math::vec3& value) override;
@@ -45,10 +46,10 @@ namespace Graphics {
 
         bool m_begin_active {false};
 
-        int m_primitive_type;
+        PrimitiveType m_primitive_type;
         PrimitiveType m_high_level_type;
 
-        mutable Math::BoundingSphere* m_bsphere {nullptr};
+        mutable Math::BoundingSphere* m_bsphere {nullptr};		
 	};
 }
 PUNK_ENGINE_END

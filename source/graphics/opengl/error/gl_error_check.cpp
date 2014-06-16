@@ -14,12 +14,12 @@ namespace Graphics
             switch(error)
             {
             case GL_NO_ERROR: break;
-            case GL_INVALID_ENUM: throw OpenGLInvalidEnumException(msg);
-            case GL_INVALID_VALUE: throw OpenGLInvalidValueException(msg);
-            case GL_INVALID_OPERATION: throw OpenGLInvalidOperationException(msg);
-            case GL_INVALID_FRAMEBUFFER_OPERATION: throw OpenGLInvalidFrameBufferOperationException(msg);
-            case GL_OUT_OF_MEMORY: throw OpenGLOutOfMemoryException(msg);
-            default: throw OpenGLException(msg);
+			case GL_INVALID_ENUM: throw Error::OpenGLInvalidEnumException(msg);
+			case GL_INVALID_VALUE: throw Error::OpenGLInvalidValueException(msg);
+			case GL_INVALID_OPERATION: throw Error::OpenGLInvalidOperationException(msg);
+			case GL_INVALID_FRAMEBUFFER_OPERATION: throw Error::OpenGLInvalidFrameBufferOperationException(msg);
+			case GL_OUT_OF_MEMORY: throw Error::OpenGLOutOfMemoryException(msg);
+			default: throw Error::OpenGLException(msg);
             };
 #else
             (void)msg;
@@ -34,12 +34,12 @@ namespace Graphics
 			switch(error)
 			{
 			case GL_NO_ERROR: break;
-			case GL_INVALID_ENUM: throw OpenGLInvalidEnumException(msg);
-			case GL_INVALID_VALUE: throw OpenGLInvalidValueException(msg);
-			case GL_INVALID_OPERATION: throw OpenGLInvalidOperationException(msg);
-			case GL_INVALID_FRAMEBUFFER_OPERATION: throw OpenGLInvalidFrameBufferOperationException(msg);
-			case GL_OUT_OF_MEMORY: throw OpenGLOutOfMemoryException(msg);
-			default: throw OpenGLException(msg);
+			case GL_INVALID_ENUM: throw Error::OpenGLInvalidEnumException(msg);
+			case GL_INVALID_VALUE: throw Error::OpenGLInvalidValueException(msg);
+			case GL_INVALID_OPERATION: throw Error::OpenGLInvalidOperationException(msg);
+			case GL_INVALID_FRAMEBUFFER_OPERATION: throw Error::OpenGLInvalidFrameBufferOperationException(msg);
+			case GL_OUT_OF_MEMORY: throw Error::OpenGLOutOfMemoryException(msg);
+			default: throw Error::OpenGLException(msg);
 			};
 #else
             (void)msg;

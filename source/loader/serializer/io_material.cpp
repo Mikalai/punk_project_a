@@ -5,7 +5,7 @@
 //#include "io_material.h"
 //
 //PUNK_ENGINE_BEGIN
-//namespace Loader {
+//namespace IoModule {
 //    PUNK_ENGINE_API void SaveMaterial(Core::Buffer* buffer, const Core::IObject* o)
 //    {
 //        SaveObject(buffer, o);

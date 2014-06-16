@@ -3,7 +3,7 @@
 //#include <math/convex_shape_mesh.h>
 //
 //PUNK_ENGINE_BEGIN
-//namespace Loader
+//namespace IoModule
 //{
 //    bool ParseConvexMesh(Core::Buffer& buffer, Math::ConvexShapeMesh& mesh)
 //    {

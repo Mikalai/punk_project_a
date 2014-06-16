@@ -3,13 +3,16 @@
 
 #include <cstdint>
 #include <config.h>
+#include <core/iobject.h>
 
 PUNK_ENGINE_BEGIN
 namespace Graphics {
 
     class IVideoMemory;
 
-    class IBufferObject {
+	DECLARE_PUNK_GUID(IID_IBufferObject, "471E1C90-5A9C-4790-9C09-5E575D195EBB");
+
+    class IBufferObject : public Core::IObject {
     public:
         virtual void Create(const void* data, std::uint32_t m_size) = 0;
         virtual void Destroy() = 0;
@@ -21,16 +24,7 @@ namespace Graphics {
         virtual void CopyData(const void* data, std::uint32_t size) = 0;
         virtual bool IsValid() const = 0;
         virtual std::uint32_t GetSize() = 0;
-    };
-
-    namespace Constructor {
-        extern "C" PUNK_ENGINE_API IBufferObject* CreatePixelBuffer(IVideoMemory* memory);
-        extern "C" PUNK_ENGINE_API void DestroyPixelBuffer(IBufferObject* buffer);
-        extern "C" PUNK_ENGINE_API IBufferObject* CreateVertexBuffer(IVideoMemory* memory);
-        extern "C" PUNK_ENGINE_API void DestroyVertexBuffer(IBufferObject* buffer);
-        extern "C" PUNK_ENGINE_API IBufferObject* CreateIndexBuffer(IVideoMemory* memory);
-        extern "C" PUNK_ENGINE_API void DestroyIndexBuffer(IBufferObject* buffer);
-    }
+	};
 }
 PUNK_ENGINE_END
 

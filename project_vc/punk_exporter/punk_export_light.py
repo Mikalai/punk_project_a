@@ -12,12 +12,13 @@ def export_point_lamp(object):
     global text_offset
     old = text_offset 
     text_offset = 0
-    file = object.data.name + ".point_lamp"
+    file = object.name + ".point_light"
     print(file)
     f = open(file, "w")
-    f.write("POINTLAMPTEXT\n") 
+    f.write("POINTLIGHTTEXT\n") 
     lamp = object.data        
     start_block(f, lamp.name)
+    export_string(f, "*name", lamp.name)
     export_vec3(f, "*color", lamp.color)
     export_float(f, "*distance", lamp.distance)
     export_float(f, "*energy", lamp.energy)
@@ -30,10 +31,10 @@ def export_point_lamp(object):
          
          
 def export_point_lamps(f):
-    print("Export *point_lamp")
-    if not ("*point_lamp" in used_entities.keys()):
+    print("Export *point_light")
+    if not ("*point_light" in used_entities.keys()):
         return
-    for object in used_entities["*point_lamp"]:
+    for object in used_entities["*point_light"]:
         data = object.data
         if data != None:
             export_point_lamp(object)
@@ -46,23 +47,22 @@ def export_directional_light(object):
     file = object.data.name + ".directional_light"
     print(file)
     f = open(file, "w")
-    f.write("DIRLAMPTEXT\n") 
+    f.write("DIRLIGHTTEXT\n") 
     lamp = object.data        
     start_block(f, lamp.name)
-    export_vec3(f, "*color", lamp.color)
-    export_float(f, "*distance", lamp.distance)
+    export_vec3(f, "*color", lamp.color)    
     export_float(f, "*energy", lamp.energy)
-    export_vec3(f, "*direction", [0, 0, 1])
+    export_vec3(f, "*direction", [0, 0, -1])
     end_block(f);
     f.close()            
     text_offset = old
     return
 
 def export_dir_lamps(f):
-    print("Export *directional_lamp")
-    if not ("*directional_lamp" in used_entities.keys()):
+    print("Export *directional_light")
+    if not ("*directional_light" in used_entities.keys()):
         return
-    for object in used_entities["*directional_lamp"]:
+    for object in used_entities["*directional_light"]:
         data = object.data
         if data != None:
             export_directional_light(object)

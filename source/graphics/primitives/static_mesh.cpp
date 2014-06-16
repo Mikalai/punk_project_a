@@ -445,9 +445,9 @@
 //        impl->Unbind();
 //    }
 //
-//    void StaticMesh::Render()
+//    void StaticMesh::LowLevelRender()
 //    {
-//        impl->Render();
+//        impl->LowLevelRender();
 //    }
 //
 //    bool StaticMesh::HasData()

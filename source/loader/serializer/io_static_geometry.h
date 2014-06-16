@@ -8,7 +8,7 @@
 //    class Buffer;
 //    class IObject;
 //}
-//namespace Loader {
+//namespace IoModule {
 //    void SaveStaticGeometry(Core::Buffer *buffer, const Core::IObject *o);
 //    void LoadStaticGeometry(Core::Buffer *buffer, Core::IObject *o);
 //}

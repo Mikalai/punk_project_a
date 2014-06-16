@@ -6,7 +6,7 @@
 //#include "io_terrain_mesh.h"
 //
 //PUNK_ENGINE_BEGIN
-//namespace Loader {
+//namespace IoModule {
 //    void SaveTerrainMesh(Core::Buffer *buffer, const Core::IObject *o)
 //    {
 //        SaveObject(buffer, o);

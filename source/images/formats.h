@@ -2,20 +2,13 @@
 #define _H_PUNK_IMAGE_FORMATS
 
 #include "config.h"
+#include "types.h"
 
 PUNK_ENGINE_BEGIN
-namespace Image
-{
-    enum class DataType : unsigned {
-        IMAGE_DATA_TYPE_BYTE,
-        IMAGE_DATA_TYPE_UNSIGNED_SHORT,
-        IMAGE_DATA_TYPE_SIGNED_SHORT,
-        IMAGE_DATA_TYPE_UNSIGNED_INT,
-        IMAGE_DATA_TYPE_SIGNED_INT,
-        Float
-    };
-
-    enum class ImageFormat : unsigned { IMAGE_FORMAT_ALPHA4,
+namespace ImageModule {   
+	
+    enum class ImageFormat : unsigned { 
+		IMAGE_FORMAT_ALPHA4,
 		IMAGE_FORMAT_ALPHA8,
 		IMAGE_FORMAT_ALPHA12,
 		IMAGE_FORMAT_ALPHA16,

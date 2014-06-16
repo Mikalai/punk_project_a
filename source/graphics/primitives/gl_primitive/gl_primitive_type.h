@@ -8,6 +8,7 @@ PUNK_ENGINE_BEGIN
 namespace Graphics {
     namespace OpenGL {
         extern PUNK_ENGINE_LOCAL GLenum PrimitiveTypeToOpenGL(PrimitiveType type);
+		extern PUNK_ENGINE_LOCAL PrimitiveType HighLevelPrimitiveTypeToBasic(PrimitiveType type);
 	}
 }
 PUNK_ENGINE_END

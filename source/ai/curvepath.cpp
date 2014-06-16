@@ -4,8 +4,9 @@
 PUNK_ENGINE_BEGIN
 namespace AI
 {
+	DEFINE_PUNK_GUID(IID_ICurvePath, "7B1EBE2B-6E2E-467A-BE39-EF7890622C41");
+
     CurvePath::CurvePath()
-		: m_container{ this, Core::GetRootObject() }		
     {
 		Core::GetFactory()->CreateInstance(Math::IID_ICurve, (void**)&m_curve);
 	}

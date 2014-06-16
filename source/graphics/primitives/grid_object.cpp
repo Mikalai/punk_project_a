@@ -96,8 +96,8 @@
 //        impl->Unbind();
 //    }
 //
-//    void GridObject::Render()
+//    void GridObject::LowLevelRender()
 //    {
-//        impl->Render();
+//        impl->LowLevelRender();
 //    }
 //}

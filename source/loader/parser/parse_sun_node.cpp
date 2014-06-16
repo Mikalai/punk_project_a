@@ -1,9 +1,9 @@
 //#include "parse_functions.h"
 //#include "../../scene/module.h"
 
-//namespace Loader
+//namespace IoModule
 //{
-//    bool ParseSunNode(Core::Buffer &buffer, Scene::SunNode &value)
+//    bool ParseSunNode(Core::Buffer &buffer, SceneModule::SunNode &value)
 //    {
 //        CHECK_START(buffer);
 //        while (1)
@@ -24,14 +24,14 @@
 //            break;
 //            case WORD_TRANSFORM_NODE:
 //            {
-//                std::unique_ptr<Scene::TransformNode> node(new Scene::TransformNode);
+//                std::unique_ptr<SceneModule::TransformNode> node(new SceneModule::TransformNode);
 //                ParseTransformNode(buffer, node.get());
 //                value.Add(node.release());
 //            }
 //            break;
 //            case WORD_MATERIAL_NODE:
 //            {
-//                std::unique_ptr<Scene::MaterialNode> node(new Scene::MaterialNode);
+//                std::unique_ptr<SceneModule::MaterialNode> node(new SceneModule::MaterialNode);
 //                ParseMaterialNode(buffer, node.get());
 //                value.Add(node.release());
 //            }

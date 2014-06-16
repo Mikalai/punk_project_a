@@ -69,7 +69,7 @@ namespace Punk {
             }
 
             std::uint32_t Portal::GetSize() const {
-                return impl->m_points.size();
+				return (std::uint32_t)impl->m_points.size();
             }
 
             void Portal::SetSize(std::uint32_t value) {

@@ -1,9 +1,9 @@
 //#include "../../scene/skin_mesh_node.h"
 //#include "parse_functions.h"
 
-//namespace Loader
+//namespace IoModule
 //{
-//    bool ParseSkinMeshNode(Core::Buffer& buffer, Scene::SkinMeshNode* mesh)
+//    bool ParseSkinMeshNode(Core::Buffer& buffer, SceneModule::SkinMeshNode* mesh)
 //    {
 //        CHECK_START(buffer);
 //        while (!buffer.IsEnd())

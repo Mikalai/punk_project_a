@@ -8,11 +8,11 @@
 PUNK_ENGINE_BEGIN
 namespace Math {
 
-	DEFINE_PUNK_GUID(IID_ISpline, "25CBA834-CFC7-4CC9-86F9-A2981A21D604");
+	DECLARE_PUNK_GUID(IID_ISpline, "25CBA834-CFC7-4CC9-86F9-A2981A21D604");
 
 	class WeightedPoint;
 
-	class ISpline : public virtual Core::IObject {
+	class ISpline : public Core::IObject {
 	public:
 		virtual void AddPoint(const WeightedPoint& value) = 0;
 		virtual void AddPoints(const std::vector<WeightedPoint>& value) = 0;

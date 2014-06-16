@@ -1,5 +1,7 @@
+#include <core/ifactory.h>
 #include "gl_renderable_builder.h"
 #include <graphics/primitives/gl_primitive/module.h>
+#include <graphics/primitives/irenderable.h>
 #include <graphics/primitives/module.h>
 #include <graphics/video_driver/module.h>
 
@@ -9,16 +11,20 @@ namespace Graphics
 {
     namespace OpenGL {
 
-        GlRenderableBuilder::GlRenderableBuilder(IVideoDriver* driver)
-            : RenderableBuilder(driver)
+        GlRenderableBuilder::GlRenderableBuilder()
+            : RenderableBuilder()
         {}
 
         GlRenderableBuilder::~GlRenderableBuilder() {
         }
+		
+		void GlRenderableBuilder::QueryInterface(const Core::Guid& type, void** object) {
+			Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IRenderableBuilder });
+		}
 
-
-        template<typename VertexType>
-        IRenderable* Cook(int type, const IVertexArray* buffer, IVideoDriver* driver) {
+       /* template<typename VertexType>
+        IRenderable* Cook(PrimitiveType type, const IVertexArray* buffer, IVideoDriver* driver) {
+			IRenderable* result = Cook()
             if (type == GL_POINTS) {
                 auto result = CreatePoints(VertexType::Value(), driver);
                 result->Cook(buffer);
@@ -36,7 +42,7 @@ namespace Graphics
             }
             else
                 throw Error::GraphicsException(L"Unsupported primitive type");
-        }
+        }*/
 
         template<typename Vertex>
         void QuadsToTriangles(std::vector<Vertex>& inout, PrimitiveType src_type)
@@ -45,7 +51,7 @@ namespace Graphics
             if (src_type == PrimitiveType::QUADS)
             {
                 if (in.size() % 4 != 0)
-                    throw Error::GraphicsException(L"Invalid vertex buffer. Count of vertex is not devided by 4");
+                    throw Error::OpenGLException(L"Invalid vertex buffer. Count of vertex is not devided by 4");
 
                 inout.clear();
 
@@ -74,7 +80,7 @@ namespace Graphics
             if (src_type == PrimitiveType::POLYGON)
             {
                 if (in.size() < 3)
-                    throw Error::GraphicsException(L"Invalid vertex buffer. Not enough points");
+                    throw Error::OpenGLException(L"Invalid vertex buffer. Not enough points");
                 inout.clear();
 
                 for (size_t i = 1; i != in.size() - 1; ++i)
@@ -109,13 +115,13 @@ namespace Graphics
 
             ModifyVertexInput(vb, m_high_level_type);
             VertexArray<VertexType> array{vb};
-            return Cook<VertexType>(m_primitive_type, &array, m_driver);
+            return ToRenderable(m_primitive_type, &array, nullptr);
         }
 
         IRenderable* GlRenderableBuilder::BuildVertexBufferPC(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& color)
         {
             if (position.size() != color.size())
-                throw Error::GraphicsException(L"Position and color buffer has different size");
+                throw Error::OpenGLException(L"Position and color buffer has different size");
 
             typedef Vertex<VertexComponent::Position, VertexComponent::Color> VertexType;
             std::vector<VertexType> vb;
@@ -135,13 +141,13 @@ namespace Graphics
 
             ModifyVertexInput(vb, m_high_level_type);
             VertexArray<VertexType> array{vb};
-            return Cook<VertexType>(m_primitive_type, &array, m_driver);
+            return ToRenderable(m_primitive_type, &array, nullptr);
         }
 
         IRenderable* GlRenderableBuilder::BuildVertexBufferPT(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& texcoord)
         {
             if (position.size() != texcoord.size())
-                throw Error::GraphicsException(L"Position and texture buffer has different size");
+				throw Error::OpenGLException(L"Position and texture buffer has different size");
 
             typedef Vertex<VertexComponent::Position, VertexComponent::Texture0> VertexType;
             std::vector<VertexType> vb;
@@ -161,13 +167,13 @@ namespace Graphics
 
             ModifyVertexInput(vb, m_high_level_type);
             VertexArray<VertexType> array{vb};
-            return Cook<VertexType>(m_primitive_type, &array, m_driver);
+			return ToRenderable(m_primitive_type, &array, nullptr);
         }
 
         IRenderable* GlRenderableBuilder::BuildVertexBufferPTC(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& texcoord, const std::vector<Math::vec4>& color)
         {
             if (position.size() != texcoord.size() || position.size() != color.size())
-                throw Error::GraphicsException(L"Position, texture or color buffer has different size");
+                throw Error::OpenGLException(L"Position, texture or color buffer has different size");
 
             typedef Vertex<VertexComponent::Position, VertexComponent::Color, VertexComponent::Texture0> VertexType;
             std::vector<VertexType> vb;
@@ -190,13 +196,13 @@ namespace Graphics
 
             ModifyVertexInput(vb, m_high_level_type);
             VertexArray<VertexType> array{vb};
-            return Cook<VertexType>(m_primitive_type, &array, m_driver);
+			return ToRenderable(m_primitive_type, &array, nullptr);
         }
 
         IRenderable* GlRenderableBuilder::BuildVertexBufferPN(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& normal)
         {
             if (position.size() != normal.size())
-                throw Error::GraphicsException(L"Position and normal buffer has different size");
+				throw Error::OpenGLException(L"Position and normal buffer has different size");
 
             typedef Vertex<VertexComponent::Position, VertexComponent::Normal> VertexType;
             std::vector<VertexType> vb;
@@ -216,13 +222,13 @@ namespace Graphics
 
             ModifyVertexInput(vb, m_high_level_type);
             VertexArray<VertexType> array{vb};
-            return Cook<VertexType>(m_primitive_type, &array, m_driver);
+			return ToRenderable(m_primitive_type, &array, nullptr);
         }
 
         IRenderable* GlRenderableBuilder::BuildVertexBufferPNT0(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& normal, const std::vector<Math::vec4>& texcoord)
         {
             if (position.size() != texcoord.size() || position.size() != normal.size())
-                throw Error::GraphicsException(L"Position, texture or normal buffer has different size");
+				throw Error::OpenGLException(L"Position, texture or normal buffer has different size");
 
             typedef Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0> VertexType;
             std::vector<VertexType> vb;
@@ -245,14 +251,14 @@ namespace Graphics
 
             ModifyVertexInput(vb, m_high_level_type);
             VertexArray<VertexType> array{vb};
-            return Cook<VertexType>(m_primitive_type, &array, m_driver);
+			return ToRenderable(m_primitive_type, &array, nullptr);
         }
 
         void GlRenderableBuilder::Begin(const PrimitiveType& value)
         {
             ValidateBegin();
             m_high_level_type = value;            
-            m_primitive_type = PrimitiveTypeToOpenGL(m_high_level_type);
+            m_primitive_type = HighLevelPrimitiveTypeToBasic(m_high_level_type);
             //m_current_frame = m_driver->BeginFrame();
         }
 
@@ -261,7 +267,7 @@ namespace Graphics
             ValidateEnd();
 
             //m_current_frame->BeginRendering();
-            //m_current_frame->Render(renderable);
+            //m_current_frame->LowLevelRender(renderable);
             //m_current_frame->EndRendering();
         }
 
@@ -287,19 +293,110 @@ namespace Graphics
             else if (c == Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0>::Value())
                 renderable = BuildVertexBufferPNT0(m_vertex, m_normal, m_texcoord);
             else
-                throw Error::GraphicsException(L"Unsupported vertex type in RenderableBuilder");
+				throw Error::OpenGLException(L"Unsupported vertex type in RenderableBuilder");
             return renderable;
         }
-    }
 
-    extern PUNK_ENGINE_API IRenderableBuilderUniquePtr CreateRenderableBuilder(IVideoDriver* driver) {
-        IRenderableBuilderUniquePtr result{new OpenGL::GlRenderableBuilder(driver), DestroyRenderableBuilder};
-        return result;
-    }
+		template<PrimitiveType PT, typename IT, typename ... VC>
+		struct CreateBatch {
+			using Type = GlBatch < PT, IT, VC... > ;
+		};		
 
-    extern PUNK_ENGINE_API void DestroyRenderableBuilder(IRenderableBuilder* value) {
-        OpenGL::GlRenderableBuilder* o = dynamic_cast<OpenGL::GlRenderableBuilder*>(value);
-        delete o;
-    }
+		template<PrimitiveType PT, typename IT>
+		IRenderable* CreateRenderable(std::uint64_t vertex_type) {
+			if (vertex_type == Vertex<VertexComponent::Position>::Value())
+				return new CreateBatch<PT, IT, VertexComponent::Position>::Type;
+			else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Texture0, VertexComponent::Flag, VertexComponent::Color>::Value())
+				return new CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Texture0, VertexComponent::Flag, VertexComponent::Color>::Type;
+			else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Color>::Value())
+				return new CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Color>::Type;
+			else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Texture0>::Value())
+				return new CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Texture0>::Type;
+			else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Color, VertexComponent::Texture0>::Value())
+				return new CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Color, VertexComponent::Texture0>::Type;
+			else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Normal>::Value())
+				return new CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Normal>::Type;
+			else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0>::Value())
+				return new CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0> ::Type;
+			else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Tangent, VertexComponent::Bitangent, VertexComponent::Texture0>::Value())
+				return new CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Normal, VertexComponent::Tangent, VertexComponent::Bitangent, VertexComponent::Texture0> ::Type;
+			else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::BoneID, VertexComponent::BoneWeight>::Value())
+				return new CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Normal, VertexComponent::BoneID, VertexComponent::BoneWeight> ::Type;
+			else
+				throw Error::OpenGLException("Unsupported vertex type");
+		}
+		template<PrimitiveType PT>
+		IRenderable* CreateRenderable(std::uint64_t vertex_type, std::uint64_t index_size) {
+			if (index_size == sizeof(std::uint16_t)) {
+				return CreateRenderable<PT, std::uint16_t>(vertex_type);
+			}
+			else if (index_size == sizeof(std::uint32_t)) {
+				return CreateRenderable<PT, std::uint32_t>(vertex_type);
+			}
+			else if (index_size == 0) {
+				return CreateRenderable<PT, std::nullptr_t>(vertex_type);
+			}
+			else
+				throw Error::OpenGLException("Unsupported index size");			
+		}
+
+		IRenderable* CreateRenderable(PrimitiveType type, std::uint64_t vertex_type, std::uint64_t index_size){
+			IRenderable* result = nullptr;
+			switch (type)
+			{
+			case PrimitiveType::POINTS:
+				result = CreateRenderable<PrimitiveType::POINTS>(vertex_type, index_size);
+				break;
+			case PrimitiveType::LINE_STRIP:
+				result = CreateRenderable<PrimitiveType::LINE_STRIP>(vertex_type, index_size);
+				break;
+			case PrimitiveType::LINE_LOOP:
+				result = CreateRenderable<PrimitiveType::LINE_LOOP>(vertex_type, index_size);
+				break;
+			case PrimitiveType::LINES:
+				result = CreateRenderable<PrimitiveType::LINES>(vertex_type, index_size);
+				break;
+			case PrimitiveType::LINE_STRIP_ADJANCECY:
+				result = CreateRenderable<PrimitiveType::LINE_STRIP_ADJANCECY>(vertex_type, index_size);
+				break;
+			case PrimitiveType::LINES_ADJANCENCY:
+				result = CreateRenderable<PrimitiveType::LINES_ADJANCENCY>(vertex_type, index_size);
+				break;
+			case PrimitiveType::TRIANGLE_STRIP:
+				result = CreateRenderable<PrimitiveType::TRIANGLE_STRIP>(vertex_type, index_size);
+				break;
+			case PrimitiveType::TRIANGLE_FAN:
+				result = CreateRenderable<PrimitiveType::TRIANGLE_FAN>(vertex_type, index_size);
+				break;
+			case PrimitiveType::TRIANGLES:
+				result = CreateRenderable<PrimitiveType::TRIANGLES>(vertex_type, index_size);
+				break;
+			case PrimitiveType::TRIANGLE_STRIP_ADJANCECY:
+				result = CreateRenderable<PrimitiveType::TRIANGLE_STRIP_ADJANCECY>(vertex_type, index_size);
+				break;
+			case PrimitiveType::TRIANGLES_ADJANCECY:
+				result = CreateRenderable<PrimitiveType::TRIANGLES_ADJANCECY>(vertex_type, index_size);
+				break;
+			case PrimitiveType::QUADS:
+				result = CreateRenderable<PrimitiveType::QUADS>(vertex_type, index_size);
+				break;
+			case PrimitiveType::POLYGON:
+				result = CreateRenderable<PrimitiveType::POLYGON>(vertex_type, index_size);
+				break;
+			default:
+				throw Error::OpenGLException("Can't create renderable of specified primitive type");
+			}
+			return result;
+		}
+
+		IRenderable* GlRenderableBuilder::ToRenderable(PrimitiveType type, IVertexArray* vb, IIndexArray* ib) {
+			IRenderable* result = CreateRenderable(type, vb->GetVertexType(), ib ? ib->GetIndexSize() : 0);
+			result->Cook(vb, ib);
+			return result;
+		}
+
+
+		PUNK_REGISTER_CREATOR(IID_IRenderableBuilder, (Core::CreateInstance<GlRenderableBuilder, IRenderableBuilder>));
+    }    	
 }
 PUNK_ENGINE_END

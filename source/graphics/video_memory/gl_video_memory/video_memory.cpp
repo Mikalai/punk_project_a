@@ -29,7 +29,7 @@ namespace Graphics {
 		}
 
         VideoMemory::~VideoMemory() {
-            m_logger->Info(String(L"{0} pixel buffers left").arg(m_pbo_list.size()));
+            /*m_logger->Info(String(L"{0} pixel buffers left").arg(m_pbo_list.size()));
 			while (!m_pbo_list.empty())
 			{
 				delete m_pbo_list.back();
@@ -48,13 +48,13 @@ namespace Graphics {
 			{
 				delete m_ibo_list.back();
 				m_ibo_list.pop_back();
-			}
+			}*/
 		}
 
         void VideoMemory::SetMaxMemoryUsage(std::uint32_t value)
 		{
             (void)value;
-            throw Error::GraphicsException(L"VideoMemory::SetMaxMemoryUsage not implemented");
+			throw Error::OpenGLException(L"VideoMemory::SetMaxMemoryUsage not implemented");
 		}
 
         std::uint32_t VideoMemory::GetMaxMemoryUsage() const
@@ -72,7 +72,7 @@ namespace Graphics {
 			return m_core.m_max_mem_available;
 		}
 
-        PixelBufferObject* VideoMemory::AllocatePixelBuffer(std::uint32_t size)
+	/*	IBufferObject* VideoMemory::AllocatePixelBuffer(std::uint32_t size)
 		{
 			VerifyMemory(size);
 			PixelBufferObject* value(new PixelBufferObject);
@@ -151,12 +151,12 @@ namespace Graphics {
             std::uint32_t size = value->GetSize();
 			delete value;
 			m_core.m_mem_usage -= size;
-		}
+		}*/
 
         bool VideoMemory::VerifyMemory(std::uint32_t size)
 		{
 			if (m_core.m_mem_usage + size >= m_core.m_max_mem_usage)
-				throw OpenGLOutOfMemoryException(L"Not enough video memory to allocate buffer");
+				throw Error::OpenGLOutOfMemoryException(L"Not enough video memory to allocate buffer");
 			return true;
 		}
 

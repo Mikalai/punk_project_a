@@ -8,5 +8,7 @@
 #include "material/module.h"
 #include "animation/module.h"
 #include "skinning/module.h"
+#include "stubs/module.h"
+#include "camera/module.h"
 
 #endif

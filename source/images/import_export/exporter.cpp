@@ -1,13 +1,12 @@
 #include "exporter.h"
 #include "png_exporter.h"
 #include "images/error/module.h"
-#include "images/internal_images/image.h"
 #include "string/string.h"
 
 PUNK_ENGINE_BEGIN
-namespace Image
+namespace ImageModule
 {
-    void Exporter::Export(const Core::String& filename, const Image& image)
+    void Exporter::Export(const Core::String& filename, const IImage* image)
     {
         if (filename.EndWith(".png"))
 		{

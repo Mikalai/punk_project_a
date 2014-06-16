@@ -40,6 +40,7 @@ namespace System {
         int64_t SysTimeAsSecondsFromJanuary_1970_1();
         const Core::String SysTimeAsUTC() override;
         const Core::String SysTimeNowAsLocal() override;
+		const Core::String ToString() const override;
 
 	private:
 
@@ -53,7 +54,7 @@ namespace System {
         std::int64_t m_us;
 		tm m_date;
 
-        PUNK_OBJECT_DEFAULT_IMPL3(Clock)
+        PUNK_OBJECT_DEFAULT_IMPL(Clock)
     };
 }
 PUNK_ENGINE_END

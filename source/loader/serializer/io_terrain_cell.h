@@ -10,7 +10,7 @@ namespace Core {
 namespace Attributes {
     class TerrainCell;
 }
-namespace Loader {
+namespace IoModule {
     void SaveTerrainCell(Core::Buffer *buffer, const Attributes::TerrainCell* cell);
     void LoadTerrainCell(Core::Buffer *buffer, Attributes::TerrainCell* cell);
 }

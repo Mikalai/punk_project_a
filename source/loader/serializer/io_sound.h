@@ -5,7 +5,7 @@
 #include <attributes/sound.h>
 
 PUNK_ENGINE_BEGIN
-namespace Loader {
+namespace IoModule {
     PUNK_ENGINE_API void SaveSound(Core::Buffer* buffer, const Attributes::Sound* value);
     PUNK_ENGINE_API void LoadSound(Core::Buffer* buffer, Attributes::Sound* value);
 }

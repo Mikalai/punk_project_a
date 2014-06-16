@@ -23,6 +23,7 @@ else:
     from . import punk_export_light_node
     from . import punk_export_path
     from . import punk_export_path_node
+    from . import punk_export_camera
 
 from .punk_export_base import *
 
@@ -183,15 +184,15 @@ import platform
 #    start_block(f, "*node")
 #    export_string(f, "*name", object.name + "_transform")
 #    export_object_matrix(f, object)
-#    if type(object.data) == bpy.types.PointLamp:
-#        push_entity("*point_lamp", object)
-#        export_string(f, "*entity_name", object.data.name + ".point_lamp")
-#    elif type(object.data) == bpy.types.SunLamp:
-#        push_entity("*directional_lamp", object)
-#        export_string(f, "*entity_name", object.data.name + ".dir_lamp")
-#    elif type(object.data) == bpy.types.SpotLamp:
-#        push_entity("*spot_lamp", object)
-#        export_string(f, "*entity_name", object.data.name + ".spot_lamp")
+#    if type(object.data) == bpy.types.PointLight:
+#        push_entity("*point_light", object)
+#        export_string(f, "*entity_name", object.data.name + ".point_light")
+#    elif type(object.data) == bpy.types.SunLight:
+#        push_entity("*directional_light", object)
+#        export_string(f, "*entity_name", object.data.name + ".dir_light")
+#    elif type(object.data) == bpy.types.SpotLight:
+#        push_entity("*spot_light", object)
+#        export_string(f, "*entity_name", object.data.name + ".spot_light")
 #    end_block(f)
 #    return
  
@@ -413,6 +414,7 @@ def export_model(context, filepath, anim_in_separate_file):
     export_point_lights = punk_get_export_func("POINT_LIGHTS")
     export_directional_lights = punk_get_export_func("DIRECTIONAL_LIGHTS")
     export_paths = punk_get_export_func("PATHS")
+    export_cameras = punk_get_export_func("CAMERAS")
 
     if export_object == None:
         return
@@ -427,8 +429,11 @@ def export_model(context, filepath, anim_in_separate_file):
     try:
         f = open(filepath, 'w')
         f.write("SCENETEXT\n")
+        start_block(f, "*node")
+        export_string(f, "*name", "Root")
         for obj in bpy.context.selected_objects:
             export_object(f, obj)
+        end_block(f)    # *node
         os.chdir(path)
         export_static_meshes(f)
         export_skin_meshes(f)
@@ -439,11 +444,11 @@ def export_model(context, filepath, anim_in_separate_file):
         export_point_lights(f)
         export_directional_lights(f)
         export_paths(f)
+        export_cameras(f)
 #        export_suns(f)
 #        export_navi_meshes(f)
 #        export_terrains(f)
 #        export_rivers(f)
-#        export_cameras(f)
 #        export_point_lamps(f)
 #        export_dir_lamps(f)
         f.close()

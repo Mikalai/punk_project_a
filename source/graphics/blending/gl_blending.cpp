@@ -17,7 +17,7 @@ namespace Graphics
 			case BlendFunction::OneMinusSrcAlpha:
 				return GL_ONE_MINUS_SRC_ALPHA;
 			default:
-                throw Error::GraphicsException(L"Invalid blend function");
+				throw Error::OpenGLException(L"Invalid blend function");
 			}
 		}
 	}

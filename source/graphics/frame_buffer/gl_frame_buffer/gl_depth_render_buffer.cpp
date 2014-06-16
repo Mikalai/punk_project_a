@@ -22,13 +22,13 @@ namespace Graphics {
                 GLint value;
                 GL_CALL(glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_COVERAGE_SAMPLES_NV, &value));
                 if (value < config.CoverageSamples())
-                    throw OpenGLUnsupportedCoverageSamplesCount(L"Failed to create color render buffer with " + config.Name() + L" config");
+					throw Error::OpenGLUnsupportedCoverageSamplesCount(L"Failed to create color render buffer with " + config.Name() + L" config");
                 else
                     config.CoverageSamples(value);
 
                 GL_CALL(glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_COLOR_SAMPLES_NV, &value));
                 if (value < config.DepthSamples())
-                    throw OpenGLUnsupportedDepthSamplesCount(L"Failed to create color render buffer with " + config.Name() + L" config");
+					throw Error::OpenGLUnsupportedDepthSamplesCount(L"Failed to create color render buffer with " + config.Name() + L" config");
                 else
                     config.DepthSamples(value);
             }
@@ -36,13 +36,13 @@ namespace Graphics {
                 GLint max_samples;
                 GL_CALL(glGetIntegerv(GL_MAX_SAMPLES, &max_samples));
                 if (max_samples < config.DepthSamples())
-                    throw OpenGLUnsupportedDepthSamplesCount(L"Failed to create color render buffer with " + config.Name() + L" config");
+					throw Error::OpenGLUnsupportedDepthSamplesCount(L"Failed to create color render buffer with " + config.Name() + L" config");
                 GL_CALL(glRenderbufferStorageMultisample(GL_RENDERBUFFER, config.DepthSamples(), Convert(config.DepthFormat())
                                                          , config.Width(), config.Height()));
                 GLint value;
                 GL_CALL(glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_SAMPLES, &value));
                 if (value < config.DepthSamples())
-                    throw OpenGLUnsupportedDepthSamplesCount(L"Failed to create color render buffer with " + config.Name() + L" config");
+					throw Error::OpenGLUnsupportedDepthSamplesCount(L"Failed to create color render buffer with " + config.Name() + L" config");
                 else
                     config.DepthSamples(value);
             }

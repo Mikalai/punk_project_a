@@ -4,7 +4,7 @@
 #include <utility>
 
 PUNK_ENGINE_BEGIN
-namespace Loader
+namespace IoModule
 {
 	bool ParseBonesWeights(Core::Buffer& buffer, void* object) {
 
@@ -41,6 +41,8 @@ namespace Loader
 			KeywordCode code = ParseKeyword(word);
 			switch (code)
 			{
+			case WORD_CLOSE_BRACKET:
+				return true;
 			case WORD_VERTEX_INDEX:
 			{
 				std::uint32_t index;
@@ -49,11 +51,12 @@ namespace Loader
 			}
 			case WORD_WEIGHTS:
 			{
+				Core::String word = buffer.ReadWord();	//	read open braket
 				while (1) {
 					Core::String word = buffer.ReadWord();
-					if (word == Keyword[WORD_CLOSE_BRACKET].word)
-						return true;
-					int bone_index = buffer.ReadWord().ToInt32();
+					if (word == GetKeyword(WORD_CLOSE_BRACKET))
+						break;
+					int bone_index = word.ToInt32();
 					float weight = buffer.ReadWord().ToFloat();
 					weights->push_back(std::pair < int, float > {bone_index, weight});
 				}

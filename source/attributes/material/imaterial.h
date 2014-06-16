@@ -13,9 +13,9 @@ PUNK_ENGINE_BEGIN
 namespace Attributes {
 	class ITextureSlot;
 
-	DEFINE_PUNK_GUID(IID_IMaterial, "A62FF5E9-6F01-4094-AFEA-CEB9D4F1C3BD");
+	DECLARE_PUNK_GUID(IID_IMaterial, "A62FF5E9-6F01-4094-AFEA-CEB9D4F1C3BD");
 
-	class IMaterial : public virtual Core::IObject
+	class IMaterial : public Core::IObject
 	{
 	public:
 		virtual void SetDiffuseTextureSlot(IDiffuseTextureSlot* value) = 0;

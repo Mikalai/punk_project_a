@@ -8,8 +8,8 @@ namespace Graphics
     FrameBuffer::FrameBuffer(IVideoDriver *driver)
         : m_config{nullptr}
         , m_driver{driver}
-        , m_color_texture{nullptr, DestroyTexture2D}
-        , m_depth_texture{nullptr, DestroyTexture2D} {}
+        , m_color_texture{nullptr, Core::DestroyObject}
+        , m_depth_texture{nullptr, Core::DestroyObject} {}
 
     FrameBuffer::~FrameBuffer() {
         m_color_texture.reset(nullptr);
