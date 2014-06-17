@@ -16,9 +16,14 @@ namespace Attributes
 	DECLARE_PUNK_GUID(IID_IQuatKeyFrameLinearInterpolator, "0D968AF8-DDC6-4FD0-954A-287F4E329941");
 	DECLARE_PUNK_GUID(IID_IFloatKeyFrameLinearInterpolator, "72E39F12-59AA-41EC-B598-E184FCF00A08");
 
+	enum class InterpolatorType : std::uint32_t {
+		Linear
+	};
+
     class IKeyFrameInterpolator : public Core::IObject
 	{
 	public:
+		virtual InterpolatorType GetType() = 0;
 		virtual void SetTrack(ITrack* track) = 0;
 		virtual void Interpolate(std::int32_t frame, void* result, std::uint32_t size) = 0;
 	};

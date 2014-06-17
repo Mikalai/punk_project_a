@@ -46,8 +46,8 @@ namespace Attributes {
 		}
 	};
 
-	template<class Key>
-	class KeyFrameImpl : public KeyFrame<Key> {
+	template<class T>
+	class KeyFrameImpl : public KeyFrame<T> {
 	public:
 		KeyFrameImpl();
 		
@@ -59,30 +59,30 @@ namespace Attributes {
 		//	IKeyFrame
 		 std::int32_t GetFrame() const override;
 		 void SetFrame(std::int32_t value) override;
-		 void GetKey(void* buffer, std::uint32_t size) override;
+		 void GetKey(void* buffer, std::uint32_t size) const override;
 		 void SetKey(const void* buffer, std::uint32_t size) override;
 
 	private:
 		std::atomic<std::uint32_t> m_ref_count{ 1 };
 		std::int32_t m_frame{ 0 };
-		Key m_key{ Key{} };
+		T m_key;
 	};
 
-	template<class Key>
-	KeyFrameImpl<Key>::KeyFrameImpl() {}
+	template<class T>
+	KeyFrameImpl<T>::KeyFrameImpl() {}
 
-	template<class Key>
-	void KeyFrameImpl<Key>::QueryInterface(const Core::Guid& type, void** object) {
-		Core::QueryInterface(this, type, object, {Core::IID_IObject, IID_IKeyFrame, InterfaceAccessor<Key>::GetGuid() });
+	template<class T>
+	void KeyFrameImpl<T>::QueryInterface(const Core::Guid& type, void** object) {
+		Core::QueryInterface(this, type, object, {Core::IID_IObject, IID_IKeyFrame, InterfaceAccessor<T>::GetGuid() });
 	}
 	
-	template<class Key>
-	std::uint32_t KeyFrameImpl<Key>::AddRef() {
+	template<class T>
+	std::uint32_t KeyFrameImpl<T>::AddRef() {
 		return m_ref_count.fetch_add(1);
 	}
 
-	template<class Key>
-	std::uint32_t KeyFrameImpl<Key>::Release() {
+	template<class T>
+	std::uint32_t KeyFrameImpl<T>::Release() {
 		auto v = m_ref_count.fetch_sub(1) - 1;
 		if (!v)
 			delete this;
@@ -90,26 +90,26 @@ namespace Attributes {
 	}
 
 	//	IKeyFrame
-	template<class Key>
-	std::int32_t KeyFrameImpl<Key>::GetFrame() const {
+	template<class T>
+	std::int32_t KeyFrameImpl<T>::GetFrame() const {
 		return m_frame;
 	}
 
-	template<class Key>
-	void KeyFrameImpl< Key>::SetFrame(std::int32_t value) {
+	template<class T>
+	void KeyFrameImpl<T>::SetFrame(std::int32_t value) {
 		m_frame = value;
 	}
 	
-	template<class Key>
-	void KeyFrameImpl<Key>::GetKey(void* buffer, std::uint32_t size) {
-		if (size != sizeof(Key))
+	template<class T>
+	void KeyFrameImpl<T>::GetKey(void* buffer, std::uint32_t size) const {
+		if (size != sizeof(T))
 			throw System::Error::SystemException("Different size");
 		memcpy(buffer, &m_key, size);
 	}
 	
-	template<class Key>
-	void KeyFrameImpl<Key>::SetKey(const void* buffer, std::uint32_t size) {
-		if (size != sizeof(Key))
+	template<class T>
+	void KeyFrameImpl<T>::SetKey(const void* buffer, std::uint32_t size) {
+		if (size != sizeof(T))
 			throw System::Error::SystemException("Different size");
 		memcpy(&m_key, buffer, size);
 	}

@@ -1,3 +1,4 @@
+#include <system/errors/module.h>
 #include <core/ifactory.h>
 #include <math/interpolation.h>
 #include <math/vec3.h>
@@ -9,34 +10,40 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-	struct tagLinear;
+	template<typename T, InterpolatorType Tag> struct InterpolationAspect;
+	template<typename T, InterpolatorType Tag> struct GuidAspect;
 
-	template<typename T, typename Tag> struct InterpolationAspect;
-	template<typename T, typename Tag> struct GuidAspect;
-
-	template<> struct GuidAspect < Math::vec3, tagLinear > { static const Core::Guid GetGuid() { return IID_IVec3KeyFrameLinearInterpolator; } };
-	template<> struct GuidAspect < Math::vec4, tagLinear > { static const Core::Guid GetGuid() { return IID_IVec4KeyFrameLinearInterpolator; } };
-	template<> struct GuidAspect < Math::mat4, tagLinear > { static const Core::Guid GetGuid() { return IID_IMat4KeyFrameLinearInterpolator; } };
-	template<> struct GuidAspect < Math::quat, tagLinear > { static const Core::Guid GetGuid() { return IID_IQuatKeyFrameLinearInterpolator; } };
-	template<> struct GuidAspect < float, tagLinear > { static const Core::Guid GetGuid() { return IID_IFloatKeyFrameLinearInterpolator; } };
+	template<> struct GuidAspect < Math::vec3, InterpolatorType::Linear > { static const Core::Guid GetGuid() { return IID_IVec3KeyFrameLinearInterpolator; } };
+	template<> struct GuidAspect < Math::vec4, InterpolatorType::Linear > { static const Core::Guid GetGuid() { return IID_IVec4KeyFrameLinearInterpolator; } };
+	template<> struct GuidAspect < Math::mat4, InterpolatorType::Linear > { static const Core::Guid GetGuid() { return IID_IMat4KeyFrameLinearInterpolator; } };
+	template<> struct GuidAspect < Math::quat, InterpolatorType::Linear > { static const Core::Guid GetGuid() { return IID_IQuatKeyFrameLinearInterpolator; } };
+	template<> struct GuidAspect < float, InterpolatorType::Linear > { static const Core::Guid GetGuid() { return IID_IFloatKeyFrameLinearInterpolator; } };
 
 	template<typename T>
-	struct InterpolationAspect < T, tagLinear > : public GuidAspect<T, tagLinear> {
+	struct InterpolationAspect < T, InterpolatorType::Linear> : public GuidAspect<T, InterpolatorType::Linear>{
 
 		static const T Interpolate(const T& a, const T& b, float t) {
 			return Math::linear_interpolation(a, b, t);
 		}
+
+		static const InterpolatorType Type() {
+			return InterpolatorType::Linear;
+		}
 	};
 
 	template<>
-	struct InterpolationAspect < Math::quat, tagLinear > : public GuidAspect<Math::quat, tagLinear> {
+	struct InterpolationAspect < Math::quat, InterpolatorType::Linear > : public GuidAspect<Math::quat, InterpolatorType::Linear>{
 
 		static const Math::quat Interpolate(const Math::quat& a, const Math::quat& b, float t) {
 			return Math::spherical_linear_interpolation(a, b, t);
 		}
+
+		static const InterpolatorType Type() {
+			return InterpolatorType::Linear;
+		}
 	};
 	
-	template<typename T, typename Tag>
+	template<typename T, InterpolatorType Tag>
 	class KeyFrameInterpolatorImpl : public IKeyFrameInterpolator {
 	public:
 
@@ -57,22 +64,35 @@ namespace Attributes
 		}
 
 		//	IKeyFrameInterpolator
-		void SetTrack(ITrack* track) override {
-
+		void SetTrack(ITrack* track) override {			
+			m_track = dynamic_cast<Track<T>*>(track);			
+			m_track->AddRef();
 		}
-		void Interpolate(std::int32_t frame, void* result, std::uint32_t size) {
 
+		void Interpolate(std::int32_t frame, void* result, std::uint32_t size) {
+			if (!m_track)
+				throw System::Error::SystemException("Track not set");
+
+			KeyFrame<T>* before = m_track->KeyBefore(frame);
+			KeyFrame<T>* after = m_track->KeyAfter(frame);
+			float t = (frame - before->GetFrame()) / (float)(after->GetFrame() - before->GetFrame());
+			InterpolationAspect<T, Tag>::Interpolate(before->Key(), after->Key(), t);
+		}
+
+		InterpolatorType GetType() override {
+			return Tag;
 		}
 
 	private:
 		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		Track<T>* m_track{ nullptr };
 
 	};
 
-	PUNK_REGISTER_CREATOR(IID_IVec3KeyFrameLinearInterpolator, (Core::CreateInstance<KeyFrameInterpolatorImpl<Math::vec3, tagLinear>, IKeyFrameInterpolator>));
-	PUNK_REGISTER_CREATOR(IID_IVec4KeyFrameLinearInterpolator, (Core::CreateInstance<KeyFrameInterpolatorImpl<Math::vec4, tagLinear>, IKeyFrameInterpolator>));
-	PUNK_REGISTER_CREATOR(IID_IMat4KeyFrameLinearInterpolator, (Core::CreateInstance<KeyFrameInterpolatorImpl<Math::mat4, tagLinear>, IKeyFrameInterpolator>));
-	PUNK_REGISTER_CREATOR(IID_IQuatKeyFrameLinearInterpolator, (Core::CreateInstance<KeyFrameInterpolatorImpl<Math::quat, tagLinear>, IKeyFrameInterpolator>));
-	PUNK_REGISTER_CREATOR(IID_IFloatKeyFrameLinearInterpolator, (Core::CreateInstance<KeyFrameInterpolatorImpl<float, tagLinear>, IKeyFrameInterpolator>));
+	PUNK_REGISTER_CREATOR(IID_IVec3KeyFrameLinearInterpolator, (Core::CreateInstance<KeyFrameInterpolatorImpl<Math::vec3, InterpolatorType::Linear>, IKeyFrameInterpolator>));
+	PUNK_REGISTER_CREATOR(IID_IVec4KeyFrameLinearInterpolator, (Core::CreateInstance<KeyFrameInterpolatorImpl<Math::vec4, InterpolatorType::Linear>, IKeyFrameInterpolator>));
+	PUNK_REGISTER_CREATOR(IID_IMat4KeyFrameLinearInterpolator, (Core::CreateInstance<KeyFrameInterpolatorImpl<Math::mat4, InterpolatorType::Linear>, IKeyFrameInterpolator>));
+	PUNK_REGISTER_CREATOR(IID_IQuatKeyFrameLinearInterpolator, (Core::CreateInstance<KeyFrameInterpolatorImpl<Math::quat, InterpolatorType::Linear>, IKeyFrameInterpolator>));
+	PUNK_REGISTER_CREATOR(IID_IFloatKeyFrameLinearInterpolator, (Core::CreateInstance<KeyFrameInterpolatorImpl<float, InterpolatorType::Linear>, IKeyFrameInterpolator>));
 }
 PUNK_ENGINE_END

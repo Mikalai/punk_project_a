@@ -1,11 +1,16 @@
 #include <list>
 #include <core/ifactory.h>
+#include <math/vec3.h>
+#include <math/vec4.h>
+#include <math/mat4.h>
+#include <math/quat.h>
 #include "itrack.h"
 
 PUNK_ENGINE_BEGIN
 namespace Attributes {
 
-	class TrackImpl : public ITrack {
+	template<class T>
+	class TrackImpl : public Track<T> {
 	public:
 
 		~TrackImpl() {
@@ -29,7 +34,6 @@ namespace Attributes {
 				delete this;
 			return v;
 		}
-
 		
 		std::uint32_t GetDuration() const override {
 			return m_last_frame - m_first_frame + 1;
@@ -100,6 +104,10 @@ namespace Attributes {
 			m_name = value;
 		}
 
+		std::uint32_t GetKeySize() const override {
+			return sizeof(T);
+		}
+
 	private:
 		std::atomic<std::uint32_t> m_ref_count;
 		std::int32_t m_first_frame{ 0 };
@@ -108,6 +116,10 @@ namespace Attributes {
 		Core::String m_name;
 	};
 
-	PUNK_REGISTER_CREATOR(IID_ITrack, (Core::CreateInstance<TrackImpl, ITrack>));
+	PUNK_REGISTER_CREATOR(IID_IFloatTrack, (Core::CreateInstance<TrackImpl<float>, ITrack>));
+	PUNK_REGISTER_CREATOR(IID_IVec3Track, (Core::CreateInstance<TrackImpl<Math::vec3>, ITrack>));
+	PUNK_REGISTER_CREATOR(IID_IVec4Track, (Core::CreateInstance<TrackImpl<Math::vec4>, ITrack>));
+	PUNK_REGISTER_CREATOR(IID_IQuatTrack, (Core::CreateInstance<TrackImpl<Math::quat>, ITrack>));
+	PUNK_REGISTER_CREATOR(IID_IMat4Track, (Core::CreateInstance<TrackImpl<Math::mat4>, ITrack>));
 }
 PUNK_ENGINE_END
