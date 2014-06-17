@@ -54,10 +54,11 @@ namespace IoModule
             case WORD_ACTIONTEXT:
             {
                 Core::String word = buffer.ReadWord();
-                Attributes::IAction* action;
-				factory->CreateInstance(Attributes::IID_IAction, (void**)&action);
-                parser->Parse(WORD_ACTION, buffer, action);
-                return action;
+				Core::UniquePtr<Attributes::IAnimation> animation{ nullptr, Core::DestroyObject };
+				factory->CreateInstance(Attributes::IID_IAnimation, (void**)&animation);
+                parser->Parse(WORD_ACTION, buffer, animation.get());
+				animation->SetName(word);
+                return animation.release();
             }
             case WORD_STATICMESHTEXT:
             {

@@ -1,4 +1,5 @@
 #include <attributes/animation/module.h>
+#include <core/ifactory.h>
 #include "parser.h"
 #include "parse_rotation_track.h"
 
@@ -35,16 +36,18 @@ namespace IoModule {
                 break;
             case WORD_POSITION_TRACK:
             {
-                Attributes::AnimationTrack<Math::vec3> track;
-                parser->Parse(WORD_POSITION_TRACK, buffer, &track);
-                animation->SetPositionTrack(track);
+				Core::UniquePtr<Attributes::Track<Math::vec3>> track{ nullptr, Core::DestroyObject }; 
+				Core::GetFactory()->CreateInstance(Attributes::IID_IVec3Track, (void**)&track);
+                parser->Parse(WORD_POSITION_TRACK, buffer, track.get());
+                animation->AddTrack(track.get());
             }
                 break;
             case WORD_ROTATION_TRACK:
             {
-                Attributes::AnimationTrack<Math::quat> track;
-                parser->Parse(WORD_ROTATION_TRACK, buffer, track);
-                animation->SetRotationTrack(track);
+				Core::UniquePtr<Attributes::Track<Math::quat>> track{ nullptr, Core::DestroyObject };
+				Core::GetFactory()->CreateInstance(Attributes::IID_IQuatTrack, (void**)&track);
+                parser->Parse(WORD_ROTATION_TRACK, buffer, track.get());
+                animation->AddTrack(track.get());
             }
                 break;
             default:

@@ -1,3 +1,4 @@
+#include <core/ifactory.h>
 #include <attributes/animation/module.h>
 #include "parser.h"
 
@@ -6,7 +7,7 @@ namespace IoModule
 {
     bool ParsePositionTrack(Core::Buffer& buffer, void* object)
     {
-		Attributes::AnimationTrack<Math::vec3>* value = (Attributes::AnimationTrack<Math::vec3>*)object;
+		Attributes::Track<Math::vec3>* value = (Attributes::Track<Math::vec3>*)object;
 		Parser* parser = GetDefaultParser();
         CHECK_START(buffer);
         while (1)
@@ -24,7 +25,11 @@ namespace IoModule
             Math::vec3 v;
             v.Set(x,y,z);
 
-            value->AddKey(frame, v);
+			Core::UniquePtr<Attributes::KeyFrame<Math::vec3>> key_frame{ nullptr, Core::DestroyObject };
+			Core::GetFactory()->CreateInstance(Attributes::IID_IVec3KeyFrame, (void**)&key_frame);
+			key_frame->SetFrame(frame);
+			key_frame->Key(v);
+            value->AddKeyFrame(key_frame.get());
         }
         throw Error::LoaderException(L"Unable to parse position track");
     }

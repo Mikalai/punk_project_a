@@ -1,4 +1,5 @@
 #include <attributes/animation/module.h>
+#include <core/ifactory.h>
 #include "parser.h"
 
 PUNK_ENGINE_BEGIN
@@ -6,7 +7,7 @@ namespace IoModule
 {
     bool ParseRotationTrack(Core::Buffer& buffer, void* object)
     {
-		Attributes::AnimationTrack<Math::quat>* value = (Attributes::AnimationTrack<Math::quat>*)object;
+		Attributes::Track<Math::quat>* value = (Attributes::Track<Math::quat>*)object;
 		Parser* parser = GetDefaultParser();
 
         CHECK_START(buffer);
@@ -26,7 +27,11 @@ namespace IoModule
             Math::quat v;
             v.Set(w,x,y,z);
 
-            value->AddKey(frame, v);
+			Core::UniquePtr<Attributes::KeyFrame<Math::quat>> key_frame{ nullptr, Core::DestroyObject };
+			Core::GetFactory()->CreateInstance(Attributes::IID_IQuatKeyFrame, (void**)&key_frame);
+			key_frame->SetFrame(frame);
+			key_frame->Key(v);
+			value->AddKeyFrame(key_frame.get());
         }
         throw Error::LoaderException(L"Unable to parse rotation track");
     }
