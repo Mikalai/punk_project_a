@@ -83,6 +83,7 @@ namespace Attributes {
 		}
 
 		void AddKeyFrame(IKeyFrame* value) {
+			value->AddRef();
 			if (m_frames.empty())
 				m_frames.push_back(value);
 			else {

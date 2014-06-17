@@ -349,9 +349,6 @@
     <ClInclude Include="..\..\source\attributes\animation\armature_animation_mixer.h">
       <Filter>animation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\attributes\animation\interface.h">
-      <Filter>animation</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\attributes\animation\module.h">
       <Filter>animation</Filter>
     </ClInclude>
@@ -500,6 +497,9 @@
       <Filter>animation</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\animation\ianimation_player.h">
+      <Filter>animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\animation\ianimated.h">
       <Filter>animation</Filter>
     </ClInclude>
   </ItemGroup>

@@ -43,8 +43,8 @@ namespace Attributes {
 			return (KeyFrame<T>*)GetKeyAfter(frame);
 		}
 
-		void AddKeyFrame(KeyFrame<T>* value) {
-			ITrack::AddKeyFrame(value);
+		void Add(KeyFrame<T>* value) {
+			AddKeyFrame((IKeyFrame*)value);
 		}		
 	};
 }

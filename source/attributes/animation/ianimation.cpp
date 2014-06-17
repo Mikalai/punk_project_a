@@ -83,6 +83,7 @@ namespace Attributes {
 	}
 
 	void Animation::AddTrack(ITrack* value) {
+		value->AddRef();
 		m_tracks.push_back(value);
 	}
 

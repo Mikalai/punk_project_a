@@ -35,7 +35,7 @@ namespace Attributes {
 			return key;
 		}
 
-		void SetKey(const T& value) {
+		void Key(const T& value) {
 			SetKey(&value, sizeof(value));
 		}
 	};

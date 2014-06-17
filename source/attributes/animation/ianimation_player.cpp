@@ -5,6 +5,7 @@
 #include "ikeyframe_interpolator.h"
 #include "itrack.h"
 #include "ianimation_player.h"
+#include "ianimated.h"
 
 PUNK_ENGINE_BEGIN
 namespace Attributes {
@@ -32,6 +33,11 @@ namespace Attributes {
 		void SetKeyFrameInterpolator(InterpolatorType value) override;
 		InterpolatorType GetKeyFrameInterpolator() override;
 		void GetCurrentValue(std::uint32_t track_index, void* buffer, std::uint32_t size) override;
+		void OnAnimationStarted(Core::ActionBase<void>* action) override;
+		void OnAnimationEnded(Core::ActionBase<void>* action) override;
+		void OnFrame(AnimationAdvanced* action) override;
+		void OnFrame(std::int32_t track_index, TrackAdvanced* action) override;
+		void Attach(IAnimated* value) override;
 
 	private:
 		void AdvanceTime(AnimationSeekDirection dir, float dt);
@@ -41,14 +47,31 @@ namespace Attributes {
 	private:
 		AnimationPlaybackType m_playback_type{ AnimationPlaybackType::Loop };
 		bool m_active{ false };
+		std::int32_t m_prev_frame{ 0 };
 		float m_duration{ 1 };
 		float m_current_time{ 0 };
 		float m_dir_factor{ 1 };	//	can be -1 or 1
 		std::atomic<std::uint32_t> m_ref_count{ 1 };
 		InterpolatorType m_interpolator_type{ InterpolatorType::Linear };
 		IAnimation* m_animation{ nullptr };
-		std::vector<std::vector<std::uint8_t>> m_current_value;
-		std::vector<IKeyFrameInterpolator*> m_interpolators;
+		Core::ActionSlot<void> m_on_started;
+		Core::ActionSlot<void> m_on_ended;
+		Core::ActionSlot<std::int32_t> m_on_frame;
+
+		struct TrackCache {
+			Core::ActionSlot<std::int32_t, void*, std::uint32_t> m_on_frame;
+			std::vector<std::uint8_t> m_current_value;
+			IKeyFrameInterpolator* m_interpolator{ nullptr };
+
+			~TrackCache() {
+				if (m_interpolator) {
+					m_interpolator->Release();
+					m_interpolator = nullptr;
+				}
+			}
+		};
+		std::vector<TrackCache> m_track_cache;
+		std::vector<Core::UniquePtr<IAnimated>> m_animated;
 	};
 
 	//	IObject
@@ -97,10 +120,23 @@ namespace Attributes {
 
 	void AnimationPlayerImpl::Seek(AnimationSeekDirection direction, float dt) {
 		AdvanceTime(direction, dt);
-		auto frame = GetCurrentFrame();		
-		for (std::uint32_t i = 0, max_i = m_animation->GetTracksCount(); i < max_i; ++i) {
-			m_interpolators[i]->Interpolate(frame, m_current_value.at(i).data(), m_current_value.at(i).size());
+		auto frame = GetCurrentFrame();
+		if (frame != m_prev_frame) {
+			m_prev_frame = frame;
+			m_on_frame(frame);
+			for (std::uint32_t i = 0, max_i = m_animation->GetTracksCount(); i < max_i; ++i) {
+				m_track_cache[i].m_interpolator->Interpolate(frame, m_track_cache.at(i).m_current_value.data(), m_track_cache.at(i).m_current_value.size());
+				m_track_cache[i].m_on_frame(frame, m_track_cache.at(i).m_current_value.data(), m_track_cache.at(i).m_current_value.size());
+				for (auto& animated : m_animated) {
+					animated->Advance(i, frame, m_track_cache.at(i).m_current_value.data(), m_track_cache.at(i).m_current_value.size());
+				}
+			}
 		}
+	}
+
+	void AnimationPlayerImpl::Attach(IAnimated* value) {
+		value->AddRef();
+		m_animated.push_back(Core::UniquePtr < IAnimated > {value, Core::DestroyObject});
 	}
 
 	void AnimationPlayerImpl::SetAnimation(IAnimation* value) {
@@ -110,15 +146,15 @@ namespace Attributes {
 		if (m_animation) {
 			m_animation->Release();
 		}
-		
+
 		if (value) {
 			value->AddRef();
 			m_animation = value;
 			//	allocate memory for interpolated data
-			m_current_value.resize(m_animation->GetTracksCount());			
+			m_track_cache.resize(m_animation->GetTracksCount());
 			for (std::int32_t i = 0, max_i = m_animation->GetTracksCount(); i < max_i; ++i) {
 				auto track = m_animation->GetTrack(i);
-				m_current_value.at(i).resize(track->GetKeySize());
+				m_track_cache.at(i).m_current_value.resize(track->GetKeySize());
 			}
 		}
 
@@ -134,16 +170,16 @@ namespace Attributes {
 		return m_animation;
 	}
 
-	void AnimationPlayerImpl::SetKeyFrameInterpolator(InterpolatorType value) {	
+	void AnimationPlayerImpl::SetKeyFrameInterpolator(InterpolatorType value) {
 		m_interpolator_type = value;
 	}
 
 	InterpolatorType AnimationPlayerImpl::GetKeyFrameInterpolator() {
 		return m_interpolator_type;
 	}
-	
+
 	void AnimationPlayerImpl::GetCurrentValue(std::uint32_t track_index, void* buffer, std::uint32_t size) {
-		auto& value = m_current_value.at(track_index);
+		auto& value = m_track_cache.at(track_index).m_current_value;
 		if (value.size() != size)
 			throw System::Error::SystemException("Size mismatch");
 		memcpy(buffer, value.data(), size);
@@ -151,53 +187,49 @@ namespace Attributes {
 
 	void AnimationPlayerImpl::SetupInterpolators() {
 		//	clear old interpolators
-		while (!m_interpolators.empty()) {
-			m_interpolators.back()->Release();
-			m_interpolators.pop_back();
-		}
+		m_track_cache.clear();
 
 		//	if no animation no interpolators can be created
 		if (!m_animation)
 			return;
 
-		m_interpolators.resize(m_animation->GetTracksCount());
 		for (std::uint32_t i = 0, max_i = m_animation->GetTracksCount(); i < max_i; ++i) {
 			auto track = m_animation->GetTrack(i);
 			{
 				Core::UniquePtr<Track<float>> float_track{ nullptr, Core::DestroyObject };
 				track->QueryInterface(IID_IFloatTrack, (void**)&float_track);
 				if (float_track && m_interpolator_type == InterpolatorType::Linear)
-					Core::GetFactory()->CreateInstance(IID_IFloatKeyFrameLinearInterpolator, (void**)&m_interpolators.at(i));
-			}			
+					Core::GetFactory()->CreateInstance(IID_IFloatKeyFrameLinearInterpolator, (void**)&m_track_cache.at(i).m_interpolator);
+			}
 			{
 				Core::UniquePtr<Track<Math::vec3>> vec3_track{ nullptr, Core::DestroyObject };
 				track->QueryInterface(IID_IVec3Track, (void**)&vec3_track);
 				if (vec3_track && m_interpolator_type == InterpolatorType::Linear)
-					Core::GetFactory()->CreateInstance(IID_IVec3KeyFrameLinearInterpolator, (void**)&m_interpolators.at(i));
+					Core::GetFactory()->CreateInstance(IID_IVec3KeyFrameLinearInterpolator, (void**)&m_track_cache.at(i).m_interpolator);
 			}
 			{
 				Core::UniquePtr<Track<Math::vec4>> vec4_track{ nullptr, Core::DestroyObject };
 				track->QueryInterface(IID_IVec4Track, (void**)&vec4_track);
 				if (vec4_track && m_interpolator_type == InterpolatorType::Linear)
-					Core::GetFactory()->CreateInstance(IID_IVec4KeyFrameLinearInterpolator, (void**)&m_interpolators.at(i));
+					Core::GetFactory()->CreateInstance(IID_IVec4KeyFrameLinearInterpolator, (void**)&m_track_cache.at(i).m_interpolator);
 			}
 			{
 				Core::UniquePtr<Track<Math::mat4>> mat4_track{ nullptr, Core::DestroyObject };
 				track->QueryInterface(IID_IMat4Track, (void**)&mat4_track);
 				if (mat4_track && m_interpolator_type == InterpolatorType::Linear)
-					Core::GetFactory()->CreateInstance(IID_IMat4KeyFrameLinearInterpolator, (void**)&m_interpolators.at(i));
+					Core::GetFactory()->CreateInstance(IID_IMat4KeyFrameLinearInterpolator, (void**)&m_track_cache.at(i).m_interpolator);
 			}
 			{
 				Core::UniquePtr<Track<Math::quat>> quat_track{ nullptr, Core::DestroyObject };
 				track->QueryInterface(IID_IQuatTrack, (void**)&quat_track);
 				if (quat_track && m_interpolator_type == InterpolatorType::Linear)
-					Core::GetFactory()->CreateInstance(IID_IQuatTrack, (void**)&m_interpolators.at(i));
+					Core::GetFactory()->CreateInstance(IID_IQuatTrack, (void**)&m_track_cache.at(i).m_interpolator);
 			}
-			m_interpolators.at(i)->SetTrack(track);
+			m_track_cache.at(i).m_interpolator->SetTrack(track);
 		}
 	}
 
-	std::int32_t AnimationPlayerImpl::GetCurrentFrame() {		
+	std::int32_t AnimationPlayerImpl::GetCurrentFrame() {
 		auto frames = m_animation->GetDuration();
 		std::int32_t frame = std::int32_t((float)frames / m_duration * m_current_time);
 		return frame;
@@ -235,6 +267,23 @@ namespace Attributes {
 				}
 			}
 		}
+	}
+
+	void AnimationPlayerImpl::OnAnimationStarted(Core::ActionBase<void>* action) {
+		m_on_started.Add(action);
+	}
+
+	void AnimationPlayerImpl::OnAnimationEnded(Core::ActionBase<void>* action) {
+		m_on_ended.Add(action);
+	}
+	void AnimationPlayerImpl::OnFrame(AnimationAdvanced* action) {
+		m_on_frame.Add(action);
+	}
+
+	void AnimationPlayerImpl::OnFrame(std::int32_t track_index, TrackAdvanced* action) {
+		if (!m_animation)
+			return;
+		m_track_cache.at(track_index).m_on_frame.Add(action);
 	}
 
 	PUNK_REGISTER_CREATOR(IID_IAnimationPlayer, (Core::CreateInstance<AnimationPlayerImpl, IAnimationPlayer>));
