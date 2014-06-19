@@ -11,5 +11,6 @@
     <ClInclude Include="..\..\source\ai\navi_mesh.h" />
     <ClInclude Include="..\..\source\ai\navi_triangle.h" />
     <ClInclude Include="..\..\source\ai\icurvepath.h" />
+    <ClInclude Include="..\..\source\ai\inavi_mesh.h" />
   </ItemGroup>
 </Project>

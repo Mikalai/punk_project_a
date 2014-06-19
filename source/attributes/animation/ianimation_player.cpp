@@ -197,8 +197,6 @@ namespace Attributes {
 	}
 
 	void AnimationPlayerImpl::SetupInterpolators() {
-		//	clear old interpolators
-		m_track_cache.clear();
 
 		//	if no animation no interpolators can be created
 		if (!m_animation)
@@ -234,7 +232,7 @@ namespace Attributes {
 				Core::UniquePtr<Track<Math::quat>> quat_track{ nullptr, Core::DestroyObject };
 				track->QueryInterface(IID_IQuatTrack, (void**)&quat_track);
 				if (quat_track && m_interpolator_type == InterpolatorType::Linear)
-					Core::GetFactory()->CreateInstance(IID_IQuatTrack, (void**)&m_track_cache.at(i).m_interpolator);
+					Core::GetFactory()->CreateInstance(IID_IQuatKeyFrameLinearInterpolator, (void**)&m_track_cache.at(i).m_interpolator);
 			}
 			m_track_cache.at(i).m_interpolator->SetTrack(track);
 		}
@@ -242,7 +240,7 @@ namespace Attributes {
 
 	std::int32_t AnimationPlayerImpl::GetCurrentFrame() {
 		auto frames = m_animation->GetDuration();
-		std::int32_t frame = std::int32_t((float)frames / m_duration * m_current_time);
+		std::int32_t frame = m_animation->GetFirstFrame() + std::int32_t((float)frames / m_duration * m_current_time);
 		return frame;
 	}
 

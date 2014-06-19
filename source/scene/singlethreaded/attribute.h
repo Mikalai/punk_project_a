@@ -44,7 +44,7 @@ namespace SceneModule {
     {}
 
     template<class T>
-    inline Attribute<T>::~Attribute() {        
+    inline Attribute<T>::~Attribute() {        		
 		System::GetDefaultLogger()->Info("Desotroy attrbute " + m_name);
 		while (!m_update_actions.empty()) {
 			m_update_actions.back()->Release();

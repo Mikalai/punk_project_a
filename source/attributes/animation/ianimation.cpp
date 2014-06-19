@@ -75,10 +75,10 @@ namespace Attributes {
 		if (m_tracks.empty())
 			return 0;
 
-		std::int32_t frame = m_tracks.front()->GetFirstFrame();
+		std::int32_t frame = m_tracks.front()->GetLastFrame();
 		for (auto track : m_tracks) {
-			if (frame < track->GetFirstFrame())
-				frame = track->GetFirstFrame();
+			if (frame < track->GetLastFrame())
+				frame = track->GetLastFrame();
 		}
 		return frame;
 	}

@@ -34,19 +34,19 @@ namespace IoModule {
                 animation->SetName(name);
             }
                 break;
-            case WORD_POSITION_TRACK:
+            case WORD_TRACK_VEC3:
             {
 				Core::UniquePtr<Attributes::Track<Math::vec3>> track{ nullptr, Core::DestroyObject }; 
 				Core::GetFactory()->CreateInstance(Attributes::IID_IVec3Track, (void**)&track);
-                parser->Parse(WORD_POSITION_TRACK, buffer, track.get());
+                parser->Parse(WORD_TRACK_VEC3, buffer, track.get());
                 animation->AddTrack(track.get());
             }
                 break;
-            case WORD_ROTATION_TRACK:
+            case WORD_TRACK_QUAT:
             {
 				Core::UniquePtr<Attributes::Track<Math::quat>> track{ nullptr, Core::DestroyObject };
 				Core::GetFactory()->CreateInstance(Attributes::IID_IQuatTrack, (void**)&track);
-                parser->Parse(WORD_ROTATION_TRACK, buffer, track.get());
+                parser->Parse(WORD_TRACK_QUAT, buffer, track.get());
                 animation->AddTrack(track.get());
             }
                 break;
@@ -57,6 +57,6 @@ namespace IoModule {
         return false;
     }
 	
-	PUNK_REGISTER_PARSER(WORD_OBJECT_ANIMATION, ParseAnimation);
+	PUNK_REGISTER_PARSER(WORD_ACTION, ParseAnimation);
 }
 PUNK_ENGINE_END

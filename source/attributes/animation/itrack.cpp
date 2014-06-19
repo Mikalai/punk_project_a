@@ -9,6 +9,15 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes {
 
+	template<typename T> struct TrackGuidAspect;
+
+	template<> struct TrackGuidAspect < Math::vec3> { static const Core::Guid GetGuid() { return IID_IVec3Track; } };
+	template<> struct TrackGuidAspect < Math::vec4> { static const Core::Guid GetGuid() { return IID_IVec3Track; } };
+	template<> struct TrackGuidAspect < Math::mat4> { static const Core::Guid GetGuid() { return IID_IMat4Track; } };
+	template<> struct TrackGuidAspect < Math::quat> { static const Core::Guid GetGuid() { return IID_IQuatTrack; } };
+	template<> struct TrackGuidAspect < float > { static const Core::Guid GetGuid() { return IID_IFloatTrack; } };
+
+
 	template<class T>
 	class TrackImpl : public Track<T> {
 	public:
@@ -22,7 +31,7 @@ namespace Attributes {
 
 		//	IObject
 		void QueryInterface(const Core::Guid& type, void** object) {
-			Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_ITrack });
+			Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_ITrack, TrackGuidAspect<T>::GetGuid() });
 		}
 
 		std::uint32_t AddRef() {
@@ -92,9 +101,12 @@ namespace Attributes {
 					if ((*it)->GetFrame() > value->GetFrame()) {
 						break;
 					}
+					++it;
 				}
 				m_frames.insert(it, value);
 			}
+			m_first_frame = std::min(m_first_frame, value->GetFrame());
+			m_last_frame = std::max(m_last_frame, value->GetFrame());
 		}
 
 		const Core::String& GetName() const {
@@ -110,7 +122,7 @@ namespace Attributes {
 		}
 
 	private:
-		std::atomic<std::uint32_t> m_ref_count;
+		std::atomic<std::uint32_t> m_ref_count{ 1 };
 		std::int32_t m_first_frame{ 0 };
 		std::int32_t m_last_frame{ 0 };
 		std::list<IKeyFrame*> m_frames;

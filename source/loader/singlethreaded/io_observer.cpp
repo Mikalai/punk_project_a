@@ -107,6 +107,9 @@ namespace IoModule {
 		if (attribute->GetTypeID() == typeid(Attributes::IFileStub).hash_code()) {
 			auto stub = attribute->Get<Attributes::IFileStub>();
 			Core::IObjectUniquePtr o{ ParsePunkFile(stub->GetFilename()), Core::DestroyObject };
+			if (stub->GetCallback()) {
+				(*stub->GetCallback())(o.get());
+			}
 			{
 				{
 					Attributes::IGeometry* geom = nullptr;

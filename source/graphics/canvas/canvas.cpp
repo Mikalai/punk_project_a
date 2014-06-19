@@ -1,4 +1,4 @@
-#include <core/factory.h>
+#include <core/ifactory.h>
 #include <string/module.h>
 #include <system/logger/module.h>
 #include <system/events/module.h>

@@ -1,5 +1,5 @@
 #include <memory>
-#include <core/factory.h>
+#include <core/ifactory.h>
 #include <attributes/module.h>
 #include <scene/module.h>
 #include "parser.h"

@@ -1,9 +1,21 @@
 #include <iostream>
-#include "factory.h"
+#include <map>
+#include <config.h>
+#include "guid.h"
+#include "ifactory.h"
 #include "core_error.h"
 
 PUNK_ENGINE_BEGIN
 namespace Core {
+
+	class PUNK_ENGINE_LOCAL Factory : public IFactory {
+	public:
+		void CreateInstance(const Guid& type, void** object) override;
+		void RegisterCreator(const Guid& type, void(*Creator)(void** object)) override;
+		void UnregisterCreator(const Guid& type) override;
+	private:
+		std::map<const Guid, void(*)(void**)> m_creators;
+	};
 
 	static Factory* g_factory;
 
@@ -17,6 +29,12 @@ namespace Core {
 	}
 
 	void Factory::RegisterCreator(const Guid& type, void(*Creator)(void**)) {
+		auto it = m_creators.find(type);
+		if (it != m_creators.end()) {
+			auto msg = "Create alredy registered for " + type.ToString();
+			std::wcout << (wchar_t*)msg.Data() << std::endl;
+			throw Error::CoreException(msg);
+		}
 		m_creators[type] = Creator;
 	}
 

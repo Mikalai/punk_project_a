@@ -67,20 +67,22 @@ namespace Attributes
 			return m_animation_player.get();
 		}
 
-		void Update() override {			
-			for (std::uint32_t track_index = 0, max_i = m_animation_player->GetAnimation()->GetTracksCount(); track_index < max_i; ++track_index) {
-				auto track = m_animation_player->GetAnimation()->GetTrack(track_index);
-				if (track_index == m_position_track_index) {
-					m_animation_player->GetCurrentValue(track_index, (void*)&m_position, sizeof(m_position));
-					m_need_update = true;
-				}
-				else if (track_index == m_rotation_track_index) {
-					m_animation_player->GetCurrentValue(track_index, (void*)&m_rotation, sizeof(m_rotation));
-					m_need_update = true;
-				}
-				else if (track_index == m_scale_track_index) {
-					m_animation_player->GetCurrentValue(track_index, (void*)&m_scale, sizeof(m_scale));
-					m_need_update = true;
+		void Update() override {		
+			if (m_animation_player.get() && m_animation_player->GetAnimation()) {
+				for (std::uint32_t track_index = 0, max_i = m_animation_player->GetAnimation()->GetTracksCount(); track_index < max_i; ++track_index) {
+					auto track = m_animation_player->GetAnimation()->GetTrack(track_index);
+					if (track_index == m_position_track_index) {
+						m_animation_player->GetCurrentValue(track_index, (void*)&m_position, sizeof(m_position));
+						m_need_update = true;
+					}
+					else if (track_index == m_rotation_track_index) {
+						m_animation_player->GetCurrentValue(track_index, (void*)&m_rotation, sizeof(m_rotation));
+						m_need_update = true;
+					}
+					else if (track_index == m_scale_track_index) {
+						m_animation_player->GetCurrentValue(track_index, (void*)&m_scale, sizeof(m_scale));
+						m_need_update = true;
+					}
 				}
 			}
 		}

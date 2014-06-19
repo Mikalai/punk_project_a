@@ -105,10 +105,6 @@ namespace IoModule
 		WORD_LINEAR_ATTENUATION,					// 6
 		WORD_QUADRATIC_ATTENUATION,					// 6
 		WORD_REFERENCE, 					// 6
-		WORD_BONE_ANIMATION,					// 6
-		WORD_OBJECT_ANIMATION,					// 6
-		WORD_POSITION_TRACK,					// 6
-		WORD_ROTATION_TRACK,					// 6
 		WORD_MATERIAL_REF,					// 6
 		WORD_ACTIONS_REF,					// 6
 		WORD_ACTION_REF,					// 6
@@ -190,7 +186,13 @@ namespace IoModule
 		WORD_PERSPECTIVE_CAMERA,
 		WORD_ORTHO_CAMERA,
 		WORD_PANORAMIC_CAMERA,
-		WORD_UP_VECTOR
+		WORD_UP_VECTOR,
+		WORD_TRACK_VEC3,
+		WORD_TRACK_VEC4,
+		WORD_TRACK_FLOAT,
+		WORD_TRACK_QUAT,
+		WORD_TRACK_MAT4,
+		WORD_KEYS
 	};
 
 	struct Record
@@ -282,10 +284,6 @@ namespace IoModule
 			{ WORD_FALLOFF_TYPE, "*fallof_type" },
 			{ WORD_LINEAR_ATTENUATION, "*linear_attenuation" },
 			{ WORD_QUADRATIC_ATTENUATION, "*quadratic_attenuation" },
-			{ WORD_BONE_ANIMATION, "*bone_animation" },
-			{ WORD_OBJECT_ANIMATION, "*object_animation" },
-			{ WORD_POSITION_TRACK, "*position_track" },
-			{ WORD_ROTATION_TRACK, "*rotation_track" },
 			{ WORD_MATERIAL_REF, "*material_ref" },
 			{ WORD_ACTIONS_REF, "*actions_ref" },
 			{ WORD_ACTION_REF, "*action_ref" },
@@ -379,7 +377,13 @@ namespace IoModule
 			{ WORD_ORTHO_CAMERA, "*ortho_camera" },
 			{ WORD_PANORAMIC_CAMERA, "*panoramic_camera" },
 			{ WORD_UP_VECTOR, "*up_vector" },
-			{ WORD_UINT32, "*uint32" }
+			{ WORD_UINT32, "*uint32" },
+			{ WORD_TRACK_VEC3, "*track_vec3" },
+			{ WORD_TRACK_VEC4, "*track_vec4" },
+			{ WORD_TRACK_FLOAT, "*track_float" },
+			{ WORD_TRACK_QUAT, "*track_quat" },
+			{ WORD_TRACK_MAT4, "*track_mat4" },
+			{ WORD_KEYS, "*keys" }
 	};
 
     KeywordCode ParseKeyword(const Core::String& word);

@@ -1,4 +1,4 @@
-#include <core/factory.h>
+#include <core/ifactory.h>
 #include "animation.h"
 
 PUNK_ENGINE_BEGIN

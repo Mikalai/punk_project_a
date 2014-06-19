@@ -32,6 +32,15 @@ namespace AnimatorModule {
 
 	private:
 		void Process(SceneModule::INode* node);
+		void OnAnimationLoaded(Core::IObject* o) {
+			Core::UniquePtr<Attributes::IAnimation> animation{ nullptr, Core::DestroyObject };
+			o->QueryInterface(Attributes::IID_IAnimation, (void**)&animation);
+			if (animation.get()) {
+				animation->AddRef();
+				m_animations.push_back(animation.get());
+				m_animation_map.AddValue(animation->GetName(), animation.get());
+			}
+		}
 	private:
 		std::atomic<std::uint32_t> m_ref_count{ 1 };
 		std::vector<Attributes::IAnimated*> m_animated;
@@ -39,7 +48,7 @@ namespace AnimatorModule {
 		Core::UniquePtr<SceneModule::IScene> m_scene{ nullptr, Core::DestroyObject };
 		Core::UniquePtr<SceneModule::ISceneManager> m_manager{ nullptr, Core::DestroyObject };
 		Core::ObjectPool<Core::String, Attributes::IAnimation*> m_animation_map;
-		std::vector<Core::UniquePtr<Attributes::IAnimation>> m_animations;
+		std::vector<Attributes::IAnimation*> m_animations;
 	};
 
 	Animator::~Animator() {
@@ -49,6 +58,10 @@ namespace AnimatorModule {
 		while (!m_players.empty()) {
 			m_players.back()->Release();
 			m_players.pop_back();
+		}
+		while (!m_animations.empty()) {
+			m_animations.back()->Release();
+			m_animations.pop_back();
 		}
 	}
 
@@ -116,7 +129,7 @@ namespace AnimatorModule {
 		auto animation = attribute->Get<Attributes::IAnimation>();
 		if (animation) {
 			animation->AddRef();
-			m_animations.push_back(Core::UniquePtr < Attributes::IAnimation > {animation, Core::DestroyObject});
+			m_animations.push_back(animation);
 			m_animation_map.AddValue(animation->GetName(), animation);
 		}
 	}
@@ -145,8 +158,10 @@ namespace AnimatorModule {
 					auto name = animated->GetAnimation(i);
 					if (!m_animation_map.HasValue(name)) {
 						auto filename = m_scene->GetSourcePath() + name + L".action";
-						Core::UniquePtr<Attributes::IFileStub> file_stub{ nullptr, Core::DestroyObject };
+						Core::UniquePtr<Attributes::IFileStub> file_stub{ nullptr, Core::DestroyObject };						
 						Core::GetFactory()->CreateInstance(Attributes::IID_IFileStub, (void**)&file_stub);
+						file_stub->SetFilename(filename);
+						file_stub->SetCallback(new Core::Action < Animator, Core::IObject* > { this, &Animator::OnAnimationLoaded });
 						node->Set<Attributes::IFileStub>(name, file_stub.get());
 					}
 				}
@@ -165,7 +180,7 @@ namespace AnimatorModule {
 	}
 
 	void Animator::Update(float dt) {		
-		
+		dt /= 1000.0f; 
 		for (auto& player : m_players) {			
 			if (player->IsPlaying()) {
 				player->Seek(Attributes::AnimationSeekDirection::Current, dt);
@@ -174,15 +189,18 @@ namespace AnimatorModule {
 
 		for (auto& animated : m_animated) {
 			if (!animated->GetAnimationPlayer()) {
-				Core::UniquePtr<Attributes::IAnimationPlayer> player{ nullptr, Core::DestroyObject };
-				Core::GetFactory()->CreateInstance(Attributes::IID_IAnimationPlayer, (void**)&player);
-				animated->SetAnimationPlayer(player.get());				
-				m_players.push_back(player.release());
+				if (animated->GetAnimationsCount() && m_animation_map.HasValue(animated->GetAnimation(0))){
+					auto animation = m_animation_map.GetValue(animated->GetAnimation(0));
+					Core::UniquePtr<Attributes::IAnimationPlayer> player{ nullptr, Core::DestroyObject };
+					Core::GetFactory()->CreateInstance(Attributes::IID_IAnimationPlayer, (void**)&player);
+					player->SetAnimation(animation);
+					animated->SetAnimationPlayer(player.get());
+					player->Start();
+					m_players.push_back(player.release());
+				}
 			}
-			if (!animated->GetAnimationPlayer()->GetAnimation()) {
-				animated->GetAnimationPlayer()->SetAnimation(m_animation_map.GetValue(animated->GetAnimation(0)));
-			}
-			animated->Update();
+			if (animated->GetAnimationPlayer() && animated->GetAnimationPlayer()->IsPlaying())
+				animated->Update();
 		}
 	}
 

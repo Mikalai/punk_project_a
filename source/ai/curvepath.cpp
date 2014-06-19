@@ -1,4 +1,4 @@
-#include <core/factory.h>
+#include <core/ifactory.h>
 #include "curvepath.h"
 
 PUNK_ENGINE_BEGIN

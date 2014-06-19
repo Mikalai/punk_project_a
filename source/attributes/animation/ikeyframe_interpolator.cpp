@@ -11,16 +11,16 @@ PUNK_ENGINE_BEGIN
 namespace Attributes
 {
 	template<typename T, InterpolatorType Tag> struct InterpolationAspect;
-	template<typename T, InterpolatorType Tag> struct GuidAspect;
+	template<typename T, InterpolatorType Tag> struct InterpolatorGuidAspect;
 
-	template<> struct GuidAspect < Math::vec3, InterpolatorType::Linear > { static const Core::Guid GetGuid() { return IID_IVec3KeyFrameLinearInterpolator; } };
-	template<> struct GuidAspect < Math::vec4, InterpolatorType::Linear > { static const Core::Guid GetGuid() { return IID_IVec4KeyFrameLinearInterpolator; } };
-	template<> struct GuidAspect < Math::mat4, InterpolatorType::Linear > { static const Core::Guid GetGuid() { return IID_IMat4KeyFrameLinearInterpolator; } };
-	template<> struct GuidAspect < Math::quat, InterpolatorType::Linear > { static const Core::Guid GetGuid() { return IID_IQuatKeyFrameLinearInterpolator; } };
-	template<> struct GuidAspect < float, InterpolatorType::Linear > { static const Core::Guid GetGuid() { return IID_IFloatKeyFrameLinearInterpolator; } };
+	template<> struct InterpolatorGuidAspect < Math::vec3, InterpolatorType::Linear > { static const Core::Guid GetGuid() { return IID_IVec3KeyFrameLinearInterpolator; } };
+	template<> struct InterpolatorGuidAspect < Math::vec4, InterpolatorType::Linear > { static const Core::Guid GetGuid() { return IID_IVec4KeyFrameLinearInterpolator; } };
+	template<> struct InterpolatorGuidAspect < Math::mat4, InterpolatorType::Linear > { static const Core::Guid GetGuid() { return IID_IMat4KeyFrameLinearInterpolator; } };
+	template<> struct InterpolatorGuidAspect < Math::quat, InterpolatorType::Linear > { static const Core::Guid GetGuid() { return IID_IQuatKeyFrameLinearInterpolator; } };
+	template<> struct InterpolatorGuidAspect < float, InterpolatorType::Linear > { static const Core::Guid GetGuid() { return IID_IFloatKeyFrameLinearInterpolator; } };
 
 	template<typename T>
-	struct InterpolationAspect < T, InterpolatorType::Linear> : public GuidAspect<T, InterpolatorType::Linear>{
+	struct InterpolationAspect < T, InterpolatorType::Linear> : public InterpolatorGuidAspect<T, InterpolatorType::Linear>{
 
 		static const T Interpolate(const T& a, const T& b, float t) {
 			return Math::linear_interpolation(a, b, t);
@@ -32,7 +32,7 @@ namespace Attributes
 	};
 
 	template<>
-	struct InterpolationAspect < Math::quat, InterpolatorType::Linear > : public GuidAspect<Math::quat, InterpolatorType::Linear>{
+	struct InterpolationAspect < Math::quat, InterpolatorType::Linear > : public InterpolatorGuidAspect<Math::quat, InterpolatorType::Linear>{
 
 		static const Math::quat Interpolate(const Math::quat& a, const Math::quat& b, float t) {
 			return Math::spherical_linear_interpolation(a, b, t);
@@ -75,8 +75,15 @@ namespace Attributes
 
 			KeyFrame<T>* before = m_track->KeyBefore(frame);
 			KeyFrame<T>* after = m_track->KeyAfter(frame);
-			float t = (frame - before->GetFrame()) / (float)(after->GetFrame() - before->GetFrame());
-			InterpolationAspect<T, Tag>::Interpolate(before->Key(), after->Key(), t);
+			T value;
+			if (before != after) {
+				float t = (frame - before->GetFrame()) / (float)(after->GetFrame() - before->GetFrame());
+				value = InterpolationAspect<T, Tag>::Interpolate(before->Key(), after->Key(), t);				
+			}
+			else {
+				value = before->Key();
+			}
+			memcpy(result, &value, size);
 		}
 
 		InterpolatorType GetType() override {
