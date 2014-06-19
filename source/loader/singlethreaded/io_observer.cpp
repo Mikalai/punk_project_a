@@ -37,6 +37,12 @@ namespace IoModule {
 					continue;
 				stub->SetLoading(true);
 				Core::IObject* o = ParsePunkFile(m_scene->GetSourcePath() + filename);
+				
+				//	call callback if specified
+				if (stub->GetCallback()) {
+					(*stub->GetCallback())(o);
+				}
+
 				stub->SetLoaded(true);
 				{
 					Attributes::ITransform* transform = nullptr;
@@ -65,17 +71,17 @@ namespace IoModule {
 					}
 				}
 				{
-					Attributes::ICamera* camera = nullptr;
+					Core::UniquePtr<Attributes::ICamera> camera{ nullptr, Core::DestroyObject };
 					o->QueryInterface(Attributes::IID_ICamera, (void**)&camera);
-					if (camera)
-						node->Set<Attributes::ICamera>(camera->GetName(), camera);
+					if (camera.get())
+						node->Set<Attributes::ICamera>(camera->GetName(), camera.get());
 				}
 				{
-					Attributes::IArmature* armature = nullptr;
+					Core::UniquePtr<Attributes::IArmature> armature{ nullptr, Core::DestroyObject };
 					o->QueryInterface(Attributes::IID_IArmature, (void**)&armature);
-					if (armature)
-						node->Set<Attributes::IArmature>(armature->GetName(), armature);
-				}
+					if (armature.get())
+						node->Set<Attributes::IArmature>(armature->GetName(), armature.get());
+				}				
 			}
 
 			for (int i = 0, max_i = (int)node->GetChildrenCount(); i < max_i; ++i) {

@@ -1,4 +1,5 @@
 #include <attributes/transform/itransform.h>
+#include <attributes/animation/module.h>
 #include "parser.h"
 #include "parse_simple.h"
 
@@ -52,6 +53,17 @@ namespace IoModule {
 				break;
 			case WORD_BOUNDING_BOX:
 			{
+			}
+				break;
+			case WORD_ACTION_REF:
+			{
+				Core::String name;
+				parser->Parse<Core::String>(WORD_STRING, buffer, name);
+				Core::UniquePtr<Attributes::IAnimated> animated{ nullptr, Core::DestroyObject };
+				transform->QueryInterface(Attributes::IID_IAnimated, (void**)&animated);
+				if (animated.get()) {
+					animated->AddAnimation(name);
+				}
 			}
 				break;
 			default:

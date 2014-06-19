@@ -7,6 +7,7 @@
 #include <atomic>
 #include <scene/singlethreaded/module.h>
 #include <system/logger/module.h>
+#include <core/module.h>
 #include "async_parser.h"
 #include "iio_observer.h"
 
@@ -36,6 +37,7 @@ namespace IoModule {
 	private:
 		System::ILogger* m_logger{ System::GetDefaultLogger() };
 		SceneModule::IScene* m_scene{ nullptr };
+		Core::ObjectPool<Core::String, Core::UniquePtr<Core::IObject>> m_loaded_stuff;
 		PUNK_OBJECT_DEFAULT_IMPL(IoObserver);
     };
 }
