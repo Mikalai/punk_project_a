@@ -19,6 +19,8 @@ namespace SceneModule {
 
     class INode : public Core::IObject {
     public:
+		virtual int GetAttributesCount() const = 0;
+		virtual IAttribute* GetAttribute(int index) = 0;
 		virtual void AddChild(INode* node) = 0;
 		virtual std::uint32_t GetChildrenCount() const = 0;
 		virtual INode* GetChild(std::uint32_t index) = 0;

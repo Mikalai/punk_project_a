@@ -3,6 +3,7 @@
 #include <render/module.h>
 #include <loader/module.h>
 #include <scene/module.h>
+#include <animator/module.h>
 #include "application.h"
 
 PUNK_ENGINE_BEGIN
@@ -21,6 +22,19 @@ namespace Runtime {
 		m_factory->CreateInstance(IoModule::IID_IIoObserver, (void**)&loader);
 		m_scene_manager->GetScene()->AddObserver(loader);
 
+		{
+			AnimatorModule::IAnimatorModule* animator_module;
+			m_factory->CreateInstance(AnimatorModule::IID_IAnimatorModule, (void**)&animator_module);
+			AnimatorModule::IAnimatorObserver* observer;
+			animator_module->QueryInterface(AnimatorModule::IID_IAnimatorObserver, (void**)&observer);
+			AnimatorModule::IAnimatorProcessor* processor;
+			animator_module->QueryInterface(AnimatorModule::IID_IAnimatorProcessor, (void**)&processor);
+
+			m_scene_manager->GetScene()->AddObserver(observer);
+			m_scene_manager->AddProcessor(processor);
+			animator_module->Release();
+		}
+
 		m_factory->CreateInstance(LowLevelRender::IID_IRenderModule, (void**)&m_render_module);
 
 		m_render_module->QueryInterface(LowLevelRender::IID_IRenderProcessor, (void**)&m_render_processor);
@@ -38,7 +52,8 @@ namespace Runtime {
 	void Application::LoadBasicModules() {
 		std::vector<Core::String> modules{ { L"punk_loader", L"punk_scene", L"punk_attributes", L"punk_ai", L"punk_application", L"punk_core",
 			L"punk_error", L"punk_font", L"punk_graphics", L"punk_image", 
-			L"punk_math", L"punk_render", L"punk_string", L"punk_system" } };
+			L"punk_math", L"punk_render", L"punk_string", L"punk_system",
+				L"punk_animator" } };
 
 		for (auto& module : modules) {
 			try{

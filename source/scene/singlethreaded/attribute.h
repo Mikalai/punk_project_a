@@ -33,7 +33,9 @@ namespace SceneModule {
     inline Attribute<T>::Attribute(const Core::String &name, T* value)
         : m_name(name)
         , m_data(value, Core::DestroyObject)
-    {}
+    {
+		m_data->AddRef();
+	}
 
     template<class T>
     inline Attribute<T>::Attribute()

@@ -1,4 +1,4 @@
-#include <core/ifactory.h>
+#include <core/module.h>
 #include <attributes/module.h>
 #include "ianimator_module.h"
 #include "ianimator_observer.h"
@@ -31,11 +31,25 @@ namespace AnimatorModule {
 		void Update(float dt) override;
 
 	private:
+		void Process(SceneModule::INode* node);
+	private:
 		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		std::vector<Attributes::IAnimated*> m_animated;
+		std::vector<Attributes::IAnimationPlayer*> m_players;
+		Core::UniquePtr<SceneModule::IScene> m_scene{ nullptr, Core::DestroyObject };
+		Core::UniquePtr<SceneModule::ISceneManager> m_manager{ nullptr, Core::DestroyObject };
+		Core::ObjectPool<Core::String, Attributes::IAnimation*> m_animation_map;
+		std::vector<Core::UniquePtr<Attributes::IAnimation>> m_animations;
 	};
 
 	Animator::~Animator() {
-
+		while (!m_animated.empty()) {
+			m_animated.back()->Release();
+		}
+		while (!m_players.empty()) {
+			m_players.back()->Release();
+			m_players.pop_back();
+		}
 	}
 
 	//	IObject
@@ -84,11 +98,14 @@ namespace AnimatorModule {
 
 	//	IAnimatorObserver
 	void Animator::SetScene(SceneModule::IScene* value) {
-
+		value->AddRef();
+		m_scene.reset(value);
+		if (m_scene.get())
+			Process(m_scene->GetRoot());
 	}
 
 	void Animator::OnNodeAdded(SceneModule::INode* parent, SceneModule::INode* child) {
-
+		Process(child);
 	}
 
 	void Animator::OnNodeRemoved(SceneModule::INode* parent, SceneModule::INode* child) {
@@ -96,7 +113,12 @@ namespace AnimatorModule {
 	}
 
 	void Animator::OnAttributeAdded(SceneModule::INode* node, SceneModule::IAttribute* attribute) {
-
+		auto animation = attribute->Get<Attributes::IAnimation>();
+		if (animation) {
+			animation->AddRef();
+			m_animations.push_back(Core::UniquePtr < Attributes::IAnimation > {animation, Core::DestroyObject});
+			m_animation_map.AddValue(animation->GetName(), animation);
+		}
 	}
 
 	void Animator::OnAttributeUpdated(SceneModule::INode* node, SceneModule::IAttribute* old_attribute, SceneModule::IAttribute* new_attribute) {
@@ -107,13 +129,61 @@ namespace AnimatorModule {
 
 	}
 
-	//	IAnimatorProcessor
-	void Animator::SetSceneManager(SceneModule::ISceneManager* manager) {
+	void Animator::Process(SceneModule::INode* node) {
 
+		auto count = node->GetAttributesCount();
+		for (int i = 0; i < count; ++i) {
+			auto attribute = node->GetAttribute(i);
+			Core::UniquePtr<Attributes::IAnimated> animated{ nullptr, Core::DestroyObject };
+			attribute->GetRawData()->QueryInterface(Attributes::IID_IAnimated, (void**)&animated);
+			if (animated.get()) {
+				animated->AddRef();
+				m_animated.push_back(animated.get());
+
+				//	submit all animation for loading
+				for (std::uint32_t i = 0, max_i = animated->GetAnimationsCount(); i < max_i; ++i) {
+					auto name = animated->GetAnimation(i);
+					if (!m_animation_map.HasValue(name)) {
+						auto filename = m_scene->GetSourcePath() + name + L".action";
+						Core::UniquePtr<Attributes::IFileStub> file_stub{ nullptr, Core::DestroyObject };
+						Core::GetFactory()->CreateInstance(Attributes::IID_IFileStub, (void**)&file_stub);
+						node->Set<Attributes::IFileStub>(name, file_stub.get());
+					}
+				}
+			}
+		}
+		
+		for (int i = 0, max_i = node->GetChildrenCount(); i < max_i; ++i) {
+			Process(node->GetChild(i));
+		}
 	}
 
-	void Animator::Update(float dt) {
+	//	IAnimatorProcessor
+	void Animator::SetSceneManager(SceneModule::ISceneManager* manager) {
+		manager->AddRef();
+		m_manager.reset(manager);
+	}
 
+	void Animator::Update(float dt) {		
+		
+		for (auto& player : m_players) {			
+			if (player->IsPlaying()) {
+				player->Seek(Attributes::AnimationSeekDirection::Current, dt);
+			}
+		}
+
+		for (auto& animated : m_animated) {
+			if (!animated->GetAnimationPlayer()) {
+				Core::UniquePtr<Attributes::IAnimationPlayer> player{ nullptr, Core::DestroyObject };
+				Core::GetFactory()->CreateInstance(Attributes::IID_IAnimationPlayer, (void**)&player);
+				animated->SetAnimationPlayer(player.get());				
+				m_players.push_back(player.release());
+			}
+			if (!animated->GetAnimationPlayer()->GetAnimation()) {
+				animated->GetAnimationPlayer()->SetAnimation(m_animation_map.GetValue(animated->GetAnimation(0)));
+			}
+			animated->Update();
+		}
 	}
 
 

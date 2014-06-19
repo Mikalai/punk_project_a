@@ -69,8 +69,9 @@ namespace SceneModule {
 			}			
 		}
 		catch (...) {
-			return 0;
+			return nullptr;
 		}
+		return nullptr;
 	}
 
     IAttribute* Node::GetAttribute(const Core::String & name, std::uint64_t type) const
@@ -90,6 +91,20 @@ namespace SceneModule {
 				count++;
 		}
 		return count;
+	}
+
+	int Node::GetAttributesCount() const {
+		return (int)m_attributes.size();
+	}
+
+	IAttribute* Node::GetAttribute(int index) {
+		int count = 0;
+		for (auto v : m_attributes) {
+			if (count == index)
+				return v.second;
+			count++;
+		}
+		return nullptr;
 	}
 
 	std::vector<IAttribute*> Node::GetAttributes(std::uint64_t type) const {
