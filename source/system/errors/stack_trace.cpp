@@ -202,6 +202,8 @@ namespace Punk {
 						}
 					}
 
+					list.Push(module_name + "!" + function + " in " + file + ":" + line_number + "\n");
+
 					if (stack_frame.AddrReturn.Offset == 0)
 						break;
 

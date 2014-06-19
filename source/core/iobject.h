@@ -28,7 +28,13 @@ namespace Core {
 	extern PUNK_ENGINE_API void DestroyObject(IObject* object);
 
 	template<class T>
-	using UniquePtr = std::unique_ptr < T, void(*)(IObject*) > ;
+	void ReleaseObject(T* o) {
+		if (o)
+			o->Release();
+	}
+
+	template<class T, class Base = IObject>
+	using UniquePtr = std::unique_ptr < T, void(*)(Base*) > ;
 
 	using IObjectUniquePtr = UniquePtr < IObject > ;
 
