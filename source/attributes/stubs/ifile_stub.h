@@ -2,6 +2,7 @@
 #define _H_IFILE_STUB
 
 #include <config.h>
+#include <core/action.h>
 #include <core/iobject.h>
 
 PUNK_ENGINE_BEGIN
@@ -17,6 +18,8 @@ namespace Attributes {
 		virtual void SetLoaded(bool value) = 0;
 		virtual void SetFilename(const Core::String& value) = 0;
 		virtual const Core::String GetFilename() = 0;
+		virtual void SetCallback(Core::ActionBase<Core::IObject*>* callback) = 0;
+		virtual Core::ActionBase<Core::IObject*>* GetCallback() = 0;
 	};
 }
 PUNK_ENGINE_END

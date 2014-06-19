@@ -195,21 +195,20 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\source\attributes\animation\bone_animation.cpp">
+    <ClCompile Include="..\..\source\attributes\animation\ianimation_pool.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\animation\ikeyframe.cpp" />
     <ClCompile Include="..\..\source\attributes\animation\itrack.cpp" />
     <ClCompile Include="..\..\source\attributes\animation\ikeyframe_interpolator.cpp" />
-    <ClCompile Include="..\..\source\attributes\animation\object_animation_mixer.cpp">
+    <ClInclude Include="..\..\source\attributes\animation\ianimation_pool.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
+      <FileType>CppCode</FileType>
+    </ClInclude>
     <ClCompile Include="..\..\source\attributes\building.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -325,7 +324,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\source\attributes\stubs\file_stub.cpp" />
+    <ClCompile Include="..\..\source\attributes\stubs\ifile_stub.cpp" />
     <ClCompile Include="..\..\source\attributes\stubs\text_attribute.cpp" />
     <ClCompile Include="..\..\source\attributes\terrain\terrain.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -741,7 +740,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\stubs\file_stub.h" />
-    <ClInclude Include="..\..\source\attributes\stubs\ifilestub.h" />
+    <ClInclude Include="..\..\source\attributes\stubs\ifile_stub.h" />
     <ClInclude Include="..\..\source\attributes\stubs\itext_attribute.h" />
     <ClInclude Include="..\..\source\attributes\stubs\module.h" />
     <ClInclude Include="..\..\source\attributes\stubs\text_attribute.h" />

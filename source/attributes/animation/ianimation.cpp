@@ -1,3 +1,4 @@
+#include <core/ifactory.h>
 #include "ianimation.h"
 
 PUNK_ENGINE_BEGIN
@@ -23,7 +24,7 @@ namespace Attributes {
 		ITrack* GetTrack(std::uint32_t index) override;
 		void SetName(const Core::String& value) override;
 		const Core::String& GetName() const override;
-
+		std::uint32_t GetTrackIndex(const Core::String& name) override;
 	private:
 		std::atomic<std::uint32_t> m_ref_count{ 1 };
 		std::vector<ITrack*> m_tracks;
@@ -107,5 +108,16 @@ namespace Attributes {
 		return m_name;
 	}
 
+	std::uint32_t Animation::GetTrackIndex(const Core::String& name) {
+		for (std::uint32_t i = 0, max_i = GetTracksCount(); i < max_i; ++i) {
+			auto track = GetTrack(i);
+			if (track->GetName() == name)
+				return i;
+		}
+		return (std::uint32_t)(-1);
+	}
+
+	PUNK_REGISTER_CREATOR(IID_IAnimation, (Core::CreateInstance<Animation, IAnimation>));
+	
 }
 PUNK_ENGINE_END

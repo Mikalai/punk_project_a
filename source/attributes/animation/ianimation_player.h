@@ -50,7 +50,8 @@ namespace Attributes {
 		virtual void OnFrame(AnimationAdvanced* action) = 0;
 		virtual void OnFrame(std::int32_t track_index, TrackAdvanced* action) = 0;
 		virtual void GetCurrentValue(std::uint32_t track_index, void* buffer, std::uint32_t size) = 0;
-		virtual void Attach(IAnimated* value) = 0;
+		/*virtual void Attach(IAnimated* value) = 0;
+		virtual void Detach(IAnimated* value) = 0;*/
 	};
 }
 PUNK_ENGINE_END

@@ -37,7 +37,8 @@ namespace Attributes {
 		void OnAnimationEnded(Core::ActionBase<void>* action) override;
 		void OnFrame(AnimationAdvanced* action) override;
 		void OnFrame(std::int32_t track_index, TrackAdvanced* action) override;
-		void Attach(IAnimated* value) override;
+		/*void Attach(IAnimated* value) override;
+		void Detach(IAnimated* value) override;*/
 
 	private:
 		void AdvanceTime(AnimationSeekDirection dir, float dt);
@@ -71,7 +72,7 @@ namespace Attributes {
 			}
 		};
 		std::vector<TrackCache> m_track_cache;
-		std::vector<Core::UniquePtr<IAnimated>> m_animated;
+		//std::vector<Core::UniquePtr<IAnimated>> m_animated;
 	};
 
 	//	IObject
@@ -127,17 +128,27 @@ namespace Attributes {
 			for (std::uint32_t i = 0, max_i = m_animation->GetTracksCount(); i < max_i; ++i) {
 				m_track_cache[i].m_interpolator->Interpolate(frame, m_track_cache.at(i).m_current_value.data(), m_track_cache.at(i).m_current_value.size());
 				m_track_cache[i].m_on_frame(frame, m_track_cache.at(i).m_current_value.data(), m_track_cache.at(i).m_current_value.size());
-				for (auto& animated : m_animated) {
+				/*for (auto& animated : m_animated) {
 					animated->Advance(i, frame, m_track_cache.at(i).m_current_value.data(), m_track_cache.at(i).m_current_value.size());
-				}
+				}*/
 			}
 		}
 	}
 
-	void AnimationPlayerImpl::Attach(IAnimated* value) {
-		value->AddRef();
-		m_animated.push_back(Core::UniquePtr < IAnimated > {value, Core::DestroyObject});
-	}
+	//void AnimationPlayerImpl::Attach(IAnimated* value) {
+	//	value->AddRef();
+	//	m_animated.push_back(Core::UniquePtr < IAnimated > {value, Core::DestroyObject});
+	//}
+
+	//void AnimationPlayerImpl::Detach(IAnimated* value) {
+	//	auto it = std::find_if(m_animated.begin(), m_animated.end(), [&value](Core::UniquePtr<IAnimated>& anim) -> bool {
+	//		return anim.get() == value;
+	//	});
+	//	if (it != m_animated.end()) {
+	//		(*it)->Release();
+	//		m_animated.erase(it);
+	//	}
+	//}
 
 	void AnimationPlayerImpl::SetAnimation(IAnimation* value) {
 		if (value == m_animation)

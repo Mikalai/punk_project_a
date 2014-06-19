@@ -103,12 +103,6 @@
     <ClCompile Include="..\..\source\attributes\animation\armature_animation_mixer.cpp">
       <Filter>animation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\attributes\animation\bone_animation.cpp">
-      <Filter>animation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\attributes\animation\object_animation_mixer.cpp">
-      <Filter>animation</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\attributes\geometry\geometry.cpp">
       <Filter>geometry</Filter>
     </ClCompile>
@@ -142,9 +136,6 @@
     <ClCompile Include="..\..\source\attributes\camera\camera.cpp">
       <Filter>camera</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\attributes\stubs\file_stub.cpp">
-      <Filter>stubs</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\attributes\stubs\text_attribute.cpp">
       <Filter>stubs</Filter>
     </ClCompile>
@@ -171,6 +162,12 @@
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\animation\ianimation_player.cpp">
       <Filter>animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\animation\ianimation_pool.cpp">
+      <Filter>animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\stubs\ifile_stub.cpp">
+      <Filter>stubs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -469,9 +466,6 @@
     <ClInclude Include="..\..\source\attributes\animation\ianimation.h">
       <Filter>animation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\attributes\stubs\ifilestub.h">
-      <Filter>stubs</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\attributes\stubs\module.h">
       <Filter>stubs</Filter>
     </ClInclude>
@@ -501,6 +495,12 @@
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\animation\ianimated.h">
       <Filter>animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\animation\ianimation_pool.h">
+      <Filter>animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\stubs\ifile_stub.h">
+      <Filter>stubs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
