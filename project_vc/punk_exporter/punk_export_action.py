@@ -33,10 +33,10 @@ def export_action(f, action):
     try:
         start = int(action.frame_range[0])
         end = int(action.frame_range[1])
-        start_block(f, "*timing")
-        make_offset(f)
-        f.write("%d %d\n" % (start, end))
-        end_block(f)    #*timing
+        #start_block(f, "*timing")
+        #make_offset(f)
+        #f.write("%d %d\n" % (start, end))
+        #end_block(f)    #*timing
     except:
         print("erorr in timings")            
     
@@ -56,6 +56,14 @@ def export_action(f, action):
         #   determine whether it is location or rotation.
         #   rotation should be represented only as quaternion
         if curve.data_path.rfind("location") != -1:
+            track = object_tracks.get(curve.data_path)
+            #   if no, than create new location tracks collection
+            if track == None:
+                track = list()
+                object_tracks[curve.data_path] = track 
+            #   [time, [x, y, z]]
+            etalon = [0, [0.0, 0.0, 0.0]]
+        if curve.data_path.rfind("scale") != -1:
             track = object_tracks.get(curve.data_path)
             #   if no, than create new location tracks collection
             if track == None:
@@ -90,35 +98,47 @@ def export_action(f, action):
     for object_name in tracks:
         object_tracks = tracks[object_name]
         #   write bone name that is affected by this curve
-        if list(object_tracks.keys())[0].rfind("bones") != -1:
-            start_block(f, "*bone_animation")
-            start_block(f, "*name")
-            make_offset(f)
-            f.write("%s\n" % object_name)
-            end_block(f)
-        #   otherwise just mark this track as suitable for any object
-        else:
-            start_block(f, "*object_animation")
+        #if list(object_tracks.keys())[0].rfind("bones") != -1:
+        #    start_block(f, "*track")
+        #    export_string(f, "*name", object_name)
+        ##   otherwise just mark this track as suitable for any object
+        #else:
+       # start_block(f, "*animation")
             
         #   export all tracks for current object    
         for track_name in object_tracks:
             track = object_tracks[track_name]            
             #   export position
             if track_name.rfind("location") != -1:
-                start_block(f, "*position_track")
+                start_block(f, "*track")
+                export_string(f, "*name", "Position")
+                start_block(f, "*keys")
                 for point in track:
                     make_offset(f)
                     f.write("%5d %16f %16f %16f\n" % (point[0], point[1][0], point[1][1], point[1][2]))
-                end_block(f) #  *position_track
+                end_block(f)
+                end_block(f) #  *track
+            if track_name.rfind("scale") != -1:
+                start_block(f, "*track")
+                export_string(f, "*name", "Scale")
+                start_block(f, "*keys")
+                for point in track:
+                    make_offset(f)
+                    f.write("%5d %16f %16f %16f\n" % (point[0], point[1][0], point[1][1], point[1][2]))
+                end_block(f);
+                end_block(f) #  *track
             #   epxort rotation
             if track_name.find("rotation_quaternion") != -1:
-                start_block(f, "*rotation_track")
+                start_block(f, "*track")
+                export_string(f, "*name", "Rotation")
+                start_block(f, "*keys")
                 for point in track:
                     make_offset(f)
                     f.write("%5d %16f %16f %16f %16f\n" % (point[0], point[1][0], point[1][1], point[1][2], point[1][3]))
+                end_block(f)
                 end_block(f) #  *rotation_track
         
-        end_block(f)    # *bone_animation or *object_animation
+       # end_block(f)    # *bone_animation or *object_animation
     end_block(f)    # *action   
     
     text_offset = old
