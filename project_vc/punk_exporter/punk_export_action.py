@@ -110,7 +110,7 @@ def export_action(f, action):
             track = object_tracks[track_name]            
             #   export position
             if track_name.rfind("location") != -1:
-                start_block(f, "*track")
+                start_block(f, "*track_vec3")
                 export_string(f, "*name", "Position")
                 start_block(f, "*keys")
                 for point in track:
@@ -119,7 +119,7 @@ def export_action(f, action):
                 end_block(f)
                 end_block(f) #  *track
             if track_name.rfind("scale") != -1:
-                start_block(f, "*track")
+                start_block(f, "*track_vec3")
                 export_string(f, "*name", "Scale")
                 start_block(f, "*keys")
                 for point in track:
@@ -129,7 +129,7 @@ def export_action(f, action):
                 end_block(f) #  *track
             #   epxort rotation
             if track_name.find("rotation_quaternion") != -1:
-                start_block(f, "*track")
+                start_block(f, "*track_quat")
                 export_string(f, "*name", "Rotation")
                 start_block(f, "*keys")
                 for point in track:
