@@ -20,6 +20,7 @@
 *.user
 *.dblite
 *.filters
+*.dblite
 
 bin
 obj
@@ -207,3 +208,4 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+*.userprefs

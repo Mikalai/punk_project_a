@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\source\tests\punk_math_test\aabb_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\absolute_value_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\array_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\bounding_box_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\bounding_sphere_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\clip_space_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\convex_shape_mesh_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\ellipsoid_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\frustum_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\line2d_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\line3d_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\mat2_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\mat3_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\mat4_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\matrix_helper_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\min_max_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\perspective_decoder_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\plane_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\polygon3d_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\portal_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\power_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\relations_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\root_find_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\sphere_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\square_root_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\triangle2d_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\triangle3d_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\trigonometry_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\vec2_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\vec3_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\vec4_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\volume_construction_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\tests\punk_math_test\aabb_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\absolute_value_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\array_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\bounding_box_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\bounding_sphere_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\clip_space_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\convex_shape_mesh_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\ellipsoid_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\frustum_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\line2d_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\line3d_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\mat2_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\mat3_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\mat4_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\matrix_helper_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\min_max_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\perspective_decoder_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\plane_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\polygon3d_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\portal_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\power_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\relations_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\root_find_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\sphere_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\square_root_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\triangle2d_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\triangle3d_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\trigonometry_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\vec2_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\vec3_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\vec4_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\volume_construction_test.h" />
+  </ItemGroup>
+</Project>
