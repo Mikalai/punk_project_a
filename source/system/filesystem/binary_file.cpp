@@ -12,8 +12,8 @@
 
 #include <iostream>
 #include <istream>
-#include <String/String.h>
-#include <String/buffer.h>
+#include <string/string.h>
+#include <string/buffer.h>
 #include <system/errors/module.h>
 #include <system/logger/module.h>
 #include "binary_file.h"
@@ -68,9 +68,8 @@ namespace System
 
     int OpenReadFile(const Core::String& filename)
     {
-        auto buffer = filename.ToUtf8();
-        buffer.push_back(0);
-        int hFile = open(&buffer[0], O_RDONLY);
+        auto buffer = filename.ToUtf8();        
+        int hFile = open((const char*)buffer.Data(), O_RDONLY);
         return hFile;
     }
 

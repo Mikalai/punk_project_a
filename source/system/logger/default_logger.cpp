@@ -1,4 +1,4 @@
-#include <String/module.h>
+#include <string/module.h>
 #include <system/time/module.h>
 #include "log_consumer.h"
 #include "console_consumer.h"

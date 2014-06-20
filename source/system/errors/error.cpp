@@ -3,7 +3,7 @@
 #define NOMINMAX
 #endif
 #include <Windows.h>
-#include "String/String.h"
+#include <string/string.h>
 #include "error/module.h"
 #include "exceptions.h"
 

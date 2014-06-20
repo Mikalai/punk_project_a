@@ -1,7 +1,7 @@
 #include <memory.h>
 #include <cmath>
 #include <limits>
-#include "string/string.h"
+#include <string/string.h>
 #include "quat.h"
 #include "vec2.h"
 #include "vec3.h"

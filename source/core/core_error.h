@@ -2,7 +2,7 @@
 #define CORE_ERROR_H
 
 #include <error/module.h>
-#include "String/String.h"
+#include <string/string.h>
 
 PUNK_ENGINE_BEGIN
 namespace Core {

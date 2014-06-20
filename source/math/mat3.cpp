@@ -3,7 +3,7 @@
 #include <utility>
 #include <math.h>
 #include "mat2.h"
-#include "string/string.h"
+#include <string/string.h>
 #include "math_error.h"
 #include "vec2.h"
 #include "vec3.h"

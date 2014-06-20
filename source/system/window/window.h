@@ -4,7 +4,7 @@
 #include <map>
 
 #include "config.h"
-#include "String/String.h"
+#include <string/string.h>
 #include "core/action.h"
 #include <core/container.h>
 #include "system/events/interface.h"

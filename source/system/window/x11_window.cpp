@@ -5,10 +5,10 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdio.h>
-#include <String.h>
+#include <string.h>
 #include <algorithm>
 
-#include "core/component/module.h"
+#include <core/ifactory.h>
 #include "system/errors/module.h"
 #include "system/events/module.h"
 #include "system/logger/module.h"
@@ -27,62 +27,15 @@ typedef XID GLXContextID;
 PUNK_ENGINE_BEGIN
 namespace System
 {
-    Core::Rtti WindowX11::Type{"Punk.Engine.System.WindowX11", typeid(WindowX11).hash_code(), { &Window::Type}};
+    WindowX11::WindowX11()
+    { }
 
-    WindowX11::WindowX11(const WindowDesc &desc)
-    {
-        CREATE_INSTANCE(WindowX11);
-        OUT_MESSAGE("Window created");
-        m_keyboard = Core::Acquire<IKeyBoard>("input", "default_keyboard", "keyboard");
-        m_mouse = Core::Acquire<IMouse>("input", "default_mouse", "mouse");
-
-        m_display = XOpenDisplay(NULL);
-
-        if (m_display == NULL) {
-            fprintf(stderr, "Cannot open display\n");
-            exit(1);
-        }
-
-        int screen = DefaultScreen(m_display);
-        memset(&m_swa, 0, sizeof(m_swa));
-        m_swa.border_pixel      = WhitePixel(m_display,screen);
-        m_swa.background_pixel = BlackPixel(m_display, screen);
-
-        printf("Creating window\n");
-        m_window = XCreateWindow(m_display, DefaultRootWindow(m_display),
-                                 desc.m_x, desc.m_y, desc.m_width, desc.m_height,
-                                 0, DefaultDepth(m_display, screen),
-                                 CopyFromParent, CopyFromParent, CWBackPixel|CWBorderPixel, &m_swa);
-
-        XStoreName(m_display, m_window, "PunkEngine");
-        XSetIconName(m_display, m_window, "PunkEngine");
-        XSetCommand(m_display, m_window, 0, 0);
-        XFlush(m_display);
-
-        //        XSetStandardProperties(m_display, m_window, "PunkEngine", "Icon", None, 0, 0, 0);
-        XMapWindow(m_display, m_window);
-        int eventMask = ButtonPressMask
-                |ButtonReleaseMask
-                |KeyPressMask
-                |ExposureMask
-                |StructureNotifyMask
-                |PointerMotionMask;
-
-        XSelectInput(m_display, m_window, eventMask); // override prev
-
-        wmDeleteWindow = XInternAtom(m_display, "WM_DELETE_WINDOW", False);
-        XSetWMProtocols(m_display, m_window, &wmDeleteWindow, 1);
+    void WindowX11::Initialize(const WindowDescription &desc) {
+        m_window_description = desc;
     }
 
     WindowX11::~WindowX11()
-    {
-        DESTROY_INSTANCE();
-        Core::Release("input", "default_mouse");
-        Core::Release("input", "default_keyboard");
-        XDestroyWindow(m_display, m_window);
-        XSetCloseDownMode(m_display, DestroyAll );
-        XCloseDisplay(m_display);
-        OUT_MESSAGE("Window destroyed");
+    {        
     }
 
     int WindowX11::GetDesktopWidth() const
@@ -626,8 +579,7 @@ namespace System
     {
         XEvent event;
 
-        ITimer* timer = Core::Acquire<ITimer>("time", "main_loop_timer", "timer");
-        timer->Reset();
+        m_timer->Reset();
 
         while (!IsClosed())
         {
@@ -682,8 +634,8 @@ namespace System
                 }
             }            
             IdleEvent idle_event;
-            idle_event.elapsed_time_s = timer->GetElapsedSeconds();
-            timer->Reset();
+            idle_event.elapsed_time_s = m_timer->GetElapsedSeconds();
+            m_timer->Reset();
             OnIdleEvent(idle_event);
         }
         return 0;
@@ -747,26 +699,26 @@ namespace System
 
     }
 
-    void WindowX11::DrawPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b, unsigned char a)
-    {
-        (void)x;
-        (void)y;
-        (void)r;
-        (void)g;
-        (void)b;
-        (void)a;
-//        unsigned char rr = (unsigned char)std::max((int)r - int(255 - a), 0);
-//        unsigned char gg = (unsigned char)std::max((int)g - int(255 - a), 0);
-//        unsigned char bb = (unsigned char)std::max((int)b - int(255 - a), 0);
-    }
+//    void WindowX11::DrawPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b, unsigned char a)
+//    {
+//        (void)x;
+//        (void)y;
+//        (void)r;
+//        (void)g;
+//        (void)b;
+//        (void)a;
+////        unsigned char rr = (unsigned char)std::max((int)r - int(255 - a), 0);
+////        unsigned char gg = (unsigned char)std::max((int)g - int(255 - a), 0);
+////        unsigned char bb = (unsigned char)std::max((int)b - int(255 - a), 0);
+//    }
 
-    void WindowX11::DrawLine(int x1, int y1, int x2, int y2)
-    {
-        (void)x1;
-        (void)y1;
-        (void)x2;
-        (void)y2;
-    }
+//    void WindowX11::DrawLine(int x1, int y1, int x2, int y2)
+//    {
+//        (void)x1;
+//        (void)y1;
+//        (void)x2;
+//        (void)y2;
+//    }
 
     Display* WindowX11::GetDisplay()
     {
@@ -818,6 +770,53 @@ namespace System
             }
         }
     }
+
+    void WindowX11::InternalCreate() {
+        m_display = XOpenDisplay(NULL);
+
+        if (m_display == NULL) {
+            fprintf(stderr, "Cannot open display\n");
+            exit(1);
+        }
+
+        int screen = DefaultScreen(m_display);
+        memset(&m_swa, 0, sizeof(m_swa));
+        m_swa.border_pixel      = WhitePixel(m_display,screen);
+        m_swa.background_pixel = BlackPixel(m_display, screen);
+
+        printf("Creating window\n");
+        m_window = XCreateWindow(m_display, DefaultRootWindow(m_display),
+                                 m_window_description.m_x, m_window_description.m_y, m_window_description.m_width, m_window_description.m_height,
+                                 0, DefaultDepth(m_display, screen),
+                                 CopyFromParent, CopyFromParent, CWBackPixel|CWBorderPixel, &m_swa);
+
+        XStoreName(m_display, m_window, "PunkEngine");
+        XSetIconName(m_display, m_window, "PunkEngine");
+        XSetCommand(m_display, m_window, 0, 0);
+        XFlush(m_display);
+
+        //        XSetStandardProperties(m_display, m_window, "PunkEngine", "Icon", None, 0, 0, 0);
+        XMapWindow(m_display, m_window);
+        int eventMask = ButtonPressMask
+                |ButtonReleaseMask
+                |KeyPressMask
+                |ExposureMask
+                |StructureNotifyMask
+                |PointerMotionMask;
+
+        XSelectInput(m_display, m_window, eventMask); // override prev
+
+        wmDeleteWindow = XInternAtom(m_display, "WM_DELETE_WINDOW", False);
+        XSetWMProtocols(m_display, m_window, &wmDeleteWindow, 1);
+    }
+
+    void WindowX11::InternalDestroy() {
+        XDestroyWindow(m_display, m_window);
+        XSetCloseDownMode(m_display, DestroyAll );
+        XCloseDisplay(m_display);
+    }
+
+    PUNK_REGISTER_CREATOR(IID_IWindow, (Core::CreateInstance<WindowX11, IWindow>));
 }
 PUNK_ENGINE_END
 #endif  //  __gnu_linux

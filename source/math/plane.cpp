@@ -4,7 +4,7 @@
 #include "vec2.h"
 #include "mat4.h"
 #include "line3d.h"
-#include "string/string.h"
+#include <string/string.h>
 
 namespace Punk {
     namespace Engine {

@@ -8,7 +8,7 @@
 PUNK_ENGINE_BEGIN
 namespace Core {
 
-	class PUNK_ENGINE_LOCAL Factory : public IFactory {
+    class PUNK_ENGINE_LOCAL Factory final : public IFactory {
 	public:
 		void CreateInstance(const Guid& type, void** object) override;
 		void RegisterCreator(const Guid& type, void(*Creator)(void** object)) override;

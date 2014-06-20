@@ -2,7 +2,7 @@
 #include <cmath>
 #include <stdexcept>
 #include <stdio.h>
-#include "string/string.h"
+#include <string/string.h>
 #include "vec4.h"
 
 #include <ostream>

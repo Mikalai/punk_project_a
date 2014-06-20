@@ -7,6 +7,8 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <sys/stat.h>
+#include <memory.h>
+#include <stdlib.h>
 #endif
 
 #include <string/module.h>
@@ -39,11 +41,11 @@ namespace System
 #elif defined __gnu_linux__
         m_prev_folder_name = GetCurrentFolder();
 
-        if (!chdir(&name.ToUtf8()[0]))
+        if (!chdir((const char*)name.ToUtf8().Data()))
             return true;
 
-        if (mkdir(&name.ToUtf8()[0], 0))
-            if (!chdir(&name.ToUtf8()[0]))
+        if (mkdir((const char*)name.ToUtf8().Data(), 0))
+            if (!chdir((const char*)name.ToUtf8().Data()))
                 return true;
         return false;
 #endif
@@ -100,8 +102,8 @@ namespace System
         SetCurrentDirectoryW((LPCWSTR)m_prev_folder_name.ToWchar().Data());
 #elif defined __gnu_linux__
         auto buffer = m_prev_folder_name.ToUtf8();
-        if (chdir(&buffer[0]))
-            throw System::PunkException(L"Can't close folder" + m_folder_name);
+        if (chdir((const char*)buffer.Data()))
+            throw Error::SystemException(L"Can't close folder" + m_folder_name);
 #endif
     }
 
@@ -141,7 +143,7 @@ namespace System
 #ifdef WIN32
         ::DeleteFileW((LPCWSTR)path.ToWchar().Data());
 #elif defined __gnu_linux__
-        unlink(&path.ToUtf8()[0]);
+        unlink((const char*)path.ToUtf8().Data());
 #endif
 
     }
@@ -200,7 +202,7 @@ namespace System
 #ifdef WIN32
         SetCurrentDirectoryW((LPCWSTR)value.ToWchar().Data());
 #elif defined __gnu_linux__
-        chdir(&value.ToUtf8()[0]);
+        chdir((const char*)value.ToUtf8().Data());
 #endif
     }
 }

@@ -57,13 +57,17 @@ namespace System
 #endif	//	_WIN32
 
 #ifdef __gnu_linux__
-    bool Thread::Create(void* (PUNK_STDCALL *thread_func)(void *), void *data, unsigned stack)
+    bool Thread::Start(WorkItem* work_item, void* data)
     {
         bool result = false;
+        ThreadData* thread_data = new ThreadData;
+        thread_data->item = work_item;
+        thread_data->data = data;
+
         pthread_attr_t attr;
         pthread_attr_init(&attr);
-        pthread_attr_setstacksize(&attr, stack);
-        result = pthread_create(ThreadHandle(), &attr, thread_func, data) != 0;
+        pthread_attr_setstacksize(&attr, 4096);
+        result = pthread_create(ThreadHandle(), &attr, thread_func, thread_data) != 0;
         pthread_attr_destroy(&attr);
         return result;
     }

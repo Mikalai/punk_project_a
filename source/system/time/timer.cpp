@@ -7,7 +7,7 @@
 #endif
 #include <Windows.h>
 #elif defined __gnu_linux__
-#include <sys/time.h>
+#include <chrono>
 #endif
 
 #include "timer.h"
@@ -17,7 +17,7 @@ PUNK_ENGINE_BEGIN
 namespace System
 {
     struct TimerImpl
-	{
+	{        
         double m_last_check;
 
         uint64_t GetTickCount() const
@@ -27,17 +27,10 @@ namespace System
             QueryPerformanceCounter(&li);
             return li.QuadPart;
 #elif defined __gnu_linux__
-            union {
-                unsigned long dw[2];
-                unsigned long long counter;
-            } tc;
-
-            __asm__ __volatile__ (
-                        ".byte 0x0f, 0x31\n"
-                        :"d=" (tc.dw[1]), "a=" (tc.dw[0]):
-                :"%eax", "%edx"
-                );
-            return tc.counter;
+            using namespace std::chrono;
+            high_resolution_clock::time_point now = high_resolution_clock::now();
+            auto count = now.time_since_epoch().count();
+            return count;
 #endif
         }
 
@@ -48,10 +41,10 @@ namespace System
             auto current = GetTickCount()/(double)GetFrequency();
             return current - m_last_check;
 #elif defined __gnu_linux__
-            timeval cur_time;
-            gettimeofday(&cur_time, nullptr);
-            double res = cur_time.tv_sec + (double)cur_time.tv_usec / 1000000.0;
-            return res;
+            using namespace std::chrono;
+            auto value = duration_cast<microseconds>(high_resolution_clock::now().time_since_epoch());
+            double count = value.count();
+            return count / 1000000.0;
 #endif
         }
 

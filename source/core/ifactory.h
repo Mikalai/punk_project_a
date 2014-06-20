@@ -4,6 +4,8 @@
 #include <config.h>
 #include <initializer_list>
 #include <cstdint>
+#include <typeinfo>
+#include "core_error.h"
 
 PUNK_ENGINE_BEGIN
 namespace Core {

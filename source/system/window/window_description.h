@@ -13,7 +13,7 @@
 #include <X11/Xutil.h>
 #endif
 #include "config.h"
-#include "String/String.h"
+#include <string/string.h>
 
 PUNK_ENGINE_BEGIN
 namespace System

@@ -3,6 +3,7 @@
 
 #include <config.h>
 #include <vector>
+#include <algorithm>
 #include "core_error.h"
 
 PUNK_ENGINE_BEGIN

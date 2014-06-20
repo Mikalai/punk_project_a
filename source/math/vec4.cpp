@@ -1,6 +1,6 @@
 #include <memory.h>
 #include <math.h>
-#include "string/string.h"
+#include <string/string.h>
 #include "math/square_root.h"
 #include "vec2.h"
 #include "vec3.h"

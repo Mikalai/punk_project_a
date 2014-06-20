@@ -17,6 +17,7 @@ namespace System
 
 	int CustomAssertFunction(bool exp, const Core::String& description, char* func, int line, char* file)
 	{
+#ifdef WIN32
 		Stack walker;
 		if (exp)
 			return 0;
@@ -49,6 +50,9 @@ namespace System
 		}	
 
 		return MessageBox(0, stream.str().c_str(), L"Assert failed", MB_ICONERROR|MB_ABORTRETRYIGNORE);
+#elif defined __linux__
+        return 0;
+#endif
 	}
 #endif	//	_DEBUG
 }

@@ -2,7 +2,7 @@
 #define PUNK_SYSTEM_CLASS_BASE_H
 
 #include "config.h"
-#include "string/string.h"
+#include <string/string.h>
 
 namespace Punk {
     namespace Engine {
