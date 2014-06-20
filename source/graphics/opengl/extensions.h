@@ -9,7 +9,7 @@
 #endif
 #include <windows.h>
 #include "gl/glcorearb.h"
-#include "gl/glext.h"
+//#include "gl/glext.h"
 #include "gl/wglext.h"
 #elif defined __gnu_linux__
 #include <X11/X.h>
@@ -17,9 +17,10 @@
 #include <X11/Xutil.h>
 #include <X11/Xutil.h>
 #include <X11/extensions/xf86vmode.h>
-#include "gl/glcorearb.h"
-#include <../GL/glx.h>
-#include "../gl/glxext.h"
+#include <graphics/opengl/gl/glcorearb.h>
+#include <GL/glx.h>
+#include <graphics/opengl/gl/glxext.h>
+//#include <graphics/opengl/gl/glext.h>
 #endif
 
 PUNK_ENGINE_BEGIN

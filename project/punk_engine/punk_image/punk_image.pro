@@ -5,7 +5,8 @@ CONFIG += dll
 TEMPLATE = lib
 TARGET = punk_image
 
-INCLUDEPATH += ../../../source
+INCLUDEPATH += ../../../source \
+    ../../../source/images/import_export
 
 #   Enable support for tiff images
 DEFINES += USE_LIB_TIFF
@@ -37,23 +38,29 @@ HEADERS += \
     ../../../source/images/import_export/tiff_importer.h \
     ../../../source/images/error/image_exceptions.h \
     ../../../source/images/error/module.h \
-    ../../../source/images/converter/yuy2_to_rgb.h
+    ../../../source/images/converter/yuy2_to_rgb.h \
+    ../../../source/images/iimage.h \
+    ../../../source/images/iimage_reader.h \
+    ../../../source/images/pixel.h \
+    ../../../source/images/pixel_data_accessor.h \
+    ../../../source/images/pixel_offset.h \
+    ../../../source/images/pixel_size_accessor.h \
+    ../../../source/images/types.h \
+    ../../../source/images/import_export/iimage_file_reader.h \
+    ../../../source/images/import_export/image_file_types.h \
+    ../../../source/images/import_export/jpg_reader.h \
+    ../../../source/images/import_export/png_reader.h \
+    ../../../source/images/import_export/reader_policy.h
 
-SOURCES += \
-    ../../../source/images/image_file.cpp \
-    ../../../source/images/png_file.cpp \
-    ../../../source/images/internal_images/gray_image.cpp \
-    ../../../source/images/internal_images/image.cpp \
-    ../../../source/images/internal_images/rgb_image.cpp \
-    ../../../source/images/internal_images/rgba_image.cpp \
+SOURCES += \              
     ../../../source/images/import_export/exporter.cpp \
-    ../../../source/images/import_export/importer.cpp \
-    ../../../source/images/import_export/jpg_importer.cpp \
+    ../../../source/images/import_export/importer.cpp \    
     ../../../source/images/import_export/openexr_importer.cpp \
-    ../../../source/images/import_export/png_exporter.cpp \
-    ../../../source/images/import_export/png_importer.cpp \
+    ../../../source/images/import_export/png_exporter.cpp \    
     ../../../source/images/import_export/tiff_importer.cpp \
-    ../../../source/images/converter/yuy2_to_rgb.cpp
+    ../../../source/images/converter/yuy2_to_rgb.cpp \
+    ../../../source/images/iimage.cpp \
+    ../../../source/images/import_export/image_reader.cpp
 
 contains(DEFINES, USE_LIB_PNG)
 {
@@ -240,13 +247,18 @@ SOURCES += \
     ../../../source/images/import_export/libtiff/tif_strip.c \
     ../../../source/images/import_export/libtiff/tif_swab.c \
     ../../../source/images/import_export/libtiff/tif_thunder.c \
-    ../../../source/images/import_export/libtiff/tif_tile.c \
-    #../../../source/images/import_export/libtiff/tif_unix.c \
+    ../../../source/images/import_export/libtiff/tif_tile.c \    
     ../../../source/images/import_export/libtiff/tif_version.c \
-    ../../../source/images/import_export/libtiff/tif_warning.c \
-    ../../../source/images/import_export/libtiff/tif_win32.c \
+    ../../../source/images/import_export/libtiff/tif_warning.c \    
     ../../../source/images/import_export/libtiff/tif_write.c \
     ../../../source/images/import_export/libtiff/tif_zip.c
+win32 {
+    SOURCES += ../../../source/images/import_export/libtiff/tif_win32.c
+}
+
+unix {
+    SOURCES += ../../../source/images/import_export/libtiff/tif_unix.c
+}
 
 HEADERS += \
     ../../../source/images/import_export/libtiff/t4.h \

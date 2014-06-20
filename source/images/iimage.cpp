@@ -5,12 +5,17 @@
 PUNK_ENGINE_BEGIN
 namespace ImageModule {
 
-	extern Core::Guid GetImageFormatGuid(ImageFormat format);
+    Core::Guid GetImageFormatGuid(ImageFormat format);
 
 	template<ImageFormat Format>
 	class Image : public IImage {
 	public:
 
+        Image()
+            : m_ref_count{1}
+        {}
+
+        Image(const Image&) = delete;
 		virtual ~Image() {}
 
 		//	IObject
@@ -67,7 +72,7 @@ namespace ImageModule {
 		std::vector<std::uint8_t> m_data;
 	};	
 
-	static Core::Guid GetImageFormatGuid(ImageFormat format) {
+    PUNK_ENGINE_LOCAL Core::Guid GetImageFormatGuid(ImageFormat format) {
 		switch (format)
 		{
 		case ImageFormat::IMAGE_FORMAT_ALPHA4:

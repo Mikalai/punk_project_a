@@ -42,7 +42,7 @@ namespace Core {
 		if (!object) {
 			throw Core::Error::CoreException(Core::String("Can't create instance, because object '") + typeid(T).name() + "' is null");
 		}
-		*object = (void*)(I*)(new T{});
+        *object = (void*)(I*)(new T);
 	}
 }
 PUNK_ENGINE_END

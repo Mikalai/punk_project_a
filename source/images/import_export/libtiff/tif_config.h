@@ -68,8 +68,10 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
 
+#ifdef WIN32
 /* Define to 1 if you have the <io.h> header file. */
 #define HAVE_IO_H 1
+#endif
 
 /* Define to 1 if you have the `isascii' function. */
 #define HAVE_ISASCII 1
