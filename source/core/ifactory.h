@@ -5,6 +5,7 @@
 #include <initializer_list>
 #include <cstdint>
 #include <typeinfo>
+#include "guid.h"
 #include "core_error.h"
 
 PUNK_ENGINE_BEGIN
@@ -23,12 +24,22 @@ namespace Core {
 	extern PUNK_ENGINE_API void DestroyFactory();
 
 	struct RegisterCreator {
-		RegisterCreator(const Guid& type, void(*F)(void**)) {
-			GetFactory()->RegisterCreator(type, F);
+        RegisterCreator(const Guid& type, void(*F)(void**))
+            : m_type(type)
+            , m_func{F}
+        {
+            GetFactory()->RegisterCreator(m_type, m_func);
 		}
+        ~RegisterCreator() {
+            GetFactory()->UnregisterCreator(m_type);
+        }
+
+    private:
+        Guid m_type;
+        void (*m_func)(void**);
 	};
 
-#define PUNK_REGISTER_CREATOR(T, F) Core::RegisterCreator g_##T##creator{T, F}
+#define PUNK_REGISTER_CREATOR(T, F) static Core::RegisterCreator g_##T##creator{T, F}
 
 	template<class I>
 	I* CreateInstance(const Guid& type) {

@@ -189,8 +189,9 @@ namespace Core {
         if (!ConvertByteArray("WCHAR_T", "UTF8", inp, inp_size, nullptr, &outp_size))
             throw Error::StringConversionError(Error::STR_ERR_CONV_WCHAR_TO_UTF8);
 		Buffer buffer((std::uint32_t)outp_size);
+        buffer.SetOffset(outp_size, 0);
         if (!ConvertByteArray("WCHAR_T", "UTF8", inp, inp_size, (void*)buffer.Data(), &outp_size))
-            throw Error::StringConversionError(Error::STR_ERR_CONV_WCHAR_TO_UTF8);
+            throw Error::StringConversionError(Error::STR_ERR_CONV_WCHAR_TO_UTF8);        
         buffer.WriteUnsigned8(0);
         return buffer;
     }

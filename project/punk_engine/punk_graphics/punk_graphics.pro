@@ -11,7 +11,7 @@ TARGET = punk_graphics
 DEFINES += USE_OPENGL
 
 unix {
-    LIBS += -lX11
+    LIBS += -lX11 -lGL
 }
 
 win32 {

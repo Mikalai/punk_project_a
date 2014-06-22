@@ -18,7 +18,9 @@
 PUNK_ENGINE_BEGIN
 namespace System
 {
-    Folder::Folder() {}
+    Folder::Folder() {
+        m_prev_folder_name = GetCurrentFolder();
+    }
 
     Folder::~Folder() {
         Close();

@@ -140,7 +140,9 @@ namespace LowLevelRender {
 		Core::IObject* object;
 		factory->CreateInstance(Graphics::IID_ICanvas, (void**)&object);
 		if (!m_canvas.get()) {
-			object->QueryInterface(Graphics::IID_ICanvas, (void**)&m_canvas);
+            Graphics::ICanvas* canvas = nullptr;
+            object->QueryInterface(Graphics::IID_ICanvas, (void**)&canvas);
+            m_canvas.reset(canvas);
 			object->Release();
 			m_canvas->Initialize(Graphics::CanvasDescription{});
 			m_canvas->GetWindow()->Open();

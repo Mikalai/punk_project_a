@@ -9,7 +9,7 @@ TEMPLATE = lib
 TARGET = punk_system
 
 unix {
-    LIBS += -lX11
+    LIBS += -lX11 -lpthread -ldl
 }
 
 LIBS += -L$${LIBDIR} -lpunk_error -lpunk_string -lpunk_core

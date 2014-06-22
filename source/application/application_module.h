@@ -1,37 +1,11 @@
 #ifndef _H_PUNK_APPLICATION
 #define _H_PUNK_APPLICATION
 
-#include <config.h>
-#include <system/logger/module.h>
-#include <core/ifactory.h>
-#include "iapplication.h"
+
 
 PUNK_ENGINE_BEGIN
 namespace Runtime {
-	class PUNK_ENGINE_LOCAL Application : public IApplication {
-	public:
 
-		Application();
-		virtual ~Application();
-		void QueryInterface(const Core::Guid& type, void** object) override;
-		SceneModule::ISceneManager* GetSceneManager() override;
-		void Run() override;
-
-	private:
-		void LoadBasicModules();
-	public:
-		SceneModule::ISceneManager* m_scene_manager{ nullptr };
-		System::ILogger* m_logger{ System::GetDefaultLogger() };
-		Core::IFactory* m_factory{ Core::GetFactory() };
-
-		Core::UniquePtr<LowLevelRender::IRenderModule> m_render_module{ nullptr, Core::DestroyObject };
-		Core::UniquePtr<LowLevelRender::IRenderObserver> m_render_observer{ nullptr, Core::DestroyObject };
-		Core::UniquePtr<LowLevelRender::IRenderProcessor> m_render_processor{ nullptr, Core::DestroyObject };
-		Core::UniquePtr<System::IModule> m_graphics_module{ nullptr, Core::DestroyObject };
-		Core::UniquePtr<System::IModule> m_io_module{ nullptr, Core::DestroyObject };
-
-		PUNK_OBJECT_DEFAULT_IMPL(Application)
-	};
 }
 PUNK_ENGINE_END
 

@@ -4,12 +4,38 @@
 #include <loader/module.h>
 #include <scene/module.h>
 #include <animator/module.h>
-#include "application.h"
+#include <config.h>
+#include <system/logger/module.h>
+#include <core/ifactory.h>
+#include "iapplication.h"
 
 PUNK_ENGINE_BEGIN
 namespace Runtime {
 
-	DEFINE_PUNK_GUID(IID_IApplication, "8F21934D-2557-4FC1-8875-B018221BCA60");
+    class PUNK_ENGINE_LOCAL Application : public IApplication {
+    public:
+
+        Application();
+        virtual ~Application();
+        void QueryInterface(const Core::Guid& type, void** object) override;
+        SceneModule::ISceneManager* GetSceneManager() override;
+        void Run() override;
+
+    private:
+        void LoadBasicModules();
+    public:
+        SceneModule::ISceneManager* m_scene_manager{ nullptr };
+        System::ILogger* m_logger{ System::GetDefaultLogger() };
+        Core::IFactory* m_factory{ Core::GetFactory() };
+
+        Core::UniquePtr<LowLevelRender::IRenderModule> m_render_module{ nullptr, Core::DestroyObject };
+        Core::UniquePtr<LowLevelRender::IRenderObserver> m_render_observer{ nullptr, Core::DestroyObject };
+        Core::UniquePtr<LowLevelRender::IRenderProcessor> m_render_processor{ nullptr, Core::DestroyObject };
+        Core::UniquePtr<System::IModule> m_graphics_module{ nullptr, Core::DestroyObject };
+        Core::UniquePtr<System::IModule> m_io_module{ nullptr, Core::DestroyObject };
+
+        PUNK_OBJECT_DEFAULT_IMPL(Application)
+    };
 
 	Application::Application() {
 
@@ -50,8 +76,8 @@ namespace Runtime {
 	}
 
 	void Application::LoadBasicModules() {
-		std::vector<Core::String> modules{ { L"punk_loader", L"punk_scene", L"punk_attributes", L"punk_ai", L"punk_application", L"punk_core",
-			L"punk_error", L"punk_font", L"punk_graphics", L"punk_image", 
+        std::vector<Core::String> modules{ {L"punk_graphics", L"punk_loader", L"punk_scene", L"punk_attributes", L"punk_ai", L"punk_application", L"punk_core",
+            L"punk_error", L"punk_font", L"punk_image",
 			L"punk_math", L"punk_render", L"punk_string", L"punk_system",
 				L"punk_animator" } };
 
