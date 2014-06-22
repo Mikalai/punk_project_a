@@ -8,9 +8,9 @@
 #define NOMINMAX
 #endif
 #include <windows.h>
-#include "gl/glcorearb.h"
-//#include "gl/glext.h"
-#include "gl/wglext.h"
+//#include <graphics/opengl/gl/glext.h>
+#include <graphics/opengl/gl/glcorearb.h>
+#include <graphics/opengl/gl/wglext.h>
 #elif defined __gnu_linux__
 #include <X11/X.h>
 #include <X11/Xlib.h>
@@ -26,6 +26,37 @@
 PUNK_ENGINE_BEGIN
 namespace Graphics {
     namespace OpenGL {
+
+#ifndef GL_NV_framebuffer_multisample_coverage
+#define GL_NV_framebuffer_multisample_coverage 1
+#define GL_RENDERBUFFER_COVERAGE_SAMPLES_NV 0x8CAB
+#define GL_RENDERBUFFER_COLOR_SAMPLES_NV  0x8E10
+#define GL_MAX_MULTISAMPLE_COVERAGE_MODES_NV 0x8E11
+#define GL_MULTISAMPLE_COVERAGE_MODES_NV  0x8E12
+		typedef void (APIENTRYP PFNGLRENDERBUFFERSTORAGEMULTISAMPLECOVERAGENVPROC) (GLenum target, GLsizei coverageSamples, GLsizei colorSamples, GLenum internalformat, GLsizei width, GLsizei height);
+#ifdef GL_GLEXT_PROTOTYPES
+		GLAPI void APIENTRY glRenderbufferStorageMultisampleCoverageNV(GLenum target, GLsizei coverageSamples, GLsizei colorSamples, GLenum internalformat, GLsizei width, GLsizei height);
+#endif
+#endif /* GL_NV_framebuffer_multisample_coverage */
+
+#ifndef GL_EXT_texture_mirror_clamp
+#define GL_EXT_texture_mirror_clamp 1
+#define GL_MIRROR_CLAMP_EXT               0x8742
+#define GL_MIRROR_CLAMP_TO_EDGE_EXT       0x8743
+#define GL_MIRROR_CLAMP_TO_BORDER_EXT     0x8912
+#endif /* GL_EXT_texture_mirror_clamp */
+
+#ifndef GL_EXT_framebuffer_multisample
+#define GL_EXT_framebuffer_multisample 1
+#define GL_RENDERBUFFER_SAMPLES_EXT       0x8CAB
+#define GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE_EXT 0x8D56
+#define GL_MAX_SAMPLES_EXT                0x8D57
+		typedef void (APIENTRYP PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC) (GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height);
+#ifdef GL_GLEXT_PROTOTYPES
+		GLAPI void APIENTRY glRenderbufferStorageMultisampleEXT(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height);
+#endif
+#endif /* GL_EXT_framebuffer_multisample */
+
 
     void* GetGraphicsProcAddress(const char* name);
     void InitExtensions();
@@ -194,7 +225,7 @@ namespace Graphics {
 		extern PFNGLDRAWELEMENTSPROC glDrawElements;
 		extern PFNGLDRAWELEMENTSINDIRECTPROC glDrawElementsIndirect;
 		extern PFNGLDRAWELEMENTSINSTANCEDPROC glDrawElementsInstanced;
-        extern PUNK_ENGINE_API PFNGLCLEARPROC glClear;
+        extern PFNGLCLEARPROC glClear;
 		extern PFNGLGETPROGRAMIVPROC glGetProgramiv;
 		extern PFNGLGENERATEMIPMAPPROC glGenerateMipmap;
 
