@@ -305,23 +305,23 @@ namespace Graphics
 		template<PrimitiveType PT, typename IT>
 		IRenderable* CreateRenderable(std::uint64_t vertex_type) {
 			if (vertex_type == Vertex<VertexComponent::Position>::Value())
-				return new CreateBatch<PT, IT, VertexComponent::Position>::Type;
+                return new typename CreateBatch<PT, IT, VertexComponent::Position>::Type;
 			else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Texture0, VertexComponent::Flag, VertexComponent::Color>::Value())
-				return new CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Texture0, VertexComponent::Flag, VertexComponent::Color>::Type;
+                return new typename CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Texture0, VertexComponent::Flag, VertexComponent::Color>::Type;
 			else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Color>::Value())
-				return new CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Color>::Type;
+                return new typename CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Color>::Type;
 			else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Texture0>::Value())
-				return new CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Texture0>::Type;
+                return new typename CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Texture0>::Type;
 			else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Color, VertexComponent::Texture0>::Value())
-				return new CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Color, VertexComponent::Texture0>::Type;
+                return new typename CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Color, VertexComponent::Texture0>::Type;
 			else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Normal>::Value())
-				return new CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Normal>::Type;
+                return new typename CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Normal>::Type;
 			else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0>::Value())
-				return new CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0> ::Type;
+                return new typename CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0> ::Type;
 			else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Tangent, VertexComponent::Bitangent, VertexComponent::Texture0>::Value())
-				return new CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Normal, VertexComponent::Tangent, VertexComponent::Bitangent, VertexComponent::Texture0> ::Type;
+                return new typename CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Normal, VertexComponent::Tangent, VertexComponent::Bitangent, VertexComponent::Texture0> ::Type;
 			else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::BoneID, VertexComponent::BoneWeight>::Value())
-				return new CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Normal, VertexComponent::BoneID, VertexComponent::BoneWeight> ::Type;
+                return new typename CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Normal, VertexComponent::BoneID, VertexComponent::BoneWeight> ::Type;
 			else
 				throw Error::OpenGLException("Unsupported vertex type");
 		}

@@ -11,10 +11,14 @@
 PUNK_ENGINE_BEGIN
 namespace Graphics {
 
-    Canvas::Canvas()		
-		: m_window{ Core::CreateInstance<System::IWindow>(System::IID_IWindow), Core::DestroyObject }
-        , m_logger(System::GetDefaultLogger())
-    {}
+    Canvas::Canvas()				
+        : m_logger(System::GetDefaultLogger())
+        , m_window{ Core::CreateInstance<System::IWindow>(System::IID_IWindow), Core::DestroyObject }
+    {
+#ifdef WIN32        
+#elif defined __linux__
+#endif
+    }
 
 	void Canvas::Initialize(const CanvasDescription& desc) {
 		m_canvas_description = desc;		
@@ -23,10 +27,13 @@ namespace Graphics {
     void Canvas::InternalDestroy() {
         if (m_canvas_description.fullscreen)
 			SetFullscreen(false);
+#ifdef WIN32
         ChangeDisplaySettings(NULL, 0);
 		wglMakeCurrent(::GetDC(GetNativeHandle()), NULL);
         wglDeleteContext(m_opengl_context);        
         m_window->InternalDestroy();
+#elif defined __linux__
+#endif
     }
 
     void Canvas::OnResize(const System::WindowResizeEvent &)
@@ -69,6 +76,7 @@ namespace Graphics {
 
     void Canvas::SetFullscreen(bool flag) {
         m_canvas_description.fullscreen = flag;
+#ifdef WIN32
         if (flag)
         {
             SetWindowLong(GetNativeHandle(), GWL_STYLE, WS_POPUP);
@@ -102,6 +110,8 @@ namespace Graphics {
 
 		ShowWindow(GetNativeHandle(), SW_SHOW);
 		SetFocus(GetNativeHandle());
+#elif defined __linux__
+#endif
     }
 
     void Canvas::SwapBuffers()
@@ -110,12 +120,13 @@ namespace Graphics {
 		if (!::SwapBuffers(::GetDC(GetNativeHandle())))
             m_logger->Error(L"Swap buffer failed");
 #elif defined __gnu_linux__
-        glXSwapBuffers(m_desc.window->GetDisplay(), m_desc.window->GetWindow());
+        glXSwapBuffers(m_window->GetDisplay(), m_window->GetNativeHandle());
 #endif
     }
 
     void Canvas::InternalCreate()
     {
+#ifdef WIN32
         m_window->InternalCreate();
         m_logger->Info(L"Initializing OpenGL...");
 
@@ -240,6 +251,344 @@ namespace Graphics {
         OpenGL::glClear(GL_DEPTH_BUFFER_BIT|GL_COLOR_BUFFER_BIT);
         SwapBuffers();
         //m_desc.event_manager->SubscribeHandler(System::EVENT_KEY_DOWN, System::EventHandler(this, &VideoDriverImpl::OnKeyDown));
+#elif defined __linux__        
+
+        auto display = m_window->GetDisplay();
+        static int visual_attribs[] =
+        {
+            GLX_X_RENDERABLE,       true,
+            GLX_DRAWABLE_TYPE,      GLX_WINDOW_BIT,
+            //        GLX_RENDER_TYPE,        GLX_RGBA_BIT,
+            //        GLX_X_VISUAL_TYPE,      GLX_TRUE_COLOR,
+            //        GLX_RED_SIZE,           8,
+            //        GLX_GREEN_SIZE,         8,
+            //        GLX_BLUE_SIZE,          8,
+            //        GLX_ALPHA_SIZE,         8,
+            //        GLX_DEPTH_SIZE,         24,
+            //        GLX_STENCIL_SIZE,       8,
+            //        GLX_DOUBLEBUFFER,       true,
+            None
+        };
+
+        int glx_major = 0, glx_minor = 0;
+
+        if (!glXQueryVersion(display, &glx_minor, &glx_major) ||
+                (( glx_major == 1) && (glx_minor < 3)) || (glx_major < 1))
+        {
+            printf("GLX VERSION: %d.%d\n", glx_major, glx_minor);
+            throw System::Error::SystemException("Bad glx version");
+        }
+
+        int count;
+        GLXFBConfig* confs = glXGetFBConfigs(display, DefaultScreen(display), &count);
+        for (int i = 0; i != count; ++i)
+        {
+            int value;
+            m_logger->Info(Core::String("Config {0}/{1}").arg(i+1).arg(count));
+            int params[] = {GLX_DRAWABLE_TYPE, GLX_USE_GL, GLX_BUFFER_SIZE};
+            Core::String strs[] = {Core::String("GLX_DRAWABLE_TYPE: {0}"), Core::String("GLX_USE_GL: {0}"), Core::String("GLX_BUFFER_SIZE: {0}")};
+
+            for (int j = 0; j < sizeof(params)/sizeof(params[0]); ++j) {
+                glXGetFBConfigAttrib(display, confs[i], params[j], &value);
+                m_logger->Info(strs[j].arg(value));
+            }
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_LEVEL, &value);
+//            m_logger->Info(Core::String("GLX_LEVEL: {0}").arg(value));
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_RGBA, &value);
+//            m_logger->Info(Core::String("GLX_RGBA: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_DOUBLEBUFFER, &value);
+//            m_logger->Info(Core::String("GLX_DOUBLEBUFFER: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_STEREO, &value);
+//            m_logger->Info(Core::String("GLX_STEREO: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_AUX_BUFFERS, &value);
+//            m_logger->Info(Core::String("GLX_AUX_BUFFERS: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_RED_SIZE, &value);
+//            m_logger->Info(Core::String("GLX_RED_SIZE: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_BLUE_SIZE, &value);
+//            m_logger->Info(Core::String("GLX_BLUE_SIZE: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_ALPHA_SIZE, &value);
+//            m_logger->Info(Core::String("GLX_ALPHA_SIZE: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_DEPTH_SIZE, &value);
+//            m_logger->Info(Core::String("GLX_DEPTH_SIZE: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_STENCIL_SIZE, &value);
+//            m_logger->Info(Core::String("GLX_STENCIL_SIZE: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_ACCUM_RED_SIZE, &value);
+//            m_logger->Info(Core::String("GLX_ACCUM_RED_SIZE: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_ACCUM_GREEN_SIZE, &value);
+//            m_logger->Info(Core::String("GLX_ACCUM_GREEN_SIZE: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_ACCUM_BLUE_SIZE, &value);
+//            m_logger->Info(Core::String("GLX_ACCUM_BLUE_SIZE: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_ACCUM_ALPHA_SIZE, &value);
+//            m_logger->Info(Core::String("GLX_ACCUM_ALPHA_SIZE: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_CONFIG_CAVEAT, &value);
+//            m_logger->Info(Core::String("GLX_CONFIG_CAVEAT: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_X_VISUAL_TYPE, &value);
+//            m_logger->Info(Core::String("GLX_X_VISUAL_TYPE: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_TRANSPARENT_TYPE, &value);
+//            m_logger->Info(Core::String("GLX_TRANSPARENT_TYPE: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_TRANSPARENT_INDEX_VALUE, &value);
+//            m_logger->Info(Core::String("GLX_TRANSPARENT_INDEX_VALUE: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_TRANSPARENT_RED_VALUE, &value);
+//            m_logger->Info(Core::String("GLX_TRANSPARENT_RED_VALUE: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_TRANSPARENT_GREEN_VALUE, &value);
+//            m_logger->Info(Core::String("GLX_TRANSPARENT_GREEN_VALUE: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_TRANSPARENT_BLUE_VALUE, &value);
+//            m_logger->Info(Core::String("GLX_TRANSPARENT_BLUE_VALUE: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_TRANSPARENT_ALPHA_VALUE, &value);
+//            m_logger->Info(Core::String("GLX_TRANSPARENT_ALPHA_VALUE: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_SLOW_CONFIG, &value);
+//            m_logger->Info(Core::String("GLX_SLOW_CONFIG: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_TRUE_COLOR, &value);
+//            m_logger->Info(Core::String("GLX_TRUE_COLOR: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_DIRECT_COLOR, &value);
+//            m_logger->Info(Core::String("GLX_DIRECT_COLOR: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_PSEUDO_COLOR, &value);
+//            m_logger->Info(Core::String("GLX_PSEUDO_COLOR: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_STATIC_COLOR, &value);
+//            m_logger->Info(Core::String("GLX_STATIC_COLOR: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_GRAY_SCALE, &value);
+//            m_logger->Info(Core::String("GLX_GRAY_SCALE: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_STATIC_GRAY, &value);
+//            out_message() << "GLX_STATIC_GRAY: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_TRANSPARENT_RGB, &value);
+//            out_message() << "GLX_TRANSPARENT_RGB: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_TRANSPARENT_INDEX, &value);
+//            out_message() << "GLX_TRANSPARENT_INDEX: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_VISUAL_ID, &value);
+//            out_message() << "GLX_VISUAL_ID: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_NON_CONFORMANT_CONFIG, &value);
+//            out_message() << "GLX_NON_CONFORMANT_CONFIG: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_DRAWABLE_TYPE, &value);
+//            out_message() << "GLX_DRAWABLE_TYPE: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_RENDER_TYPE, &value);
+//            out_message() << "GLX_RENDER_TYPE: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_X_RENDERABLE, &value);
+//            out_message() << "GLX_X_RENDERABLE: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_FBCONFIG_ID, &value);
+//            out_message() << "GLX_FBCONFIG_ID: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_RGBA_TYPE, &value);
+//            out_message() << "GLX_RGBA_TYPE: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_COLOR_INDEX_TYPE, &value);
+//            out_message() << "GLX_COLOR_INDEX_TYPE: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_MAX_PBUFFER_WIDTH, &value);
+//            out_message() << "GLX_MAX_PBUFFER_WIDTH: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_MAX_PBUFFER_HEIGHT, &value);
+//            out_message() << "GLX_MAX_PBUFFER_HEIGHT: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_MAX_PBUFFER_PIXELS, &value);
+//            out_message() << "GLX_MAX_PBUFFER_PIXELS: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_PRESERVED_CONTENTS, &value);
+//            out_message() << "GLX_PRESERVED_CONTENTS: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_LARGEST_PBUFFER, &value);
+//            out_message() << "GLX_LARGEST_PBUFFER: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_WIDTH, &value);
+//            out_message() << "GLX_WIDTH: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_HEIGHT, &value);
+//            out_message() << "GLX_HEIGHT: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_EVENT_MASK, &value);
+//            out_message() << "GLX_EVENT_MASK: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_SAVED, &value);
+//            out_message() << "GLX_SAVED: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_WINDOW, &value);
+//            out_message() << "GLX_WINDOW: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_PBUFFER, &value);
+//            out_message() << "GLX_PBUFFER: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_PBUFFER_HEIGHT, &value);
+//            out_message() << "GLX_PBUFFER_HEIGHT: " << value << std::endl;
+
+//            glXGetFBConfigAttrib(display, confs[i], GLX_PBUFFER_WIDTH, &value);
+//            out_message() << "GLX_PBUFFER_WIDTH: " << value << std::endl;
+        }
+
+        int fbcount;
+        GLXFBConfig* fbc = glXChooseFBConfig(display, DefaultScreen(display),
+                                             visual_attribs, &fbcount);
+
+        fbc = &confs[2];
+        fbcount = 1;
+
+        if (!fbc)
+            throw System::Error::SystemException("unable to create framebuffer");
+
+        printf("found %d matching framebuffers", fbcount);
+
+        // Pick the FB config/visual with the most samples per pixel
+        printf( "Getting XVisualInfos\n" );
+        int best_fbc = -1, worst_fbc = -1, best_num_samp = -1, worst_num_samp = 999;
+
+        for (int i = 0; i < fbcount; i++ )
+        {
+            XVisualInfo *vi = glXGetVisualFromFBConfig(display, fbc[i] );
+            if ( vi )
+            {
+                int samp_buf, samples;
+                glXGetFBConfigAttrib( display, fbc[i], GLX_SAMPLE_BUFFERS, &samp_buf );
+                glXGetFBConfigAttrib( display, fbc[i], GLX_SAMPLES       , &samples  );
+
+                printf( "  Matching fbconfig %d, visual ID 0x%2x: SAMPLE_BUFFERS = %d,"
+                        " SAMPLES = %d\n",
+                        i, vi -> visualid, samp_buf, samples );
+
+                if ( best_fbc < 0 || samp_buf && samples > best_num_samp )
+                    best_fbc = i, best_num_samp = samples;
+                if ( worst_fbc < 0 || !samp_buf || samples < worst_num_samp )
+                    worst_fbc = i, worst_num_samp = samples;
+            }
+            XFree( vi );
+        }
+
+        GLXFBConfig bestFbc = fbc[ best_fbc ];
+
+        // Be sure to free the FBConfig list allocated by glXChooseFBConfig()
+        XFree( confs );
+
+        // Get a visual
+        XVisualInfo *vi = glXGetVisualFromFBConfig(display, bestFbc );
+        printf( "Chosen visual ID = 0x%x\n", vi->visualid );
+
+        m_window->SetVisualInfo(vi);
+        m_window->InternalCreate();
+        m_window->SetVisualInfo(nullptr);
+
+        // Done with the visual info data
+        XFree( vi );        
+
+        // Get the default screen's GLX extension list
+        const char *glxExts = glXQueryExtensionsString( display, DefaultScreen( display ) );
+
+        printf("Extesion string is %s\n", glxExts);
+        // NOTE: It is not necessary to create or make current to a context before
+        // calling glXGetProcAddressARB
+        printf("glXGetProcAddress %p\n", glXGetProcAddress);
+        printf("glxCreateContextAttribsARB address is %p\n", OpenGL::glXCreateContextAttribsARB);
+
+        printf("glxCreateContextAttribsARB address is %p\n", OpenGL::glXCreateContextAttribsARB);
+
+        //  Check for the GLX_ARB_create_context extension string and the function.
+        //  If either is not present, use GLX 1.3 context creation method.
+        //            if ( glXCreateContextAttribsARB )
+        //            {
+        //                printf( "glXCreateContextAttribsARB() not found"
+        //                        " ... using old-style GLX context\n" );
+        //                printf("glXCreateNewContext address is %p\n", glXCreateContext);
+        //                ctx = glXCreateNewContext( display, bestFbc, GLX_RGBA_TYPE, 0, True );
+        //            }
+
+        //    // If it does, try to get a GL 3.0 context!
+        //    else
+        {
+            int context_attribs[] =
+            {
+                GLX_CONTEXT_MAJOR_VERSION_ARB, 3,
+                GLX_CONTEXT_MINOR_VERSION_ARB, 3, 0,
+                GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_CORE_PROFILE_BIT_ARB, 0,
+                GLX_CONTEXT_PROFILE_MASK_ARB, GLX_CONTEXT_CORE_PROFILE_BIT_ARB
+            };
+
+            int attrib_list[] = {
+                GLX_RENDER_TYPE, GLX_RGBA_TYPE,
+                None
+            };
+
+            // glXCreateContextAttribs(dpy, config, share_list, direct, attrib_list);
+            printf( "Creating context\n" );
+            m_context = OpenGL::glXCreateContextAttribsARB( display, bestFbc, 0,
+                                              True, attrib_list );
+
+            // Sync to ensure any errors generated are processed.
+            XSync( display, False );
+            if ( m_context )
+                printf( "Created GL 2.1 context\n" );
+            else
+            {
+                // Couldn't create GL 3.0 context.  Fall back to old-style 2.x context.
+                // When a context version below 3.0 is requested, implementations will
+                // return the newest context version compatible with OpenGL versions less
+                // than version 3.0.
+                // GLX_CONTEXT_MAJOR_VERSION_ARB = 1
+                context_attribs[1] = 1;
+                // GLX_CONTEXT_MINOR_VERSION_ARB = 0
+                context_attribs[3] = 0;
+
+                printf( "Failed to create GL 3.0 context"
+                        " ... using old-style GLX context\n" );
+                m_context = OpenGL::glXCreateContextAttribsARB( display, bestFbc, 0,
+                                                  True, context_attribs );
+            }
+        }
+
+        // Sync to ensure any errors generated are processed.
+        XSync( display, False );
+
+        if (!m_context)
+        {
+            printf( "Failed to create an OpenGL context\n" );
+            throw System::Error::SystemException("Can't create glx context");
+        }
+
+        // Verifying that context is a direct context
+        if ( ! glXIsDirect ( display, m_context ) )
+        {
+            printf( "Indirect GLX rendering context obtained\n" );
+        }
+        else
+        {
+            printf( "Direct GLX rendering context obtained\n" );
+        }
+
+        printf( "Making context current\n" );
+        glXMakeCurrent( display, m_window->GetNativeHandle(), m_context );
+#endif
     }
 
     void Canvas::OnKeyDown(const System::KeyEvent& e) {
@@ -267,11 +616,11 @@ namespace Graphics {
 	//	IWindow
 
 	void Canvas::Initialize(const System::WindowDescription& desc) {
-		m_window->Initialize(desc);
+        m_window->Initialize(desc);
 	}
 
 	int Canvas::GetDesktopWidth() const {
-		return m_window->GetDesktopWidth();
+        return m_window->GetDesktopWidth();
 	}
 	
 	int Canvas::GetDesktopHeight() const {
@@ -454,6 +803,18 @@ namespace Graphics {
 	HWND Canvas::GetNativeHandle() {
 		return m_window->GetNativeHandle();
 	}
+#elif defined __linux__
+    void Canvas::SetVisualInfo(XVisualInfo* visual) {
+        m_window->SetVisualInfo(visual);
+    }
+
+    Window Canvas::GetNativeHandle() {
+        return m_window->GetNativeHandle();
+    }
+
+    Display* Canvas::GetDisplay() {
+        return m_window->GetDisplay();
+    }
 
 #endif	//	 _WIN32
 

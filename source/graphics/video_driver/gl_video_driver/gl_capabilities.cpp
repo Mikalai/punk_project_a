@@ -1,6 +1,7 @@
 #include <string.h>
 #include <system/logger/module.h>
 #include <graphics/opengl/module.h>
+#include <graphics/canvas/module.h>
 #include <graphics/video_driver/gl_video_driver/module.h>
 #include <graphics/frame_buffer/gl_frame_buffer/module.h>
 
@@ -11,12 +12,7 @@ namespace Graphics {
         bool IsSupported(const char* value, GlVideoDriver* driver)
         {            
 #ifdef __gnu_linux__
-            {
-                const char* str = glXQueryExtensionsString(driver->GetDisplay(), XDefaultScreen(driver->GetDisplay()));
-                bool res = driver->IsExtensionSupported(value, str);
-                if (res)
-                    return res;
-            }
+            //const char* str = glXQueryExtensionsString(driver->GetCanvas()->GetWindow()->GetDisplay(), XDefaultScreen(driver->GetCanvas()->GetWindow()->GetDisplay()));
             GLint count;
             glGetIntegerv(GL_NUM_EXTENSIONS, &count);
             for (GLint i = 0; i != count; ++i)

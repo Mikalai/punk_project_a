@@ -23,7 +23,7 @@ namespace Graphics
 
     extern PUNK_ENGINE_API const Core::String AsString(const PrimitiveType& v)
 	{
-		for (size_t i = 0; i != std::extent<decltype(g_primitive_types)>::value; ++i)
+        for (std::size_t i = 0; i != std::extent<decltype(g_primitive_types)>::value; ++i)
 		{
 			if (g_primitive_types[i].first == v)
 				return g_primitive_types[i].second;

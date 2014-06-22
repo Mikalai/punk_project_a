@@ -14,12 +14,12 @@
 PUNK_ENGINE_BEGIN
 namespace System
 {
-    class PUNK_ENGINE_LOCAL Window : public IWindow
+    class PUNK_ENGINE_LOCAL WindowBase : public IWindow
 	{	
     public:
-        Window();        
+        WindowBase();
 
-        virtual ~Window();		
+        virtual ~WindowBase();
 
 /*        virtual int GetDesktopWidth() const override;
         virtual int GetDesktopHeight() const override;

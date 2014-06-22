@@ -3,6 +3,7 @@
 
 #include <array>
 #include <config.h>
+#include <sstream>
 #include "shader_data_type.h"
 
 PUNK_ENGINE_BEGIN

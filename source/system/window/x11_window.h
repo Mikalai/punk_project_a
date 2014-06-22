@@ -8,12 +8,12 @@
 #include <system/input/module.h>
 #include <system/time/module.h>
 
-#include "window.h"
+#include "window_base.h"
 
 PUNK_ENGINE_BEGIN
 namespace System
 {
-    class PUNK_ENGINE_API WindowX11 : public Window
+    class PUNK_ENGINE_API WindowX11 : public WindowBase
     {
     public:
         WindowX11();
@@ -36,12 +36,7 @@ namespace System
         void SetTitle(const Core::String& text) override;
         const Core::String GetTitle() const override;
         void Quite() override;
-        void ShowCursor(bool value) override;
-
-        Display* GetDisplay();
-        void SetDisplay(Display* display);
-        ::Window GetWindow();
-        void SetWindow(::Window value);
+        void ShowCursor(bool value) override;        
         int DecodeKey(KeySym keysym, int& charKey, bool press);
         void OnKeyPressRelease(XKeyEvent* event);
         void OnMousePressRelease(XEvent* event);
@@ -49,6 +44,10 @@ namespace System
 
         void MouseMoveProc(const MouseEvent& e);
 
+
+        void SetVisualInfo(XVisualInfo* visual) override;
+        Window GetNativeHandle() override;
+        Display* GetDisplay() override;
 
     protected:
 
@@ -75,6 +74,7 @@ namespace System
 
         IKeyBoard* m_keyboard {nullptr};
         IMouse* m_mouse {nullptr};        
+        XVisualInfo* m_visual{nullptr};
     };
 }
 PUNK_ENGINE_END

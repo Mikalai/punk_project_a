@@ -2,11 +2,11 @@
 #define PUNK_CANVAS_INTERFACE_H
 
 #include <config.h>
+#include <system/window/module.h>
 #include <core/iobject.h>
 #include <memory>
 
 PUNK_ENGINE_BEGIN
-namespace System { class IWindow; }
 namespace Graphics {
     class CanvasDescription;
     class IVideoDriver;

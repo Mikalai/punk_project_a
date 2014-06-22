@@ -576,69 +576,77 @@ namespace System
     }
 
     int WindowX11::Loop()
-    {
-        XEvent event;
-
+    {        
         m_timer->Reset();
 
         while (!IsClosed())
         {
-            while (XPending(m_display))
-            {
-                XNextEvent(m_display, &event);
-                switch (event.type)
-                {
-                case CreateNotify:
-                    OnWindowCreated();
-                    break;
-                case ClientMessage:
-                    if (event.xclient.data.l[0] == (long)wmDeleteWindow)
-                        BreakMainLoop();
-                    break;
-                case ConfigureNotify:
-                {
-                    WindowResizeEvent e;
-                    e.width = event.xconfigure.width;
-                    e.height = event.xconfigure.height;
-                    OnResizeEvent(e);
-                    break;
-                }
-                case KeyPress:
-                case KeyRelease:
-                {
-                    OnKeyPressRelease((XKeyEvent*)&event);
-                    break;
-                }
-                case MotionNotify:
-                {
-                    MouseEvent e;
-                    e.x_prev = x_prev;
-                    e.y_prev = y_prev;
-                    e.x = event.xmotion.x;
-                    e.y = GetHeight() - event.xmotion.y;
-                    x_prev = event.xmotion.x;
-                    y_prev = GetHeight() - event.xmotion.y;
-                    e.leftButton = m_left_button;
-                    e.middleButton = m_middle_button;
-                    e.rightButton = m_right_button;
-                    OnMouseMoveEvent(e);
-                    MouseMoveProc(e);
-                }
-                    break;
-                case ButtonPress:
-                case ButtonRelease:
-                {
-                    OnMousePressRelease(&event);
-                    break;
-                }
-                }
-            }            
-            IdleEvent idle_event;
-            idle_event.elapsed_time_s = m_timer->GetElapsedSeconds();
+            int dt = m_timer->GetElapsedMiliseconds();
+            if (!Update(dt))
+                return 0;
             m_timer->Reset();
-            OnIdleEvent(idle_event);
         }
         return 0;
+    }
+
+    int WindowX11::Update(int dt) {
+        XEvent event;
+        while (XPending(m_display))
+        {
+            XNextEvent(m_display, &event);
+            switch (event.type)
+            {
+            case CreateNotify:
+                OnWindowCreated();
+                break;
+            case ClientMessage:
+                if (event.xclient.data.l[0] == (long)wmDeleteWindow) {
+                    BreakMainLoop();
+                    return 0;
+                }
+                break;
+            case ConfigureNotify:
+            {
+                WindowResizeEvent e;
+                e.width = event.xconfigure.width;
+                e.height = event.xconfigure.height;
+                OnResizeEvent(e);
+                break;
+            }
+            case KeyPress:
+            case KeyRelease:
+            {
+                OnKeyPressRelease((XKeyEvent*)&event);
+                break;
+            }
+            case MotionNotify:
+            {
+                MouseEvent e;
+                e.x_prev = x_prev;
+                e.y_prev = y_prev;
+                e.x = event.xmotion.x;
+                e.y = GetHeight() - event.xmotion.y;
+                x_prev = event.xmotion.x;
+                y_prev = GetHeight() - event.xmotion.y;
+                e.leftButton = m_left_button;
+                e.middleButton = m_middle_button;
+                e.rightButton = m_right_button;
+                OnMouseMoveEvent(e);
+                MouseMoveProc(e);
+            }
+                break;
+            case ButtonPress:
+            case ButtonRelease:
+            {
+                OnMousePressRelease(&event);
+                break;
+            }
+            }
+        }
+        IdleEvent idle_event;
+        idle_event.elapsed_time_s = dt / (double)1000;
+        OnIdleEvent(idle_event);
+        return 1;
     }
 
     void WindowX11::BreakMainLoop()
@@ -720,35 +728,14 @@ namespace System
 //        (void)y2;
 //    }
 
-    Display* WindowX11::GetDisplay()
-    {
-        return m_display;
-    }
+//    void WindowX11::SetWindow(::Window value)
+//    {
+//        if (m_window)
+//            XDestroyWindow(m_display, m_window);
+//        m_window = value;
+//        XSetWMProtocols(m_display, m_window, &wmDeleteWindow, 1);
+//    }
 
-    void WindowX11::SetDisplay(Display *display)
-    {
-        if (m_display)
-        {
-            //XDestroyWindow(impl->m_display, impl->m_window);
-            //XCloseDisplay(impl->m_display);
-            m_display = 0;
-            m_window = 0;
-        }
-        m_display = display;
-    }
-
-    void WindowX11::SetWindow(::Window value)
-    {
-        if (m_window)
-            XDestroyWindow(m_display, m_window);
-        m_window = value;
-        XSetWMProtocols(m_display, m_window, &wmDeleteWindow, 1);
-    }
-
-    ::Window WindowX11::GetWindow()
-    {
-        return m_window;
-    }
 
     void WindowX11::MouseMoveProc(const MouseEvent& e)
     {
@@ -771,13 +758,25 @@ namespace System
         }
     }
 
-    void WindowX11::InternalCreate() {
-        m_display = XOpenDisplay(NULL);
+    void WindowX11::SetVisualInfo(XVisualInfo* visual) {
+        m_visual = visual;
+    }
 
-        if (m_display == NULL) {
-            fprintf(stderr, "Cannot open display\n");
-            exit(1);
+    Window WindowX11::GetNativeHandle() {
+        return m_window;
+    }
+
+    Display* WindowX11::GetDisplay() {
+        if (!m_display) {
+            m_display = XOpenDisplay(NULL);
+            if (m_display == NULL)
+                throw System::Error::SystemException("XWindow: can't open display");
         }
+        return m_display;
+    }
+
+    void WindowX11::InternalCreate() {
+        m_display = GetDisplay();
 
         int screen = DefaultScreen(m_display);
         memset(&m_swa, 0, sizeof(m_swa));
@@ -785,10 +784,31 @@ namespace System
         m_swa.background_pixel = BlackPixel(m_display, screen);
 
         printf("Creating window\n");
+        if (!m_visual) {
         m_window = XCreateWindow(m_display, DefaultRootWindow(m_display),
                                  m_window_description.m_x, m_window_description.m_y, m_window_description.m_width, m_window_description.m_height,
                                  0, DefaultDepth(m_display, screen),
                                  CopyFromParent, CopyFromParent, CWBackPixel|CWBorderPixel, &m_swa);
+        }
+        else {
+            printf( "Creating colormap\n" );
+            Colormap colorMap;
+            XSetWindowAttributes swa;
+            swa.colormap = colorMap = XCreateColormap( m_display,
+                                                       RootWindow( m_display, m_visual->screen ),
+                                                       m_visual->visual, AllocNone );
+            swa.background_pixmap = None ;
+            swa.border_pixel      = 0;
+            swa.event_mask        = KeyPressMask | PointerMotionMask | StructureNotifyMask
+                    | ButtonPressMask;
+
+            printf( "Creating window\n" );
+            m_window = XCreateWindow( m_display,
+                                         RootWindow( m_display, m_visual->screen ),
+                                         m_window_description.m_x, m_window_description.m_y, m_window_description.m_width, m_window_description.m_height, 0, m_visual->depth, InputOutput,
+                                         m_visual->visual,
+                                         CWBorderPixel|CWColormap|CWEventMask, &swa );
+        }
 
         XStoreName(m_display, m_window, "PunkEngine");
         XSetIconName(m_display, m_window, "PunkEngine");

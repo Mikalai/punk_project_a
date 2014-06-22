@@ -122,29 +122,29 @@ HEADERS += \
     ../../../source/graphics/primitives/vertex.h \
     ../../../source/graphics/primitives/vertex_array.h \
     ../../../source/graphics/primitives/vertex_component.h \
-    ../../../source/graphics/render/gl_render/fs_bump.h \
-    ../../../source/graphics/render/gl_render/fs_bump_diffuse_color.h \
-    ../../../source/graphics/render/gl_render/fs_bump_diffuse_color_specular.h \
-    ../../../source/graphics/render/gl_render/fs_bump_shadow_map.h \
-    ../../../source/graphics/render/gl_render/fs_bump_tex_diffuse.h \
-    ../../../source/graphics/render/gl_render/fs_bump_tex_diffuse_specular.h \
-    ../../../source/graphics/render/gl_render/fs_depth.h \
-    ../../../source/graphics/render/gl_render/fs_grass.h \
-    ../../../source/graphics/render/gl_render/fs_gui.h \
-    ../../../source/graphics/render/gl_render/fs_light.h \
-    ../../../source/graphics/render/gl_render/fs_painter.h \
-    ../../../source/graphics/render/gl_render/fs_per_fragment_lighting_diffuse_specular.h \
-    ../../../source/graphics/render/gl_render/fs_per_fragment_lighting_tex_diffuse_specular.h \
-    ../../../source/graphics/render/gl_render/fs_per_vertex_lighting_diffuse_shadow_simple.h \
-    ../../../source/graphics/render/gl_render/fs_per_vertex_lighting_tex_diffuse.h \
-    ../../../source/graphics/render/gl_render/fs_pfl_diffuse_simple_shadow.h \
-    ../../../source/graphics/render/gl_render/fs_shadow_single.h \
-    ../../../source/graphics/render/gl_render/fs_skinning.h \
-    ../../../source/graphics/render/gl_render/fs_solid_textured.h \
-    ../../../source/graphics/render/gl_render/fs_solid_textured_2d_array.h \
-    ../../../source/graphics/render/gl_render/fs_solid_vertex_color.h \
-    ../../../source/graphics/render/gl_render/fs_terrain.h \
-    ../../../source/graphics/render/gl_render/fs_text_solid.h \
+#    ../../../source/graphics/render/gl_render/fs_bump.h \
+#    ../../../source/graphics/render/gl_render/fs_bump_diffuse_color.h \
+#    ../../../source/graphics/render/gl_render/fs_bump_diffuse_color_specular.h \
+#    ../../../source/graphics/render/gl_render/fs_bump_shadow_map.h \
+#    ../../../source/graphics/render/gl_render/fs_bump_tex_diffuse.h \
+#    ../../../source/graphics/render/gl_render/fs_bump_tex_diffuse_specular.h \
+#    ../../../source/graphics/render/gl_render/fs_depth.h \
+#    ../../../source/graphics/render/gl_render/fs_grass.h \
+#    ../../../source/graphics/render/gl_render/fs_gui.h \
+#    ../../../source/graphics/render/gl_render/fs_light.h \
+#    ../../../source/graphics/render/gl_render/fs_painter.h \
+#    ../../../source/graphics/render/gl_render/fs_per_fragment_lighting_diffuse_specular.h \
+#    ../../../source/graphics/render/gl_render/fs_per_fragment_lighting_tex_diffuse_specular.h \
+#    ../../../source/graphics/render/gl_render/fs_per_vertex_lighting_diffuse_shadow_simple.h \
+#    ../../../source/graphics/render/gl_render/fs_per_vertex_lighting_tex_diffuse.h \
+#    ../../../source/graphics/render/gl_render/fs_pfl_diffuse_simple_shadow.h \
+#    ../../../source/graphics/render/gl_render/fs_shadow_single.h \
+#    ../../../source/graphics/render/gl_render/fs_skinning.h \
+#    ../../../source/graphics/render/gl_render/fs_solid_textured.h \
+#    ../../../source/graphics/render/gl_render/fs_solid_textured_2d_array.h \
+#    ../../../source/graphics/render/gl_render/fs_solid_vertex_color.h \
+#    ../../../source/graphics/render/gl_render/fs_terrain.h \
+#    ../../../source/graphics/render/gl_render/fs_text_solid.h \
     ../../../source/graphics/render/gl_render/gl_fog_parameters.h \
     ../../../source/graphics/render/gl_render/gl_ishader.h \
     ../../../source/graphics/render/gl_render/gl_light_per_fragment_diffuse.h \
@@ -162,35 +162,35 @@ HEADERS += \
     ../../../source/graphics/render/gl_render/gl_shader_cooker.h \
     ../../../source/graphics/render/gl_render/gl_shader_type.h \
     ../../../source/graphics/render/gl_render/module.h \
-    ../../../source/graphics/render/gl_render/vs_bump.h \
-    ../../../source/graphics/render/gl_render/vs_bump_diffuse_color.h \
-    ../../../source/graphics/render/gl_render/vs_bump_diffuse_color_specular.h \
-    ../../../source/graphics/render/gl_render/vs_bump_shadow_map.h \
-    ../../../source/graphics/render/gl_render/vs_bump_tex_diffuse.h \
-    ../../../source/graphics/render/gl_render/vs_bump_tex_diffuse_specular.h \
-    ../../../source/graphics/render/gl_render/vs_depth.h \
-    ../../../source/graphics/render/gl_render/vs_grass.h \
-    ../../../source/graphics/render/gl_render/vs_gui.h \
-    ../../../source/graphics/render/gl_render/vs_light.h \
-    ../../../source/graphics/render/gl_render/vs_painter.h \
-    ../../../source/graphics/render/gl_render/vs_particle.h \
-    ../../../source/graphics/render/gl_render/vs_particle_system.h \
-    ../../../source/graphics/render/gl_render/vs_per_fragment_lighting_diffuse.h \
-    ../../../source/graphics/render/gl_render/vs_per_fragment_lighting_diffuse_specular.h \
-    ../../../source/graphics/render/gl_render/vs_per_fragment_lighting_tex_diffuse.h \
-    ../../../source/graphics/render/gl_render/vs_per_fragment_lighting_tex_diffuse_specular.h \
-    ../../../source/graphics/render/gl_render/vs_per_vertex_lighting.h \
-    ../../../source/graphics/render/gl_render/vs_per_vertex_lighting_diffuse.h \
-    ../../../source/graphics/render/gl_render/vs_per_vertex_lighting_diffuse_shadow_simple.h \
-    ../../../source/graphics/render/gl_render/vs_per_vertex_lighting_diffuse_specular.h \
-    ../../../source/graphics/render/gl_render/vs_per_vertex_lighting_tex_diffuse.h \
-    ../../../source/graphics/render/gl_render/vs_pfl_diffuse_simple_shadow.h \
-    ../../../source/graphics/render/gl_render/vs_skinning_bump.h \
-    ../../../source/graphics/render/gl_render/vs_skinning_depth.h \
-    ../../../source/graphics/render/gl_render/vs_solid_vertex_color.h \
-    ../../../source/graphics/render/gl_render/vs_terrain.h \
-    ../../../source/graphics/render/gl_render/vs_transform_3d.h \
-    ../../../source/graphics/render/gl_render/vs_transformed_textured_3d.h \
+#    ../../../source/graphics/render/gl_render/vs_bump.h \
+#    ../../../source/graphics/render/gl_render/vs_bump_diffuse_color.h \
+#    ../../../source/graphics/render/gl_render/vs_bump_diffuse_color_specular.h \
+#    ../../../source/graphics/render/gl_render/vs_bump_shadow_map.h \
+#    ../../../source/graphics/render/gl_render/vs_bump_tex_diffuse.h \
+#    ../../../source/graphics/render/gl_render/vs_bump_tex_diffuse_specular.h \
+#    ../../../source/graphics/render/gl_render/vs_depth.h \
+#    ../../../source/graphics/render/gl_render/vs_grass.h \
+#    ../../../source/graphics/render/gl_render/vs_gui.h \
+#    ../../../source/graphics/render/gl_render/vs_light.h \
+#    ../../../source/graphics/render/gl_render/vs_painter.h \
+#    ../../../source/graphics/render/gl_render/vs_particle.h \
+#    ../../../source/graphics/render/gl_render/vs_particle_system.h \
+#    ../../../source/graphics/render/gl_render/vs_per_fragment_lighting_diffuse.h \
+#    ../../../source/graphics/render/gl_render/vs_per_fragment_lighting_diffuse_specular.h \
+#    ../../../source/graphics/render/gl_render/vs_per_fragment_lighting_tex_diffuse.h \
+#    ../../../source/graphics/render/gl_render/vs_per_fragment_lighting_tex_diffuse_specular.h \
+#    ../../../source/graphics/render/gl_render/vs_per_vertex_lighting.h \
+#    ../../../source/graphics/render/gl_render/vs_per_vertex_lighting_diffuse.h \
+#    ../../../source/graphics/render/gl_render/vs_per_vertex_lighting_diffuse_shadow_simple.h \
+#    ../../../source/graphics/render/gl_render/vs_per_vertex_lighting_diffuse_specular.h \
+#    ../../../source/graphics/render/gl_render/vs_per_vertex_lighting_tex_diffuse.h \
+#    ../../../source/graphics/render/gl_render/vs_pfl_diffuse_simple_shadow.h \
+#    ../../../source/graphics/render/gl_render/vs_skinning_bump.h \
+#    ../../../source/graphics/render/gl_render/vs_skinning_depth.h \
+#    ../../../source/graphics/render/gl_render/vs_solid_vertex_color.h \
+#    ../../../source/graphics/render/gl_render/vs_terrain.h \
+#    ../../../source/graphics/render/gl_render/vs_transform_3d.h \
+#    ../../../source/graphics/render/gl_render/vs_transformed_textured_3d.h \
     ../../../source/graphics/render/irender.h \
     ../../../source/graphics/render/irender_context.h \
     ../../../source/graphics/render/irender_context_factory.h \
@@ -236,7 +236,7 @@ HEADERS += \
     ../../../source/graphics/shadow/shadow_map_render_type.h \
     ../../../source/graphics/shadow/shadow_model.h \
     ../../../source/graphics/shadow/shadow_render_common.h \
-    ../../../source/graphics/shadow/simple_shadowmap_render.h \
+    #../../../source/graphics/shadow/simple_shadowmap_render.h \
     ../../../source/graphics/state/gpu_state.h \
     ../../../source/graphics/state/module.h \
     ../../../source/graphics/text/itext_surface.h \
@@ -338,33 +338,33 @@ SOURCES += \
     ../../../source/graphics/primitives/triangle_fans.cpp \
     ../../../source/graphics/primitives/triangle_strip.cpp \
     ../../../source/graphics/primitives/triangles.cpp \
-    ../../../source/graphics/render/gl_render/fs_bump.cpp \
-    ../../../source/graphics/render/gl_render/fs_bump_diffuse_color.cpp \
-    ../../../source/graphics/render/gl_render/fs_bump_diffuse_color_specular.cpp \
-    ../../../source/graphics/render/gl_render/fs_bump_shadow_map.cpp \
-    ../../../source/graphics/render/gl_render/fs_bump_tex_diffuse.cpp \
-    ../../../source/graphics/render/gl_render/fs_bump_tex_diffuse_specular.cpp \
-    ../../../source/graphics/render/gl_render/fs_depth.cpp \
-    ../../../source/graphics/render/gl_render/fs_grass.cpp \
-    ../../../source/graphics/render/gl_render/fs_gui.cpp \
-    ../../../source/graphics/render/gl_render/fs_light.cpp \
-    ../../../source/graphics/render/gl_render/fs_painter.cpp \
-    ../../../source/graphics/render/gl_render/fs_particle.cpp \
-    ../../../source/graphics/render/gl_render/fs_per_fragment_lighting_diffuse.cpp \
-    ../../../source/graphics/render/gl_render/fs_per_fragment_lighting_diffuse_specular.cpp \
-    ../../../source/graphics/render/gl_render/fs_per_fragment_lighting_tex_diffuse.cpp \
-    ../../../source/graphics/render/gl_render/fs_per_fragment_lighting_tex_diffuse_specular.cpp \
-    ../../../source/graphics/render/gl_render/fs_per_vertex_lighting_diffuse.cpp \
-    ../../../source/graphics/render/gl_render/fs_per_vertex_lighting_diffuse_shadow_simple.cpp \
-    ../../../source/graphics/render/gl_render/fs_per_vertex_lighting_tex_diffuse.cpp \
-    ../../../source/graphics/render/gl_render/fs_pfl_diffuse_simple_shadow.cpp \
-    ../../../source/graphics/render/gl_render/fs_shadow_single.cpp \
-    ../../../source/graphics/render/gl_render/fs_skinning.cpp \
-    ../../../source/graphics/render/gl_render/fs_solid_textured.cpp \
-    ../../../source/graphics/render/gl_render/fs_solid_textured_2d_array.cpp \
-    ../../../source/graphics/render/gl_render/fs_solid_vertex_color.cpp \
-    ../../../source/graphics/render/gl_render/fs_terrain.cpp \
-    ../../../source/graphics/render/gl_render/fs_text_solid.cpp \
+#    ../../../source/graphics/render/gl_render/fs_bump.cpp \
+#    ../../../source/graphics/render/gl_render/fs_bump_diffuse_color.cpp \
+#    ../../../source/graphics/render/gl_render/fs_bump_diffuse_color_specular.cpp \
+#    ../../../source/graphics/render/gl_render/fs_bump_shadow_map.cpp \
+#    ../../../source/graphics/render/gl_render/fs_bump_tex_diffuse.cpp \
+#    ../../../source/graphics/render/gl_render/fs_bump_tex_diffuse_specular.cpp \
+#    ../../../source/graphics/render/gl_render/fs_depth.cpp \
+#    ../../../source/graphics/render/gl_render/fs_grass.cpp \
+#    ../../../source/graphics/render/gl_render/fs_gui.cpp \
+#    ../../../source/graphics/render/gl_render/fs_light.cpp \
+#    ../../../source/graphics/render/gl_render/fs_painter.cpp \
+#    ../../../source/graphics/render/gl_render/fs_particle.cpp \
+#    ../../../source/graphics/render/gl_render/fs_per_fragment_lighting_diffuse.cpp \
+#    ../../../source/graphics/render/gl_render/fs_per_fragment_lighting_diffuse_specular.cpp \
+#    ../../../source/graphics/render/gl_render/fs_per_fragment_lighting_tex_diffuse.cpp \
+#    ../../../source/graphics/render/gl_render/fs_per_fragment_lighting_tex_diffuse_specular.cpp \
+#    ../../../source/graphics/render/gl_render/fs_per_vertex_lighting_diffuse.cpp \
+#    ../../../source/graphics/render/gl_render/fs_per_vertex_lighting_diffuse_shadow_simple.cpp \
+#    ../../../source/graphics/render/gl_render/fs_per_vertex_lighting_tex_diffuse.cpp \
+#    ../../../source/graphics/render/gl_render/fs_pfl_diffuse_simple_shadow.cpp \
+#    ../../../source/graphics/render/gl_render/fs_shadow_single.cpp \
+#    ../../../source/graphics/render/gl_render/fs_skinning.cpp \
+#    ../../../source/graphics/render/gl_render/fs_solid_textured.cpp \
+#    ../../../source/graphics/render/gl_render/fs_solid_textured_2d_array.cpp \
+#    ../../../source/graphics/render/gl_render/fs_solid_vertex_color.cpp \
+#    ../../../source/graphics/render/gl_render/fs_terrain.cpp \
+#    ../../../source/graphics/render/gl_render/fs_text_solid.cpp \
     ../../../source/graphics/render/gl_render/gl_rc_dynamic.cpp \
     ../../../source/graphics/render/gl_render/gl_rc_instances.cpp \
     ../../../source/graphics/render/gl_render/gl_render_context_base.cpp \
@@ -372,35 +372,35 @@ SOURCES += \
     ../../../source/graphics/render/gl_render/gl_shader_base.cpp \
     ../../../source/graphics/render/gl_render/gl_shader_cooker.cpp \
     ../../../source/graphics/render/gl_render/gl_shader_type.cpp \
-    ../../../source/graphics/render/gl_render/vs_bump.cpp \
-    ../../../source/graphics/render/gl_render/vs_bump_diffuse_color.cpp \
-    ../../../source/graphics/render/gl_render/vs_bump_diffuse_color_specular.cpp \
-    ../../../source/graphics/render/gl_render/vs_bump_shadow_map.cpp \
-    ../../../source/graphics/render/gl_render/vs_bump_tex_diffuse.cpp \
-    ../../../source/graphics/render/gl_render/vs_bump_tex_diffuse_specular.cpp \
-    ../../../source/graphics/render/gl_render/vs_depth.cpp \
-    ../../../source/graphics/render/gl_render/vs_grass.cpp \
-    ../../../source/graphics/render/gl_render/vs_gui.cpp \
-    ../../../source/graphics/render/gl_render/vs_light.cpp \
-    ../../../source/graphics/render/gl_render/vs_painter.cpp \
-    ../../../source/graphics/render/gl_render/vs_particle.cpp \
-    ../../../source/graphics/render/gl_render/vs_particle_system.cpp \
-    ../../../source/graphics/render/gl_render/vs_per_fragment_lighting_diffuse.cpp \
-    ../../../source/graphics/render/gl_render/vs_per_fragment_lighting_diffuse_specular.cpp \
-    ../../../source/graphics/render/gl_render/vs_per_fragment_lighting_tex_diffuse.cpp \
-    ../../../source/graphics/render/gl_render/vs_per_fragment_lighting_tex_diffuse_specular.cpp \
-    ../../../source/graphics/render/gl_render/vs_per_vertex_lighting.cpp \
-    ../../../source/graphics/render/gl_render/vs_per_vertex_lighting_diffuse.cpp \
-    ../../../source/graphics/render/gl_render/vs_per_vertex_lighting_diffuse_shadow_simple.cpp \
-    ../../../source/graphics/render/gl_render/vs_per_vertex_lighting_diffuse_specular.cpp \
-    ../../../source/graphics/render/gl_render/vs_per_vertex_lighting_tex_diffuse.cpp \
-    ../../../source/graphics/render/gl_render/vs_pfl_diffuse_simple_shadow.cpp \
-    ../../../source/graphics/render/gl_render/vs_skinning_bump.cpp \
-    ../../../source/graphics/render/gl_render/vs_skinning_depth.cpp \
-    ../../../source/graphics/render/gl_render/vs_solid_vertex_color.cpp \
-    ../../../source/graphics/render/gl_render/vs_terrain.cpp \
-    ../../../source/graphics/render/gl_render/vs_transform_3d.cpp \
-    ../../../source/graphics/render/gl_render/vs_transformed_textured_3d.cpp \
+#    ../../../source/graphics/render/gl_render/vs_bump.cpp \
+#    ../../../source/graphics/render/gl_render/vs_bump_diffuse_color.cpp \
+#    ../../../source/graphics/render/gl_render/vs_bump_diffuse_color_specular.cpp \
+#    ../../../source/graphics/render/gl_render/vs_bump_shadow_map.cpp \
+#    ../../../source/graphics/render/gl_render/vs_bump_tex_diffuse.cpp \
+#    ../../../source/graphics/render/gl_render/vs_bump_tex_diffuse_specular.cpp \
+#    ../../../source/graphics/render/gl_render/vs_depth.cpp \
+#    ../../../source/graphics/render/gl_render/vs_grass.cpp \
+#    ../../../source/graphics/render/gl_render/vs_gui.cpp \
+#    ../../../source/graphics/render/gl_render/vs_light.cpp \
+#    ../../../source/graphics/render/gl_render/vs_painter.cpp \
+#    ../../../source/graphics/render/gl_render/vs_particle.cpp \
+#    ../../../source/graphics/render/gl_render/vs_particle_system.cpp \
+#    ../../../source/graphics/render/gl_render/vs_per_fragment_lighting_diffuse.cpp \
+#    ../../../source/graphics/render/gl_render/vs_per_fragment_lighting_diffuse_specular.cpp \
+#    ../../../source/graphics/render/gl_render/vs_per_fragment_lighting_tex_diffuse.cpp \
+#    ../../../source/graphics/render/gl_render/vs_per_fragment_lighting_tex_diffuse_specular.cpp \
+#    ../../../source/graphics/render/gl_render/vs_per_vertex_lighting.cpp \
+#    ../../../source/graphics/render/gl_render/vs_per_vertex_lighting_diffuse.cpp \
+#    ../../../source/graphics/render/gl_render/vs_per_vertex_lighting_diffuse_shadow_simple.cpp \
+#    ../../../source/graphics/render/gl_render/vs_per_vertex_lighting_diffuse_specular.cpp \
+#    ../../../source/graphics/render/gl_render/vs_per_vertex_lighting_tex_diffuse.cpp \
+#    ../../../source/graphics/render/gl_render/vs_pfl_diffuse_simple_shadow.cpp \
+#    ../../../source/graphics/render/gl_render/vs_skinning_bump.cpp \
+#    ../../../source/graphics/render/gl_render/vs_skinning_depth.cpp \
+#    ../../../source/graphics/render/gl_render/vs_solid_vertex_color.cpp \
+#    ../../../source/graphics/render/gl_render/vs_terrain.cpp \
+#    ../../../source/graphics/render/gl_render/vs_transform_3d.cpp \
+#    ../../../source/graphics/render/gl_render/vs_transformed_textured_3d.cpp \
     ../../../source/graphics/render/irender.cpp \
     ../../../source/graphics/render/irender_context.cpp \
     ../../../source/graphics/render/irender_queue.cpp \
@@ -425,14 +425,14 @@ SOURCES += \
     ../../../source/graphics/shaders/shader_function.cpp \
     ../../../source/graphics/shaders/shader_uniform_table.cpp \
     ../../../source/graphics/shaders/shader_var_table.cpp \
-    ../../../source/graphics/shadow/abstract_shadow_map_debug_visualizer.cpp \
-    ../../../source/graphics/shadow/abstract_shadowmap_render.cpp \
-    ../../../source/graphics/shadow/cascade_shadow_map_debug_visualizer.cpp \
-    ../../../source/graphics/shadow/cascade_shadow_map_render.cpp \
-    ../../../source/graphics/shadow/shadow_map_render_type.cpp \
-    ../../../source/graphics/shadow/shadow_model.cpp \
-    ../../../source/graphics/shadow/shadow_render_common.cpp \
-    ../../../source/graphics/shadow/simple_shadowmap_render.cpp \
+#    ../../../source/graphics/shadow/abstract_shadow_map_debug_visualizer.cpp \
+#    ../../../source/graphics/shadow/abstract_shadowmap_render.cpp \
+#    ../../../source/graphics/shadow/cascade_shadow_map_debug_visualizer.cpp \
+#    ../../../source/graphics/shadow/cascade_shadow_map_render.cpp \
+#    ../../../source/graphics/shadow/shadow_map_render_type.cpp \
+#    ../../../source/graphics/shadow/shadow_model.cpp \
+#    ../../../source/graphics/shadow/shadow_render_common.cpp \
+    #../../../source/graphics/shadow/simple_shadowmap_render.cpp \
     ../../../source/graphics/state/gpu_state.cpp \
     ../../../source/graphics/text/text_surface.cpp \
     ../../../source/graphics/texture/gl_texture/gl_texture2d.cpp \

@@ -25,7 +25,7 @@ namespace Graphics {
 			virtual void Connect(GlRenderContextBase* rc) = 0;
 			virtual void Initialize() = 0;
 			virtual void ApplyState(const CoreState& state) = 0;
-			virtual GLuint GetIndex() const = 0;
+            virtual std::uint32_t GetIndex() const = 0;
 
         protected:
 			bool m_initiailized{ false };

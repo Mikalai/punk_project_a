@@ -14,8 +14,7 @@ namespace Graphics
 
 	const Core::String AsString(const FogMode& v)
 	{
-		for (size_t i = 0; i != std::extent<decltype(g_fog_modes)>::value; ++i)
-		{
+        for (std::size_t i = 0; i != std::extent<decltype(g_fog_modes)>::value; ++i) {
 			if (g_fog_modes[i].first == v)
 				return g_fog_modes[i].second;
 		}

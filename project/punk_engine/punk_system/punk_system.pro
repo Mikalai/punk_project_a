@@ -102,7 +102,6 @@ HEADERS += \
     ../../../source/system/window/iwindow.h \
     ../../../source/system/window/module.h \
     ../../../source/system/window/win32_window.h \
-    ../../../source/system/window/window.h \
     ../../../source/system/window/window_adapter.h \
     ../../../source/system/window/window_component.h \
     ../../../source/system/window/window_description.h \
@@ -119,7 +118,8 @@ HEADERS += \
     ../../../source/system/serializable.h \
     ../../../source/system/state_manager.h \
     ../../../source/system/storable_data.h \
-    ../../../source/system/types.h
+    ../../../source/system/types.h \
+    ../../../source/system/window/window_base.h
 
 SOURCES += \
     ../../../source/system/commands/cmd_create_timer.cpp \
@@ -168,7 +168,6 @@ SOURCES += \
     ../../../source/system/time/timer.cpp \
     ../../../source/system/types/list.cpp \
     ../../../source/system/window/win32_window.cpp \
-    ../../../source/system/window/window.cpp \
     ../../../source/system/window/window_component.cpp \
     ../../../source/system/window/x11_window.cpp \
     ../../../source/system/config_file.cpp \
@@ -177,5 +176,6 @@ SOURCES += \
     ../../../source/system/factory.cpp \
     ../../../source/system/profiler.cpp \
     ../../../source/system/serializable.cpp \
-    ../../../source/system/storable.cpp
+    ../../../source/system/storable.cpp \
+    ../../../source/system/window/window_base.cpp
 
