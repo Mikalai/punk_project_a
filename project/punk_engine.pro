@@ -19,6 +19,7 @@ SUBDIRS = punk_engine/punk_error \
           punk_engine/punk_scene \
           punk_engine/punk_attributes \
           punk_engine/punk_loader \
+		  punk_engine/punk_render\
           #punk_engine/punk_gui \
           #punk_engine/punk_physics \          
           #tower_defense
@@ -35,3 +36,4 @@ punk_physics = punk_error punk_string punk_core punk_math
 punk_attributes = punk_string punk_core punk_math punk_system punk_font punk_image punk_scene
 punk_scene = punk_string punk_core punk_math punk_system punk_font punk_image punk_attributes
 punk_loader = punk_string punk_core punk_math punk_system punk_font punk_image punk_scene punk_attributes
+punk_render = punk_string punk_core punk_math punk_system punk_font punk_image punk_scene punk_attributes
