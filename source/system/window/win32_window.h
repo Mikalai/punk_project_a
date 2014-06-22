@@ -4,7 +4,7 @@
 
 #include <system/time/timer_interface.h>
 #include <core/action.h>
-#include "window.h"
+#include "window_base.h"
 
 PUNK_ENGINE_BEGIN
 namespace Core { class String; }
@@ -12,7 +12,7 @@ namespace System
 {
     LRESULT CALLBACK WindowCallBack(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-    class PUNK_ENGINE_LOCAL WindowWin : public Window
+    class PUNK_ENGINE_LOCAL WindowWin : public WindowBase
     {
     public:
         WindowWin();

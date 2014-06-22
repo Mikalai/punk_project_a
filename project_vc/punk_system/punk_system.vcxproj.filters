@@ -218,9 +218,6 @@
     <ClInclude Include="..\..\source\system\window\win32_window.h">
       <Filter>window</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\system\window\window.h">
-      <Filter>window</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\system\window\window_adapter.h">
       <Filter>window</Filter>
     </ClInclude>
@@ -262,6 +259,9 @@
     </ClInclude>
     <ClInclude Include="..\..\source\system\module\imodule.h">
       <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\window\window_base.h">
+      <Filter>window</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -401,9 +401,6 @@
     <ClCompile Include="..\..\source\system\window\win32_window.cpp">
       <Filter>window</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\system\window\window.cpp">
-      <Filter>window</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\system\window\window_component.cpp">
       <Filter>window</Filter>
     </ClCompile>
@@ -415,6 +412,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\system\module\imodule_manager.cpp">
       <Filter>module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\window\window_base.cpp">
+      <Filter>window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

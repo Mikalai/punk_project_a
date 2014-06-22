@@ -253,8 +253,8 @@
     <ClInclude Include="..\..\source\system\types.h" />
     <ClInclude Include="..\..\source\system\window\module.h" />
     <ClInclude Include="..\..\source\system\window\win32_window.h" />
-    <ClInclude Include="..\..\source\system\window\window.h" />
     <ClInclude Include="..\..\source\system\window\window_adapter.h" />
+    <ClInclude Include="..\..\source\system\window\window_base.h" />
     <ClInclude Include="..\..\source\system\window\window_component.h" />
     <ClInclude Include="..\..\source\system\window\window_description.h" />
     <ClInclude Include="..\..\source\system\window\iwindow.h" />
@@ -313,7 +313,7 @@
     <ClCompile Include="..\..\source\system\time\timer.cpp" />
     <ClCompile Include="..\..\source\system\time\time_component.cpp" />
     <ClCompile Include="..\..\source\system\window\win32_window.cpp" />
-    <ClCompile Include="..\..\source\system\window\window.cpp" />
+    <ClCompile Include="..\..\source\system\window\window_base.cpp" />
     <ClCompile Include="..\..\source\system\window\window_component.cpp" />
     <ClCompile Include="..\..\source\system\window\x11_window.cpp" />
   </ItemGroup>
