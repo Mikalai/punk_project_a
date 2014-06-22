@@ -1,3 +1,4 @@
+#include <memory.h>
 #include <core/ifactory.h>
 #include <math/vec3.h>
 #include <math/vec4.h>

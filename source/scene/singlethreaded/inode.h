@@ -70,11 +70,6 @@ namespace SceneModule {
 			return attribute ? attribute->Get<T>() : nullptr;
 		}
 
-		template<class T>
-		T* Get() {
-			auto attribute = GetAttribute()
-		}
-
         template<class T>
         const T* Get(const Core::String& name) const {
             auto attribute = GetAttribute(name, typeid(T).hash_code());

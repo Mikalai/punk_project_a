@@ -13,65 +13,36 @@ LIBS += -L$${LIBDIR} -lpunk_error -lpunk_string -lpunk_core -lpunk_math -lpunk_s
 INCLUDEPATH += ../../../source
 
 HEADERS += \
-    ../../../source/loader/parser/base_parser2.h \
+    ../../../source/loader/error/loader_error.h \
     ../../../source/loader/parser/game_parser.h \
     ../../../source/loader/parser/keywords.h \
-    ../../../source/loader/parser/parse_functions.h \
-    ../../../source/loader/parser/parser.h \    
-    ../../../source/loader/async_parser.h \
-    ../../../source/loader/loader_cache.h \
-    ../../../source/loader/loader_graph_processor.h \
-    ../../../source/loader/module.h \
-    ../../../source/loader/path_finder.h \
-    ../../../source/loader/serializer/serializer.h \
-    ../../../source/loader/serializer/io_animation_track.h \
-    ../../../source/loader/serializer/io_quaternion.h \
-    ../../../source/loader/serializer/io_vector.h \
-    ../../../source/loader/serializer/io_sound.h \
-    ../../../source/loader/serializer/io_animation_mixer.h \
-    ../../../source/loader/serializer/io_armature_animation_mixer.h \
-    ../../../source/loader/serializer/io_bone.h \
-    ../../../source/loader/serializer/io_human_armature.h \
-    ../../../source/loader/serializer/io_armature.h \
-    ../../../source/loader/serializer/io_animation.h \
-    ../../../source/loader/serializer/io_object_animation_mixer.h \
-    ../../../source/loader/serializer/io_camera.h \
-    ../../../source/loader/serializer/io_geometry.h \
-    ../../../source/loader/serializer/io_light.h \
-    ../../../source/loader/serializer/io_material.h \
-    ../../../source/loader/serializer/io_skin_geometry.h \
-    ../../../source/loader/serializer/io_action.h \
-    ../../../source/loader/serializer/io_transform.h \
-    ../../../source/loader/serializer/io_sun.h \
-    ../../../source/loader/serializer/io_static_geometry.h \
-    ../../../source/loader/serializer/io_terrain_cell.h \
-    ../../../source/loader/serializer/io_terrain_mesh.h \
-    ../../../source/loader/serializer/io_river.h \
-    ../../../source/loader/parser/parse_action.h \
     ../../../source/loader/parser/parse_animation.h \
     ../../../source/loader/parser/parse_anything.h \
-    ../../../source/loader/parser/parse_armature.h \
     ../../../source/loader/parser/parse_armature_node.h \
     ../../../source/loader/parser/parse_bbox.h \
     ../../../source/loader/parser/parse_bone.h \
     ../../../source/loader/parser/parse_bone_node.h \
+    ../../../source/loader/parser/parse_bones_weights.h \
     ../../../source/loader/parser/parse_convex_mesh.h \
     ../../../source/loader/parser/parse_curve_path.h \
     ../../../source/loader/parser/parse_curve_path_node.h \
     ../../../source/loader/parser/parse_directional_light.h \
+    ../../../source/loader/parser/parse_functions.h \
     ../../../source/loader/parser/parse_location_indoor.h \
     ../../../source/loader/parser/parse_map_description.h \
     ../../../source/loader/parser/parse_material.h \
     ../../../source/loader/parser/parse_material_node.h \
     ../../../source/loader/parser/parse_materials.h \
+    ../../../source/loader/parser/parse_math.h \
     ../../../source/loader/parser/parse_navi_mesh.h \
     ../../../source/loader/parser/parse_navi_mesh_node.h \
+    ../../../source/loader/parser/parse_path_node.h \
     ../../../source/loader/parser/parse_point_light_node.h \
     ../../../source/loader/parser/parse_portal_node.h \
     ../../../source/loader/parser/parse_position_track.h \
     ../../../source/loader/parser/parse_punk_file.h \
-    ../../../source/loader/parser/parse_river.h \
-    ../../../source/loader/parser/parse_river_node.h \
+#    ../../../source/loader/parser/parse_river.h \
+#    ../../../source/loader/parser/parse_river_node.h \
     ../../../source/loader/parser/parse_rotation_track.h \
     ../../../source/loader/parser/parse_scene.h \
     ../../../source/loader/parser/parse_scene_node.h \
@@ -79,60 +50,96 @@ HEADERS += \
     ../../../source/loader/parser/parse_skin_mesh.h \
     ../../../source/loader/parser/parse_skin_mesh_node.h \
     ../../../source/loader/parser/parse_skin_meshes.h \
+    ../../../source/loader/parser/parse_spline.h \
+    ../../../source/loader/parser/parse_static_mesh_node.h \
+    ../../../source/loader/parser/parse_static_meshes.h \
     ../../../source/loader/parser/parse_sun.h \
     ../../../source/loader/parser/parse_sun_node.h \
-    ../../../source/loader/parser/parse_terrain_cell.h \
-    ../../../source/loader/parser/parse_terrain_mesh.h \
-    ../../../source/loader/parser/parse_terrain_node.h \
-    ../../../source/loader/parser/parse_terrain_raw_data_source.h \
+#    ../../../source/loader/parser/parse_terrain_cell.h \
+#    ../../../source/loader/parser/parse_terrain_mesh.h \
+#    ../../../source/loader/parser/parse_terrain_node.h \
+#    ../../../source/loader/parser/parse_terrain_raw_data_source.h \
+    ../../../source/loader/parser/parse_texture_coordinates.h \
     ../../../source/loader/parser/parse_texture_slot.h \
     ../../../source/loader/parser/parse_textures.h \
-    ../../../source/loader/parser/parse_transform_node.h \
+    ../../../source/loader/parser/parse_transform.h \
     ../../../source/loader/parser/parse_weighted_point.h \
-    ../../../source/loader/parser/parse_math.h \
-    ../../../source/loader/parser/parse_spline.h \
-    ../../../source/loader/parser/parse_static_mesh.h \
-    ../../../source/loader/parser/parse_static_mesh_node.h \
-    ../../../source/loader/parser/parse_path_node.h \
-    ../../../source/loader/parser/parse_static_meshes.h \
-    ../../../source/loader/error/loader_error.h \
-    ../../../source/loader/parser/parse_bones_weights.h \
+    ../../../source/loader/parser/parser.h \
+    ../../../source/loader/serializer/io_action.h \
+    ../../../source/loader/serializer/io_animation.h \
+    ../../../source/loader/serializer/io_animation_mixer.h \
+    ../../../source/loader/serializer/io_animation_track.h \
+    ../../../source/loader/serializer/io_armature.h \
+    ../../../source/loader/serializer/io_armature_animation_mixer.h \
+    ../../../source/loader/serializer/io_bone.h \
+    ../../../source/loader/serializer/io_camera.h \
+    ../../../source/loader/serializer/io_curve.h \
     ../../../source/loader/serializer/io_curve_path.h \
+    ../../../source/loader/serializer/io_geometry.h \
+    ../../../source/loader/serializer/io_human_armature.h \
+    ../../../source/loader/serializer/io_light.h \
+    ../../../source/loader/serializer/io_material.h \
+    ../../../source/loader/serializer/io_matrix.h \
     ../../../source/loader/serializer/io_navi_mesh.h \
     ../../../source/loader/serializer/io_object.h \
-    ../../../source/loader/serializer/io_string.h \
-    ../../../source/loader/serializer/io_matrix.h \
-    ../../../source/loader/serializer/io_curve.h \
+    ../../../source/loader/serializer/io_object_animation_mixer.h \
+    ../../../source/loader/serializer/io_quaternion.h \
+#    ../../../source/loader/serializer/io_river.h \
+    ../../../source/loader/serializer/io_skin_geometry.h \
+    ../../../source/loader/serializer/io_sound.h \
     ../../../source/loader/serializer/io_spline.h \
-    ../../../source/loader/serializer/io_weighted_point.h
+    ../../../source/loader/serializer/io_static_geometry.h \
+    ../../../source/loader/serializer/io_string.h \
+    ../../../source/loader/serializer/io_sun.h \
+#    ../../../source/loader/serializer/io_terrain_cell.h \
+#    ../../../source/loader/serializer/io_terrain_mesh.h \
+    ../../../source/loader/serializer/io_transform.h \
+    ../../../source/loader/serializer/io_vector.h \
+    ../../../source/loader/serializer/io_weighted_point.h \
+    ../../../source/loader/serializer/serializer.h \
+    ../../../source/loader/singlethreaded/async_parser.h \
+    ../../../source/loader/singlethreaded/iio_observer.h \
+    ../../../source/loader/singlethreaded/io_observer.h \
+    ../../../source/loader/singlethreaded/loader_cache.h \
+    ../../../source/loader/singlethreaded/loader_commands.h \
+    ../../../source/loader/singlethreaded/loader_tasks.h \
+    ../../../source/loader/singlethreaded/module.h \
+    ../../../source/loader/singlethreaded/path_finder.h \
+    ../../../source/loader/module.h
 
 SOURCES += \
+    ../../../source/loader/error/loader_error.cpp \
     ../../../source/loader/parser/game_parser.cpp \
-    ../../../source/loader/parser/parse_action.cpp \
+    ../../../source/loader/parser/keywords.cpp \
     ../../../source/loader/parser/parse_animation.cpp \
     ../../../source/loader/parser/parse_anything.cpp \
     ../../../source/loader/parser/parse_armature.cpp \
     ../../../source/loader/parser/parse_armature_node.cpp \
+    ../../../source/loader/parser/parse_armature_schema.cpp \
     ../../../source/loader/parser/parse_bbox.cpp \
     ../../../source/loader/parser/parse_bone.cpp \
     ../../../source/loader/parser/parse_bone_node.cpp \
+    ../../../source/loader/parser/parse_bones_weights.cpp \
+    ../../../source/loader/parser/parse_camera.cpp \
     ../../../source/loader/parser/parse_convex_mesh.cpp \
     ../../../source/loader/parser/parse_curve_path.cpp \
     ../../../source/loader/parser/parse_curve_path_node.cpp \
-    ../../../source/loader/parser/parse_directional_light.cpp \
+    ../../../source/loader/parser/parse_geometry.cpp \
+    ../../../source/loader/parser/parse_light.cpp \
     ../../../source/loader/parser/parse_location_indoor.cpp \
     ../../../source/loader/parser/parse_map_description.cpp \
     ../../../source/loader/parser/parse_material.cpp \
     ../../../source/loader/parser/parse_material_node.cpp \
     ../../../source/loader/parser/parse_materials.cpp \
+    ../../../source/loader/parser/parse_math.cpp \
     ../../../source/loader/parser/parse_navi_mesh.cpp \
     ../../../source/loader/parser/parse_navi_mesh_node.cpp \
     ../../../source/loader/parser/parse_point_light_node.cpp \
     ../../../source/loader/parser/parse_portal_node.cpp \
     ../../../source/loader/parser/parse_position_track.cpp \
     ../../../source/loader/parser/parse_punk_file.cpp \
-    ../../../source/loader/parser/parse_river.cpp \
-    ../../../source/loader/parser/parse_river_node.cpp \
+#    ../../../source/loader/parser/parse_river.cpp \
+#    ../../../source/loader/parser/parse_river_node.cpp \
     ../../../source/loader/parser/parse_rotation_track.cpp \
     ../../../source/loader/parser/parse_scene.cpp \
     ../../../source/loader/parser/parse_scene_node.cpp \
@@ -141,58 +148,55 @@ SOURCES += \
     ../../../source/loader/parser/parse_skin_mesh_node.cpp \
     ../../../source/loader/parser/parse_skin_meshes.cpp \
     ../../../source/loader/parser/parse_spline.cpp \
-    ../../../source/loader/parser/parse_static_mesh.cpp \
     ../../../source/loader/parser/parse_static_mesh_node.cpp \
     ../../../source/loader/parser/parse_static_meshes.cpp \
     ../../../source/loader/parser/parse_sun.cpp \
     ../../../source/loader/parser/parse_sun_node.cpp \
-    ../../../source/loader/parser/parse_terrain_cell.cpp \
-    ../../../source/loader/parser/parse_terrain_mesh.cpp \
-    ../../../source/loader/parser/parse_terrain_node.cpp \
-    ../../../source/loader/parser/parse_terrain_raw_data_source.cpp \
+#    ../../../source/loader/parser/parse_terrain_cell.cpp \
+#    ../../../source/loader/parser/parse_terrain_mesh.cpp \
+#    ../../../source/loader/parser/parse_terrain_node.cpp \
+#    ../../../source/loader/parser/parse_terrain_raw_data_source.cpp \
     ../../../source/loader/parser/parse_texture_slot.cpp \
     ../../../source/loader/parser/parse_textures.cpp \
-    ../../../source/loader/parser/parse_transform_node.cpp \
-    ../../../source/loader/parser/parse_weighted_point.cpp \    
-    ../../../source/loader/async_parser.cpp \
-    ../../../source/loader/loader_cache.cpp \
-    ../../../source/loader/loader_graph_processor.cpp \
-    ../../../source/loader/path_finder.cpp \
-    ../../../source/loader/serializer/serializer.cpp \
-    ../../../source/loader/serializer/io_animation_track.cpp \
-    ../../../source/loader/serializer/io_quaternion.cpp \
-    ../../../source/loader/serializer/io_vector.cpp \
-    ../../../source/loader/serializer/io_sound.cpp \
+    ../../../source/loader/parser/parse_track.cpp \
+    ../../../source/loader/parser/parse_transform.cpp \
+    ../../../source/loader/parser/parse_weighted_point.cpp \
+    ../../../source/loader/parser/parser.cpp \
+    ../../../source/loader/serializer/io_action.cpp \
+    ../../../source/loader/serializer/io_animation.cpp \
     ../../../source/loader/serializer/io_animation_mixer.cpp \
+    ../../../source/loader/serializer/io_animation_track.cpp \
+    ../../../source/loader/serializer/io_armature.cpp \
     ../../../source/loader/serializer/io_armature_animation_mixer.cpp \
     ../../../source/loader/serializer/io_bone.cpp \
-    ../../../source/loader/serializer/io_human_armature.cpp \
-    ../../../source/loader/serializer/io_armature.cpp \
-    ../../../source/loader/serializer/io_animation.cpp \
-    ../../../source/loader/serializer/io_object_animation_mixer.cpp \
     ../../../source/loader/serializer/io_camera.cpp \
+    ../../../source/loader/serializer/io_curve.cpp \
+    ../../../source/loader/serializer/io_curve_path.cpp \
     ../../../source/loader/serializer/io_geometry.cpp \
+    ../../../source/loader/serializer/io_human_armature.cpp \
     ../../../source/loader/serializer/io_light.cpp \
     ../../../source/loader/serializer/io_material.cpp \
-    ../../../source/loader/serializer/io_skin_geometry.cpp \
-    ../../../source/loader/serializer/io_action.cpp \
-    ../../../source/loader/serializer/io_transform.cpp \
-    ../../../source/loader/serializer/io_sun.cpp \
-    ../../../source/loader/serializer/io_static_geometry.cpp \
-    ../../../source/loader/serializer/io_terrain_cell.cpp \
-    ../../../source/loader/serializer/io_terrain_mesh.cpp \
-    ../../../source/loader/serializer/io_river.cpp \
-    ../../../source/loader/parser/parse_math.cpp \
-    ../../../source/loader/parser/keywords.cpp \
-    ../../../source/loader/parser/parser.cpp \
-    ../../../source/loader/error/loader_error.cpp \
-    ../../../source/loader/parser/parse_bones_weights.cpp \
-    ../../../source/loader/serializer/io_curve_path.cpp \
+    ../../../source/loader/serializer/io_matrix.cpp \
     ../../../source/loader/serializer/io_navi_mesh.cpp \
     ../../../source/loader/serializer/io_object.cpp \
-    ../../../source/loader/serializer/io_string.cpp \
-    ../../../source/loader/serializer/io_matrix.cpp \
-    ../../../source/loader/serializer/io_curve.cpp \
+    ../../../source/loader/serializer/io_object_animation_mixer.cpp \
+    ../../../source/loader/serializer/io_quaternion.cpp \
+#    ../../../source/loader/serializer/io_river.cpp \
+    ../../../source/loader/serializer/io_skin_geometry.cpp \
+    ../../../source/loader/serializer/io_sound.cpp \
     ../../../source/loader/serializer/io_spline.cpp \
-    ../../../source/loader/serializer/io_weighted_point.cpp
-
+    ../../../source/loader/serializer/io_static_geometry.cpp \
+    ../../../source/loader/serializer/io_string.cpp \
+    ../../../source/loader/serializer/io_sun.cpp \
+#    ../../../source/loader/serializer/io_terrain_cell.cpp \
+#    ../../../source/loader/serializer/io_terrain_mesh.cpp \
+    ../../../source/loader/serializer/io_transform.cpp \
+    ../../../source/loader/serializer/io_vector.cpp \
+    ../../../source/loader/serializer/io_weighted_point.cpp \
+    ../../../source/loader/serializer/serializer.cpp \
+    ../../../source/loader/singlethreaded/async_parser.cpp \
+    ../../../source/loader/singlethreaded/io_observer.cpp \
+    ../../../source/loader/singlethreaded/loader_cache.cpp \
+    ../../../source/loader/singlethreaded/loader_commands.cpp \
+    ../../../source/loader/singlethreaded/loader_tasks.cpp \
+    ../../../source/loader/singlethreaded/path_finder.cpp

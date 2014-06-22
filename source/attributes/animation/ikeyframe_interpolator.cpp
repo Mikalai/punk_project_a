@@ -1,3 +1,4 @@
+#include <memory.h>
 #include <system/errors/module.h>
 #include <core/ifactory.h>
 #include <math/interpolation.h>
@@ -46,6 +47,10 @@ namespace Attributes
 	template<typename T, InterpolatorType Tag>
 	class KeyFrameInterpolatorImpl : public IKeyFrameInterpolator {
 	public:
+
+        KeyFrameInterpolatorImpl()
+            : m_ref_count{1}
+        {}
 
 		//	IObject
 		void QueryInterface(const Core::Guid& type, void** object) {

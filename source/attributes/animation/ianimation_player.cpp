@@ -1,3 +1,4 @@
+#include <memory.h>
 #include <system/errors/module.h>
 #include <core/ifactory.h>
 #include "ianimation.h"

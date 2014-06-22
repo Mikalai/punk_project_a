@@ -22,6 +22,10 @@ namespace Attributes {
 	class TrackImpl : public Track<T> {
 	public:
 
+        TrackImpl()
+            : m_ref_count{1}
+        {}
+
 		~TrackImpl() {
 			while (!m_frames.empty()) {
 				m_frames.back()->Release();
