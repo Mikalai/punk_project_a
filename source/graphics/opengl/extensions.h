@@ -21,9 +21,11 @@
 #include <graphics/opengl/gl/glx.h>
 #include <graphics/opengl/gl/glxext.h>
 //#include <graphics/opengl/gl/glext.h>
-
-
 #endif
+
+#include <graphics/opengl/gl/GL_EXT_texture_mirror_clamp.h>
+#include <graphics/opengl/gl/GL_NV_framebuffer_multisample_coverage.h>
+#include <graphics/opengl/gl/GL_EXT_framebuffer_multisample.h>
 
 PUNK_ENGINE_BEGIN
 namespace Graphics {

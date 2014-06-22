@@ -1155,6 +1155,18 @@
     <ClInclude Include="..\..\source\graphics\render\gl_render\gl_light_per_fragment_diffuse_skinning.h">
       <Filter>render\gl_render</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\graphics\opengl\gl\glnv.h">
+      <Filter>opengl\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\opengl\gl\GL_EXT_texture_mirror_clamp.h">
+      <Filter>opengl\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\opengl\gl\GL_NV_framebuffer_multisample_coverage.h">
+      <Filter>opengl\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\graphics\opengl\gl\GL_EXT_framebuffer_multisample.h">
+      <Filter>opengl\gl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\data\shaders\bump_330.frag">

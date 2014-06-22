@@ -298,7 +298,7 @@ namespace Graphics
         }
 
 		template<PrimitiveType PT, typename IT, typename ... VC>
-		struct CreateBatch {
+		struct PUNK_ENGINE_LOCAL CreateBatch {
 			using Type = GlBatch < PT, IT, VC... > ;
 		};		
 

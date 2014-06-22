@@ -312,12 +312,12 @@ namespace Graphics
 
 			~VertexArrayObject2()
 			{
-                VaoAccessorPolicy<CurrentVertex, CurrentIndex>::Clear();
+                VaoAccessorPolicy<VB, IB>::Clear();
 			}
 		
 			void Bind()
 			{
-                GL_CALL(glBindVertexArray(m_core->m_vao));
+                GL_CALL(glBindVertexArray(m_core.m_vao));
                 VaoCookPolicy<CurrentVertex, CurrentIndex>::InternalBind();
 			}
 
