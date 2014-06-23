@@ -87,7 +87,7 @@ int main() {
             throw System::Error::SystemException("Can't load punk_application module");
 
 		Runtime::IApplication* app{ nullptr };
-		Core::GetFactory()->CreateInstance(Runtime::IID_IApplication, (void**)&app);
+		Core::GetFactory()->CreateInstance(Runtime::IID_IApplication, (void**)&app);           
 
 		if (!app) {
 			System::GetDefaultLogger()->Error("Can't create application");

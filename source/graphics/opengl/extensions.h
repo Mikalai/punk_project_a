@@ -251,7 +251,7 @@ namespace Graphics {
 
         extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLECOVERAGENVPROC glRenderbufferStorageMultisampleCoverageNV;
 
-        extern PFNGLFRAMEBUFFERTEXTURELAYERPROC glFramebufferTextureLayer;
+        extern PFNGLFRAMEBUFFERTEXTURELAYERPROC glFramebufferTextureLayer;        
 
         //GL_ARB_shading_language_include
         extern PFNGLNAMEDSTRINGARBPROC glNamedStringARB;

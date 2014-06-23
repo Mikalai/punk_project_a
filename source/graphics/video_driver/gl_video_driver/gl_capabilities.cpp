@@ -13,9 +13,9 @@ namespace Graphics {
         {            
 #ifdef __gnu_linux__
             //const char* str = glXQueryExtensionsString(driver->GetCanvas()->GetWindow()->GetDisplay(), XDefaultScreen(driver->GetCanvas()->GetWindow()->GetDisplay()));
-            GLint count;
+            GLint count = 0;
             glGetIntegerv(GL_NUM_EXTENSIONS, &count);
-            for (GLint i = 0; i != count; ++i)
+            for (GLint i = 0; i < count; ++i)
             {
                 const char* ext = (const char*)glGetStringi(GL_EXTENSIONS, i);
                 if (!strcmp(value, ext))

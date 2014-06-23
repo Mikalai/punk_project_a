@@ -231,15 +231,15 @@ namespace Graphics {
         static void* gl_lib = nullptr;
         if (!gl_lib)
         {
-            gl_lib = dlopen("libGL.so", RTLD_NOW);
+            gl_lib = dlopen("libGL.so.1", RTLD_NOW);
             if (!gl_lib)
                 throw Error::OpenGLException("Can't load libGL.so");
             glXGetProcAddress = (PFNGLXGETPROCADDRESSPROC)dlsym(gl_lib, "glXGetProcAddress");
-        }
-        void* res = (void*)glXGetProcAddress((const GLubyte*)name);
+        }        
+        void* res = dlsym(gl_lib, name);
         if (res)
             return res;
-        res = dlsym(gl_lib, name);
+        res = (void*)glXGetProcAddress((const GLubyte*)name);
         return res;
 #endif
     }

@@ -59,7 +59,7 @@ namespace System
         ::Window m_window;
         // Screen* m_screen;
         Colormap m_color_map;
-        Display* m_display;
+        Display* m_display { nullptr };
         XSetWindowAttributes m_swa;
         Atom wmDeleteWindow;
         int x_prev {0};

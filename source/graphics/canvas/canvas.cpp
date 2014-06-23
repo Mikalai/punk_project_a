@@ -67,10 +67,11 @@ namespace Graphics {
 	}
 
 	std::uint32_t Canvas::Release() {
-		if (!(m_ref_count.fetch_sub(1)-1)) {
-			delete this; \
+        auto v = m_ref_count.fetch_sub(1)-1;
+        if (!v) {
+            delete this;
 		}
-		return m_ref_count;
+        return v;
 	}
 
 
@@ -187,58 +188,6 @@ namespace Graphics {
 
         wglDeleteContext(tempContext);
 
-        OpenGL::InitExtensions();
-
-        GLint t;
-        m_logger->Info(Core::String("\tRenderer: {0} ").arg((const char*)OpenGL::glGetString(GL_RENDERER)));
-        m_logger->Info(Core::String("\tVendor: {0} ").arg((const char*)OpenGL::glGetString(GL_VENDOR)));
-        m_logger->Info(Core::String("\tVersion: {0}").arg((const char*)OpenGL::glGetString(GL_VERSION)));
-        m_logger->Info(Core::String("\tGLSL version: {0}").arg((const char*)OpenGL::glGetString(GL_SHADING_LANGUAGE_VERSION)));
-        OpenGL::glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &t);
-        m_logger->Info(Core::String("\tMax vertex attribs: {0}").arg(t));
-        OpenGL::glGetIntegerv(GL_MAX_VERTEX_UNIFORM_COMPONENTS, &t);
-        m_logger->Info(Core::String("\tMax vertex uniform components: {0}").arg(t));
-        OpenGL::glGetIntegerv(GL_MAX_VARYING_FLOATS, &t);
-        m_logger->Info(Core::String("\tMax varying floats: {0}").arg(t));
-        OpenGL::glGetIntegerv(GL_MAX_3D_TEXTURE_SIZE, &t);
-        m_logger->Info(Core::String(L"\tMax 3D texture size: {0}").arg(t));
-        OpenGL::glGetIntegerv(GL_MAX_CLIP_DISTANCES, &t);
-        m_logger->Info(Core::String(L"\tMax clip distances: {0}").arg(t));
-        OpenGL::glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &t);
-        m_logger->Info(Core::String(L"\tMax combined texture image units: {0}").arg(t));
-        OpenGL::glGetIntegerv(GL_MAX_CUBE_MAP_TEXTURE_SIZE, &t);
-        m_logger->Info(Core::String(L"\tMax cube map texture size: {0}").arg(t));
-        OpenGL::glGetIntegerv(GL_MAX_DRAW_BUFFERS, &t);
-        m_logger->Info(Core::String(L"\tMax draw buffers: {0}").arg(t));
-        OpenGL::glGetIntegerv(GL_MAX_ELEMENTS_INDICES, &t);
-        m_logger->Info(Core::String(L"\tMax elements indices: {0}").arg(t));
-        OpenGL::glGetIntegerv(GL_MAX_ELEMENTS_VERTICES, &t);
-        m_logger->Info(Core::String(L"\tMax elements vertices: {0}").arg(t));
-        OpenGL::glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &t);
-        m_logger->Info(Core::String(L"\tMax texture image units in FS: {0}").arg(t));
-        OpenGL::glGetIntegerv(GL_MAX_RENDERBUFFER_SIZE, &t);
-        m_logger->Info(Core::String(L"\tMax render buffer size: {0}").arg(t));
-
-
-        OpenGL::wglSwapIntervalEXT(0);
-
-        const unsigned char* sv = OpenGL::glGetString(GL_SHADING_LANGUAGE_VERSION);
-        m_shader_version = ((int)(sv[0]-'0'))*100;
-        m_shader_version += ((int)(sv[2]-'0'))*10;
-        m_shader_version += ((int)(sv[3]-'0'));
-
-        sv = OpenGL::glGetString(GL_VERSION);
-        m_opengl_version = ((int)(sv[0]-'0'))*100;
-        m_opengl_version += ((int)(sv[2]-'0'))*10;
-        m_opengl_version += ((int)(sv[3]-'0'));
-
-        int profile;
-        OpenGL::glGetIntegerv(GL_CONTEXT_PROFILE_MASK, &profile);
-        if (profile & WGL_CONTEXT_CORE_PROFILE_BIT_ARB)
-            m_logger->Info(L"\tCore profile selected");
-        if (profile & WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB)
-            m_logger->Info(L"\tCompatible profile selected");
-
         //m_desc.event_manager->SubscribeHandler(System::EVENT_KEY_DOWN, System::EventHandler(this, &VideoDriverImpl::OnKeyDown));
 #elif defined __linux__        
 
@@ -278,13 +227,13 @@ namespace Graphics {
         for (int i = 0; i != count; ++i)
         {
             int value;
-            m_logger->Info(Core::String("Config {0}/{1}").arg(i+1).arg(count));
+            //m_logger->Info(Core::String("Config {0}/{1}").arg(i+1).arg(count));
             int params[] = {GLX_DRAWABLE_TYPE, GLX_USE_GL, GLX_BUFFER_SIZE};
             Core::String strs[] = {Core::String("GLX_DRAWABLE_TYPE: {0}"), Core::String("GLX_USE_GL: {0}"), Core::String("GLX_BUFFER_SIZE: {0}")};
 
             for (int j = 0; j < sizeof(params)/sizeof(params[0]); ++j) {
                 OpenGL::glXGetFBConfigAttrib(display, confs[i], params[j], &value);
-                m_logger->Info(strs[j].arg(value));
+                //m_logger->Info(strs[j].arg(value));
             }
 
 //            glXGetFBConfigAttrib(display, confs[i], GLX_LEVEL, &value);
@@ -581,13 +530,82 @@ namespace Graphics {
         }
 
         printf( "Making context current\n" );
-        OpenGL::glXMakeCurrent( display, m_window->GetNativeHandle(), m_context );
+        OpenGL::glXMakeCurrent( display, m_window->GetNativeHandle(), m_context );        
+
+#endif        
+
+        OpenGL::InitExtensions();
+
+        GLint t;
+        m_logger->Info(Core::String("\tRenderer: {0} ").arg((const char*)OpenGL::glGetString(GL_RENDERER)));
+        m_logger->Info(Core::String("\tVendor: {0} ").arg((const char*)OpenGL::glGetString(GL_VENDOR)));
+        m_logger->Info(Core::String("\tVersion: {0}").arg((const char*)OpenGL::glGetString(GL_VERSION)));
+        m_logger->Info(Core::String("\tGLSL version: {0}").arg((const char*)OpenGL::glGetString(GL_SHADING_LANGUAGE_VERSION)));
+        OpenGL::glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &t);
+        m_logger->Info(Core::String("\tMax vertex attribs: {0}").arg(t));
+        OpenGL::glGetIntegerv(GL_MAX_VERTEX_UNIFORM_COMPONENTS, &t);
+        m_logger->Info(Core::String("\tMax vertex uniform components: {0}").arg(t));
+        OpenGL::glGetIntegerv(GL_MAX_VARYING_FLOATS, &t);
+        m_logger->Info(Core::String("\tMax varying floats: {0}").arg(t));
+        OpenGL::glGetIntegerv(GL_MAX_3D_TEXTURE_SIZE, &t);
+        m_logger->Info(Core::String(L"\tMax 3D texture size: {0}").arg(t));
+        OpenGL::glGetIntegerv(GL_MAX_CLIP_DISTANCES, &t);
+        m_logger->Info(Core::String(L"\tMax clip distances: {0}").arg(t));
+        OpenGL::glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &t);
+        m_logger->Info(Core::String(L"\tMax combined texture image units: {0}").arg(t));
+        OpenGL::glGetIntegerv(GL_MAX_CUBE_MAP_TEXTURE_SIZE, &t);
+        m_logger->Info(Core::String(L"\tMax cube map texture size: {0}").arg(t));
+        OpenGL::glGetIntegerv(GL_MAX_DRAW_BUFFERS, &t);
+        m_logger->Info(Core::String(L"\tMax draw buffers: {0}").arg(t));
+        OpenGL::glGetIntegerv(GL_MAX_ELEMENTS_INDICES, &t);
+        m_logger->Info(Core::String(L"\tMax elements indices: {0}").arg(t));
+        OpenGL::glGetIntegerv(GL_MAX_ELEMENTS_VERTICES, &t);
+        m_logger->Info(Core::String(L"\tMax elements vertices: {0}").arg(t));
+        OpenGL::glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &t);
+        m_logger->Info(Core::String(L"\tMax texture image units in FS: {0}").arg(t));
+        OpenGL::glGetIntegerv(GL_MAX_RENDERBUFFER_SIZE, &t);
+        m_logger->Info(Core::String(L"\tMax render buffer size: {0}").arg(t));
+
+
+        //OpenGL::wglSwapIntervalEXT(0);
+
+        const unsigned char* sv = OpenGL::glGetString(GL_SHADING_LANGUAGE_VERSION);
+        m_shader_version = ((int)(sv[0]-'0'))*100;
+        m_shader_version += ((int)(sv[2]-'0'))*10;
+        m_shader_version += ((int)(sv[3]-'0'));
+
+        sv = OpenGL::glGetString(GL_VERSION);
+        m_opengl_version = ((int)(sv[0]-'0'))*100;
+        m_opengl_version += ((int)(sv[2]-'0'))*10;
+        m_opengl_version += ((int)(sv[3]-'0'));
+
+#ifdef WIN32
+        int profile;
+        OpenGL::glGetIntegerv(GL_CONTEXT_PROFILE_MASK, &profile);
+        if (profile & WGL_CONTEXT_CORE_PROFILE_BIT_ARB)
+            m_logger->Info(L"\tCore profile selected");
+        if (profile & WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB)
+            m_logger->Info(L"\tCompatible profile selected");
+#elif defined __linux__
+        int profile;
+        OpenGL::glGetIntegerv(GL_CONTEXT_PROFILE_MASK, &profile);
+        if (profile & GLX_CONTEXT_CORE_PROFILE_BIT_ARB)
+            m_logger->Info(L"\tCore profile selected");
+        if (profile & GLX_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB)
+            m_logger->Info(L"\tCompatible profile selected");
 #endif
+
         SubscribeResizeEvent(new Core::Action<Canvas, const System::WindowResizeEvent&>(this, &Canvas::OnResize));
 
         SetFullscreen(m_canvas_description.fullscreen);
 
-        Core::GetFactory()->CreateInstance(IID_IVideoDriver, (void**)&m_video_driver);
+        {
+            IVideoDriver* driver{nullptr};
+            Core::GetFactory()->CreateInstance(IID_IVideoDriver, (void**)&driver);
+            if (!driver)
+                throw Error::GraphicsException("Can't create driver");
+            m_video_driver.reset(driver);
+        }
         m_video_driver->Initialize(this);
 
         OpenGL::glViewport(0, m_canvas_description.m_width, 0, m_canvas_description.m_height);
