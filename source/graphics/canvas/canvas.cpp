@@ -120,7 +120,7 @@ namespace Graphics {
 		if (!::SwapBuffers(::GetDC(GetNativeHandle())))
             m_logger->Error(L"Swap buffer failed");
 #elif defined __gnu_linux__
-        glXSwapBuffers(m_window->GetDisplay(), m_window->GetNativeHandle());
+        OpenGL::glXSwapBuffers(m_window->GetDisplay(), m_window->GetNativeHandle());
 #endif
     }
 
@@ -239,19 +239,10 @@ namespace Graphics {
         if (profile & WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB)
             m_logger->Info(L"\tCompatible profile selected");
 
-        SubscribeResizeEvent(new Core::Action<Canvas, const System::WindowResizeEvent&>(this, &Canvas::OnResize));
-
-        SetFullscreen(m_canvas_description.fullscreen);
-
-		Core::GetFactory()->CreateInstance(IID_IVideoDriver, (void**)&m_video_driver);
-		m_video_driver->Initialize(this);
-
-        OpenGL::glViewport(0, m_canvas_description.m_width, 0, m_canvas_description.m_height);
-        OpenGL::glClearColor(0, 0, 1, 1);
-        OpenGL::glClear(GL_DEPTH_BUFFER_BIT|GL_COLOR_BUFFER_BIT);
-        SwapBuffers();
         //m_desc.event_manager->SubscribeHandler(System::EVENT_KEY_DOWN, System::EventHandler(this, &VideoDriverImpl::OnKeyDown));
 #elif defined __linux__        
+
+        OpenGL::InitializeOpenGLWindowSystem();
 
         auto display = m_window->GetDisplay();
         static int visual_attribs[] =
@@ -272,15 +263,18 @@ namespace Graphics {
 
         int glx_major = 0, glx_minor = 0;
 
-        if (!glXQueryVersion(display, &glx_minor, &glx_major) ||
+        if (!OpenGL::glXQueryVersion(display, &glx_minor, &glx_major) ||
                 (( glx_major == 1) && (glx_minor < 3)) || (glx_major < 1))
         {
-            printf("GLX VERSION: %d.%d\n", glx_major, glx_minor);
+            m_logger->Info(Core::String("GLX VERSION: {0}.{1}").arg(glx_major).arg(glx_minor));
             throw System::Error::SystemException("Bad glx version");
+        }
+        else {
+            m_logger->Info(Core::String("GLX VERSION: {0}.{1}").arg(glx_major).arg(glx_minor));
         }
 
         int count;
-        GLXFBConfig* confs = glXGetFBConfigs(display, DefaultScreen(display), &count);
+        GLXFBConfig* confs = OpenGL::glXGetFBConfigs(display, DefaultScreen(display), &count);
         for (int i = 0; i != count; ++i)
         {
             int value;
@@ -289,7 +283,7 @@ namespace Graphics {
             Core::String strs[] = {Core::String("GLX_DRAWABLE_TYPE: {0}"), Core::String("GLX_USE_GL: {0}"), Core::String("GLX_BUFFER_SIZE: {0}")};
 
             for (int j = 0; j < sizeof(params)/sizeof(params[0]); ++j) {
-                glXGetFBConfigAttrib(display, confs[i], params[j], &value);
+                OpenGL::glXGetFBConfigAttrib(display, confs[i], params[j], &value);
                 m_logger->Info(strs[j].arg(value));
             }
 
@@ -451,7 +445,7 @@ namespace Graphics {
         }
 
         int fbcount;
-        GLXFBConfig* fbc = glXChooseFBConfig(display, DefaultScreen(display),
+        GLXFBConfig* fbc = OpenGL::glXChooseFBConfig(display, DefaultScreen(display),
                                              visual_attribs, &fbcount);
 
         fbc = &confs[2];
@@ -468,12 +462,12 @@ namespace Graphics {
 
         for (int i = 0; i < fbcount; i++ )
         {
-            XVisualInfo *vi = glXGetVisualFromFBConfig(display, fbc[i] );
+            XVisualInfo *vi = OpenGL::glXGetVisualFromFBConfig(display, fbc[i] );
             if ( vi )
             {
                 int samp_buf, samples;
-                glXGetFBConfigAttrib( display, fbc[i], GLX_SAMPLE_BUFFERS, &samp_buf );
-                glXGetFBConfigAttrib( display, fbc[i], GLX_SAMPLES       , &samples  );
+                OpenGL::glXGetFBConfigAttrib( display, fbc[i], GLX_SAMPLE_BUFFERS, &samp_buf );
+                OpenGL::glXGetFBConfigAttrib( display, fbc[i], GLX_SAMPLES       , &samples  );
 
                 printf( "  Matching fbconfig %d, visual ID 0x%2x: SAMPLE_BUFFERS = %d,"
                         " SAMPLES = %d\n",
@@ -493,7 +487,7 @@ namespace Graphics {
         XFree( confs );
 
         // Get a visual
-        XVisualInfo *vi = glXGetVisualFromFBConfig(display, bestFbc );
+        XVisualInfo *vi = OpenGL::glXGetVisualFromFBConfig(display, bestFbc );
         printf( "Chosen visual ID = 0x%x\n", vi->visualid );
 
         m_window->SetVisualInfo(vi);
@@ -504,12 +498,12 @@ namespace Graphics {
         XFree( vi );        
 
         // Get the default screen's GLX extension list
-        const char *glxExts = glXQueryExtensionsString( display, DefaultScreen( display ) );
+        const char *glxExts = OpenGL::glXQueryExtensionsString( display, DefaultScreen( display ) );
 
         printf("Extesion string is %s\n", glxExts);
         // NOTE: It is not necessary to create or make current to a context before
         // calling glXGetProcAddressARB
-        printf("glXGetProcAddress %p\n", glXGetProcAddress);
+        printf("glXGetProcAddress %p\n", OpenGL::glXGetProcAddress);
         printf("glxCreateContextAttribsARB address is %p\n", OpenGL::glXCreateContextAttribsARB);
 
         printf("glxCreateContextAttribsARB address is %p\n", OpenGL::glXCreateContextAttribsARB);
@@ -577,7 +571,7 @@ namespace Graphics {
         }
 
         // Verifying that context is a direct context
-        if ( ! glXIsDirect ( display, m_context ) )
+        if ( ! OpenGL::glXIsDirect ( display, m_context ) )
         {
             printf( "Indirect GLX rendering context obtained\n" );
         }
@@ -587,8 +581,19 @@ namespace Graphics {
         }
 
         printf( "Making context current\n" );
-        glXMakeCurrent( display, m_window->GetNativeHandle(), m_context );
+        OpenGL::glXMakeCurrent( display, m_window->GetNativeHandle(), m_context );
 #endif
+        SubscribeResizeEvent(new Core::Action<Canvas, const System::WindowResizeEvent&>(this, &Canvas::OnResize));
+
+        SetFullscreen(m_canvas_description.fullscreen);
+
+        Core::GetFactory()->CreateInstance(IID_IVideoDriver, (void**)&m_video_driver);
+        m_video_driver->Initialize(this);
+
+        OpenGL::glViewport(0, m_canvas_description.m_width, 0, m_canvas_description.m_height);
+        OpenGL::glClearColor(0, 0, 1, 1);
+        OpenGL::glClear(GL_DEPTH_BUFFER_BIT|GL_COLOR_BUFFER_BIT);
+        SwapBuffers();
     }
 
     void Canvas::OnKeyDown(const System::KeyEvent& e) {

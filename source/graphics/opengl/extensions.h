@@ -31,19 +31,39 @@ PUNK_ENGINE_BEGIN
 namespace Graphics {
     namespace OpenGL {
 
-    void* GetGraphicsProcAddress(const char* name);
-    void InitExtensions();
+    PUNK_ENGINE_LOCAL void* GetGraphicsProcAddress(const char* name);
+    PUNK_ENGINE_LOCAL void InitializeOpenGLWindowSystem();
+    PUNK_ENGINE_LOCAL void InitExtensions();
 
 #ifdef _WIN32
     extern PUNK_ENGINE_LOCAL PFNWGLGETEXTENSIONSSTRINGARBPROC wglGetExtensionStringARB;
-    extern PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT;
+    extern PUNK_ENGINE_LOCAL PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT;
 #elif defined __gnu_linux__
-        extern PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsARB;
-//        extern PFNGLXCHOOSEFBCONFIGPROC glXChooseFBConfig;
-//        extern PFNGLXGETVISUALFROMFBCONFIGPROC glXGetVisualFromFBConfig;
-//        extern PFNGLXGETFBCONFIGATTRIBPROC glXGetFBConfigAttrib;
-//        extern PFNGLXCREATENEWCONTEXTPROC glXCreateNewContext;
-//        extern PFNGLXGETFBCONFIGSPROC glXGetFBConfigs;
+        extern PUNK_ENGINE_LOCAL PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsARB;
+        extern PUNK_ENGINE_LOCAL PFNGLXGETFBCONFIGSPROC glXGetFBConfigs;
+        extern PUNK_ENGINE_LOCAL PFNGLXCHOOSEFBCONFIGPROC glXChooseFBConfig;
+        extern PUNK_ENGINE_LOCAL PFNGLXGETFBCONFIGATTRIBPROC glXGetFBConfigAttrib;
+        extern PUNK_ENGINE_LOCAL PFNGLXGETVISUALFROMFBCONFIGPROC glXGetVisualFromFBConfig;
+        extern PUNK_ENGINE_LOCAL PFNGLXCREATEWINDOWPROC glXCreateWindow;
+        extern PUNK_ENGINE_LOCAL PFNGLXDESTROYWINDOWPROC glXDestroyWindow;
+        extern PUNK_ENGINE_LOCAL PFNGLXCREATEPIXMAPPROC glXCreatePixmap;
+        extern PUNK_ENGINE_LOCAL PFNGLXDESTROYPIXMAPPROC glXDestroyPixmap;
+        extern PUNK_ENGINE_LOCAL PFNGLXCREATEPBUFFERPROC glXCreatePbuffer;
+        extern PUNK_ENGINE_LOCAL PFNGLXDESTROYPBUFFERPROC glXDestroyPbuffer;
+        extern PUNK_ENGINE_LOCAL PFNGLXQUERYDRAWABLEPROC glXQueryDrawable;
+        extern PUNK_ENGINE_LOCAL PFNGLXCREATENEWCONTEXTPROC glXCreateNewContext;
+        extern PUNK_ENGINE_LOCAL PFNGLXMAKECONTEXTCURRENTPROC glXMakeContextCurrent;
+        extern PUNK_ENGINE_LOCAL PFNGLXGETCURRENTREADDRAWABLEPROC glXGetCurrentReadDrawable;
+        extern PUNK_ENGINE_LOCAL PFNGLXGETCURRENTDISPLAYPROC glXGetCurrentDisplay;
+        extern PUNK_ENGINE_LOCAL PFNGLXQUERYCONTEXTPROC glXQueryContext;
+        extern PUNK_ENGINE_LOCAL PFNGLXSELECTEVENTPROC glXSelectEvent;
+        extern PUNK_ENGINE_LOCAL PFNGLXGETSELECTEDEVENTPROC glXGetSelectedEvent;
+        extern PUNK_ENGINE_LOCAL PFNGLXGETPROCADDRESSPROC glXGetProcAddress;
+        extern PUNK_ENGINE_LOCAL PFNGLXSWAPBUFFERPROC glXSwapBuffers;
+        extern PUNK_ENGINE_LOCAL PFNGLXQUERYVERSIONPROC glXQueryVersion;
+        extern PUNK_ENGINE_LOCAL PFNGLXQUERYEXTENSIONSTRING glXQueryExtensionsString;
+        extern PUNK_ENGINE_LOCAL PFNGLXISDIRECTPROC glXIsDirect;
+        extern PUNK_ENGINE_LOCAL PFNGLXMAKECURRENT glXMakeCurrent;
 #endif
 
 		extern PFNGLGETBUFFERPARAMETERI64VPROC glGetBufferParameteri64v;
