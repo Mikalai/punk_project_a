@@ -17,6 +17,7 @@ namespace Graphics {
 
 		class GlRenderContextFactory : public IRenderContextFactory {
 		public:
+            GlRenderContextFactory();
 			virtual ~GlRenderContextFactory();
 			//	IObject
 			void QueryInterface(const Core::Guid& type, void** object) override;
@@ -30,9 +31,13 @@ namespace Graphics {
 			GlRenderContextBase* CreateContext(RenderContextType type);
 		private:
 			IVideoDriver* m_driver{ nullptr };
-			std::array<GlRenderContextBase*, (int)RenderContextType::TotalCount> m_contexts;
+            std::array<GlRenderContextBase*, (int)RenderContextType::TotalCount> m_contexts;
 			std::atomic<std::uint32_t> m_ref_count;
 		};
+
+        GlRenderContextFactory::GlRenderContextFactory() {
+            std::fill(m_contexts.begin(), m_contexts.end(), nullptr);
+        }
 
 		GlRenderContextFactory::~GlRenderContextFactory() {
 			for (auto& i : m_contexts) {

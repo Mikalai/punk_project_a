@@ -103,7 +103,7 @@ namespace AnimatorModule {
 	}
 
 	std::uint32_t Animator::Release() {
-		auto v = m_ref_count.fetch_sub(1);
+        auto v = m_ref_count.fetch_sub(1) - 1;
 		if (!v)
 			delete this;
 		return v;

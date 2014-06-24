@@ -97,7 +97,7 @@ int main() {
 #ifdef WIN32
 		app->GetSceneManager()->GetScene()->SetSourcePath("c:\\Projects\\game\\dev\\punk_project_a\\data\\maps\\map1\\");
 #elif defined __linux__
-        app->GetSceneManager()->GetScene()->SetSourcePath("/home/mikalaj/projects/punk_project_a/data/maps/map1");
+        app->GetSceneManager()->GetScene()->SetSourcePath("/home/mikalaj/Projects/punk_project_a/data/maps/map1/");
 #endif
 
 		Attributes::IFileStub* file;
@@ -105,7 +105,7 @@ int main() {
 #ifdef WIN32
         file->SetFilename("c:\\Projects\\game\\dev\\punk_project_a\\data\\maps\\map1\\level_1.pmd");
 #elif defined __linux__
-        file->SetFilename("/home/mikalaj/projects/punk_project_a/data/maps/map1/level_1.pmd");
+        file->SetFilename("/home/mikalaj/Projects/punk_project_a/data/maps/map1/level_1.pmd");
 #endif
 
 		app->GetSceneManager()->GetScene()->GetRoot()->Set<Attributes::IFileStub>("LevelFile", file);

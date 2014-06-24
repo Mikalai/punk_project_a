@@ -1,5 +1,5 @@
 #ifdef __gnu_linux__
-#include <GL/glx.h>
+//#include <GL/glx.h>
 #include <X11/keysym.h>
 #include <time.h>
 #include <stdio.h>
@@ -106,7 +106,7 @@ namespace System
 
     int WindowX11::DecodeKey(KeySym keysym, int& charKey, bool press)
     {
-        bool (*buttons)[256] = m_keyboard->GetKeyStates();    //  TODO: Something better should be here
+        bool (*buttons)[256] = GetKeyboard()->GetKeyStates();    //  TODO: Something better should be here
         bool* m_buttons = *buttons;
         int key;
         switch (keysym)
@@ -541,21 +541,21 @@ namespace System
         case 1: //LEFT
         {
             mouse_event.leftButton = m_left_button = press;
-            m_mouse->SetButtonState(MouseButtons::LeftButton, press);
+            GetMouse()->SetButtonState(MouseButtons::LeftButton, press);
             OnMouseEvent(mouse_event);
             break;
         }
         case 2: //MIDDLE
         {
             mouse_event.middleButton = m_middle_button = press;
-            m_mouse->SetButtonState(MouseButtons::MiddleButton, press);
+            GetMouse()->SetButtonState(MouseButtons::MiddleButton, press);
             OnMouseEvent(mouse_event);
             break;
         }
         case 3: //RIGHT
         {
             mouse_event.rightButton = m_right_button = press;
-            m_mouse->SetButtonState(MouseButtons::RightButton, press);
+            GetMouse()->SetButtonState(MouseButtons::RightButton, press);
             OnMouseEvent(mouse_event);
             break;
         }
@@ -739,7 +739,7 @@ namespace System
 
     void WindowX11::MouseMoveProc(const MouseEvent& e)
     {
-        if (m_mouse->IsLocked())
+        if (GetMouse()->IsLocked())
         {
             int w = GetWidth();
             int h = GetHeight();

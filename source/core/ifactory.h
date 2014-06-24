@@ -5,6 +5,7 @@
 #include <initializer_list>
 #include <cstdint>
 #include <typeinfo>
+#include "iobject.h"
 #include "guid.h"
 #include "core_error.h"
 
@@ -47,6 +48,15 @@ namespace Core {
 		GetFactory()->CreateInstance(type, (void**)(I*)&object);
 		return object;
 	}
+
+    template<class I>
+    Core::UniquePtr<I> CreateInstancePtr(const Guid& type) {
+        I* object = nullptr;
+        GetFactory()->CreateInstance(type, (void**)(I*)&object);
+        if (!object)
+            throw Error::CoreException("Failed to create object of type " + type.ToString());
+        return Core::UniquePtr<I>{object, Core::DestroyObject};
+    }
 
 	template<class T, class I>
 	void CreateInstance(void** object) {

@@ -1,4 +1,5 @@
 #include <core/ifactory.h>
+#include <render/error/module.h>
 #include <system/module.h>
 #include <graphics/module.h>
 #include <attributes/module.h>
@@ -151,8 +152,20 @@ namespace LowLevelRender {
 		m_render = m_driver->GetRender();
 		m_frame_buffer = Graphics::GetBackbuffer();
 
-		Core::GetFactory()->CreateInstance(Attributes::IID_IGeometryCooker, (void**)&m_geometry_cooker);
-		Core::GetFactory()->CreateInstance(Graphics::IID_IRenderableBuilder, (void**)&m_renderable_builder);
+        {
+            Attributes::IGeometryCooker* cooker{nullptr};
+            Core::GetFactory()->CreateInstance(Attributes::IID_IGeometryCooker, (void**)&cooker);
+            if (!cooker)
+                throw Error::RenderException("Can't create geometry cooker");
+            m_geometry_cooker.reset(cooker);
+        }
+        {
+            Graphics::IRenderableBuilder* builder{nullptr};
+            Core::GetFactory()->CreateInstance(Graphics::IID_IRenderableBuilder, (void**)&builder);
+            if (!builder)
+                throw Error::RenderException("Can't create renderable builder");
+            m_renderable_builder.reset(builder);
+        }
 
 		/*Core::GetFactory()->CreateInstance(Graphics::IID_IFrame, (void**)&m_frame);
 		m_frame->SetRender(m_render);*/
@@ -394,12 +407,9 @@ namespace LowLevelRender {
 			if (diffuse_slot) {
 				System::Folder folder;
 				folder.Open(System::Environment::Instance()->GetTextureFolder());
-				ImageModule::IImageReaderUniquePtr image_reader{ nullptr, Core::DestroyObject };
-				Core::GetFactory()->CreateInstance(ImageModule::IID_IImageReader, (void**)&image_reader);
-				ImageModule::IImageUniquePtr image{ nullptr, Core::DestroyObject };
-				image.reset(image_reader->Read(diffuse_slot->GetFilename()));
-				Graphics::ITexture2DUniquePtr texture{ nullptr, Core::DestroyObject };
-				Core::GetFactory()->CreateInstance(Graphics::IID_ITexture2D, (void**)&texture);
+                ImageModule::IImageReaderUniquePtr image_reader = Core::CreateInstancePtr<ImageModule::IImageReader>(ImageModule::IID_IImageReader);
+                ImageModule::IImageUniquePtr image{ image_reader->Read(diffuse_slot->GetFilename()), Core::DestroyObject };
+                Graphics::ITexture2DUniquePtr texture = Core::CreateInstancePtr<Graphics::ITexture2D>(Graphics::IID_ITexture2D);
 				if (texture)
 					texture->Initialize(image.get(), true, m_canvas->GetVideoDriver());
 				diffuse_slot->SetTexture(texture.get());

@@ -17,7 +17,9 @@ HEADERS += \
     ../../../source/application/iapplication.h \
     ../../../source/application/module.h \
     ../../../source/application/viewer_application.h \
-    ../../../source/application/application_module.h
+    ../../../source/application/application_module.h \
+    ../../../source/application/error/application_error.h \
+    ../../../source/application/error/module.h
 
 SOURCES += \
     ../../../source/application/viewer_application.cpp \

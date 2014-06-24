@@ -36,6 +36,8 @@ namespace Core {
 	template<class T, class Base = IObject>
 	using UniquePtr = std::unique_ptr < T, void(*)(Base*) > ;
 
+#define UNIQUE_PTR(T) std::unique_ptr<T, void(*)(Core::IObject*)>
+
 	using IObjectUniquePtr = UniquePtr < IObject > ;
 
 #define PUNK_OBJECT_DEFAULT_IMPL(T) \

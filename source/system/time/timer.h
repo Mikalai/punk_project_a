@@ -23,7 +23,7 @@ namespace System
         double GetTime() const override;
         double GetElapsedSeconds() const override;
         double GetElapsedMiliseconds() const override;
-        double Reset() override;		
+        void Reset() override;
 
 	private:
 		Timer(const Timer&);

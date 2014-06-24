@@ -17,63 +17,45 @@ PUNK_ENGINE_BEGIN
 namespace System
 {
     struct TimerImpl
-	{        
-        double m_last_check;
+    {
+        std::chrono::high_resolution_clock::time_point m_last_check;
 
         uint64_t GetTickCount() const
         {
-#ifdef _WIN32
-            LARGE_INTEGER li;
-            QueryPerformanceCounter(&li);
-            return li.QuadPart;
-#elif defined __gnu_linux__
             using namespace std::chrono;
             high_resolution_clock::time_point now = high_resolution_clock::now();
             auto count = now.time_since_epoch().count();
             return count;
-#endif
         }
 
         //  returns time in seconds
         double GetTime() const
         {
-#ifdef _WIN32
-            auto current = GetTickCount()/(double)GetFrequency();
-            return current - m_last_check;
-#elif defined __gnu_linux__
             using namespace std::chrono;
             auto value = duration_cast<microseconds>(high_resolution_clock::now().time_since_epoch());
             double count = value.count();
             return count / 1000000.0;
-#endif
-        }
-
-        uint64_t GetFrequency() const
-        {
-#ifdef _WIN32
-            LARGE_INTEGER li;
-            QueryPerformanceFrequency(&li);
-            return li.QuadPart;
-#elif defined __gnu_linux__
-            return 0;
-#endif
         }
 
 		double GetElapsedSeconds() const
 		{
-            double res = ((double)GetTickCount() - m_last_check) / (double)GetFrequency();
-            return res;
+            using namespace std::chrono;
+            auto now = high_resolution_clock::now();
+            auto value = std::chrono::duration_cast<seconds>(now - m_last_check);
+            return value.count();
 		}
 
 		double GetElapsedMiliseconds() const
 		{
-			return GetElapsedSeconds() * 1000.0;
+            using namespace std::chrono;
+            auto now = high_resolution_clock::now();
+            auto value = std::chrono::duration_cast<milliseconds>(now - m_last_check);
+            return value.count();
 		}
 
-        double Reset()
+        void Reset()
 		{
-			m_last_check = (double)GetTickCount();
-            return m_last_check;
+            m_last_check = std::chrono::high_resolution_clock::now();
 		}
 
         TimerImpl()
@@ -118,9 +100,9 @@ namespace System
 		return impl->GetElapsedMiliseconds();
 	}
 		
-    double Timer::Reset()
+    void Timer::Reset()
     {
-		return impl->Reset();
+        impl->Reset();
     }
 
     double Timer::GetTime() const

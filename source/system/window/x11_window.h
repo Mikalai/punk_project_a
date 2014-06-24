@@ -72,8 +72,6 @@ namespace System
         bool m_middle_button {false};
         ITimerUniquePtr m_timer{nullptr, Core::DestroyObject};
 
-        IKeyBoard* m_keyboard {nullptr};
-        IMouse* m_mouse {nullptr};        
         XVisualInfo* m_visual{nullptr};
     };
 }

@@ -59,7 +59,6 @@ HEADERS += \
 #    ../../../source/loader/parser/parse_terrain_mesh.h \
 #    ../../../source/loader/parser/parse_terrain_node.h \
 #    ../../../source/loader/parser/parse_terrain_raw_data_source.h \
-    ../../../source/loader/parser/parse_texture_coordinates.h \
     ../../../source/loader/parser/parse_texture_slot.h \
     ../../../source/loader/parser/parse_textures.h \
     ../../../source/loader/parser/parse_transform.h \
@@ -199,4 +198,5 @@ SOURCES += \
     ../../../source/loader/singlethreaded/loader_cache.cpp \
     ../../../source/loader/singlethreaded/loader_commands.cpp \
     ../../../source/loader/singlethreaded/loader_tasks.cpp \
-    ../../../source/loader/singlethreaded/path_finder.cpp
+    ../../../source/loader/singlethreaded/path_finder.cpp \
+    ../../../source/loader/parser/parse_texture_coordinates.cpp
