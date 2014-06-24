@@ -10,13 +10,11 @@ namespace SceneModule
 {
 
 	Scene::Scene() {
-		Core::GetFactory()->CreateInstance(IID_INode, (void**)&m_root);
+        m_root = Core::CreateInstancePtr<INode>(IID_INode);
 		m_root->SetScene(this);
 	}
 
 	Scene::~Scene() {
-		Core::DestroyObject(m_root);
-		m_root = nullptr;
 	}
 
 	void Scene::QueryInterface(const Core::Guid& type, void** object) {
@@ -32,27 +30,25 @@ namespace SceneModule
     }    
 
     INode* Scene::GetRoot() {
-        return m_root;
+        return m_root.get();
     }
 
     const INode* Scene::GetRoot() const {
-        return m_root;
+        return m_root.get();
     }
 
     void Scene::SetRoot(INode* node) {
-		if (m_root) {
-			OnNodeRemoved(nullptr, node);
-			Core::DestroyObject(m_root);
-		}		
-        m_root = node;		
+        node->AddRef();
+        if (m_root.get()) {
+            OnNodeRemoved(nullptr, m_root.get());
+		}		        
+        m_root.reset(node);
 		m_root->SetScene(this);
-		OnNodeAdded(nullptr, m_root);
+        OnNodeAdded(nullptr, m_root.get());
     }
 
 	INode* Scene::ReleaseRoot() {
-		auto result = m_root;
-		m_root = nullptr;
-		return result;
+        return m_root.release();
 	}
 
 	void Scene::AddObserver(IObserver* observer) {		
@@ -115,15 +111,13 @@ namespace SceneModule
 
 	extern PUNK_ENGINE_API ISceneGraphUniquePtr CreateSceneFromFile(const Core::String& path, const Core::String& file) {
 		ISceneGraphUniquePtr scene{ new Scene, Core::DestroyObject };
-		INode* node{ nullptr };
-		Core::GetFactory()->CreateInstance(IID_INode, (void**)&node);
+        auto node = Core::CreateInstancePtr<INode>(IID_INode);
 		node->SetScene(scene.get());
 		scene->SetSourcePath(path);	
 		{
-			Attributes::IFileStub* stub = nullptr;
-			Core::GetFactory()->CreateInstance(Attributes::IID_IFileStub, (void**)&stub);
+            auto stub = Core::CreateInstancePtr<Attributes::IFileStub>(Attributes::IID_IFileStub);
 			stub->SetFilename(file);
-			node->SetAttribute(new Attribute<Attributes::IFileStub>(L"Filename", stub));
+            node->SetAttribute(new Attribute<Attributes::IFileStub>(L"Filename", stub.get()));
 		}
         return scene;
     }

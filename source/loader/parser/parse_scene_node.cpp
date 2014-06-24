@@ -27,10 +27,9 @@ namespace IoModule {
                 return true;
             case WORD_NODE:
             {
-				SceneModule::INode* child = nullptr;
-				Core::GetFactory()->CreateInstance(SceneModule::IID_INode, (void**)&child);
-                ParseSceneNode(buffer, child);
-                node->AddChild(child);
+                auto child = Core::CreateInstancePtr<SceneModule::INode>(SceneModule::IID_INode);
+                ParseSceneNode(buffer, child.get());
+                node->AddChild(child.get());
             }
                 break;
             case WORD_NAME:
@@ -38,11 +37,10 @@ namespace IoModule {
                 Core::String name;
 				parser->Parse<Core::String>(WORD_STRING, buffer, name);
 				{
-					Attributes::IText* text = nullptr;
-					Core::GetFactory()->CreateInstance(Attributes::IID_IText, (void**)&text);
-					if (text) {
+                    auto text = Core::CreateInstancePtr<Attributes::IText>(Attributes::IID_IText);
+                    if (text.get()) {
 						text->SetText(name);
-						node->Set<Attributes::IText>("Name", text);
+                        node->Set<Attributes::IText>("Name", text.get());
 					}
 				}
             }
@@ -52,11 +50,10 @@ namespace IoModule {
                 Core::String value;
 				parser->Parse<Core::String>(WORD_STRING, buffer, value);
 				{
-					Attributes::IFileStub* stub = nullptr;
-					Core::GetFactory()->CreateInstance(Attributes::IID_IFileStub, (void**)&stub);
+                    auto stub = Core::CreateInstancePtr<Attributes::IFileStub>(Attributes::IID_IFileStub);
 					if (stub) {
 						stub->SetFilename(value);
-						node->Set<Attributes::IFileStub>("Filename", stub);
+                        node->Set<Attributes::IFileStub>("Filename", stub.get());
 					}
 				}                
             }

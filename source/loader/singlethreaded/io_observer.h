@@ -23,7 +23,10 @@ namespace IoModule {
     public:
         IoObserver();
 		virtual ~IoObserver();
+        //  IObject
 		void QueryInterface(const Core::Guid& type, void** object) override;
+        std::uint32_t AddRef() override;
+        std::uint32_t Release() override;
 		void SetScene(SceneModule::IScene* value) override;
 		void OnNodeAdded(SceneModule::INode* parent, SceneModule::INode* child) override;
 		void OnNodeRemoved(SceneModule::INode* parent, SceneModule::INode* child) override;
@@ -35,10 +38,10 @@ namespace IoModule {
 		void ProcessNode(SceneModule::INode* node);
 
 	private:
+        std::atomic<std::uint32_t> m_ref_count;
 		System::ILogger* m_logger{ System::GetDefaultLogger() };
 		SceneModule::IScene* m_scene{ nullptr };
-		Core::ObjectPool<Core::String, Core::UniquePtr<Core::IObject>> m_loaded_stuff;
-		PUNK_OBJECT_DEFAULT_IMPL(IoObserver);
+		Core::ObjectPool<Core::String, Core::UniquePtr<Core::IObject>> m_loaded_stuff;		
     };
 }
 PUNK_ENGINE_END

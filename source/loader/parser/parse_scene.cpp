@@ -20,10 +20,9 @@ namespace IoModule
             return true;
             case WORD_NODE:
             {
-				SceneModule::INode* node{ nullptr };
-				Core::GetFactory()->CreateInstance(SceneModule::IID_INode, (void**)&node);
-                parser->Parse(WORD_NODE, buffer, node);
-				value->GetRoot()->AddChild(node);
+                auto node = Core::CreateInstancePtr<SceneModule::INode>(SceneModule::IID_INode);
+                parser->Parse(WORD_NODE, buffer, node.get());
+                value->GetRoot()->AddChild(node.get());
                 //value->SetRoot(node.release());
             }
             break;            

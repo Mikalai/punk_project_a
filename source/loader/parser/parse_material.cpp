@@ -150,26 +150,23 @@ namespace IoModule
 				break;
 			case WORD_DIFFUSE_TEXTURE_SLOT:
 			{
-				Attributes::IDiffuseTextureSlot* slot{ nullptr };
-				Core::GetFactory()->CreateInstance(Attributes::IID_IDiffuseTextureSlot, (void**)&slot);
-				parser->Parse(WORD_DIFFUSE_TEXTURE_SLOT, buffer, slot);
-				mat->SetDiffuseTextureSlot(slot);
+                auto slot = Core::CreateInstancePtr<Attributes::IDiffuseTextureSlot>(Attributes::IID_IDiffuseTextureSlot);
+                parser->Parse(WORD_DIFFUSE_TEXTURE_SLOT, buffer, slot.get());
+                mat->SetDiffuseTextureSlot(slot.get());
 			}
 				break;
 			case WORD_NORMAL_TEXTURE_SLOT:
 			{
-				Attributes::INormalTextureSlot* slot{ nullptr };
-				Core::GetFactory()->CreateInstance(Attributes::IID_INormalTextureSlot, (void**)&slot);
-				parser->Parse(WORD_NORMAL_TEXTURE_SLOT, buffer, slot);
-				mat->SetNormalTextureSlot(slot);
+                auto slot = Core::CreateInstancePtr<Attributes::INormalTextureSlot>(Attributes::IID_INormalTextureSlot);
+                parser->Parse(WORD_NORMAL_TEXTURE_SLOT, buffer, slot.get());
+                mat->SetNormalTextureSlot(slot.get());
 			}
 				break;
 			case WORD_SPECULAR_TEXTURE_SLOT:
 			{
-				Attributes::ISpecularIntensityTextureSlot* slot{ nullptr };
-				Core::GetFactory()->CreateInstance(Attributes::IID_ISpecularIntensityTextureSlot, (void**)&slot);
-				parser->Parse(WORD_SPECULAR_TEXTURE_SLOT, buffer, slot);
-				mat->SetSpecularTextureSlot(slot);
+                auto slot = Core::CreateInstancePtr<Attributes::ISpecularIntensityTextureSlot>(Attributes::IID_ISpecularIntensityTextureSlot);
+                parser->Parse(WORD_SPECULAR_TEXTURE_SLOT, buffer, slot.get());
+                mat->SetSpecularTextureSlot(slot.get());
 			}
 				break;
 			default:

@@ -206,34 +206,42 @@ namespace Attributes {
 		for (std::uint32_t i = 0, max_i = m_animation->GetTracksCount(); i < max_i; ++i) {
 			auto track = m_animation->GetTrack(i);
 			{
-				Core::UniquePtr<Track<float>> float_track{ nullptr, Core::DestroyObject };
-				track->QueryInterface(IID_IFloatTrack, (void**)&float_track);
-				if (float_track && m_interpolator_type == InterpolatorType::Linear)
-					Core::GetFactory()->CreateInstance(IID_IFloatKeyFrameLinearInterpolator, (void**)&m_track_cache.at(i).m_interpolator);
-			}
+                auto float_track = Core::QueryInterfacePtr<Track<float>>(track, IID_IFloatTrack);
+                if (float_track && m_interpolator_type == InterpolatorType::Linear) {
+                    Core::GetFactory()->CreateInstance(IID_IFloatKeyFrameLinearInterpolator, (void**)&m_track_cache.at(i).m_interpolator);
+                    float_track->Release();
+                }
+            }
 			{
-				Core::UniquePtr<Track<Math::vec3>> vec3_track{ nullptr, Core::DestroyObject };
-				track->QueryInterface(IID_IVec3Track, (void**)&vec3_track);
-				if (vec3_track && m_interpolator_type == InterpolatorType::Linear)
+                auto vec3_track = Core::QueryInterfacePtr<Track<Math::vec3>>(track, IID_IVec3Track);
+                if (vec3_track && m_interpolator_type == InterpolatorType::Linear) {
 					Core::GetFactory()->CreateInstance(IID_IVec3KeyFrameLinearInterpolator, (void**)&m_track_cache.at(i).m_interpolator);
+                    vec3_track->Release();
+                }
 			}
 			{
-				Core::UniquePtr<Track<Math::vec4>> vec4_track{ nullptr, Core::DestroyObject };
-				track->QueryInterface(IID_IVec4Track, (void**)&vec4_track);
-				if (vec4_track && m_interpolator_type == InterpolatorType::Linear)
+                Track<Math::vec4>* vec4_track{ nullptr };
+                track->QueryInterface(IID_IVec4Track, (void**)&vec4_track);
+                if (vec4_track && m_interpolator_type == InterpolatorType::Linear) {
 					Core::GetFactory()->CreateInstance(IID_IVec4KeyFrameLinearInterpolator, (void**)&m_track_cache.at(i).m_interpolator);
+                    vec4_track->Release();
+                }
 			}
 			{
-				Core::UniquePtr<Track<Math::mat4>> mat4_track{ nullptr, Core::DestroyObject };
-				track->QueryInterface(IID_IMat4Track, (void**)&mat4_track);
-				if (mat4_track && m_interpolator_type == InterpolatorType::Linear)
+                Track<Math::mat4>* mat4_track{ nullptr };
+                track->QueryInterface(IID_IMat4Track, (void**)&mat4_track);
+                if (mat4_track && m_interpolator_type == InterpolatorType::Linear) {
 					Core::GetFactory()->CreateInstance(IID_IMat4KeyFrameLinearInterpolator, (void**)&m_track_cache.at(i).m_interpolator);
+                    mat4_track->Release();
+                }
 			}
 			{
-				Core::UniquePtr<Track<Math::quat>> quat_track{ nullptr, Core::DestroyObject };
+                Track<Math::quat>* quat_track{ nullptr };
 				track->QueryInterface(IID_IQuatTrack, (void**)&quat_track);
-				if (quat_track && m_interpolator_type == InterpolatorType::Linear)
+                if (quat_track && m_interpolator_type == InterpolatorType::Linear) {
 					Core::GetFactory()->CreateInstance(IID_IQuatKeyFrameLinearInterpolator, (void**)&m_track_cache.at(i).m_interpolator);
+                    quat_track->Release();
+                }
 			}
 			m_track_cache.at(i).m_interpolator->SetTrack(track);
 		}

@@ -10,7 +10,6 @@ namespace IoModule
 {
     Core::IObject* ParseAnything(Core::Buffer& buffer)
     {		
-		Core::IFactory* factory = Core::GetFactory();
 		Parser* parser = GetDefaultParser();
         while (!buffer.IsEnd())
         {
@@ -28,34 +27,30 @@ namespace IoModule
 			{
 				Core::String word = buffer.ReadWord();
 				if (word == L"transform") {
-					Attributes::ITransform* transform;
-					factory->CreateInstance(Attributes::IID_ITransform, (void**)&transform);
-					parser->Parse(WORD_TRANSFORM, buffer, (void*)transform);
-					return transform;
+                    auto transform = Core::CreateInstancePtr<Attributes::ITransform>(Attributes::IID_ITransform);
+                    parser->Parse(WORD_TRANSFORM, buffer, transform.get());
+                    return transform.release();
 				}
 			}
 			case WORD_ARMATURE_SCHEMA_TEXT:
 			{
 				Core::String word = buffer.ReadWord();
-				Attributes::IArmatureSchema* schema;
-				factory->CreateInstance(Attributes::IID_IArmatureSchema, (void**)&schema);
-				parser->Parse(WORD_ARMATURE_SCHEMA, buffer, (void*)schema);
+                auto schema = Core::CreateInstancePtr<Attributes::IArmatureSchema>(Attributes::IID_IArmatureSchema);
+                parser->Parse(WORD_ARMATURE_SCHEMA, buffer, schema.get());
 				schema->SetName(word);
-				return schema;
+                return schema.release();
 			}
             case WORD_ARMATURETEXT:
             {
                 Core::String word = buffer.ReadWord();         
-				Attributes::IArmature* armature;
-				factory->CreateInstance(Attributes::IID_IArmature, (void**)&armature);
-				parser->Parse(WORD_ARMATURE, buffer, (void*)armature);
-				return armature;
+                auto armature = Core::CreateInstancePtr<Attributes::IArmature>(Attributes::IID_IArmature);
+                parser->Parse(WORD_ARMATURE, buffer, armature.get());
+                return armature.release();
             }
             case WORD_ACTIONTEXT:
             {
                 Core::String word = buffer.ReadWord();
-				Core::UniquePtr<Attributes::IAnimation> animation{ nullptr, Core::DestroyObject };
-				factory->CreateInstance(Attributes::IID_IAnimation, (void**)&animation);
+                auto animation = Core::CreateInstancePtr<Attributes::IAnimation>(Attributes::IID_IAnimation);
                 parser->Parse(WORD_ACTION, buffer, animation.get());
 				animation->SetName(word);
                 return animation.release();
@@ -63,35 +58,32 @@ namespace IoModule
             case WORD_STATICMESHTEXT:
             {
                 Core::String word = buffer.ReadWord();
-				Attributes::IGeometry* mesh{ nullptr };
-				factory->CreateInstance(Attributes::IID_IGeometry, (void**)&mesh);
-				parser->Parse(WORD_STATIC_MESH, buffer, mesh);
+                auto mesh = Core::CreateInstancePtr<Attributes::IGeometry>(Attributes::IID_IGeometry);
+                parser->Parse(WORD_STATIC_MESH, buffer, mesh.get());
                 mesh->SetName(word);
-                return mesh;
+                return mesh.release();
             }
                 break;
             case WORD_MATERIALTEXT:
             {                
                 Core::String word = buffer.ReadWord();
-				Attributes::IMaterial* material{ nullptr };
-				factory->CreateInstance(Attributes::IID_IMaterial, (void**)&material);
-				parser->Parse(WORD_MATERIAL, buffer, material);
-				return material;
+                auto material = Core::CreateInstancePtr<Attributes::IMaterial>(Attributes::IID_IMaterial);
+                parser->Parse(WORD_MATERIAL, buffer, material.get());
+                return material.release();
             }
             case WORD_NAVIMESHTEXT:
             {
                 Core::String word = buffer.ReadWord();
-				AI::INaviMesh* navi_mesh{ nullptr };
-				parser->Parse(WORD_NAVI_MESH, buffer, navi_mesh);
-				return navi_mesh;
+                auto navi_mesh = Core::CreateInstancePtr<AI::INaviMesh>(AI::IID_INaviMesh);
+                parser->Parse(WORD_NAVI_MESH, buffer, navi_mesh.get());
+                return navi_mesh.release();
             }
             case WORD_PATHTEXT:
             {
                 Core::String word = buffer.ReadWord();
-				AI::ICurvePath* path{ nullptr };
-				Core::GetFactory()->CreateInstance(AI::IID_ICurvePath, (void**)&path);
-				parser->Parse(WORD_CURVE_PATH, buffer, path);
-				return path;
+                auto path = Core::CreateInstancePtr<AI::ICurvePath>(AI::IID_ICurvePath);
+                parser->Parse(WORD_CURVE_PATH, buffer, path.get());
+                return path.release();
             }
             /*case WORD_RIVERTEXT:
             {
@@ -102,10 +94,9 @@ namespace IoModule
             }*/
             case WORD_SCENETEXT:
             {
-				SceneModule::IScene* graph{ nullptr };
-				Core::GetFactory()->CreateInstance(SceneModule::IID_IScene, (void**)&graph);
-				parser->Parse(WORD_SCENE_GRAPH, buffer, graph);
-				return graph;
+                auto graph = Core::CreateInstancePtr<SceneModule::IScene>(SceneModule::IID_IScene);
+                parser->Parse(WORD_SCENE_GRAPH, buffer, graph.get());
+                return graph.release();
             }
            /* case WORD_SUNTEXT:
             {
@@ -124,43 +115,42 @@ namespace IoModule
             case WORD_SKINMESH_TEXT:
             {
                 Core::String word = buffer.ReadWord();
-				Attributes::IGeometry* mesh{ nullptr };
-				Core::GetFactory()->CreateInstance(Attributes::IID_IGeometry, (void**)&mesh);
-				parser->Parse(WORD_SKIN_MESH, buffer, mesh);
-                return mesh;
+                auto mesh = Core::CreateInstancePtr<Attributes::IGeometry>(Attributes::IID_IGeometry);
+                parser->Parse(WORD_SKIN_MESH, buffer, mesh.get());
+                mesh->SetName(word);
+                return mesh.get();
             }
             case WORD_DIRLIGHTTEXT:
             {
                 Core::String word = buffer.ReadWord();
-				Attributes::IDirectionalLight* light{ nullptr };
-				Core::GetFactory()->CreateInstance(Attributes::IID_IDirectionalLight, (void**)&light);
-                parser->Parse(WORD_DIRECTIONAL_LIGHT, buffer, light);
-                return light;
+                auto light = Core::CreateInstancePtr<Attributes::IDirectionalLight>(Attributes::IID_IDirectionalLight);
+                parser->Parse(WORD_DIRECTIONAL_LIGHT, buffer, light.get());
+                light->SetName(word);
+                return light.release();
             }
 			case WORD_POINTLIGHTTEXT:
 			{
 				Core::String word = buffer.ReadWord();
-				Attributes::IPointLight* light{ nullptr };
-				Core::GetFactory()->CreateInstance(Attributes::IID_IPointLight, (void**)&light);
-				parser->Parse(WORD_POINT_LIGHT, buffer, light);
-				return light;
+                auto light = Core::CreateInstancePtr<Attributes::IPointLight>(Attributes::IID_IPointLight);
+                parser->Parse(WORD_POINT_LIGHT, buffer, light.get());
+                light->SetName(word);
+                return light.release();
 			}
 			case WORD_SPOTLIGHTTEXT:
 			{
 				Core::String word = buffer.ReadWord();
-				Attributes::ISpotLight* light{ nullptr };
-				Core::GetFactory()->CreateInstance(Attributes::IID_ISpotLight, (void**)&light);
-				parser->Parse(WORD_SPOT_LIGHT, buffer, light);
-				return light;
+                auto light = Core::CreateInstancePtr<Attributes::ISpotLight>(Attributes::IID_ISpotLight);
+                parser->Parse(WORD_SPOT_LIGHT, buffer, light.get());
+                light->SetName(word);
+                return light.release();
 			}
 			case WORD_CAMERATEXT:
 			{
 				Core::String word = buffer.ReadWord();
 				if (ParseKeyword(word) == WORD_PERSPECTIVE_CAMERA) {
-					Attributes::IPerspectiveCamera* camera{ nullptr };
-					Core::GetFactory()->CreateInstance(Attributes::IID_IPerspectiveCamera, (void**)&camera);
-					parser->Parse(WORD_PERSPECTIVE_CAMERA, buffer, camera);
-					return camera;
+                    auto camera = Core::CreateInstancePtr<Attributes::IPerspectiveCamera>(Attributes::IID_IPerspectiveCamera);
+                    parser->Parse(WORD_PERSPECTIVE_CAMERA, buffer, camera.get());
+                    return camera.release();
 				}
 				return nullptr;
 			}

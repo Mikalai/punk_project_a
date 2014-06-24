@@ -12,13 +12,26 @@
 PUNK_ENGINE_BEGIN
 namespace IoModule {
 
-	IoObserver::IoObserver(){}
+    IoObserver::IoObserver()
+        : m_ref_count{1}
+    {}
 
 	IoObserver::~IoObserver() {}
 
 	void IoObserver::QueryInterface(const Core::Guid& type, void** object) {
 		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IIoObserver });
 	}
+
+    std::uint32_t IoObserver::AddRef() {
+        return m_ref_count.fetch_add(1);
+    }
+
+    std::uint32_t IoObserver::Release() {
+        auto v = m_ref_count.fetch_sub(1) - 1;
+        if (!v)
+            delete this;
+        return v;
+    }
 
 	void IoObserver::ProcessNode(SceneModule::INode* root) {
 		std::stack<SceneModule::INode*> nodes;
@@ -36,49 +49,43 @@ namespace IoModule {
 				if (stub->IsLoaded())
 					continue;
 				stub->SetLoading(true);
-				Core::IObject* o = ParsePunkFile(m_scene->GetSourcePath() + filename);
+                Core::UniquePtr<Core::IObject> o{ParsePunkFile(m_scene->GetSourcePath() + filename), Core::DestroyObject};
 				
 				//	call callback if specified
 				if (stub->GetCallback()) {
-					(*stub->GetCallback())(o);
+                    (*stub->GetCallback())(o.get());
 				}
 
 				stub->SetLoaded(true);
 				{
-					Attributes::ITransform* transform = nullptr;
-					o->QueryInterface(Attributes::IID_ITransform, (void**)&transform);
+                    auto transform = Core::QueryInterfacePtr<Attributes::ITransform>(o.get(), Attributes::IID_ITransform);
 					if (transform)
-						node->Set<Attributes::ITransform>("Transform", transform);
+                        node->Set<Attributes::ITransform>("Transform", transform.get());
 				}
 				{
-					Attributes::IGeometry* geometry = nullptr;
-					o->QueryInterface(Attributes::IID_IGeometry, (void**)&geometry);
+                    auto geometry = Core::QueryInterfacePtr<Attributes::IGeometry>(o.get(), Attributes::IID_IGeometry);
 					if (geometry)
-						node->Set<Attributes::IGeometry>(geometry->GetName(), geometry);
+                        node->Set<Attributes::IGeometry>(geometry->GetName(), geometry.get());
 				}
 				{
-					Attributes::IMaterial* material = nullptr;
-					o->QueryInterface(Attributes::IID_IMaterial, (void**)&material);
+                    auto material = Core::QueryInterfacePtr<Attributes::IMaterial>(o.get(), Attributes::IID_IMaterial);
 					if (material) {
-						node->Set<Attributes::IMaterial>(material->GetName(), material);
+                        node->Set<Attributes::IMaterial>(material->GetName(), material.get());
 					}
 				}
 				{
-					Attributes::ILight* point_light = nullptr;
-					o->QueryInterface(Attributes::IID_ILight, (void**)&point_light);
+                    auto point_light = Core::QueryInterfacePtr<Attributes::ILight>(o.get(), Attributes::IID_ILight);
 					if (point_light) {
-						node->Set<Attributes::ILight>(point_light->GetName(), point_light);
+                        node->Set<Attributes::ILight>(point_light->GetName(), point_light.get());
 					}
 				}
 				{
-					Core::UniquePtr<Attributes::ICamera> camera{ nullptr, Core::DestroyObject };
-					o->QueryInterface(Attributes::IID_ICamera, (void**)&camera);
+                    auto camera = Core::QueryInterfacePtr<Attributes::ICamera>(o.get(), Attributes::IID_ICamera);
 					if (camera.get())
 						node->Set<Attributes::ICamera>(camera->GetName(), camera.get());
 				}
 				{
-					Core::UniquePtr<Attributes::IArmature> armature{ nullptr, Core::DestroyObject };
-					o->QueryInterface(Attributes::IID_IArmature, (void**)&armature);
+                    auto armature = Core::QueryInterfacePtr<Attributes::IArmature>(o.get(), Attributes::IID_IArmature);
 					if (armature.get())
 						node->Set<Attributes::IArmature>(armature->GetName(), armature.get());
 				}				
@@ -112,28 +119,23 @@ namespace IoModule {
 			}
 			{
 				{
-					Attributes::IGeometry* geom = nullptr;
-					o->QueryInterface(Attributes::IID_IGeometry, (void**)&geom);
+                    auto geom = Core::QueryInterfacePtr<Attributes::IGeometry>(o.get(), Attributes::IID_IGeometry);
 					if (geom)
-						node->Set<Attributes::IGeometry>(geom->GetName(), geom);
+                        node->Set<Attributes::IGeometry>(geom->GetName(), geom.get());
 				}
 				{
-					SceneModule::IScene* scene = nullptr;
-					o->QueryInterface(SceneModule::IID_IScene, (void**)&scene);
+                    auto scene = Core::QueryInterfacePtr<SceneModule::IScene>(o.get(), SceneModule::IID_IScene);
 					if (scene) {
 						SceneModule::INode* new_root = scene->GetRoot();
 						//	we will use this node from proxy scene, thus inc ref count, to protect delete when proxy scene will be deleted
 						new_root->AddRef();
-						m_scene->SetRoot(new_root);
-						//	we don't need proxy scene
-						scene->Release();
+						m_scene->SetRoot(new_root);						
 					}
 				}
 				{
-					Attributes::IMaterial* material = nullptr;
-					o->QueryInterface(Attributes::IID_IMaterial, (void**)&material);
+                    auto material = Core::QueryInterfacePtr<Attributes::IMaterial>(o.get(), Attributes::IID_IMaterial);
 					if (material) {
-						node->Set<Attributes::IMaterial>(material->GetName(), material);
+                        node->Set<Attributes::IMaterial>(material->GetName(), material.get());
 					}
 				}
 			}			

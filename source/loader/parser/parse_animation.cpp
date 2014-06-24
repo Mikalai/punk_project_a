@@ -36,16 +36,14 @@ namespace IoModule {
                 break;
             case WORD_TRACK_VEC3:
             {
-				Core::UniquePtr<Attributes::Track<Math::vec3>> track{ nullptr, Core::DestroyObject }; 
-				Core::GetFactory()->CreateInstance(Attributes::IID_IVec3Track, (void**)&track);
+                auto track = Core::CreateInstancePtr<Attributes::Track<Math::vec3>>(Attributes::IID_IVec3Track);
                 parser->Parse(WORD_TRACK_VEC3, buffer, track.get());
                 animation->AddTrack(track.get());
             }
                 break;
             case WORD_TRACK_QUAT:
             {
-				Core::UniquePtr<Attributes::Track<Math::quat>> track{ nullptr, Core::DestroyObject };
-				Core::GetFactory()->CreateInstance(Attributes::IID_IQuatTrack, (void**)&track);
+                auto track = Core::CreateInstancePtr<Attributes::Track<Math::quat>>(Attributes::IID_IQuatTrack);
                 parser->Parse(WORD_TRACK_QUAT, buffer, track.get());
                 animation->AddTrack(track.get());
             }

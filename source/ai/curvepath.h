@@ -31,7 +31,7 @@ namespace AI
 
     private:
         Core::String m_name;
-		Math::ICurve* m_curve{ nullptr };
+        Core::UniquePtr<Math::ICurve> m_curve{ nullptr, Core::DestroyObject };
     private:
         PUNK_OBJECT_DEFAULT_IMPL(CurvePath)
     };

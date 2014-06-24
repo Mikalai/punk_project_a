@@ -599,13 +599,7 @@ namespace Graphics {
 
         SetFullscreen(m_canvas_description.fullscreen);
 
-        {
-            IVideoDriver* driver{nullptr};
-            Core::GetFactory()->CreateInstance(IID_IVideoDriver, (void**)&driver);
-            if (!driver)
-                throw Error::GraphicsException("Can't create driver");
-            m_video_driver.reset(driver);
-        }
+        m_video_driver = Core::CreateInstancePtr<IVideoDriver>(IID_IVideoDriver);
         m_video_driver->Initialize(this);
 
         OpenGL::glViewport(0, m_canvas_description.m_width, 0, m_canvas_description.m_height);

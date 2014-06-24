@@ -50,7 +50,7 @@ namespace Core {
 	}
 
     template<class I>
-    Core::UniquePtr<I> CreateInstancePtr(const Guid& type) {
+    std::unique_ptr<I, void (*)(IObject*)> CreateInstancePtr(const Guid& type) {
         I* object = nullptr;
         GetFactory()->CreateInstance(type, (void**)(I*)&object);
         if (!object)

@@ -86,8 +86,7 @@ int main() {
         if (!punk_application)
             throw System::Error::SystemException("Can't load punk_application module");
 
-		Runtime::IApplication* app{ nullptr };
-		Core::GetFactory()->CreateInstance(Runtime::IID_IApplication, (void**)&app);           
+        auto app = Core::CreateInstancePtr<Runtime::IApplication>(Runtime::IID_IApplication);
 
 		if (!app) {
 			System::GetDefaultLogger()->Error("Can't create application");
@@ -100,18 +99,14 @@ int main() {
         app->GetSceneManager()->GetScene()->SetSourcePath("/home/mikalaj/Projects/punk_project_a/data/maps/map1/");
 #endif
 
-		Attributes::IFileStub* file;
-		Core::GetFactory()->CreateInstance(Attributes::IID_IFileStub, (void**)&file);
+        auto file = Core::CreateInstancePtr<Attributes::IFileStub>(Attributes::IID_IFileStub);
 #ifdef WIN32
         file->SetFilename("c:\\Projects\\game\\dev\\punk_project_a\\data\\maps\\map1\\level_1.pmd");
 #elif defined __linux__
         file->SetFilename("/home/mikalaj/Projects/punk_project_a/data/maps/map1/level_1.pmd");
 #endif
 
-		app->GetSceneManager()->GetScene()->GetRoot()->Set<Attributes::IFileStub>("LevelFile", file);
-
-		Core::IObject* o = nullptr;
-		app->QueryInterface(Core::IID_IObject, (void**)&o);
+        app->GetSceneManager()->GetScene()->GetRoot()->Set<Attributes::IFileStub>("LevelFile", file.get());
 
 		app->Run();
 	}

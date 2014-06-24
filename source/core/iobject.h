@@ -56,6 +56,13 @@ namespace Core {
 	private:\
 	std::atomic<std::uint32_t> m_ref_count {1}; 
 
+    template<class I>
+    std::unique_ptr<I, void (*)(IObject*)> QueryInterfacePtr(IObject* source, const Guid& type) {
+        I* object = nullptr;
+        source->QueryInterface(type, (void**)&object);
+        return Core::UniquePtr<I>{object, Core::DestroyObject};
+    }
+
 	template < class This >
 	void QueryInterface(This* _this, const Guid& type, void** object, std::initializer_list<Guid> supported)
 	{

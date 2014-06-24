@@ -92,23 +92,9 @@ namespace Graphics {
 		if (!m_initialized) {            
             driver->AddRef();
             m_driver.reset(driver);
-            {
-                IRenderQueue* queue{ nullptr };
-                Core::GetFactory()->CreateInstance(IID_IRenderQueue, (void**)&queue);
-                if (!queue)
-                    throw Error::GraphicsException("Can't create render queue");
-                m_queue.reset(queue);
-            }
+            m_queue = Core::CreateInstancePtr<IRenderQueue>(IID_IRenderQueue);
 			m_queue->Initialize(this);
-
-            {
-                IRenderContextFactory* factory{ nullptr };
-                Core::GetFactory()->CreateInstance(IID_IRenderContextFactory, (void**)&factory);
-                if (!factory)
-                    throw Error::GraphicsException("Can't create render context factory");
-                m_rc_factory.reset(factory);
-            }
-
+            m_rc_factory = Core::CreateInstancePtr<IRenderContextFactory>(IID_IRenderContextFactory);
 			m_rc_factory->Initialize(driver);
 			m_initialized = true;
 		}

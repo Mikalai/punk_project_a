@@ -10,8 +10,7 @@ namespace IoModule
 	template<>
 	struct KeyReader<Math::vec3> {
 		static Attributes::KeyFrame<Math::vec3>* Read(Core::Buffer& buffer) {
-			Attributes::KeyFrame<Math::vec3>* keyframe = nullptr;
-			Core::GetFactory()->CreateInstance(Attributes::IID_IVec3KeyFrame, (void**)&keyframe);			
+            auto keyframe = Core::CreateInstancePtr<Attributes::KeyFrame<Math::vec3>>(Attributes::IID_IVec3KeyFrame);
 			auto word = buffer.ReadWord();
 			if (GetKeyword(WORD_CLOSE_BRACKET) == word)
 				return nullptr;
@@ -22,7 +21,7 @@ namespace IoModule
 			value[2] = buffer.ReadWord().ToFloat();
 			keyframe->SetFrame(frame);
 			keyframe->Key(value);
-			return keyframe;
+            return keyframe.release();
 		}
 
 		static Attributes::KeyFrame<Math::vec3>* CreateKeyFrame() {
@@ -33,8 +32,7 @@ namespace IoModule
 	template<>
 	struct KeyReader<Math::quat> {
 		static Attributes::KeyFrame<Math::quat>* Read(Core::Buffer& buffer) {
-			Attributes::KeyFrame<Math::quat>* keyframe = nullptr;
-			Core::GetFactory()->CreateInstance(Attributes::IID_IQuatKeyFrame, (void**)&keyframe);
+            auto keyframe = Core::CreateInstancePtr<Attributes::KeyFrame<Math::quat>>(Attributes::IID_IQuatKeyFrame);
 			auto word = buffer.ReadWord();
 			if (GetKeyword(WORD_CLOSE_BRACKET) == word)
 				return nullptr;
@@ -46,7 +44,7 @@ namespace IoModule
 			value[3] = buffer.ReadWord().ToFloat();
 			keyframe->SetFrame(frame);
 			keyframe->Key(value);
-			return keyframe;
+            return keyframe.release();
 		}
 
 		static Attributes::KeyFrame<Math::vec3>* CreateKeyFrame() {

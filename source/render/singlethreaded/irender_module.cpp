@@ -138,35 +138,14 @@ namespace LowLevelRender {
 
 	RenderModule::RenderModule() {
 		auto factory = Core::GetFactory();
-		Core::IObject* object;
-		factory->CreateInstance(Graphics::IID_ICanvas, (void**)&object);
-		if (!m_canvas.get()) {
-            Graphics::ICanvas* canvas = nullptr;
-            object->QueryInterface(Graphics::IID_ICanvas, (void**)&canvas);
-            m_canvas.reset(canvas);
-			object->Release();
-			m_canvas->Initialize(Graphics::CanvasDescription{});
-			m_canvas->GetWindow()->Open();
-		}		
-		m_driver = m_canvas->GetVideoDriver();
+        m_canvas = Core::CreateInstancePtr<Graphics::ICanvas>(Graphics::IID_ICanvas);
+        m_canvas->Initialize(Graphics::CanvasDescription{});
+        m_canvas->GetWindow()->Open();
+        m_driver = m_canvas->GetVideoDriver();
 		m_render = m_driver->GetRender();
 		m_frame_buffer = Graphics::GetBackbuffer();
-
-        {
-            Attributes::IGeometryCooker* cooker{nullptr};
-            Core::GetFactory()->CreateInstance(Attributes::IID_IGeometryCooker, (void**)&cooker);
-            if (!cooker)
-                throw Error::RenderException("Can't create geometry cooker");
-            m_geometry_cooker.reset(cooker);
-        }
-        {
-            Graphics::IRenderableBuilder* builder{nullptr};
-            Core::GetFactory()->CreateInstance(Graphics::IID_IRenderableBuilder, (void**)&builder);
-            if (!builder)
-                throw Error::RenderException("Can't create renderable builder");
-            m_renderable_builder.reset(builder);
-        }
-
+        m_geometry_cooker = Core::CreateInstancePtr<Attributes::IGeometryCooker>(Attributes::IID_IGeometryCooker);
+        m_renderable_builder = Core::CreateInstancePtr<Graphics::IRenderableBuilder>(Graphics::IID_IRenderableBuilder);
 		/*Core::GetFactory()->CreateInstance(Graphics::IID_IFrame, (void**)&m_frame);
 		m_frame->SetRender(m_render);*/
 	}
@@ -232,15 +211,13 @@ namespace LowLevelRender {
 			for (int i = 0; i < count; ++i) {
 				auto light = node->GetAttributeOfType<Attributes::ILight>(i);
 				if (light) {
-					Core::UniquePtr<Attributes::IPointLight> point_light{ nullptr, Core::DestroyObject };
-					light->QueryInterface(Attributes::IID_IPointLight, (void**)&point_light);
+                    auto point_light = Core::QueryInterfacePtr<Attributes::IPointLight>(light, Attributes::IID_IPointLight);
 					if (point_light.get()) {
 						auto p = frame->GetWorldMatrix() * Math::vec3(0, 0, 0);
 						m_point_lights.push_back(LightCache < Attributes::IPointLight > {point_light.get(), p, { 0, 0, 0 }});
 						continue;
 					}
-					Core::UniquePtr<Attributes::IDirectionalLight> dir_light{ nullptr, Core::DestroyObject };
-					light->QueryInterface(Attributes::IID_IDirectionalLight, (void**)&dir_light);
+                    auto dir_light = Core::QueryInterfacePtr<Attributes::IDirectionalLight>(light, Attributes::IID_IDirectionalLight);
 					if (dir_light.get()) {
 						auto p = frame->GetWorldMatrix() * Math::vec3(0, 0, 0);
 						auto d = (frame->GetWorldMatrix() * Math::vec4{ dir_light->GetDirection(), 0 }).XYZ();
@@ -255,8 +232,7 @@ namespace LowLevelRender {
 			for (int i = 0; i < count; ++i) {
 				auto camera = node->GetAttributeOfType<Attributes::ICamera>(i);
 				if (camera) {
-					Core::UniquePtr<Attributes::IPerspectiveCamera> perspective_camera{ nullptr, Core::DestroyObject };
-					camera->QueryInterface(Attributes::IID_IPerspectiveCamera, (void**)&perspective_camera);
+                    auto perspective_camera = Core::QueryInterfacePtr<Attributes::IPerspectiveCamera>(camera, Attributes::IID_IPerspectiveCamera);
 					if (perspective_camera.get()) {
 						auto p = frame->GetWorldMatrix() * Math::vec3(0, 0, 0);
 						auto d = (frame->GetWorldMatrix() * Math::vec4{ perspective_camera->GetDirection(), 0 }).XYZ();

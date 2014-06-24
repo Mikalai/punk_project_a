@@ -30,118 +30,92 @@ namespace Runtime {
         Core::IFactory* m_factory{ Core::GetFactory() };
 
         Core::UniquePtr<LowLevelRender::IRenderModule> m_render_module{ nullptr, Core::DestroyObject };
-//        Core::UniquePtr<LowLevelRender::IRenderObserver> m_render_observer{ nullptr, Core::DestroyObject };
-//        Core::UniquePtr<LowLevelRender::IRenderProcessor> m_render_processor{ nullptr, Core::DestroyObject };
+        //        Core::UniquePtr<LowLevelRender::IRenderObserver> m_render_observer{ nullptr, Core::DestroyObject };
+        //        Core::UniquePtr<LowLevelRender::IRenderProcessor> m_render_processor{ nullptr, Core::DestroyObject };
         Core::UniquePtr<System::IModule> m_graphics_module{ nullptr, Core::DestroyObject };
         Core::UniquePtr<System::IModule> m_io_module{ nullptr, Core::DestroyObject };
 
         PUNK_OBJECT_DEFAULT_IMPL(Application)
     };
 
-	Application::Application() {
+    Application::Application() {
 
-		LoadBasicModules();
+        LoadBasicModules();
 
-		m_logger->Info("Create application");
-        {
-            SceneModule::ISceneManager* manager{nullptr};
-            m_factory->CreateInstance(SceneModule::IID_ISceneManager, (void**)&manager);
-            if (!manager)
-                throw Error::RuntimeError("Can't create scene manager");
-            m_scene_manager.reset(manager);
-        }
+        m_logger->Info("Create application");
+        m_scene_manager = Core::CreateInstancePtr<SceneModule::ISceneManager>(SceneModule::IID_ISceneManager);
 
-		IoModule::IIoObserver* loader = nullptr;
-		m_factory->CreateInstance(IoModule::IID_IIoObserver, (void**)&loader);
-		m_scene_manager->GetScene()->AddObserver(loader);
+        auto loader = Core::CreateInstancePtr<IoModule::IIoObserver>(IoModule::IID_IIoObserver);
+        m_scene_manager->GetScene()->AddObserver(loader.get());
 
-		{
-			AnimatorModule::IAnimatorModule* animator_module;
-			m_factory->CreateInstance(AnimatorModule::IID_IAnimatorModule, (void**)&animator_module);
-			AnimatorModule::IAnimatorObserver* observer;
-			animator_module->QueryInterface(AnimatorModule::IID_IAnimatorObserver, (void**)&observer);
-			AnimatorModule::IAnimatorProcessor* processor;
-			animator_module->QueryInterface(AnimatorModule::IID_IAnimatorProcessor, (void**)&processor);
 
-			m_scene_manager->GetScene()->AddObserver(observer);
-			m_scene_manager->AddProcessor(processor);
-            processor->Release();
-            observer->Release();
-            animator_module->Release();
-		}
+        auto animator_module = Core::CreateInstancePtr<AnimatorModule::IAnimatorModule>(AnimatorModule::IID_IAnimatorModule);
+        auto animator_observer = Core::QueryInterfacePtr<AnimatorModule::IAnimatorObserver>(animator_module.get(), AnimatorModule::IID_IAnimatorObserver);
+        auto animator_processor = Core::QueryInterfacePtr<AnimatorModule::IAnimatorProcessor>(animator_module.get(), AnimatorModule::IID_IAnimatorProcessor);
 
-        {
-            LowLevelRender::IRenderModule* module{ nullptr };
-            m_factory->CreateInstance(LowLevelRender::IID_IRenderModule, (void**)&module);
-            if (!module)
-                throw Error::RuntimeError("Can't create render module");
-            m_render_module.reset(module);
-        }
+        m_scene_manager->GetScene()->AddObserver(animator_observer.get());
+        m_scene_manager->AddProcessor(animator_processor.get());
 
-        {
-            LowLevelRender::IRenderProcessor* processor{ nullptr };
-            m_render_module->QueryInterface(LowLevelRender::IID_IRenderProcessor, (void**)&processor);
-            LowLevelRender::IRenderObserver* observer{ nullptr };
-            m_render_module->QueryInterface(LowLevelRender::IID_IRenderObserver, (void**)&observer);
-            m_scene_manager->GetScene()->AddObserver(observer);
-            m_scene_manager->AddProcessor(processor);
-            observer->Release();
-            processor->Release();
-        }
-	}
+        m_render_module = Core::CreateInstancePtr<LowLevelRender::IRenderModule>(LowLevelRender::IID_IRenderModule);
 
-	Application::~Application() {
-		m_scene_manager->Release();
-		m_scene_manager = nullptr;
-	}
+        auto render_processor = Core::QueryInterfacePtr<LowLevelRender::IRenderProcessor>(m_render_module.get(), LowLevelRender::IID_IRenderProcessor);
+        auto render_observer = Core::QueryInterfacePtr<LowLevelRender::IRenderObserver>(m_render_module.get(), LowLevelRender::IID_IRenderObserver);
+        m_scene_manager->GetScene()->AddObserver(render_observer.get());
+        m_scene_manager->AddProcessor(render_processor.get());
+    }
 
-	void Application::LoadBasicModules() {
+    Application::~Application() {
+        m_scene_manager->Release();
+        m_scene_manager = nullptr;
+    }
+
+    void Application::LoadBasicModules() {
         std::vector<Core::String> modules{ {L"punk_graphics", L"punk_loader", L"punk_scene", L"punk_attributes", L"punk_ai", L"punk_application", L"punk_core",
-            L"punk_error", L"punk_font", L"punk_image",
-			L"punk_math", L"punk_render", L"punk_string", L"punk_system",
-				L"punk_animator" } };
+                L"punk_error", L"punk_font", L"punk_image",
+                L"punk_math", L"punk_render", L"punk_string", L"punk_system",
+                L"punk_animator" } };
 
-		for (auto& module : modules) {
-			try{
-				System::LoadModule(module);
-				m_logger->Info("Module loaded '" + module + "'");
-			}
-			catch (System::Error::SystemException& e) {
-				m_logger->Error("Can't load " + module + ". " + e.Message() + ". " + e.GetStack());
-			}
-			catch (...) {
-				m_logger->Error("Can't load " + module);
-			}
-		}
-	}
-	SceneModule::ISceneManager* Application::GetSceneManager() {
+        for (auto& module : modules) {
+            try{
+                System::LoadModule(module);
+                m_logger->Info("Module loaded '" + module + "'");
+            }
+            catch (System::Error::SystemException& e) {
+                m_logger->Error("Can't load " + module + ". " + e.Message() + ". " + e.GetStack());
+            }
+            catch (...) {
+                m_logger->Error("Can't load " + module);
+            }
+        }
+    }
+    SceneModule::ISceneManager* Application::GetSceneManager() {
         return m_scene_manager.get();
-	}
+    }
 
-	void Application::Run() {
+    void Application::Run() {
         System::ITimerUniquePtr timer = Core::CreateInstancePtr<System::ITimer>(System::IID_ITimer);
-		timer->Reset();
-		int frame = 0;
-		float t = 0;
-		while (true) {			
-			float dt = timer->GetElapsedMiliseconds();
-			timer->Reset();
-			m_scene_manager->Update(dt);
-			frame++;
-			t += dt;
-			if (t > 1000.0f) {
-				t = 0;
-				System::GetDefaultLogger()->Info(Core::String("FPS: {0}").arg(frame));
-				frame = 0;
-			}
-		}
-	}
+        timer->Reset();
+        int frame = 0;
+        float t = 0;
+        while (true) {
+            float dt = timer->GetElapsedMiliseconds();
+            timer->Reset();
+            m_scene_manager->Update(dt);
+            frame++;
+            t += dt;
+            if (t > 1000.0f) {
+                t = 0;
+                System::GetDefaultLogger()->Info(Core::String("FPS: {0}").arg(frame));
+                frame = 0;
+            }
+        }
+    }
 
-	void Application::QueryInterface(const Core::Guid& type, void** object) {
-		Core::QueryInterface(this, type, object, { IID_IApplication, Core::IID_IObject });
-	}
+    void Application::QueryInterface(const Core::Guid& type, void** object) {
+        Core::QueryInterface(this, type, object, { IID_IApplication, Core::IID_IObject });
+    }
 
-	PUNK_REGISTER_CREATOR(IID_IApplication, (Core::CreateInstance<Application, IApplication>));
+    PUNK_REGISTER_CREATOR(IID_IApplication, (Core::CreateInstance<Application, IApplication>));
 
 }
 PUNK_ENGINE_END

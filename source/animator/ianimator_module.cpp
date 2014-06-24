@@ -33,8 +33,7 @@ namespace AnimatorModule {
 	private:
 		void Process(SceneModule::INode* node);
 		void OnAnimationLoaded(Core::IObject* o) {
-			Core::UniquePtr<Attributes::IAnimation> animation{ nullptr, Core::DestroyObject };
-			o->QueryInterface(Attributes::IID_IAnimation, (void**)&animation);
+            auto animation = Core::CreateInstancePtr<Attributes::IAnimation>(Attributes::IID_IAnimation);
 			if (animation.get()) {
 				animation->AddRef();
 				m_animations.push_back(animation.get());
@@ -147,8 +146,7 @@ namespace AnimatorModule {
 		auto count = node->GetAttributesCount();
 		for (int i = 0; i < count; ++i) {
 			auto attribute = node->GetAttribute(i);
-			Core::UniquePtr<Attributes::IAnimated> animated{ nullptr, Core::DestroyObject };
-			attribute->GetRawData()->QueryInterface(Attributes::IID_IAnimated, (void**)&animated);
+            auto animated = Core::QueryInterfacePtr<Attributes::IAnimated>(attribute->GetRawData(), Attributes::IID_IAnimated);
 			if (animated.get()) {
 				animated->AddRef();
 				m_animated.push_back(animated.get());
@@ -158,8 +156,7 @@ namespace AnimatorModule {
 					auto name = animated->GetAnimation(i);
 					if (!m_animation_map.HasValue(name)) {
 						auto filename = m_scene->GetSourcePath() + name + L".action";
-						Core::UniquePtr<Attributes::IFileStub> file_stub{ nullptr, Core::DestroyObject };						
-						Core::GetFactory()->CreateInstance(Attributes::IID_IFileStub, (void**)&file_stub);
+                        Core::UniquePtr<Attributes::IFileStub> file_stub = Core::CreateInstancePtr<Attributes::IFileStub>(Attributes::IID_IFileStub);
 						file_stub->SetFilename(filename);
 						file_stub->SetCallback(new Core::Action < Animator, Core::IObject* > { this, &Animator::OnAnimationLoaded });
 						node->Set<Attributes::IFileStub>(name, file_stub.get());
@@ -191,8 +188,7 @@ namespace AnimatorModule {
 			if (!animated->GetAnimationPlayer()) {
 				if (animated->GetAnimationsCount() && m_animation_map.HasValue(animated->GetAnimation(0))){
 					auto animation = m_animation_map.GetValue(animated->GetAnimation(0));
-					Core::UniquePtr<Attributes::IAnimationPlayer> player{ nullptr, Core::DestroyObject };
-					Core::GetFactory()->CreateInstance(Attributes::IID_IAnimationPlayer, (void**)&player);
+                    Core::UniquePtr<Attributes::IAnimationPlayer> player = Core::CreateInstancePtr<Attributes::IAnimationPlayer>(Attributes::IID_IAnimationPlayer);
 					player->SetAnimation(animation);
 					animated->SetAnimationPlayer(player.get());
 					player->Start();

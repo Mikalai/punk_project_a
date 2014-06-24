@@ -127,13 +127,7 @@ namespace Graphics {
 		ILowLevelRender* GlVideoDriver::GetRender() {
 			AssertInitialize();
 			if (!m_render.get()) {
-                {
-                    ILowLevelRender* render{ nullptr };
-                    Core::GetFactory()->CreateInstance(IID_ILowLevelRender, (void**)&render);
-                    if (!render)
-                        throw Error::OpenGLException("Can't create low lever render");
-                    m_render.reset(render);
-                }
+                m_render = Core::CreateInstancePtr<ILowLevelRender>(IID_ILowLevelRender);
 				m_render->Initialize(this);
 			}
 			return m_render.get();

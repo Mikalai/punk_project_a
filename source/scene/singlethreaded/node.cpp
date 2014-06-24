@@ -162,6 +162,7 @@ namespace SceneModule {
 	}
 
 	void Node::AddChild(INode* node) {
+        node->AddRef();
 		m_children.push_back(node);
 	}
 

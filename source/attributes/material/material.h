@@ -30,12 +30,12 @@ namespace Attributes
 		std::uint32_t Release() override;
 
 		//	IMaterial
-		void SetDiffuseTextureSlot(IDiffuseTextureSlot* value) override { m_diffuse_textue_slot = value; }
-		void SetNormalTextureSlot(INormalTextureSlot* value) override { m_normal_texture_slot = value; }
-		void SetSpecularTextureSlot(ISpecularIntensityTextureSlot* value) override { m_specular_texture_slot = value; }
-		IDiffuseTextureSlot* GetDiffuseTextureSlot() override { return m_diffuse_textue_slot; }
-		INormalTextureSlot* GetNormalTextureSlot() override { return m_normal_texture_slot; }
-		ISpecularIntensityTextureSlot* GetSpecularTextureSlot() override { return m_specular_texture_slot; }
+        void SetDiffuseTextureSlot(IDiffuseTextureSlot* value) override { value->AddRef(); m_diffuse_textue_slot.reset(value); }
+        void SetNormalTextureSlot(INormalTextureSlot* value) override { value->AddRef(); m_normal_texture_slot.reset(value); }
+        void SetSpecularTextureSlot(ISpecularIntensityTextureSlot* value) override { value->AddRef(); m_specular_texture_slot.reset(value); }
+        IDiffuseTextureSlot* GetDiffuseTextureSlot() override { return m_diffuse_textue_slot.get(); }
+        INormalTextureSlot* GetNormalTextureSlot() override { return m_normal_texture_slot.get(); }
+        ISpecularIntensityTextureSlot* GetSpecularTextureSlot() override { return m_specular_texture_slot.get(); }
 
 		void SetDiffuseColor(const Math::vec4& color) override;
 		void SetSpecularColor(const Math::vec4& color) override;
@@ -90,9 +90,9 @@ namespace Attributes
 
 	private:
 		
-		IDiffuseTextureSlot* m_diffuse_textue_slot{ nullptr };
-		INormalTextureSlot* m_normal_texture_slot{ nullptr };
-		ISpecularIntensityTextureSlot* m_specular_texture_slot{ nullptr };
+        Core::UniquePtr<IDiffuseTextureSlot> m_diffuse_textue_slot{ nullptr, Core::DestroyObject };
+        Core::UniquePtr<INormalTextureSlot> m_normal_texture_slot{ nullptr, Core::DestroyObject };
+        Core::UniquePtr<ISpecularIntensityTextureSlot> m_specular_texture_slot{ nullptr, Core::DestroyObject };
         Core::String m_specular_map;
 		Math::vec4 m_diffuse_color;
 		Math::vec4 m_specular_color;
