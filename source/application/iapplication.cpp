@@ -1,4 +1,4 @@
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <application/error/module.h>
 #include <system/module.h>
 #include <render/module.h>
@@ -7,7 +7,7 @@
 #include <animator/module.h>
 #include <config.h>
 #include <system/logger/module.h>
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include "iapplication.h"
 
 PUNK_ENGINE_BEGIN
@@ -39,20 +39,20 @@ namespace Runtime {
         LoadBasicModules();
 
         m_logger->Info("Create application");
-        m_scene_manager = Core::CreateInstancePtr<SceneModule::ISceneManager>(SceneModule::IID_ISceneManager);
+        m_scene_manager = System::CreateInstancePtr<SceneModule::ISceneManager>(SceneModule::IID_ISceneManager);
 
-        auto loader = Core::CreateInstancePtr<IoModule::IIoObserver>(IoModule::IID_IIoObserver);
+        auto loader = System::CreateInstancePtr<IoModule::IIoObserver>(IoModule::IID_IIoObserver);
         m_scene_manager->GetScene()->AddObserver(loader.get());
 
 
-        auto animator_module = Core::CreateInstancePtr<AnimatorModule::IAnimatorModule>(AnimatorModule::IID_IAnimatorModule);
+        auto animator_module = System::CreateInstancePtr<AnimatorModule::IAnimatorModule>(AnimatorModule::IID_IAnimatorModule);
         auto animator_observer = Core::QueryInterfacePtr<AnimatorModule::IAnimatorObserver>(animator_module.get(), AnimatorModule::IID_IAnimatorObserver);
         auto animator_processor = Core::QueryInterfacePtr<AnimatorModule::IAnimatorProcessor>(animator_module.get(), AnimatorModule::IID_IAnimatorProcessor);
 
         m_scene_manager->GetScene()->AddObserver(animator_observer.get());
         m_scene_manager->AddProcessor(animator_processor.get());
 
-        m_render_module = Core::CreateInstancePtr<LowLevelRender::IRenderModule>(LowLevelRender::IID_IRenderModule);
+        m_render_module = System::CreateInstancePtr<LowLevelRender::IRenderModule>(LowLevelRender::IID_IRenderModule);
 
         auto render_processor = Core::QueryInterfacePtr<LowLevelRender::IRenderProcessor>(m_render_module.get(), LowLevelRender::IID_IRenderProcessor);
         auto render_observer = Core::QueryInterfacePtr<LowLevelRender::IRenderObserver>(m_render_module.get(), LowLevelRender::IID_IRenderObserver);
@@ -89,7 +89,7 @@ namespace Runtime {
     }
 
     void Application::Run() {
-        System::ITimerUniquePtr timer = Core::CreateInstancePtr<System::ITimer>(System::IID_ITimer);
+        System::ITimerUniquePtr timer = System::CreateInstancePtr<System::ITimer>(System::IID_ITimer);
         timer->Reset();
         int frame = 0;
         float t = 0;
@@ -111,7 +111,7 @@ namespace Runtime {
         Core::QueryInterface(this, type, object, { IID_IApplication, Core::IID_IObject });
     }
 
-    PUNK_REGISTER_CREATOR(IID_IApplication, (Core::CreateInstance<Application, IApplication>));
+    PUNK_REGISTER_CREATOR(IID_IApplication, (System::CreateInstance<Application, IApplication>));
 
 }
 PUNK_ENGINE_END

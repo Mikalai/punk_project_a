@@ -2,7 +2,7 @@
 #include <libtiff/tiffio.h>
 #endif
 #include <string.h>
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <images/error/module.h>
 #include <images/iimage.h>
 #include <string/module.h>
@@ -70,7 +70,7 @@ namespace ImageModule
 				throw Error::ImageException("Failed ro read RGBA image");
 			}
 
-            image = Core::CreateInstancePtr<IImage>(IID_IRgbaImage);
+            image = System::CreateInstancePtr<IImage>(IID_IRgbaImage);
             image->SetSize(width, height);
             memcpy(image->GetData(), raster, npixels*sizeof(uint32));
 

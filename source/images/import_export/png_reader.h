@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <string/module.h>
 #include <system/logger/module.h>
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <images/iimage.h>
 #include "reader_policy.h"
 
@@ -85,23 +85,23 @@ namespace ImageModule
 			switch (colorType)
 			{
 			case PNG_COLOR_TYPE_RGB:
-                image = Core::CreateInstancePtr<IImage>(IID_IRgbImage);
+                image = System::CreateInstancePtr<IImage>(IID_IRgbImage);
 				format = ImageFormat::RGB;
 				break;
 
 			case PNG_COLOR_TYPE_RGB_ALPHA:
-                image = Core::CreateInstancePtr<IImage>(IID_IRgbaImage);
+                image = System::CreateInstancePtr<IImage>(IID_IRgbaImage);
 				format = ImageFormat::RGBA;
 				break;
 
 			case PNG_COLOR_TYPE_GRAY:
 			case PNG_COLOR_TYPE_GRAY_ALPHA:
-                image = Core::CreateInstancePtr<IImage>(IID_IAlphaImage);
+                image = System::CreateInstancePtr<IImage>(IID_IAlphaImage);
 				format = ImageFormat::ALPHA;
 				break;
 
 			case PNG_COLOR_TYPE_PALETTE:
-                image = Core::CreateInstancePtr<IImage>(IID_IRgbImage);
+                image = System::CreateInstancePtr<IImage>(IID_IRgbImage);
 				format = ImageFormat::RGB;
 				break;
 

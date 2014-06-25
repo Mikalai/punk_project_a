@@ -22,12 +22,14 @@ namespace System {
         void Debug(const Core::String& value) override;
         void AddConsumer(ILogConsumer* consumer) override;
         void RemoveConsumer(ILogConsumer* consumer) override;
-
+        void IncreaseOffset() override;
+        void DescreaseOffset() override;
     private:
         std::set<ILogConsumer*> m_consumers;
         ThreadMutex m_consumer_mutex;
         IClock* m_clock;
         ConsoleConsumer* m_console_consumer;
+        std::uint32_t m_offset{0};
     };
 }
 PUNK_ENGINE_END

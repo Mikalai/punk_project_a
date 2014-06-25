@@ -1,4 +1,4 @@
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <core/module.h>
 #include <scene/module.h>
 #include "parser.h"
@@ -20,7 +20,7 @@ namespace IoModule
             return true;
             case WORD_NODE:
             {
-                auto node = Core::CreateInstancePtr<SceneModule::INode>(SceneModule::IID_INode);
+                auto node = System::CreateInstancePtr<SceneModule::INode>(SceneModule::IID_INode);
                 parser->Parse(WORD_NODE, buffer, node.get());
                 value->GetRoot()->AddChild(node.get());
                 //value->SetRoot(node.release());

@@ -1,5 +1,5 @@
 #include <attributes/skinning/module.h>
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include "parser.h"
 
 PUNK_ENGINE_BEGIN
@@ -36,7 +36,7 @@ namespace IoModule
 				break;
 			case WORD_BONE:
 			{
-                auto bone = Core::CreateInstancePtr<Attributes::IBone>(Attributes::IID_IBone);
+                auto bone = System::CreateInstancePtr<Attributes::IBone>(Attributes::IID_IBone);
 				parser->Parse(WORD_BONE, buffer, bone.get());
 				value->AddBone(bone.get());
 			}

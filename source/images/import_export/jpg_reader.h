@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <memory.h>
 
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <string/module.h>
 #include <system/logger/module.h>
 #include <images/error/module.h>
@@ -93,11 +93,11 @@ namespace ImageModule
 
 			ImageFormat format;
 			if (output_components == 1) {
-                image = Core::CreateInstancePtr<IImage>(IID_IAlphaImage);
+                image = System::CreateInstancePtr<IImage>(IID_IAlphaImage);
 				format = ImageFormat::ALPHA;
 			}
 			else if (output_components == 3) {
-                image = Core::CreateInstancePtr<IImage>(IID_IRgbImage);
+                image = System::CreateInstancePtr<IImage>(IID_IRgbImage);
 				format = ImageFormat::RGB;
 			}
 			else

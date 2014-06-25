@@ -2,7 +2,7 @@
 #define _H_PUNK_OPENGL_SHADER_SOLID_COLOR
 
 #include <array>
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <graphics/render/render_context_type.h>
 #include <graphics/render/irender_context_factory.h>
 #include "gl_render_context.h"
@@ -250,7 +250,7 @@ namespace Graphics {
 			m_driver = driver;
 		}
 
-		PUNK_REGISTER_CREATOR(IID_IRenderContextFactory, (Core::CreateInstance<GlRenderContextFactory, IRenderContextFactory>));
+		PUNK_REGISTER_CREATOR(IID_IRenderContextFactory, (System::CreateInstance<GlRenderContextFactory, IRenderContextFactory>));
 
 	}
 }

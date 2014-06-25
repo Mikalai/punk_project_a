@@ -1,5 +1,5 @@
 #include <memory>
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <images/module.h>
 #include <system/logger/module.h>
 #include <system/environment.h>
@@ -89,8 +89,8 @@ namespace Attributes
 		return m_texture_2d.get();
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IDiffuseTextureSlot, (Core::CreateInstance<TextureSlot, IDiffuseTextureSlot>));
-	PUNK_REGISTER_CREATOR(IID_INormalTextureSlot, (Core::CreateInstance<TextureSlot, INormalTextureSlot>));
-	PUNK_REGISTER_CREATOR(IID_ISpecularIntensityTextureSlot, (Core::CreateInstance<TextureSlot, ISpecularIntensityTextureSlot>));
+	PUNK_REGISTER_CREATOR(IID_IDiffuseTextureSlot, (System::CreateInstance<TextureSlot, IDiffuseTextureSlot>));
+	PUNK_REGISTER_CREATOR(IID_INormalTextureSlot, (System::CreateInstance<TextureSlot, INormalTextureSlot>));
+	PUNK_REGISTER_CREATOR(IID_ISpecularIntensityTextureSlot, (System::CreateInstance<TextureSlot, ISpecularIntensityTextureSlot>));
 }
 PUNK_ENGINE_END

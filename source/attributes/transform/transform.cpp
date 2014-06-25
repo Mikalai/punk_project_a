@@ -3,7 +3,7 @@
 #include <math/quat.h>
 #include <attributes/animation/module.h>
 #include "itransform.h"
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <attributes/animation/module.h>
 #include <system/logger/module.h>
 #include <math/matrix_helper.h>
@@ -205,6 +205,6 @@ namespace Attributes
 		return m_scale;
 	}
 
-	PUNK_REGISTER_CREATOR(IID_ITransform, (Core::CreateInstance<Transform, ITransform>));
+	PUNK_REGISTER_CREATOR(IID_ITransform, (System::CreateInstance<Transform, ITransform>));
 }
 PUNK_ENGINE_END

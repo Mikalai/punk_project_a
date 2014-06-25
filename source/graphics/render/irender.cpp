@@ -6,7 +6,7 @@
 #include "irender.h"
 #include <math/vec2.h>
 #include <math/mat4.h>
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <graphics/error/module.h>
 #include <graphics/frame_buffer/module.h>
 #include <graphics/render/irender_context.h>
@@ -92,9 +92,9 @@ namespace Graphics {
 		if (!m_initialized) {            
             driver->AddRef();
             m_driver.reset(driver);
-            m_queue = Core::CreateInstancePtr<IRenderQueue>(IID_IRenderQueue);
+            m_queue = System::CreateInstancePtr<IRenderQueue>(IID_IRenderQueue);
 			m_queue->Initialize(this);
-            m_rc_factory = Core::CreateInstancePtr<IRenderContextFactory>(IID_IRenderContextFactory);
+            m_rc_factory = System::CreateInstancePtr<IRenderContextFactory>(IID_IRenderContextFactory);
 			m_rc_factory->Initialize(driver);
 			m_initialized = true;
 		}
@@ -140,7 +140,7 @@ namespace Graphics {
 	IFrame* LowLevelRender::BeginFrame() {
 		AssertInitialized();
 		if (!m_frame.get()) {			
-            m_frame = Core::CreateInstancePtr<IFrame>(IID_IFrame);
+            m_frame = System::CreateInstancePtr<IFrame>(IID_IFrame);
 			m_frame->SetRender(this);
 		}
 		return m_frame.get();
@@ -189,7 +189,7 @@ namespace Graphics {
 		return m_queue.get();
 	}
 
-	PUNK_REGISTER_CREATOR(IID_ILowLevelRender, (Core::CreateInstance<LowLevelRender, ILowLevelRender>));
+	PUNK_REGISTER_CREATOR(IID_ILowLevelRender, (System::CreateInstance<LowLevelRender, ILowLevelRender>));
 
     
 }

@@ -1,4 +1,4 @@
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include "gl_renderable_builder.h"
 #include <graphics/primitives/gl_primitive/module.h>
 #include <graphics/primitives/irenderable.h>
@@ -396,7 +396,7 @@ namespace Graphics
 		}
 
 
-		PUNK_REGISTER_CREATOR(IID_IRenderableBuilder, (Core::CreateInstance<GlRenderableBuilder, IRenderableBuilder>));
+		PUNK_REGISTER_CREATOR(IID_IRenderableBuilder, (System::CreateInstance<GlRenderableBuilder, IRenderableBuilder>));
     }    	
 }
 PUNK_ENGINE_END

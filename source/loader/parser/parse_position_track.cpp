@@ -1,4 +1,4 @@
-//#include <core/ifactory.h>
+//#include <system/factory/module.h>
 //#include <attributes/animation/module.h>
 //#include "parser.h"
 //

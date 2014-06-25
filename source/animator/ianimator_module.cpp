@@ -1,4 +1,5 @@
 #include <core/module.h>
+#include <system/factory/module.h>
 #include <attributes/module.h>
 #include "ianimator_module.h"
 #include "ianimator_observer.h"
@@ -10,7 +11,7 @@ namespace AnimatorModule {
 
 	class Animator : public IAnimatorModule, public IAnimatorObserver, public IAnimatorProcessor {
 	public:
-
+        Animator();
 		virtual ~Animator();
 
 		//	IObject
@@ -33,7 +34,7 @@ namespace AnimatorModule {
 	private:
 		void Process(SceneModule::INode* node);
 		void OnAnimationLoaded(Core::IObject* o) {
-            auto animation = Core::CreateInstancePtr<Attributes::IAnimation>(Attributes::IID_IAnimation);
+            auto animation = System::CreateInstancePtr<Attributes::IAnimation>(Attributes::IID_IAnimation);
 			if (animation.get()) {
 				animation->AddRef();
 				m_animations.push_back(animation.get());
@@ -50,7 +51,14 @@ namespace AnimatorModule {
 		std::vector<Attributes::IAnimation*> m_animations;
 	};
 
+    Animator::Animator()
+        : m_ref_count{1}
+    {
+        LOG_FUNCTION_SCOPE
+    }
+
 	Animator::~Animator() {
+        LOG_FUNCTION_SCOPE
 		while (!m_animated.empty()) {
 			m_animated.back()->Release();
 		}
@@ -66,6 +74,7 @@ namespace AnimatorModule {
 
 	//	IObject
 	void Animator::QueryInterface(const Core::Guid& type, void** object) {
+        LOG_FUNCTION_SCOPE
 		if (!object)
 			return;
 
@@ -98,10 +107,12 @@ namespace AnimatorModule {
 	}
 
 	std::uint32_t Animator::AddRef() {
-		return m_ref_count.fetch_add(1);
+        LOG_FUNCTION_SCOPE
+		return m_ref_count.fetch_add(1);        
 	}
 
 	std::uint32_t Animator::Release() {
+        LOG_FUNCTION_SCOPE
         auto v = m_ref_count.fetch_sub(1) - 1;
 		if (!v)
 			delete this;
@@ -110,6 +121,7 @@ namespace AnimatorModule {
 
 	//	IAnimatorObserver
 	void Animator::SetScene(SceneModule::IScene* value) {
+        LOG_FUNCTION_SCOPE
 		value->AddRef();
 		m_scene.reset(value);
 		if (m_scene.get())
@@ -117,14 +129,16 @@ namespace AnimatorModule {
 	}
 
 	void Animator::OnNodeAdded(SceneModule::INode* parent, SceneModule::INode* child) {
-		Process(child);
+        LOG_FUNCTION_SCOPE
+        Process(child);
 	}
 
 	void Animator::OnNodeRemoved(SceneModule::INode* parent, SceneModule::INode* child) {
-
+        LOG_FUNCTION_SCOPE
 	}
 
 	void Animator::OnAttributeAdded(SceneModule::INode* node, SceneModule::IAttribute* attribute) {
+        LOG_FUNCTION_SCOPE
 		auto animation = attribute->Get<Attributes::IAnimation>();
 		if (animation) {
 			animation->AddRef();
@@ -134,15 +148,15 @@ namespace AnimatorModule {
 	}
 
 	void Animator::OnAttributeUpdated(SceneModule::INode* node, SceneModule::IAttribute* old_attribute, SceneModule::IAttribute* new_attribute) {
-
+        LOG_FUNCTION_SCOPE
 	}
 
 	void Animator::OnAttributeRemoved(SceneModule::INode* node, SceneModule::IAttribute* attribute) {
-
+        LOG_FUNCTION_SCOPE
 	}
 
 	void Animator::Process(SceneModule::INode* node) {
-
+        LOG_FUNCTION_SCOPE
 		auto count = node->GetAttributesCount();
 		for (int i = 0; i < count; ++i) {
 			auto attribute = node->GetAttribute(i);
@@ -156,7 +170,7 @@ namespace AnimatorModule {
 					auto name = animated->GetAnimation(i);
 					if (!m_animation_map.HasValue(name)) {
 						auto filename = m_scene->GetSourcePath() + name + L".action";
-                        Core::UniquePtr<Attributes::IFileStub> file_stub = Core::CreateInstancePtr<Attributes::IFileStub>(Attributes::IID_IFileStub);
+                        Core::UniquePtr<Attributes::IFileStub> file_stub = System::CreateInstancePtr<Attributes::IFileStub>(Attributes::IID_IFileStub);
 						file_stub->SetFilename(filename);
 						file_stub->SetCallback(new Core::Action < Animator, Core::IObject* > { this, &Animator::OnAnimationLoaded });
 						node->Set<Attributes::IFileStub>(name, file_stub.get());
@@ -172,11 +186,13 @@ namespace AnimatorModule {
 
 	//	IAnimatorProcessor
 	void Animator::SetSceneManager(SceneModule::ISceneManager* manager) {
+        LOG_FUNCTION_SCOPE
 		manager->AddRef();
 		m_manager.reset(manager);
 	}
 
-	void Animator::Update(float dt) {		
+    void Animator::Update(float dt) {
+        LOG_FUNCTION_SCOPE
 		dt /= 1000.0f; 
 		for (auto& player : m_players) {			
 			if (player->IsPlaying()) {
@@ -188,7 +204,7 @@ namespace AnimatorModule {
 			if (!animated->GetAnimationPlayer()) {
 				if (animated->GetAnimationsCount() && m_animation_map.HasValue(animated->GetAnimation(0))){
 					auto animation = m_animation_map.GetValue(animated->GetAnimation(0));
-                    Core::UniquePtr<Attributes::IAnimationPlayer> player = Core::CreateInstancePtr<Attributes::IAnimationPlayer>(Attributes::IID_IAnimationPlayer);
+                    Core::UniquePtr<Attributes::IAnimationPlayer> player = System::CreateInstancePtr<Attributes::IAnimationPlayer>(Attributes::IID_IAnimationPlayer);
 					player->SetAnimation(animation);
 					animated->SetAnimationPlayer(player.get());
 					player->Start();
@@ -201,6 +217,6 @@ namespace AnimatorModule {
 	}
 
 
-	PUNK_REGISTER_CREATOR(IID_IAnimatorModule, (Core::CreateInstance < Animator, IAnimatorModule>));
+    PUNK_REGISTER_CREATOR(IID_IAnimatorModule, (System::CreateInstance < Animator, IAnimatorModule>));
 }
 PUNK_ENGINE_END

@@ -1,5 +1,5 @@
 #include <string.h>
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <graphics/video_memory/module.h>
 #include <graphics/frame_buffer/gl_frame_buffer/module.h>
 #include <graphics/texture/module.h>
@@ -127,14 +127,14 @@ namespace Graphics {
 		ILowLevelRender* GlVideoDriver::GetRender() {
 			AssertInitialize();
 			if (!m_render.get()) {
-                m_render = Core::CreateInstancePtr<ILowLevelRender>(IID_ILowLevelRender);
+                m_render = System::CreateInstancePtr<ILowLevelRender>(IID_ILowLevelRender);
 				m_render->Initialize(this);
 			}
 			return m_render.get();
 		}
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IVideoDriver, (Core::CreateInstance < OpenGL::GlVideoDriver, IVideoDriver>));
+	PUNK_REGISTER_CREATOR(IID_IVideoDriver, (System::CreateInstance < OpenGL::GlVideoDriver, IVideoDriver>));
 }
 
 

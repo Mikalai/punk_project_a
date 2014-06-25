@@ -1,4 +1,4 @@
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <cstdint>
 #include "idirectional_light.h"
 #include "ispot_light.h"

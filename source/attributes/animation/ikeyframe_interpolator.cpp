@@ -1,6 +1,6 @@
 #include <memory.h>
 #include <system/errors/module.h>
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <math/interpolation.h>
 #include <math/vec3.h>
 #include <math/vec4.h>
@@ -101,10 +101,10 @@ namespace Attributes
 
 	};
 
-	PUNK_REGISTER_CREATOR(IID_IVec3KeyFrameLinearInterpolator, (Core::CreateInstance<KeyFrameInterpolatorImpl<Math::vec3, InterpolatorType::Linear>, IKeyFrameInterpolator>));
-	PUNK_REGISTER_CREATOR(IID_IVec4KeyFrameLinearInterpolator, (Core::CreateInstance<KeyFrameInterpolatorImpl<Math::vec4, InterpolatorType::Linear>, IKeyFrameInterpolator>));
-	PUNK_REGISTER_CREATOR(IID_IMat4KeyFrameLinearInterpolator, (Core::CreateInstance<KeyFrameInterpolatorImpl<Math::mat4, InterpolatorType::Linear>, IKeyFrameInterpolator>));
-	PUNK_REGISTER_CREATOR(IID_IQuatKeyFrameLinearInterpolator, (Core::CreateInstance<KeyFrameInterpolatorImpl<Math::quat, InterpolatorType::Linear>, IKeyFrameInterpolator>));
-	PUNK_REGISTER_CREATOR(IID_IFloatKeyFrameLinearInterpolator, (Core::CreateInstance<KeyFrameInterpolatorImpl<float, InterpolatorType::Linear>, IKeyFrameInterpolator>));
+	PUNK_REGISTER_CREATOR(IID_IVec3KeyFrameLinearInterpolator, (System::CreateInstance<KeyFrameInterpolatorImpl<Math::vec3, InterpolatorType::Linear>, IKeyFrameInterpolator>));
+	PUNK_REGISTER_CREATOR(IID_IVec4KeyFrameLinearInterpolator, (System::CreateInstance<KeyFrameInterpolatorImpl<Math::vec4, InterpolatorType::Linear>, IKeyFrameInterpolator>));
+	PUNK_REGISTER_CREATOR(IID_IMat4KeyFrameLinearInterpolator, (System::CreateInstance<KeyFrameInterpolatorImpl<Math::mat4, InterpolatorType::Linear>, IKeyFrameInterpolator>));
+	PUNK_REGISTER_CREATOR(IID_IQuatKeyFrameLinearInterpolator, (System::CreateInstance<KeyFrameInterpolatorImpl<Math::quat, InterpolatorType::Linear>, IKeyFrameInterpolator>));
+	PUNK_REGISTER_CREATOR(IID_IFloatKeyFrameLinearInterpolator, (System::CreateInstance<KeyFrameInterpolatorImpl<float, InterpolatorType::Linear>, IKeyFrameInterpolator>));
 }
 PUNK_ENGINE_END

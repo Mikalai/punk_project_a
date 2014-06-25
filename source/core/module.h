@@ -4,7 +4,6 @@
 #include "action.h"
 #include "container.h"
 #include "iobject.h"
-#include "ifactory.h"
 #include "meta_class.h"
 #include "meta_class_base.h"
 #include "pool.h"

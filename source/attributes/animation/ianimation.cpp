@@ -1,4 +1,5 @@
-#include <core/ifactory.h>
+#include <system/factory/module.h>
+#include <system/logger/module.h>
 #include "ianimation.h"
 
 PUNK_ENGINE_BEGIN
@@ -7,7 +8,8 @@ namespace Attributes {
 
 	class Animation : public IAnimation {
 	public:
-		~Animation();
+        Animation();
+        virtual ~Animation();
 
 		//	IObject
 		void QueryInterface(const Core::Guid& type, void** object) override;
@@ -31,7 +33,14 @@ namespace Attributes {
 		Core::String m_name;
 	};
 
-	Animation::~Animation() {
+    Animation::Animation()
+        : m_ref_count{1}
+    {
+        LOG_FUNCTION_SCOPE
+    }
+
+	Animation::~Animation() {        
+        LOG_FUNCTION_SCOPE
 		while (!m_tracks.empty()) {
 			m_tracks.back()->Release();
 			m_tracks.pop_back();
@@ -40,14 +49,17 @@ namespace Attributes {
 
 	//	IObject
 	void Animation::QueryInterface(const Core::Guid& type, void** object) {
+        LOG_FUNCTION_SCOPE
 		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IAnimation });
 	}
 
 	std::uint32_t Animation::AddRef() {
+        LOG_FUNCTION_SCOPE
 		return m_ref_count.fetch_add(1);
 	}
 
 	std::uint32_t Animation::Release() {
+        LOG_FUNCTION_SCOPE
 		auto v = m_ref_count.fetch_sub(1) - 1;
 		if (!v)
 			delete this;
@@ -55,7 +67,7 @@ namespace Attributes {
 	}
 
 	//	IAnimation
-	std::uint32_t Animation::GetDuration() const {
+	std::uint32_t Animation::GetDuration() const {        
 		return GetLastFrame() - GetFirstFrame() + 1;
 	}
 
@@ -117,7 +129,7 @@ namespace Attributes {
 		return (std::uint32_t)(-1);
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IAnimation, (Core::CreateInstance<Animation, IAnimation>));
+    PUNK_REGISTER_CREATOR(IID_IAnimation, (System::CreateInstance<Animation, IAnimation>));
 	
 }
 PUNK_ENGINE_END

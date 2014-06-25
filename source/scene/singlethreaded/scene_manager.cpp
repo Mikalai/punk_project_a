@@ -1,4 +1,4 @@
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <system/errors/module.h>
 #include "iprocessor.h"
 #include "scene_manager.h"
@@ -9,7 +9,7 @@ namespace SceneModule {
 	DEFINE_PUNK_GUID(IID_ISceneManager, "D8138AD5-F05C-4209-83CF-A21697E0547A");
 
 	SceneManager::SceneManager() {
-        m_scene = Core::CreateInstancePtr<IScene>(IID_IScene);
+        m_scene = System::CreateInstancePtr<IScene>(IID_IScene);
 	}
 
 	SceneManager::~SceneManager() {
@@ -44,6 +44,6 @@ namespace SceneModule {
 		}
 	}
 
-	PUNK_REGISTER_CREATOR(IID_ISceneManager, (Core::CreateInstance<SceneManager, ISceneManager>));
+    PUNK_REGISTER_CREATOR(IID_ISceneManager, (System::CreateInstance<SceneManager, ISceneManager>));
 }
 PUNK_ENGINE_END

@@ -1,4 +1,4 @@
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <attributes/stubs/module.h>
 #include <string/module.h>
 #include "iscene_observer.h"
@@ -10,7 +10,7 @@ namespace SceneModule
 {
 
 	Scene::Scene() {
-        m_root = Core::CreateInstancePtr<INode>(IID_INode);
+        m_root = System::CreateInstancePtr<INode>(IID_INode);
 		m_root->SetScene(this);
 	}
 
@@ -111,18 +111,18 @@ namespace SceneModule
 
 	extern PUNK_ENGINE_API ISceneGraphUniquePtr CreateSceneFromFile(const Core::String& path, const Core::String& file) {
 		ISceneGraphUniquePtr scene{ new Scene, Core::DestroyObject };
-        auto node = Core::CreateInstancePtr<INode>(IID_INode);
+        auto node = System::CreateInstancePtr<INode>(IID_INode);
 		node->SetScene(scene.get());
 		scene->SetSourcePath(path);	
 		{
-            auto stub = Core::CreateInstancePtr<Attributes::IFileStub>(Attributes::IID_IFileStub);
+            auto stub = System::CreateInstancePtr<Attributes::IFileStub>(Attributes::IID_IFileStub);
 			stub->SetFilename(file);
             node->SetAttribute(new Attribute<Attributes::IFileStub>(L"Filename", stub.get()));
 		}
         return scene;
     }
 
-	PUNK_REGISTER_CREATOR(IID_IScene, (Core::CreateInstance<Scene, IScene>));
+	PUNK_REGISTER_CREATOR(IID_IScene, (System::CreateInstance<Scene, IScene>));
 
 }
 PUNK_ENGINE_END

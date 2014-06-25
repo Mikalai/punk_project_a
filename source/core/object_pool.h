@@ -11,7 +11,7 @@ namespace Core {
 	template < typename Key, typename Value >
 	class ObjectPool {
 	public:
-		bool HasValue(const Key& key) {
+        bool HasValue(const Key& key) {
 			return GetValue(key, nullptr);
 		}
 

@@ -86,7 +86,7 @@ int main() {
         if (!punk_application)
             throw System::Error::SystemException("Can't load punk_application module");
 
-        auto app = Core::CreateInstancePtr<Runtime::IApplication>(Runtime::IID_IApplication);
+        auto app = System::CreateInstancePtr<Runtime::IApplication>(Runtime::IID_IApplication);
 
 		if (!app) {
 			System::GetDefaultLogger()->Error("Can't create application");
@@ -99,7 +99,7 @@ int main() {
         app->GetSceneManager()->GetScene()->SetSourcePath("/home/mikalaj/Projects/punk_project_a/data/maps/map1/");
 #endif
 
-        auto file = Core::CreateInstancePtr<Attributes::IFileStub>(Attributes::IID_IFileStub);
+        auto file = System::CreateInstancePtr<Attributes::IFileStub>(Attributes::IID_IFileStub);
 #ifdef WIN32
         file->SetFilename("c:\\Projects\\game\\dev\\punk_project_a\\data\\maps\\map1\\level_1.pmd");
 #elif defined __linux__

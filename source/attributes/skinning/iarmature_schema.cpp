@@ -1,5 +1,5 @@
 #include <config.h>
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <string/string.h>
 #include "iarmature_schema.h"
 #include "ibone.h"
@@ -125,6 +125,6 @@ namespace Attributes {
 		m_supported_actions.push_back(name);
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IArmatureSchema, (Core::CreateInstance<ArmatureSchema, IArmatureSchema>));
+	PUNK_REGISTER_CREATOR(IID_IArmatureSchema, (System::CreateInstance<ArmatureSchema, IArmatureSchema>));
 }
 PUNK_ENGINE_END

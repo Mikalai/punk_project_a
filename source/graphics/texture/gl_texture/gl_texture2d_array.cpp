@@ -1,4 +1,4 @@
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <graphics/texture/module.h>
 #include <graphics/video_driver/module.h>
 #include "gl_texture_convert.h"
@@ -126,7 +126,7 @@ namespace Graphics {
         }
     }
 
-	PUNK_REGISTER_CREATOR(IID_ITexture2DArray, (Core::CreateInstance<OpenGL::GlTexture2DArray, ITexture2DArray>));
+	PUNK_REGISTER_CREATOR(IID_ITexture2DArray, (System::CreateInstance<OpenGL::GlTexture2DArray, ITexture2DArray>));
 }
 PUNK_ENGINE_END
 

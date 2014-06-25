@@ -1,4 +1,4 @@
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <string/module.h>
 #include <system/logger/module.h>
 #include <system/events/module.h>
@@ -13,7 +13,7 @@ namespace Graphics {
 
     Canvas::Canvas()				
         : m_logger(System::GetDefaultLogger())
-        , m_window{ Core::CreateInstance<System::IWindow>(System::IID_IWindow), Core::DestroyObject }
+        , m_window{ System::CreateInstance<System::IWindow>(System::IID_IWindow), Core::DestroyObject }
     {
 #ifdef WIN32        
 #elif defined __linux__
@@ -599,7 +599,7 @@ namespace Graphics {
 
         SetFullscreen(m_canvas_description.fullscreen);
 
-        m_video_driver = Core::CreateInstancePtr<IVideoDriver>(IID_IVideoDriver);
+        m_video_driver = System::CreateInstancePtr<IVideoDriver>(IID_IVideoDriver);
         m_video_driver->Initialize(this);
 
         OpenGL::glViewport(0, m_canvas_description.m_width, 0, m_canvas_description.m_height);
@@ -835,6 +835,6 @@ namespace Graphics {
 
 #endif	//	 _WIN32
 
-	PUNK_REGISTER_CREATOR(IID_ICanvas, (Core::CreateInstance<Canvas, ICanvas>));
+    PUNK_REGISTER_CREATOR(IID_ICanvas, (System::CreateInstance<Canvas, ICanvas>));
 }
 PUNK_ENGINE_END

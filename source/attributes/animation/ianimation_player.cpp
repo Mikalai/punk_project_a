@@ -1,6 +1,6 @@
 #include <memory.h>
 #include <system/errors/module.h>
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include "ianimation.h"
 #include "ikeyframe.h"
 #include "ikeyframe_interpolator.h"
@@ -201,14 +201,14 @@ namespace Attributes {
 			{
                 auto float_track = Core::QueryInterfacePtr<Track<float>>(track, IID_IFloatTrack);
                 if (float_track && m_interpolator_type == InterpolatorType::Linear) {
-                    m_track_cache.at(i).m_interpolator = Core::CreateInstancePtr<IKeyFrameInterpolator>(IID_IFloatKeyFrameLinearInterpolator);
+                    m_track_cache.at(i).m_interpolator = System::CreateInstancePtr<IKeyFrameInterpolator>(IID_IFloatKeyFrameLinearInterpolator);
                     float_track->Release();
                 }
             }
 			{
                 auto vec3_track = Core::QueryInterfacePtr<Track<Math::vec3>>(track, IID_IVec3Track);
                 if (vec3_track && m_interpolator_type == InterpolatorType::Linear) {
-                    m_track_cache.at(i).m_interpolator = Core::CreateInstancePtr<IKeyFrameInterpolator>(IID_IVec3KeyFrameLinearInterpolator);
+                    m_track_cache.at(i).m_interpolator = System::CreateInstancePtr<IKeyFrameInterpolator>(IID_IVec3KeyFrameLinearInterpolator);
                     vec3_track->Release();
                 }
 			}
@@ -216,7 +216,7 @@ namespace Attributes {
                 Track<Math::vec4>* vec4_track{ nullptr };
                 track->QueryInterface(IID_IVec4Track, (void**)&vec4_track);
                 if (vec4_track && m_interpolator_type == InterpolatorType::Linear) {
-                    m_track_cache.at(i).m_interpolator = Core::CreateInstancePtr<IKeyFrameInterpolator>(IID_IVec4KeyFrameLinearInterpolator);
+                    m_track_cache.at(i).m_interpolator = System::CreateInstancePtr<IKeyFrameInterpolator>(IID_IVec4KeyFrameLinearInterpolator);
                     vec4_track->Release();
                 }
 			}
@@ -224,7 +224,7 @@ namespace Attributes {
                 Track<Math::mat4>* mat4_track{ nullptr };
                 track->QueryInterface(IID_IMat4Track, (void**)&mat4_track);
                 if (mat4_track && m_interpolator_type == InterpolatorType::Linear) {
-                    m_track_cache.at(i).m_interpolator = Core::CreateInstancePtr<IKeyFrameInterpolator>(IID_IMat4KeyFrameLinearInterpolator);
+                    m_track_cache.at(i).m_interpolator = System::CreateInstancePtr<IKeyFrameInterpolator>(IID_IMat4KeyFrameLinearInterpolator);
                     mat4_track->Release();
                 }
 			}
@@ -232,7 +232,7 @@ namespace Attributes {
                 Track<Math::quat>* quat_track{ nullptr };
 				track->QueryInterface(IID_IQuatTrack, (void**)&quat_track);
                 if (quat_track && m_interpolator_type == InterpolatorType::Linear) {
-                    m_track_cache.at(i).m_interpolator = Core::CreateInstancePtr<IKeyFrameInterpolator>(IID_IQuatKeyFrameLinearInterpolator);
+                    m_track_cache.at(i).m_interpolator = System::CreateInstancePtr<IKeyFrameInterpolator>(IID_IQuatKeyFrameLinearInterpolator);
                     quat_track->Release();
                 }
 			}
@@ -297,7 +297,7 @@ namespace Attributes {
 		m_track_cache.at(track_index).m_on_frame.Add(action);
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IAnimationPlayer, (Core::CreateInstance<AnimationPlayerImpl, IAnimationPlayer>));
+    PUNK_REGISTER_CREATOR(IID_IAnimationPlayer, (System::CreateInstance<AnimationPlayerImpl, IAnimationPlayer>));
 
 }
 PUNK_ENGINE_END

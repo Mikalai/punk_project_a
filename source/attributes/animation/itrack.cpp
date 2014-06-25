@@ -1,5 +1,5 @@
 #include <list>
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <math/vec3.h>
 #include <math/vec4.h>
 #include <math/mat4.h>
@@ -133,10 +133,10 @@ namespace Attributes {
 		Core::String m_name;
 	};
 
-	PUNK_REGISTER_CREATOR(IID_IFloatTrack, (Core::CreateInstance<TrackImpl<float>, ITrack>));
-	PUNK_REGISTER_CREATOR(IID_IVec3Track, (Core::CreateInstance<TrackImpl<Math::vec3>, ITrack>));
-	PUNK_REGISTER_CREATOR(IID_IVec4Track, (Core::CreateInstance<TrackImpl<Math::vec4>, ITrack>));
-	PUNK_REGISTER_CREATOR(IID_IQuatTrack, (Core::CreateInstance<TrackImpl<Math::quat>, ITrack>));
-	PUNK_REGISTER_CREATOR(IID_IMat4Track, (Core::CreateInstance<TrackImpl<Math::mat4>, ITrack>));
+	PUNK_REGISTER_CREATOR(IID_IFloatTrack, (System::CreateInstance<TrackImpl<float>, ITrack>));
+	PUNK_REGISTER_CREATOR(IID_IVec3Track, (System::CreateInstance<TrackImpl<Math::vec3>, ITrack>));
+	PUNK_REGISTER_CREATOR(IID_IVec4Track, (System::CreateInstance<TrackImpl<Math::vec4>, ITrack>));
+	PUNK_REGISTER_CREATOR(IID_IQuatTrack, (System::CreateInstance<TrackImpl<Math::quat>, ITrack>));
+	PUNK_REGISTER_CREATOR(IID_IMat4Track, (System::CreateInstance<TrackImpl<Math::mat4>, ITrack>));
 }
 PUNK_ENGINE_END

@@ -1,5 +1,5 @@
 #include <system/module.h>
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include "module.h"
 
 PUNK_ENGINE_BEGIN
@@ -41,14 +41,9 @@ namespace Runtime {
         }
 
         void Clear() {
-            while (!m_registered_creators.empty()) {
-                delete m_registered_creators.back();
-                m_registered_creators.pop_back();
-            }
         }
 
     private:
-        std::vector<Core::RegisterCreator*> m_registered_creators;
         std::atomic<std::uint32_t> m_ref_count{1};
     };
 

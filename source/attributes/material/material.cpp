@@ -1,5 +1,5 @@
 #include <memory>
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <string/module.h>
 #include "texture_slot.h"
 #include "material.h"
@@ -125,6 +125,6 @@ namespace Attributes
 		return m_name;
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IMaterial, (Core::CreateInstance<Material, IMaterial>));
+	PUNK_REGISTER_CREATOR(IID_IMaterial, (System::CreateInstance<Material, IMaterial>));
 }
 PUNK_ENGINE_END

@@ -1,4 +1,4 @@
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <graphics/error/module.h>
 #include <graphics/renderable/module.h>
 #include <graphics/render/irender_context.h>
@@ -31,7 +31,7 @@ namespace Graphics {
         auto w = m_driver->GetSettings()->GetShadowMapSize();
         auto h = m_driver->GetSettings()->GetShadowMapSize();
         if (!m_shadow_map) {
-			m_shadow_map = Core::CreateInstance<ITexture2D>(IID_ITexture2D);
+			m_shadow_map = System::CreateInstance<ITexture2D>(IID_ITexture2D);
             if (m_shadow_map)
 				m_shadow_map->Initialize(w, h, ImageModule::ImageFormat::DEPTH_COMPONENT16, nullptr, false, m_driver);
         }

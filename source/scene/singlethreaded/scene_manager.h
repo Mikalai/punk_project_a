@@ -3,7 +3,7 @@
 
 #include <config.h>
 #include <map>
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <system/logger/module.h>
 #include "iscene_manager.h"
 #include "iscene.h"

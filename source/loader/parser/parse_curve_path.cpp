@@ -1,4 +1,4 @@
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <ai/icurvepath.h>
 #include "parser.h"
 

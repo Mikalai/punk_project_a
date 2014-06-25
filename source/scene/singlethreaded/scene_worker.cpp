@@ -1,4 +1,4 @@
-//#include <core/ifactory.h>
+//#include <system/factory/module.h>
 //#include <system/concurrency/work_item.h>
 //#include "inode.h"
 //#include "iscene.h"

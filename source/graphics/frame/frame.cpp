@@ -1,5 +1,5 @@
 #include <memory>
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <math/matrix_helper.h>
 #include <system/window/module.h>
 #include <graphics/text/module.h>
@@ -626,7 +626,7 @@ namespace Graphics
         PushAllState();
         EnableLighting(false);
         EnableTexturing(false);		
-		IRenderableBuilderUniquePtr b{ Core::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		IRenderableBuilderUniquePtr b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
 		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::LINES);
         b->Vertex3fv(start);
@@ -662,7 +662,7 @@ namespace Graphics
         p2[1] = -1.0f + 2.0f * y2 / height;
         p2[2] = 0;
 
-		IRenderableBuilderUniquePtr b{ Core::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		IRenderableBuilderUniquePtr b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
 		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::LINES);
         b->Vertex3fv(p1);
@@ -691,7 +691,7 @@ namespace Graphics
         p1[1] = -1.0f + 2.0f * y / height;
         p1[2] = 0;
 
-		IRenderableBuilderUniquePtr b{ Core::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		IRenderableBuilderUniquePtr b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
 		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::POINTS);
         b->Vertex3fv(p1);
@@ -706,7 +706,7 @@ namespace Graphics
         PushAllState();
         EnableLighting(false);
         EnableTexturing(false);
-		IRenderableBuilderUniquePtr b{ Core::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		IRenderableBuilderUniquePtr b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
 		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::POINTS);
         b->Vertex3fv(Math::vec3(x, y, z));
@@ -721,7 +721,7 @@ namespace Graphics
         PushAllState();
         EnableLighting(false);
         EnableTexturing(false);
-		IRenderableBuilderUniquePtr b{ Core::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		IRenderableBuilderUniquePtr b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
 		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::POINTS);
         b->Vertex3fv(v);
@@ -740,7 +740,7 @@ namespace Graphics
         SetProjectionMatrix(Math::CreateOrthographicProjection2(0, window->GetWidth(),
                                                                       0, window->GetHeight(),
                                                                      -1, 1));
-		IRenderableBuilderUniquePtr b{ Core::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		IRenderableBuilderUniquePtr b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
 		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::QUADS);
         b->TexCoord2f(0,0);
@@ -768,7 +768,7 @@ namespace Graphics
         EnableBlending(false);
         EnableLighting(false);
         EnableDepthTest(false);        
-		IRenderableBuilderUniquePtr b{ Core::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		IRenderableBuilderUniquePtr b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
 		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::LINES);
         int n = 32;
@@ -817,7 +817,7 @@ namespace Graphics
         SetProjectionMatrix(Math::CreateOrthographicProjection2(0, width, 0, height, -1, 1));
         SetViewMatrix(Math::CreateIdentity());
 
-		IRenderableBuilderUniquePtr b{ Core::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		IRenderableBuilderUniquePtr b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
 		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::QUADS);
         b->TexCoord2f(0, 0);
@@ -880,6 +880,6 @@ namespace Graphics
 
     }
 
-	PUNK_REGISTER_CREATOR(IID_IFrame, (Core::CreateInstance<Frame, IFrame>));    
+	PUNK_REGISTER_CREATOR(IID_IFrame, (System::CreateInstance<Frame, IFrame>));    
 }
 PUNK_ENGINE_END

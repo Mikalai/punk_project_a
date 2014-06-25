@@ -1,5 +1,5 @@
 #include <config.h>
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <core/iobject.h>
 #include <math/mat4.h>
 #include <math/line3d.h>
@@ -190,7 +190,7 @@ namespace Attributes
 		return m_frustum.GetZRange(view);
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IPerspectiveCamera, (Core::CreateInstance<Camera, IPerspectiveCamera>));
+	PUNK_REGISTER_CREATOR(IID_IPerspectiveCamera, (System::CreateInstance<Camera, IPerspectiveCamera>));
 
 	/*const Math::ClipSpace Camera::ToClipSpace() const
 	{

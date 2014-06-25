@@ -109,8 +109,7 @@ HEADERS += \
     ../../../source/system/allocator.h \
     ../../../source/system/config_file.h \
     ../../../source/system/environment.h \
-    ../../../source/system/event_manager.h \
-    ../../../source/system/factory.h \
+    ../../../source/system/event_manager.h \    
     ../../../source/system/module.h \
     ../../../source/system/profiler.h \
     ../../../source/system/resource.h \
@@ -119,7 +118,9 @@ HEADERS += \
     ../../../source/system/state_manager.h \
     ../../../source/system/storable_data.h \
     ../../../source/system/types.h \
-    ../../../source/system/window/window_base.h
+    ../../../source/system/window/window_base.h \    
+    ../../../source/system/factory/ifactory.h \
+    ../../../source/system/factory/module.h
 
 SOURCES += \
     ../../../source/system/commands/cmd_create_timer.cpp \
@@ -172,10 +173,10 @@ SOURCES += \
     ../../../source/system/window/x11_window.cpp \
     ../../../source/system/config_file.cpp \
     ../../../source/system/environment.cpp \
-    ../../../source/system/event_manager.cpp \
-    ../../../source/system/factory.cpp \
+    ../../../source/system/event_manager.cpp \    
     ../../../source/system/profiler.cpp \
     ../../../source/system/serializable.cpp \
     ../../../source/system/storable.cpp \
-    ../../../source/system/window/window_base.cpp
+    ../../../source/system/window/window_base.cpp \
+    ../../../source/system/factory/ifactory.cpp
 

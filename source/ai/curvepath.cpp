@@ -1,4 +1,4 @@
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include "curvepath.h"
 
 PUNK_ENGINE_BEGIN
@@ -6,7 +6,7 @@ namespace AI
 {
     CurvePath::CurvePath()
     {
-        m_curve = Core::CreateInstancePtr<Math::ICurve>(Math::IID_ICurve);
+        m_curve = System::CreateInstancePtr<Math::ICurve>(Math::IID_ICurve);
 	}
 
     CurvePath::~CurvePath()

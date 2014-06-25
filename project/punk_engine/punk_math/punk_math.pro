@@ -10,7 +10,7 @@ TARGET = punk_math
 
 INCLUDEPATH += ../../../source
 
-LIBS += -L$${LIBDIR} -lpunk_error -lpunk_string
+LIBS += -L$${LIBDIR} -lpunk_error -lpunk_string -lpunk_system
 
 SOURCES += \    
     ../../../source/math/vec4.cpp \

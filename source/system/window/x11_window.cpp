@@ -8,7 +8,7 @@
 #include <string.h>
 #include <algorithm>
 
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include "system/errors/module.h"
 #include "system/events/module.h"
 #include "system/logger/module.h"
@@ -836,7 +836,7 @@ namespace System
         XCloseDisplay(m_display);
     }
 
-    PUNK_REGISTER_CREATOR(IID_IWindow, (Core::CreateInstance<WindowX11, IWindow>));
+    PUNK_REGISTER_CREATOR(IID_IWindow, (System::CreateInstance<WindowX11, IWindow>));
 }
 PUNK_ENGINE_END
 #endif  //  __gnu_linux

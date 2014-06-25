@@ -1,4 +1,4 @@
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <cstdint>
 #include "vec3.h"
 #include "curve.h"
@@ -88,6 +88,5 @@ namespace Math
 	}
 
 	PUNK_REGISTER_CREATOR(IID_ICurve, CreateCurve);
-
 }
 PUNK_ENGINE_END

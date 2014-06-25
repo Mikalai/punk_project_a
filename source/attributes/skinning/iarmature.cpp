@@ -6,7 +6,7 @@
 #include <vector>
 #include <config.h>
 
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <string/string.h>
 #include <math/vec4.h>
 #include <math/vec3.h>
@@ -188,6 +188,6 @@ namespace Attributes
 		}
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IArmature, (Core::CreateInstance<Armature, IArmature>));
+	PUNK_REGISTER_CREATOR(IID_IArmature, (System::CreateInstance<Armature, IArmature>));
 }
 PUNK_ENGINE_END

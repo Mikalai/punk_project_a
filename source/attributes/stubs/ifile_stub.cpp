@@ -1,4 +1,4 @@
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include "ifile_stub.h"
 
 PUNK_ENGINE_BEGIN
@@ -45,6 +45,6 @@ namespace Attributes {
 		return m_filename;
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IFileStub, (Core::CreateInstance<FileStub, IFileStub>));
+	PUNK_REGISTER_CREATOR(IID_IFileStub, (System::CreateInstance<FileStub, IFileStub>));
 }
 PUNK_ENGINE_END
