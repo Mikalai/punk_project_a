@@ -45,7 +45,7 @@ namespace System {
 
 	template<class I>
     I* CreateInstance(const Core::Guid& type) {
-        LOG_FUNCTION_SCOPE
+        //LOG_FUNCTION_SCOPE
 		I* object = nullptr;
 		GetFactory()->CreateInstance(type, (void**)(I*)&object);
 		return object;
@@ -53,7 +53,7 @@ namespace System {
 
     template<class I>
     std::unique_ptr<I, void (*)(Core::IObject*)> CreateInstancePtr(const Core::Guid& type) {
-        LOG_FUNCTION_SCOPE
+        //LOG_FUNCTION_SCOPE
         I* object = nullptr;
         GetFactory()->CreateInstance(type, (void**)(I*)&object);
         if (!object)
@@ -63,7 +63,7 @@ namespace System {
 
 	template<class T, class I>
 	void CreateInstance(void** object) {
-        LOG_FUNCTION_SCOPE
+        //LOG_FUNCTION_SCOPE
 		if (!object) {
 			throw Core::Error::CoreException(Core::String("Can't create instance, because object '") + typeid(T).name() + "' is null");
 		}

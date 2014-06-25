@@ -6,13 +6,13 @@
 PUNK_ENGINE_BEGIN
 namespace SceneModule {
 
-	DEFINE_PUNK_GUID(IID_ISceneManager, "D8138AD5-F05C-4209-83CF-A21697E0547A");
-
 	SceneManager::SceneManager() {
+        LOG_FUNCTION_SCOPE
         m_scene = System::CreateInstancePtr<IScene>(IID_IScene);
 	}
 
 	SceneManager::~SceneManager() {
+        LOG_FUNCTION_SCOPE
 		while (!m_processors.empty()) {
 			m_processors.back()->Release();
 			m_processors.pop_back();
@@ -20,25 +20,30 @@ namespace SceneModule {
 	}	
 
 	void SceneManager::QueryInterface(const Core::Guid& type, void** object) {
+        LOG_FUNCTION_SCOPE
 		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_ISceneManager });
 	}
 
 	IScene* SceneManager::GetScene() {
+        LOG_FUNCTION_SCOPE
         return m_scene.get();
 	}
 
 	void CreateSceneManager(void** object) {
+        LOG_FUNCTION_SCOPE
 		if (!object)
 			return;
 	}
 
 	void SceneManager::AddProcessor(IProcessor* processor) {
+        LOG_FUNCTION_SCOPE
 		processor->AddRef();
 		m_processors.push_back(processor);
 		processor->SetSceneManager(this);
 	}
 
 	void SceneManager::Update(float dt) {
+        LOG_FUNCTION_SCOPE
 		for (auto i : m_processors){
 			i->Update(dt);
 		}

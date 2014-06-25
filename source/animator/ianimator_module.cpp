@@ -34,7 +34,8 @@ namespace AnimatorModule {
 	private:
 		void Process(SceneModule::INode* node);
 		void OnAnimationLoaded(Core::IObject* o) {
-            auto animation = System::CreateInstancePtr<Attributes::IAnimation>(Attributes::IID_IAnimation);
+            LOG_FUNCTION_SCOPE
+            auto animation = Core::QueryInterfacePtr<Attributes::IAnimation>(o, Attributes::IID_IAnimation);
 			if (animation.get()) {
 				animation->AddRef();
 				m_animations.push_back(animation.get());
