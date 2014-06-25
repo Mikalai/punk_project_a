@@ -136,8 +136,7 @@ namespace LowLevelRender {
 		m_manager = manager;
 	}
 
-	RenderModule::RenderModule() {
-		auto factory = Core::GetFactory();
+	RenderModule::RenderModule() {		
         m_canvas = Core::CreateInstancePtr<Graphics::ICanvas>(Graphics::IID_ICanvas);
         m_canvas->Initialize(Graphics::CanvasDescription{});
         m_canvas->GetWindow()->Open();
@@ -145,9 +144,7 @@ namespace LowLevelRender {
 		m_render = m_driver->GetRender();
 		m_frame_buffer = Graphics::GetBackbuffer();
         m_geometry_cooker = Core::CreateInstancePtr<Attributes::IGeometryCooker>(Attributes::IID_IGeometryCooker);
-        m_renderable_builder = Core::CreateInstancePtr<Graphics::IRenderableBuilder>(Graphics::IID_IRenderableBuilder);
-		/*Core::GetFactory()->CreateInstance(Graphics::IID_IFrame, (void**)&m_frame);
-		m_frame->SetRender(m_render);*/
+        m_renderable_builder = Core::CreateInstancePtr<Graphics::IRenderableBuilder>(Graphics::IID_IRenderableBuilder);		
 	}
 
 	RenderModule::~RenderModule() {

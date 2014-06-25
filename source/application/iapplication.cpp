@@ -27,11 +27,7 @@ namespace Runtime {
     public:
         UNIQUE_PTR(SceneModule::ISceneManager) m_scene_manager{ nullptr, Core::DestroyObject };
         System::ILogger* m_logger{ System::GetDefaultLogger() };
-        Core::IFactory* m_factory{ Core::GetFactory() };
-
         Core::UniquePtr<LowLevelRender::IRenderModule> m_render_module{ nullptr, Core::DestroyObject };
-        //        Core::UniquePtr<LowLevelRender::IRenderObserver> m_render_observer{ nullptr, Core::DestroyObject };
-        //        Core::UniquePtr<LowLevelRender::IRenderProcessor> m_render_processor{ nullptr, Core::DestroyObject };
         Core::UniquePtr<System::IModule> m_graphics_module{ nullptr, Core::DestroyObject };
         Core::UniquePtr<System::IModule> m_io_module{ nullptr, Core::DestroyObject };
 

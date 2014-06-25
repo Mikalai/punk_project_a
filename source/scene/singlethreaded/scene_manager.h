@@ -21,9 +21,8 @@ namespace SceneModule {
 		void Update(float dt) override;
 	private:
 		std::vector<IProcessor*> m_processors;
-		IScene* m_scene{ nullptr };
-		System::ILogger* m_logger{ System::GetDefaultLogger() };
-		Core::IFactory* m_factory{ Core::GetFactory() };
+        Core::UniquePtr<IScene> m_scene{ nullptr, Core::DestroyObject };
+		System::ILogger* m_logger{ System::GetDefaultLogger() };		
 
 		PUNK_OBJECT_DEFAULT_IMPL(SceneManager);
 	};

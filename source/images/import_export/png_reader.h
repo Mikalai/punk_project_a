@@ -36,8 +36,9 @@ namespace ImageModule
 			return true;
 		}
 
-		static void DecodeBuffer(Core::Buffer& buffer, IImage** image) {
+        static void DecodeBuffer(Core::Buffer& buffer, IImage** _image) {
 #ifdef USE_LIB_PNG
+            Core::UniquePtr<IImage> image{nullptr, Core::DestroyObject};
 			const int bytesToCheck = 8;
 
 			char sig[bytesToCheck];
@@ -84,23 +85,23 @@ namespace ImageModule
 			switch (colorType)
 			{
 			case PNG_COLOR_TYPE_RGB:
-				Core::GetFactory()->CreateInstance(IID_IRgbImage, (void**)image);
+                image = Core::CreateInstancePtr<IImage>(IID_IRgbImage);
 				format = ImageFormat::RGB;
 				break;
 
 			case PNG_COLOR_TYPE_RGB_ALPHA:
-				Core::GetFactory()->CreateInstance(IID_IRgbaImage, (void**)image);
+                image = Core::CreateInstancePtr<IImage>(IID_IRgbaImage);
 				format = ImageFormat::RGBA;
 				break;
 
 			case PNG_COLOR_TYPE_GRAY:
 			case PNG_COLOR_TYPE_GRAY_ALPHA:
-				Core::GetFactory()->CreateInstance(IID_IAlphaImage, (void**)image);
+                image = Core::CreateInstancePtr<IImage>(IID_IAlphaImage);
 				format = ImageFormat::ALPHA;
 				break;
 
 			case PNG_COLOR_TYPE_PALETTE:
-				Core::GetFactory()->CreateInstance(IID_IRgbImage, (void**)image);
+                image = Core::CreateInstancePtr<IImage>(IID_IRgbImage);
 				format = ImageFormat::RGB;
 				break;
 
@@ -123,7 +124,7 @@ namespace ImageModule
 				throw Error::ImageException(L"Can't load file: ");
 			}
 
-			(*image)->SetSize(width, height);
+            image->SetSize(width, height);
 
 			png_bytep * rowPtr = new png_bytep[height];
 			uint32_t     * lineBuf = new uint32_t[width];
@@ -133,7 +134,7 @@ namespace ImageModule
 
 			png_read_image(png_ptr, rowPtr);
 
-			unsigned char* offset = (unsigned char*)(*image)->GetData();
+            unsigned char* offset = (unsigned char*)image->GetData();
 
 			// now rebuild the ImageFile
 			for (int i = 0; i < (int)height; i++)
@@ -197,7 +198,7 @@ namespace ImageModule
 				}
 
 				unsigned char* src = (unsigned char*)lineBuf;
-				unsigned char* offset = (unsigned char*)(*image)->GetData() + height*width*channels - (i + 1)*width*channels;	//alligned
+                unsigned char* offset = (unsigned char*)image->GetData() + height*width*channels - (i + 1)*width*channels;	//alligned
 				for (int k = 0; k < (int)width; k++, src += 4)
 				{
 					if (channels == 1)
@@ -229,6 +230,7 @@ namespace ImageModule
 			png_read_end(png_ptr, end_info);
 			png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
 
+            *_image = image.release();
 #else   //  USE_LIB_PNG
 			(void)stream; (void)image;
 			throw System::PunkNotImplemented(L"Can't import png, because png lib was not included in the project");

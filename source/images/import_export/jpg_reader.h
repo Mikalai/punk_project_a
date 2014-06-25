@@ -69,7 +69,8 @@ namespace ImageModule
 			return true;
 		}
 
-		static void DecodeBuffer(Core::Buffer& buffer, IImage** image) {
+        static void DecodeBuffer(Core::Buffer& buffer, IImage** _image) {
+            Core::UniquePtr<IImage> image{nullptr, Core::DestroyObject};
 			jpeg_decompress_struct s;
 			s.src = nullptr;
 #ifdef USE_LIB_JPEG
@@ -92,11 +93,11 @@ namespace ImageModule
 
 			ImageFormat format;
 			if (output_components == 1) {
-				Core::GetFactory()->CreateInstance(IID_IAlphaImage, (void**)image);
+                image = Core::CreateInstancePtr<IImage>(IID_IAlphaImage);
 				format = ImageFormat::ALPHA;
 			}
 			else if (output_components == 3) {
-				Core::GetFactory()->CreateInstance(IID_IRgbImage, (void**)image);
+                image = Core::CreateInstancePtr<IImage>(IID_IRgbImage);
 				format = ImageFormat::RGB;
 			}
 			else
@@ -105,14 +106,14 @@ namespace ImageModule
 				throw Error::ImageException("Bad image format");
 			}
 
-			(*image)->SetSize(output_width, output_height);
+            image->SetSize(output_width, output_height);
 
 			int row_stride = cinfo.output_width * cinfo.output_components;
 			/* Make a one-row-high sample array that will go away when done with image */
 			JSAMPARRAY source_buffer = (*cinfo.mem->alloc_sarray)
 				((j_common_ptr)&cinfo, JPOOL_IMAGE, row_stride, 1);
 
-			unsigned char* dst = (unsigned char*)(*image)->GetData() + row_stride * (cinfo.output_height - 1);
+            unsigned char* dst = (unsigned char*)image->GetData() + row_stride * (cinfo.output_height - 1);
 			while (cinfo.output_scanline < cinfo.output_height)
 			{
 				jpeg_read_scanlines(&cinfo, (JSAMPARRAY)source_buffer, 1);
@@ -122,6 +123,7 @@ namespace ImageModule
 
 			jpeg_finish_decompress(&cinfo);
 			jpeg_destroy_decompress(&cinfo);
+            *_image = image.release();
 #else
 			(void)mem; (void)image;
 			throw System::Error::PunkNotImplemented(L"Can't work with jpeg files, cause jpeg lib was not used");
