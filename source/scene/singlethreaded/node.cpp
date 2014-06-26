@@ -10,20 +10,20 @@ PUNK_ENGINE_BEGIN
 namespace SceneModule {	
 
     Node::Node() {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
     }
 
     Node::Node(IScene *graph)
         : m_scene_graph{graph}
     {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		if (m_scene_graph)
 			m_scene_graph->SetRoot(this);
 	}
 
     Node::Node(INode *parent)            
         : m_parent{parent} {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
         if (m_parent) {
             m_parent->AddChild(this);
             m_scene_graph = m_parent->GetSceneGraph();
@@ -31,7 +31,7 @@ namespace SceneModule {
     }
 
     Node::~Node() {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
         while (!m_children.empty()) {
             delete m_children.back();
             m_children.pop_back();
@@ -44,7 +44,7 @@ namespace SceneModule {
     }
 
     void Node::SetAttribute(IAttribute *value) {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
         auto key = std::pair<Core::String, std::uint64_t>(value->GetName(), value->GetTypeID());
         auto old = m_attributes[key];
 		m_attributes[key] = value;
@@ -60,7 +60,7 @@ namespace SceneModule {
 
 	IAttribute* Node::GetAttribute(std::uint64_t type, std::uint32_t index) const
 	{
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		try {
 			std::uint32_t i = 0;
 			for (auto& p : m_attributes) {
@@ -80,7 +80,7 @@ namespace SceneModule {
 
     IAttribute* Node::GetAttribute(const Core::String & name, std::uint64_t type) const
     {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
         try {
             return m_attributes.at(std::pair<Core::String, std::uint64_t>(name, type));
         }
@@ -90,7 +90,7 @@ namespace SceneModule {
     }
 
 	int Node::GetAttributesCount(std::uint64_t type) const {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		int count = 0;
 		for (auto& p : m_attributes) {
 			if (p.first.second == type)
@@ -100,12 +100,12 @@ namespace SceneModule {
 	}
 
 	int Node::GetAttributesCount() const {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		return (int)m_attributes.size();
 	}
 
 	IAttribute* Node::GetAttribute(int index) {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		int count = 0;
 		for (auto v : m_attributes) {
 			if (count == index)
@@ -116,7 +116,7 @@ namespace SceneModule {
 	}
 
 	std::vector<IAttribute*> Node::GetAttributes(std::uint64_t type) const {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		std::vector<IAttribute*> attributes;
 		for (auto& p : m_attributes) {
 			if (p.first.second == type)
@@ -126,7 +126,7 @@ namespace SceneModule {
 	}
 
     void Node::RemoveAttribute(const Core::String &name, std::uint64_t type) {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
         try {
             IAttribute* a = m_attributes.at(std::pair<Core::String, std::uint64_t>(name, type));
             delete a;
@@ -137,7 +137,7 @@ namespace SceneModule {
     }    
 
 	void Node::SetScene(IScene* graph) {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		m_scene_graph = graph;
 		for (auto child : m_children) {
 			child->SetScene(graph);
@@ -145,53 +145,53 @@ namespace SceneModule {
 	}
 
     NodeState Node::GetState() const {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
         return m_state;
     }
 
     void Node::SetState(NodeState value) {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
         m_state = value;
     }
 
     IScene* Node::GetSceneGraph() {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
         return m_scene_graph;
     }
 
     void Node::MarkToDelete() {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
         --m_delete_count;
     }
 
     void Node::AskToDelete() {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
         ++m_delete_count;
     }
 
     bool Node::CanDelete() {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
         return m_delete_count == 0;
     }
 
 	void Node::QueryInterface(const Core::Guid& type, void** object) {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_INode });		
 	}
 
 	void Node::AddChild(INode* node) {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
         node->AddRef();
 		m_children.push_back(node);
 	}
 
 	std::uint32_t Node::GetChildrenCount() const {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		return (std::uint32_t)m_children.size();
 	}
 
 	INode* Node::GetChild(std::uint32_t index) {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		return m_children.at(index);
 	}
 		

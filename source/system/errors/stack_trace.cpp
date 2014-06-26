@@ -128,8 +128,7 @@ namespace Punk {
 				free(pSym);
 #endif	//	_M_AMD64
 #ifdef _M_IX86
-				Core::StringList list;
-
+				
 				STACKFRAME64 stack_frame;
 				memset(&stack_frame, 0, sizeof(stack_frame));
 				stack_frame.AddrPC.Offset = c.Eip;

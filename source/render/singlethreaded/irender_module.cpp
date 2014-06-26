@@ -28,6 +28,7 @@ namespace LowLevelRender {
 		void QueryInterface(const Core::Guid& type, void** object) override;
 		std::uint32_t AddRef() override;
 		std::uint32_t Release() override;
+		void Terminate() override;
 
 		//	IRenderProcessor
 		void SetSceneManager(SceneModule::ISceneManager* manager) override;
@@ -43,7 +44,7 @@ namespace LowLevelRender {
 
 	private:
 
-
+		void OnWindowClose();
 		void Process(Graphics::IFrame* frame, SceneModule::INode* node);
 
 		template<class T>
@@ -92,7 +93,7 @@ namespace LowLevelRender {
 	};
 
 	void RenderModule::QueryInterface(const Core::Guid& type, void** object) {		
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		if (!object)
 			return;
 
@@ -121,13 +122,13 @@ namespace LowLevelRender {
 	}
 
 	std::uint32_t RenderModule::AddRef() {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		m_ref_count.fetch_add(1);
 		return m_ref_count;
 	}
 
 	std::uint32_t RenderModule::Release() {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		std::uint32_t v = m_ref_count.fetch_sub(1) - 1;
 		if (!v) {
 			delete this;
@@ -135,15 +136,24 @@ namespace LowLevelRender {
 		return v;
 	}
 
+	void RenderModule::OnWindowClose() {
+		m_manager->Terminate();
+	}
+
+	void RenderModule::Terminate() {
+
+	}
+
 	void RenderModule::SetSceneManager(SceneModule::ISceneManager* manager) {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		m_manager = manager;
 	}
 
 	RenderModule::RenderModule() {		
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
         m_canvas = System::CreateInstancePtr<Graphics::ICanvas>(Graphics::IID_ICanvas);
         m_canvas->Initialize(Graphics::CanvasDescription{});
+		m_canvas->GetWindow()->SubscribeWindowDestroyEvent(new Core::Action<RenderModule, void>(this, &RenderModule::OnWindowClose));
         m_canvas->GetWindow()->Open();
         m_driver = m_canvas->GetVideoDriver();
 		m_render = m_driver->GetRender();
@@ -153,12 +163,12 @@ namespace LowLevelRender {
 	}
 
 	RenderModule::~RenderModule() {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		m_frame->Release();		
 	}
 
 	void RenderModule::Process(Graphics::IFrame* frame, SceneModule::INode* node) {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		int count = node->GetAttributesCountOfType<Attributes::ITransform>();
 		if (count != 0) {
 			for (int i = 0; i < count; ++i) {
@@ -253,7 +263,7 @@ namespace LowLevelRender {
 	}
 
 	void RenderModule::Update(float dt) {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		if (!m_manager)
 			return;
 
@@ -342,13 +352,13 @@ namespace LowLevelRender {
 	}	
 
 	void RenderModule::SetScene(SceneModule::IScene* value) {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		value->AddRef();
 		m_scene.reset(value);
 	}
 
 	void RenderModule::OnNodeAdded(SceneModule::INode* parent, SceneModule::INode* child) {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		auto count = child->GetAttributesCountOfType<Attributes::IGeometry>();
 		for (int i = 0; i < (int)count; ++i) {
 			auto geom = child->GetAttributeOfType<Attributes::IGeometry>(i);
@@ -401,11 +411,11 @@ namespace LowLevelRender {
 	}
 
 	void RenderModule::OnNodeRemoved(SceneModule::INode* parent, SceneModule::INode* child) {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 	}
 
 	void RenderModule::OnAttributeAdded(SceneModule::INode* node, SceneModule::IAttribute* attribute) {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		if (attribute->GetTypeID() == typeid(Attributes::IGeometry).hash_code()) {
 			auto geom = attribute->Get<Attributes::IGeometry>();
 			Graphics::IRenderable* renderable = nullptr;
@@ -427,11 +437,11 @@ namespace LowLevelRender {
 	}
 
 	void RenderModule::OnAttributeUpdated(SceneModule::INode* node, SceneModule::IAttribute* old_attribute, SceneModule::IAttribute* new_attribute) {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 	}
 
 	void RenderModule::OnAttributeRemoved(SceneModule::INode* node, SceneModule::IAttribute* attribute) {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 	}
 
     PUNK_REGISTER_CREATOR(IID_IRenderModule, (System::CreateInstance<RenderModule, IRenderModule>));

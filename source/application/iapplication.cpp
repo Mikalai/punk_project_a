@@ -95,8 +95,8 @@ namespace Runtime {
         float t = 0;
         while (!m_scene_manager->IsTerminated()) {
             float dt = timer->GetElapsedMiliseconds();
-            timer->Reset();
-            m_scene_manager->Update(dt);
+            timer->Reset();			
+			m_scene_manager->Update(dt);				
             frame++;
             t += dt;
             if (t > 1000.0f) {
