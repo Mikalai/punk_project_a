@@ -27,14 +27,14 @@ namespace Core {
 				m_object->AddRef();
 		}
 
-		Pointer(const Pointer<T, Base>&& value)
+		Pointer(Pointer<T, Base>&& value)
 			: m_object{ value.m_object }
 			, m_destroy{ value.m_destroy }
 		{
 			value.m_object = nullptr;
 		}
 
-		Pointer<T>& operator = (Pointer<T, Base>& value) {
+		Pointer<T>& operator = (const Pointer<T, Base>& value) {
 			if (m_object == value.m_object)
 				return;
 			Destroy();
@@ -73,6 +73,8 @@ namespace Core {
 		void reset(T* value) {
 			Destroy();
 			m_object = value;
+			if (m_object)
+				m_object->AddRef();
 		}
 
 		T* operator -> () {

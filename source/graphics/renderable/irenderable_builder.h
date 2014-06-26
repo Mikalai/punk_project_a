@@ -48,7 +48,7 @@ namespace Graphics {
 		virtual IRenderable* ToRenderable(PrimitiveType type, IVertexArray* vb, IIndexArray* ib) = 0;
     };
 
-	using IRenderableBuilderUniquePtr = Core::UniquePtr < IRenderableBuilder > ;
+	using IRenderableBuilderPointer = Core::Pointer < IRenderableBuilder > ;
 }
 PUNK_ENGINE_END
 

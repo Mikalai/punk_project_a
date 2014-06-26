@@ -17,7 +17,7 @@ namespace Graphics
         public:
 
             PixelBufferObject()
-                : m_ref_count{1}
+                : m_ref_count{ 0 }
             {}
 
 			void QueryInterface(const Core::Guid& type, void** object) {

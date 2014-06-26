@@ -1,5 +1,8 @@
+#include <vector>
 #include <system/factory/module.h>
-#include "gl_renderable_builder.h"
+#include <math/vec4.h>
+#include <graphics/renderable/renderable_builder.h>
+#include <graphics/opengl/module.h>
 #include <graphics/primitives/gl_primitive/module.h>
 #include <graphics/primitives/irenderable.h>
 #include <graphics/primitives/module.h>
@@ -11,6 +14,36 @@ namespace Graphics
 {
     namespace OpenGL {
 
+		class PUNK_ENGINE_LOCAL GlRenderableBuilder : public RenderableBuilder
+		{
+		public:
+			GlRenderableBuilder();
+			virtual ~GlRenderableBuilder();
+
+			//	IObject
+			void QueryInterface(const Core::Guid& type, void** object) override;
+			std::uint32_t AddRef() override;
+			std::uint32_t Release() override;
+
+			//	IRenderableBuilder
+			void Begin(const PrimitiveType& value) override;
+			IRenderable* ToRenderable() override;
+			void End() override;
+			IRenderable* ToRenderable(PrimitiveType type, IVertexArray* vb, IIndexArray* ib) override;
+
+		private:
+
+			IRenderable* BuildVertexBufferP(const std::vector<Math::vec4>& position);
+			IRenderable* BuildVertexBufferPC(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& color);
+			IRenderable* BuildVertexBufferPT(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& texcoord);
+			IRenderable* BuildVertexBufferPTC(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& texcoord, const std::vector<Math::vec4>& color);
+			IRenderable* BuildVertexBufferPN(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& normal);
+			IRenderable* BuildVertexBufferPNT0(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& normal, const std::vector<Math::vec4>& texcoord);
+
+		private:
+			std::atomic<std::uint32_t> m_ref_count{ 0 };
+		};
+
         GlRenderableBuilder::GlRenderableBuilder()
             : RenderableBuilder()
         {}
@@ -20,6 +53,18 @@ namespace Graphics
 		
 		void GlRenderableBuilder::QueryInterface(const Core::Guid& type, void** object) {
 			Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IRenderableBuilder });
+		}
+
+		std::uint32_t GlRenderableBuilder::AddRef() {
+			return m_ref_count.fetch_add(1);
+		}
+
+		std::uint32_t GlRenderableBuilder::Release() {
+			auto v = m_ref_count.fetch_sub(1) - 1;
+			if (!v) {
+				delete this;
+			}
+			return v;
 		}
 
        /* template<typename VertexType>

@@ -175,7 +175,7 @@ namespace Graphics
         virtual const Math::vec2 FindZRange(const Math::mat4& view) const = 0;
     };
 
-	using IFrameUniquePtr = Core::UniquePtr < IFrame > ;
+	using IFramePointer = Core::Pointer < IFrame > ;
 }
 PUNK_ENGINE_END
 

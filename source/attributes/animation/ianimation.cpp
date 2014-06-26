@@ -28,13 +28,13 @@ namespace Attributes {
 		const Core::String& GetName() const override;
 		std::uint32_t GetTrackIndex(const Core::String& name) override;
 	private:
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
 		std::vector<ITrack*> m_tracks;
 		Core::String m_name;
 	};
 
     Animation::Animation()
-        : m_ref_count{1}
+        : m_ref_count{ 0 }
     {
 		LOG_FUNCTION_SCOPE;
     }

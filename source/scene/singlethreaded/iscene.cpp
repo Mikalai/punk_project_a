@@ -1,13 +1,69 @@
 #include <system/factory/module.h>
 #include <attributes/stubs/module.h>
 #include <string/module.h>
+#include <set>
+#include <system/concurrency/thread_mutex.h>
+#include <core/object.h>
+#include "inode.h"
 #include "iscene_observer.h"
-#include "scene.h"
-#include "node.h"
+#include "iscene.h"
 
 PUNK_ENGINE_BEGIN
 namespace SceneModule
 {
+	class PUNK_ENGINE_LOCAL Scene : public IScene {
+	public:
+		Scene();
+		virtual ~Scene();
+		//	IObject
+		void QueryInterface(const Core::Guid& type, void** object) override;
+		std::uint32_t AddRef() override;
+		std::uint32_t Release() override;
+
+		//	IScene
+		void Lock() override;
+		void Unlock() override;
+		Core::Pointer<INode> GetRoot() override;
+		const Core::Pointer<INode> GetRoot() const override;
+		void SetRoot(INode* node) override;
+		INode* ReleaseRoot() override;
+		void AddObserver(IObserver* observer) override;
+		void RemoveObserver(IObserver* observer) override;
+		void OnNodeAdded(INode* parent, INode* child) override;
+		void OnNodeRemoved(INode* parent, INode* child) override;
+		void OnAttributeAdded(INode* node, IAttribute* attribute) override;
+		void OnAttributeUpdated(INode* node, IAttribute* old_attribute, IAttribute* new_attribute) override;
+		void OnAttributeRemoved(INode* node, IAttribute* attribute) override;
+		void SetSourcePath(const Core::String& path) override;
+		const Core::String GetSourcePath() const override;
+	private:
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
+		std::set<IObserver*> m_observers;
+		Core::ActionSlot<INode*, INode*> m_on_added_actions;
+		Core::ActionSlot<INode*, INode*> m_on_removed_action;
+		Core::ActionSlot<INode*, IAttribute*> m_on_attribute_added;
+		Core::ActionSlot<INode*, IAttribute*, IAttribute*> m_on_attribute_updated;
+		Core::ActionSlot<INode*, IAttribute*> m_on_attribute_removed;
+		Core::String m_source_path;
+		System::ThreadMutex m_lock;
+		Core::Pointer<INode> m_root{ nullptr, Core::DestroyObject };
+	};
+
+	void Scene::QueryInterface(const Core::Guid& type, void** object) {
+		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IScene });
+	}
+
+	std::uint32_t Scene::AddRef() {
+		return m_ref_count.fetch_add(1);
+	}
+
+	std::uint32_t Scene::Release() {
+		auto v = m_ref_count.fetch_sub(1) - 1;
+		if (!v) {
+			delete this;
+		}
+		return v;
+	}
 
 	Scene::Scene() {
 		LOG_FUNCTION_SCOPE;
@@ -17,11 +73,6 @@ namespace SceneModule
 
 	Scene::~Scene() {
 		LOG_FUNCTION_SCOPE;
-	}
-
-	void Scene::QueryInterface(const Core::Guid& type, void** object) {
-		LOG_FUNCTION_SCOPE;
-		Core::QueryInterface(this, type, object, { IID_IScene, Core::IID_IObject });
 	}
 
     void Scene::Lock() {
@@ -34,14 +85,14 @@ namespace SceneModule
         m_lock.Unlock();
     }    
 
-    INode* Scene::GetRoot() {
+    Core::Pointer<INode> Scene::GetRoot() {
 		LOG_FUNCTION_SCOPE;
-        return m_root.get();
+		return m_root;
     }
 
-    const INode* Scene::GetRoot() const {
+    const Core::Pointer<INode> Scene::GetRoot() const {
 		LOG_FUNCTION_SCOPE;
-        return m_root.get();
+		return m_root;
     }
 
     void Scene::SetRoot(INode* node) {
@@ -127,16 +178,16 @@ namespace SceneModule
 		return m_source_path;
 	}
 
-	extern PUNK_ENGINE_API ISceneGraphUniquePtr CreateSceneFromFile(const Core::String& path, const Core::String& file) {
+	extern PUNK_ENGINE_API ISceneGraphPointer CreateSceneFromFile(const Core::String& path, const Core::String& file) {
 		LOG_FUNCTION_SCOPE;
-		ISceneGraphUniquePtr scene{ new Scene, Core::DestroyObject };
+		ISceneGraphPointer scene{ new Scene, Core::DestroyObject };
         auto node = System::CreateInstancePtr<INode>(IID_INode);
 		node->SetScene(scene.get());
 		scene->SetSourcePath(path);	
 		{
             auto stub = System::CreateInstancePtr<Attributes::IFileStub>(Attributes::IID_IFileStub);
 			stub->SetFilename(file);
-            node->SetAttribute(new Attribute<Attributes::IFileStub>(L"Filename", stub.get()));
+            node->SetAttribute(new Attribute<Attributes::IFileStub>(L"Filename", stub));
 		}
         return scene;
     }

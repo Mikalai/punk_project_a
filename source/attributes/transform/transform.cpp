@@ -92,11 +92,11 @@ namespace Attributes
 		const Core::String& GetAnimation(std::uint32_t index) const override;
 
 	private:
-		Core::UniquePtr<IAnimationPlayer> m_animation_player{ nullptr, Core::DestroyObject };
+		Core::Pointer<IAnimationPlayer> m_animation_player{ nullptr, Core::DestroyObject };
 		std::int32_t m_position_track_index{ -1 };
 		std::int32_t m_rotation_track_index{ -1 };
 		std::int32_t m_scale_track_index{ -1 };
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
 		std::vector<Core::String> m_supported_animations;
 		mutable Math::mat4 m_transform;
 		Math::quat m_rotation;

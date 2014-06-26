@@ -6,7 +6,12 @@ namespace Attributes {
 
 	class PUNK_ENGINE_LOCAL FileStub : public IFileStub {
 	public:
+		//	IObject
 		void QueryInterface(const Core::Guid& type, void** object) override;
+		std::uint32_t AddRef() override;
+		std::uint32_t Release() override;
+
+		//	IFileStub
 		bool IsLoaded() const override { return m_loaded; };
 		bool IsLoading() const override { return m_loading; }
 		void SetLoading(bool value) override { m_loading = value; m_loaded = !value; }
@@ -26,15 +31,27 @@ namespace Attributes {
 		}
 
 	private:
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
 		bool m_loaded{ false };
 		bool m_loading{ false };
 		Core::String m_filename;
-		Core::UniquePtr<Core::ActionBase<Core::IObject*>, Core::MetaAction> m_callback{ nullptr, Core::ReleaseObject<Core::MetaAction> };
-		PUNK_OBJECT_DEFAULT_IMPL(FileStub)
+		Core::Pointer<Core::ActionBase<Core::IObject*>, Core::MetaAction> m_callback{ nullptr, Core::ReleaseObject<Core::MetaAction> };
 	};
 
 	void FileStub::QueryInterface(const Core::Guid& type, void** object) {
 		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IFileStub });
+	}
+
+	std::uint32_t FileStub::AddRef() {
+		return m_ref_count.fetch_add(1);
+	}
+
+	std::uint32_t FileStub::Release() {
+		auto v = m_ref_count.fetch_sub(1) - 1;
+		if (!v) {
+			delete this;
+		}
+		return v;
 	}
 
 	void FileStub::SetFilename(const Core::String& value) {

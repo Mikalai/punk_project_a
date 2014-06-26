@@ -626,7 +626,7 @@ namespace Graphics
         PushAllState();
         EnableLighting(false);
         EnableTexturing(false);		
-		IRenderableBuilderUniquePtr b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		IRenderableBuilderPointer b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
 		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::LINES);
         b->Vertex3fv(start);
@@ -662,7 +662,7 @@ namespace Graphics
         p2[1] = -1.0f + 2.0f * y2 / height;
         p2[2] = 0;
 
-		IRenderableBuilderUniquePtr b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		IRenderableBuilderPointer b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
 		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::LINES);
         b->Vertex3fv(p1);
@@ -691,7 +691,7 @@ namespace Graphics
         p1[1] = -1.0f + 2.0f * y / height;
         p1[2] = 0;
 
-		IRenderableBuilderUniquePtr b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		IRenderableBuilderPointer b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
 		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::POINTS);
         b->Vertex3fv(p1);
@@ -706,7 +706,7 @@ namespace Graphics
         PushAllState();
         EnableLighting(false);
         EnableTexturing(false);
-		IRenderableBuilderUniquePtr b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		IRenderableBuilderPointer b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
 		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::POINTS);
         b->Vertex3fv(Math::vec3(x, y, z));
@@ -721,7 +721,7 @@ namespace Graphics
         PushAllState();
         EnableLighting(false);
         EnableTexturing(false);
-		IRenderableBuilderUniquePtr b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		IRenderableBuilderPointer b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
 		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::POINTS);
         b->Vertex3fv(v);
@@ -740,7 +740,7 @@ namespace Graphics
         SetProjectionMatrix(Math::CreateOrthographicProjection2(0, window->GetWidth(),
                                                                       0, window->GetHeight(),
                                                                      -1, 1));
-		IRenderableBuilderUniquePtr b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		IRenderableBuilderPointer b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
 		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::QUADS);
         b->TexCoord2f(0,0);
@@ -768,7 +768,7 @@ namespace Graphics
         EnableBlending(false);
         EnableLighting(false);
         EnableDepthTest(false);        
-		IRenderableBuilderUniquePtr b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		IRenderableBuilderPointer b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
 		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::LINES);
         int n = 32;
@@ -799,7 +799,7 @@ namespace Graphics
     void Frame::DrawText2D(float x, float y, const Core::String &value)
     {
         PushAllState();
-        ITextSurfaceUniquePtr surface = CreateTextSurface(0, 0, GetVideoDriver());
+        ITextSurfacePointer surface = CreateTextSurface(0, 0, GetVideoDriver());
         surface->SetText(value);
         int text_width = surface->GetTexture()->GetWidth();
         int text_height = surface->GetTexture()->GetHeight();
@@ -817,7 +817,7 @@ namespace Graphics
         SetProjectionMatrix(Math::CreateOrthographicProjection2(0, width, 0, height, -1, 1));
         SetViewMatrix(Math::CreateIdentity());
 
-		IRenderableBuilderUniquePtr b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
+		IRenderableBuilderPointer b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
 		b->Initialize(GetVideoDriver());
         b->Begin(PrimitiveType::QUADS);
         b->TexCoord2f(0, 0);

@@ -41,7 +41,7 @@ namespace IoModule {
         std::atomic<std::uint32_t> m_ref_count;
 		System::ILogger* m_logger{ System::GetDefaultLogger() };
 		SceneModule::IScene* m_scene{ nullptr };
-		Core::ObjectPool<Core::String, Core::UniquePtr<Core::IObject>> m_loaded_stuff;		
+		Core::ObjectPool<Core::String, Core::Pointer<Core::IObject>> m_loaded_stuff;		
     };
 }
 PUNK_ENGINE_END

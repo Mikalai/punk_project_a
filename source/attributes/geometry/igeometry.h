@@ -50,8 +50,8 @@ namespace Attributes {
 		virtual const Core::String& GetName() const = 0;
 	};
 
-	using IGeometryUniquePtr = std::unique_ptr < IGeometry, void(*)(IGeometry*) > ;	
-	extern PUNK_ENGINE_API IGeometryUniquePtr CreateGeometry();	
+	using IGeometryPointer = std::unique_ptr < IGeometry, void(*)(IGeometry*) > ;	
+	extern PUNK_ENGINE_API IGeometryPointer CreateGeometry();	
 	extern PUNK_ENGINE_API void DestroyGeometry(IGeometry* value);
 }
 PUNK_ENGINE_END

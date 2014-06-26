@@ -16,11 +16,11 @@
 using namespace Punk::Engine;
 
 //void f(){
-//	SceneModule::ISceneGraphUniquePtr scene = Punk::Engine::SceneModule::CreateSceneFromFile("c:\\Projects\\game\\dev\\punk_project_a\\data\\maps\\map1\\", "level_1.pmd");
+//	SceneModule::ISceneGraphPointer scene = Punk::Engine::SceneModule::CreateSceneFromFile("c:\\Projects\\game\\dev\\punk_project_a\\data\\maps\\map1\\", "level_1.pmd");
 //	Loader::IoObserver* proc = new Loader::IoObserver;
 //	LowLevelRender::RenderModule* render_proc = new LowLevelRender::RenderModule;
 //
-//	System::ITimerUniquePtr timer = System::CreateTimer();
+//	System::ITimerPointer timer = System::CreateTimer();
 //
 //	render_proc->SetGraph(scene.get());
 //	proc->SetGraph(scene.get());

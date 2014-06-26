@@ -169,6 +169,12 @@
     <ClCompile Include="..\..\source\attributes\stubs\ifile_stub.cpp">
       <Filter>stubs</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\attributes\ai\curvepath.cpp">
+      <Filter>ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\ai\inavi_mesh.cpp">
+      <Filter>ai</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\attributes\building.h" />
@@ -352,12 +358,6 @@
     <ClInclude Include="..\..\source\attributes\animation\object_animation_mixer.h">
       <Filter>animation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\attributes\geometry\geometry.h">
-      <Filter>geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\attributes\geometry\geometry_cooker.h">
-      <Filter>geometry</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\attributes\geometry\igeometry.h">
       <Filter>geometry</Filter>
     </ClInclude>
@@ -469,12 +469,6 @@
     <ClInclude Include="..\..\source\attributes\stubs\module.h">
       <Filter>stubs</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\attributes\stubs\file_stub.h">
-      <Filter>stubs</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\attributes\stubs\text_attribute.h">
-      <Filter>stubs</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\attributes\stubs\itext_attribute.h">
       <Filter>stubs</Filter>
     </ClInclude>
@@ -501,6 +495,21 @@
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\stubs\ifile_stub.h">
       <Filter>stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\ai\icurvepath.h">
+      <Filter>ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\ai\inavi_mesh.h">
+      <Filter>ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\ai\interface.h">
+      <Filter>ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\ai\module.h">
+      <Filter>ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\ai\navi_triangle.h">
+      <Filter>ai</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -554,6 +563,9 @@
     </Filter>
     <Filter Include="controllers">
       <UniqueIdentifier>{2f13fc1d-b217-48fa-bd2e-fd0a5f1a67a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ai">
+      <UniqueIdentifier>{01652c0f-d066-4fb0-b348-3e057225780b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

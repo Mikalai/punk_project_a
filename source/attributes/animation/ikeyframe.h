@@ -23,7 +23,7 @@ namespace Attributes {
 		virtual void SetKey(const void* buffer, std::uint32_t size) = 0;
 	};
 
-	using IKeyFrameUniquePtr = Core::UniquePtr < IKeyFrame > ;
+	using IKeyFramePointer = Core::Pointer < IKeyFrame > ;
 
 	template<typename T> 
 	class KeyFrame : public IKeyFrame {

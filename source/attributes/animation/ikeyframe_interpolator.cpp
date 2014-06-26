@@ -49,7 +49,7 @@ namespace Attributes
 	public:
 
         KeyFrameInterpolatorImpl()
-            : m_ref_count{1}
+            : m_ref_count{ 0 }
         {}
 
 		//	IObject
@@ -96,7 +96,7 @@ namespace Attributes
 		}
 
 	private:
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
 		Track<T>* m_track{ nullptr };
 
 	};

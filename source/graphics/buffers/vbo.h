@@ -22,8 +22,20 @@ namespace Graphics {
 
 			VertexBufferObject(){};
 
-			void QueryInterface(const Core::Guid& type, void** object) override {
+			void QueryInterface(const Core::Guid& type, void** object) {
 				Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IBufferObject });
+			}
+
+			std::uint32_t AddRef() {
+				return m_ref_count.fetch_add(1);
+			}
+
+			std::uint32_t Release() {
+				auto v = m_ref_count.fetch_sub(1) - 1;
+				if (!v) {
+					delete this;
+				}
+				return v;
 			}
 
 			//	Only VideoMemory can create it
@@ -138,7 +150,7 @@ namespace Graphics {
 			VertexBufferObject(const VertexBufferObject&) = delete;
 			VertexBufferObject& operator = (const VertexBufferObject&) = delete;
 
-			PUNK_OBJECT_DEFAULT_IMPL(VertexBufferObject<V>);
+			std::atomic<std::uint32_t> m_ref_count{ 0 };
 		};
 	}
 }

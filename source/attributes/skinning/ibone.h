@@ -38,7 +38,7 @@ namespace Attributes {
 		virtual std::uint32_t GetChild(std::uint32_t index) = 0;
 	};
 
-	using IBoneUniquePtr = Core::UniquePtr < IBone > ;
+	using IBonePointer = Core::Pointer < IBone > ;
 }
 PUNK_ENGINE_END
 

@@ -32,7 +32,7 @@ namespace Attributes {
 		void SetName(const Core::String& value) override;
 		const Core::String& GetName() const override;
 	private:
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
 		std::vector<IBone*> m_bones;
 		std::vector<std::uint32_t> m_root;
 		std::vector<Core::String> m_supported_actions;		

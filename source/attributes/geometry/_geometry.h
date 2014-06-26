@@ -1,0 +1,11 @@
+#ifndef _H_PUNK_VIRTUAL_GEOMETRY
+#define _H_PUNK_VIRTUAL_GEOMETRY
+
+PUNK_ENGINE_BEGIN
+namespace Attributes {
+
+    
+}
+PUNK_ENGINE_END
+
+#endif // _H_PUNK_VIRTUAL_GEOMETRY

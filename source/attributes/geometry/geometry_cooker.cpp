@@ -1,10 +1,32 @@
 #include <system/factory/module.h>
 #include <graphics/module.h>
-#include "geometry_cooker.h"
+#include "igeometry_cooker.h"
 #include "igeometry.h"
 
 PUNK_ENGINE_BEGIN
 namespace Attributes {
+
+	class PUNK_ENGINE_LOCAL GeometryCooker : public IGeometryCooker {
+	public:
+		void QueryInterface(const Core::Guid& type, void** object) override;
+		std::uint32_t AddRef() override;
+		std::uint32_t Release() override;
+		void Cook(IGeometry* geometry, Graphics::IVertexArray*& va, Graphics::IIndexArray*& ia) override;
+	private:
+		void CookPositionNormalTangentBitangentTexture0(IGeometry* geometry, Graphics::IVertexArray*& va, Graphics::IIndexArray*& ia);
+		void CookPositionNormal(IGeometry* mesh, Graphics::IVertexArray*& _vb, Graphics::IIndexArray*& _ib);
+		void CookPosition(IGeometry* mesh, Graphics::IVertexArray*& _vb, Graphics::IIndexArray*& _ib);
+		void CookPositionTexture0(IGeometry* mesh, Graphics::IVertexArray*& _vb, Graphics::IIndexArray*& _ib);
+		void CookPositionNormalTexture0(IGeometry* mesh, Graphics::IVertexArray*& _vb, Graphics::IIndexArray*& _ib);
+		void CookPositionNormalBonesWeights(IGeometry* mesh, Graphics::IVertexArray*& _vb, Graphics::IIndexArray*& _ib);
+
+		//	skinning
+		void CookOneVertexWithBone(const IGeometry* mesh, int index, Math::vec4& bone, Math::vec4& weight);
+		void CookPositionNormalTangentBitangentTexture0BoneIDBoneWeight(const IGeometry* mesh, Graphics::IVertexArray* _vb, Graphics::IIndexArray* _ib);
+
+	private:
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
+	};
 
 	void GeometryCooker::QueryInterface(const Core::Guid& type, void** object) {
 		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IGeometryCooker });

@@ -13,7 +13,7 @@ PUNK_ENGINE_BEGIN
 namespace IoModule {
 
     IoObserver::IoObserver()
-        : m_ref_count{1}
+        : m_ref_count{ 0 }
     {
 		LOG_FUNCTION_SCOPE;
     }
@@ -57,7 +57,7 @@ namespace IoModule {
 				if (stub->IsLoaded())
 					continue;
 				stub->SetLoading(true);
-                Core::UniquePtr<Core::IObject> o{ParsePunkFile(m_scene->GetSourcePath() + filename), Core::DestroyObject};
+                Core::Pointer<Core::IObject> o{ParsePunkFile(m_scene->GetSourcePath() + filename), Core::DestroyObject};
 				
 				//	call callback if specified
 				if (stub->GetCallback()) {
@@ -124,7 +124,7 @@ namespace IoModule {
 		LOG_FUNCTION_SCOPE;
 		if (attribute->GetTypeID() == typeid(Attributes::IFileStub).hash_code()) {
 			auto stub = attribute->Get<Attributes::IFileStub>();
-			Core::IObjectUniquePtr o{ ParsePunkFile(stub->GetFilename()), Core::DestroyObject };
+			Core::IObjectPointer o{ ParsePunkFile(stub->GetFilename()), Core::DestroyObject };
 			if (stub->GetCallback()) {
 				(*stub->GetCallback())(o.get());
 			}

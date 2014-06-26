@@ -33,7 +33,7 @@ using namespace Punk::Engine;
 //unsigned PUNK_STDCALL RenderFunc(void* data) {
 //    while (g_flag) {
 //        Graphics::ILowLevelRender* render = (Graphics::ILowLevelRender*)data;
-//        Graphics::IFrameUniquePtr frame = Graphics::CreateFrame(render);
+//        Graphics::IFramePointer frame = Graphics::CreateFrame(render);
 //        frame->SetWorldMatrix(Math::CreateIdentity());
 //        frame->SetViewMatrix(Math::CreateIdentity());
 //        frame->SetProjectionMatrix(Math::CreateOrthographicProjection(0, 1024, 0, 768, -1, 1));
@@ -82,7 +82,7 @@ using namespace Punk::Engine;
 int main() {
 
 	try{
-        Core::UniquePtr<System::IModule> punk_application = System::LoadModule("punk_application");
+        Core::Pointer<System::IModule> punk_application = System::LoadModule("punk_application");
         if (!punk_application)
             throw System::Error::SystemException("Can't load punk_application module");
 

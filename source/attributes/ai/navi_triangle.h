@@ -9,7 +9,7 @@
 PUNK_ENGINE_BEGIN
 namespace Core { class Object; }
 
-namespace AI
+namespace Attributes
 {
 	class NaviMesh;
 

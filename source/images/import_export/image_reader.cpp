@@ -21,7 +21,7 @@ namespace ImageModule {
 		}
 
 	private:
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
 	};
 
 	class AnyImageReader : public IImageReader {
@@ -72,7 +72,7 @@ namespace ImageModule {
 		}
 
 	private:
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
 	};
 
     PUNK_REGISTER_CREATOR(IID_IImageReader, (System::CreateInstance<AnyImageReader, IImageReader>));

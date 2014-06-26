@@ -28,7 +28,7 @@ namespace SceneModule {
 	
 	private:
 		std::vector<IProcessor*> m_processors;
-		Core::UniquePtr<IScene> m_scene{ nullptr, Core::DestroyObject };
+		Core::Pointer<IScene> m_scene{ nullptr, Core::DestroyObject };
 		System::ILogger* m_logger{ System::GetDefaultLogger() };
 		bool m_is_terminated{ false };
 		bool m_need_terminate{ false };

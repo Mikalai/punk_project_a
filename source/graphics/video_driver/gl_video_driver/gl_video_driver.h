@@ -52,9 +52,9 @@ namespace Graphics
 			OpenGL::VideoMemory* m_memory{ nullptr };
 			VirtualFileSystem* m_vfs{ nullptr };
 			GlVideoDriverSettings* m_caps{ nullptr };
-			IRenderUniquePtr m_render{ nullptr, Core::DestroyObject };
+			IRenderPointer m_render{ nullptr, Core::DestroyObject };
 			bool m_initialized{ false };
-			std::atomic<std::uint32_t> m_ref_count{ 1 };
+			std::atomic<std::uint32_t> m_ref_count{ 0 };
 
         private:
 			void AssertInitialize() const;

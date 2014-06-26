@@ -50,7 +50,7 @@ namespace Graphics {
 		virtual void SelectBatches(std::vector<Batch*>& result, const SelectCriteria& criteria) = 0;
 	};
 
-	using IRenderQueueUniquePtr = Core::UniquePtr < IRenderQueue > ;
+	using IRenderQueuePointer = Core::Pointer < IRenderQueue > ;
 }
 PUNK_ENGINE_END
 

@@ -64,21 +64,21 @@
 //        }
 //    };
 //
-//    //extern PUNK_ENGINE_API ITrianglesUniquePtr CreateTriangles(std::int64_t vertex_type, IVideoDriver* driver) {
+//    //extern PUNK_ENGINE_API ITrianglesPointer CreateTriangles(std::int64_t vertex_type, IVideoDriver* driver) {
 //    //    if (vertex_type == Vertex<VertexComponent::Position>::Value())
-//    //        return ITrianglesUniquePtr{new Triangles<Vertex<VertexComponent::Position>, unsigned>(driver), DestroyRenderable};
+//    //        return ITrianglesPointer{new Triangles<Vertex<VertexComponent::Position>, unsigned>(driver), DestroyRenderable};
 //    //    else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Texture0, VertexComponent::Flag, VertexComponent::Color>::Value())
-//    //        return ITrianglesUniquePtr{new Triangles<Vertex<VertexComponent::Position, VertexComponent::Texture0, VertexComponent::Flag, VertexComponent::Color>, unsigned>(driver), DestroyRenderable};
+//    //        return ITrianglesPointer{new Triangles<Vertex<VertexComponent::Position, VertexComponent::Texture0, VertexComponent::Flag, VertexComponent::Color>, unsigned>(driver), DestroyRenderable};
 //    //    else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Color>::Value())
-//    //        return ITrianglesUniquePtr{new Triangles<Vertex<VertexComponent::Position, VertexComponent::Color>, unsigned>(driver), DestroyRenderable};
+//    //        return ITrianglesPointer{new Triangles<Vertex<VertexComponent::Position, VertexComponent::Color>, unsigned>(driver), DestroyRenderable};
 //    //    else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Texture0>::Value())
-//    //        return ITrianglesUniquePtr{new Triangles<Vertex<VertexComponent::Position, VertexComponent::Texture0>, unsigned>(driver), DestroyRenderable};
+//    //        return ITrianglesPointer{new Triangles<Vertex<VertexComponent::Position, VertexComponent::Texture0>, unsigned>(driver), DestroyRenderable};
 //    //    else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Color, VertexComponent::Texture0>::Value())
-//    //        return ITrianglesUniquePtr{new Triangles<Vertex<VertexComponent::Position, VertexComponent::Color, VertexComponent::Texture0>, unsigned>(driver), DestroyRenderable};
+//    //        return ITrianglesPointer{new Triangles<Vertex<VertexComponent::Position, VertexComponent::Color, VertexComponent::Texture0>, unsigned>(driver), DestroyRenderable};
 //    //    else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Normal>::Value())
-//    //        return ITrianglesUniquePtr{new Triangles<Vertex<VertexComponent::Position, VertexComponent::Normal>, unsigned>(driver), DestroyRenderable};
+//    //        return ITrianglesPointer{new Triangles<Vertex<VertexComponent::Position, VertexComponent::Normal>, unsigned>(driver), DestroyRenderable};
 //    //    else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0>::Value())
-//    //        return ITrianglesUniquePtr{new Triangles<Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0>, unsigned>(driver), DestroyRenderable};
+//    //        return ITrianglesPointer{new Triangles<Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0>, unsigned>(driver), DestroyRenderable};
 //    //    else
 //    //        throw Error::GraphicsException(L"Can't create lines using " + Core::String::Convert(vertex_type) + L" vertex type");
 //    //}

@@ -29,7 +29,7 @@ namespace Graphics {
 		virtual std::uint64_t GetVertexFormat() = 0;
 	};
 
-	using IRenderableUniquePtr = Core::UniquePtr < IRenderable > ;    
+	using IRenderablePointer = Core::Pointer < IRenderable > ;    
 }
 PUNK_ENGINE_END
 

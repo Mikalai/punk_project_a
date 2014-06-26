@@ -6,16 +6,16 @@
 
 PUNK_ENGINE_BEGIN
 namespace Graphics {
-    namespace OpenGL {
+	namespace OpenGL {
 
 		class VideoMemory;
-		
+
 		template<class T>
-        class PUNK_ENGINE_LOCAL IndexBufferObject : public IBufferObject {
+		class PUNK_ENGINE_LOCAL IndexBufferObject : public IBufferObject {
 		public:
 			using CurrentIndex = T;
-        public:
-            //	Only VideoMemory can create it
+		public:
+			//	Only VideoMemory can create it
 			virtual ~IndexBufferObject() {
 				try
 				{
@@ -27,25 +27,37 @@ namespace Graphics {
 
 			}
 
-			void QueryInterface(const Core::Guid& type, void** object) override {
+			void QueryInterface(const Core::Guid& type, void** object) {
 				Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IBufferObject });
+			}
+
+			std::uint32_t AddRef() {
+				return m_ref_count.fetch_add(1);
+			}
+
+			std::uint32_t Release() {
+				auto v = m_ref_count.fetch_sub(1) - 1;
+				if (!v) {
+					delete this;
+				}
+				return v;
 			}
 
 			IndexBufferObject(){};
 
-            IndexBufferObject(const IndexBufferObject&) = delete;
-            IndexBufferObject& operator = (const IndexBufferObject&) = delete;
+			IndexBufferObject(const IndexBufferObject&) = delete;
+			IndexBufferObject& operator = (const IndexBufferObject&) = delete;
 
 			void Create(const T* data, std::uint32_t count) {
 				Create(data, sizeof(T)*count);
 			}
 
 			void Destroy() override {
-						if (m_index)
-						{
-							GL_CALL(glDeleteBuffers(1, &m_index));
-							m_index = 0;
-						}
+				if (m_index)
+				{
+					GL_CALL(glDeleteBuffers(1, &m_index));
+					m_index = 0;
+				}
 			}
 
 			void Bind() const override {
@@ -73,11 +85,11 @@ namespace Graphics {
 				GL_CALL(glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER));
 				Unbind();
 			}
-            
+
 			void CopyData(const T* data, std::uint32_t count) {
 				CopyData((void*)data, count*sizeof(T));
 			}
-			
+
 			bool IsValid() const override		{
 				return m_index != 0;
 			}
@@ -90,7 +102,7 @@ namespace Graphics {
 				return m_size;
 			}
 
-		private:		
+		private:
 
 			void Create(const void* data, std::uint32_t size)
 			{
@@ -133,12 +145,11 @@ namespace Graphics {
 					Unbind();
 				}
 			}
-			
-			private:
+
+		private:
+			std::atomic<std::uint32_t> m_ref_count{ 0 };
 			GLuint m_index{ 0 };
 			GLsizei m_size{ 0 };
-
-			PUNK_OBJECT_DEFAULT_IMPL(IndexBufferObject<T>)
 		};
 
 		template<>
@@ -146,7 +157,7 @@ namespace Graphics {
 		public:
 			using CurrentIndex = std::nullptr_t;
 		};
-	}    
+	}
 }
 PUNK_ENGINE_END
 

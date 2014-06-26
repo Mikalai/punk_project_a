@@ -35,7 +35,7 @@ namespace Graphics {
         virtual void Unmap(void* data) = 0;
     };
 
-    using ITexture2DUniquePtr = Core::UniquePtr<ITexture2D>;
+    using ITexture2DPointer = Core::Pointer<ITexture2D>;
 
     
 }

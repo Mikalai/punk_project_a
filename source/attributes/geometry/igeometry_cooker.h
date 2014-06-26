@@ -20,7 +20,7 @@ namespace Attributes {
 		virtual void Cook(IGeometry* geometry, Graphics::IVertexArray*& va, Graphics::IIndexArray*& ia) = 0;
 	};
 
-	using IGeometryCookerUniquePtr = Core::UniquePtr < IGeometryCooker > ;
+	using IGeometryCookerPointer = Core::Pointer < IGeometryCooker > ;
 }
 PUNK_ENGINE_END
 

@@ -4,10 +4,89 @@
 #include <iostream>
 #include "iscene.h"
 #include <system/concurrency/module.h>
-#include "node.h"
+#include <atomic>
+#include <vector>
+#include <map>
+#include <string/module.h>
+#include "inode.h"
 
 PUNK_ENGINE_BEGIN
 namespace SceneModule {	
+
+	class PUNK_ENGINE_LOCAL Node : public INode {
+	public:
+		Node();
+		explicit Node(IScene* graph);
+		explicit Node(INode* parent);
+		virtual ~Node();
+
+		//	IObject
+		void QueryInterface(const Core::Guid& type, void** object) override;
+		std::uint32_t AddRef() override;
+		std::uint32_t Release() override;
+
+		//	INode
+		int GetAttributesCount() const override;
+		IAttribute* GetAttribute(int index) override;
+		void AddChild(INode* node) override;
+		std::uint32_t GetChildrenCount() const override;
+		INode* GetChild(std::uint32_t index) override;
+		void SetAttribute(IAttribute* value) override;
+		IAttribute* GetAttribute(const Core::String&, std::uint64_t type) const override;
+		IAttribute* GetAttribute(std::uint64_t type, std::uint32_t index) const override;
+		int GetAttributesCount(std::uint64_t type) const override;
+		std::vector<IAttribute*> GetAttributes(std::uint64_t type) const override;
+		void RemoveAttribute(const Core::String& name, std::uint64_t type) override;
+		NodeState GetState() const override;
+		void SetState(NodeState value) override;
+		IScene* GetSceneGraph() override;
+		void SetScene(IScene* graph) override;
+
+		///
+		/// \brief MarkToDelete
+		/// Decrease internal counter
+		///
+		void MarkToDelete() override;
+
+		///
+		/// \brief AskToDelete
+		/// Increase internal counter
+		///
+		void AskToDelete() override;
+
+		///
+		/// \brief CanDelete
+		/// \return true when internal counter is zero
+		///
+		bool CanDelete() override;
+
+	private:
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
+		NodeState m_state{ NodeState::Inactive };
+		std::uint64_t m_id{ 0 };
+		INode* m_parent{ nullptr };
+		std::vector<INode*> m_children;
+		std::map<std::pair<Core::String, std::uint64_t>, IAttribute*> m_attributes;
+		IScene* m_scene_graph{ nullptr };
+		std::atomic<int> m_delete_count;
+	};
+
+	void Node::QueryInterface(const Core::Guid& type, void** object) {
+		LOG_FUNCTION_SCOPE;
+		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_INode });
+	}
+
+	std::uint32_t Node::AddRef() {
+		return m_ref_count.fetch_add(1);
+	}
+
+	std::uint32_t Node::Release() {
+		auto v = m_ref_count.fetch_sub(1) - 1;
+		if (!v) {
+			delete this;
+		}
+		return v;
+	}
 
     Node::Node() {
 		LOG_FUNCTION_SCOPE;
@@ -173,11 +252,6 @@ namespace SceneModule {
 		LOG_FUNCTION_SCOPE;
         return m_delete_count == 0;
     }
-
-	void Node::QueryInterface(const Core::Guid& type, void** object) {
-		LOG_FUNCTION_SCOPE;
-		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_INode });		
-	}
 
 	void Node::AddChild(INode* node) {
 		LOG_FUNCTION_SCOPE;

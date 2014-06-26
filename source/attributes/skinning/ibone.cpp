@@ -62,7 +62,7 @@ namespace Attributes
 		Core::String m_name;
 		float m_length;
 		std::vector<std::uint32_t> m_children;
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
 	};
 
 	Bone::Bone() {}

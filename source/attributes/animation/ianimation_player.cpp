@@ -53,7 +53,7 @@ namespace Attributes {
 		float m_duration{ 1 };
 		float m_current_time{ 0 };
 		float m_dir_factor{ 1 };	//	can be -1 or 1
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
 		InterpolatorType m_interpolator_type{ InterpolatorType::Linear };
 		IAnimation* m_animation{ nullptr };
 		Core::ActionSlot<void> m_on_started;
@@ -76,10 +76,10 @@ namespace Attributes {
 
 			Core::ActionSlot<std::int32_t, void*, std::uint32_t> m_on_frame;
 			std::vector<std::uint8_t> m_current_value;
-            Core::UniquePtr<IKeyFrameInterpolator> m_interpolator{ nullptr, Core::DestroyObject };
+            Core::Pointer<IKeyFrameInterpolator> m_interpolator{ nullptr, Core::DestroyObject };
 		};
 		std::vector<TrackCache> m_track_cache;
-		//std::vector<Core::UniquePtr<IAnimated>> m_animated;
+		//std::vector<Core::Pointer<IAnimated>> m_animated;
 	};
 
 	//	IObject
@@ -155,11 +155,11 @@ namespace Attributes {
 
 	//void AnimationPlayerImpl::Attach(IAnimated* value) {
 	//	value->AddRef();
-	//	m_animated.push_back(Core::UniquePtr < IAnimated > {value, Core::DestroyObject});
+	//	m_animated.push_back(Core::Pointer < IAnimated > {value, Core::DestroyObject});
 	//}
 
 	//void AnimationPlayerImpl::Detach(IAnimated* value) {
-	//	auto it = std::find_if(m_animated.begin(), m_animated.end(), [&value](Core::UniquePtr<IAnimated>& anim) -> bool {
+	//	auto it = std::find_if(m_animated.begin(), m_animated.end(), [&value](Core::Pointer<IAnimated>& anim) -> bool {
 	//		return anim.get() == value;
 	//	});
 	//	if (it != m_animated.end()) {

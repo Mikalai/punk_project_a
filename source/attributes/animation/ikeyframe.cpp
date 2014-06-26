@@ -64,7 +64,7 @@ namespace Attributes {
 		 void SetKey(const void* buffer, std::uint32_t size) override;
 
 	private:
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
 		std::int32_t m_frame{ 0 };
 		T m_key;
 	};

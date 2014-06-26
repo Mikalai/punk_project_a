@@ -31,7 +31,7 @@ namespace Attributes {
 		virtual const Core::String& GetName() const = 0;
 	};
 
-	using IArmatureSchemaUniquePtr = Core::UniquePtr < IArmatureSchema > ;
+	using IArmatureSchemaPointer = Core::Pointer < IArmatureSchema > ;
 }
 PUNK_ENGINE_END
 

@@ -69,7 +69,7 @@ namespace Attributes
 		IArmatureSchema* m_schema{ nullptr };
 		Core::String m_name;
 		Core::String m_schema_name;
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
 	};
 
 	Armature::Armature()

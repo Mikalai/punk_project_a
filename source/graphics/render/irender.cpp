@@ -47,11 +47,11 @@ namespace Graphics {
 		void AssertInitialized();
 
 		bool m_initialized{ false };
-		IRenderContextFactoryUniquePtr m_rc_factory{ nullptr, Core::DestroyObject };
-		IRenderQueueUniquePtr m_queue{ nullptr, Core::DestroyObject };
-        Core::UniquePtr<IVideoDriver> m_driver{ nullptr, Core::DestroyObject };
-		IFrameUniquePtr m_frame{ nullptr, Core::DestroyObject };
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		IRenderContextFactoryPointer m_rc_factory{ nullptr, Core::DestroyObject };
+		IRenderQueuePointer m_queue{ nullptr, Core::DestroyObject };
+        Core::Pointer<IVideoDriver> m_driver{ nullptr, Core::DestroyObject };
+		IFramePointer m_frame{ nullptr, Core::DestroyObject };
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
 	};
 
 	void LowLevelRender::QueryInterface(const Core::Guid& type, void** object) {
@@ -109,9 +109,7 @@ namespace Graphics {
 	}
 
     LowLevelRender::~LowLevelRender()
-    {
-        m_driver = nullptr;
-    }
+    {}
 
     IVideoDriver* LowLevelRender::GetVideoDriver() {
 		AssertInitialized();

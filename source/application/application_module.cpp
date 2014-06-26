@@ -11,7 +11,7 @@ namespace Runtime {
     class PUNK_ENGINE_LOCAL ApplicationModule : public System::IModule {
     public:
         ApplicationModule()
-            : m_ref_count{1}
+            : m_ref_count{ 0 }
         {
             Init();
         }
@@ -44,7 +44,7 @@ namespace Runtime {
         }
 
     private:
-        std::atomic<std::uint32_t> m_ref_count{1};
+        std::atomic<std::uint32_t> m_ref_count{ 0 };
     };
 
     extern "C" PUNK_ENGINE_API System::IModule* GetPunkModule() {

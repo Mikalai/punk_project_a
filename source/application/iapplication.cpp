@@ -27,9 +27,9 @@ namespace Runtime {
     public:
         UNIQUE_PTR(SceneModule::ISceneManager) m_scene_manager{ nullptr, Core::DestroyObject };
         System::ILogger* m_logger{ System::GetDefaultLogger() };
-        Core::UniquePtr<LowLevelRender::IRenderModule> m_render_module{ nullptr, Core::DestroyObject };
-        Core::UniquePtr<System::IModule> m_graphics_module{ nullptr, Core::DestroyObject };
-        Core::UniquePtr<System::IModule> m_io_module{ nullptr, Core::DestroyObject };
+        Core::Pointer<LowLevelRender::IRenderModule> m_render_module{ nullptr, Core::DestroyObject };
+        Core::Pointer<System::IModule> m_graphics_module{ nullptr, Core::DestroyObject };
+        Core::Pointer<System::IModule> m_io_module{ nullptr, Core::DestroyObject };
 
         PUNK_OBJECT_DEFAULT_IMPL(Application)
     };
@@ -89,7 +89,7 @@ namespace Runtime {
     }
 
     void Application::Run() {
-        System::ITimerUniquePtr timer = System::CreateInstancePtr<System::ITimer>(System::IID_ITimer);
+        System::ITimerPointer timer = System::CreateInstancePtr<System::ITimer>(System::IID_ITimer);
         timer->Reset();
         int frame = 0;
         float t = 0;

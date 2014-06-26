@@ -195,7 +195,7 @@ namespace Graphics
 		Frame(const Frame&) = delete;
 		Frame& operator = (const Frame&) = delete;
 
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
 	};
 }
 PUNK_ENGINE_END

@@ -34,7 +34,7 @@ namespace Graphics {
 		virtual IRenderContextFactory* GetRenderContextFactory() = 0;
     };
 
-	using IRenderUniquePtr = Core::UniquePtr < ILowLevelRender > ;
+	using IRenderPointer = Core::Pointer < ILowLevelRender > ;
 }
 PUNK_ENGINE_END
 

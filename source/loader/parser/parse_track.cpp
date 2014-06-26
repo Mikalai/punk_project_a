@@ -82,7 +82,7 @@ namespace IoModule
             {
 				word = buffer.ReadWord();
 				while (true) {
-					Core::UniquePtr<Attributes::KeyFrame<T>> keyframe{ KeyReader<T>::Read(buffer), Core::DestroyObject };
+					Core::Pointer<Attributes::KeyFrame<T>> keyframe{ KeyReader<T>::Read(buffer), Core::DestroyObject };
 					if (!keyframe.get())
 						break;
 					track->AddKeyFrame(keyframe.get());

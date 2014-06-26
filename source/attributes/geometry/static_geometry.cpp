@@ -50,7 +50,7 @@
 //        if (!Cook(&m_geom, vb, ib))
 //            return;
 //
-//        Graphics::ITrianglesUniquePtr mesh = Graphics::CreateTriangles(vb->GetVertexType(), driver);
+//        Graphics::ITrianglesPointer mesh = Graphics::CreateTriangles(vb->GetVertexType(), driver);
 //        mesh->Cook(vb, ib);
 //        m_gpu_buffer = mesh.release();
 //    }

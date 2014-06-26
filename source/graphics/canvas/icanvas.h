@@ -23,7 +23,7 @@ namespace Graphics {
         virtual void SwapBuffers() = 0;
     };
 
-	using ICanvasUniquePtr = Core::UniquePtr < ICanvas > ;    
+	using ICanvasPointer = Core::Pointer < ICanvas > ;    
 }
 PUNK_ENGINE_END
 

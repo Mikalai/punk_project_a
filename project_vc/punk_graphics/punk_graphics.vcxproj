@@ -165,9 +165,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\source\graphics\blending\blend_function.cpp" />
     <ClCompile Include="..\..\source\graphics\blending\gl_blending.cpp" />
-    <ClCompile Include="..\..\source\graphics\buffers\ibo.cpp" />
-    <ClCompile Include="..\..\source\graphics\buffers\pbo.cpp" />
-    <ClCompile Include="..\..\source\graphics\buffers\vbo.cpp" />
+    <ClCompile Include="..\..\source\graphics\buffers\_vbo.cpp" />
     <ClCompile Include="..\..\source\graphics\canvas\canvas.cpp" />
     <ClCompile Include="..\..\source\graphics\canvas\canvas_desciption.cpp" />
     <ClCompile Include="..\..\source\graphics\error\graphics_error.cpp" />
@@ -681,7 +679,6 @@
     <ClInclude Include="..\..\source\graphics\primitives\vertex.h" />
     <ClInclude Include="..\..\source\graphics\primitives\vertex_array.h" />
     <ClInclude Include="..\..\source\graphics\primitives\vertex_component.h" />
-    <ClInclude Include="..\..\source\graphics\renderable\gl_renderable\gl_renderable_builder.h" />
     <ClInclude Include="..\..\source\graphics\renderable\gl_renderable\module.h" />
     <ClInclude Include="..\..\source\graphics\renderable\irenderable_builder.h" />
     <ClInclude Include="..\..\source\graphics\renderable\module.h" />

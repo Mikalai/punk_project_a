@@ -1,7 +1,7 @@
 #ifndef H_PUNK_AI_INTERFACE_H
 #define H_PUNK_AI_INTERFACE_H
 
-namespace AI
+namespace Attributes
 {
     class NaviMesh;
     class CurvePath;

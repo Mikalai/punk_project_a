@@ -17,9 +17,9 @@
 //        virtual void Cook(const IVertexArray* value) = 0;
 //    };
 //
-//    using IPointsUniquePtr = std::unique_ptr<IPoints, void (*)(IRenderable*)>;
+//    using IPointsPointer = std::unique_ptr<IPoints, void (*)(IRenderable*)>;
 //
-//    extern PUNK_ENGINE_API IPointsUniquePtr CreatePoints(std::int64_t vertex_type, class IVideoDriver* driver);
+//    extern PUNK_ENGINE_API IPointsPointer CreatePoints(std::int64_t vertex_type, class IVideoDriver* driver);
 //}
 //PUNK_ENGINE_END
 //

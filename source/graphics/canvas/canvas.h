@@ -92,7 +92,7 @@ namespace Graphics {
         void OnKeyDown(const System::KeyEvent&);
     private:		
         CanvasDescription m_canvas_description;
-        System::IWindowUniquePtr m_window{ nullptr,  Core::DestroyObject };
+        System::IWindowPointer m_window{ nullptr,  Core::DestroyObject };
 #ifdef WIN32       
         HGLRC m_opengl_context;
 #elif defined __linux__
@@ -101,8 +101,8 @@ namespace Graphics {
         int m_shader_version {0};
         int m_opengl_version {0};
         System::ILogger* m_logger {nullptr};
-        IVideoDriverUniquePtr m_video_driver {nullptr, Core::DestroyObject};
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
+        IVideoDriverPointer m_video_driver {nullptr, Core::DestroyObject};
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
 		
     };
 }

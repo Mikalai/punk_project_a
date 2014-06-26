@@ -21,8 +21,8 @@ namespace SceneModule {
     public:
         virtual void Lock() = 0;
         virtual void Unlock() = 0;
-        virtual INode* GetRoot() = 0;
-        virtual const INode* GetRoot() const = 0;
+		virtual Core::Pointer<INode> GetRoot() = 0;
+		virtual const Core::Pointer<INode> GetRoot() const = 0;
         virtual void SetRoot(INode* node) = 0;
 		virtual INode* ReleaseRoot() = 0;		
 		
@@ -46,10 +46,10 @@ namespace SceneModule {
 		}
     };
 
-	using ISceneGraphUniquePtr = Core::UniquePtr < IScene > ;
+	using ISceneGraphPointer = Core::Pointer < IScene > ;
 
-    extern PUNK_ENGINE_API ISceneGraphUniquePtr CreateSceneFromFile(const Core::String& datafolder, const Core::String& file);
-    extern PUNK_ENGINE_API ISceneGraphUniquePtr CreateScene();
+    extern PUNK_ENGINE_API ISceneGraphPointer CreateSceneFromFile(const Core::String& datafolder, const Core::String& file);
+    extern PUNK_ENGINE_API ISceneGraphPointer CreateScene();
 }
 PUNK_ENGINE_END
 

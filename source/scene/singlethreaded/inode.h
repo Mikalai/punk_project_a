@@ -65,15 +65,15 @@ namespace SceneModule {
 		}
 
 		template<class T>
-		T* GetAttributeOfType(std::uint32_t index) const {
+		Core::Pointer<T> GetAttributeOfType(std::uint32_t index) const {
 			auto attribute = GetAttribute(typeid(T).hash_code(), index);
-			return attribute ? attribute->Get<T>() : nullptr;
+			return attribute ? attribute->Get<T>() : Core::Pointer < T > { nullptr, Core::DestroyObject };		
 		}
 
         template<class T>
-        const T* Get(const Core::String& name) const {
+        const Core::Pointer<T> Get(const Core::String& name) const {
             auto attribute = GetAttribute(name, typeid(T).hash_code());
-            return attribute ? attribute->Get<T>() : nullptr;
+			return attribute ? attribute->Get<T>() : Core::Pointer < T > { nullptr, Core::DestroyObject };
         }
 
         template<class T>
@@ -87,7 +87,7 @@ namespace SceneModule {
         }
 
         template<class T>
-        void Set(const Core::String& name, T* value) {
+        void Set(const Core::String& name, Core::Pointer<T> value) {
             SetAttribute(new Attribute<T>(name, value));
         }
 
@@ -102,10 +102,7 @@ namespace SceneModule {
 			}
 			return nullptr;
 		}
-    };
-
-	using INodeUniquePtr = Core::UniquePtr < INode > ;
-    
+    };    
 }
 PUNK_ENGINE_END
 

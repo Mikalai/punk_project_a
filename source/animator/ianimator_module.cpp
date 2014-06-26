@@ -40,7 +40,7 @@ namespace AnimatorModule {
             auto animation = Core::QueryInterfacePtr<Attributes::IAnimation>(o, Attributes::IID_IAnimation);
 			if (animation.get()) {
 				animation->AddRef();
-				m_animations.push_back(Core::UniquePtr < Attributes::IAnimation > {animation.get(), Core::DestroyObject});
+				m_animations.push_back(Core::Pointer < Attributes::IAnimation > {animation.get(), Core::DestroyObject});
 				m_animation_map.AddValue(animation->GetName(), animation.get());
 			}
 		}
@@ -48,17 +48,17 @@ namespace AnimatorModule {
 	private:
 		void Clear();
 	private:
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
-		std::vector<Core::UniquePtr<Attributes::IAnimated>> m_animated;
-		std::vector<Core::UniquePtr<Attributes::IAnimationPlayer>> m_players;
-		Core::UniquePtr<SceneModule::IScene> m_scene{ nullptr, Core::DestroyObject };
-		Core::UniquePtr<SceneModule::ISceneManager> m_manager{ nullptr, Core::DestroyObject };
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
+		std::vector<Core::Pointer<Attributes::IAnimated>> m_animated;
+		std::vector<Core::Pointer<Attributes::IAnimationPlayer>> m_players;
+		Core::Pointer<SceneModule::IScene> m_scene{ nullptr, Core::DestroyObject };
+		Core::Pointer<SceneModule::ISceneManager> m_manager{ nullptr, Core::DestroyObject };
 		Core::ObjectPool<Core::String, Attributes::IAnimation*> m_animation_map;
-		std::vector<Core::UniquePtr<Attributes::IAnimation>> m_animations;
+		std::vector<Core::Pointer<Attributes::IAnimation>> m_animations;
 	};
 
     Animator::Animator()
-        : m_ref_count{1}
+        : m_ref_count{ 0 }
     {
 		LOG_FUNCTION_SCOPE;
     }
@@ -149,7 +149,7 @@ namespace AnimatorModule {
 		auto animation = attribute->Get<Attributes::IAnimation>();
 		if (animation) {
 			animation->AddRef();
-			m_animations.push_back(Core::UniquePtr < Attributes::IAnimation > {animation, Core::DestroyObject});
+			m_animations.push_back(Core::Pointer < Attributes::IAnimation > {animation, Core::DestroyObject});
 			m_animation_map.AddValue(animation->GetName(), animation);
 		}
 	}
@@ -170,14 +170,14 @@ namespace AnimatorModule {
             auto animated = Core::QueryInterfacePtr<Attributes::IAnimated>(attribute->GetRawData(), Attributes::IID_IAnimated);
 			if (animated.get()) {
 				animated->AddRef();
-				m_animated.push_back(Core::UniquePtr < Attributes::IAnimated > {animated.get(), Core::DestroyObject});
+				m_animated.push_back(Core::Pointer < Attributes::IAnimated > {animated.get(), Core::DestroyObject});
 
 				//	submit all animation for loading
 				for (std::uint32_t i = 0, max_i = animated->GetAnimationsCount(); i < max_i; ++i) {
 					auto name = animated->GetAnimation(i);
 					if (!m_animation_map.HasValue(name)) {
 						auto filename = m_scene->GetSourcePath() + name + L".action";
-                        Core::UniquePtr<Attributes::IFileStub> file_stub = System::CreateInstancePtr<Attributes::IFileStub>(Attributes::IID_IFileStub);
+                        Core::Pointer<Attributes::IFileStub> file_stub = System::CreateInstancePtr<Attributes::IFileStub>(Attributes::IID_IFileStub);
 						file_stub->SetFilename(filename);
 						file_stub->SetCallback(new Core::Action < Animator, Core::IObject* > { this, &Animator::OnAnimationLoaded });
 						node->Set<Attributes::IFileStub>(name, file_stub.get());
@@ -211,12 +211,12 @@ namespace AnimatorModule {
 			if (!animated->GetAnimationPlayer()) {
 				if (animated->GetAnimationsCount() && m_animation_map.HasValue(animated->GetAnimation(0))){
 					auto animation = m_animation_map.GetValue(animated->GetAnimation(0));
-                    Core::UniquePtr<Attributes::IAnimationPlayer> player = System::CreateInstancePtr<Attributes::IAnimationPlayer>(Attributes::IID_IAnimationPlayer);
+                    Core::Pointer<Attributes::IAnimationPlayer> player = System::CreateInstancePtr<Attributes::IAnimationPlayer>(Attributes::IID_IAnimationPlayer);
 					player->SetAnimation(animation);
 					animated->SetAnimationPlayer(player.get());
 					player->Start();
 					player->AddRef();
-					m_players.push_back(Core::UniquePtr < Attributes::IAnimationPlayer > {player.get(), Core::DestroyObject});
+					m_players.push_back(Core::Pointer < Attributes::IAnimationPlayer > {player.get(), Core::DestroyObject});
 				}
 			}
 			if (animated->GetAnimationPlayer() && animated->GetAnimationPlayer()->IsPlaying())

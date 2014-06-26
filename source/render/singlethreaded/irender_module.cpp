@@ -71,7 +71,7 @@ namespace LowLevelRender {
 			{}
 		};
 
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
 		SceneModule::ISceneManager* m_manager{ nullptr };
 		Graphics::IVideoDriver* m_driver{ nullptr };
 		Graphics::ILowLevelRender* m_render{ nullptr };
@@ -84,12 +84,12 @@ namespace LowLevelRender {
 
 		Core::ObjectPool<Attributes::IGeometry*, Graphics::IRenderable*> m_cooked_geometry;
 		std::map<SceneModule::INode*, RenderGeoemetryCache> m_geometry_cache;
-		//Graphics::ICanvasUniquePtr m_canvas{ nullptr, Core::DestroyObject };
-		SceneModule::ISceneGraphUniquePtr m_scene{ nullptr, Core::DestroyObject };
-		SceneModule::INodeUniquePtr m_camera_node{ nullptr, Core::DestroyObject };
-		Attributes::IGeometryCookerUniquePtr m_geometry_cooker{ nullptr, Core::DestroyObject };
-		Graphics::IRenderableBuilderUniquePtr m_renderable_builder{ nullptr, Core::DestroyObject };
-		Graphics::ICanvasUniquePtr m_canvas{ nullptr, Core::DestroyObject };
+		//Graphics::ICanvasPointer m_canvas{ nullptr, Core::DestroyObject };
+		SceneModule::ISceneGraphPointer m_scene{ nullptr, Core::DestroyObject };
+		SceneModule::INodePointer m_camera_node{ nullptr, Core::DestroyObject };
+		Attributes::IGeometryCookerPointer m_geometry_cooker{ nullptr, Core::DestroyObject };
+		Graphics::IRenderableBuilderPointer m_renderable_builder{ nullptr, Core::DestroyObject };
+		Graphics::ICanvasPointer m_canvas{ nullptr, Core::DestroyObject };
 	};
 
 	void RenderModule::QueryInterface(const Core::Guid& type, void** object) {		
@@ -257,6 +257,15 @@ namespace LowLevelRender {
 				}
 			}
 		}
+		count = node->GetAttributesCountOfType<Attributes::IArmature>();
+		if (count != 0) {
+			for (int i = 0; i < count; ++i) {
+				auto armature = node->GetAttributeOfType<Attributes::IArmature>(i);
+				if (armature) {
+
+				}
+			}
+		}
 		for (int i = 0, max_i = (int)node->GetChildrenCount(); i < max_i; ++i) {
 			Process(frame, node->GetChild(i));
 		}
@@ -400,9 +409,9 @@ namespace LowLevelRender {
 			if (diffuse_slot) {
 				System::Folder folder;
 				folder.Open(System::Environment::Instance()->GetTextureFolder());
-                ImageModule::IImageReaderUniquePtr image_reader = System::CreateInstancePtr<ImageModule::IImageReader>(ImageModule::IID_IImageReader);
-                ImageModule::IImageUniquePtr image{ image_reader->Read(diffuse_slot->GetFilename()), Core::DestroyObject };
-                Graphics::ITexture2DUniquePtr texture = System::CreateInstancePtr<Graphics::ITexture2D>(Graphics::IID_ITexture2D);
+                ImageModule::IImageReaderPointer image_reader = System::CreateInstancePtr<ImageModule::IImageReader>(ImageModule::IID_IImageReader);
+                ImageModule::IImagePointer image{ image_reader->Read(diffuse_slot->GetFilename()), Core::DestroyObject };
+                Graphics::ITexture2DPointer texture = System::CreateInstancePtr<Graphics::ITexture2D>(Graphics::IID_ITexture2D);
 				if (texture)
 					texture->Initialize(image.get(), true, m_canvas->GetVideoDriver());
 				diffuse_slot->SetTexture(texture.get());

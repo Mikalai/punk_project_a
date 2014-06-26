@@ -25,7 +25,7 @@ namespace ImageModule {
 		virtual IImage* Read(Core::Buffer& buffer) = 0;
 	};
 
-	using IImageReaderUniquePtr = Core::UniquePtr < IImageReader > ;
+	using IImageReaderPointer = Core::Pointer < IImageReader > ;
 }
 PUNK_ENGINE_END
 
