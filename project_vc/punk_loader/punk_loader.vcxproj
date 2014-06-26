@@ -167,6 +167,7 @@
     <ClCompile Include="..\..\source\loader\parser\game_parser.cpp" />
     <ClCompile Include="..\..\source\loader\parser\keywords.cpp" />
     <ClCompile Include="..\..\source\loader\parser\parser.cpp" />
+    <ClCompile Include="..\..\source\loader\parser\parse_texture_coordinates.cpp" />
     <ClCompile Include="..\..\source\loader\parser\parse_track.cpp" />
     <ClCompile Include="..\..\source\loader\parser\parse_animation.cpp" />
     <ClCompile Include="..\..\source\loader\parser\parse_anything.cpp" />
@@ -361,7 +362,6 @@
     <ClInclude Include="..\..\source\loader\parser\parse_skin_meshes.h" />
     <ClInclude Include="..\..\source\loader\parser\parse_skin_mesh_node.h" />
     <ClInclude Include="..\..\source\loader\parser\parse_spline.h" />
-    <ClCompile Include="..\..\source\loader\parser\parse_texture_coordinates.h" />
     <ClInclude Include="..\..\source\loader\parser\parse_static_meshes.h" />
     <ClInclude Include="..\..\source\loader\parser\parse_static_mesh_node.h" />
     <ClInclude Include="..\..\source\loader\parser\parse_sun.h" />

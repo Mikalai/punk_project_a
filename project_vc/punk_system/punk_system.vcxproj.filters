@@ -5,7 +5,6 @@
     <ClInclude Include="..\..\source\system\config_file.h" />
     <ClInclude Include="..\..\source\system\environment.h" />
     <ClInclude Include="..\..\source\system\event_manager.h" />
-    <ClInclude Include="..\..\source\system\factory.h" />
     <ClInclude Include="..\..\source\system\module.h" />
     <ClInclude Include="..\..\source\system\profiler.h" />
     <ClInclude Include="..\..\source\system\resource.h" />
@@ -263,12 +262,20 @@
     <ClInclude Include="..\..\source\system\window\window_base.h">
       <Filter>window</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\system\factory\factory.h">
+      <Filter>factory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\factory\ifactory.h">
+      <Filter>factory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\factory\module.h">
+      <Filter>factory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\system\config_file.cpp" />
     <ClCompile Include="..\..\source\system\environment.cpp" />
     <ClCompile Include="..\..\source\system\event_manager.cpp" />
-    <ClCompile Include="..\..\source\system\factory.cpp" />
     <ClCompile Include="..\..\source\system\profiler.cpp" />
     <ClCompile Include="..\..\source\system\serializable.cpp" />
     <ClCompile Include="..\..\source\system\storable.cpp" />
@@ -416,6 +423,9 @@
     <ClCompile Include="..\..\source\system\window\window_base.cpp">
       <Filter>window</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\system\factory\ifactory.cpp">
+      <Filter>factory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="aop">
@@ -453,6 +463,9 @@
     </Filter>
     <Filter Include="module">
       <UniqueIdentifier>{9f47dfe6-9719-45c9-a557-3cbd2f182ad1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="factory">
+      <UniqueIdentifier>{f9323c4f-57d9-4fcd-a598-84edc8354832}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

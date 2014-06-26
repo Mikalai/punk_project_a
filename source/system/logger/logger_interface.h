@@ -49,7 +49,7 @@ namespace System
 
 #else
 #define LOG_FUNCTION_SCOPE
-#define LOG_FUNCTION_SCOPE(MESSAGE)
+#define LOG_SCOPE(MESSAGE)
 #endif
 }
 PUNK_ENGINE_END

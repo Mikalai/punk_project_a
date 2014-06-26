@@ -24,7 +24,6 @@
     <ClCompile Include="..\..\source\core\component\components_pool_impl.cpp" />
     <ClCompile Include="..\..\source\core\compound_object.cpp" />
     <ClCompile Include="..\..\source\core\core_error.cpp" />
-    <ClCompile Include="..\..\source\core\ifactory.cpp" />
     <ClCompile Include="..\..\source\core\guid.cpp" />
     <ClCompile Include="..\..\source\core\meta_class_base.cpp" />
     <ClCompile Include="..\..\source\core\object.cpp" />
@@ -44,10 +43,8 @@
     <ClInclude Include="..\..\source\core\container.h" />
     <ClInclude Include="..\..\source\core\core_error.h" />
     <ClInclude Include="..\..\source\core\decl_property.h" />
-    <ClInclude Include="..\..\source\core\factory.h" />
     <ClInclude Include="..\..\source\core\guid.h" />
     <ClInclude Include="..\..\source\core\icompound_object.h" />
-    <ClInclude Include="..\..\source\core\ifactory.h" />
     <ClInclude Include="..\..\source\core\iobject.h" />
     <ClInclude Include="..\..\source\core\meta_class.h" />
     <ClInclude Include="..\..\source\core\meta_class_base.h" />

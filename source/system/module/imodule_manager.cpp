@@ -49,7 +49,7 @@ namespace System {
         code = dlerror();
 #endif
         if (!GetPunkModule) {
-            GetDefaultLogger()->Info("Module '" + module + "' doesn't have GetPunkModule function." + Core::String(code));
+            GetDefaultLogger()->Info("Module '" + module + "' doesn't have GetPunkModule function.");
             return Core::UniquePtr < IModule > {nullptr, Core::DestroyObject };
         }
         IModule* punk_module = GetPunkModule();

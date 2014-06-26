@@ -200,7 +200,9 @@
     <ClInclude Include="..\..\source\system\events\mouse_wheel_event.h" />
     <ClInclude Include="..\..\source\system\events\window_resize_event.h" />
     <ClInclude Include="..\..\source\system\event_manager.h" />
-    <ClInclude Include="..\..\source\system\factory.h" />
+    <ClInclude Include="..\..\source\system\factory\factory.h" />
+    <ClInclude Include="..\..\source\system\factory\ifactory.h" />
+    <ClInclude Include="..\..\source\system\factory\module.h" />
     <ClInclude Include="..\..\source\system\filesystem\binary_file.h" />
     <ClInclude Include="..\..\source\system\filesystem\folder.h" />
     <ClInclude Include="..\..\source\system\filesystem\mapped_buffer.h" />
@@ -285,7 +287,7 @@
     <ClCompile Include="..\..\source\system\events\mouse_wheel_event.cpp" />
     <ClCompile Include="..\..\source\system\events\window_resize_event.cpp" />
     <ClCompile Include="..\..\source\system\event_manager.cpp" />
-    <ClCompile Include="..\..\source\system\factory.cpp" />
+    <ClCompile Include="..\..\source\system\factory\ifactory.cpp" />
     <ClCompile Include="..\..\source\system\filesystem\binary_file.cpp" />
     <ClCompile Include="..\..\source\system\filesystem\folder.cpp" />
     <ClCompile Include="..\..\source\system\filesystem\mapped_buffer.cpp" />

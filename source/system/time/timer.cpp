@@ -1,17 +1,7 @@
-
 #include <stdint.h>
-
-#ifdef _WIN32
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
-#include <Windows.h>
-#elif defined __gnu_linux__
 #include <chrono>
-#endif
-
-#include "timer.h"
 #include <system/factory/module.h>
+#include "timer.h"
 
 PUNK_ENGINE_BEGIN
 namespace System
@@ -32,25 +22,25 @@ namespace System
         double GetTime() const
         {
             using namespace std::chrono;
-            auto value = duration_cast<microseconds>(high_resolution_clock::now().time_since_epoch());
-            double count = value.count();
-            return count / 1000000.0;
+            auto point = duration_cast<microseconds>(high_resolution_clock::now().time_since_epoch());
+			auto value = std::chrono::duration_cast<seconds>(point);
+			return (double)value.count();
         }
 
 		double GetElapsedSeconds() const
 		{
             using namespace std::chrono;
             auto now = high_resolution_clock::now();
-            auto value = std::chrono::duration_cast<seconds>(now - m_last_check);
-            return value.count();
+            auto value = std::chrono::duration_cast<microseconds>(now - m_last_check);
+            return value.count() / 1000000.0;
 		}
 
 		double GetElapsedMiliseconds() const
 		{
             using namespace std::chrono;
             auto now = high_resolution_clock::now();
-            auto value = std::chrono::duration_cast<milliseconds>(now - m_last_check);
-            return value.count();
+            auto value = std::chrono::duration_cast<microseconds>(now - m_last_check);
+            return value.count() / 1000.0;
 		}
 
         void Reset()

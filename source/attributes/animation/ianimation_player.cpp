@@ -61,6 +61,19 @@ namespace Attributes {
 		Core::ActionSlot<std::int32_t> m_on_frame;
 
 		struct TrackCache {
+			
+			TrackCache()
+				: m_interpolator{ nullptr, Core::DestroyObject }
+			{}
+
+			TrackCache(const TrackCache& cache)
+				: m_on_frame{ cache.m_on_frame }
+				, m_current_value{ cache.m_current_value }
+				, m_interpolator{ m_interpolator.get(), Core::DestroyObject }
+			{
+				m_interpolator->AddRef();
+			}
+
 			Core::ActionSlot<std::int32_t, void*, std::uint32_t> m_on_frame;
 			std::vector<std::uint8_t> m_current_value;
             Core::UniquePtr<IKeyFrameInterpolator> m_interpolator{ nullptr, Core::DestroyObject };

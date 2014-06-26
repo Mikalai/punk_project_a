@@ -52,10 +52,7 @@ namespace System {
 
     WindowWin::WindowWin()
     {
-		m_timer = nullptr;
-		ITimer* timer;
-		Core::GetFactory()->CreateInstance(System::IID_ITimer, (void**)&timer);
-		m_timer.reset(timer);
+		m_timer = System::CreateInstancePtr<ITimer>(System::IID_ITimer);		
 	}
 
 	void WindowWin::Initialize(const WindowDescription& desc) {

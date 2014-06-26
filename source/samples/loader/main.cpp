@@ -49,8 +49,7 @@ int main() {
 
 	try{
 		System::LoadModule("punk_application");		
-		Runtime::IApplication* app{ nullptr };
-		Core::GetFactory()->CreateInstance(Runtime::IID_IApplication, (void**)&app);
+		auto app = System::CreateInstancePtr<Runtime::IApplication>(Runtime::IID_IApplication);
 
 		if (!app) {
 			System::GetDefaultLogger()->Error("Can't create application");

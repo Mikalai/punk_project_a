@@ -271,13 +271,13 @@
     <ClCompile Include="..\..\source\loader\parser\parse_camera.cpp">
       <Filter>parser</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\loader\parser\parse_texture_coordinates.h">
-      <Filter>parser</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\loader\parser\parse_armature_schema.cpp">
       <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\loader\parser\parse_track.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_texture_coordinates.cpp">
       <Filter>parser</Filter>
     </ClCompile>
   </ItemGroup>

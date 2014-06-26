@@ -112,7 +112,6 @@ namespace Runtime {
     }
 
     PUNK_REGISTER_CREATOR(IID_IApplication, (System::CreateInstance<Application, IApplication>));
-
 }
 PUNK_ENGINE_END
 
