@@ -21,9 +21,6 @@
     <ClCompile Include="..\..\source\scene\singlethreaded\scene_helper.cpp">
       <Filter>singlethreaded</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\scene\singlethreaded\scene_manager.cpp">
-      <Filter>singlethreaded</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\scene\singlethreaded\scene_processor.cpp">
       <Filter>singlethreaded</Filter>
     </ClCompile>
@@ -31,6 +28,9 @@
       <Filter>singlethreaded</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\scene\singlethreaded\scene.cpp">
+      <Filter>singlethreaded</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\scene\singlethreaded\iscene_manager.cpp">
       <Filter>singlethreaded</Filter>
     </ClCompile>
   </ItemGroup>

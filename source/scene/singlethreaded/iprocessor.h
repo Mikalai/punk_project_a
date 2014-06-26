@@ -15,6 +15,7 @@ namespace SceneModule {
 	public:
 		virtual void SetSceneManager(ISceneManager* manager) = 0;
 		virtual void Update(float dt) = 0;
+		virtual void Terminate() = 0;		
 	};
 }
 PUNK_ENGINE_END

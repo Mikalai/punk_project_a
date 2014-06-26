@@ -93,7 +93,7 @@ namespace Runtime {
         timer->Reset();
         int frame = 0;
         float t = 0;
-        while (true) {
+        while (!m_scene_manager->IsTerminated()) {
             float dt = timer->GetElapsedMiliseconds();
             timer->Reset();
             m_scene_manager->Update(dt);

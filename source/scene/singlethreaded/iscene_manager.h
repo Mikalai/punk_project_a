@@ -20,6 +20,8 @@ namespace SceneModule {
 		virtual IScene* GetScene() = 0;
 		virtual void AddProcessor(IProcessor* processor) = 0;
 		virtual void Update(float dt) = 0;
+		virtual void Terminate() = 0;
+		virtual bool IsTerminated() const = 0;
 
 		//	processor notifications
 		//virtual void SceneChangeStarted(ISceneProcessor* value) = 0;
