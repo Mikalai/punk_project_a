@@ -271,6 +271,9 @@
     <ClInclude Include="..\..\source\system\factory\module.h">
       <Filter>factory</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\system\concurrency\signal.h">
+      <Filter>concurrency</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\system\config_file.cpp" />
@@ -425,6 +428,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\system\factory\ifactory.cpp">
       <Filter>factory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\concurrency\signal.cpp">
+      <Filter>concurrency</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

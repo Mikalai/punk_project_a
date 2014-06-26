@@ -175,6 +175,7 @@
     <ClInclude Include="..\..\source\system\concurrency\os_handle.h" />
     <ClInclude Include="..\..\source\system\concurrency\process.h" />
     <ClInclude Include="..\..\source\system\concurrency\semaphore.h" />
+    <ClInclude Include="..\..\source\system\concurrency\signal.h" />
     <ClInclude Include="..\..\source\system\concurrency\thread.h" />
     <ClInclude Include="..\..\source\system\concurrency\thread_job.h" />
     <ClInclude Include="..\..\source\system\concurrency\thread_mutex.h" />
@@ -267,6 +268,7 @@
     <ClCompile Include="..\..\source\system\concurrency\monitor.cpp" />
     <ClCompile Include="..\..\source\system\concurrency\process.cpp" />
     <ClCompile Include="..\..\source\system\concurrency\semaphore.cpp" />
+    <ClCompile Include="..\..\source\system\concurrency\signal.cpp" />
     <ClCompile Include="..\..\source\system\concurrency\thread.cpp" />
     <ClCompile Include="..\..\source\system\concurrency\thread_job.cpp" />
     <ClCompile Include="..\..\source\system\concurrency\thread_mutex.cpp" />
