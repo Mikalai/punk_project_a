@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <atomic>
 #include <memory>
+#include "unique_ptr.h"
 #include "guid.h"
 #include "container.h"
 
@@ -31,36 +32,13 @@ namespace Core {
 	void ReleaseObject(T* o) {
 		if (o)
 			o->Release();
-	}
-
-	template<class T, class Base = IObject>
-	using UniquePtr = std::unique_ptr < T, void(*)(Base*) > ;
-
-#define UNIQUE_PTR(T) std::unique_ptr<T, void(*)(Core::IObject*)>
-
-	using IObjectUniquePtr = UniquePtr < IObject > ;
-
-#define PUNK_OBJECT_DEFAULT_IMPL(T) \
-	public:\
-	std::uint32_t AddRef() {\
-	m_ref_count.fetch_add(1);\
-	return m_ref_count;\
-	}\
-	\
-	std::uint32_t Release() {\
-		if (!(m_ref_count.fetch_sub(1)-1)) {\
-			delete this;\
-		}\
-		return m_ref_count;\
-	}\
-	private:\
-	std::atomic<std::uint32_t> m_ref_count {1}; 
+	}	
 
     template<class I>
-    std::unique_ptr<I, void (*)(IObject*)> QueryInterfacePtr(IObject* source, const Guid& type) {
+    Pointer<I> QueryInterfacePtr(IObject* source, const Guid& type) {
         I* object = nullptr;
         source->QueryInterface(type, (void**)&object);
-        return Core::UniquePtr<I>{object, Core::DestroyObject};
+        return Core::Pointer<I>{object, Core::DestroyObject};
     }
 
 	template < class This >

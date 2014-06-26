@@ -31,7 +31,7 @@ namespace Core {
 		virtual std::uint32_t GetChildrenCount() const = 0;
 	};		
 
-	using ICompoundObjectUniquePtr = UniquePtr < ICompoundObject >;
+	using ICompoundObjectPointer = Pointer < ICompoundObject >;
 
 #define PUNK_COMP_OBJECT_DEFAULT_IMPL(T) \
 	public:\
@@ -98,7 +98,7 @@ namespace Core {
 		return m_container.GetChildrenCount();\
 			}\
 	private:\
-	std::atomic<std::uint32_t> m_ref_count{1}; \
+	std::atomic<std::uint32_t> m_ref_count{ 0 }; \
 	Core::Container<IObject> m_container{this, Core::GetRootObject()};
 
 #define PUNK_COMP_OBJECT_DEFAULT_IMPL2(T) \
@@ -173,7 +173,7 @@ namespace Core {
 		if (!(m_ref_count.fetch_sub(1)-1) {\
 			delete this;\
 						}\
-		return m_ref_count{1};\
+		return m_ref_count{ 0 };\
 			}\
 	\
 	const IObject* GetOwner() const {\

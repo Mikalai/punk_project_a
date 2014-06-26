@@ -46,6 +46,7 @@
     <ClInclude Include="..\..\source\core\guid.h" />
     <ClInclude Include="..\..\source\core\icompound_object.h" />
     <ClInclude Include="..\..\source\core\iobject.h" />
+    <ClInclude Include="..\..\source\core\iobject_impl.h" />
     <ClInclude Include="..\..\source\core\meta_class.h" />
     <ClInclude Include="..\..\source\core\meta_class_base.h" />
     <ClInclude Include="..\..\source\core\module.h" />
@@ -56,6 +57,7 @@
     <ClInclude Include="..\..\source\core\pool_manager.h" />
     <ClInclude Include="..\..\source\core\rtti.h" />
     <ClInclude Include="..\..\source\core\static_information.h" />
+    <ClInclude Include="..\..\source\core\unique_ptr.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{31B26C70-E2E1-4259-B63D-618D876C87D3}</ProjectGuid>

@@ -39,7 +39,7 @@ namespace Core {
 	protected:
 		virtual ~MetaAction() {}
     private:		
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
     };
 
     template<typename... Types>
