@@ -2,7 +2,7 @@
 #include <libtiff/tiffio.h>
 #endif
 #include <string.h>
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <images/error/module.h>
 #include <images/iimage.h>
 #include <string/module.h>
@@ -43,8 +43,9 @@ namespace ImageModule
 			return true;
 		}
 
-		static void DecodeBuffer(Core::Buffer& buffer, IImage** image) {
+        static void DecodeBuffer(Core::Buffer& buffer, IImage** _image) {
 #ifdef USE_LIB_TIFF
+            Core::UniquePtr<IImage> image {nullptr, Core::DestroyObject};
 			PunkTiffHandle h;
 			h.stream = &buffer;
 			TIFF* tif;
@@ -69,13 +70,14 @@ namespace ImageModule
 				throw Error::ImageException("Failed ro read RGBA image");
 			}
 
-			Core::GetFactory()->CreateInstance(IID_IRgbaImage, (void**)image);
-			(*image)->SetSize(width, height);
-			memcpy((*image)->GetData(), raster, npixels*sizeof(uint32));
+            image = System::CreateInstancePtr<IImage>(IID_IRgbaImage);
+            image->SetSize(width, height);
+            memcpy(image->GetData(), raster, npixels*sizeof(uint32));
 
 			_TIFFfree(raster);
 
 			TIFFClose(tif);
+            *_image = image.release();
 #else
 			return false;
 #endif

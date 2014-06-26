@@ -3,6 +3,7 @@
 
 #include <system/environment.h>
 #include <system/filesystem/folder.h>
+#include <graphics/render/render_context_type.h>
 #include "gl_shader_base.h"
 
 PUNK_ENGINE_BEGIN
@@ -38,7 +39,7 @@ namespace Graphics {
 				m_aspect->Cook();
 			}
 
-			GLuint GetIndex() const override {
+            std::uint32_t GetIndex() const override {
 				return m_aspect->GetIndex();
 			}
 
@@ -69,7 +70,7 @@ namespace Graphics {
 			void Connect(GlRenderContextBase* rc) override {
 			}
 
-			GLuint GetIndex() const override {
+            std::uint32_t GetIndex() const override {
 				return 0;
 			}
 

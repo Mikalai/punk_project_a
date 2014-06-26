@@ -39,6 +39,8 @@ namespace Punk {
 
 			Core::String Stack::GetStackTrace()
 			{
+                Core::StringList list;
+
 #ifdef _MSC_VER
 				CONTEXT c;
 				memset(&c, 0, sizeof(c));
@@ -61,9 +63,7 @@ namespace Punk {
 
 				IMAGEHLP_LINE64 line;
 				memset(&line, 0, sizeof(line));
-				line.SizeOfStruct = sizeof(line);
-
-				Core::StringList list;
+				line.SizeOfStruct = sizeof(line);				
 
 				for (int i = 0;; i++)
 				{	
@@ -201,6 +201,8 @@ namespace Punk {
 							module_name = Core::String(module.ModuleName);
 						}
 					}
+
+					list.Push(module_name + "!" + function + " in " + file + ":" + line_number + "\n");
 
 					if (stack_frame.AddrReturn.Offset == 0)
 						break;

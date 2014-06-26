@@ -2,10 +2,11 @@
 #include <system/concurrency/module.h>
 #include <graphics/frame/iframe.h>
 #include <graphics/primitives/module.h>
+#include <graphics/video_driver/module.h>
 #include "irender.h"
 #include <math/vec2.h>
 #include <math/mat4.h>
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <graphics/error/module.h>
 #include <graphics/frame_buffer/module.h>
 #include <graphics/render/irender_context.h>
@@ -48,7 +49,7 @@ namespace Graphics {
 		bool m_initialized{ false };
 		IRenderContextFactoryUniquePtr m_rc_factory{ nullptr, Core::DestroyObject };
 		IRenderQueueUniquePtr m_queue{ nullptr, Core::DestroyObject };
-		IVideoDriver* m_driver{ nullptr };
+        Core::UniquePtr<IVideoDriver> m_driver{ nullptr, Core::DestroyObject };
 		IFrameUniquePtr m_frame{ nullptr, Core::DestroyObject };
 		std::atomic<std::uint32_t> m_ref_count{ 1 };
 	};
@@ -86,14 +87,20 @@ namespace Graphics {
     }
 
 	void LowLevelRender::Initialize(IVideoDriver* driver) {
-		if (!m_initialized) {
-			m_driver = driver;
-			Core::GetFactory()->CreateInstance(IID_IRenderQueue, (void**)&m_queue);			
+        if (!driver)
+            throw Error::GraphicsException("Can't initialize low level render with null driver");
+		if (!m_initialized) {            
+            driver->AddRef();
+            m_driver.reset(driver);
+            m_queue = System::CreateInstancePtr<IRenderQueue>(IID_IRenderQueue);
 			m_queue->Initialize(this);
-			Core::GetFactory()->CreateInstance(IID_IRenderContextFactory, (void**)&m_rc_factory);
+            m_rc_factory = System::CreateInstancePtr<IRenderContextFactory>(IID_IRenderContextFactory);
 			m_rc_factory->Initialize(driver);
 			m_initialized = true;
 		}
+        else {
+            throw Error::GraphicsException("Low level render has been already initialized");
+        }
 	}
 
 	void LowLevelRender::AssertInitialized() {
@@ -108,7 +115,7 @@ namespace Graphics {
 
     IVideoDriver* LowLevelRender::GetVideoDriver() {
 		AssertInitialized();
-        return m_driver;
+        return m_driver.get();
     }
 
     const Math::vec2 LowLevelRender::FindZRange(const Math::mat4& view) {
@@ -133,7 +140,7 @@ namespace Graphics {
 	IFrame* LowLevelRender::BeginFrame() {
 		AssertInitialized();
 		if (!m_frame.get()) {			
-			Core::GetFactory()->CreateInstance(IID_IFrame, (void**)&m_frame);			
+            m_frame = System::CreateInstancePtr<IFrame>(IID_IFrame);
 			m_frame->SetRender(this);
 		}
 		return m_frame.get();
@@ -182,7 +189,7 @@ namespace Graphics {
 		return m_queue.get();
 	}
 
-	PUNK_REGISTER_CREATOR(IID_ILowLevelRender, (Core::CreateInstance<LowLevelRender, ILowLevelRender>));
+	PUNK_REGISTER_CREATOR(IID_ILowLevelRender, (System::CreateInstance<LowLevelRender, ILowLevelRender>));
 
     
 }

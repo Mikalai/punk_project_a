@@ -22,8 +22,8 @@
     <ClCompile Include="..\..\source\core\pool_manager.cpp" />
     <ClCompile Include="..\..\source\core\rtti.cpp" />
     <ClCompile Include="..\..\source\core\static_information.cpp" />
-    <ClCompile Include="..\..\source\core\factory.cpp" />
     <ClCompile Include="..\..\source\core\guid.cpp" />
+    <ClCompile Include="..\..\source\core\ifactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\core\component\component.h">

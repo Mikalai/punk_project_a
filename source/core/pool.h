@@ -2,6 +2,8 @@
 #define _H_PUNK_POOL
 
 #include <stddef.h>
+#include <stdlib.h>
+#include <memory.h>
 #include <deque>
 #include <config.h>
 

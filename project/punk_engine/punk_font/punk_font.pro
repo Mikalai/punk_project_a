@@ -64,8 +64,7 @@ SOURCES += \
     ../../../source/fonts/freetype/src/cff/cff.c \
     ../../../source/fonts/freetype/src/base/ftbase.c \
     ../../../source/fonts/freetype/src/base/ftbitmap.c \
-    ../../../source/fonts/freetype/src/cache/ftcache.c \
-    ../../../source/fonts/freetype/src/ftdebug.c \
+    ../../../source/fonts/freetype/src/cache/ftcache.c \    
     ../../../source/fonts/freetype/src/base/ftfstype.c \
     ../../../source/fonts/freetype/src/base/ftgasp.c \
     ../../../source/fonts/freetype/src/base/ftglyph.c \
@@ -76,3 +75,4 @@ SOURCES += \
     ../../../source/fonts/freetype/src/base/ftsystem.c \
     ../../../source/fonts/freetype/src/smooth/smooth.c \
     ../../../source/fonts/font.cpp
+#../../../source/fonts/freetype/src/ftdebug.c \

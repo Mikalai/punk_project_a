@@ -6,7 +6,4 @@ TEMPLATE = subdirs
 CONFIG += ordered
 CONFIG -= qt
 
-SUBDIRS = punk_samples/punk_native_window \
-          punk_samples/punk_simple_canvas \
-          punk_samples/punk_first_polygon \
-          punk_samples/punk_loader
+SUBDIRS = punk_samples/punk_first_polygon

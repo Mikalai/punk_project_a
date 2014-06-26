@@ -1,5 +1,6 @@
 #include <utility>
 #include <string/module.h>
+#include <cstdint>
 #include "blend_function.h"
 
 PUNK_ENGINE_BEGIN
@@ -15,7 +16,7 @@ namespace Graphics
 
     const Core::String AsString(const BlendFunction& v)
 	{
-		for (size_t i = 0; i != std::extent<decltype(g_blend_functions)>::value; ++i)
+        for (std::size_t i = 0; i != std::extent<decltype(g_blend_functions)>::value; ++i)
 		{
 			if (g_blend_functions[i].first == v)
 				return g_blend_functions[i].second;

@@ -5,7 +5,7 @@
 #endif
 
 #include <stdio.h>
-#include <String.h>
+#include <string.h>
 
 PUNK_ENGINE_BEGIN
 namespace System {

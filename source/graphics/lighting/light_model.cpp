@@ -14,7 +14,7 @@ namespace Graphics
 
 	const Core::String AsString(const LightModel& v)
 	{
-		for (size_t i = 0; i != std::extent<decltype(g_light_models)>::value; ++i)
+        for (std::size_t i = 0; i != std::extent<decltype(g_light_models)>::value; ++i)
 		{
 			if (g_light_models[i].first == v)
 				return g_light_models[i].second;
@@ -31,7 +31,7 @@ namespace Graphics
 
 	const Core::String AsString(LightAttenuation value)
 	{
-		for (size_t i = 0; i != std::extent<decltype(g_light_attenuations)>::value; ++i)
+        for (std::size_t i = 0; i != std::extent<decltype(g_light_attenuations)>::value; ++i)
 		{
 			if (g_light_attenuations[i].first == value)
 				return g_light_attenuations[i].second;
@@ -48,7 +48,7 @@ namespace Graphics
 
 	const Core::String AsString(LightType value)
 	{
-		for (size_t i = 0; i != std::extent<decltype(g_light_types)>::value; ++i)
+        for (std::size_t i = 0; i != std::extent<decltype(g_light_types)>::value; ++i)
 		{
 			if (g_light_types[i].first == value)
 				return g_light_types[i].second;

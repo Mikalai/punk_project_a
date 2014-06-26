@@ -1,4 +1,4 @@
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include "geometry.h"
 
 PUNK_ENGINE_BEGIN

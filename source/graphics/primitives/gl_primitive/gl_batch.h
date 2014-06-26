@@ -10,7 +10,7 @@ namespace Graphics {
 	namespace OpenGL {
 
 		template<typename IT, typename ... VC>
-		struct GlBatchCore {
+        struct PUNK_ENGINE_LOCAL GlBatchCore {
 			using VertexArrayObjectType = VertexArrayObject2 < VertexBufferObject<Vertex<VC...>>, IndexBufferObject<IT> >;
 
 			GlBatchCore() {
@@ -55,7 +55,7 @@ namespace Graphics {
 		};
 
 		template<PrimitiveType CurrentPrimitiveType, typename IT, typename ... VC>
-		class GlBatch : public IRenderable {
+        class PUNK_ENGINE_LOCAL GlBatch : public IRenderable {
 		public:
 			using CurrentVertexArrayObject = VertexArrayObject2 < VertexBufferObject<Vertex<VC...>>, IndexBufferObject<IT> > ;
 			using CurrentRenderPolicy = RenderPolicy < CurrentPrimitiveType, IT, VC... > ;

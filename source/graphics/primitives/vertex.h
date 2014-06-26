@@ -203,7 +203,7 @@ namespace Graphics
 
 	template<size_t _offset, std::uint64_t _value>
 	struct VertexBuilder<_offset, _value> {
-		static constexpr std::int64_t Value() {
+		static std::int64_t Value() {
 			return _value;
 		}
 	};

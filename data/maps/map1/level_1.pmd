@@ -25,28 +25,28 @@ SCENETEXT
           Cube.001.static
         }
       }
-    }
-  }
-  *node {
-    *name {
-      Material
-    }
-    *entity_name {
-      Material.material
-    }
-    *node {
-      *name {
-        Transform
-      }
-      *entity_name {
-        Cube.transform
-      }
       *node {
         *name {
-          Static
+          Material
         }
         *entity_name {
-          Cube.static
+          Material.material
+        }
+        *node {
+          *name {
+            Transform
+          }
+          *entity_name {
+            Cube.transform
+          }
+          *node {
+            *name {
+              Static
+            }
+            *entity_name {
+              Cube.static
+            }
+          }
         }
       }
     }

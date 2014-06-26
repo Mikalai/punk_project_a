@@ -1,9 +1,9 @@
-#include "points.h"
+//#include "points.h"
 
-namespace GPU
-{
-	namespace OpenGL
-	{
+//namespace GPU
+//{
+//	namespace OpenGL
+//	{
 		
-	}
-}
+//	}
+//}

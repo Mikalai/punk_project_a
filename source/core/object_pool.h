@@ -11,7 +11,7 @@ namespace Core {
 	template < typename Key, typename Value >
 	class ObjectPool {
 	public:
-		bool HasValue(const Key& key) {
+        bool HasValue(const Key& key) {
 			return GetValue(key, nullptr);
 		}
 
@@ -30,7 +30,7 @@ namespace Core {
 
 		void RemoveValue(const Key& key) {
 			auto it = m_container.find(key);
-			if (it == m_contaner.end())
+            if (it == m_container.end())
 				throw Error::CoreException("Key was not added to pool");
 			m_container.erase(it);
 		}
@@ -38,7 +38,7 @@ namespace Core {
 	private:
 
 		bool GetValue(const Key& key, Value* value) {
-			std::map<Key, Value>::iterator it2 = m_container.find(key);
+            auto it2 = m_container.find(key);
 			if (it2 == m_container.end())
 				return false;
 			it2->second;

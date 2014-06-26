@@ -19,23 +19,23 @@ namespace Attributes {
 	public:
 		virtual std::int32_t GetFrame() const = 0;
 		virtual void SetFrame(std::int32_t value) = 0;
-		virtual void GetKey(void* buffer, std::uint32_t size) = 0;
+		virtual void GetKey(void* buffer, std::uint32_t size) const = 0;
 		virtual void SetKey(const void* buffer, std::uint32_t size) = 0;
 	};
 
 	using IKeyFrameUniquePtr = Core::UniquePtr < IKeyFrame > ;
 
-	template<typename Key> 
+	template<typename T> 
 	class KeyFrame : public IKeyFrame {
 	public:
 
-		const Key GetKey() const {
-			Key key;
+		const T Key() const {
+			T key;
 			GetKey(&key, sizeof(key));
 			return key;
 		}
 
-		void SetKey(const Key& value) {
+		void Key(const T& value) {
 			SetKey(&value, sizeof(value));
 		}
 	};

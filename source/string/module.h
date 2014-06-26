@@ -3,7 +3,7 @@
 
 #include "buffer.h"
 #include "buffer_error.h"
-#include "String.h"
+#include "string.h"
 #include "string_error.h"
 #include "string_list.h"
 

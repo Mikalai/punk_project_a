@@ -17,10 +17,10 @@ namespace System
         virtual double GetTime() const = 0;
         virtual double GetElapsedSeconds() const = 0;
         virtual double GetElapsedMiliseconds() const = 0;
-        virtual double Reset() = 0;
+        virtual void Reset() = 0;
     };
 
-	using ITimerUniquePtr = Core::UniquePtr < ITimer > ;
+    typedef UNIQUE_PTR(ITimer) ITimerUniquePtr;
 }
 PUNK_ENGINE_END
 

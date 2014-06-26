@@ -1,15 +1,20 @@
 ACTIONTEXT
 cube_animation_2 {
-  *timing {
-    1 180
-  }
-  *object_animation {
-    *position_track {
+  *track_vec3 {
+    *name {
+      Position
+    }
+    *keys {
           1         0.000000         0.000000         0.000000
          90         0.000000         0.000000         0.000000
         180         0.000000         0.000000         0.000000
     }
-    *rotation_track {
+  }
+  *track_quat {
+    *name {
+      Rotation
+    }
+    *keys {
           1         1.000000         0.000000         0.000000         0.000000
          90         0.000000         0.000000         0.000000         1.000000
         180        -1.000000         0.000000         0.000000         0.000000

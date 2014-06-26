@@ -1,7 +1,7 @@
 #include "exporter.h"
 #include "png_exporter.h"
 #include "images/error/module.h"
-#include "string/string.h"
+#include <string/string.h>
 
 PUNK_ENGINE_BEGIN
 namespace ImageModule

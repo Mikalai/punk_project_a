@@ -1,12 +1,30 @@
 #include <list>
-#include <core/ifactory.h>
+#include <system/factory/module.h>
+#include <math/vec3.h>
+#include <math/vec4.h>
+#include <math/mat4.h>
+#include <math/quat.h>
 #include "itrack.h"
 
 PUNK_ENGINE_BEGIN
 namespace Attributes {
 
-	class TrackImpl : public ITrack {
+	template<typename T> struct TrackGuidAspect;
+
+	template<> struct TrackGuidAspect < Math::vec3> { static const Core::Guid GetGuid() { return IID_IVec3Track; } };
+	template<> struct TrackGuidAspect < Math::vec4> { static const Core::Guid GetGuid() { return IID_IVec3Track; } };
+	template<> struct TrackGuidAspect < Math::mat4> { static const Core::Guid GetGuid() { return IID_IMat4Track; } };
+	template<> struct TrackGuidAspect < Math::quat> { static const Core::Guid GetGuid() { return IID_IQuatTrack; } };
+	template<> struct TrackGuidAspect < float > { static const Core::Guid GetGuid() { return IID_IFloatTrack; } };
+
+
+	template<class T>
+	class TrackImpl : public Track<T> {
 	public:
+
+        TrackImpl()
+            : m_ref_count{1}
+        {}
 
 		~TrackImpl() {
 			while (!m_frames.empty()) {
@@ -17,7 +35,7 @@ namespace Attributes {
 
 		//	IObject
 		void QueryInterface(const Core::Guid& type, void** object) {
-			Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_ITrack });
+			Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_ITrack, TrackGuidAspect<T>::GetGuid() });
 		}
 
 		std::uint32_t AddRef() {
@@ -29,7 +47,6 @@ namespace Attributes {
 				delete this;
 			return v;
 		}
-
 		
 		std::uint32_t GetDuration() const override {
 			return m_last_frame - m_first_frame + 1;
@@ -79,6 +96,7 @@ namespace Attributes {
 		}
 
 		void AddKeyFrame(IKeyFrame* value) {
+			value->AddRef();
 			if (m_frames.empty())
 				m_frames.push_back(value);
 			else {
@@ -87,9 +105,12 @@ namespace Attributes {
 					if ((*it)->GetFrame() > value->GetFrame()) {
 						break;
 					}
+					++it;
 				}
 				m_frames.insert(it, value);
 			}
+			m_first_frame = std::min(m_first_frame, value->GetFrame());
+			m_last_frame = std::max(m_last_frame, value->GetFrame());
 		}
 
 		const Core::String& GetName() const {
@@ -100,14 +121,22 @@ namespace Attributes {
 			m_name = value;
 		}
 
+		std::uint32_t GetKeySize() const override {
+			return sizeof(T);
+		}
+
 	private:
-		std::atomic<std::uint32_t> m_ref_count;
+		std::atomic<std::uint32_t> m_ref_count{ 1 };
 		std::int32_t m_first_frame{ 0 };
 		std::int32_t m_last_frame{ 0 };
 		std::list<IKeyFrame*> m_frames;
 		Core::String m_name;
 	};
 
-	PUNK_REGISTER_CREATOR(IID_ITrack, (Core::CreateInstance<TrackImpl, ITrack>));
+	PUNK_REGISTER_CREATOR(IID_IFloatTrack, (System::CreateInstance<TrackImpl<float>, ITrack>));
+	PUNK_REGISTER_CREATOR(IID_IVec3Track, (System::CreateInstance<TrackImpl<Math::vec3>, ITrack>));
+	PUNK_REGISTER_CREATOR(IID_IVec4Track, (System::CreateInstance<TrackImpl<Math::vec4>, ITrack>));
+	PUNK_REGISTER_CREATOR(IID_IQuatTrack, (System::CreateInstance<TrackImpl<Math::quat>, ITrack>));
+	PUNK_REGISTER_CREATOR(IID_IMat4Track, (System::CreateInstance<TrackImpl<Math::mat4>, ITrack>));
 }
 PUNK_ENGINE_END

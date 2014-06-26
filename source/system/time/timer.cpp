@@ -7,80 +7,55 @@
 #endif
 #include <Windows.h>
 #elif defined __gnu_linux__
-#include <sys/time.h>
+#include <chrono>
 #endif
 
 #include "timer.h"
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 
 PUNK_ENGINE_BEGIN
 namespace System
 {
     struct TimerImpl
-	{
-        double m_last_check;
+    {
+        std::chrono::high_resolution_clock::time_point m_last_check;
 
         uint64_t GetTickCount() const
         {
-#ifdef _WIN32
-            LARGE_INTEGER li;
-            QueryPerformanceCounter(&li);
-            return li.QuadPart;
-#elif defined __gnu_linux__
-            union {
-                unsigned long dw[2];
-                unsigned long long counter;
-            } tc;
-
-            __asm__ __volatile__ (
-                        ".byte 0x0f, 0x31\n"
-                        :"d=" (tc.dw[1]), "a=" (tc.dw[0]):
-                :"%eax", "%edx"
-                );
-            return tc.counter;
-#endif
+            using namespace std::chrono;
+            high_resolution_clock::time_point now = high_resolution_clock::now();
+            auto count = now.time_since_epoch().count();
+            return count;
         }
 
         //  returns time in seconds
         double GetTime() const
         {
-#ifdef _WIN32
-            auto current = GetTickCount()/(double)GetFrequency();
-            return current - m_last_check;
-#elif defined __gnu_linux__
-            timeval cur_time;
-            gettimeofday(&cur_time, nullptr);
-            double res = cur_time.tv_sec + (double)cur_time.tv_usec / 1000000.0;
-            return res;
-#endif
-        }
-
-        uint64_t GetFrequency() const
-        {
-#ifdef _WIN32
-            LARGE_INTEGER li;
-            QueryPerformanceFrequency(&li);
-            return li.QuadPart;
-#elif defined __gnu_linux__
-            return 0;
-#endif
+            using namespace std::chrono;
+            auto value = duration_cast<microseconds>(high_resolution_clock::now().time_since_epoch());
+            double count = value.count();
+            return count / 1000000.0;
         }
 
 		double GetElapsedSeconds() const
 		{
-            double res = ((double)GetTickCount() - m_last_check) / (double)GetFrequency();
-            return res;
+            using namespace std::chrono;
+            auto now = high_resolution_clock::now();
+            auto value = std::chrono::duration_cast<seconds>(now - m_last_check);
+            return value.count();
 		}
 
 		double GetElapsedMiliseconds() const
 		{
-			return GetElapsedSeconds() * 1000.0;
+            using namespace std::chrono;
+            auto now = high_resolution_clock::now();
+            auto value = std::chrono::duration_cast<milliseconds>(now - m_last_check);
+            return value.count();
 		}
 
-        double Reset()
+        void Reset()
 		{
-			m_last_check = (double)GetTickCount();
-            return m_last_check;
+            m_last_check = std::chrono::high_resolution_clock::now();
 		}
 
         TimerImpl()
@@ -125,9 +100,9 @@ namespace System
 		return impl->GetElapsedMiliseconds();
 	}
 		
-    double Timer::Reset()
+    void Timer::Reset()
     {
-		return impl->Reset();
+        impl->Reset();
     }
 
     double Timer::GetTime() const
@@ -135,6 +110,6 @@ namespace System
         return impl->GetTime();
     }
 
-	PUNK_REGISTER_CREATOR(IID_ITimer, (Core::CreateInstance<Timer, ITimer>));
+    PUNK_REGISTER_CREATOR(IID_ITimer, (System::CreateInstance<Timer, ITimer>));
 }
 PUNK_ENGINE_END

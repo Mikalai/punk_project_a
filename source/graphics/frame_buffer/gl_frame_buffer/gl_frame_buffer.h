@@ -13,7 +13,7 @@ namespace Graphics {
         class GlColorRenderBuffer;
         class GlDepthRenderBuffer;
 
-        class GlFrameBuffer : public FrameBuffer {
+        class PUNK_ENGINE_LOCAL GlFrameBuffer : public FrameBuffer {
         public:
             using FrameBuffer::Config;
 

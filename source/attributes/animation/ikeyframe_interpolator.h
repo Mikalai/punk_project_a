@@ -10,15 +10,20 @@ namespace Attributes
 {
 	DECLARE_PUNK_GUID(IID_IKeyFrameInterpolator, "DD4F6B2A-304D-444C-9699-849DDE9A95C1");
 	DECLARE_PUNK_GUID(IID_IKeyFrameLinearInterpolator, "E64F443F-A5BA-4E58-9ED1-EB819E53CC7B");
-	DECLARE_PUNK_GUID(IID_IVec3KeyFrameLinearInterpolator, "EA009DC0-B8F6-468C-9ED7-EA2125902EBE");
-	DECLARE_PUNK_GUID(IID_IVec4KeyFrameLinearInterpolator, "FCEC27E6-0485-461D-8750-B17BC640942A");
-	DECLARE_PUNK_GUID(IID_IMat4KeyFrameLinearInterpolator, "FD05E315-21BB-4A82-8FBD-ACE3257E8A74");
-	DECLARE_PUNK_GUID(IID_IQuatKeyFrameLinearInterpolator, "0D968AF8-DDC6-4FD0-954A-287F4E329941");
-	DECLARE_PUNK_GUID(IID_IFloatKeyFrameLinearInterpolator, "72E39F12-59AA-41EC-B598-E184FCF00A08");
+	DECLARE_PUNK_GUID(IID_IVec3KeyFrameLinearInterpolator, "987196BC-1D7D-4F2F-90BB-75CE6C5DBF26");
+	DECLARE_PUNK_GUID(IID_IVec4KeyFrameLinearInterpolator, "1A7F76D9-A19A-4675-9ECD-1AAF7F92F052");
+	DECLARE_PUNK_GUID(IID_IMat4KeyFrameLinearInterpolator, "C0F2C6D3-B030-4FCD-9D40-B31E9E9B9242");
+	DECLARE_PUNK_GUID(IID_IQuatKeyFrameLinearInterpolator, "9B29CF1A-3709-4AE0-A2B2-E3CB531E17D5");
+	DECLARE_PUNK_GUID(IID_IFloatKeyFrameLinearInterpolator, "48B3B926-FB9C-4D09-9AEE-99369F53AD4D");
+
+	enum class InterpolatorType : std::uint32_t {
+		Linear
+	};
 
     class IKeyFrameInterpolator : public Core::IObject
 	{
 	public:
+		virtual InterpolatorType GetType() = 0;
 		virtual void SetTrack(ITrack* track) = 0;
 		virtual void Interpolate(std::int32_t frame, void* result, std::uint32_t size) = 0;
 	};

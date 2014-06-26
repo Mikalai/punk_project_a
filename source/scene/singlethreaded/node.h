@@ -18,6 +18,8 @@ namespace SceneModule
         virtual ~Node();
 
 		void QueryInterface(const Core::Guid& type, void** object) override;
+		int GetAttributesCount() const override;
+		IAttribute* GetAttribute(int index) override;
 		void AddChild(INode* node) override;
 		std::uint32_t GetChildrenCount() const override;
 		INode* GetChild(std::uint32_t index) override;

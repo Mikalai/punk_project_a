@@ -5,19 +5,21 @@
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
-#include "system/input/module.h"
+#include <system/input/module.h>
+#include <system/time/module.h>
 
-#include "window.h"
+#include "window_base.h"
 
 PUNK_ENGINE_BEGIN
 namespace System
 {
-    class PUNK_ENGINE_API WindowX11 : public Window
+    class PUNK_ENGINE_API WindowX11 : public WindowBase
     {
     public:
-        WindowX11(const WindowDesc& desc = WindowDesc());
+        WindowX11();
         virtual ~WindowX11();        
 
+        void Initialize(const WindowDescription& desc) override;
         int GetDesktopWidth() const override;
         int GetDesktopHeight() const override;
         int GetDesktopBitsPerPixel() const override;
@@ -28,19 +30,13 @@ namespace System
         int GetY() const override;
         void SetSize(int width, int height) override;
         void SetPosition(int x, int y) override;
+        int Update(int dt) override;
         int Loop() override;
         void BreakMainLoop() override;
         void SetTitle(const Core::String& text) override;
         const Core::String GetTitle() const override;
         void Quite() override;
-        void DrawPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b, unsigned char a) override;
-        void DrawLine(int x1, int y1, int x2, int y2) override;
-        void ShowCursor(bool value) override;
-
-        Display* GetDisplay();
-        void SetDisplay(Display* display);
-        ::Window GetWindow();
-        void SetWindow(::Window value);
+        void ShowCursor(bool value) override;        
         int DecodeKey(KeySym keysym, int& charKey, bool press);
         void OnKeyPressRelease(XKeyEvent* event);
         void OnMousePressRelease(XEvent* event);
@@ -48,11 +44,22 @@ namespace System
 
         void MouseMoveProc(const MouseEvent& e);
 
+
+        void SetVisualInfo(XVisualInfo* visual) override;
+        Window GetNativeHandle() override;
+        Display* GetDisplay() override;
+
+    protected:
+
+        void InternalCreate() override;
+        void InternalDestroy() override;
+
     private:
+        WindowDescription m_window_description;
         ::Window m_window;
         // Screen* m_screen;
         Colormap m_color_map;
-        Display* m_display;
+        Display* m_display { nullptr };
         XSetWindowAttributes m_swa;
         Atom wmDeleteWindow;
         int x_prev {0};
@@ -63,11 +70,9 @@ namespace System
         bool m_left_button {false};
         bool m_right_button {false};
         bool m_middle_button {false};
+        ITimerUniquePtr m_timer{nullptr, Core::DestroyObject};
 
-        IKeyBoard* m_keyboard {nullptr};
-        IMouse* m_mouse {nullptr};
-
-        PUNK_OBJECT(WindowX11)
+        XVisualInfo* m_visual{nullptr};
     };
 }
 PUNK_ENGINE_END

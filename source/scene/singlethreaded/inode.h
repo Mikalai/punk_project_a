@@ -19,6 +19,8 @@ namespace SceneModule {
 
     class INode : public Core::IObject {
     public:
+		virtual int GetAttributesCount() const = 0;
+		virtual IAttribute* GetAttribute(int index) = 0;
 		virtual void AddChild(INode* node) = 0;
 		virtual std::uint32_t GetChildrenCount() const = 0;
 		virtual INode* GetChild(std::uint32_t index) = 0;
@@ -66,11 +68,6 @@ namespace SceneModule {
 		T* GetAttributeOfType(std::uint32_t index) const {
 			auto attribute = GetAttribute(typeid(T).hash_code(), index);
 			return attribute ? attribute->Get<T>() : nullptr;
-		}
-
-		template<class T>
-		T* Get() {
-			auto attribute = GetAttribute()
 		}
 
         template<class T>

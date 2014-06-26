@@ -1,4 +1,5 @@
 #include <attributes/animation/module.h>
+#include <system/factory/module.h>
 #include "parser.h"
 #include "parse_rotation_track.h"
 
@@ -33,18 +34,18 @@ namespace IoModule {
                 animation->SetName(name);
             }
                 break;
-            case WORD_POSITION_TRACK:
+            case WORD_TRACK_VEC3:
             {
-                Attributes::AnimationTrack<Math::vec3> track;
-                parser->Parse(WORD_POSITION_TRACK, buffer, &track);
-                animation->SetPositionTrack(track);
+                auto track = System::CreateInstancePtr<Attributes::Track<Math::vec3>>(Attributes::IID_IVec3Track);
+                parser->Parse(WORD_TRACK_VEC3, buffer, track.get());
+                animation->AddTrack(track.get());
             }
                 break;
-            case WORD_ROTATION_TRACK:
+            case WORD_TRACK_QUAT:
             {
-                Attributes::AnimationTrack<Math::quat> track;
-                parser->Parse(WORD_ROTATION_TRACK, buffer, track);
-                animation->SetRotationTrack(track);
+                auto track = System::CreateInstancePtr<Attributes::Track<Math::quat>>(Attributes::IID_IQuatTrack);
+                parser->Parse(WORD_TRACK_QUAT, buffer, track.get());
+                animation->AddTrack(track.get());
             }
                 break;
             default:
@@ -54,6 +55,6 @@ namespace IoModule {
         return false;
     }
 	
-	PUNK_REGISTER_PARSER(WORD_OBJECT_ANIMATION, ParseAnimation);
+	PUNK_REGISTER_PARSER(WORD_ACTION, ParseAnimation);
 }
 PUNK_ENGINE_END

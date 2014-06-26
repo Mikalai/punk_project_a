@@ -33,7 +33,9 @@ namespace SceneModule {
     inline Attribute<T>::Attribute(const Core::String &name, T* value)
         : m_name(name)
         , m_data(value, Core::DestroyObject)
-    {}
+    {
+		m_data->AddRef();
+	}
 
     template<class T>
     inline Attribute<T>::Attribute()
@@ -42,7 +44,7 @@ namespace SceneModule {
     {}
 
     template<class T>
-    inline Attribute<T>::~Attribute() {        
+    inline Attribute<T>::~Attribute() {        		
 		System::GetDefaultLogger()->Info("Desotroy attrbute " + m_name);
 		while (!m_update_actions.empty()) {
 			m_update_actions.back()->Release();

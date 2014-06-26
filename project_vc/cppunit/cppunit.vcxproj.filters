@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\source\tests\framework\src\AdditionalMessage.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\Asserter.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\BeOsDynamicLibraryManager.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\BriefTestProgressListener.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\CompilerOutputter.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\DefaultProtector.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\DllMain.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\DynamicLibraryManager.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\DynamicLibraryManagerException.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\Exception.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\Message.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\PlugInManager.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\PlugInParameters.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\Protector.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\ProtectorChain.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\RepeatedTest.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\ShlDynamicLibraryManager.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\SourceLine.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\StringTools.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\SynchronizedObject.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\Test.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\TestAssert.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\TestCase.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\TestCaseDecorator.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\TestComposite.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\TestDecorator.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\TestFactoryRegistry.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\TestFailure.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\TestLeaf.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\TestNamer.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\TestPath.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\TestPlugInDefaultImpl.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\TestResult.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\TestResultCollector.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\TestRunner.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\TestSetUp.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\TestSuccessListener.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\TestSuite.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\TestSuiteBuilderContext.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\TextOutputter.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\TextTestProgressListener.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\TextTestResult.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\TextTestRunner.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\TypeInfoHelper.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\UnixDynamicLibraryManager.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\Win32DynamicLibraryManager.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\XmlDocument.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\XmlElement.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\XmlOutputter.cpp" />
+    <ClCompile Include="..\..\source\tests\framework\src\XmlOutputterHook.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\tests\framework\src\DefaultProtector.h" />
+    <ClInclude Include="..\..\source\tests\framework\src\ProtectorChain.h" />
+    <ClInclude Include="..\..\source\tests\framework\src\ProtectorContext.h" />
+  </ItemGroup>
+</Project>

@@ -8,37 +8,62 @@
 #define NOMINMAX
 #endif
 #include <windows.h>
-#include "gl/glcorearb.h"
-#include "gl/glext.h"
-#include "gl/wglext.h"
+//#include <graphics/opengl/gl/glext.h>
+#include <graphics/opengl/gl/glcorearb.h>
+#include <graphics/opengl/gl/wglext.h>
 #elif defined __gnu_linux__
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xutil.h>
 #include <X11/extensions/xf86vmode.h>
-#include "gl/glcorearb.h"
-#include <../GL/glx.h>
-#include "../gl/glxext.h"
+#include <graphics/opengl/gl/glcorearb.h>
+#include <graphics/opengl/gl/glx.h>
+#include <graphics/opengl/gl/glxext.h>
+//#include <graphics/opengl/gl/glext.h>
 #endif
+
+#include <graphics/opengl/gl/GL_EXT_texture_mirror_clamp.h>
+#include <graphics/opengl/gl/GL_NV_framebuffer_multisample_coverage.h>
+#include <graphics/opengl/gl/GL_EXT_framebuffer_multisample.h>
 
 PUNK_ENGINE_BEGIN
 namespace Graphics {
     namespace OpenGL {
 
-    void* GetGraphicsProcAddress(const char* name);
-    void InitExtensions();
+    PUNK_ENGINE_LOCAL void* GetGraphicsProcAddress(const char* name);
+    PUNK_ENGINE_LOCAL void InitializeOpenGLWindowSystem();
+    PUNK_ENGINE_LOCAL void InitExtensions();
 
 #ifdef _WIN32
     extern PUNK_ENGINE_LOCAL PFNWGLGETEXTENSIONSSTRINGARBPROC wglGetExtensionStringARB;
-    extern PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT;
+    extern PUNK_ENGINE_LOCAL PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT;
 #elif defined __gnu_linux__
-        extern PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsARB;
-//        extern PFNGLXCHOOSEFBCONFIGPROC glXChooseFBConfig;
-//        extern PFNGLXGETVISUALFROMFBCONFIGPROC glXGetVisualFromFBConfig;
-//        extern PFNGLXGETFBCONFIGATTRIBPROC glXGetFBConfigAttrib;
-//        extern PFNGLXCREATENEWCONTEXTPROC glXCreateNewContext;
-//        extern PFNGLXGETFBCONFIGSPROC glXGetFBConfigs;
+        extern PUNK_ENGINE_LOCAL PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsARB;
+        extern PUNK_ENGINE_LOCAL PFNGLXGETFBCONFIGSPROC glXGetFBConfigs;
+        extern PUNK_ENGINE_LOCAL PFNGLXCHOOSEFBCONFIGPROC glXChooseFBConfig;
+        extern PUNK_ENGINE_LOCAL PFNGLXGETFBCONFIGATTRIBPROC glXGetFBConfigAttrib;
+        extern PUNK_ENGINE_LOCAL PFNGLXGETVISUALFROMFBCONFIGPROC glXGetVisualFromFBConfig;
+        extern PUNK_ENGINE_LOCAL PFNGLXCREATEWINDOWPROC glXCreateWindow;
+        extern PUNK_ENGINE_LOCAL PFNGLXDESTROYWINDOWPROC glXDestroyWindow;
+        extern PUNK_ENGINE_LOCAL PFNGLXCREATEPIXMAPPROC glXCreatePixmap;
+        extern PUNK_ENGINE_LOCAL PFNGLXDESTROYPIXMAPPROC glXDestroyPixmap;
+        extern PUNK_ENGINE_LOCAL PFNGLXCREATEPBUFFERPROC glXCreatePbuffer;
+        extern PUNK_ENGINE_LOCAL PFNGLXDESTROYPBUFFERPROC glXDestroyPbuffer;
+        extern PUNK_ENGINE_LOCAL PFNGLXQUERYDRAWABLEPROC glXQueryDrawable;
+        extern PUNK_ENGINE_LOCAL PFNGLXCREATENEWCONTEXTPROC glXCreateNewContext;
+        extern PUNK_ENGINE_LOCAL PFNGLXMAKECONTEXTCURRENTPROC glXMakeContextCurrent;
+        extern PUNK_ENGINE_LOCAL PFNGLXGETCURRENTREADDRAWABLEPROC glXGetCurrentReadDrawable;
+        extern PUNK_ENGINE_LOCAL PFNGLXGETCURRENTDISPLAYPROC glXGetCurrentDisplay;
+        extern PUNK_ENGINE_LOCAL PFNGLXQUERYCONTEXTPROC glXQueryContext;
+        extern PUNK_ENGINE_LOCAL PFNGLXSELECTEVENTPROC glXSelectEvent;
+        extern PUNK_ENGINE_LOCAL PFNGLXGETSELECTEDEVENTPROC glXGetSelectedEvent;
+        extern PUNK_ENGINE_LOCAL PFNGLXGETPROCADDRESSPROC glXGetProcAddress;
+        extern PUNK_ENGINE_LOCAL PFNGLXSWAPBUFFERPROC glXSwapBuffers;
+        extern PUNK_ENGINE_LOCAL PFNGLXQUERYVERSIONPROC glXQueryVersion;
+        extern PUNK_ENGINE_LOCAL PFNGLXQUERYEXTENSIONSTRING glXQueryExtensionsString;
+        extern PUNK_ENGINE_LOCAL PFNGLXISDIRECTPROC glXIsDirect;
+        extern PUNK_ENGINE_LOCAL PFNGLXMAKECURRENT glXMakeCurrent;
 #endif
 
 		extern PFNGLGETBUFFERPARAMETERI64VPROC glGetBufferParameteri64v;
@@ -193,7 +218,7 @@ namespace Graphics {
 		extern PFNGLDRAWELEMENTSPROC glDrawElements;
 		extern PFNGLDRAWELEMENTSINDIRECTPROC glDrawElementsIndirect;
 		extern PFNGLDRAWELEMENTSINSTANCEDPROC glDrawElementsInstanced;
-        extern PUNK_ENGINE_API PFNGLCLEARPROC glClear;
+        extern PFNGLCLEARPROC glClear;
 		extern PFNGLGETPROGRAMIVPROC glGetProgramiv;
 		extern PFNGLGENERATEMIPMAPPROC glGenerateMipmap;
 
@@ -226,7 +251,7 @@ namespace Graphics {
 
         extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLECOVERAGENVPROC glRenderbufferStorageMultisampleCoverageNV;
 
-        extern PFNGLFRAMEBUFFERTEXTURELAYERPROC glFramebufferTextureLayer;
+        extern PFNGLFRAMEBUFFERTEXTURELAYERPROC glFramebufferTextureLayer;        
 
         //GL_ARB_shading_language_include
         extern PFNGLNAMEDSTRINGARBPROC glNamedStringARB;

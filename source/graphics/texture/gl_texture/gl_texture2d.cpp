@@ -1,4 +1,4 @@
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <system/logger/module.h>
 #include <graphics/video_memory/gl_video_memory/module.h>
 #include <graphics/buffers/module.h>
@@ -400,7 +400,7 @@ namespace Graphics {
 		void GlTexture2D::Initialize(const Core::String& path, bool use_mip_maps, IVideoDriver* driver)
 		{
 			ImageModule::IImageReaderUniquePtr reader{ nullptr, Core::DestroyObject };
-			Core::GetFactory()->CreateInstance(ImageModule::IID_IImageReader, (void**)&reader);
+            reader = System::CreateInstancePtr<ImageModule::IImageReader>(ImageModule::IID_IImageReader);
 			ImageModule::IImage* image = reader->Read(path);
 			return Initialize(image, use_mip_maps, driver);
 		}
@@ -408,7 +408,7 @@ namespace Graphics {
 		void GlTexture2D::Initialize(Core::Buffer *buffer, bool use_mip_maps, IVideoDriver* driver)
 		{
 			ImageModule::IImageReaderUniquePtr reader{ nullptr, Core::DestroyObject };
-			Core::GetFactory()->CreateInstance(ImageModule::IID_IImageReader, (void**)&reader);
+            reader = System::CreateInstancePtr<ImageModule::IImageReader>(ImageModule::IID_IImageReader);
 			ImageModule::IImageUniquePtr image{ reader->Read(*buffer), Core::DestroyObject };
 			return Initialize(image.get(), use_mip_maps, driver);
 		}
@@ -423,6 +423,6 @@ namespace Graphics {
 		}
     }   
 
-	PUNK_REGISTER_CREATOR(IID_ITexture2D, (Core::CreateInstance<OpenGL::GlTexture2D, ITexture2D>));
+	PUNK_REGISTER_CREATOR(IID_ITexture2D, (System::CreateInstance<OpenGL::GlTexture2D, ITexture2D>));
 }
 PUNK_ENGINE_END

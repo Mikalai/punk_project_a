@@ -1,6 +1,7 @@
 #include <config.h>
 #include <string/buffer.h>
 #include "gl_shader_cooker.h"
+#include "gl_shader_type.h"
 
 PUNK_ENGINE_BEGIN
 namespace Core { class String; }

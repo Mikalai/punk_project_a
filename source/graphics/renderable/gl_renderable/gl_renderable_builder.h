@@ -11,7 +11,7 @@ namespace Graphics {
     namespace OpenGL {
         //class Frame;
 
-        class GlRenderableBuilder : public RenderableBuilder
+        class PUNK_ENGINE_LOCAL GlRenderableBuilder : public RenderableBuilder
         {
         public:
             GlRenderableBuilder();

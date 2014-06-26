@@ -1,4 +1,4 @@
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <system/concurrency/module.h>
 #include <graphics/video_driver/module.h>
 #include <graphics/texture/module.h>
@@ -20,7 +20,7 @@ namespace Graphics {
     TextSurface::TextSurface(std::uint32_t width, std::uint32_t height, IVideoDriver *driver)
         : m_video_driver(driver)
         , m_need_update(false) {
-		Core::GetFactory()->CreateInstance(Graphics::IID_ITexture2D, (void**)&m_texture);
+        m_texture = System::CreateInstancePtr<Graphics::ITexture2D>(Graphics::IID_ITexture2D);
 		if (m_texture)
 			m_texture->Initialize(width, height, ImageModule::ImageFormat::RED, nullptr, false, m_video_driver);
         m_halignment = TextHorizontalAlignment::Left;
@@ -36,7 +36,7 @@ namespace Graphics {
     void TextSurface::SetSize(std::uint32_t width, std::uint32_t height)
     {
 		if (!m_texture) {
-			Core::GetFactory()->CreateInstance(Graphics::IID_ITexture2D, (void**)&m_texture);
+            m_texture = System::CreateInstancePtr<Graphics::ITexture2D>(Graphics::IID_ITexture2D);
 			if (m_texture)
 				m_texture->Initialize(width, height, ImageModule::ImageFormat::RED, 0, false, m_video_driver);
 		}
@@ -174,7 +174,7 @@ namespace Graphics {
             if (m_texture)
                 m_texture->Resize(width, height);
 			else {
-				Core::GetFactory()->CreateInstance(Graphics::IID_ITexture2D, (void**)&m_texture);
+                m_texture = System::CreateInstancePtr<Graphics::ITexture2D>(Graphics::IID_ITexture2D);
 				if (m_texture)
 					m_texture->Initialize(width, height, ImageModule::ImageFormat::RED, nullptr, false, m_video_driver);
 			}

@@ -41,7 +41,7 @@ namespace ImageModule {
 
 		Pixel<format> GetPixel(std::uint32_t x, std::uint32_t y) {
 			std::uint32_t offset = (x + y * m_image->GetWidth()) * Pixel<format>::GetSize();
-			void* address = (void*)((std:uint32_t*)m_image->GetData() + offset);
+            void* address = (void*)((std::uint32_t*)m_image->GetData() + offset);
 			return Pixel<format>(address);
 		}
 

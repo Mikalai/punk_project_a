@@ -13,29 +13,35 @@ LIBS += -L$${LIBDIR} -lpunk_error -lpunk_string -lpunk_core -lpunk_system -lpunk
 INCLUDEPATH += ../../../source
 
 HEADERS += \
-    ../../../source/scene/interface.h \
-    ../../../source/scene/module.h \
-    ../../../source/scene/node.h \
-    ../../../source/scene/scene_graph.h \
-    ../../../source/scene/scene_helper.h \
-    ../../../source/scene/transform_graph.h \
-    ../../../source/scene/transform_node.h \
-    ../../../source/scene/iattribute.h \
-    ../../../source/scene/attribute.h \
-    ../../../source/scene/node_state.h \
-    ../../../source/scene/inode.h \
-    ../../../source/scene/iscene_graph.h \
-    ../../../source/scene/igraph_processor.h \
-    ../../../source/scene/scene_processor.h \
-    ../../../source/scene/iscene_processor.h
+    ../../../source/scene/singlethreaded/attribute.h \
+    ../../../source/scene/singlethreaded/command.h \
+    ../../../source/scene/singlethreaded/iattribute.h \
+    ../../../source/scene/singlethreaded/inode.h \
+    ../../../source/scene/singlethreaded/iprocessor.h \
+    ../../../source/scene/singlethreaded/iscene.h \
+    ../../../source/scene/singlethreaded/iscene_builder.h \
+    ../../../source/scene/singlethreaded/iscene_manager.h \
+    ../../../source/scene/singlethreaded/iscene_observer.h \
+    ../../../source/scene/singlethreaded/iscene_worker.h \
+    ../../../source/scene/singlethreaded/module.h \
+    ../../../source/scene/singlethreaded/node.h \
+    ../../../source/scene/singlethreaded/node_state.h \
+    ../../../source/scene/singlethreaded/scene.h \
+    ../../../source/scene/singlethreaded/scene_helper.h \
+    ../../../source/scene/singlethreaded/scene_manager.h \
+    ../../../source/scene/singlethreaded/scene_manipulator.h \
+    ../../../source/scene/singlethreaded/scene_processor.h \
+    ../../../source/scene/singlethreaded/scene_worker.h \
+    ../../../source/scene/module.h
 
-SOURCES += \
-    ../../../source/scene/node.cpp \
-    ../../../source/scene/scene_graph.cpp \
-    ../../../source/scene/scene_helper.cpp \
-    ../../../source/scene/transform_graph.cpp \
-    ../../../source/scene/transform_node.cpp \
-    ../../../source/scene/attribute.cpp \
-    ../../../source/scene/graph_processor.cpp \
-    ../../../source/scene/scene_processor.cpp
+SOURCES += \    
+    ../../../source/scene/singlethreaded/attribute.cpp \
+    ../../../source/scene/singlethreaded/command.cpp \
+    ../../../source/scene/singlethreaded/graph_processor.cpp \
+    ../../../source/scene/singlethreaded/node.cpp \
+    ../../../source/scene/singlethreaded/scene.cpp \
+    ../../../source/scene/singlethreaded/scene_helper.cpp \
+    ../../../source/scene/singlethreaded/scene_manager.cpp \
+    ../../../source/scene/singlethreaded/scene_processor.cpp \
+    ../../../source/scene/singlethreaded/scene_worker.cpp
 

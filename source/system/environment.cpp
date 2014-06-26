@@ -1,4 +1,4 @@
-#include <String/String.h>
+#include <string/string.h>
 #include <system/filesystem/module.h>
 #include "environment.h"
 

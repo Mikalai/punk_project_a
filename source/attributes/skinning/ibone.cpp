@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <vector>
 #include <map>
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <system/logger/module.h>
 #include <string/module.h>
 #include <math/quat.h>
@@ -149,7 +149,7 @@ namespace Attributes
 		return m_children.at(index);
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IBone, (Core::CreateInstance<Bone, IBone>));
+	PUNK_REGISTER_CREATOR(IID_IBone, (System::CreateInstance<Bone, IBone>));
 
 }
 PUNK_ENGINE_END

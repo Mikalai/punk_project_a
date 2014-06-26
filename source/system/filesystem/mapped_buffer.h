@@ -2,7 +2,7 @@
 #define _H_PUNK_ENGINE_SYSTEM_MAPPED_BUFFER
 
 #include <config.h>
-#include <windows.h>
+#include <cstdint>
 
 PUNK_ENGINE_BEGIN
 namespace Core {
@@ -16,11 +16,11 @@ namespace System {
     class PUNK_ENGINE_API MappedBuffer
 	{
 	public:
-        MappedBuffer(const Core::String& filename, unsigned long wnd_size = 0x4000);
+        MappedBuffer(const Core::String& filename, std::uint32_t wnd_size = 0x4000);
         MappedBuffer(const MappedBuffer&) = delete;
         MappedBuffer& operator = (const MappedBuffer&) = delete;
 		~MappedBuffer();
-        void* Get(long offset);
+        void* Get(std::uint32_t offset);
         __private::MappedBufferImpl* impl;
 	};
 }

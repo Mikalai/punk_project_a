@@ -9,68 +9,19 @@ TEMPLATE = lib
 TARGET = punk_system
 
 unix {
-    LIBS += -lX11
+    LIBS += -lX11 -lpthread -ldl
 }
 
-LIBS += -L$${LIBDIR} -lpunk_error -lpunk_string -lpunk_core -lpunk_terminal
+LIBS += -L$${LIBDIR} -lpunk_error -lpunk_string -lpunk_core
 
 INCLUDEPATH += ../../../source
 
 HEADERS += \
-    ../../../source/system/window/module.h \
-    ../../../source/system/window/win32_window.h \
-    ../../../source/system/window/window_adapter.h \
-    ../../../source/system/window/window_component.h \
-    ../../../source/system/window/window_description.h \
-    ../../../source/system/window/window_interface.h \
-    ../../../source/system/window/window.h \
-    ../../../source/system/window/x11_window.h \
-    ../../../source/system/errors/assert2.h \
-    ../../../source/system/errors/error.h \
-    ../../../source/system/errors/exceptions.h \
-    ../../../source/system/errors/module.h \
-    ../../../source/system/errors/stack_trace.h \
-    ../../../source/system/events/event_type.h \
-    ../../../source/system/events/event.h \
-    ../../../source/system/events/idle_event.h \
-    ../../../source/system/events/interface.h \
-    ../../../source/system/events/key_event.h \
-    ../../../source/system/events/model_time_step_event.h \
-    ../../../source/system/events/module.h \
-    ../../../source/system/events/mouse_event.h \
-    ../../../source/system/events/mouse_hoover_event.h \
-    ../../../source/system/events/mouse_wheel_event.h \
-    ../../../source/system/events/window_resize_event.h \
-    ../../../source/system/input/camera_capture.h \
-    ../../../source/system/input/console.h \
-    ../../../source/system/input/input_component.h \
-    ../../../source/system/input/keyboard_interface.h \
-    ../../../source/system/input/keyboard.h \
-    ../../../source/system/input/keymap_interface.h \
-    ../../../source/system/input/keymap.h \
-    ../../../source/system/input/module.h \
-    ../../../source/system/input/mouse_interface.h \
-    ../../../source/system/input/mouse.h \
-    ../../../source/system/time/clock_interface.h \
-    ../../../source/system/time/clock.h \
-    ../../../source/system/time/module.h \
-    ../../../source/system/time/time_component.h \
-    ../../../source/system/time/timer_interface.h \
-    ../../../source/system/time/timer.h \
-    ../../../source/system/logger/error_logger.h \
-    ../../../source/system/logger/file_logger.h \
-    ../../../source/system/logger/logger_interface.h \
-    ../../../source/system/logger/logger.h \
-    ../../../source/system/logger/message_logger.h \
-    ../../../source/system/logger/module.h \
-    ../../../source/system/events/mouse_move_event.h \
+    ../../../source/system/aop/aop.h \
     ../../../source/system/commands/cmd_create_timer.h \
-    ../../../source/system/filesystem/binary_file.h \
-    ../../../source/system/filesystem/folder.h \
-    ../../../source/system/filesystem/module.h \
-    ../../../source/system/filesystem/mapped_buffer.h \
     ../../../source/system/concurrency/atomic.h \
     ../../../source/system/concurrency/atomicint.h \
+    ../../../source/system/concurrency/ithread_pool.h \
     ../../../source/system/concurrency/module.h \
     ../../../source/system/concurrency/monitor.h \
     ../../../source/system/concurrency/monitor_scope.h \
@@ -81,26 +32,106 @@ HEADERS += \
     ../../../source/system/concurrency/thread_job.h \
     ../../../source/system/concurrency/thread_mutex.h \
     ../../../source/system/concurrency/thread_pool.h \
+    ../../../source/system/concurrency/work_item.h \
+    ../../../source/system/errors/assert2.h \
+    ../../../source/system/errors/error.h \
+    ../../../source/system/errors/exceptions.h \
+    ../../../source/system/errors/module.h \
+    ../../../source/system/errors/stack_trace.h \
+    ../../../source/system/events/event.h \
+    ../../../source/system/events/event_type.h \
+    ../../../source/system/events/idle_event.h \
+    ../../../source/system/events/interface.h \
+    ../../../source/system/events/key_event.h \
+    ../../../source/system/events/model_time_step_event.h \
+    ../../../source/system/events/module.h \
+    ../../../source/system/events/mouse_event.h \
+    ../../../source/system/events/mouse_hoover_event.h \
+    ../../../source/system/events/mouse_move_event.h \
+    ../../../source/system/events/mouse_wheel_event.h \
+    ../../../source/system/events/window_resize_event.h \
+    ../../../source/system/filesystem/binary_file.h \
+    ../../../source/system/filesystem/folder.h \
+    ../../../source/system/filesystem/mapped_buffer.h \
+    ../../../source/system/filesystem/module.h \
+    ../../../source/system/input/camera_capture.h \
+    ../../../source/system/input/console.h \
+    ../../../source/system/input/iconsole.h \
+    ../../../source/system/input/ikeyboard.h \
+    ../../../source/system/input/ikeymap.h \
+    ../../../source/system/input/imouse.h \
+    ../../../source/system/input/input_component.h \
+    ../../../source/system/input/keyboard.h \
+    ../../../source/system/input/keymap.h \
+    ../../../source/system/input/module.h \
+    ../../../source/system/input/mouse.h \
+    ../../../source/system/logger/console_consumer.h \
+    ../../../source/system/logger/default_logger.h \
+    ../../../source/system/logger/error_logger.h \
+    ../../../source/system/logger/file_logger.h \
+    ../../../source/system/logger/log_consumer.h \
+    ../../../source/system/logger/logger.h \
+    ../../../source/system/logger/logger_interface.h \
+    ../../../source/system/logger/message_logger.h \
+    ../../../source/system/logger/module.h \
+    ../../../source/system/module/imodule.h \
+    ../../../source/system/module/imodule_manager.h \
+    ../../../source/system/module/module.h \
+    ../../../source/system/module/module_manager.h \
+    ../../../source/system/smart_pointers/module.h \
+    ../../../source/system/smart_pointers/proxy.h \
+    ../../../source/system/smart_pointers/ref_count.h \
+    ../../../source/system/smart_pointers/weak_ref.h \
     ../../../source/system/streaming/async_loader.h \
     ../../../source/system/streaming/async_loader_impl.h \
+    ../../../source/system/streaming/async_loader_interface.h \
     ../../../source/system/streaming/data_loader.h \
     ../../../source/system/streaming/data_processor.h \
     ../../../source/system/streaming/module.h \
     ../../../source/system/streaming/resource_request.h \
     ../../../source/system/streaming/streaming_component.h \
-    ../../../source/system/streaming/async_loader_interface.h \
     ../../../source/system/streaming/streaming_result.h \
-    ../../../source/system/logger/log_consumer.h \
-    ../../../source/system/logger/default_logger.h \
-    ../../../source/system/logger/console_consumer.h \
+    ../../../source/system/time/clock.h \
+    ../../../source/system/time/clock_interface.h \
+    ../../../source/system/time/module.h \
+    ../../../source/system/time/time_component.h \
+    ../../../source/system/time/timer.h \
+    ../../../source/system/time/timer_interface.h \
+    ../../../source/system/types/list.h \
+    ../../../source/system/types/priority_list.h \
+    ../../../source/system/window/iwindow.h \
+    ../../../source/system/window/module.h \
+    ../../../source/system/window/win32_window.h \
+    ../../../source/system/window/window_adapter.h \
+    ../../../source/system/window/window_component.h \
+    ../../../source/system/window/window_description.h \
+    ../../../source/system/window/x11_window.h \
+    ../../../source/system/allocator.h \
+    ../../../source/system/config_file.h \
     ../../../source/system/environment.h \
-    ../../../source/system/concurrency/work_item.h
+    ../../../source/system/event_manager.h \    
+    ../../../source/system/module.h \
+    ../../../source/system/profiler.h \
+    ../../../source/system/resource.h \
+    ../../../source/system/resource_creator.h \
+    ../../../source/system/serializable.h \
+    ../../../source/system/state_manager.h \
+    ../../../source/system/storable_data.h \
+    ../../../source/system/types.h \
+    ../../../source/system/window/window_base.h \    
+    ../../../source/system/factory/ifactory.h \
+    ../../../source/system/factory/module.h
 
 SOURCES += \
-    ../../../source/system/window/win32_window.cpp \
-    ../../../source/system/window/window_component.cpp \
-    ../../../source/system/window/window.cpp \
-    ../../../source/system/window/x11_window.cpp \
+    ../../../source/system/commands/cmd_create_timer.cpp \
+    ../../../source/system/concurrency/monitor.cpp \
+    ../../../source/system/concurrency/process.cpp \
+    ../../../source/system/concurrency/semaphore.cpp \
+    ../../../source/system/concurrency/thread.cpp \
+    ../../../source/system/concurrency/thread_job.cpp \
+    ../../../source/system/concurrency/thread_mutex.cpp \
+    ../../../source/system/concurrency/thread_pool.cpp \
+    ../../../source/system/concurrency/work_item.cpp \
     ../../../source/system/errors/assert2.cpp \
     ../../../source/system/errors/error.cpp \
     ../../../source/system/errors/exceptions.cpp \
@@ -110,38 +141,42 @@ SOURCES += \
     ../../../source/system/events/model_time_step_event.cpp \
     ../../../source/system/events/mouse_event.cpp \
     ../../../source/system/events/mouse_hoover_event.cpp \
+    ../../../source/system/events/mouse_move_event.cpp \
     ../../../source/system/events/mouse_wheel_event.cpp \
     ../../../source/system/events/window_resize_event.cpp \
-    ../../../source/system/input/camera_capture.cpp \
-    ../../../source/system/input/console.cpp \
-    ../../../source/system/input/input_component.cpp \
-    ../../../source/system/input/keyboard.cpp \
-    ../../../source/system/input/keymap.cpp \
-    ../../../source/system/input/mouse.cpp \
-    ../../../source/system/time/clock.cpp \
-    ../../../source/system/time/time_component.cpp \
-    ../../../source/system/time/timer.cpp \
-    ../../../source/system/logger/error_logger.cpp \
-    ../../../source/system/logger/file_logger.cpp \
-    ../../../source/system/logger/logger.cpp \
-    ../../../source/system/logger/message_logger.cpp \
-    ../../../source/system/events/mouse_move_event.cpp \
-    ../../../source/system/commands/cmd_create_timer.cpp \
     ../../../source/system/filesystem/binary_file.cpp \
     ../../../source/system/filesystem/folder.cpp \
     ../../../source/system/filesystem/mapped_buffer.cpp \
-    ../../../source/system/concurrency/monitor.cpp \
-    ../../../source/system/concurrency/process.cpp \
-    ../../../source/system/concurrency/semaphore.cpp \
-    ../../../source/system/concurrency/thread.cpp \
-    ../../../source/system/concurrency/thread_job.cpp \
-    ../../../source/system/concurrency/thread_mutex.cpp \
-    ../../../source/system/concurrency/thread_pool.cpp \
+    ../../../source/system/input/camera_capture.cpp \
+    ../../../source/system/input/console.cpp \
+    ../../../source/system/input/imouse.cpp \
+    ../../../source/system/input/input_component.cpp \
+    ../../../source/system/input/keyboard.cpp \
+    ../../../source/system/input/keymap.cpp \
+    ../../../source/system/logger/console_consumer.cpp \
+    ../../../source/system/logger/default_logger.cpp \
+    ../../../source/system/logger/error_logger.cpp \
+    ../../../source/system/logger/file_logger.cpp \
+    ../../../source/system/logger/log_consumer.cpp \
+    ../../../source/system/logger/logger.cpp \
+    ../../../source/system/logger/message_logger.cpp \
+    ../../../source/system/module/imodule_manager.cpp \
     ../../../source/system/streaming/async_loader.cpp \
     ../../../source/system/streaming/async_loader_impl.cpp \
     ../../../source/system/streaming/streaming_component.cpp \
-    ../../../source/system/logger/log_consumer.cpp \
-    ../../../source/system/logger/default_logger.cpp \
-    ../../../source/system/logger/console_consumer.cpp \
+    ../../../source/system/time/clock.cpp \
+    ../../../source/system/time/time_component.cpp \
+    ../../../source/system/time/timer.cpp \
+    ../../../source/system/types/list.cpp \
+    ../../../source/system/window/win32_window.cpp \
+    ../../../source/system/window/window_component.cpp \
+    ../../../source/system/window/x11_window.cpp \
+    ../../../source/system/config_file.cpp \
     ../../../source/system/environment.cpp \
-    ../../../source/system/concurrency/work_item.cpp
+    ../../../source/system/event_manager.cpp \    
+    ../../../source/system/profiler.cpp \
+    ../../../source/system/serializable.cpp \
+    ../../../source/system/storable.cpp \
+    ../../../source/system/window/window_base.cpp \
+    ../../../source/system/factory/ifactory.cpp
+

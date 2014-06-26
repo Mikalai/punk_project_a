@@ -1,4 +1,4 @@
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include "text_attribute.h"
 
 PUNK_ENGINE_BEGIN
@@ -14,6 +14,6 @@ namespace Attributes {
 		m_text = value;
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IText, (Core::CreateInstance<Text, IText>));
+	PUNK_REGISTER_CREATOR(IID_IText, (System::CreateInstance<Text, IText>));
 }
 PUNK_ENGINE_END

@@ -1,0 +1,238 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{231DF4DA-80D8-40B1-A75F-27B45C3CAA69}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>punk_math_test</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)_$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)..\build\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)_$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)..\build\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)_$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)..\build\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)_$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)..\build\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;$(SolutionDir)..\source\tests\framework;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>cppunit.lib;punk_error.lib;punk_string.lib;punk_core.lib;punk_math.lib;punk_system.lib;punk_attributes.lib;punk_ai.lib;punk_scene.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;$(SolutionDir)..\source\tests\framework;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>cppunit.lib;punk_error.lib;punk_string.lib;punk_core.lib;punk_math.lib;punk_system.lib;punk_attributes.lib;punk_ai.lib;punk_scene.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;$(SolutionDir)..\source\tests\framework;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>cppunit.lib;punk_error.lib;punk_string.lib;punk_core.lib;punk_math.lib;punk_system.lib;punk_attributes.lib;punk_ai.lib;punk_scene.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;$(SolutionDir)..\source\tests\framework;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>cppunit.lib;punk_error.lib;punk_string.lib;punk_core.lib;punk_math.lib;punk_system.lib;punk_attributes.lib;punk_ai.lib;punk_scene.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\source\tests\punk_math_test\aabb_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\absolute_value_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\array_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\bounding_box_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\bounding_sphere_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\clip_space_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\convex_shape_mesh_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\ellipsoid_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\frustum_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\line2d_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\line3d_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\main.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\mat2_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\mat3_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\mat4_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\matrix_helper_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\min_max_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\perspective_decoder_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\plane_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\polygon3d_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\portal_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\power_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\relations_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\root_find_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\sphere_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\square_root_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\triangle2d_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\triangle3d_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\trigonometry_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\vec2_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\vec3_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\vec4_test.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\volume_construction_test.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\tests\punk_math_test\aabb_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\absolute_value_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\array_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\bounding_box_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\bounding_sphere_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\clip_space_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\convex_shape_mesh_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\ellipsoid_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\frustum_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\line2d_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\line3d_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\mat2_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\mat3_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\mat4_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\matrix_helper_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\min_max_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\perspective_decoder_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\plane_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\polygon3d_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\portal_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\power_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\relations_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\root_find_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\sphere_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\square_root_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\triangle2d_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\triangle3d_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\trigonometry_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\vec2_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\vec3_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\vec4_test.h" />
+    <ClInclude Include="..\..\source\tests\punk_math_test\volume_construction_test.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

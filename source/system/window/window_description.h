@@ -13,7 +13,7 @@
 #include <X11/Xutil.h>
 #endif
 #include "config.h"
-#include "String/String.h"
+#include <string/string.h>
 
 PUNK_ENGINE_BEGIN
 namespace System
@@ -27,7 +27,7 @@ namespace System
         bool use_parent_window {false};
         HWND parent_wnd {0};
 #elif defined __gnu_linux__
-        WindowSystem system {WindowSystem::X11};
+
 #endif
         Core::String m_name;
         unsigned m_x {100};

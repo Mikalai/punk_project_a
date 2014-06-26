@@ -76,7 +76,11 @@ namespace System {
 
 #ifdef _WIN32
 		virtual HWND GetNativeHandle() = 0;
-#endif	//	 _WIN32			
+#elif defined __linux__
+        virtual void SetVisualInfo(XVisualInfo* visual) = 0;
+        virtual Window GetNativeHandle() = 0;
+        virtual Display* GetDisplay() = 0;
+#endif
     };
 	
 	using IWindowUniquePtr = std::unique_ptr < IWindow, void(*)(Core::IObject*) > ;	

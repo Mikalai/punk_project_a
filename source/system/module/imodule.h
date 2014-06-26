@@ -10,7 +10,7 @@ namespace System {
 	DECLARE_PUNK_GUID(IID_IModule, "443D7D63-702E-40B7-8248-44016E829220");
 
 	class IModule : public Core::IObject {
-	public:
+	public:        
 	};
 }
 

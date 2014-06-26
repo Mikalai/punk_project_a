@@ -1,14 +1,14 @@
 #ifdef __gnu_linux__
-#include <GL/glx.h>
+//#include <GL/glx.h>
 #include <X11/keysym.h>
 #include <time.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdio.h>
-#include <String.h>
+#include <string.h>
 #include <algorithm>
 
-#include "core/component/module.h"
+#include <system/factory/module.h>
 #include "system/errors/module.h"
 #include "system/events/module.h"
 #include "system/logger/module.h"
@@ -27,62 +27,15 @@ typedef XID GLXContextID;
 PUNK_ENGINE_BEGIN
 namespace System
 {
-    Core::Rtti WindowX11::Type{"Punk.Engine.System.WindowX11", typeid(WindowX11).hash_code(), { &Window::Type}};
+    WindowX11::WindowX11()
+    { }
 
-    WindowX11::WindowX11(const WindowDesc &desc)
-    {
-        CREATE_INSTANCE(WindowX11);
-        OUT_MESSAGE("Window created");
-        m_keyboard = Core::Acquire<IKeyBoard>("input", "default_keyboard", "keyboard");
-        m_mouse = Core::Acquire<IMouse>("input", "default_mouse", "mouse");
-
-        m_display = XOpenDisplay(NULL);
-
-        if (m_display == NULL) {
-            fprintf(stderr, "Cannot open display\n");
-            exit(1);
-        }
-
-        int screen = DefaultScreen(m_display);
-        memset(&m_swa, 0, sizeof(m_swa));
-        m_swa.border_pixel      = WhitePixel(m_display,screen);
-        m_swa.background_pixel = BlackPixel(m_display, screen);
-
-        printf("Creating window\n");
-        m_window = XCreateWindow(m_display, DefaultRootWindow(m_display),
-                                 desc.m_x, desc.m_y, desc.m_width, desc.m_height,
-                                 0, DefaultDepth(m_display, screen),
-                                 CopyFromParent, CopyFromParent, CWBackPixel|CWBorderPixel, &m_swa);
-
-        XStoreName(m_display, m_window, "PunkEngine");
-        XSetIconName(m_display, m_window, "PunkEngine");
-        XSetCommand(m_display, m_window, 0, 0);
-        XFlush(m_display);
-
-        //        XSetStandardProperties(m_display, m_window, "PunkEngine", "Icon", None, 0, 0, 0);
-        XMapWindow(m_display, m_window);
-        int eventMask = ButtonPressMask
-                |ButtonReleaseMask
-                |KeyPressMask
-                |ExposureMask
-                |StructureNotifyMask
-                |PointerMotionMask;
-
-        XSelectInput(m_display, m_window, eventMask); // override prev
-
-        wmDeleteWindow = XInternAtom(m_display, "WM_DELETE_WINDOW", False);
-        XSetWMProtocols(m_display, m_window, &wmDeleteWindow, 1);
+    void WindowX11::Initialize(const WindowDescription &desc) {
+        m_window_description = desc;
     }
 
     WindowX11::~WindowX11()
-    {
-        DESTROY_INSTANCE();
-        Core::Release("input", "default_mouse");
-        Core::Release("input", "default_keyboard");
-        XDestroyWindow(m_display, m_window);
-        XSetCloseDownMode(m_display, DestroyAll );
-        XCloseDisplay(m_display);
-        OUT_MESSAGE("Window destroyed");
+    {        
     }
 
     int WindowX11::GetDesktopWidth() const
@@ -153,7 +106,7 @@ namespace System
 
     int WindowX11::DecodeKey(KeySym keysym, int& charKey, bool press)
     {
-        bool (*buttons)[256] = m_keyboard->GetKeyStates();    //  TODO: Something better should be here
+        bool (*buttons)[256] = GetKeyboard()->GetKeyStates();    //  TODO: Something better should be here
         bool* m_buttons = *buttons;
         int key;
         switch (keysym)
@@ -588,21 +541,21 @@ namespace System
         case 1: //LEFT
         {
             mouse_event.leftButton = m_left_button = press;
-            m_mouse->SetButtonState(MouseButtons::LeftButton, press);
+            GetMouse()->SetButtonState(MouseButtons::LeftButton, press);
             OnMouseEvent(mouse_event);
             break;
         }
         case 2: //MIDDLE
         {
             mouse_event.middleButton = m_middle_button = press;
-            m_mouse->SetButtonState(MouseButtons::MiddleButton, press);
+            GetMouse()->SetButtonState(MouseButtons::MiddleButton, press);
             OnMouseEvent(mouse_event);
             break;
         }
         case 3: //RIGHT
         {
             mouse_event.rightButton = m_right_button = press;
-            m_mouse->SetButtonState(MouseButtons::RightButton, press);
+            GetMouse()->SetButtonState(MouseButtons::RightButton, press);
             OnMouseEvent(mouse_event);
             break;
         }
@@ -623,70 +576,77 @@ namespace System
     }
 
     int WindowX11::Loop()
-    {
-        XEvent event;
-
-        ITimer* timer = Core::Acquire<ITimer>("time", "main_loop_timer", "timer");
-        timer->Reset();
+    {        
+        m_timer->Reset();
 
         while (!IsClosed())
         {
-            while (XPending(m_display))
-            {
-                XNextEvent(m_display, &event);
-                switch (event.type)
-                {
-                case CreateNotify:
-                    OnWindowCreated();
-                    break;
-                case ClientMessage:
-                    if (event.xclient.data.l[0] == (long)wmDeleteWindow)
-                        BreakMainLoop();
-                    break;
-                case ConfigureNotify:
-                {
-                    WindowResizeEvent e;
-                    e.width = event.xconfigure.width;
-                    e.height = event.xconfigure.height;
-                    OnResizeEvent(e);
-                    break;
-                }
-                case KeyPress:
-                case KeyRelease:
-                {
-                    OnKeyPressRelease((XKeyEvent*)&event);
-                    break;
-                }
-                case MotionNotify:
-                {
-                    MouseEvent e;
-                    e.x_prev = x_prev;
-                    e.y_prev = y_prev;
-                    e.x = event.xmotion.x;
-                    e.y = GetHeight() - event.xmotion.y;
-                    x_prev = event.xmotion.x;
-                    y_prev = GetHeight() - event.xmotion.y;
-                    e.leftButton = m_left_button;
-                    e.middleButton = m_middle_button;
-                    e.rightButton = m_right_button;
-                    OnMouseMoveEvent(e);
-                    MouseMoveProc(e);
-                }
-                    break;
-                case ButtonPress:
-                case ButtonRelease:
-                {
-                    OnMousePressRelease(&event);
-                    break;
-                }
-                }
-            }            
-            IdleEvent idle_event;
-            idle_event.elapsed_time_s = timer->GetElapsedSeconds();
-            timer->Reset();
-            OnIdleEvent(idle_event);
+            int dt = m_timer->GetElapsedMiliseconds();
+            if (!Update(dt))
+                return 0;
+            m_timer->Reset();
         }
         return 0;
+    }
+
+    int WindowX11::Update(int dt) {
+        XEvent event;
+        while (XPending(m_display))
+        {
+            XNextEvent(m_display, &event);
+            switch (event.type)
+            {
+            case CreateNotify:
+                OnWindowCreated();
+                break;
+            case ClientMessage:
+                if (event.xclient.data.l[0] == (long)wmDeleteWindow) {
+                    BreakMainLoop();
+                    return 0;
+                }
+                break;
+            case ConfigureNotify:
+            {
+                WindowResizeEvent e;
+                e.width = event.xconfigure.width;
+                e.height = event.xconfigure.height;
+                OnResizeEvent(e);
+                break;
+            }
+            case KeyPress:
+            case KeyRelease:
+            {
+                OnKeyPressRelease((XKeyEvent*)&event);
+                break;
+            }
+            case MotionNotify:
+            {
+                MouseEvent e;
+                e.x_prev = x_prev;
+                e.y_prev = y_prev;
+                e.x = event.xmotion.x;
+                e.y = GetHeight() - event.xmotion.y;
+                x_prev = event.xmotion.x;
+                y_prev = GetHeight() - event.xmotion.y;
+                e.leftButton = m_left_button;
+                e.middleButton = m_middle_button;
+                e.rightButton = m_right_button;
+                OnMouseMoveEvent(e);
+                MouseMoveProc(e);
+            }
+                break;
+            case ButtonPress:
+            case ButtonRelease:
+            {
+                OnMousePressRelease(&event);
+                break;
+            }
+            }
+        }
+        IdleEvent idle_event;
+        idle_event.elapsed_time_s = dt / (double)1000;
+        OnIdleEvent(idle_event);
+        return 1;
     }
 
     void WindowX11::BreakMainLoop()
@@ -747,60 +707,39 @@ namespace System
 
     }
 
-    void WindowX11::DrawPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b, unsigned char a)
-    {
-        (void)x;
-        (void)y;
-        (void)r;
-        (void)g;
-        (void)b;
-        (void)a;
-//        unsigned char rr = (unsigned char)std::max((int)r - int(255 - a), 0);
-//        unsigned char gg = (unsigned char)std::max((int)g - int(255 - a), 0);
-//        unsigned char bb = (unsigned char)std::max((int)b - int(255 - a), 0);
-    }
+//    void WindowX11::DrawPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b, unsigned char a)
+//    {
+//        (void)x;
+//        (void)y;
+//        (void)r;
+//        (void)g;
+//        (void)b;
+//        (void)a;
+////        unsigned char rr = (unsigned char)std::max((int)r - int(255 - a), 0);
+////        unsigned char gg = (unsigned char)std::max((int)g - int(255 - a), 0);
+////        unsigned char bb = (unsigned char)std::max((int)b - int(255 - a), 0);
+//    }
 
-    void WindowX11::DrawLine(int x1, int y1, int x2, int y2)
-    {
-        (void)x1;
-        (void)y1;
-        (void)x2;
-        (void)y2;
-    }
+//    void WindowX11::DrawLine(int x1, int y1, int x2, int y2)
+//    {
+//        (void)x1;
+//        (void)y1;
+//        (void)x2;
+//        (void)y2;
+//    }
 
-    Display* WindowX11::GetDisplay()
-    {
-        return m_display;
-    }
+//    void WindowX11::SetWindow(::Window value)
+//    {
+//        if (m_window)
+//            XDestroyWindow(m_display, m_window);
+//        m_window = value;
+//        XSetWMProtocols(m_display, m_window, &wmDeleteWindow, 1);
+//    }
 
-    void WindowX11::SetDisplay(Display *display)
-    {
-        if (m_display)
-        {
-            //XDestroyWindow(impl->m_display, impl->m_window);
-            //XCloseDisplay(impl->m_display);
-            m_display = 0;
-            m_window = 0;
-        }
-        m_display = display;
-    }
-
-    void WindowX11::SetWindow(::Window value)
-    {
-        if (m_window)
-            XDestroyWindow(m_display, m_window);
-        m_window = value;
-        XSetWMProtocols(m_display, m_window, &wmDeleteWindow, 1);
-    }
-
-    ::Window WindowX11::GetWindow()
-    {
-        return m_window;
-    }
 
     void WindowX11::MouseMoveProc(const MouseEvent& e)
     {
-        if (m_mouse->IsLocked())
+        if (GetMouse()->IsLocked())
         {
             int w = GetWidth();
             int h = GetHeight();
@@ -818,6 +757,86 @@ namespace System
             }
         }
     }
+
+    void WindowX11::SetVisualInfo(XVisualInfo* visual) {
+        m_visual = visual;
+    }
+
+    Window WindowX11::GetNativeHandle() {
+        return m_window;
+    }
+
+    Display* WindowX11::GetDisplay() {
+        if (!m_display) {
+            m_display = XOpenDisplay(NULL);
+            if (m_display == NULL)
+                throw System::Error::SystemException("XWindow: can't open display");
+        }
+        return m_display;
+    }
+
+    void WindowX11::InternalCreate() {
+        m_display = GetDisplay();
+
+        int screen = DefaultScreen(m_display);
+        memset(&m_swa, 0, sizeof(m_swa));
+        m_swa.border_pixel      = WhitePixel(m_display,screen);
+        m_swa.background_pixel = BlackPixel(m_display, screen);
+
+        printf("Creating window\n");
+        if (!m_visual) {
+        m_window = XCreateWindow(m_display, DefaultRootWindow(m_display),
+                                 m_window_description.m_x, m_window_description.m_y, m_window_description.m_width, m_window_description.m_height,
+                                 0, DefaultDepth(m_display, screen),
+                                 CopyFromParent, CopyFromParent, CWBackPixel|CWBorderPixel, &m_swa);
+        }
+        else {
+            printf( "Creating colormap\n" );
+            Colormap colorMap;
+            XSetWindowAttributes swa;
+            swa.colormap = colorMap = XCreateColormap( m_display,
+                                                       RootWindow( m_display, m_visual->screen ),
+                                                       m_visual->visual, AllocNone );
+            swa.background_pixmap = None ;
+            swa.border_pixel      = 0;
+            swa.event_mask        = KeyPressMask | PointerMotionMask | StructureNotifyMask
+                    | ButtonPressMask;
+
+            printf( "Creating window\n" );
+            m_window = XCreateWindow( m_display,
+                                         RootWindow( m_display, m_visual->screen ),
+                                         m_window_description.m_x, m_window_description.m_y, m_window_description.m_width, m_window_description.m_height, 0, m_visual->depth, InputOutput,
+                                         m_visual->visual,
+                                         CWBorderPixel|CWColormap|CWEventMask, &swa );
+        }
+
+        XStoreName(m_display, m_window, "PunkEngine");
+        XSetIconName(m_display, m_window, "PunkEngine");
+        XSetCommand(m_display, m_window, 0, 0);
+        XFlush(m_display);
+
+        //        XSetStandardProperties(m_display, m_window, "PunkEngine", "Icon", None, 0, 0, 0);
+        XMapWindow(m_display, m_window);
+        int eventMask = ButtonPressMask
+                |ButtonReleaseMask
+                |KeyPressMask
+                |ExposureMask
+                |StructureNotifyMask
+                |PointerMotionMask;
+
+        XSelectInput(m_display, m_window, eventMask); // override prev
+
+        wmDeleteWindow = XInternAtom(m_display, "WM_DELETE_WINDOW", False);
+        XSetWMProtocols(m_display, m_window, &wmDeleteWindow, 1);
+    }
+
+    void WindowX11::InternalDestroy() {
+        XDestroyWindow(m_display, m_window);
+        XSetCloseDownMode(m_display, DestroyAll );
+        XCloseDisplay(m_display);
+    }
+
+    PUNK_REGISTER_CREATOR(IID_IWindow, (System::CreateInstance<WindowX11, IWindow>));
 }
 PUNK_ENGINE_END
 #endif  //  __gnu_linux

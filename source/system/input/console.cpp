@@ -181,52 +181,52 @@ namespace System
 #elif defined __gnu_linux__
 		switch (col)
 		{
-		case COLOR_BLACK:
+        case ConsoleColor::COLOR_BLACK:
 			std::cout << "\033[0;30m";
 			break;
-		case COLOR_BLUE:
+        case ConsoleColor::COLOR_BLUE:
 			std::cout << "\033[0;34m";
 			break;
-		case COLOR_GREEN:
+        case ConsoleColor::COLOR_GREEN:
 			std::cout << "\033[0;32m";
 			break;
-		case COLOR_CYAN:
+        case ConsoleColor::COLOR_CYAN:
 			std::cout << "\033[0;36m";
 			break;
-		case COLOR_RED:
+        case ConsoleColor::COLOR_RED:
 			std::cout << "\033[0;31m";
 			break;
-		case COLOR_MAGENTA:
+        case ConsoleColor::COLOR_MAGENTA:
 			std::cout << "\033[0;35m";
 			break;
-		case COLOR_BROWN:
+        case ConsoleColor::COLOR_BROWN:
 			std::cout << "\033[0;33m";
 			break;
-		case COLOR_LIGHTGRAY:
+        case ConsoleColor::COLOR_LIGHTGRAY:
 			std::cout << "\033[0;37m";
 			break;
-		case COLOR_DARKGRAY:
+        case ConsoleColor::COLOR_DARKGRAY:
 			std::cout << "\033[0m";
 			break;
-		case COLOR_LIGHTBLUE:
+        case ConsoleColor::COLOR_LIGHTBLUE:
 			std::cout << "\033[0m";
 			break;
-		case COLOR_LIGHTGREEN:
+        case ConsoleColor::COLOR_LIGHTGREEN:
 			std::cout << "\033[0m";
 			break;
-		case COLOR_LIGHTCYAN:
+        case ConsoleColor::COLOR_LIGHTCYAN:
 			std::cout << "\033[0m";
 			break;
-		case COLOR_LIGHTRED:
+        case ConsoleColor::COLOR_LIGHTRED:
 			std::cout << "\033[0m";
 			break;
-		case COLOR_LIGHTMAGENTA:
+        case ConsoleColor::COLOR_LIGHTMAGENTA:
 			std::cout << "\033[0m";
 			break;
-		case COLOR_WHITE:
+        case ConsoleColor::COLOR_WHITE:
 			std::cout << "\033[0m";
 			break;
-		case COLOR_YELLOW:
+        case ConsoleColor::COLOR_YELLOW:
 			std::cout << "\033[0m";
 			break;
 		}
@@ -294,52 +294,52 @@ namespace System
 #elif defined __gnu_linux__
 		switch (col)
 		{
-		case COLOR_BLACK:
+        case ConsoleColor::COLOR_BLACK:
 			std::cout << "\033[7;30m";
 			break;
-		case COLOR_BLUE:
+        case ConsoleColor::COLOR_BLUE:
 			std::cout << "\033[7;34m";
 			break;
-		case COLOR_GREEN:
+        case ConsoleColor::COLOR_GREEN:
 			std::cout << "\033[7;32m";
 			break;
-		case COLOR_CYAN:
+        case ConsoleColor::COLOR_CYAN:
 			std::cout << "\033[7;36m";
 			break;
-		case COLOR_RED:
+        case ConsoleColor::COLOR_RED:
 			std::cout << "\033[7;31m";
 			break;
-		case COLOR_MAGENTA:
+        case ConsoleColor::COLOR_MAGENTA:
 			std::cout << "\033[7;35m";
 			break;
-		case COLOR_BROWN:
+        case ConsoleColor::COLOR_BROWN:
 			std::cout << "\033[7;33m";
 			break;
-		case COLOR_LIGHTGRAY:
+        case ConsoleColor::COLOR_LIGHTGRAY:
 			std::cout << "\033[7;37m";
 			break;
-		case COLOR_DARKGRAY:
+        case ConsoleColor::COLOR_DARKGRAY:
 			std::cout << "\033[7m";
 			break;
-		case COLOR_LIGHTBLUE:
+        case ConsoleColor::COLOR_LIGHTBLUE:
 			std::cout << "\033[7m";
 			break;
-		case COLOR_LIGHTGREEN:
+        case ConsoleColor::COLOR_LIGHTGREEN:
 			std::cout << "\033[7m";
 			break;
-		case COLOR_LIGHTCYAN:
+        case ConsoleColor::COLOR_LIGHTCYAN:
 			std::cout << "\033[7m";
 			break;
-		case COLOR_LIGHTRED:
+        case ConsoleColor::COLOR_LIGHTRED:
 			std::cout << "\033[7m";
 			break;
-		case COLOR_LIGHTMAGENTA:
+        case ConsoleColor::COLOR_LIGHTMAGENTA:
 			std::cout << "\033[7m";
 			break;
-		case COLOR_WHITE:
+        case ConsoleColor::COLOR_WHITE:
 			std::cout << "\033[7m";
 			break;
-		case COLOR_YELLOW:
+        case ConsoleColor::COLOR_YELLOW:
 			std::cout << "\033[7m";
 			break;
 		}

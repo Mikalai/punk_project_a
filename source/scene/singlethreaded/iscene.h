@@ -5,6 +5,7 @@
 #include <core/action.h>
 #include <memory>
 #include <config.h>
+#include "inode.h"
 
 PUNK_ENGINE_BEGIN
 namespace Core { class String; }

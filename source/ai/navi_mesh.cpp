@@ -1,4 +1,5 @@
-#include <core/ifactory.h>
+#include <system/factory/module.h>
+#include <memory.h>
 #include "navi_mesh.h"
 
 PUNK_ENGINE_BEGIN

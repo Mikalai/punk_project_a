@@ -62,121 +62,121 @@ namespace Graphics
 		};
 
 		template<class VB, class IB> struct VaoAccessorPolicy {
-			VaoAccessorPolicy(VaoCore<VB, IB>& core)
+            VaoAccessorPolicy(VaoCore<VB, IB>* core)
 				: m_core{ core } {}
 
 			std::uint32_t GetIndexCount() {
-				if (m_core.m_index_buffer)
-					return m_core.m_index_buffer->GetCount();
+                if (m_core->m_index_buffer)
+                    return m_core->m_index_buffer->GetCount();
 				return -1;
 			}
 
 			std::uint32_t GetVertexCount() {
-				if (m_core.m_vertex_buffer)
-					return m_core.m_vertex_buffer->GetVertexCount();
+                if (m_core->m_vertex_buffer)
+                    return m_core->m_vertex_buffer->GetVertexCount();
 				return -1;
 			}
 
 			std::uint32_t GetMemoryUsage() {
 				std::uint32_t res = 0;
-				if (m_core.m_index_buffer != 0)
-					res += m_core.m_index_buffer->GetSize();
-				if (m_core.m_vertex_buffer != 0)
-					res += m_core.m_vertex_buffer->GetSize();
+                if (m_core->m_index_buffer != 0)
+                    res += m_core->m_index_buffer->GetSize();
+                if (m_core->m_vertex_buffer != 0)
+                    res += m_core->m_vertex_buffer->GetSize();
 				return res;
 			}
 
 			bool HasData() const {
-				return m_index_buffer != nullptr && m_vertex_buffer != nullptr;
+                return m_core->m_index_buffer != nullptr && m_core->m_vertex_buffer != nullptr;
 			}
 
 			void Clear() {
-				delete m_core.m_vertex_buffer;
-				m_core.m_vertex_buffer = nullptr;
-				delete m_core.m_index_buffer;
-				m_core.m_index_buffer = nullptr;
+                delete m_core->m_vertex_buffer;
+                m_core->m_vertex_buffer = nullptr;
+                delete m_core->m_index_buffer;
+                m_core->m_index_buffer = nullptr;
 
-				if (m_core.m_vao) {
-					GL_CALL(glDeleteVertexArrays(1, &m_core.m_vao));
-					m_core.m_vao = 0;
+                if (m_core->m_vao) {
+                    GL_CALL(glDeleteVertexArrays(1, &m_core->m_vao));
+                    m_core->m_vao = 0;
 				}
 			}
 
 			typename VB::CurrentVertex* MapVertexBuffer()
 			{
-				return m_core.m_vertex_buffer->MapVB();
+                return m_core->m_vertex_buffer->MapVB();
 			}
 
 			const typename VB::CurrentVertex* MapVertexBuffer() const
 			{
-				return m_core.m_vertex_buffer->MapVB();
+                return m_core->m_vertex_buffer->MapVB();
 			}
 
 			void UnmapVertexBuffer()
 			{
-				m_core.m_vertex_buffer->Unmap();
+                m_core->m_vertex_buffer->Unmap();
 			}
 
 			typename IB::CurrentIndex* MapIndexBuffer() {
-				return m_core.m_index_buffer->MapIB();
+                return m_core->m_index_buffer->MapIB();
 			}
 
 			const typename IB::CurrentIndex* MapIndexBuffer() const {
-				return m_core.m_index_buffer->MapIB();
+                return m_core->m_index_buffer->MapIB();
 			}
 
 			void UnmapIndexBuffer() {
-				m_core.m_index_buffer->Unmap();
+                m_core->m_index_buffer->Unmap();
 			}
 
-			VaoCore<VB, IB>& m_core;
+            VaoCore<VB, IB>* m_core;
 		};
 
 		template<class VB> struct VaoAccessorPolicy < VB, IndexBufferObject<std::nullptr_t> > {
-			VaoAccessorPolicy(VaoCore<VB, IndexBufferObject<std::nullptr_t>>& core)
+            VaoAccessorPolicy(VaoCore<VB, IndexBufferObject<std::nullptr_t>>* core)
 				: m_core{ core } {}
 
 			std::uint32_t GetVertexCount() {
-				if (m_core.m_vertex_buffer)
-					return m_core.m_vertex_buffer->GetVertexCount();
+                if (m_core->m_vertex_buffer)
+                    return m_core->m_vertex_buffer->GetVertexCount();
 				return -1;
 			}
 
 			std::uint32_t GetMemoryUsage()
 			{
 				std::uint32_t res = 0;
-				if (m_core.m_vertex_buffer != 0)
-					res += m_core.m_vertex_buffer->GetSize();
+                if (m_core->m_vertex_buffer != 0)
+                    res += m_core->m_vertex_buffer->GetSize();
 				return res;
 			}
 
 			bool HasData() const {
-				return m_core.m_vertex_buffer != nullptr;
+                return m_core->m_vertex_buffer != nullptr;
 			}
 
 			void Clear() {
-				delete m_core.m_vertex_buffer;
-				m_core.m_vertex_buffer = nullptr;
+                delete m_core->m_vertex_buffer;
+                m_core->m_vertex_buffer = nullptr;
 
-				if (m_core.m_vao) {
-					GL_CALL(glDeleteVertexArrays(1, &m_core.m_vao));
-					m_core.m_vao = 0;
+                if (m_core->m_vao) {
+                    GL_CALL(glDeleteVertexArrays(1, &m_core->m_vao));
+                    m_core->m_vao = 0;
 				}
 			}
 
 			typename VB::CurrentVertex* MapVertexBuffer()
 			{
-				return m_core.m_vertex_buffer->MapVB();
+                return m_core->m_vertex_buffer->MapVB();
 			}
 
 			const typename VB::CurrentVertex* MapVertexBuffer() const
 			{
-				return m_core.m_vertex_buffer->MapVB();
+                return m_core->m_vertex_buffer->MapVB();
 			}
 
 			void UnmapVertexBuffer()
 			{
-				m_core.m_vertex_buffer->Unmap();
+                m_core->m_vertex_buffer->Unmap();
 			}
 
 			void* MapIndexBuffer() {
@@ -191,15 +191,15 @@ namespace Graphics
 				;
 			}
 
-			VaoCore<VB, IndexBufferObject<std::nullptr_t>>& m_core;
+            VaoCore<VB, IndexBufferObject<std::nullptr_t>>* m_core;
 		};
 
 		template<typename Vertex, typename Index>
-		struct VaoCookPolicy {
+        struct PUNK_ENGINE_LOCAL VaoCookPolicy {
 			
 			using CurrentConfigurer = typename instantiate_with_arg_pack < AttributeConfigure, Vertex >::Type;
 
-			VaoCookPolicy(VaoCore<VertexBufferObject<Vertex>, IndexBufferObject<Index>>& core)
+            VaoCookPolicy(VaoCore<VertexBufferObject<Vertex>, IndexBufferObject<Index>>* core)
 				: m_core{ core }
 			{}
 
@@ -208,27 +208,27 @@ namespace Graphics
 				if (glGetError() != GL_NO_ERROR)
 					throw Error::OpenGLException(L"Error came from upper subroutine to me... Will not work");
 
-				if (m_core.m_vertex_buffer) {
-					delete m_core.m_vertex_buffer;
+                if (m_core->m_vertex_buffer) {
+                    delete m_core->m_vertex_buffer;
 				}
-				m_core.m_vertex_buffer = new VertexBufferObject < Vertex >;
-				m_core.m_vertex_buffer->CopyData(vb->GetVertexBuffer(), vb->GetVertexCount());
+                m_core->m_vertex_buffer = new VertexBufferObject < Vertex >;
+                m_core->m_vertex_buffer->CopyData(vb->GetVertexBuffer(), vb->GetVertexCount());
 
-				if (m_core.m_index_buffer)
-					delete m_core.m_index_buffer;
-				m_core.m_index_buffer = new IndexBufferObject < Index >;
-				m_core.m_index_buffer->CopyData(ib->GetIndexBuffer(), ib->GetIndexCount());
+                if (m_core->m_index_buffer)
+                    delete m_core->m_index_buffer;
+                m_core->m_index_buffer = new IndexBufferObject < Index >;
+                m_core->m_index_buffer->CopyData(ib->GetIndexBuffer(), ib->GetIndexCount());
 
-				if (m_core.m_vao)
+                if (m_core->m_vao)
 				{
-					GL_CALL(glDeleteVertexArrays(1, &m_core.m_vao));
+                    GL_CALL(glDeleteVertexArrays(1, &m_core->m_vao));
 				}
 
-				GL_CALL(glGenVertexArrays(1, &m_core.m_vao));
-				GL_CALL(glBindVertexArray(m_core.m_vao));
+                GL_CALL(glGenVertexArrays(1, &m_core->m_vao));
+                GL_CALL(glBindVertexArray(m_core->m_vao));
 
-				m_core.m_vertex_buffer->Bind();
-				m_core.m_index_buffer->Bind();
+                m_core->m_vertex_buffer->Bind();
+                m_core->m_index_buffer->Bind();
 
 				CurrentConfigurer::Apply();
 
@@ -238,12 +238,12 @@ namespace Graphics
 			}
 
 			void InternalBind() {
-				m_core.m_vertex_buffer->Bind();
-				m_core.m_index_buffer->Bind();
+                m_core->m_vertex_buffer->Bind();
+                m_core->m_index_buffer->Bind();
 				CurrentConfigurer::Apply();
 			}
 
-			VaoCore<VertexBufferObject<Vertex>, IndexBufferObject<Index>>& m_core;
+            VaoCore<VertexBufferObject<Vertex>, IndexBufferObject<Index>>* m_core;
 		};
 
 		template<typename Vertex>
@@ -251,7 +251,7 @@ namespace Graphics
 
 			using CurrentConfigurer = typename instantiate_with_arg_pack < AttributeConfigure, Vertex >::Type;
 
-			VaoCookPolicy(VaoCore<VertexBufferObject<Vertex>, IndexBufferObject<std::nullptr_t>>& core)
+            VaoCookPolicy(VaoCore<VertexBufferObject<Vertex>, IndexBufferObject<std::nullptr_t>>* core)
 				: m_core{ core }
 			{}
 
@@ -260,21 +260,21 @@ namespace Graphics
 				if (glGetError() != GL_NO_ERROR)
 					throw Error::OpenGLException(L"Error came from upper subroutine to me... Will not work");
 
-				if (m_core.m_vertex_buffer) {
-					delete m_core.m_vertex_buffer;
+                if (m_core->m_vertex_buffer) {
+                    delete m_core->m_vertex_buffer;
 				}
-				m_core.m_vertex_buffer = new VertexBufferObject < Vertex >;
-				m_core.m_vertex_buffer->CopyData(vb->GetVertexBuffer(), vb->GetVertexCount());
+                m_core->m_vertex_buffer = new VertexBufferObject < Vertex >;
+                m_core->m_vertex_buffer->CopyData(vb->GetVertexBuffer(), vb->GetVertexCount());
 				
-				if (m_core.m_vao)
+                if (m_core->m_vao)
 				{
-					GL_CALL(glDeleteVertexArrays(1, &m_core.m_vao));
+                    GL_CALL(glDeleteVertexArrays(1, &m_core->m_vao));
 				}
 
-				GL_CALL(glGenVertexArrays(1, &m_core.m_vao));
-				GL_CALL(glBindVertexArray(m_core.m_vao));
+                GL_CALL(glGenVertexArrays(1, &m_core->m_vao));
+                GL_CALL(glBindVertexArray(m_core->m_vao));
 
-				m_core.m_vertex_buffer->Bind();
+                m_core->m_vertex_buffer->Bind();
 
 				CurrentConfigurer::Apply();
 
@@ -284,11 +284,11 @@ namespace Graphics
 			}
 
 			void InternalBind() {
-				m_core.m_vertex_buffer->Bind();
+                m_core->m_vertex_buffer->Bind();
 				CurrentConfigurer::Apply();
 			}
 
-			VaoCore<VertexBufferObject<Vertex>, IndexBufferObject<std::nullptr_t>>& m_core;
+            VaoCore<VertexBufferObject<Vertex>, IndexBufferObject<std::nullptr_t>>* m_core;
 		};
 
 
@@ -306,19 +306,19 @@ namespace Graphics
 			CurrentVaoCore m_core;
 		public:
 			VertexArrayObject2() 
-				: VaoAccessorPolicy<VB, IB>(m_core)
-				, VaoCookPolicy<CurrentVertex, CurrentIndex>(m_core)
+                : VaoAccessorPolicy<VB, IB>(&m_core)
+                , VaoCookPolicy<CurrentVertex, CurrentIndex>(&m_core)
 			{}
 
 			~VertexArrayObject2()
 			{
-				Clear();
+                VaoAccessorPolicy<VB, IB>::Clear();
 			}
 		
 			void Bind()
 			{
-				GL_CALL(glBindVertexArray(m_core.m_vao));
-				InternalBind();
+                GL_CALL(glBindVertexArray(m_core.m_vao));
+                VaoCookPolicy<CurrentVertex, CurrentIndex>::InternalBind();
 			}
 
 			void Unbind()

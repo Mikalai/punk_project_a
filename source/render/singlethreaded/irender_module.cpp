@@ -1,11 +1,12 @@
-#include <core/ifactory.h>
+#include <system/factory/module.h>
+#include <render/error/module.h>
 #include <system/module.h>
 #include <graphics/module.h>
 #include <attributes/module.h>
 #include "irender_module.h"
 #include <images/module.h>
 #include <system/environment.h>
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <graphics/module.h>
 #include <attributes/module.h>
 #include <scene/module.h>
@@ -91,6 +92,7 @@ namespace LowLevelRender {
 	};
 
 	void RenderModule::QueryInterface(const Core::Guid& type, void** object) {		
+        LOG_FUNCTION_SCOPE
 		if (!object)
 			return;
 
@@ -119,11 +121,13 @@ namespace LowLevelRender {
 	}
 
 	std::uint32_t RenderModule::AddRef() {
+        LOG_FUNCTION_SCOPE
 		m_ref_count.fetch_add(1);
 		return m_ref_count;
 	}
 
 	std::uint32_t RenderModule::Release() {
+        LOG_FUNCTION_SCOPE
 		std::uint32_t v = m_ref_count.fetch_sub(1) - 1;
 		if (!v) {
 			delete this;
@@ -132,35 +136,29 @@ namespace LowLevelRender {
 	}
 
 	void RenderModule::SetSceneManager(SceneModule::ISceneManager* manager) {
+        LOG_FUNCTION_SCOPE
 		m_manager = manager;
 	}
 
-	RenderModule::RenderModule() {
-		auto factory = Core::GetFactory();
-		Core::IObject* object;
-		factory->CreateInstance(Graphics::IID_ICanvas, (void**)&object);
-		if (!m_canvas.get()) {
-			object->QueryInterface(Graphics::IID_ICanvas, (void**)&m_canvas);
-			object->Release();
-			m_canvas->Initialize(Graphics::CanvasDescription{});
-			m_canvas->GetWindow()->Open();
-		}		
-		m_driver = m_canvas->GetVideoDriver();
+	RenderModule::RenderModule() {		
+        LOG_FUNCTION_SCOPE
+        m_canvas = System::CreateInstancePtr<Graphics::ICanvas>(Graphics::IID_ICanvas);
+        m_canvas->Initialize(Graphics::CanvasDescription{});
+        m_canvas->GetWindow()->Open();
+        m_driver = m_canvas->GetVideoDriver();
 		m_render = m_driver->GetRender();
 		m_frame_buffer = Graphics::GetBackbuffer();
-
-		Core::GetFactory()->CreateInstance(Attributes::IID_IGeometryCooker, (void**)&m_geometry_cooker);
-		Core::GetFactory()->CreateInstance(Graphics::IID_IRenderableBuilder, (void**)&m_renderable_builder);
-
-		/*Core::GetFactory()->CreateInstance(Graphics::IID_IFrame, (void**)&m_frame);
-		m_frame->SetRender(m_render);*/
+        m_geometry_cooker = System::CreateInstancePtr<Attributes::IGeometryCooker>(Attributes::IID_IGeometryCooker);
+        m_renderable_builder = System::CreateInstancePtr<Graphics::IRenderableBuilder>(Graphics::IID_IRenderableBuilder);
 	}
 
 	RenderModule::~RenderModule() {
+        LOG_FUNCTION_SCOPE
 		m_frame->Release();		
 	}
 
 	void RenderModule::Process(Graphics::IFrame* frame, SceneModule::INode* node) {
+        LOG_FUNCTION_SCOPE
 		int count = node->GetAttributesCountOfType<Attributes::ITransform>();
 		if (count != 0) {
 			for (int i = 0; i < count; ++i) {
@@ -217,15 +215,13 @@ namespace LowLevelRender {
 			for (int i = 0; i < count; ++i) {
 				auto light = node->GetAttributeOfType<Attributes::ILight>(i);
 				if (light) {
-					Core::UniquePtr<Attributes::IPointLight> point_light{ nullptr, Core::DestroyObject };
-					light->QueryInterface(Attributes::IID_IPointLight, (void**)&point_light);
+                    auto point_light = Core::QueryInterfacePtr<Attributes::IPointLight>(light, Attributes::IID_IPointLight);
 					if (point_light.get()) {
 						auto p = frame->GetWorldMatrix() * Math::vec3(0, 0, 0);
 						m_point_lights.push_back(LightCache < Attributes::IPointLight > {point_light.get(), p, { 0, 0, 0 }});
 						continue;
 					}
-					Core::UniquePtr<Attributes::IDirectionalLight> dir_light{ nullptr, Core::DestroyObject };
-					light->QueryInterface(Attributes::IID_IDirectionalLight, (void**)&dir_light);
+                    auto dir_light = Core::QueryInterfacePtr<Attributes::IDirectionalLight>(light, Attributes::IID_IDirectionalLight);
 					if (dir_light.get()) {
 						auto p = frame->GetWorldMatrix() * Math::vec3(0, 0, 0);
 						auto d = (frame->GetWorldMatrix() * Math::vec4{ dir_light->GetDirection(), 0 }).XYZ();
@@ -240,8 +236,7 @@ namespace LowLevelRender {
 			for (int i = 0; i < count; ++i) {
 				auto camera = node->GetAttributeOfType<Attributes::ICamera>(i);
 				if (camera) {
-					Core::UniquePtr<Attributes::IPerspectiveCamera> perspective_camera{ nullptr, Core::DestroyObject };
-					camera->QueryInterface(Attributes::IID_IPerspectiveCamera, (void**)&perspective_camera);
+                    auto perspective_camera = Core::QueryInterfacePtr<Attributes::IPerspectiveCamera>(camera, Attributes::IID_IPerspectiveCamera);
 					if (perspective_camera.get()) {
 						auto p = frame->GetWorldMatrix() * Math::vec3(0, 0, 0);
 						auto d = (frame->GetWorldMatrix() * Math::vec4{ perspective_camera->GetDirection(), 0 }).XYZ();
@@ -258,6 +253,7 @@ namespace LowLevelRender {
 	}
 
 	void RenderModule::Update(float dt) {
+        LOG_FUNCTION_SCOPE
 		if (!m_manager)
 			return;
 
@@ -346,11 +342,13 @@ namespace LowLevelRender {
 	}	
 
 	void RenderModule::SetScene(SceneModule::IScene* value) {
+        LOG_FUNCTION_SCOPE
 		value->AddRef();
 		m_scene.reset(value);
 	}
 
 	void RenderModule::OnNodeAdded(SceneModule::INode* parent, SceneModule::INode* child) {
+        LOG_FUNCTION_SCOPE
 		auto count = child->GetAttributesCountOfType<Attributes::IGeometry>();
 		for (int i = 0; i < (int)count; ++i) {
 			auto geom = child->GetAttributeOfType<Attributes::IGeometry>(i);
@@ -392,12 +390,9 @@ namespace LowLevelRender {
 			if (diffuse_slot) {
 				System::Folder folder;
 				folder.Open(System::Environment::Instance()->GetTextureFolder());
-				ImageModule::IImageReaderUniquePtr image_reader{ nullptr, Core::DestroyObject };
-				Core::GetFactory()->CreateInstance(ImageModule::IID_IImageReader, (void**)&image_reader);
-				ImageModule::IImageUniquePtr image{ nullptr, Core::DestroyObject };
-				image.reset(image_reader->Read(diffuse_slot->GetFilename()));
-				Graphics::ITexture2DUniquePtr texture{ nullptr, Core::DestroyObject };
-				Core::GetFactory()->CreateInstance(Graphics::IID_ITexture2D, (void**)&texture);
+                ImageModule::IImageReaderUniquePtr image_reader = System::CreateInstancePtr<ImageModule::IImageReader>(ImageModule::IID_IImageReader);
+                ImageModule::IImageUniquePtr image{ image_reader->Read(diffuse_slot->GetFilename()), Core::DestroyObject };
+                Graphics::ITexture2DUniquePtr texture = System::CreateInstancePtr<Graphics::ITexture2D>(Graphics::IID_ITexture2D);
 				if (texture)
 					texture->Initialize(image.get(), true, m_canvas->GetVideoDriver());
 				diffuse_slot->SetTexture(texture.get());
@@ -406,10 +401,11 @@ namespace LowLevelRender {
 	}
 
 	void RenderModule::OnNodeRemoved(SceneModule::INode* parent, SceneModule::INode* child) {
-
+        LOG_FUNCTION_SCOPE
 	}
 
 	void RenderModule::OnAttributeAdded(SceneModule::INode* node, SceneModule::IAttribute* attribute) {
+        LOG_FUNCTION_SCOPE
 		if (attribute->GetTypeID() == typeid(Attributes::IGeometry).hash_code()) {
 			auto geom = attribute->Get<Attributes::IGeometry>();
 			Graphics::IRenderable* renderable = nullptr;
@@ -431,13 +427,13 @@ namespace LowLevelRender {
 	}
 
 	void RenderModule::OnAttributeUpdated(SceneModule::INode* node, SceneModule::IAttribute* old_attribute, SceneModule::IAttribute* new_attribute) {
-
+        LOG_FUNCTION_SCOPE
 	}
 
 	void RenderModule::OnAttributeRemoved(SceneModule::INode* node, SceneModule::IAttribute* attribute) {
-
+        LOG_FUNCTION_SCOPE
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IRenderModule, (Core::CreateInstance<RenderModule, IRenderModule>));
+    PUNK_REGISTER_CREATOR(IID_IRenderModule, (System::CreateInstance<RenderModule, IRenderModule>));
 }
 PUNK_ENGINE_END

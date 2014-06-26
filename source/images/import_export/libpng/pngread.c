@@ -1393,6 +1393,9 @@ png_image_begin_read_from_file(png_imagep image, const char *file_name)
 
 		 else
 		 {
+#ifndef MAX_PATH
+#define MAX_PATH 8192
+#endif
 			 char buf[MAX_PATH];
 			 strerror_s(buf, MAX_PATH, errno);
 			 return png_image_error(image, buf);

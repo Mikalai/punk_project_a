@@ -28,7 +28,15 @@ namespace Core {
 	extern PUNK_ENGINE_API void DestroyObject(IObject* object);
 
 	template<class T>
-	using UniquePtr = std::unique_ptr < T, void(*)(IObject*) > ;
+	void ReleaseObject(T* o) {
+		if (o)
+			o->Release();
+	}
+
+	template<class T, class Base = IObject>
+	using UniquePtr = std::unique_ptr < T, void(*)(Base*) > ;
+
+#define UNIQUE_PTR(T) std::unique_ptr<T, void(*)(Core::IObject*)>
 
 	using IObjectUniquePtr = UniquePtr < IObject > ;
 
@@ -47,6 +55,13 @@ namespace Core {
 	}\
 	private:\
 	std::atomic<std::uint32_t> m_ref_count {1}; 
+
+    template<class I>
+    std::unique_ptr<I, void (*)(IObject*)> QueryInterfacePtr(IObject* source, const Guid& type) {
+        I* object = nullptr;
+        source->QueryInterface(type, (void**)&object);
+        return Core::UniquePtr<I>{object, Core::DestroyObject};
+    }
 
 	template < class This >
 	void QueryInterface(This* _this, const Guid& type, void** object, std::initializer_list<Guid> supported)

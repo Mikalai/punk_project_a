@@ -26,8 +26,8 @@ namespace Graphics
         virtual ~SimpleShadowMapRender();
     private:
         IVideoDriver* m_driver;
-        ITexture2DUniquePtr m_shadow_map { nullptr, DestroyTexture2D };
-        IFrameBufferUniquePtr m_fb {nullptr, DestroyFrameBuffer};
+        ITexture2DUniquePtr m_shadow_map { nullptr, Core::DestroyObject };
+        IFrameBufferUniquePtr m_fb {nullptr, Core::DestroyObject };
         LightParameters m_light;
         Math::FrustumCore m_frustum;
         Math::vec3 m_cam_pos;

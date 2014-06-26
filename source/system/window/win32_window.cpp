@@ -3,7 +3,7 @@
 #include <typeinfo>
 #include <stdio.h>
 #include <algorithm>
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <system/events/module.h>
 #include <system/errors/module.h>
 #include <system/logger/module.h>
@@ -21,7 +21,7 @@ namespace System {
 		*object = (void*)(new WindowWin);
 	}*/
 
-	PUNK_REGISTER_CREATOR(IID_IWindow, (Core::CreateInstance<WindowWin, IWindow>));
+    PUNK_REGISTER_CREATOR(IID_IWindow, (System::CreateInstance<WindowWin, IWindow>));
 
 
 	typedef LRESULT (WINAPI *TWindowCallBack)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);

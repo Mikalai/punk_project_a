@@ -3,7 +3,7 @@
 
 #include "config.h"
 #include "event_type.h"
-#include "String/String.h"
+#include <string/string.h>
 
 PUNK_ENGINE_BEGIN
 namespace System

@@ -1,7 +1,7 @@
 //#ifndef GL_FRAME_BUFFER_CONFIG_H
 //#define GL_FRAME_BUFFER_CONFIG_H
 
-//#include "string/string.h"
+//#include <string/string.h>
 //#include "opengl/gl/glcorearb.h"
 
 //namespace Graphics

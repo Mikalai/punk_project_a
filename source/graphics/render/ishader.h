@@ -6,7 +6,7 @@
 #include <system/environment.h>
 #include <system/filesystem/module.h>
 #include <graphics/state/module.h>
-#include "gl_shader_type.h"
+#include "shader_type.h"
 
 PUNK_ENGINE_BEGIN
 namespace Core { class String; }

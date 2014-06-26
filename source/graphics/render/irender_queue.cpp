@@ -1,6 +1,6 @@
 #include <vector>
 #include <array>
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <graphics/state/module.h>
 #include <graphics/error/module.h>
 #include "render_context_select.h"
@@ -120,6 +120,6 @@ namespace Graphics {
 		}
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IRenderQueue, (Core::CreateInstance<RenderQueue, IRenderQueue>));
+	PUNK_REGISTER_CREATOR(IID_IRenderQueue, (System::CreateInstance<RenderQueue, IRenderQueue>));
 }
 PUNK_ENGINE_END

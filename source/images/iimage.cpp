@@ -1,16 +1,21 @@
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include "iimage.h"
 
 
 PUNK_ENGINE_BEGIN
 namespace ImageModule {
 
-	extern Core::Guid GetImageFormatGuid(ImageFormat format);
+    Core::Guid GetImageFormatGuid(ImageFormat format);
 
 	template<ImageFormat Format>
 	class Image : public IImage {
 	public:
 
+        Image()
+            : m_ref_count{1}
+        {}
+
+        Image(const Image&) = delete;
 		virtual ~Image() {}
 
 		//	IObject
@@ -67,7 +72,7 @@ namespace ImageModule {
 		std::vector<std::uint8_t> m_data;
 	};	
 
-	static Core::Guid GetImageFormatGuid(ImageFormat format) {
+    PUNK_ENGINE_LOCAL Core::Guid GetImageFormatGuid(ImageFormat format) {
 		switch (format)
 		{
 		case ImageFormat::IMAGE_FORMAT_ALPHA4:
@@ -398,8 +403,8 @@ namespace ImageModule {
 		return Core::Guid::Empty();
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IRgbaImage, (Core::CreateInstance < Image<ImageFormat::RGBA>, IImage>));
-	PUNK_REGISTER_CREATOR(IID_IRgbImage, (Core::CreateInstance < Image<ImageFormat::RGB>, IImage>));
-	PUNK_REGISTER_CREATOR(IID_IAlphaImage, (Core::CreateInstance < Image<ImageFormat::ALPHA>, IImage>));
+	PUNK_REGISTER_CREATOR(IID_IRgbaImage, (System::CreateInstance < Image<ImageFormat::RGBA>, IImage>));
+	PUNK_REGISTER_CREATOR(IID_IRgbImage, (System::CreateInstance < Image<ImageFormat::RGB>, IImage>));
+	PUNK_REGISTER_CREATOR(IID_IAlphaImage, (System::CreateInstance < Image<ImageFormat::ALPHA>, IImage>));
 }
 PUNK_ENGINE_END

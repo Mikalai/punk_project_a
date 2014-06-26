@@ -1,4 +1,4 @@
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <graphics/module.h>
 #include "geometry_cooker.h"
 #include "igeometry.h"
@@ -630,6 +630,6 @@ namespace Attributes {
 
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IGeometryCooker, (Core::CreateInstance<GeometryCooker, IGeometryCooker>));
+	PUNK_REGISTER_CREATOR(IID_IGeometryCooker, (System::CreateInstance<GeometryCooker, IGeometryCooker>));
 }
 PUNK_ENGINE_END

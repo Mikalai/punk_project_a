@@ -16,9 +16,24 @@ namespace Graphics
         {
         public:
 
+            PixelBufferObject()
+                : m_ref_count{1}
+            {}
+
 			void QueryInterface(const Core::Guid& type, void** object) {
 				Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IBufferObject });
 			}
+
+            std::uint32_t AddRef() override {
+                return m_ref_count.fetch_add(1);
+            }
+
+            std::uint32_t Release() override {
+                auto v = m_ref_count.fetch_sub(1)-1;
+                if (!v)
+                    delete this;
+                return v;
+            }
 
 			virtual ~PixelBufferObject() {
 				try
@@ -122,10 +137,9 @@ namespace Graphics
 			}
 
 		private:
+            std::atomic<std::uint32_t> m_ref_count;
 			GLuint m_index{ 0 };
-			GLsizei m_size{ 0 };
-
-			PUNK_OBJECT_DEFAULT_IMPL(PixelBufferObject<T>)
+			GLsizei m_size{ 0 };			
 		};
 	}
 }

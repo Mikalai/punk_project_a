@@ -1,12 +1,10 @@
-#ifndef Graphics_COMMON_CONFIG_H
-#define Graphics_COMMON_CONFIG_H
+#ifndef CANVAS_H
+#define CANVAS_H
 
-#ifdef _WIN32
 #include <graphics/opengl/module.h>
-#endif
 
 #include <config.h>
-#include <system/window/win32_window.h>
+#include <system/window/iwindow.h>
 #include "canvas_desciption.h"
 #include "icanvas.h"
 
@@ -83,15 +81,23 @@ namespace Graphics {
 		void InternalDestroy() override;
 #ifdef _WIN32
 		HWND GetNativeHandle() override;
-#endif	//	 _WIN32        
+#elif defined __linux__
+        void SetVisualInfo(XVisualInfo* visual) override;
+        Window GetNativeHandle() override;
+        Display* GetDisplay() override;
+#endif
 
     private:
         void OnResize(const System::WindowResizeEvent&);
         void OnKeyDown(const System::KeyEvent&);
-    private:
-		System::IWindowUniquePtr m_window{ nullptr,  Core::DestroyObject };
+    private:		
         CanvasDescription m_canvas_description;
+        System::IWindowUniquePtr m_window{ nullptr,  Core::DestroyObject };
+#ifdef WIN32       
         HGLRC m_opengl_context;
+#elif defined __linux__
+        GLXContext m_context;        
+#endif
         int m_shader_version {0};
         int m_opengl_version {0};
         System::ILogger* m_logger {nullptr};
@@ -102,4 +108,4 @@ namespace Graphics {
 }
 PUNK_ENGINE_END
 
-#endif // CONFIG_H
+#endif // CANVAS_H

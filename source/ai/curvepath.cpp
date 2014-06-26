@@ -1,14 +1,12 @@
-#include <core/factory.h>
+#include <system/factory/module.h>
 #include "curvepath.h"
 
 PUNK_ENGINE_BEGIN
 namespace AI
 {
-	DEFINE_PUNK_GUID(IID_ICurvePath, "7B1EBE2B-6E2E-467A-BE39-EF7890622C41");
-
     CurvePath::CurvePath()
     {
-		Core::GetFactory()->CreateInstance(Math::IID_ICurve, (void**)&m_curve);
+        m_curve = System::CreateInstancePtr<Math::ICurve>(Math::IID_ICurve);
 	}
 
     CurvePath::~CurvePath()

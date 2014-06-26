@@ -103,9 +103,6 @@
     <ClCompile Include="..\..\source\loader\parser\keywords.cpp">
       <Filter>parser</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\loader\parser\parse_action.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\loader\parser\parse_animation.cpp">
       <Filter>parser</Filter>
     </ClCompile>
@@ -278,6 +275,9 @@
       <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\loader\parser\parse_armature_schema.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\parser\parse_track.cpp">
       <Filter>parser</Filter>
     </ClCompile>
   </ItemGroup>

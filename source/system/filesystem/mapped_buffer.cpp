@@ -1,18 +1,24 @@
+#ifdef WIN32
+#include <windows.h>
+#endif
+
 #include <stdexcept>
-#include <String/module.h>
+#include <string/module.h>
 #include <system/errors/module.h>
 #include "mapped_buffer.h"
 
 PUNK_ENGINE_BEGIN
-namespace System
-{
+namespace System {
 
     namespace __private {
-    PUNK_ENGINE_LOCAL DWORD GetPageSize() {
+
+    PUNK_ENGINE_LOCAL std::uint32_t GetPageSize() {
 #ifdef _WIN32
         SYSTEM_INFO info;
         GetSystemInfo(&info);
         return info.dwPageSize;
+#elif defined __linux__
+        return 0;
 #endif
     }
 
@@ -25,8 +31,11 @@ namespace System
         void* m_data;
         DWORD m_current_window;
         DWORD m_file_size;
+#elif defined __linux__
+#endif
 
-        MappedBufferImpl(const Core::String& filename, DWORD wnd_size)
+#ifdef WIN32
+        MappedBufferImpl(const Core::String& filename, std::uint32_t wnd_size)
             : m_window_size(wnd_size)
             , m_page_size(GetPageSize())
             , m_data(0)
@@ -49,8 +58,16 @@ namespace System
                 throw Error::OSException(L"Failed to map file " + filename);
             }
         }
+#elif defined __linux__
+        MappedBufferImpl(const Core::String& filename, std::uint32_t wnd_size)
+        {
+            (void)filename;
+            (void)wnd_size;
+        }
+#endif
 
         ~MappedBufferImpl() {
+#ifdef WIN32
             if (m_data) {
                 UnmapViewOfFile(m_data);
                 m_data = 0;
@@ -65,9 +82,12 @@ namespace System
                 CloseHandle(m_file);
                 m_file = 0;
             }
+#elif defined __linux__
+#endif
         }
 
-        void* Get(DWORD offset) {
+        void* Get(std::uint32_t offset) {
+#ifdef WIN32
             if (offset >= m_file_size)
                 return 0;
             DWORD required_window = offset / (m_page_size * m_window_size);
@@ -102,13 +122,15 @@ namespace System
             }
             void* ptr = (void*)((char*)m_data + window_offset);
             return ptr;
-        }
-
+#elif defined __linux__
+            (void)offset;
+            return nullptr;
 #endif
+        }
     };
     }
 
-    MappedBuffer::MappedBuffer(const Core::String& filename, unsigned long wnd_size)
+    MappedBuffer::MappedBuffer(const Core::String& filename, std::uint32_t wnd_size)
         : impl{new __private::MappedBufferImpl{filename, wnd_size}} {}
 
     MappedBuffer::~MappedBuffer() {
@@ -116,7 +138,7 @@ namespace System
         impl = nullptr;
     }
 
-    void* MappedBuffer::Get(long offset) {
+    void* MappedBuffer::Get(std::uint32_t offset) {
         return impl->Get(offset);
     }
 

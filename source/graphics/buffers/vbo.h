@@ -37,7 +37,7 @@ namespace Graphics {
 			}
 		
 			void Create(const CurrentVertex* data, std::uint32_t count) {
-				Create((void*)data, count*sizeof(Vertex<Args>));				
+                Create((void*)data, count*sizeof(Vertex<CurrentVertex>));
 			}
 
 			void Destroy() override {

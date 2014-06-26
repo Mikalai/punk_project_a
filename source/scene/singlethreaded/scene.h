@@ -41,7 +41,7 @@ namespace SceneModule
 		Core::String m_source_path;
 
         System::ThreadMutex m_lock;
-        INode* m_root {nullptr};
+        Core::UniquePtr<INode> m_root{nullptr, Core::DestroyObject};
 
 		PUNK_OBJECT_DEFAULT_IMPL(Scene)
     };

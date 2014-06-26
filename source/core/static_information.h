@@ -2,7 +2,7 @@
 //#define STATIC_INFORMATION_H
 
 //#include <vector>
-//#include "string/string.h"
+//#include <string/string.h>
 //#include "rtti.h"
 
 //namespace Punk {

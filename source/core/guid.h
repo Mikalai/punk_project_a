@@ -30,8 +30,8 @@ namespace Core {
 			std::uint8_t  Data4[8];
 		};
 		GuidCore m_core;		
-		friend extern PUNK_ENGINE_API bool operator < (const Guid& l, const Guid& r);
-		friend extern PUNK_ENGINE_API bool operator == (const Guid& l, const Guid& r);
+        friend PUNK_ENGINE_API bool operator < (const Guid& l, const Guid& r);
+        friend PUNK_ENGINE_API bool operator == (const Guid& l, const Guid& r);
 	};
 
 	extern PUNK_ENGINE_API bool operator < (const Guid& l, const Guid& r);

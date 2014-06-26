@@ -33,7 +33,7 @@ namespace Core {
         }
 
         ~BufferImpl() {
-            delete m_buffer;
+            delete[] m_buffer;
             m_buffer = m_current = nullptr;
         }
 

@@ -2,7 +2,7 @@
 #define _H_PUNK_OPENGL_SHADER_SOLID_COLOR
 
 #include <array>
-#include <core/ifactory.h>
+#include <system/factory/module.h>
 #include <graphics/render/render_context_type.h>
 #include <graphics/render/irender_context_factory.h>
 #include "gl_render_context.h"
@@ -17,6 +17,7 @@ namespace Graphics {
 
 		class GlRenderContextFactory : public IRenderContextFactory {
 		public:
+            GlRenderContextFactory();
 			virtual ~GlRenderContextFactory();
 			//	IObject
 			void QueryInterface(const Core::Guid& type, void** object) override;
@@ -30,9 +31,13 @@ namespace Graphics {
 			GlRenderContextBase* CreateContext(RenderContextType type);
 		private:
 			IVideoDriver* m_driver{ nullptr };
-			std::array<GlRenderContextBase*, (int)RenderContextType::TotalCount> m_contexts;
+            std::array<GlRenderContextBase*, (int)RenderContextType::TotalCount> m_contexts;
 			std::atomic<std::uint32_t> m_ref_count;
 		};
+
+        GlRenderContextFactory::GlRenderContextFactory() {
+            std::fill(m_contexts.begin(), m_contexts.end(), nullptr);
+        }
 
 		GlRenderContextFactory::~GlRenderContextFactory() {
 			for (auto& i : m_contexts) {
@@ -245,7 +250,7 @@ namespace Graphics {
 			m_driver = driver;
 		}
 
-		PUNK_REGISTER_CREATOR(IID_IRenderContextFactory, (Core::CreateInstance<GlRenderContextFactory, IRenderContextFactory>));
+		PUNK_REGISTER_CREATOR(IID_IRenderContextFactory, (System::CreateInstance<GlRenderContextFactory, IRenderContextFactory>));
 
 	}
 }
