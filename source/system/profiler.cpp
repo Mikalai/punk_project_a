@@ -1,4 +1,5 @@
 #include <sstream>
+#include <system/factory/module.h>
 #include "profiler.h"
 
 PUNK_ENGINE_BEGIN
@@ -9,18 +10,19 @@ namespace System
 	//
 	Profiler::Profiler()
 	{
+		m_timer = CreateInstancePtr<ITimer>(IID_ITimer);
 	}
 
 	void Profiler::Start(const Core::String& description)
 	{
 		m_description = description;
-		m_start_time = m_timer.GetElapsedSeconds();
-        m_timer.Reset();
+		m_start_time = m_timer->GetElapsedSeconds();
+        m_timer->Reset();
 	}
 
     double Profiler::End()
 	{
-		return m_end_time = m_timer.GetElapsedSeconds();
+		return m_end_time = m_timer->GetElapsedSeconds();
 	}
 
 	double Profiler::ToMiliseconds() const

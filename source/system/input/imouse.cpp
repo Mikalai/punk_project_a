@@ -13,7 +13,12 @@ namespace System
 
 		Mouse();
 		virtual ~Mouse();
+		//	IObject
 		void QueryInterface(const Core::Guid& type, void** object) override;
+		std::uint32_t AddRef() override;
+		std::uint32_t Release() override;
+
+		//	IMouse
 		void Show(bool value) override;
 		void LockInWindow(bool value) override;
 		void SetButtonState(MouseButtons button, bool state) override;
@@ -30,27 +35,28 @@ namespace System
 		IWindow* GetBoundedWindow() const override;
 
 	private:
-
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
 		static const int MAX_MOUSE_BUTTONS{ 3 };
 		std::array<bool, MAX_MOUSE_BUTTONS> m_buttons{ { false, false, false } };
 		bool m_locked{ false };
 		bool m_visible{ true };
-		IWindow* m_region{ nullptr };
-
-		PUNK_OBJECT_DEFAULT_IMPL(Mouse)
+		IWindow* m_region{ nullptr };		
 	};
 
 	void Mouse::QueryInterface(const Core::Guid& type, void** object) {
-		if (!object)
-			return;
+		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IMouse });
+	}
 
-		if (type == Core::IID_IObject ||
-			type == IID_IMouse) {
-			*object = (void*)this;
-			AddRef();
+	std::uint32_t Mouse::AddRef() {
+		return m_ref_count.fetch_add(1);
+	}
+
+	std::uint32_t Mouse::Release() {
+		auto v = m_ref_count.fetch_sub(1) - 1;
+		if (!v) {
+			delete this;
 		}
-		else
-			*object = nullptr;
+		return v;
 	}
 
     Mouse::Mouse()

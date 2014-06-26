@@ -347,15 +347,19 @@ namespace System
 	}
 
 	void Console::QueryInterface(const Core::Guid& type, void** object) {
-		if (!object)
-			return;
-		if (type == Core::IID_IObject ||
-			type == IID_IConsole) {
-			*object = (void*)this;
-			AddRef();
+		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IConsole});
+	}
+
+	std::uint32_t Console::AddRef() {
+		return m_ref_count.fetch_add(1);
+	}
+
+	std::uint32_t Console::Release() {
+		auto v = m_ref_count.fetch_sub(1) - 1;
+		if (!v) {
+			delete this;
 		}
-		else
-			*object = nullptr;
+		return v;
 	}
 
 	void Console::Write(const Core::String& value) {

@@ -166,15 +166,6 @@
     <ClInclude Include="..\..\source\system\logger\module.h">
       <Filter>logger</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\system\streaming\async_loader.h">
-      <Filter>streaming</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\system\streaming\async_loader_impl.h">
-      <Filter>streaming</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\system\streaming\async_loader_interface.h">
-      <Filter>streaming</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\system\streaming\data_loader.h">
       <Filter>streaming</Filter>
     </ClInclude>
@@ -193,31 +184,10 @@
     <ClInclude Include="..\..\source\system\streaming\streaming_result.h">
       <Filter>streaming</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\system\time\clock.h">
-      <Filter>time</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\system\time\clock_interface.h">
-      <Filter>time</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\system\time\module.h">
       <Filter>time</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\system\time\time_component.h">
-      <Filter>time</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\system\time\timer.h">
-      <Filter>time</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\system\time\timer_interface.h">
-      <Filter>time</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\system\window\module.h">
-      <Filter>window</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\system\window\win32_window.h">
-      <Filter>window</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\system\window\window_adapter.h">
       <Filter>window</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\system\window\window_component.h">
@@ -273,6 +243,15 @@
     </ClInclude>
     <ClInclude Include="..\..\source\system\concurrency\signal.h">
       <Filter>concurrency</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\streaming\iasync_loader.h">
+      <Filter>streaming</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\time\itimer.h">
+      <Filter>time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\time\iclock.h">
+      <Filter>time</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -390,19 +369,10 @@
     <ClCompile Include="..\..\source\system\logger\message_logger.cpp">
       <Filter>logger</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\system\streaming\async_loader.cpp">
-      <Filter>streaming</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\system\streaming\async_loader_impl.cpp">
-      <Filter>streaming</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\system\streaming\streaming_component.cpp">
       <Filter>streaming</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\system\time\clock.cpp">
-      <Filter>time</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\system\time\time_component.cpp">
       <Filter>time</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\system\time\timer.cpp">
@@ -431,6 +401,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\system\concurrency\signal.cpp">
       <Filter>concurrency</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\streaming\iasync_loader.cpp">
+      <Filter>streaming</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

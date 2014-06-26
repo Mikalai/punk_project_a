@@ -19,7 +19,7 @@ namespace System {
     std::map<Core::String, void*> g_loaded_module;
 #endif
 
-	extern PUNK_ENGINE_API Core::UniquePtr<IModule> LoadModule(const Core::String& module) {
+	extern PUNK_ENGINE_API Core::Pointer<IModule> LoadModule(const Core::String& module) {
         GetDefaultLogger()->Info("Loading " + module);
 #ifdef _WIN32		
 		HMODULE hModule = GetModuleHandle((LPCWSTR)(module + ".dll").Data());
@@ -50,15 +50,15 @@ namespace System {
 #endif
         if (!GetPunkModule) {
             GetDefaultLogger()->Info("Module '" + module + "' doesn't have GetPunkModule function.");
-            return Core::UniquePtr < IModule > {nullptr, Core::DestroyObject };
+            return Core::Pointer < IModule > {nullptr, Core::DestroyObject };
         }
         IModule* punk_module = GetPunkModule();
         if (!punk_module) {
             GetDefaultLogger()->Info("Module '" + module + "' was not retrieved from library");
-            return Core::UniquePtr < IModule > {nullptr, Core::DestroyObject};
+            return Core::Pointer < IModule > {nullptr, Core::DestroyObject};
         }
         punk_module->AddRef();
-        return Core::UniquePtr < IModule > {punk_module, Core::DestroyObject};
+        return Core::Pointer < IModule > {punk_module, Core::DestroyObject};
 	}
 
 	extern PUNK_ENGINE_API void UnloadModule(const Core::String& module) {

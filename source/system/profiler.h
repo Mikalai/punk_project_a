@@ -3,7 +3,7 @@
 
 #include <config.h>
 #include <string/string.h>
-#include <system/time/timer.h>
+#include <system/time/module.h>
 
 PUNK_ENGINE_BEGIN
 namespace System
@@ -14,7 +14,7 @@ namespace System
 	class PUNK_ENGINE_LOCAL Profiler
 	{
 		//	High definition timer
-		Timer m_timer;		
+		Core::Pointer<ITimer> m_timer{ nullptr, Core::DestroyObject };
 		// Text descritpion of current profiler
 		Core::String m_description;
         double m_start_time;

@@ -231,7 +231,6 @@
     <ClInclude Include="..\..\source\math\complex.h" />
     <ClInclude Include="..\..\source\math\constants.h" />
     <ClInclude Include="..\..\source\math\convex_shape_mesh.h" />
-    <ClInclude Include="..\..\source\math\curve.h" />
     <ClInclude Include="..\..\source\math\ellipsoid.h" />
     <ClInclude Include="..\..\source\math\frustum.h" />
     <ClInclude Include="..\..\source\math\frustum_plane.h" />
@@ -282,7 +281,6 @@
     <ClInclude Include="..\..\source\math\spatial\oct_tree.h" />
     <ClInclude Include="..\..\source\math\sphere.h" />
     <ClInclude Include="..\..\source\math\spherical.h" />
-    <ClInclude Include="..\..\source\math\spline.h" />
     <ClInclude Include="..\..\source\math\square_root.h" />
     <ClInclude Include="..\..\source\math\triangle2d.h" />
     <ClInclude Include="..\..\source\math\triangle3d.h" />

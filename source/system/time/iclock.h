@@ -13,6 +13,10 @@ namespace System
     class IClock : public Core::IObject
     {
     public:
+		/**
+		*	Used to retrieve current virtual time value
+		*	\returns Current virtual time
+		*/
         virtual int64_t Now() = 0;
         virtual void Advance(int64_t us) = 0;
         virtual const Core::String ToString() const = 0;

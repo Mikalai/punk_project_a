@@ -19,8 +19,6 @@ namespace System
         virtual double GetElapsedMiliseconds() const = 0;
         virtual void Reset() = 0;
     };
-
-    typedef UNIQUE_PTR(ITimer) ITimerUniquePtr;
 }
 PUNK_ENGINE_END
 

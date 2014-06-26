@@ -83,7 +83,7 @@ namespace System {
 #endif
     };
 	
-	using IWindowUniquePtr = std::unique_ptr < IWindow, void(*)(Core::IObject*) > ;	
+	using IWindowPointer = std::unique_ptr < IWindow, void(*)(Core::IObject*) > ;	
 }
 PUNK_ENGINE_END
 

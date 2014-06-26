@@ -1,3 +1,14 @@
+#include <memory>
+#include <deque>
+#include <vector>
+#include <config.h>
+#include <system/concurrency/thread_mutex.h>
+#include <system/concurrency/semaphore.h>
+#include <system/concurrency/thread.h>
+#include "resource_request.h"
+#include "core/object.h"
+#include "iasync_loader.h"
+
 #ifdef __gnu_linux__
 #include <limits.h>
 #else
@@ -7,51 +18,105 @@
 
 #include <system/concurrency/work_item.h>
 #include "engine_objects.h"
-#include "async_loader_impl.h"
 #include "data_loader.h"
 #include "data_processor.h"
 
 PUNK_ENGINE_BEGIN
 namespace System
 {
-    class IoThreadWorkItem : public WorkItem {
-    public:
-        void Run(void* data) override
-        {
-            if (data == nullptr)
-                return;
-            reinterpret_cast<AsyncLoaderImpl*>(data)->FileIOThreadProc();
-        }
-    };
+	class AbstractDataLoader;
+	class AbstractDataProcessor;
 
-    class ProcessThreadWorkItem : public WorkItem {
-    public:
-        void Run(void* data) override {
-            if (data == nullptr)
-                return;
-            reinterpret_cast<AsyncLoaderImpl*>(data)->ProcessingThreadProc();
-        }
-    };
-
-    AsyncLoaderImpl::AsyncLoaderImpl(int num_process_threads)
+	class PUNK_ENGINE_LOCAL AsyncLoaderImpl : public IAsyncLoader
 	{
-        static IoThreadWorkItem io_thread_work_item;
-        static std::vector<ProcessThreadWorkItem> process_thread_work_item(num_process_threads);
+	public:
+		AsyncLoaderImpl(int num_process_threads);
+		virtual ~AsyncLoaderImpl();
+		//	IObject
+		void QueryInterface(const Core::Guid& type, void** object) override;
+		std::uint32_t AddRef() override;
+		std::uint32_t Release() override;
+
+		//	IAsyncLoader
+		int AddWorkItem(AbstractDataLoader* loader, AbstractDataProcessor* processor, unsigned* result) override;
+		unsigned MainThreadProc(unsigned num_to_process) override;
+		unsigned FileIOThreadProc();
+		unsigned ProcessingThreadProc();
+
+	private:
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
+		std::deque<ResourceRequest> m_io_queue;
+		std::deque<ResourceRequest> m_process_queue;
+		std::deque<ResourceRequest> m_render_queue;
+		bool m_io_done_flag;
+		bool m_process_done_flag;
+		bool m_global_done_flag;
+		ThreadMutex m_io_queue_mutex;
+		ThreadMutex m_process_queue_mutex;
+		ThreadMutex m_render_queue_mutex;
+		Semaphore m_io_thread_semaphore;
+		Semaphore m_process_thread_semaphore;
+		Thread m_io_thread;
+		std::vector<Thread> m_process_threads;
+		unsigned m_num_io_requests;
+		unsigned m_num_process_requests;
+	};
+
+
+	class IoThreadWorkItem : public WorkItem {
+	public:
+		void Run(void* data) override
+		{
+			if (data == nullptr)
+				return;
+			reinterpret_cast<AsyncLoaderImpl*>(data)->FileIOThreadProc();
+		}
+	};
+
+	class ProcessThreadWorkItem : public WorkItem {
+	public:
+		void Run(void* data) override {
+			if (data == nullptr)
+				return;
+			reinterpret_cast<AsyncLoaderImpl*>(data)->ProcessingThreadProc();
+		}
+	};
+
+	void AsyncLoaderImpl::QueryInterface(const Core::Guid& type, void** object) {
+		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IAsyncLoader });
+	}
+
+	std::uint32_t AsyncLoaderImpl::AddRef() {
+		return m_ref_count.fetch_add(1);
+	}
+
+	std::uint32_t AsyncLoaderImpl::Release() {
+		auto v = m_ref_count.fetch_sub(1) - 1;
+		if (!v) {
+			delete this;
+		}
+		return v;
+	}
+
+	AsyncLoaderImpl::AsyncLoaderImpl(int num_process_threads)
+	{
+		static IoThreadWorkItem io_thread_work_item;
+		static std::vector<ProcessThreadWorkItem> process_thread_work_item(num_process_threads);
 		m_global_done_flag = false;
-        m_io_thread_semaphore.Create(LONG_MAX);
+		m_io_thread_semaphore.Create(LONG_MAX);
 		m_process_thread_semaphore.Create(LONG_MAX);
 
 		m_process_threads.resize(num_process_threads);
-        int i = 0;
+		int i = 0;
 		for (auto it = m_process_threads.begin(); it != m_process_threads.end(); ++it)
 		{
-            it->Start(&process_thread_work_item[i], (void*)this);
+			it->Start(&process_thread_work_item[i], (void*)this);
 			it->Resume();
-            i++;
+			i++;
 		}
 
-        m_io_thread.Start(&io_thread_work_item, (void*)this);
-		m_io_thread.Resume();		
+		m_io_thread.Start(&io_thread_work_item, (void*)this);
+		m_io_thread.Resume();
 	}
 
 	/**
@@ -59,7 +124,7 @@ namespace System
 	*	that finaly should lead to the uploading data to the device
 	*	memory
 	*/
-    int AsyncLoaderImpl::AddWorkItem(AbstractDataLoader* loader, AbstractDataProcessor* processor, unsigned* result)
+	int AsyncLoaderImpl::AddWorkItem(AbstractDataLoader* loader, AbstractDataProcessor* processor, unsigned* result)
 	{
 		int res = -1;
 		//	check input data
@@ -94,11 +159,11 @@ namespace System
 	*	and can upload data from host memory to device memory
 	*	using data processor
 	*/
-    unsigned AsyncLoaderImpl::FileIOThreadProc()
+	unsigned AsyncLoaderImpl::FileIOThreadProc()
 	{
 		ResourceRequest request;
 		m_io_done_flag = false;
-		while(!m_global_done_flag)
+		while (!m_global_done_flag)
 		{
 			//	wait till the task will be added
 			m_io_thread_semaphore.Wait();
@@ -187,7 +252,7 @@ namespace System
 		return m_io_done_flag;
 	}
 
-    unsigned AsyncLoaderImpl::ProcessingThreadProc()
+	unsigned AsyncLoaderImpl::ProcessingThreadProc()
 	{
 		ResourceRequest request;
 		//	set process thread done flag as false
@@ -211,7 +276,7 @@ namespace System
 			if (request.m_valid_flag)
 			{
 				void* data = nullptr;
-                unsigned size = 0;
+				unsigned size = 0;
 				//	decompress data using loader
 				auto res = request.m_loader->Decompress(&data, &size);
 				//	if all ok continue decompression
@@ -266,7 +331,7 @@ namespace System
 	/**
 	*	This is called from main thread.
 	*/
-    unsigned AsyncLoaderImpl::MainThreadProc(unsigned num_to_process)
+	unsigned AsyncLoaderImpl::MainThreadProc(unsigned num_to_process)
 	{
 		ResourceRequest request;
 		m_render_queue_mutex.Lock();
@@ -353,7 +418,7 @@ namespace System
 	/**
 	*	This method will terminate io and processing threads
 	*/
-    AsyncLoaderImpl::~AsyncLoaderImpl()
+	AsyncLoaderImpl::~AsyncLoaderImpl()
 	{
 		//	declare end of work
 		m_global_done_flag = true;
@@ -369,7 +434,7 @@ namespace System
 		while (!m_io_done_flag || !m_process_done_flag)
 		{
 			//	Confusing a bit, but still should work
-            System::Thread::Sleep(100);
+			System::Thread::Sleep(100);
 		}
 
 		//	destroy all semaphores
@@ -389,12 +454,13 @@ namespace System
 	}
 
 	extern PUNK_ENGINE_API IAsyncLoader* CreateAsyncLoader(int num_threads) {
-        return new AsyncLoaderImpl(num_threads);
-    }
+		return new AsyncLoaderImpl(num_threads);
+	}
 
 	extern PUNK_ENGINE_API void DestroyAsyncLoader(IAsyncLoader* value) {
-        AsyncLoaderImpl* v = dynamic_cast<AsyncLoaderImpl*>(value);
-        delete v;
-    }
+		AsyncLoaderImpl* v = dynamic_cast<AsyncLoaderImpl*>(value);
+		delete v;
+	}
 }
 PUNK_ENGINE_END
+

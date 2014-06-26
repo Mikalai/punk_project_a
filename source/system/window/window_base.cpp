@@ -1,6 +1,4 @@
 #include "window_base.h"
-#include "win32_window.h"
-#include "x11_window.h"
 
 PUNK_ENGINE_BEGIN
 namespace System {
@@ -13,16 +11,6 @@ namespace System {
     {
     }
 	
-	void WindowBase::QueryInterface(const Core::Guid& type, void** object) {
-		if (type == IID_IWindow ||
-			type == Core::IID_IObject) {
-			*object = (void*)this;
-			AddRef();
-		}
-		else
-			*object = nullptr;
-	}
-
     void WindowBase::SubscribeResizeEvent(ResizeEventDelegate delegate) {
         OnResizeEvent.Add(delegate);
     }
