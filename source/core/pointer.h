@@ -11,12 +11,36 @@ namespace Core {
 	template<class T, class Base = IObject>
 	class Pointer {
 	public:
+		template<class U, class B> friend class Pointer;
+
 		Pointer(T* object, void(*destroy)(Base*))
 			: m_object{ object }
 			, m_destroy{ destroy }
 		{
 			if (m_object)
 				m_object->AddRef();
+		}
+
+		template<class U>
+		Pointer(const Pointer<U>& value) {
+			m_object = dynamic_cast<T*>(value.m_object);
+			if (m_object)
+				m_object->AddRef();
+			m_destroy = value.m_destroy;
+		}
+
+		template<class U>
+		Pointer<T>& operator = (const Pointer<U>& value) {
+			T* casted_value = dynamic_cast<T*>(value.m_object);
+			if (m_object == casted_value)
+				return *this;
+			if (m_object)
+				Destroy();
+			m_object = casted_value;
+			if (m_object)
+				m_object->AddRef();
+			m_destroy = value.m_destroy;
+			return *this;
 		}
 
 		Pointer(const Pointer<T, Base>& value)

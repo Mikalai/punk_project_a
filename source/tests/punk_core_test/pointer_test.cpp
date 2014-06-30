@@ -83,6 +83,18 @@ public:
 			CPPUNIT_ASSERT(p1->m_ref_count == 2);
 		}
 		CPPUNIT_ASSERT(g_var == 0);
+
+		Core::IObject* o1 = new ProxyObject;
+		auto o2 = new ProxyObject;
+		{
+			Core::Pointer<Core::IObject> p1{ o1, Core::DestroyObject };
+			Core::Pointer<ProxyObject> p2{ o2, Core::DestroyObject };
+			p2 = p1;
+			CPPUNIT_ASSERT(p2.get() == o1);
+			CPPUNIT_ASSERT(p2->m_ref_count == 2);
+			CPPUNIT_ASSERT(g_var == 1);
+		}
+		CPPUNIT_ASSERT(g_var == 0);
 	}
 
 	void testGetter() {
