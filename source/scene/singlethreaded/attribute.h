@@ -104,7 +104,7 @@ namespace SceneModule {
 
     template<class T>
     inline void Attribute<T>::SetRawData(Core::Pointer<Core::IObject> value) {
-		Core::Pointer<T> o{ dynamic_cast<T*>(value.get), Core::DestroyObject };
+		Core::Pointer<T> o{ dynamic_cast<T*>(value.get()), Core::DestroyObject };
 		if (o.get()) {
 			m_data.reset(o.release());
 		}

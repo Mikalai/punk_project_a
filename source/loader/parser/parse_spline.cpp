@@ -1,5 +1,6 @@
-#include <ai/module.h>
-#include <math/spline.h>
+#include <attributes/ai/module.h>
+#include <math/ispline.h>
+#include <math/weighted_point.h>
 #include "parser.h"
 #include "parse_weighted_point.h"
 #include "parse_spline.h"

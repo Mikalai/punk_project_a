@@ -23,11 +23,11 @@ namespace SceneModule {
         virtual void Unlock() = 0;
 		virtual Core::Pointer<INode> GetRoot() = 0;
 		virtual const Core::Pointer<INode> GetRoot() const = 0;
-        virtual void SetRoot(INode* node) = 0;
+        virtual void SetRoot(Core::Pointer<INode> node) = 0;
 		virtual INode* ReleaseRoot() = 0;		
 		
-		virtual void AddObserver(IObserver* observer) = 0;
-		virtual void RemoveObserver(IObserver* observer) = 0;
+		virtual void AddObserver(Core::Pointer<IObserver> observer) = 0;
+		virtual void RemoveObserver(Core::Pointer<IObserver> observer) = 0;
 
         virtual void OnNodeAdded(INode* parent, INode* child) = 0;
         virtual void OnNodeRemoved(INode* parent, INode* child) = 0;		

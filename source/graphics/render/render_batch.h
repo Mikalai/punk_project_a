@@ -15,8 +15,7 @@ namespace Graphics {
     public:
         ~Batch();
         CoreState* m_state;
-        IRenderable* m_renderable;
-        bool m_destroy;
+		Core::Pointer<IRenderable> m_renderable{ nullptr, Core::DestroyObject };
     };
 }
 PUNK_ENGINE_END

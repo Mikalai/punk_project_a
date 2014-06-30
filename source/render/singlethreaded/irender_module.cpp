@@ -49,10 +49,10 @@ namespace LowLevelRender {
 
 		template<class T>
 		struct LightCache {
-			T* m_light;
+			Core::Pointer<T> m_light{ nullptr, Core::DestroyObject };
 			Math::vec3 m_position;
 			Math::vec3 m_direction;
-			LightCache(T* light, Math::vec3 world_pos, Math::vec3 world_dir)
+			LightCache(Core::Pointer<T> light, Math::vec3 world_pos, Math::vec3 world_dir)
 				: m_light{ light }
 				, m_direction{ world_dir }
 				, m_position{ world_pos } {}
@@ -60,11 +60,11 @@ namespace LowLevelRender {
 
 		template<class T>
 		struct CameraCache {
-			T* m_camera;
+			Core::Pointer<T> m_camera{ nullptr, Core::DestroyObject };
 			Math::vec3 m_position;
 			Math::vec3 m_direction;
 
-			CameraCache(T* camera, Math::vec3 world_pos, Math::vec3 dir)
+			CameraCache(Core::Pointer<T> camera, Math::vec3 world_pos, Math::vec3 dir)
 				: m_camera{ camera }
 				, m_position{ world_pos }
 				, m_direction{ dir }
@@ -80,13 +80,13 @@ namespace LowLevelRender {
 		std::vector<LightCache<Attributes::IPointLight>> m_point_lights;
 		std::vector<LightCache<Attributes::IDirectionalLight>> m_dir_light;
 		std::vector<LightCache<Attributes::ISpotLight>> m_spot_lights;
-		CameraCache<Attributes::IPerspectiveCamera> m_perspective_camera{ nullptr, { 0, 0, 0 }, { 0, 0, -1 } };
+		CameraCache<Attributes::IPerspectiveCamera> m_perspective_camera{ Core::Pointer < Attributes::IPerspectiveCamera > {nullptr, Core::DestroyObject}, { 0, 0, 0 }, { 0, 0, -1 } };
 
 		Core::ObjectPool<Attributes::IGeometry*, Graphics::IRenderable*> m_cooked_geometry;
 		std::map<SceneModule::INode*, RenderGeoemetryCache> m_geometry_cache;
 		//Graphics::ICanvasPointer m_canvas{ nullptr, Core::DestroyObject };
 		SceneModule::ISceneGraphPointer m_scene{ nullptr, Core::DestroyObject };
-		SceneModule::INodePointer m_camera_node{ nullptr, Core::DestroyObject };
+		Core::Pointer<SceneModule::INode> m_camera_node{ nullptr, Core::DestroyObject };
 		Attributes::IGeometryCookerPointer m_geometry_cooker{ nullptr, Core::DestroyObject };
 		Graphics::IRenderableBuilderPointer m_renderable_builder{ nullptr, Core::DestroyObject };
 		Graphics::ICanvasPointer m_canvas{ nullptr, Core::DestroyObject };
@@ -228,14 +228,14 @@ namespace LowLevelRender {
                     auto point_light = Core::QueryInterfacePtr<Attributes::IPointLight>(light, Attributes::IID_IPointLight);
 					if (point_light.get()) {
 						auto p = frame->GetWorldMatrix() * Math::vec3(0, 0, 0);
-						m_point_lights.push_back(LightCache < Attributes::IPointLight > {point_light.get(), p, { 0, 0, 0 }});
+						m_point_lights.push_back(LightCache < Attributes::IPointLight > {point_light, p, { 0, 0, 0 }});
 						continue;
 					}
                     auto dir_light = Core::QueryInterfacePtr<Attributes::IDirectionalLight>(light, Attributes::IID_IDirectionalLight);
 					if (dir_light.get()) {
 						auto p = frame->GetWorldMatrix() * Math::vec3(0, 0, 0);
 						auto d = (frame->GetWorldMatrix() * Math::vec4{ dir_light->GetDirection(), 0 }).XYZ();
-						m_dir_light.push_back(LightCache < Attributes::IDirectionalLight > {dir_light.get(), p, d});
+						m_dir_light.push_back(LightCache < Attributes::IDirectionalLight > {dir_light, p, d});
 						continue;
 					}
 				}
@@ -250,7 +250,7 @@ namespace LowLevelRender {
 					if (perspective_camera.get()) {
 						auto p = frame->GetWorldMatrix() * Math::vec3(0, 0, 0);
 						auto d = (frame->GetWorldMatrix() * Math::vec4{ perspective_camera->GetDirection(), 0 }).XYZ();
-						m_perspective_camera.m_camera = perspective_camera.get();
+						m_perspective_camera.m_camera = perspective_camera;
 						m_perspective_camera.m_position = p;
 						m_perspective_camera.m_direction = d;
 					}
@@ -298,7 +298,7 @@ namespace LowLevelRender {
 		frame->SetViewMatrix(Math::CreateTargetCameraMatrix({ 2, 2, 2 }, { 0, 0, 0 }, { 0, 1, 0 }));
 		frame->SetProjectionMatrix(Math::CreatePerspectiveProjection(Math::PI/4.0f, 1024, 768, 0.1f, 100.0f));
 		frame->EnableDepthTest(true);
-		Process(frame, root);
+		Process(frame, root.get());
 
 		if (!m_point_lights.empty()) {
 			auto light = m_point_lights[0].m_light;
@@ -371,10 +371,10 @@ namespace LowLevelRender {
 		auto count = child->GetAttributesCountOfType<Attributes::IGeometry>();
 		for (int i = 0; i < (int)count; ++i) {
 			auto geom = child->GetAttributeOfType<Attributes::IGeometry>(i);
-			Graphics::IRenderable* renderable = nullptr;
-			if (m_cooked_geometry.HasValue(geom))
+			Core::Pointer<Graphics::IRenderable> renderable{ nullptr, Core::DestroyObject };
+			if (m_cooked_geometry.HasValue(geom.get()))
 			{
-				renderable = m_cooked_geometry.GetValue(geom);
+				renderable.reset(m_cooked_geometry.GetValue(geom.get()));
 				auto old = child->Get<Graphics::IRenderable>(geom->GetName());
 				if (old != renderable) {
 					renderable->AddRef();
@@ -385,7 +385,7 @@ namespace LowLevelRender {
 			{
 				Graphics::IVertexArray* vb;
 				Graphics::IIndexArray* ib;
-				m_geometry_cooker->Cook(geom, vb, ib);
+				m_geometry_cooker->Cook(geom.get(), vb, ib);
 				renderable = m_renderable_builder->ToRenderable(Graphics::PrimitiveType::TRIANGLES, vb, ib);
 				delete vb;
 				delete ib;
@@ -394,7 +394,7 @@ namespace LowLevelRender {
 				void* ii = renderable->MapIndexBuffer();
 				renderable->UnmapVertexVuffer(v);
 				renderable->UnmapIndexBuffer(ii);
-				m_cooked_geometry.AddValue(geom, renderable);
+				m_cooked_geometry.AddValue(geom.get(), renderable.get());
 				child->Set<Graphics::IRenderable>(geom->GetName(), renderable);
 			}
 		}
@@ -427,19 +427,18 @@ namespace LowLevelRender {
 		LOG_FUNCTION_SCOPE;
 		if (attribute->GetTypeID() == typeid(Attributes::IGeometry).hash_code()) {
 			auto geom = attribute->Get<Attributes::IGeometry>();
-			Graphics::IRenderable* renderable = nullptr;
-			if (m_cooked_geometry.HasValue(geom))
+			Core::Pointer<Graphics::IRenderable> renderable{ nullptr, Core::DestroyObject };
+			if (m_cooked_geometry.HasValue(geom.get()))
 			{
-				renderable = m_cooked_geometry.GetValue(geom);
-				renderable->AddRef();
+				renderable.reset(m_cooked_geometry.GetValue(geom.get()));
 			}
 			else
 			{
 				Graphics::IVertexArray* vb;
 				Graphics::IIndexArray* ib;
-				m_geometry_cooker->Cook(geom, vb, ib);
+				m_geometry_cooker->Cook(geom.get(), vb, ib);
 				renderable = m_renderable_builder->ToRenderable(Graphics::PrimitiveType::TRIANGLES, vb, ib);
-				m_cooked_geometry.AddValue(geom, renderable);
+				m_cooked_geometry.AddValue(geom.get(), renderable.get());
 			}
 			node->Set<Graphics::IRenderable>(geom->GetName(), renderable);
 		}

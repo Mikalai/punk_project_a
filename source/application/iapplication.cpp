@@ -18,20 +18,25 @@ namespace Runtime {
 
         Application();
         virtual ~Application();
-        void QueryInterface(const Core::Guid& type, void** object) override;
-        SceneModule::ISceneManager* GetSceneManager() override;
+
+		//	IObject
+		void QueryInterface(const Core::Guid& type, void** object) override;
+		std::uint32_t AddRef() override;
+		std::uint32_t Release() override;
+
+		//	IApplication
+        Core::Pointer<SceneModule::ISceneManager> GetSceneManager() override;
         void Run() override;
 
     private:
         void LoadBasicModules();
     public:
-        UNIQUE_PTR(SceneModule::ISceneManager) m_scene_manager{ nullptr, Core::DestroyObject };
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
+        Core::Pointer<SceneModule::ISceneManager> m_scene_manager{ nullptr, Core::DestroyObject };
         System::ILogger* m_logger{ System::GetDefaultLogger() };
         Core::Pointer<LowLevelRender::IRenderModule> m_render_module{ nullptr, Core::DestroyObject };
         Core::Pointer<System::IModule> m_graphics_module{ nullptr, Core::DestroyObject };
         Core::Pointer<System::IModule> m_io_module{ nullptr, Core::DestroyObject };
-
-        PUNK_OBJECT_DEFAULT_IMPL(Application)
     };
 
     Application::Application() {
@@ -42,27 +47,25 @@ namespace Runtime {
         m_scene_manager = System::CreateInstancePtr<SceneModule::ISceneManager>(SceneModule::IID_ISceneManager);
 
         auto loader = System::CreateInstancePtr<IoModule::IIoObserver>(IoModule::IID_IIoObserver);
-        m_scene_manager->GetScene()->AddObserver(loader.get());
+        m_scene_manager->GetScene()->AddObserver(loader);
 
 
         auto animator_module = System::CreateInstancePtr<AnimatorModule::IAnimatorModule>(AnimatorModule::IID_IAnimatorModule);
-        auto animator_observer = Core::QueryInterfacePtr<AnimatorModule::IAnimatorObserver>(animator_module.get(), AnimatorModule::IID_IAnimatorObserver);
-        auto animator_processor = Core::QueryInterfacePtr<AnimatorModule::IAnimatorProcessor>(animator_module.get(), AnimatorModule::IID_IAnimatorProcessor);
+        auto animator_observer = Core::QueryInterfacePtr<AnimatorModule::IAnimatorObserver>(animator_module, AnimatorModule::IID_IAnimatorObserver);
+        auto animator_processor = Core::QueryInterfacePtr<AnimatorModule::IAnimatorProcessor>(animator_module, AnimatorModule::IID_IAnimatorProcessor);
 
-        m_scene_manager->GetScene()->AddObserver(animator_observer.get());
-        m_scene_manager->AddProcessor(animator_processor.get());
+        m_scene_manager->GetScene()->AddObserver(animator_observer);
+        m_scene_manager->AddProcessor(animator_processor);
 
         m_render_module = System::CreateInstancePtr<LowLevelRender::IRenderModule>(LowLevelRender::IID_IRenderModule);
 
-        auto render_processor = Core::QueryInterfacePtr<LowLevelRender::IRenderProcessor>(m_render_module.get(), LowLevelRender::IID_IRenderProcessor);
-        auto render_observer = Core::QueryInterfacePtr<LowLevelRender::IRenderObserver>(m_render_module.get(), LowLevelRender::IID_IRenderObserver);
-        m_scene_manager->GetScene()->AddObserver(render_observer.get());
-        m_scene_manager->AddProcessor(render_processor.get());
+        auto render_processor = Core::QueryInterfacePtr<LowLevelRender::IRenderProcessor>(m_render_module, LowLevelRender::IID_IRenderProcessor);
+        auto render_observer = Core::QueryInterfacePtr<LowLevelRender::IRenderObserver>(m_render_module, LowLevelRender::IID_IRenderObserver);
+        m_scene_manager->GetScene()->AddObserver(render_observer);
+        m_scene_manager->AddProcessor(render_processor);
     }
 
     Application::~Application() {
-        m_scene_manager->Release();
-        m_scene_manager = nullptr;
     }
 
     void Application::LoadBasicModules() {
@@ -84,12 +87,13 @@ namespace Runtime {
             }
         }
     }
-    SceneModule::ISceneManager* Application::GetSceneManager() {
-        return m_scene_manager.get();
+    
+	Core::Pointer<SceneModule::ISceneManager> Application::GetSceneManager() {
+        return m_scene_manager;
     }
 
     void Application::Run() {
-        System::ITimerPointer timer = System::CreateInstancePtr<System::ITimer>(System::IID_ITimer);
+        Core::Pointer<System::ITimer> timer = System::CreateInstancePtr<System::ITimer>(System::IID_ITimer);
         timer->Reset();
         int frame = 0;
         float t = 0;
@@ -110,6 +114,18 @@ namespace Runtime {
     void Application::QueryInterface(const Core::Guid& type, void** object) {
         Core::QueryInterface(this, type, object, { IID_IApplication, Core::IID_IObject });
     }
+
+	std::uint32_t Application::AddRef() {
+		return m_ref_count.fetch_add(1);
+	}
+
+	std::uint32_t Application::Release() {
+		auto v = m_ref_count.fetch_sub(1) - 1;
+		if (!v) {
+			delete this;
+		}
+		return v;
+	}
 
     PUNK_REGISTER_CREATOR(IID_IApplication, (System::CreateInstance<Application, IApplication>));
 }

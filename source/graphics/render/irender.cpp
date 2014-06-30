@@ -161,7 +161,7 @@ namespace Graphics {
 //				log->Info(L"LowLevelRender " + RenderPolicySetToString(rc_code));
 //#endif
 			for (Batch* batch : batches) {
-				IRenderable* renderable = batch->m_renderable;
+				auto renderable = batch->m_renderable;
 				CoreState* state = batch->m_state;
 				rc->Begin();
 				rc->ApplyState(*state);

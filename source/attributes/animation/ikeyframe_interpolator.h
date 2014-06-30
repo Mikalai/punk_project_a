@@ -24,7 +24,7 @@ namespace Attributes
 	{
 	public:
 		virtual InterpolatorType GetType() = 0;
-		virtual void SetTrack(ITrack* track) = 0;
+		virtual void SetTrack(Core::Pointer<ITrack> track) = 0;
 		virtual void Interpolate(std::int32_t frame, void* result, std::uint32_t size) = 0;
 	};
 

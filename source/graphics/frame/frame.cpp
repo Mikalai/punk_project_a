@@ -139,14 +139,13 @@ namespace Graphics
 //            m_current_frame_buffer->Unbind();
 //    }
 
-    void Frame::Submit(IRenderable* value, bool destroy)
+    void Frame::Submit(Core::Pointer<IRenderable> value)
     {
         if (!value)
             return;
         Batch* batch = new Batch;
         batch->m_renderable = value;
         batch->m_state = m_state.top()->Clone(CoreState::ALL_STATES);
-        batch->m_destroy = destroy;
         m_render->SubmitBatch(batch);
     }
 
@@ -632,8 +631,8 @@ namespace Graphics
         b->Vertex3fv(start);
         b->Vertex3fv(end);
         b->End();
-        IRenderable* r = b->ToRenderable();
-        Submit(r, true);
+        auto r = b->ToRenderable();
+        Submit(r);
         PopAllState();
     }
 
@@ -668,8 +667,8 @@ namespace Graphics
         b->Vertex3fv(p1);
         b->Vertex3fv(p2);
         b->End();
-        IRenderable* r = b->ToRenderable();
-        Submit(r, true);
+        auto r = b->ToRenderable();
+        Submit(r);
         PopAllState();
 //#ifdef _DEBUG
 //        System::GetDefaultLogger()->Info("End DrawLine(x1,y1,x2,y2)");
@@ -696,8 +695,8 @@ namespace Graphics
         b->Begin(PrimitiveType::POINTS);
         b->Vertex3fv(p1);
         b->End();
-        IRenderable* r = b->ToRenderable();
-        Submit(r, true);
+        auto r = b->ToRenderable();
+        Submit(r);
         PopAllState();
     }
 
@@ -711,8 +710,8 @@ namespace Graphics
         b->Begin(PrimitiveType::POINTS);
         b->Vertex3fv(Math::vec3(x, y, z));
         b->End();
-        IRenderable* r = b->ToRenderable();
-        Submit(r, true);
+        auto r = b->ToRenderable();
+        Submit(r);
         PopAllState();
     }
 
@@ -726,8 +725,8 @@ namespace Graphics
         b->Begin(PrimitiveType::POINTS);
         b->Vertex3fv(v);
         b->End();
-        IRenderable* r = b->ToRenderable();
-        Submit(r, true);
+        auto r = b->ToRenderable();
+        Submit(r);
         PopAllState();
     }
 
@@ -752,8 +751,8 @@ namespace Graphics
         b->TexCoord2f(0, 1);
         b->Vertex3f(x, y+height, 0);
         b->End();
-        IRenderable* r = b->ToRenderable();
-        Submit(r, true);
+        auto r = b->ToRenderable();
+        Submit(r);
         PopAllState();
     }
 
@@ -788,7 +787,7 @@ namespace Graphics
                 b->Vertex3f(xx, yy, zz);
             }
         }
-        Submit(b->ToRenderable(), true);
+        Submit(b->ToRenderable());
         PopAllState();
     }
 
@@ -830,7 +829,7 @@ namespace Graphics
         b->Vertex3f(x, y+text_height, 0);
         b->End();
 
-        Submit(b->ToRenderable(), true);
+        Submit(b->ToRenderable());
 
         PopAllState();
         m_texts.push_back(surface.release());

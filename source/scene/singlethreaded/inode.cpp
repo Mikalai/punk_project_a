@@ -97,7 +97,7 @@ namespace SceneModule {
     {
 		LOG_FUNCTION_SCOPE;
 		if (m_scene_graph)
-			m_scene_graph->SetRoot(this);
+			m_scene_graph->SetRoot(Core::Pointer < INode > {this, Core::DestroyObject});
 	}
 
     Node::Node(INode *parent)            

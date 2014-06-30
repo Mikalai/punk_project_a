@@ -17,10 +17,10 @@ namespace Attributes {
 		virtual std::uint32_t GetDuration() const = 0;
 		virtual std::int32_t GetFirstFrame() const = 0;
 		virtual std::int32_t GetLastFrame() const = 0;
-		virtual void AddTrack(ITrack* value) = 0;
+		virtual void AddTrack(Core::Pointer<ITrack> value) = 0;
 		virtual std::uint32_t GetTracksCount() const = 0;
-		virtual const ITrack* GetTrack(std::uint32_t index) const = 0;
-		virtual ITrack* GetTrack(std::uint32_t index) = 0;
+		virtual const Core::Pointer<ITrack> GetTrack(std::uint32_t index) const = 0;
+		virtual Core::Pointer<ITrack> GetTrack(std::uint32_t index) = 0;
 		virtual void SetName(const Core::String& value) = 0;
 		virtual const Core::String& GetName() const = 0;
 		virtual std::uint32_t GetTrackIndex(const Core::String& name) = 0;

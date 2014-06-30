@@ -25,10 +25,10 @@ namespace SceneModule
 		void Unlock() override;
 		Core::Pointer<INode> GetRoot() override;
 		const Core::Pointer<INode> GetRoot() const override;
-		void SetRoot(INode* node) override;
+		void SetRoot(Core::Pointer<INode> node) override;
 		INode* ReleaseRoot() override;
-		void AddObserver(IObserver* observer) override;
-		void RemoveObserver(IObserver* observer) override;
+		void AddObserver(Core::Pointer<IObserver> observer) override;
+		void RemoveObserver(Core::Pointer<IObserver> observer) override;
 		void OnNodeAdded(INode* parent, INode* child) override;
 		void OnNodeRemoved(INode* parent, INode* child) override;
 		void OnAttributeAdded(INode* node, IAttribute* attribute) override;
@@ -38,7 +38,7 @@ namespace SceneModule
 		const Core::String GetSourcePath() const override;
 	private:
 		std::atomic<std::uint32_t> m_ref_count{ 0 };
-		std::set<IObserver*> m_observers;
+		std::set<Core::Pointer<IObserver>> m_observers;
 		Core::ActionSlot<INode*, INode*> m_on_added_actions;
 		Core::ActionSlot<INode*, INode*> m_on_removed_action;
 		Core::ActionSlot<INode*, IAttribute*> m_on_attribute_added;
@@ -95,13 +95,13 @@ namespace SceneModule
 		return m_root;
     }
 
-    void Scene::SetRoot(INode* node) {
+    void Scene::SetRoot(Core::Pointer<INode> node) {
 		LOG_FUNCTION_SCOPE;
         node->AddRef();
         if (m_root.get()) {
             OnNodeRemoved(nullptr, m_root.get());
 		}		        
-        m_root.reset(node);
+		m_root = node;
 		m_root->SetScene(this);
         OnNodeAdded(nullptr, m_root.get());
     }
@@ -111,7 +111,7 @@ namespace SceneModule
         return m_root.release();
 	}
 
-	void Scene::AddObserver(IObserver* observer) {		
+	void Scene::AddObserver(Core::Pointer<IObserver> observer) {		
 		LOG_FUNCTION_SCOPE;
 		auto it = m_observers.find(observer);
 		if (it == m_observers.end()) {
@@ -121,7 +121,7 @@ namespace SceneModule
 		}
 	}
 
-	void Scene::RemoveObserver(IObserver* observer) {
+	void Scene::RemoveObserver(Core::Pointer<IObserver> observer) {
 		LOG_FUNCTION_SCOPE;
 		auto it = m_observers.find(observer);
 		if (it != m_observers.end()) {
@@ -133,21 +133,21 @@ namespace SceneModule
 
     void Scene::OnNodeAdded(INode* parent, INode* child) {
 		LOG_FUNCTION_SCOPE;
-		std::for_each(m_observers.begin(), m_observers.end(), [&parent, &child](IObserver* o) {
+		std::for_each(m_observers.begin(), m_observers.end(), [&parent, &child](Core::Pointer<IObserver> o) {
 			o->OnNodeAdded(parent, child);
 		});
     }
 
     void Scene::OnNodeRemoved(INode* parent, INode* child) {
 		LOG_FUNCTION_SCOPE;
-		std::for_each(m_observers.begin(), m_observers.end(), [&parent, &child](IObserver* o) {
+		std::for_each(m_observers.begin(), m_observers.end(), [&parent, &child](Core::Pointer<IObserver> o) {
 			o->OnNodeRemoved(parent, child);
 		});
     }
 
 	void Scene::OnAttributeUpdated(INode* node, IAttribute* old_attribute, IAttribute* new_attribute) {
 		LOG_FUNCTION_SCOPE;
-		std::for_each(m_observers.begin(), m_observers.end(), [&node, &old_attribute, new_attribute](IObserver* o) {
+		std::for_each(m_observers.begin(), m_observers.end(), [&node, &old_attribute, &new_attribute](Core::Pointer<IObserver> o) {
 			o->OnAttributeUpdated(node, old_attribute, new_attribute);
 		});
 	}
@@ -155,7 +155,7 @@ namespace SceneModule
 	void Scene::OnAttributeAdded(INode* node, IAttribute* attribute) {
 		LOG_FUNCTION_SCOPE;
 		node->AddRef();
-		std::for_each(m_observers.begin(), m_observers.end(), [&node, &attribute](IObserver* o) {			
+		std::for_each(m_observers.begin(), m_observers.end(), [&node, &attribute](Core::Pointer<IObserver> o) {			
 			o->OnAttributeAdded(node, attribute);
 		});
 		node->Release();
@@ -163,7 +163,7 @@ namespace SceneModule
 
 	void Scene::OnAttributeRemoved(INode* node, IAttribute* attribute) {
 		LOG_FUNCTION_SCOPE;
-		std::for_each(m_observers.begin(), m_observers.end(), [&node, &attribute](IObserver* o) {
+		std::for_each(m_observers.begin(), m_observers.end(), [&node, &attribute](Core::Pointer<IObserver> o) {
 			o->OnAttributeRemoved(node, attribute);
 		});
 	}

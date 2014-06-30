@@ -17,9 +17,15 @@ namespace SceneModule {
 	public:
 		SceneManager();
 		virtual ~SceneManager();
+		
+		//	IObject
 		void QueryInterface(const Core::Guid& type, void** object) override;
-		IScene* GetScene() override;
-		void AddProcessor(IProcessor* processor) override;
+		std::uint32_t AddRef() override;
+		std::uint32_t Release() override;
+
+		//	ISceneManager
+		Core::Pointer<IScene> GetScene() override;
+		void AddProcessor(Core::Pointer<IProcessor> processor) override;
 		void Update(float dt) override;
 		void Terminate() override;
 		bool IsTerminated() const override;
@@ -27,12 +33,12 @@ namespace SceneModule {
 		void TerminateProcessors();
 	
 	private:
-		std::vector<IProcessor*> m_processors;
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
+		std::vector<Core::Pointer<IProcessor>> m_processors;
 		Core::Pointer<IScene> m_scene{ nullptr, Core::DestroyObject };
 		System::ILogger* m_logger{ System::GetDefaultLogger() };
 		bool m_is_terminated{ false };
-		bool m_need_terminate{ false };
-		PUNK_OBJECT_DEFAULT_IMPL(SceneManager);
+		bool m_need_terminate{ false };		
 	};
 
 
@@ -70,9 +76,20 @@ namespace SceneModule {
 		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_ISceneManager });
 	}
 
-	IScene* SceneManager::GetScene() {
+	std::uint32_t SceneManager::AddRef() {
+		return m_ref_count.fetch_add(1);
+	}
+
+	std::uint32_t SceneManager::Release() {
+		auto v = m_ref_count.fetch_sub(1) - 1;
+		if (!v)
+			delete this;
+		return v;
+	}
+
+	Core::Pointer<IScene> SceneManager::GetScene() {
 		LOG_FUNCTION_SCOPE;
-		return m_scene.get();
+		return m_scene;
 	}
 
 	void CreateSceneManager(void** object) {
@@ -81,9 +98,8 @@ namespace SceneModule {
 			return;
 	}
 
-	void SceneManager::AddProcessor(IProcessor* processor) {
+	void SceneManager::AddProcessor(Core::Pointer<IProcessor> processor) {
 		LOG_FUNCTION_SCOPE;
-		processor->AddRef();
 		m_processors.push_back(processor);
 		processor->SetSceneManager(this);
 	}

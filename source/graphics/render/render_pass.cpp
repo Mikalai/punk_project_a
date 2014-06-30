@@ -92,7 +92,7 @@ namespace Graphics {
 
         for (Batch* batch : m_batches)
 		{
-            OnePass(batch->m_renderable, batch->m_state);
+            OnePass(batch->m_renderable.get(), batch->m_state);
 		}
 	}
 }

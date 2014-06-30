@@ -36,7 +36,7 @@ namespace Graphics
 
         ILowLevelRender* GetRender() override;
 		void SetRender(ILowLevelRender* render) override;
-        void Submit(IRenderable* value, bool destroy = false) override;
+        void Submit(Core::Pointer<IRenderable> value) override;
         void SetClipSpace(const Math::ClipSpace& value) override;
         const Math::ClipSpace& GetClipSpace() const override;
         void SetLineWidth(float value) override;

@@ -1,7 +1,6 @@
 #include <system/factory/module.h>
 #include <attributes/module.h>
 #include <scene/module.h>
-#include <ai/module.h>
 #include <system/logger/module.h>
 #include "parser.h"
 
@@ -74,14 +73,14 @@ namespace IoModule
             case WORD_NAVIMESHTEXT:
             {
                 Core::String word = buffer.ReadWord();
-                auto navi_mesh = System::CreateInstancePtr<AI::INaviMesh>(AI::IID_INaviMesh);
+                auto navi_mesh = System::CreateInstancePtr<Attributes::INaviMesh>(Attributes::IID_INaviMesh);
                 parser->Parse(WORD_NAVI_MESH, buffer, navi_mesh.get());
                 return navi_mesh.release();
             }
             case WORD_PATHTEXT:
             {
                 Core::String word = buffer.ReadWord();
-                auto path = System::CreateInstancePtr<AI::ICurvePath>(AI::IID_ICurvePath);
+				auto path = System::CreateInstancePtr<Attributes::ICurvePath>(Attributes::IID_ICurvePath);
                 parser->Parse(WORD_CURVE_PATH, buffer, path.get());
                 return path.release();
             }
@@ -118,7 +117,7 @@ namespace IoModule
                 auto mesh = System::CreateInstancePtr<Attributes::IGeometry>(Attributes::IID_IGeometry);
                 parser->Parse(WORD_SKIN_MESH, buffer, mesh.get());
                 mesh->SetName(word);
-                return mesh.get();
+                return mesh.release();
             }
             case WORD_DIRLIGHTTEXT:
             {

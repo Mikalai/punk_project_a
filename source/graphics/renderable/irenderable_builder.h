@@ -44,8 +44,8 @@ namespace Graphics {
         virtual void End() = 0;
         virtual const Math::BoundingSphere* GetBoundingSphere() const = 0;
         virtual bool IsValid() const = 0;
-        virtual IRenderable* ToRenderable() = 0;
-		virtual IRenderable* ToRenderable(PrimitiveType type, IVertexArray* vb, IIndexArray* ib) = 0;
+		virtual Core::Pointer<IRenderable> ToRenderable() = 0;
+		virtual Core::Pointer<IRenderable> ToRenderable(PrimitiveType type, IVertexArray* vb, IIndexArray* ib) = 0;
     };
 
 	using IRenderableBuilderPointer = Core::Pointer < IRenderableBuilder > ;

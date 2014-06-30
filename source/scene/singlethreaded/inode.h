@@ -54,9 +54,9 @@ namespace SceneModule {
         virtual bool CanDelete() = 0;
 
         template<class T>
-        T* Get(const Core::String& name) {
+        Core::Pointer<T> Get(const Core::String& name) {
             auto attribute = GetAttribute(name, typeid(T).hash_code());
-            return attribute ? attribute->Get<T>() : nullptr;
+			return attribute ? attribute->Get<T>() : Core::Pointer<T>{ nullptr, Core::DestroyObject };
         }
 
 		template<class T>

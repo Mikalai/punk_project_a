@@ -23,7 +23,7 @@ namespace SceneModule {
 
         template<typename T>
 		Core::Pointer<T> Get() {
-			Core::Pointer<T> object{ dynamic_cast<T*>(GetRawData().get()), Code::DestroyObject };
+			Core::Pointer<T> object = GetRawData();
 			if (object.get())
 				object->AddRef();
 			return object;

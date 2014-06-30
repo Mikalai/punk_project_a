@@ -69,9 +69,8 @@ namespace Attributes
 		}
 
 		//	IKeyFrameInterpolator
-		void SetTrack(ITrack* track) override {			
-			m_track = dynamic_cast<Track<T>*>(track);			
-			m_track->AddRef();
+		void SetTrack(Core::Pointer<ITrack> track) override {			
+			m_track = track;			
 		}
 
 		void Interpolate(std::int32_t frame, void* result, std::uint32_t size) {
@@ -97,7 +96,7 @@ namespace Attributes
 
 	private:
 		std::atomic<std::uint32_t> m_ref_count{ 0 };
-		Track<T>* m_track{ nullptr };
+		Core::Pointer<Track<T>> m_track{ nullptr, Core::DestroyObject };
 
 	};
 

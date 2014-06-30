@@ -32,7 +32,7 @@ namespace Graphics
 
         virtual ILowLevelRender* GetRender() = 0;
 		virtual void SetRender(ILowLevelRender* render) = 0;
-        virtual void Submit(IRenderable* value, bool destroy = false) = 0;
+        virtual void Submit(Core::Pointer<IRenderable> value) = 0;
         virtual void SetClipSpace(const Math::ClipSpace& value) = 0;
         virtual const Math::ClipSpace& GetClipSpace() const = 0;
         virtual void SetLineWidth(float value) = 0;

@@ -27,18 +27,18 @@ namespace Graphics
 
 			//	IRenderableBuilder
 			void Begin(const PrimitiveType& value) override;
-			IRenderable* ToRenderable() override;
+			Core::Pointer<IRenderable> ToRenderable() override;
 			void End() override;
-			IRenderable* ToRenderable(PrimitiveType type, IVertexArray* vb, IIndexArray* ib) override;
+			Core::Pointer<IRenderable> ToRenderable(PrimitiveType type, IVertexArray* vb, IIndexArray* ib) override;
 
 		private:
 
-			IRenderable* BuildVertexBufferP(const std::vector<Math::vec4>& position);
-			IRenderable* BuildVertexBufferPC(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& color);
-			IRenderable* BuildVertexBufferPT(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& texcoord);
-			IRenderable* BuildVertexBufferPTC(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& texcoord, const std::vector<Math::vec4>& color);
-			IRenderable* BuildVertexBufferPN(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& normal);
-			IRenderable* BuildVertexBufferPNT0(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& normal, const std::vector<Math::vec4>& texcoord);
+			Core::Pointer<IRenderable> BuildVertexBufferP(const std::vector<Math::vec4>& position);
+			Core::Pointer<IRenderable> BuildVertexBufferPC(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& color);
+			Core::Pointer<IRenderable> BuildVertexBufferPT(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& texcoord);
+			Core::Pointer<IRenderable> BuildVertexBufferPTC(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& texcoord, const std::vector<Math::vec4>& color);
+			Core::Pointer<IRenderable> BuildVertexBufferPN(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& normal);
+			Core::Pointer<IRenderable> BuildVertexBufferPNT0(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& normal, const std::vector<Math::vec4>& texcoord);
 
 		private:
 			std::atomic<std::uint32_t> m_ref_count{ 0 };
@@ -146,7 +146,7 @@ namespace Graphics
                 PolygonToTriangles(inout, src_type);
         }
 
-        IRenderable* GlRenderableBuilder::BuildVertexBufferP(const std::vector<Math::vec4>& position)
+		Core::Pointer<IRenderable> GlRenderableBuilder::BuildVertexBufferP(const std::vector<Math::vec4>& position)
         {
             typedef Vertex<VertexComponent::Position> VertexType;
             std::vector<VertexType> vb;
@@ -163,7 +163,7 @@ namespace Graphics
             return ToRenderable(m_primitive_type, &array, nullptr);
         }
 
-        IRenderable* GlRenderableBuilder::BuildVertexBufferPC(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& color)
+		Core::Pointer<IRenderable> GlRenderableBuilder::BuildVertexBufferPC(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& color)
         {
             if (position.size() != color.size())
                 throw Error::OpenGLException(L"Position and color buffer has different size");
@@ -189,7 +189,7 @@ namespace Graphics
             return ToRenderable(m_primitive_type, &array, nullptr);
         }
 
-        IRenderable* GlRenderableBuilder::BuildVertexBufferPT(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& texcoord)
+		Core::Pointer<IRenderable> GlRenderableBuilder::BuildVertexBufferPT(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& texcoord)
         {
             if (position.size() != texcoord.size())
 				throw Error::OpenGLException(L"Position and texture buffer has different size");
@@ -215,7 +215,7 @@ namespace Graphics
 			return ToRenderable(m_primitive_type, &array, nullptr);
         }
 
-        IRenderable* GlRenderableBuilder::BuildVertexBufferPTC(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& texcoord, const std::vector<Math::vec4>& color)
+		Core::Pointer<IRenderable> GlRenderableBuilder::BuildVertexBufferPTC(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& texcoord, const std::vector<Math::vec4>& color)
         {
             if (position.size() != texcoord.size() || position.size() != color.size())
                 throw Error::OpenGLException(L"Position, texture or color buffer has different size");
@@ -244,7 +244,7 @@ namespace Graphics
 			return ToRenderable(m_primitive_type, &array, nullptr);
         }
 
-        IRenderable* GlRenderableBuilder::BuildVertexBufferPN(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& normal)
+		Core::Pointer<IRenderable> GlRenderableBuilder::BuildVertexBufferPN(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& normal)
         {
             if (position.size() != normal.size())
 				throw Error::OpenGLException(L"Position and normal buffer has different size");
@@ -270,7 +270,7 @@ namespace Graphics
 			return ToRenderable(m_primitive_type, &array, nullptr);
         }
 
-        IRenderable* GlRenderableBuilder::BuildVertexBufferPNT0(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& normal, const std::vector<Math::vec4>& texcoord)
+		Core::Pointer<IRenderable> GlRenderableBuilder::BuildVertexBufferPNT0(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& normal, const std::vector<Math::vec4>& texcoord)
         {
             if (position.size() != texcoord.size() || position.size() != normal.size())
 				throw Error::OpenGLException(L"Position, texture or normal buffer has different size");
@@ -316,7 +316,7 @@ namespace Graphics
             //m_current_frame->EndRendering();
         }
 
-        IRenderable* GlRenderableBuilder::ToRenderable()
+		Core::Pointer<IRenderable> GlRenderableBuilder::ToRenderable()
         {
             int64_t c = 0;
             c |= m_vertex.empty() ? 0 : VertexComponent::Position::Value();
@@ -324,7 +324,7 @@ namespace Graphics
             c |= m_normal.empty() ? 0 : VertexComponent::Normal::Value();
             c |= m_texcoord.empty() ? 0 : VertexComponent::Texture0::Value();
 
-            IRenderable* renderable;
+			Core::Pointer<IRenderable> renderable{ nullptr, Core::DestroyObject };
             if (c == Vertex<VertexComponent::Position>::Value())
                 renderable = BuildVertexBufferP(m_vertex);
             else if (c == Vertex<VertexComponent::Position, VertexComponent::Color>::Value())
@@ -434,8 +434,8 @@ namespace Graphics
 			return result;
 		}
 
-		IRenderable* GlRenderableBuilder::ToRenderable(PrimitiveType type, IVertexArray* vb, IIndexArray* ib) {
-			IRenderable* result = CreateRenderable(type, vb->GetVertexType(), ib ? ib->GetIndexSize() : 0);
+		Core::Pointer<IRenderable> GlRenderableBuilder::ToRenderable(PrimitiveType type, IVertexArray* vb, IIndexArray* ib) {
+			Core::Pointer<IRenderable> result{ CreateRenderable(type, vb->GetVertexType(), ib ? ib->GetIndexSize() : 0), Core::DestroyObject };
 			result->Cook(vb, ib);
 			return result;
 		}

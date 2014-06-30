@@ -84,6 +84,10 @@ namespace Core {
 			return m_object;
 		}
 
+		const T* get() const {
+			return m_object;
+		}
+
 		operator bool() {
 			return m_object != nullptr;
 		}
@@ -130,6 +134,12 @@ namespace Core {
 		T* m_object{ nullptr };
 		void(*m_destroy)(Base*){ nullptr };
 	};
+
+	template<class T>
+	inline bool operator < (const Core::Pointer<T>& l, const Core::Pointer<T>& r) {
+		return l.get() < r.get();
+	}
+
 }
 PUNK_ENGINE_END
 

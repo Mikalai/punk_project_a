@@ -35,12 +35,11 @@ namespace AnimatorModule {
 	private:
 		
 		void Process(SceneModule::INode* node);
-		void OnAnimationLoaded(Core::IObject* o) {
+		void OnAnimationLoaded(Core::Pointer<Core::IObject> o) {
 			LOG_FUNCTION_SCOPE;
             auto animation = Core::QueryInterfacePtr<Attributes::IAnimation>(o, Attributes::IID_IAnimation);
-			if (animation.get()) {
-				animation->AddRef();
-				m_animations.push_back(Core::Pointer < Attributes::IAnimation > {animation.get(), Core::DestroyObject});
+			if (animation) {
+				m_animations.push_back(animation);
 				m_animation_map.AddValue(animation->GetName(), animation.get());
 			}
 		}
@@ -132,7 +131,7 @@ namespace AnimatorModule {
 		value->AddRef();
 		m_scene.reset(value);
 		if (m_scene.get())
-			Process(m_scene->GetRoot());
+			Process(m_scene->GetRoot().get());
 	}
 
 	void Animator::OnNodeAdded(SceneModule::INode* parent, SceneModule::INode* child) {
@@ -148,9 +147,8 @@ namespace AnimatorModule {
 		LOG_FUNCTION_SCOPE;
 		auto animation = attribute->Get<Attributes::IAnimation>();
 		if (animation) {
-			animation->AddRef();
-			m_animations.push_back(Core::Pointer < Attributes::IAnimation > {animation, Core::DestroyObject});
-			m_animation_map.AddValue(animation->GetName(), animation);
+			m_animations.push_back(animation);
+			m_animation_map.AddValue(animation->GetName(), animation.get());
 		}
 	}
 
@@ -179,8 +177,9 @@ namespace AnimatorModule {
 						auto filename = m_scene->GetSourcePath() + name + L".action";
                         Core::Pointer<Attributes::IFileStub> file_stub = System::CreateInstancePtr<Attributes::IFileStub>(Attributes::IID_IFileStub);
 						file_stub->SetFilename(filename);
-						file_stub->SetCallback(new Core::Action < Animator, Core::IObject* > { this, &Animator::OnAnimationLoaded });
-						node->Set<Attributes::IFileStub>(name, file_stub.get());
+						Core::Pointer<Attributes::OnLoadedCallback> callback{ new Core::Action<Animator, Core::Pointer<Core::IObject>>{ this, &Animator::OnAnimationLoaded }, Core::DestroyObject };
+						file_stub->SetCallback(callback);
+						node->Set<Attributes::IFileStub>(name, file_stub);
 					}
 				}
 			}

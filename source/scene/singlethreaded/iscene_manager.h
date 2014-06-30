@@ -17,8 +17,8 @@ namespace SceneModule {
 
     class ISceneManager : public Core::IObject {
     public:
-		virtual IScene* GetScene() = 0;
-		virtual void AddProcessor(IProcessor* processor) = 0;
+		virtual Core::Pointer<IScene> GetScene() = 0;
+		virtual void AddProcessor(Core::Pointer<IProcessor> processor) = 0;
 		virtual void Update(float dt) = 0;
 		virtual void Terminate() = 0;
 		virtual bool IsTerminated() const = 0;

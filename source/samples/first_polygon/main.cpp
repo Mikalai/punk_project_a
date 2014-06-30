@@ -106,7 +106,7 @@ int main() {
         file->SetFilename("/home/mikalaj/Projects/punk_project_a/data/maps/map1/level_1.pmd");
 #endif
 
-        app->GetSceneManager()->GetScene()->GetRoot()->Set<Attributes::IFileStub>("LevelFile", file.get());
+        app->GetSceneManager()->GetScene()->GetRoot()->Set<Attributes::IFileStub>("LevelFile", file);
 
 		app->Run();
 	}

@@ -19,15 +19,14 @@ namespace Attributes {
 		void SetFilename(const Core::String& value) override;
 		const Core::String GetFilename() override;
 
-		void SetCallback(Core::ActionBase<Core::IObject*>* callback) override {
+		void SetCallback(Core::Pointer<OnLoadedCallback> callback) override {
 			if (!callback)
 				return;
-			callback->AddRef();
-			m_callback.reset(callback);
+			m_callback = callback;
 		}
 		
-		Core::ActionBase<Core::IObject*>* GetCallback() override {
-			return m_callback.get();
+		Core::Pointer<OnLoadedCallback> GetCallback() override {
+			return m_callback;
 		}
 
 	private:
@@ -35,7 +34,7 @@ namespace Attributes {
 		bool m_loaded{ false };
 		bool m_loading{ false };
 		Core::String m_filename;
-		Core::Pointer<Core::ActionBase<Core::IObject*>, Core::MetaAction> m_callback{ nullptr, Core::ReleaseObject<Core::MetaAction> };
+		Core::Pointer<OnLoadedCallback> m_callback{ nullptr, Core::DestroyObject };
 	};
 
 	void FileStub::QueryInterface(const Core::Guid& type, void** object) {
