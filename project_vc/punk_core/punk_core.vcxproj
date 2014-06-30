@@ -57,7 +57,7 @@
     <ClInclude Include="..\..\source\core\pool_manager.h" />
     <ClInclude Include="..\..\source\core\rtti.h" />
     <ClInclude Include="..\..\source\core\static_information.h" />
-    <ClInclude Include="..\..\source\core\unique_ptr.h" />
+    <ClInclude Include="..\..\source\core\pointer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{31B26C70-E2E1-4259-B63D-618D876C87D3}</ProjectGuid>

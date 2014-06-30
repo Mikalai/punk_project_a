@@ -36,13 +36,13 @@ namespace Core {
 
 		Pointer<T>& operator = (const Pointer<T, Base>& value) {
 			if (m_object == value.m_object)
-				return;
+				return *this;
 			Destroy();
 			if (value.m_object)
 				value.m_object->AddRef();
 			m_object = value.m_object;
 			m_destroy = value.m_destroy;
-			return this;
+			return *this;
 		}
 
 		Pointer<T>& operator = (Pointer<T, Base>&& value) {

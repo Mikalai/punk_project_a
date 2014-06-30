@@ -69,8 +69,7 @@ void StringTest::testAdd() {
 void StringTest::testIndexer() {
     String s1("Hello world");
     CPPUNIT_ASSERT(s1[0] == 'H');
-    CPPUNIT_ASSERT(s1[0] != 'h');
-    CPPUNIT_ASSERT(s1[1000] != 'H');
+    CPPUNIT_ASSERT(s1[0] != 'h');	
 }
 
 void StringTest::testLength() {

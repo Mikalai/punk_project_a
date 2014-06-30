@@ -6,7 +6,7 @@
 #include <cstdint>
 #include <atomic>
 #include <memory>
-#include "unique_ptr.h"
+#include "pointer.h"
 #include "guid.h"
 #include "container.h"
 

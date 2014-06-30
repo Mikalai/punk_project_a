@@ -59,7 +59,7 @@
     <ClInclude Include="..\..\source\core\guid.h" />
     <ClInclude Include="..\..\source\core\icompound_object.h" />
     <ClInclude Include="..\..\source\core\object_pool.h" />
-    <ClInclude Include="..\..\source\core\unique_ptr.h" />
     <ClInclude Include="..\..\source\core\iobject_impl.h" />
+    <ClInclude Include="..\..\source\core\pointer.h" />
   </ItemGroup>
 </Project>
