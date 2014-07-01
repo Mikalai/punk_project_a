@@ -111,7 +111,7 @@ def export_action(f, action):
             #   export position
             if track_name.rfind("location") != -1:
                 start_block(f, "*track_vec3")
-                export_string(f, "*name", object_name + ":Location" )
+                export_string(f, "*name", object_name + ":Position" )
                 start_block(f, "*keys")
                 for point in track:
                     make_offset(f)

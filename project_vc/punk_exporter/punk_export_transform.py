@@ -13,7 +13,8 @@ def export_transform(object):
     f = open(file, "w")
     f.write("TRANSFORMTEXT\n")
     start_block(f, "transform")
-    if object.animation_data != None:
+    # export action ref only this not and armature
+    if object.animation_data != None and type(object.data) != bpy.types.Armature:
         animation = object.animation_data
         for track in animation.nla_tracks:        
             for strip in track.strips:
