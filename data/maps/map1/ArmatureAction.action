@@ -2,7 +2,7 @@ ACTIONTEXT
 ArmatureAction {
   *track_vec3 {
     *name {
-      Position
+      Bone.002:Location
     }
     *keys {
           1         0.000000         0.000000         0.000000
@@ -16,7 +16,7 @@ ArmatureAction {
   }
   *track_quat {
     *name {
-      Rotation
+      Bone.002:Rotation
     }
     *keys {
           1         1.000000         0.000000         0.000000         0.000000
@@ -30,7 +30,7 @@ ArmatureAction {
   }
   *track_vec3 {
     *name {
-      Position
+      Bone.001:Location
     }
     *keys {
           1         0.000000         0.000000         0.000000
@@ -44,7 +44,7 @@ ArmatureAction {
   }
   *track_quat {
     *name {
-      Rotation
+      Bone.001:Rotation
     }
     *keys {
           1         1.000000         0.000000         0.000000         0.000000
@@ -58,7 +58,7 @@ ArmatureAction {
   }
   *track_vec3 {
     *name {
-      Position
+      Bone:Location
     }
     *keys {
           1         0.000000         0.000000         0.000000
@@ -72,7 +72,7 @@ ArmatureAction {
   }
   *track_quat {
     *name {
-      Rotation
+      Bone:Rotation
     }
     *keys {
           1         1.000000         0.000000         0.000000         0.000000

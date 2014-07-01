@@ -2,7 +2,7 @@ ACTIONTEXT
 cube_animation_1 {
   *track_vec3 {
     *name {
-      Position
+      location
     }
     *keys {
           1         2.134545         3.174158         1.213926
@@ -12,7 +12,7 @@ cube_animation_1 {
   }
   *track_quat {
     *name {
-      Rotation
+      rotation_quaternion
     }
     *keys {
           1         0.000000         1.000000         0.000000         0.000000
