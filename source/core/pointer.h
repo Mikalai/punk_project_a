@@ -8,10 +8,13 @@ namespace Core {
 
 	class IObject;
 
+	template<class T, class Base = IObject>	class WeakPtr;
+
 	template<class T, class Base = IObject>
 	class Pointer {
 	public:
 		template<class U, class B> friend class Pointer;
+		template<class U, class B> friend class WeakPtr;
 
 		Pointer(T* object, void(*destroy)(Base*))
 			: m_object{ object }

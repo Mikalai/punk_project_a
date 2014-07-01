@@ -6,7 +6,7 @@
 #include <cstdint>
 #include <atomic>
 #include "config.h"
-#include "iobject.h"
+#include "iobject_impl.h"
 //#include <core/atomicint.h>
 
 PUNK_ENGINE_BEGIN

@@ -9,6 +9,7 @@
 #include <math/mat4.h>
 #include <math/vec3.h>
 #include <math/helper.h>
+#include <attributes/animation/module.h>
 #include <config.h>
 #include <math/mat4.h>
 #include <string/string.h>
@@ -21,7 +22,7 @@ namespace Attributes
 {
 	class AnimationMixer;
 
-	class PUNK_ENGINE_LOCAL Bone : public IBone
+	class PUNK_ENGINE_LOCAL Bone : public IBone, IAnimated
 	{
 	public:
 
@@ -54,15 +55,24 @@ namespace Attributes
 		std::uint32_t GetChild(std::uint32_t index) override;
 
 	private:
+		//	IObject
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
 
+		//	IBone
 		std::uint32_t m_index{ std::numeric_limits<std::uint32_t>::infinity() };
 		std::uint32_t m_parent{ std::numeric_limits<std::uint32_t>::infinity() };
 		Math::vec3 m_rest_position;
 		Math::quat m_rest_rotation;
 		Core::String m_name;
 		float m_length;
-		std::vector<std::uint32_t> m_children;
-		std::atomic<std::uint32_t> m_ref_count{ 0 };
+		std::vector<std::uint32_t> m_children;		
+
+		//	IAnimated
+		Core::Pointer<IAnimationPlayer> m_animation_player{ nullptr, Core::DestroyObject };
+		std::int32_t m_position_track_index{ -1 };
+		std::int32_t m_rotation_track_index{ -1 };
+		std::int32_t m_scale_track_index{ -1 };
+		std::vector<Core::String> m_supported_animations;
 	};
 
 	Bone::Bone() {}

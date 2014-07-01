@@ -13,6 +13,7 @@
 #include <iostream>
 #include <cstdio>
 #include <clocale>
+#include <core/iobject_impl.h>
 #include "console.h"
 
 PUNK_ENGINE_BEGIN

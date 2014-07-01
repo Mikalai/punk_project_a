@@ -229,11 +229,11 @@ namespace Core {
         impl->SetSize(value);
     }
 
-    void* Buffer::Data() {
+	std::uint8_t* Buffer::Data() {
         return impl->m_buffer;
     }
 
-    const void* Buffer::Data() const {
+	const std::uint8_t* Buffer::Data() const {
         return impl->m_buffer;
     }
 

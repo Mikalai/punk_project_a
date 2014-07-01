@@ -89,7 +89,7 @@ namespace Core
         static const String Convert(wchar_t value);
         static const String Convert(bool value);
         static const String Convert(void* value);
-        static const String FromUtf8(const char* buffer);
+        static const String FromUtf8(const Buffer& buffer);
 
         String* Clone() const;
 

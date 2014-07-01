@@ -122,14 +122,13 @@ class OBJECT_PT_punk_engine_tools(Panel):
                  
 
 def register():  
-    bpy.utils.register_class(OBJECT_PT_punk_engine_tools)
-	
+    bpy.utils.register_class(OBJECT_PT_punk_engine_tools)	
     bpy.types.Object.punk_mass = bpy.props.FloatProperty \
         (name = "Mass", description = "Mass of the rigid body")
 
     bpy.types.Object.armature_type = bpy.props.EnumProperty \
         (name = "Armature type", description = "Armature type", \
-        items = [ ("HUMAN_MALE", "Human Male", "Human male", 1), \
+        items = [("HUMAN_MALE", "Human Male", "Human male", 1), \
                   ("HUMAN_FEMALE", "Human Female", "Humane female", 2)])
             
     bpy.types.Object.punk_entity_type = bpy.props.EnumProperty \

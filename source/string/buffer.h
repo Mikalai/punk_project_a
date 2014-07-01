@@ -28,8 +28,8 @@ namespace Core
         std::uint32_t GetPosition() const;
         std::uint32_t GetSize() const;
         void SetSize(std::uint32_t size);
-        void* Data();
-        const void* Data() const;
+        std::uint8_t* Data();
+		const std::uint8_t* Data() const;
         bool IsEnd() const;
         std::uint32_t LeftCapacity() const;
         void Reset();

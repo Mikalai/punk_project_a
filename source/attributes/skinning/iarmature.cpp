@@ -13,6 +13,8 @@
 #include <math/quat.h>
 #include <string/module.h>
 
+#include <attributes/animation/module.h>
+
 #include "iarmature.h"
 #include "ibone.h"
 #include "types.h"
@@ -21,7 +23,7 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {
-	class PUNK_ENGINE_LOCAL Armature : public IArmature
+	class PUNK_ENGINE_LOCAL Armature : public IArmature, public IAnimated
 	{
 	public:
 		typedef std::vector<Core::String> Actions;
@@ -36,6 +38,14 @@ namespace Attributes
 		void QueryInterface(const Core::Guid& type, void** object) override;
 		std::uint32_t AddRef() override;
 		std::uint32_t Release() override;
+
+		//	IAnimated
+		void SetAnimationPlayer(IAnimationPlayer* value) override;
+		IAnimationPlayer* GetAnimationPlayer() override;
+		void AddAnimation(const Core::String& name) override;
+		std::uint32_t GetAnimationsCount() const override;
+		const Core::String& GetAnimation(std::uint32_t index) const override;
+		void Update() override;
 
 		//	IArmature
 		const Math::vec3* GetBoneLocalPosition(std::uint32_t index) override;
@@ -57,6 +67,11 @@ namespace Attributes
 		void Update();
 
 	private:
+
+		//	IObject
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
+
+		//	IArmature
 		struct BoneCache {
 			Math::vec3 m_local_position;
 			Math::quat m_local_rotation;
@@ -68,8 +83,15 @@ namespace Attributes
 		std::vector<BoneCache> m_bones;
 		IArmatureSchema* m_schema{ nullptr };
 		Core::String m_name;
-		Core::String m_schema_name;
-		std::atomic<std::uint32_t> m_ref_count{ 0 };
+		Core::String m_schema_name;		
+
+		//	IAnimation
+		Core::Pointer<IAnimationPlayer> m_animation_player{ nullptr, Core::DestroyObject };
+		struct BoneAnimationCache {
+			
+		};		
+		std::vector<BoneAnimationCache> m_bone_animation_cache;
+		std::vector<Core::String> m_supported_animations;
 	};
 
 	Armature::Armature()
@@ -81,7 +103,26 @@ namespace Attributes
 	}
 
 	void Armature::QueryInterface(const Core::Guid& type, void** object) {
-		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IArmature });
+		if (!object)
+			return;
+
+		*object = nullptr;
+
+		if (type == Core::IID_IObject) {
+			*object = (void*)(Core::IObject*)(IArmature*)this;
+			AddRef();
+			return;
+		}
+		else if (type == IID_IArmature) {
+			*object = (void*)(IArmature*)this;
+			AddRef();
+			return;
+		}
+		else if (type == IID_IAnimated) {
+			*object = (void*)(IAnimated*)this;
+			AddRef();
+			return;
+		}		
 	}
 
 	std::uint32_t Armature::AddRef() {
@@ -93,6 +134,50 @@ namespace Attributes
 		if (!v)
 			delete this;
 		return v;
+	}
+
+	void Armature::SetAnimationPlayer(IAnimationPlayer* value) {
+		if (value == m_animation_player.get())
+			return;
+
+		value->AddRef();
+		m_animation_player.reset(value);
+
+		m_bone_animation_cache.clear();
+		m_bone_animation_cache.resize(m_bones.size());
+		for (std::uint32_t i = 0, max_i = m_animation_player->GetAnimation()->GetTracksCount(); i < max_i; ++i) {
+			auto track = m_animation_player->GetAnimation()->GetTrack(i);
+			for (std::uint32_t j = 0, max_j = m_bones.size(); j < max_j; ++j) {
+				if (track->GetName() == L"Position") {
+					m_position_track_index = i;
+				}
+				else if (track->GetName() == L"Rotation") {
+					m_rotation_track_index = i;
+				}
+				else if (track->GetName() == L"Scale") {
+					m_scale_track_index = i;
+				}
+			}
+		}
+	}
+	
+	IAnimationPlayer* Armature::GetAnimationPlayer() {
+
+	}
+	
+	void Armature::AddAnimation(const Core::String& name) {
+
+	}
+	
+	std::uint32_t Armature::GetAnimationsCount() const {
+
+	}
+	
+	const Core::String& Armature::GetAnimation(std::uint32_t index) const {
+	}
+
+	void Armature::Update() {
+
 	}
 
 	void Armature::SetName(const Core::String& value)

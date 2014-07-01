@@ -6,7 +6,7 @@
 #include <system/concurrency/semaphore.h>
 #include <system/concurrency/thread.h>
 #include "resource_request.h"
-#include "core/object.h"
+#include "core/iobject_impl.h"
 #include "iasync_loader.h"
 
 #ifdef __gnu_linux__

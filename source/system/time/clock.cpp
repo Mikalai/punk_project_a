@@ -9,7 +9,7 @@
 #endif
 
 #include <time.h>
-#include "core/object.h"
+#include "core/iobject_impl.h"
 
 #include <stdio.h>
 #include <string.h>

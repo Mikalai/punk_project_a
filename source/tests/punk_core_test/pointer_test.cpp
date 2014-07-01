@@ -6,7 +6,7 @@
 
 using namespace Punk::Engine;
 
-int g_var = 0;
+static int g_var = 0;
 
 class ProxyObject : public Core::IObject {
 public:

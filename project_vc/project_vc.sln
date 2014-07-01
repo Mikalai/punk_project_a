@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.30324.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "punk_string", "punk_string\punk_string.vcxproj", "{40098EBC-4ABC-43C5-87F1-2EF1D96757F8}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -363,21 +363,24 @@ Global
 		{B5537293-DDDC-4035-B94F-3DC5F5881F0A}.Release|x64.Build.0 = Release|x64
 		{B5537293-DDDC-4035-B94F-3DC5F5881F0A}.Release|x86.ActiveCfg = Release|Win32
 		{B5537293-DDDC-4035-B94F-3DC5F5881F0A}.Release|x86.Build.0 = Release|Win32
-		{84FE02B5-D26F-4FF4-B241-7CFCE63C8491}.Debug|x64.ActiveCfg = Debug|Win32
+		{84FE02B5-D26F-4FF4-B241-7CFCE63C8491}.Debug|x64.ActiveCfg = Debug|x64
+		{84FE02B5-D26F-4FF4-B241-7CFCE63C8491}.Debug|x64.Build.0 = Debug|x64
 		{84FE02B5-D26F-4FF4-B241-7CFCE63C8491}.Debug|x86.ActiveCfg = Debug|Win32
 		{84FE02B5-D26F-4FF4-B241-7CFCE63C8491}.Debug|x86.Build.0 = Debug|Win32
 		{84FE02B5-D26F-4FF4-B241-7CFCE63C8491}.Release|x64.ActiveCfg = Release|x64
 		{84FE02B5-D26F-4FF4-B241-7CFCE63C8491}.Release|x64.Build.0 = Release|x64
 		{84FE02B5-D26F-4FF4-B241-7CFCE63C8491}.Release|x86.ActiveCfg = Release|Win32
 		{84FE02B5-D26F-4FF4-B241-7CFCE63C8491}.Release|x86.Build.0 = Release|Win32
-		{231DF4DA-80D8-40B1-A75F-27B45C3CAA69}.Debug|x64.ActiveCfg = Debug|Win32
+		{231DF4DA-80D8-40B1-A75F-27B45C3CAA69}.Debug|x64.ActiveCfg = Debug|x64
+		{231DF4DA-80D8-40B1-A75F-27B45C3CAA69}.Debug|x64.Build.0 = Debug|x64
 		{231DF4DA-80D8-40B1-A75F-27B45C3CAA69}.Debug|x86.ActiveCfg = Debug|Win32
 		{231DF4DA-80D8-40B1-A75F-27B45C3CAA69}.Debug|x86.Build.0 = Debug|Win32
 		{231DF4DA-80D8-40B1-A75F-27B45C3CAA69}.Release|x64.ActiveCfg = Release|x64
 		{231DF4DA-80D8-40B1-A75F-27B45C3CAA69}.Release|x64.Build.0 = Release|x64
 		{231DF4DA-80D8-40B1-A75F-27B45C3CAA69}.Release|x86.ActiveCfg = Release|Win32
 		{231DF4DA-80D8-40B1-A75F-27B45C3CAA69}.Release|x86.Build.0 = Release|Win32
-		{EF930D50-3296-44D0-B728-6C8DBB3BE85F}.Debug|x64.ActiveCfg = Debug|Win32
+		{EF930D50-3296-44D0-B728-6C8DBB3BE85F}.Debug|x64.ActiveCfg = Debug|x64
+		{EF930D50-3296-44D0-B728-6C8DBB3BE85F}.Debug|x64.Build.0 = Debug|x64
 		{EF930D50-3296-44D0-B728-6C8DBB3BE85F}.Debug|x86.ActiveCfg = Debug|Win32
 		{EF930D50-3296-44D0-B728-6C8DBB3BE85F}.Debug|x86.Build.0 = Debug|Win32
 		{EF930D50-3296-44D0-B728-6C8DBB3BE85F}.Release|x64.ActiveCfg = Release|x64
