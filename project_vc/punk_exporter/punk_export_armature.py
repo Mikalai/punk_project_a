@@ -35,7 +35,11 @@ def export_armature(object):
     pose = object.pose
     armature = object.data
     start_block(f, armature.name)
-    export_action_ref(f, object)
+    if object.animation_data != None:
+        animation = object.animation_data
+        for track in animation.nla_tracks:        
+            for strip in track.strips:
+                export_string(f, "*action_ref", strip.action.name)
     for bone in armature.bones:
         #   export bone
         start_block(f, "*bone")

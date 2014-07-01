@@ -1,5 +1,8 @@
 ARMATURESCHEMATEXT
 Armature {
+  *action_ref {
+    ArmatureAction
+  }
   *bone {
     *index {
       0
