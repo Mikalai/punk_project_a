@@ -196,6 +196,7 @@ namespace Graphics
 		ILowLevelRender* m_render{ nullptr };
         std::vector<ITextSurface*> m_texts;
 		ITexture2DArray* m_shadow_maps{ nullptr };
+		Core::Pointer<IRenderableBuilder> m_builder{ nullptr, Core::DestroyObject };
 
 		Frame(const Frame&) = delete;
 		Frame& operator = (const Frame&) = delete;
