@@ -50,10 +50,10 @@ namespace Attributes {
 
 		vb = nullptr;
 		ib = nullptr;
-		if (mesh->HasVertexPositions() && mesh->HasFaceTextureCoordinates() && mesh->HasVertexNormals())
-			CookPositionNormalTangentBitangentTexture0(mesh, vb, ib);
-		else if (mesh->HasVertexPositions() && mesh->HasVertexNormals() && mesh->HasVertexBoneWeights())
+		if (mesh->HasVertexPositions() && mesh->HasVertexNormals() && mesh->HasVertexBoneWeights())
 			CookPositionNormalBonesWeights(mesh, vb, ib);
+		else if (mesh->HasVertexPositions() && mesh->HasFaceTextureCoordinates() && mesh->HasVertexNormals())
+			CookPositionNormalTangentBitangentTexture0(mesh, vb, ib);		
 		else if (mesh->HasVertexPositions() && mesh->HasFaceTextureCoordinates())
 			CookPositionTexture0(mesh, vb, ib);
 		else if (mesh->HasVertexPositions() && mesh->HasVertexNormals())
