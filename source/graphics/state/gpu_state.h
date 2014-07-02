@@ -140,6 +140,8 @@ namespace Graphics
 
         BatchState();
 
+		Math::mat4 m_armature_matrix;
+		Math::mat4 m_offset_matrix;
 		Math::mat4 m_world;
 		Math::mat4 m_local;
 		//	corresponds to the part of the world matrix of the skin mesh

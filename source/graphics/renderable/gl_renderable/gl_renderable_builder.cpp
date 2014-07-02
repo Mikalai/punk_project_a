@@ -302,6 +302,7 @@ namespace Graphics
         void GlRenderableBuilder::Begin(const PrimitiveType& value)
         {
             ValidateBegin();
+			Clear();
             m_high_level_type = value;            
             m_primitive_type = HighLevelPrimitiveTypeToBasic(m_high_level_type);
             //m_current_frame = m_driver->BeginFrame();
@@ -338,7 +339,7 @@ namespace Graphics
             else if (c == Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0>::Value())
                 renderable = BuildVertexBufferPNT0(m_vertex, m_normal, m_texcoord);
             else
-				throw Error::OpenGLException(L"Unsupported vertex type in RenderableBuilder");
+				throw Error::OpenGLException(L"Unsupported vertex type in RenderableBuilder");			
             return renderable;
         }
 

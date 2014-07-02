@@ -136,5 +136,13 @@ namespace Graphics
     {
         return !m_vertex.empty();
     }	
+
+	void RenderableBuilder::Clear() {
+		m_vertex.clear();
+		m_color.clear();
+		m_normal.clear();
+		m_texcoord.clear();
+	}
+
 }
 PUNK_ENGINE_END
