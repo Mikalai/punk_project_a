@@ -40,6 +40,19 @@ namespace IoModule {
         return v;
     }
 
+	Core::Pointer<Core::IObject> IoObserver::GetFileData(const Core::String& filename) {
+		Core::Pointer<Core::IObject> o{ nullptr, Core::DestroyObject };
+		if (!m_loaded_stuff.HasValue(filename))
+		{			
+			o = ParsePunkFile(m_scene->GetSourcePath() + filename);
+			m_loaded_stuff.AddValue(filename, o);
+		}
+		else {
+			o = m_loaded_stuff.GetValue(filename);
+		}
+		return o;
+	}
+
 	void IoObserver::ProcessNode(SceneModule::INode* root) {
 		LOG_FUNCTION_SCOPE;
 		std::stack<SceneModule::INode*> nodes;
@@ -57,8 +70,7 @@ namespace IoModule {
 				if (stub->IsLoaded())
 					continue;
 				stub->SetLoading(true);
-                Core::Pointer<Core::IObject> o{ParsePunkFile(m_scene->GetSourcePath() + filename), Core::DestroyObject};
-				
+				Core::Pointer<Core::IObject> o = GetFileData(filename);	
 				//	call callback if specified
 				if (stub->GetCallback()) {
                     stub->GetCallback()->operator()(o);
@@ -94,8 +106,11 @@ namespace IoModule {
 				}
 				{
                     auto armature = Core::QueryInterfacePtr<Attributes::IArmature>(o, Attributes::IID_IArmature);
-					if (armature.get())
+					if (armature.get()) {
+						auto schema = GetFileData(armature->GetSchemaName());
+						armature->SetSchema(schema);
 						node->Set<Attributes::IArmature>(armature->GetName(), armature);
+					}
 				}				
 			}
 
@@ -124,7 +139,10 @@ namespace IoModule {
 		LOG_FUNCTION_SCOPE;
 		if (attribute->GetTypeID() == typeid(Attributes::IFileStub).hash_code()) {
 			auto stub = attribute->Get<Attributes::IFileStub>();
-			Core::Pointer<Core::IObject> o{ ParsePunkFile(stub->GetFilename()), Core::DestroyObject };
+			
+
+			Core::Pointer<Core::IObject> o = GetFileData(stub->GetFilename());
+
 			if (stub->GetCallback()) {
 				stub->GetCallback()->operator()(o);
 			}

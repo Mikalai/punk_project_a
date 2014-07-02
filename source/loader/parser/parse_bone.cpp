@@ -28,6 +28,13 @@ namespace IoModule
                 bone->SetName(name);
             }
                 break;
+			case WORD_INDEX:
+			{
+				std::uint32_t index;
+				parser->Parse<std::uint32_t>(WORD_UINT32, buffer, index);
+				bone->SetIndex(index);
+			}
+				break;
             case WORD_PARENT:
             {
                 std::uint32_t index;

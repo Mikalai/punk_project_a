@@ -35,13 +35,14 @@ namespace IoModule {
 		void OnAttributeRemoved(SceneModule::INode* node, SceneModule::IAttribute* attribute) override;
 
 	private:
-		void ProcessNode(SceneModule::INode* node);
+		void ProcessNode(SceneModule::INode* node);		
+		Core::Pointer<Core::IObject> GetFileData(const Core::String& filename);
 
 	private:
         std::atomic<std::uint32_t> m_ref_count;
 		System::ILogger* m_logger{ System::GetDefaultLogger() };
-		SceneModule::IScene* m_scene{ nullptr };
-		Core::ObjectPool<Core::String, Core::Pointer<Core::IObject>> m_loaded_stuff;		
+		SceneModule::IScene* m_scene{ nullptr };		
+		Core::ObjectPool<Core::String, Core::IObject> m_loaded_stuff;		
     };
 }
 PUNK_ENGINE_END

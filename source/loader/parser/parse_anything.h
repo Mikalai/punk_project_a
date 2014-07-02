@@ -9,7 +9,7 @@ namespace Core {
 	class Buffer;
 }
 namespace IoModule {
-	extern Core::IObject* ParseAnything(Core::Buffer& buffer);
+	extern Core::Pointer<Core::IObject> ParseAnything(Core::Buffer& buffer);
 }
 PUNK_ENGINE_END
 

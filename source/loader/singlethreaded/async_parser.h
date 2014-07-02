@@ -23,9 +23,9 @@ namespace IoModule
 
         StateType State();
         void State(StateType state);
-        Core::IObject* Release();
+        Core::Pointer<Core::IObject> Release();
         const Core::String& Path() const;
-        void SetResult(Core::IObject* value);
+        void SetResult(Core::Pointer<Core::IObject> value);
         void Run(void* data) override;
         SceneModule::INode* GetNode() const;
         Core::ActionSlot<AsyncParserTask*> OnComplete;
@@ -33,7 +33,7 @@ namespace IoModule
     private:
         System::ThreadMutex m_mutex;
         StateType m_state;
-        Core::IObject* m_object;
+		Core::Pointer<Core::IObject> m_object{ nullptr, Core::DestroyObject };
         Core::String m_path;        
         SceneModule::INode* m_node;
     };    

@@ -10,7 +10,7 @@ namespace IoModule
     {
         try
         {
-            Core::IObject* object = ParsePunkFile(Path());
+            auto object = ParsePunkFile(Path());
             SetResult(object);
             State(AsyncParserTask::AsyncSuccess);
             OnComplete(this);
@@ -22,7 +22,7 @@ namespace IoModule
     }
 
     AsyncParserTask::AsyncParserTask(SceneModule::INode* node, const Core::String& path)
-        : m_object(nullptr)
+        : m_object(nullptr, Core::DestroyObject)
         , m_state(AsyncLoading)
         , m_path(path)
         , m_node{node}
@@ -35,9 +35,7 @@ namespace IoModule
     }
 
     AsyncParserTask::~AsyncParserTask()
-    {
-        delete m_object;
-    }
+    {}
 
     AsyncParserTask::StateType AsyncParserTask::State()
     {
@@ -51,14 +49,14 @@ namespace IoModule
         m_state = state;
     }
 
-    Core::IObject* AsyncParserTask::Release()
+    Core::Pointer<Core::IObject> AsyncParserTask::Release()
     {
         auto res = m_object;
-        m_object = nullptr;
+		m_object.reset(nullptr);
         return res;
     }
 
-    void AsyncParserTask::SetResult(Core::IObject *value)
+    void AsyncParserTask::SetResult(Core::Pointer<Core::IObject> value)
     {
         m_object = value;
     }
