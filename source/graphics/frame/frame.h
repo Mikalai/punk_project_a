@@ -56,6 +56,11 @@ namespace Graphics
         const Math::mat4& GetLocalMatrix() const override;
         const Math::mat4& GetViewMatrix() const override;
         const Math::mat4& GetProjectionMatrix() const override;
+		void SetArmatureMatrix(const Math::mat4& value) override;
+		const Math::mat4& GetArmatureMatrix() const override;
+		void SetOffsetMatrix(const Math::mat4& value) override;
+		const Math::mat4& GetOffsetMatrix() const override;
+		const Math::mat4& GetLastLocalMatrix() const override;
 
         //  COLORS
         void SetDiffuseColor(const Math::vec4& value) override;

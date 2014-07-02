@@ -227,6 +227,7 @@ namespace Graphics
 
     void Frame::MultWorldMatrix(const Math::mat4& value)
     {
+		Top()->batch_state->m_local = value;
         Top()->batch_state->m_world *= value;
     }
 
@@ -878,6 +879,25 @@ namespace Graphics
     void Frame::EndRendering() {
 
     }
+	
+	void Frame::SetArmatureMatrix(const Math::mat4& value) {
+		Top()->batch_state->m_armature_matrix = value;
+	}
+
+	const Math::mat4& Frame::GetArmatureMatrix() const {
+		return Top()->batch_state->m_armature_matrix;
+	}
+
+	void Frame::SetOffsetMatrix(const Math::mat4& value) {
+		Top()->batch_state->m_offset_matrix = value;
+	}
+
+	const Math::mat4& Frame::GetOffsetMatrix() const {
+		return Top()->batch_state->m_offset_matrix;
+	}
+	const Math::mat4& Frame::GetLastLocalMatrix() const {
+		return Top()->batch_state->m_local;
+	}
 
 	PUNK_REGISTER_CREATOR(IID_IFrame, (System::CreateInstance<Frame, IFrame>));    
 }

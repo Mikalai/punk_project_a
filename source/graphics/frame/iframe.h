@@ -52,6 +52,11 @@ namespace Graphics
         virtual const Math::mat4& GetLocalMatrix() const = 0;
         virtual const Math::mat4& GetViewMatrix() const = 0;
         virtual const Math::mat4& GetProjectionMatrix() const = 0;
+		virtual void SetArmatureMatrix(const Math::mat4& value) = 0;
+		virtual const Math::mat4& GetArmatureMatrix() const = 0;
+		virtual void SetOffsetMatrix(const Math::mat4& value) = 0;
+		virtual const Math::mat4& GetOffsetMatrix() const = 0;
+		virtual const Math::mat4& GetLastLocalMatrix() const = 0;
 
         //  COLORS
         virtual void SetDiffuseColor(const Math::vec4& value) = 0;
