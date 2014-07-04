@@ -40,7 +40,8 @@ namespace AnimatorModule {
             auto animation = Core::QueryInterfacePtr<Attributes::IAnimation>(o, Attributes::IID_IAnimation);
 			if (animation) {
 				m_animations.push_back(animation);
-				m_animation_map.AddValue(animation->GetName(), animation.get());
+				System::GetDefaultLogger()->Debug(L"Add animation " + animation->GetName());
+				m_animation_map.AddValue(animation->GetName(), animation);
 			}
 		}
 
@@ -52,7 +53,7 @@ namespace AnimatorModule {
 		std::vector<Core::Pointer<Attributes::IAnimationPlayer>> m_players;
 		Core::Pointer<SceneModule::IScene> m_scene{ nullptr, Core::DestroyObject };
 		Core::Pointer<SceneModule::ISceneManager> m_manager{ nullptr, Core::DestroyObject };
-		Core::ObjectPool<Core::String, Attributes::IAnimation*> m_animation_map;
+		Core::ObjectPool<Core::String, Attributes::IAnimation> m_animation_map;
 		std::vector<Core::Pointer<Attributes::IAnimation>> m_animations;
 	};
 
@@ -148,7 +149,7 @@ namespace AnimatorModule {
 		auto animation = attribute->Get<Attributes::IAnimation>();
 		if (animation) {
 			m_animations.push_back(animation);
-			m_animation_map.AddValue(animation->GetName(), animation.get());
+			m_animation_map.AddValue(animation->GetName(), animation);
 		}
 	}
 
@@ -166,15 +167,16 @@ namespace AnimatorModule {
 		for (int i = 0; i < count; ++i) {
 			auto attribute = node->GetAttribute(i);
             auto animated = Core::QueryInterfacePtr<Attributes::IAnimated>(attribute->GetRawData(), Attributes::IID_IAnimated);
-			if (animated.get()) {
+			if (animated && animated->GetAnimationsCount()) {
 				animated->AddRef();
-				m_animated.push_back(Core::Pointer < Attributes::IAnimated > {animated.get(), Core::DestroyObject});
+				m_animated.push_back(animated);
 
 				//	submit all animation for loading
 				for (std::uint32_t i = 0, max_i = animated->GetAnimationsCount(); i < max_i; ++i) {
 					auto name = animated->GetAnimation(i);
 					if (!m_animation_map.HasValue(name)) {
-						auto filename = m_scene->GetSourcePath() + name + L".action";
+						System::GetDefaultLogger()->Debug(L"Loading animation " + name);
+						auto filename = name + L".action";
                         Core::Pointer<Attributes::IFileStub> file_stub = System::CreateInstancePtr<Attributes::IFileStub>(Attributes::IID_IFileStub);
 						file_stub->SetFilename(filename);
 						Core::Pointer<Attributes::OnLoadedCallback> callback{ new Core::Action<Animator, Core::Pointer<Core::IObject>>{ this, &Animator::OnAnimationLoaded }, Core::DestroyObject };
@@ -213,6 +215,7 @@ namespace AnimatorModule {
                     Core::Pointer<Attributes::IAnimationPlayer> player = System::CreateInstancePtr<Attributes::IAnimationPlayer>(Attributes::IID_IAnimationPlayer);
 					player->SetAnimation(animation);
 					animated->SetAnimationPlayer(player.get());
+					player->SetDuration(6);
 					player->Start();
 					player->AddRef();
 					m_players.push_back(Core::Pointer < Attributes::IAnimationPlayer > {player.get(), Core::DestroyObject});

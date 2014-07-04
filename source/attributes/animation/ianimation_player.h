@@ -40,9 +40,9 @@ namespace Attributes {
 		virtual void SetDuration(float time_s) = 0;
 		virtual float GetDuration() const = 0;
 		virtual void Seek(AnimationSeekDirection direction, float dt) = 0;
-		virtual void SetAnimation(IAnimation* value) = 0;
-		virtual const IAnimation* GetAnimation() const = 0;
-		virtual IAnimation* GetAnimation() = 0;
+		virtual void SetAnimation(Core::Pointer<IAnimation> value) = 0;
+		virtual const Core::Pointer<IAnimation> GetAnimation() const = 0;
+		virtual Core::Pointer<IAnimation> GetAnimation() = 0;
 		virtual void SetKeyFrameInterpolator(InterpolatorType value) = 0;
 		virtual InterpolatorType GetKeyFrameInterpolator() = 0;
 		virtual void OnAnimationStarted(Core::ActionBase<void>* action) = 0;

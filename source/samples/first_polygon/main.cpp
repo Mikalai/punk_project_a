@@ -101,7 +101,7 @@ int main() {
 
         auto file = System::CreateInstancePtr<Attributes::IFileStub>(Attributes::IID_IFileStub);
 #ifdef WIN32
-        file->SetFilename("c:\\Projects\\game\\dev\\punk_project_a\\data\\maps\\map1\\level_1.pmd");
+        file->SetFilename("level_1.pmd");
 #elif defined __linux__
         file->SetFilename("/home/mikalaj/Projects/punk_project_a/data/maps/map1/level_1.pmd");
 #endif

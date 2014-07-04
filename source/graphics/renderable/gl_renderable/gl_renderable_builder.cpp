@@ -39,6 +39,7 @@ namespace Graphics
 			Core::Pointer<IRenderable> BuildVertexBufferPTC(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& texcoord, const std::vector<Math::vec4>& color);
 			Core::Pointer<IRenderable> BuildVertexBufferPN(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& normal);
 			Core::Pointer<IRenderable> BuildVertexBufferPNT0(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& normal, const std::vector<Math::vec4>& texcoord);
+			Core::Pointer<IRenderable> BuildVertexBufferPNC(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& normal, const std::vector<Math::vec4>& color);
 
 		private:
 			std::atomic<std::uint32_t> m_ref_count{ 0 };
@@ -299,6 +300,35 @@ namespace Graphics
 			return ToRenderable(m_primitive_type, &array, nullptr);
         }
 
+		Core::Pointer<IRenderable> GlRenderableBuilder::BuildVertexBufferPNC(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& normal, const std::vector<Math::vec4>& color)
+		{
+			if (position.size() != color.size() || position.size() != normal.size())
+				throw Error::OpenGLException(L"Position, texture or normal buffer has different size");
+
+			typedef Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Color> VertexType;
+			std::vector<VertexType> vb;
+			vb.reserve(position.size());
+			auto p_it = position.begin();
+			auto t_it = color.begin();
+			auto n_it = normal.begin();
+			while (p_it != position.end() && t_it != color.end() && n_it != normal.end())
+			{
+				VertexType v;
+				v.m_position = *p_it;
+				v.m_color = *t_it;
+				v.m_normal = *n_it;
+				vb.push_back(v);
+
+				++p_it;
+				++t_it;
+				++n_it;
+			}
+
+			ModifyVertexInput(vb, m_high_level_type);
+			VertexArray<VertexType> array{vb};
+			return ToRenderable(m_primitive_type, &array, nullptr);
+		}
+
         void GlRenderableBuilder::Begin(const PrimitiveType& value)
         {
             ValidateBegin();
@@ -318,30 +348,32 @@ namespace Graphics
         }
 
 		Core::Pointer<IRenderable> GlRenderableBuilder::ToRenderable()
-        {
-            int64_t c = 0;
-            c |= m_vertex.empty() ? 0 : VertexComponent::Position::Value();
-            c |= m_color.empty() ? 0 : VertexComponent::Color::Value();
-            c |= m_normal.empty() ? 0 : VertexComponent::Normal::Value();
-            c |= m_texcoord.empty() ? 0 : VertexComponent::Texture0::Value();
+		{
+			int64_t c = 0;
+			c |= m_vertex.empty() ? 0 : VertexComponent::Position::Value();
+			c |= m_color.empty() ? 0 : VertexComponent::Color::Value();
+			c |= m_normal.empty() ? 0 : VertexComponent::Normal::Value();
+			c |= m_texcoord.empty() ? 0 : VertexComponent::Texture0::Value();
 
 			Core::Pointer<IRenderable> renderable{ nullptr, Core::DestroyObject };
-            if (c == Vertex<VertexComponent::Position>::Value())
-                renderable = BuildVertexBufferP(m_vertex);
-            else if (c == Vertex<VertexComponent::Position, VertexComponent::Color>::Value())
-                renderable = BuildVertexBufferPC(m_vertex, m_color);
-            else if (c == Vertex<VertexComponent::Position, VertexComponent::Texture0>::Value())
-                renderable = BuildVertexBufferPT(m_vertex, m_texcoord);
-            else if (c == Vertex<VertexComponent::Position, VertexComponent::Color, VertexComponent::Texture0>::Value())
-                renderable = BuildVertexBufferPTC(m_vertex, m_texcoord, m_color);
-            else if (c == Vertex<VertexComponent::Position, VertexComponent::Normal>::Value())
-                renderable = BuildVertexBufferPN(m_vertex, m_normal);
-            else if (c == Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0>::Value())
-                renderable = BuildVertexBufferPNT0(m_vertex, m_normal, m_texcoord);
-            else
-				throw Error::OpenGLException(L"Unsupported vertex type in RenderableBuilder");			
-            return renderable;
-        }
+			if (c == Vertex<VertexComponent::Position>::Value())
+				renderable = BuildVertexBufferP(m_vertex);
+			else if (c == Vertex<VertexComponent::Position, VertexComponent::Color>::Value())
+				renderable = BuildVertexBufferPC(m_vertex, m_color);
+			else if (c == Vertex<VertexComponent::Position, VertexComponent::Texture0>::Value())
+				renderable = BuildVertexBufferPT(m_vertex, m_texcoord);
+			else if (c == Vertex<VertexComponent::Position, VertexComponent::Color, VertexComponent::Texture0>::Value())
+				renderable = BuildVertexBufferPTC(m_vertex, m_texcoord, m_color);
+			else if (c == Vertex<VertexComponent::Position, VertexComponent::Normal>::Value())
+				renderable = BuildVertexBufferPN(m_vertex, m_normal);
+			else if (c == Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0>::Value())
+				renderable = BuildVertexBufferPNT0(m_vertex, m_normal, m_texcoord);
+			else if (c == Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Color>::Value())
+				renderable = BuildVertexBufferPNC(m_vertex, m_normal, m_color);
+			else
+				throw Error::OpenGLException(L"Unsupported vertex type in RenderableBuilder");
+			return renderable;
+		}
 
 		template<PrimitiveType PT, typename IT, typename ... VC>
 		struct PUNK_ENGINE_LOCAL CreateBatch {
@@ -356,6 +388,8 @@ namespace Graphics
                 return new typename CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Texture0, VertexComponent::Flag, VertexComponent::Color>::Type;
 			else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Color>::Value())
                 return new typename CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Color>::Type;
+			else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Color>::Value())
+				return new typename CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Normal, VertexComponent::Color>::Type;
 			else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Texture0>::Value())
                 return new typename CreateBatch<PT, IT, VertexComponent::Position, VertexComponent::Texture0>::Type;
 			else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Color, VertexComponent::Texture0>::Value())

@@ -74,10 +74,11 @@ namespace IoModule
 				geometry->SetVertexBonesWeights(b);
 			}
 				break;
-			case WORD_WORLD_MATRIX:
+			case WORD_ARMATURE_MATRIX:
 			{
 				Math::mat4 m;
-				parser->Parse(WORD_MATRIX4X4F, buffer, m);				
+				parser->Parse<Math::mat4>(WORD_MATRIX4X4F, buffer, m);				
+				geometry->SetArmatureOffset(m);
 			}
 				break;
             default:

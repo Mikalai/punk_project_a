@@ -194,6 +194,7 @@ namespace IoModule
 		WORD_TRACK_MAT4,
 		WORD_KEYS,
 		WORD_INDEX,
+		WORD_ARMATURE_MATRIX
 	};
 
 	struct Record
@@ -385,7 +386,8 @@ namespace IoModule
 			{ WORD_TRACK_QUAT, "*track_quat" },
 			{ WORD_TRACK_MAT4, "*track_mat4" },
 			{ WORD_KEYS, "*keys" },
-			{ WORD_INDEX, "*index" }
+			{ WORD_INDEX, "*index" },
+			{ WORD_ARMATURE_MATRIX, "*armature_matrix" }
 	};
 
     KeywordCode ParseKeyword(const Core::String& word);

@@ -15,6 +15,7 @@
 #include "render_cache.h"
 #include "irender_processor.h"
 #include "irender_observer.h"
+#include <math/vec4.h>
 
 PUNK_ENGINE_BEGIN
 namespace LowLevelRender {
@@ -82,7 +83,7 @@ namespace LowLevelRender {
 		std::vector<LightCache<Attributes::ISpotLight>> m_spot_lights;
 		CameraCache<Attributes::IPerspectiveCamera> m_perspective_camera{ Core::Pointer < Attributes::IPerspectiveCamera > {nullptr, Core::DestroyObject}, { 0, 0, 0 }, { 0, 0, -1 } };
 
-		Core::ObjectPool<Attributes::IGeometry*, Graphics::IRenderable*> m_cooked_geometry;
+		Core::ObjectPool<Attributes::IGeometry*, Graphics::IRenderable> m_cooked_geometry;
 		std::map<SceneModule::INode*, RenderGeoemetryCache> m_geometry_cache;
 		//Graphics::ICanvasPointer m_canvas{ nullptr, Core::DestroyObject };
 		SceneModule::ISceneGraphPointer m_scene{ nullptr, Core::DestroyObject };
@@ -176,6 +177,8 @@ namespace LowLevelRender {
 				auto matrix = transform->GetMatrix();
 				frame->PushAllState();
 				frame->MultWorldMatrix(matrix);
+				frame->SetLineWidth(1);
+				//frame->DrawAxis(2);
 				for (int i = 0, max_i = node->GetChildrenCount(); i < max_i; ++i) {
 					Process(frame, node->GetChild(i));
 				}
@@ -191,12 +194,68 @@ namespace LowLevelRender {
 					frame->PushAllState();
 					if (frame->IsEnabledSkinning())
 						frame->EnableSkinning(renderable->GetVertexFormat() & (Graphics::VertexComponent::BoneID::Value() | Graphics::VertexComponent::BoneID::Value()));
+					if (frame->IsEnabledSkinning())
+						for (int j = 0; j < Graphics::BaseState::MAX_BONES; ++j)
+							frame->SetBoneMatrix(j, frame->GetLastLocalMatrix().Inversed() * frame->GetBoneMatrix(j) * frame->GetLastLocalMatrix());
 					frame->Submit(renderable);
 					frame->PopAllState();
 				}
 			}
 			return;
 		}
+		//count = node->GetAttributesCountOfType<Attributes::IGeometry>();
+		//if (count != 0) {
+		//	for (int i = 0; i < count; ++i) {
+		//		auto renderable = node->GetAttributeOfType<Attributes::IGeometry>(i);
+		//		if (renderable) {
+		//			if (renderable->HasVertexBoneWeights())
+		//			{						
+		//				frame->PushAllState();
+		//				{
+		//					for (int i = 0; i < Graphics::BaseState::MAX_BONES; ++i) {
+		//						frame->SetBoneMatrix(i, renderable->GetArmatureOffset().Inversed() * frame->GetBoneMatrix(i) * renderable->GetArmatureOffset());
+		//					}
+
+		//					frame->EnableDepthTest(true);
+		//					frame->EnableLighting(true);
+		//					frame->SetPointSize(10);
+		//					auto b = frame->GetRenderableBuilder();
+		//					b->Begin(Graphics::PrimitiveType::TRIANGLES);
+		//					{
+		//						for (int i = 0, max_i = renderable->GetTrianglesCount(); i < max_i; ++i) {
+		//							auto t = renderable->GetTriangle(i);
+		//							int p[] = { t->X(), t->Y(), t->Z() };
+		//							float max = renderable->GetVertexCount();
+		//							Math::vec3 color{ t->X() / float(max), t->Y() / float(max), t->Z() / float(max) };
+		//							for (auto j = 0; j < 3; ++j) {
+		//								const Math::vec3& v = *renderable->GetVertexPosition(p[j]);
+		//								const Math::vec3& n = *renderable->GetVertexNormal(p[j]);
+		//								const Math::ivec4& bones = *renderable->GetVertexBonesIndecies(p[j]);
+		//								const Math::vec4& weights = *renderable->GetVertexBoneWeights(p[j]);
+		//								Math::vec3 res_v{ 0, 0, 0 };
+		//								Math::vec3 res_n{ 0, 0, 0 };
+		//								for (int k = 0; k < 4; ++k) {
+		//									auto armature = frame->GetBoneMatrix(bones[k]);
+		//									res_v +=  armature * v * weights[k];
+		//									res_n += (armature * Math::vec4(n, 0) * k).XYZ();
+		//								}
+		//								b->Color3fv(color);
+		//								b->Normal3fv((frame->GetWorldMatrix() * Math::vec4{ res_n, 0 }).XYZ());
+		//								b->Vertex3fv(res_v);
+		//							}
+		//						}
+		//					}
+		//					b->End();
+		//					frame->SetWorldMatrix(Math::CreateIdentity());
+		//					frame->Submit(b->ToRenderable());
+		//					//frame->Submit(renderable);
+		//				}
+		//				frame->PopAllState();
+		//			}
+		//		}
+		//	}
+		//	return;
+		//}
 		count = node->GetAttributesCountOfType<Attributes::IMaterial>();
 		if (count != 0) {
 			for (int i = 0; i < count; ++i){
@@ -262,7 +321,22 @@ namespace LowLevelRender {
 			for (int i = 0; i < count; ++i) {
 				auto armature = node->GetAttributeOfType<Attributes::IArmature>(i);
 				if (armature) {
-
+					frame->PushAllState();					
+					for (int i = 0; i < armature->GetSchema()->GetBonesCount(); ++i) {																		
+						frame->PushAllState();
+						frame->MultWorldMatrix(armature->GetBoneLocalMatrix(i));
+						frame->DrawAxis(2);						
+						frame->PopAllState();
+					}
+					frame->EnableSkinning(true);
+					for (int i = 0; i < armature->GetSchema()->GetBonesCount(); ++i) {
+						frame->SetBoneMatrix(i, armature->GetBoneGlobalMatrix(i));
+					}
+					for (int i = 0, max_i = node->GetChildrenCount(); i < max_i; ++i) {
+						Process(frame, node->GetChild(i));
+					}
+					frame->PopAllState();
+					return;
 				}
 			}
 		}
@@ -283,7 +357,7 @@ namespace LowLevelRender {
 
 		//m_frame_buffer->Bind();		
 		m_frame_buffer->SetViewport(0, 0, 1024, 768);
-		m_frame_buffer->SetClearColor(0, 0, 1, 1);		
+		m_frame_buffer->SetClearColor(0.5, 0.8, 0.6, 1);		
 		m_frame_buffer->SetClearFlag(true, true, true);
 		m_frame_buffer->Clear();
 		Graphics::IFrame* frame = m_render->BeginFrame();
@@ -374,7 +448,7 @@ namespace LowLevelRender {
 			Core::Pointer<Graphics::IRenderable> renderable{ nullptr, Core::DestroyObject };
 			if (m_cooked_geometry.HasValue(geom.get()))
 			{
-				renderable.reset(m_cooked_geometry.GetValue(geom.get()));
+				renderable = m_cooked_geometry.GetValue(geom.get());
 				auto old = child->Get<Graphics::IRenderable>(geom->GetName());
 				if (old != renderable) {
 					renderable->AddRef();
@@ -394,7 +468,7 @@ namespace LowLevelRender {
 				void* ii = renderable->MapIndexBuffer();
 				renderable->UnmapVertexVuffer(v);
 				renderable->UnmapIndexBuffer(ii);
-				m_cooked_geometry.AddValue(geom.get(), renderable.get());
+				m_cooked_geometry.AddValue(geom.get(), renderable);
 				child->Set<Graphics::IRenderable>(geom->GetName(), renderable);
 			}
 		}
@@ -430,7 +504,7 @@ namespace LowLevelRender {
 			Core::Pointer<Graphics::IRenderable> renderable{ nullptr, Core::DestroyObject };
 			if (m_cooked_geometry.HasValue(geom.get()))
 			{
-				renderable.reset(m_cooked_geometry.GetValue(geom.get()));
+				renderable = m_cooked_geometry.GetValue(geom.get());
 			}
 			else
 			{
@@ -438,7 +512,7 @@ namespace LowLevelRender {
 				Graphics::IIndexArray* ib;
 				m_geometry_cooker->Cook(geom.get(), vb, ib);
 				renderable = m_renderable_builder->ToRenderable(Graphics::PrimitiveType::TRIANGLES, vb, ib);
-				m_cooked_geometry.AddValue(geom.get(), renderable.get());
+				m_cooked_geometry.AddValue(geom.get(), renderable);
 			}
 			node->Set<Graphics::IRenderable>(geom->GetName(), renderable);
 		}

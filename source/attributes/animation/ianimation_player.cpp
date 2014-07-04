@@ -28,9 +28,9 @@ namespace Attributes {
 		void SetDuration(float time_s) override;
 		float GetDuration() const override;
 		void Seek(AnimationSeekDirection direction, float dt) override;
-		void SetAnimation(IAnimation* value) override;
-		const IAnimation* GetAnimation() const override;
-		IAnimation* GetAnimation() override;
+		void SetAnimation(Core::Pointer<IAnimation> value) override;
+		const Core::Pointer<IAnimation> GetAnimation() const override;
+		Core::Pointer<IAnimation> GetAnimation() override;
 		void SetKeyFrameInterpolator(InterpolatorType value) override;
 		InterpolatorType GetKeyFrameInterpolator() override;
 		void GetCurrentValue(std::uint32_t track_index, void* buffer, std::uint32_t size) override;
@@ -55,7 +55,7 @@ namespace Attributes {
 		float m_dir_factor{ 1 };	//	can be -1 or 1
 		std::atomic<std::uint32_t> m_ref_count{ 0 };
 		InterpolatorType m_interpolator_type{ InterpolatorType::Linear };
-		IAnimation* m_animation{ nullptr };
+		Core::Pointer<IAnimation> m_animation{ nullptr, Core::DestroyObject };
 		Core::ActionSlot<void> m_on_started;
 		Core::ActionSlot<void> m_on_ended;
 		Core::ActionSlot<std::int32_t> m_on_frame;
@@ -168,7 +168,7 @@ namespace Attributes {
 	//	}
 	//}
 
-	void AnimationPlayerImpl::SetAnimation(IAnimation* value) {
+	void AnimationPlayerImpl::SetAnimation(Core::Pointer<IAnimation> value) {
 		LOG_FUNCTION_SCOPE;
 		if (value == m_animation)
 			return;
@@ -192,12 +192,12 @@ namespace Attributes {
 		SetupInterpolators();
 	}
 
-	const IAnimation* AnimationPlayerImpl::GetAnimation() const {
+	const Core::Pointer<IAnimation> AnimationPlayerImpl::GetAnimation() const {
 		LOG_FUNCTION_SCOPE;
 		return m_animation;
 	}
 
-	IAnimation* AnimationPlayerImpl::GetAnimation() {
+	Core::Pointer<IAnimation> AnimationPlayerImpl::GetAnimation() {
 		LOG_FUNCTION_SCOPE;
 		return m_animation;
 	}
