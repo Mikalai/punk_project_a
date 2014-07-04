@@ -149,6 +149,12 @@ namespace LowLevelRender {
 	void RenderModule::SetSceneManager(SceneModule::ISceneManager* manager) {
 		LOG_FUNCTION_SCOPE;
 		m_manager = manager;
+		auto scene = m_manager->GetScene();
+		if (scene) {
+			auto root = scene->GetRoot();
+			if (root) 
+				root->Set<Graphics::ICanvas>(L"Canvas", m_canvas);
+		}
 	}
 
 	RenderModule::RenderModule() {		
@@ -440,10 +446,16 @@ namespace LowLevelRender {
 		LOG_FUNCTION_SCOPE;
 		value->AddRef();
 		m_scene.reset(value);
+		if (!m_scene->GetRoot()->Get<Graphics::ICanvas>(L"Canvas"))
+			m_scene->GetRoot()->Set<Graphics::ICanvas>(L"Canvas", m_canvas);
 	}
 
 	void RenderModule::OnNodeAdded(SceneModule::INode* parent, SceneModule::INode* child) {
 		LOG_FUNCTION_SCOPE;
+		if (parent == nullptr) {
+			if (!child->Get<Graphics::ICanvas>(L"Canvas"))
+				child->Set<Graphics::ICanvas>(L"Canvas", m_canvas);
+		}
 		auto count = child->GetAttributesCountOfType<Attributes::IGeometry>();
 		for (int i = 0; i < (int)count; ++i) {
 			auto geom = child->GetAttributeOfType<Attributes::IGeometry>(i);
