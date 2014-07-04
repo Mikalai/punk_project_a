@@ -176,6 +176,7 @@ namespace Graphics
         virtual void PopTextureState() = 0;
 
         virtual IVideoDriver* GetVideoDriver() const = 0;
+		virtual IRenderableBuilder* GetRenderableBuilder() = 0;
 
         virtual const Math::vec2 FindZRange(const Math::mat4& view) const = 0;
     };

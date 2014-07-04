@@ -852,6 +852,7 @@ namespace Graphics
     void Frame::DrawAxis(float scale)
     {
         PushAllState();
+		EnableLighting(false);
         EnableDepthTest(false);
         SetDiffuseColor(1, 0, 0, 1);
         DrawLine(Math::vec3{0, 0, 0}, Math::vec3{scale + 1, 0, 0});
@@ -883,6 +884,10 @@ namespace Graphics
 	}
 	const Math::mat4& Frame::GetLastLocalMatrix() const {
 		return Top()->batch_state->m_local;
+	}
+
+	IRenderableBuilder* Frame::GetRenderableBuilder() {
+		return m_builder.get();
 	}
 
 	PUNK_REGISTER_CREATOR(IID_IFrame, (System::CreateInstance<Frame, IFrame>));    

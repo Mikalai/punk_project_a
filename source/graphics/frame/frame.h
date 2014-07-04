@@ -180,6 +180,8 @@ namespace Graphics
         void PopTextureState() override;
 
         IVideoDriver* GetVideoDriver() const override;
+		
+		IRenderableBuilder* GetRenderableBuilder() override;
 
         const Math::vec2 FindZRange(const Math::mat4& view) const override;
 
