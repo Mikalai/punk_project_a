@@ -50,12 +50,12 @@ def export_armature(object):
         #   write bone length
         export_float(f, "*length", bone.length)
         #   write bone parent
-        parent_matrix = mathutils.Matrix()
+        parent_matrix = object.matrix_local
         if bone.parent != None:
             parent_matrix = armature.bones[bone.parent.name].matrix_local
             export_string(f, "*parent", armature.bones.find(bone.parent.name))
         #   write bone local position
-        m = parent_matrix.inverted() * bone.matrix_local
+        m = (parent_matrix.inverted() * bone.matrix_local).inverted()
         export_vec3(f, "*position", m.to_translation())
         #   write bone local rotation
         export_quat(f, "*rotation", m.to_quaternion())
