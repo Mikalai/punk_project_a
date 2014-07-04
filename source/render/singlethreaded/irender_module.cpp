@@ -45,6 +45,7 @@ namespace LowLevelRender {
 
 	private:
 
+		void OnWindowResized(const System::WindowResizeEvent& event);
 		void OnWindowClose();
 		void Process(Graphics::IFrame* frame, SceneModule::INode* node);
 
@@ -154,13 +155,15 @@ namespace LowLevelRender {
 		LOG_FUNCTION_SCOPE;
         m_canvas = System::CreateInstancePtr<Graphics::ICanvas>(Graphics::IID_ICanvas);
         m_canvas->Initialize(Graphics::CanvasDescription{});
-		m_canvas->GetWindow()->SubscribeWindowDestroyEvent(new Core::Action<RenderModule, void>(this, &RenderModule::OnWindowClose));
+		m_canvas->GetWindow()->SubscribeWindowDestroyEvent(new Core::Action<RenderModule, void>(this, &RenderModule::OnWindowClose));		
         m_canvas->GetWindow()->Open();
         m_driver = m_canvas->GetVideoDriver();
 		m_render = m_driver->GetRender();
 		m_frame_buffer = Graphics::GetBackbuffer();
+		m_frame_buffer->SetViewport(0, 0, m_canvas->GetWindow()->GetWidth(), m_canvas->GetWindow()->GetHeight());
+		m_canvas->GetWindow()->SubscribeResizeEvent(new Core::Action<RenderModule, const System::WindowResizeEvent&>(this, &RenderModule::OnWindowResized));
         m_geometry_cooker = System::CreateInstancePtr<Attributes::IGeometryCooker>(Attributes::IID_IGeometryCooker);
-        m_renderable_builder = System::CreateInstancePtr<Graphics::IRenderableBuilder>(Graphics::IID_IRenderableBuilder);
+        m_renderable_builder = System::CreateInstancePtr<Graphics::IRenderableBuilder>(Graphics::IID_IRenderableBuilder);		
 	}
 
 	RenderModule::~RenderModule() {
@@ -355,8 +358,7 @@ namespace LowLevelRender {
 		m_spot_lights.clear();
 		m_dir_light.clear();
 
-		//m_frame_buffer->Bind();		
-		m_frame_buffer->SetViewport(0, 0, 1024, 768);
+		//m_frame_buffer->Bind();				
 		m_frame_buffer->SetClearColor(0.5, 0.8, 0.6, 1);		
 		m_frame_buffer->SetClearFlag(true, true, true);
 		m_frame_buffer->Clear();
@@ -524,6 +526,10 @@ namespace LowLevelRender {
 
 	void RenderModule::OnAttributeRemoved(SceneModule::INode* node, SceneModule::IAttribute* attribute) {
 		LOG_FUNCTION_SCOPE;
+	}
+
+	void RenderModule::OnWindowResized(const System::WindowResizeEvent& event) {
+		m_frame_buffer->SetViewport(0, 0, event.width, event.height);
 	}
 
     PUNK_REGISTER_CREATOR(IID_IRenderModule, (System::CreateInstance<RenderModule, IRenderModule>));

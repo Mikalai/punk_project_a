@@ -8,22 +8,6 @@ SCENETEXT
       Transform
     }
     *entity_name {
-      Point.transform
-    }
-    *node {
-      *name {
-        PointLight
-      }
-      *entity_name {
-        Point.point_light
-      }
-    }
-  }
-  *node {
-    *name {
-      Transform
-    }
-    *entity_name {
       Armature.transform
     }
     *node {
@@ -45,17 +29,33 @@ SCENETEXT
             Transform
           }
           *entity_name {
-            man_highpoly.transform
+            Cube.transform
           }
           *node {
             *name {
               Skin
             }
             *entity_name {
-              sub01.skin
+              Cube.skin
             }
           }
         }
+      }
+    }
+  }
+  *node {
+    *name {
+      Transform
+    }
+    *entity_name {
+      Lamp.transform
+    }
+    *node {
+      *name {
+        PointLight
+      }
+      *entity_name {
+        Lamp.point_light
       }
     }
   }

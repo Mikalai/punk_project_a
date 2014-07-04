@@ -51,4 +51,15 @@ Material {
   *translucency {
     0.0
   }
+  *diffuse_texture_slot {
+    *scale {
+      1.0 1.0 1.0
+    }
+    *image {
+      checker2.png
+    }
+    *factor {
+      1.0
+    }
+  }
 }
