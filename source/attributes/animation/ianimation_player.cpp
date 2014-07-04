@@ -43,7 +43,6 @@ namespace Attributes {
 
 	private:
 		void AdvanceTime(AnimationSeekDirection dir, float dt);
-		std::int32_t GetCurrentFrame();
 		void SetupInterpolators();
 
 	private:
@@ -128,7 +127,10 @@ namespace Attributes {
 
 	void AnimationPlayerImpl::SetDuration(float time_s) {
 		LOG_FUNCTION_SCOPE;
-		m_duration = time_s;
+		m_duration = time_s;		
+		for (std::uint32_t i = 0, max_i = m_animation->GetTracksCount(); i < max_i; ++i) {			
+			m_track_cache.at(i).m_interpolator->SetDuration(m_duration);
+		}
 	}
 
 	float AnimationPlayerImpl::GetDuration() const {
@@ -139,17 +141,12 @@ namespace Attributes {
 	void AnimationPlayerImpl::Seek(AnimationSeekDirection direction, float dt) {
 		LOG_FUNCTION_SCOPE;
 		AdvanceTime(direction, dt);
-		auto frame = GetCurrentFrame();
-		if (frame != m_prev_frame) {
-			m_prev_frame = frame;
-			m_on_frame(frame);
-			for (std::uint32_t i = 0, max_i = m_animation->GetTracksCount(); i < max_i; ++i) {
-				m_track_cache[i].m_interpolator->Interpolate(frame, m_track_cache.at(i).m_current_value.data(), m_track_cache.at(i).m_current_value.size());
-				m_track_cache[i].m_on_frame(frame, m_track_cache.at(i).m_current_value.data(), m_track_cache.at(i).m_current_value.size());
-				/*for (auto& animated : m_animated) {
-					animated->Advance(i, frame, m_track_cache.at(i).m_current_value.data(), m_track_cache.at(i).m_current_value.size());
+		for (std::uint32_t i = 0, max_i = m_animation->GetTracksCount(); i < max_i; ++i) {
+			m_track_cache[i].m_interpolator->Interpolate(m_current_time, m_track_cache.at(i).m_current_value.data(), m_track_cache.at(i).m_current_value.size());
+			//m_track_cache[i].m_on_frame(frame, m_track_cache.at(i).m_current_value.data(), m_track_cache.at(i).m_current_value.size());
+			/*for (auto& animated : m_animated) {
+				animated->Advance(i, frame, m_track_cache.at(i).m_current_value.data(), m_track_cache.at(i).m_current_value.size());
 				}*/
-			}
 		}
 	}
 
@@ -261,15 +258,8 @@ namespace Attributes {
                     m_track_cache.at(i).m_interpolator = System::CreateInstancePtr<IKeyFrameInterpolator>(IID_IQuatKeyFrameLinearInterpolator);
                 }
 			}
-			m_track_cache.at(i).m_interpolator->SetTrack(track);
+			m_track_cache.at(i).m_interpolator->SetTrack(track, m_duration);
 		}
-	}
-
-	std::int32_t AnimationPlayerImpl::GetCurrentFrame() {
-		LOG_FUNCTION_SCOPE;
-		auto frames = m_animation->GetDuration();
-		std::int32_t frame = m_animation->GetFirstFrame() + std::int32_t((float)frames / m_duration * m_current_time);
-		return frame;
 	}
 
 	void AnimationPlayerImpl::AdvanceTime(AnimationSeekDirection dir, float dt) {
