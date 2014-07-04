@@ -24,7 +24,7 @@ namespace Attributes {
 		std::uint32_t GetRootBonesCount() const override;
 		IBone* GetRootBone(int root_index) override;
 		const IBone* GetRootBone(int root_index) const override;
-		int GetBoneIndex(const Core::String& name) override;
+		int GetBoneIndex(const Core::String& name) const override;
 		void AddBone(IBone* value) override;
 		std::uint32_t GetSupportedActionsCount() const override;
 		const Core::String& GetSupportedAction(std::uint32_t index) const override;
@@ -70,7 +70,7 @@ namespace Attributes {
 	}
 
 	std::uint32_t ArmatureSchema::GetBonesCount() const {
-		return m_bones.size();
+		return (std::uint32_t)m_bones.size();
 	}
 
 	IBone* ArmatureSchema::GetBone(std::uint32_t index) {
@@ -82,7 +82,7 @@ namespace Attributes {
 	}
 
 	std::uint32_t ArmatureSchema::GetRootBonesCount() const {
-		return m_root.size();
+		return (std::uint32_t)m_root.size();
 	}
 
 	IBone* ArmatureSchema::GetRootBone(int root_index) {
@@ -93,10 +93,10 @@ namespace Attributes {
 		return m_bones.at(m_root.at(root_index));
 	}
 
-	int ArmatureSchema::GetBoneIndex(const Core::String& name) {
+	int ArmatureSchema::GetBoneIndex(const Core::String& name) const {
 		for (size_t i = 0; i < m_bones.size(); ++i) {
 			if (m_bones[i]->GetName() == name)
-				return i;
+				return (int)i;
 		}
 		return -1;
 	}
@@ -114,7 +114,7 @@ namespace Attributes {
 	}
 
 	std::uint32_t ArmatureSchema::GetSupportedActionsCount() const {
-		return m_supported_actions.size();
+		return (std::uint32_t)m_supported_actions.size();
 	}
 
 	const Core::String& ArmatureSchema::GetSupportedAction(std::uint32_t index) const {

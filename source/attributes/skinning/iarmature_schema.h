@@ -22,7 +22,7 @@ namespace Attributes {
 		virtual std::uint32_t GetRootBonesCount() const = 0;
 		virtual IBone* GetRootBone(int root_index) = 0;
 		virtual const IBone* GetRootBone(int root_index) const = 0;
-		virtual int GetBoneIndex(const Core::String& name) = 0;		
+		virtual int GetBoneIndex(const Core::String& name) const = 0;		
 		virtual void AddBone(IBone* value) = 0;
 		virtual std::uint32_t GetSupportedActionsCount() const = 0;
 		virtual const Core::String& GetSupportedAction(std::uint32_t index) const = 0;

@@ -21,18 +21,21 @@ namespace Attributes {
 
 	class IArmature : public Core::IObject {
 	public:
-		virtual const Math::vec3* GetBoneLocalPosition(std::uint32_t index) = 0;
-		virtual const Math::vec3* GetBoneGlobalPosition(std::uint32_t index) = 0;
-		virtual const Math::quat* GetBoneLocalRotation(std::uint32_t index) = 0;
-		virtual const Math::quat* GetBoneGlobalRotation(std::uint32_t index) = 0;
+		virtual const Math::vec3 GetBoneLocalPosition(std::uint32_t index) = 0;
+		virtual const Math::vec3 GetBoneGlobalPosition(std::uint32_t index) = 0;
+		virtual const Math::quat GetBoneLocalRotation(std::uint32_t index) = 0;
+		virtual const Math::quat GetBoneGlobalRotation(std::uint32_t index) = 0;
+		virtual const Math::mat4 GetBoneLocalMatrix(std::uint32_t index) = 0;
+		virtual const Math::mat4 GetBoneGlobalMatrix(std::uint32_t index) = 0;
+		virtual const Math::mat4 GetBoneGlobalRestMatrix(std::uint32_t index) = 0;
 		virtual void SetBoneLocalPosition(std::uint32_t index, const Math::vec3& value) = 0;
 		virtual void SetBoneGlobalPosition(std::uint32_t index, const Math::vec3& value) = 0;
 		virtual void SetBoneLocalRotation(std::uint32_t index, const Math::quat& value) = 0;
 		virtual void SetBoneGlobalRotation(std::uint32_t index, const Math::quat& value) = 0;
 		virtual void SetSchemaName(const Core::String& name) = 0;
 		virtual const Core::String& GetSchemaName() const = 0;
-		virtual const IArmatureSchema* GetSchema() const = 0;
-		virtual void SetSchema(IArmatureSchema* value) = 0;
+		virtual const Core::Pointer<IArmatureSchema> GetSchema() const = 0;
+		virtual void SetSchema(Core::Pointer<IArmatureSchema> value) = 0;
 		virtual void SetName(const Core::String& name) = 0;
 		virtual const Core::String& GetName() const = 0;
 	};
