@@ -34,6 +34,7 @@
     <ClCompile Include="..\..\source\tests\punk_math_test\vec4_test.cpp" />
     <ClCompile Include="..\..\source\tests\punk_math_test\volume_construction_test.cpp" />
     <ClCompile Include="..\..\source\tests\punk_math_test\main.cpp" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\quat_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\tests\punk_math_test\aabb_test.h" />
@@ -64,7 +65,6 @@
     <ClInclude Include="..\..\source\tests\punk_math_test\triangle2d_test.h" />
     <ClInclude Include="..\..\source\tests\punk_math_test\triangle3d_test.h" />
     <ClInclude Include="..\..\source\tests\punk_math_test\trigonometry_test.h" />
-    <ClInclude Include="..\..\source\tests\punk_math_test\vec2_test.h" />
     <ClInclude Include="..\..\source\tests\punk_math_test\vec3_test.h" />
     <ClInclude Include="..\..\source\tests\punk_math_test\vec4_test.h" />
     <ClInclude Include="..\..\source\tests\punk_math_test\volume_construction_test.h" />
