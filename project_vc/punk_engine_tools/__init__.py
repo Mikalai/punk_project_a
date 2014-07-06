@@ -119,12 +119,22 @@ class OBJECT_PT_punk_engine_tools(Panel):
         elif ob.punk_entity_type == 'COLLISION_MESH':
             empty = ob.data
             layout.prop(ob, "name")
+        elif ob.punk_entity_type == 'GUI':
+            layout.prop(ob, "punk_gui")
+            layout.prop(ob, "punk_gui_text")
                  
 
 def register():  
     bpy.utils.register_class(OBJECT_PT_punk_engine_tools)	
     bpy.types.Object.punk_mass = bpy.props.FloatProperty \
         (name = "Mass", description = "Mass of the rigid body")
+    bpy.types.Object.punk_gui = bpy.props.EnumProperty \
+        (name = "Gui element", description = "Guid element", items = [("WIDGET", "Widget", "Widget", 1), \
+                ("LABEL", "Label", "Label", 2), \
+                ("BUTTON", "Button", "Button", 3)])
+
+    bpy.types.Object.punk_gui_text = bpy.props.StringProperty\
+        (name = "Text", description = "Widget text")
 
     bpy.types.Object.armature_type = bpy.props.EnumProperty \
         (name = "Armature type", description = "Armature type", \
@@ -154,13 +164,15 @@ def register():
                  ("TERRAIN", "Terrain", "Terrain",                         19),\
                  ("RIVER", "River", "River",                               20),\
                  ("SUN", "Sun", "Sun",                                     21),\
-                 ("PATH", "Geometry Path", "Geometry Path",                22)])
+                 ("PATH", "Geometry Path", "Geometry Path",                22),\
+                 ("GUI", "GUI element", "GUI element",                     23)])
                          
 def unregister():
     bpy.utils.unregister_class(OBJECT_PT_punk_engine_tools)
     del bpy.types.Object.punk_entity_type
     del bpy.types.Object.armature_type
     del bpy.types.Object.punk_mass
+    del bpy.types.Object.punk_gui
     
 if __name__ == "__main__":  # only for live edit.
     register()
