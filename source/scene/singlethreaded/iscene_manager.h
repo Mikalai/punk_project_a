@@ -35,10 +35,10 @@ namespace SceneModule {
 		//virtual void RequestResume(ISceneProcessor* value) = 0;
 		//virtual void Resumed(ISceneProcessor* value) = 0;
 
-		//virtual void RequestNodeRemove(ISceneProcessor* suppliant, INode* node) = 0;
-		//virtual void AllowNodeRemove(ISceneProcessor* processor, INode* node) = 0;
+		//virtual void RequestNodeRemove(ISceneProcessor* suppliant, Core::Pointer<INode> node) = 0;
+		//virtual void AllowNodeRemove(ISceneProcessor* processor, Core::Pointer<INode> node) = 0;
 
-		//virtual void RequestNodeAdd(ISceneProcessor* suppliant, INode* parent, INode* child) = 0;
+		//virtual void RequestNodeAdd(ISceneProcessor* suppliant, Core::Pointer<INode> parent, Core::Pointer<INode> child) = 0;
 
 
 		//virtual void BeginSceneSync(ISceneProcessor* value) = 0;

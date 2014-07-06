@@ -19,7 +19,7 @@ namespace SceneModule {
         virtual void SetName(const Core::String& name) = 0;
         virtual Core::Pointer<Core::IObject> GetRawData() = 0;
         virtual void SetRawData(Core::Pointer<Core::IObject> value) = 0;
-		virtual void OnUpdate(Core::ActionBase<IAttribute*>* action) = 0;
+		virtual void OnUpdate(Core::ActionBase<Core::Pointer<IAttribute>>* action) = 0;
 
         template<typename T>
 		Core::Pointer<T> Get() {

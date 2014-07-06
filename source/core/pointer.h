@@ -16,6 +16,11 @@ namespace Core {
 		template<class U, class B> friend class Pointer;
 		template<class U, class B> friend class WeakPtr;
 
+		Pointer()
+			: m_object{ nullptr }
+			, m_destroy{ nullptr }
+		{}
+
 		Pointer(T* object, void(*destroy)(Base*))
 			: m_object{ object }
 			, m_destroy{ destroy }

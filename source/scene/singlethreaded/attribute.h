@@ -27,13 +27,13 @@ namespace SceneModule {
         void SetName(const Core::String& name) override;
         Core::Pointer<Core::IObject> GetRawData() override;
         void SetRawData(Core::Pointer<Core::IObject> value) override;
-		void OnUpdate(Core::ActionBase<IAttribute*>* action) override;
+		void OnUpdate(Core::ActionBase<Core::Pointer<IAttribute>>* action) override;
 
     private:        
 		std::atomic<std::uint32_t> m_ref_count{ 0 };
         Core::String m_name;
 		Core::Pointer<T> m_data{ nullptr, Core::DestroyObject };
-		std::vector < Core::ActionBase<IAttribute*>*> m_update_actions;
+		std::vector < Core::ActionBase<Core::Pointer<IAttribute>>*> m_update_actions;
     };
 
 	template<class T>
@@ -114,7 +114,7 @@ namespace SceneModule {
     }
 
 	template<class T>
-	inline void Attribute<T>::OnUpdate(Core::ActionBase<IAttribute*>* action) {
+	inline void Attribute<T>::OnUpdate(Core::ActionBase<Core::Pointer<IAttribute>>* action) {
 		action->AddRef();
 		m_update_actions.push_back(action);
 	}

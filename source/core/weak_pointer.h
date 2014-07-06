@@ -44,6 +44,10 @@ namespace Core {
 			return Pointer < T, Base > {m_ptr, Destroy};
 		}
 
+		operator bool() {
+			return m_ptr != nullptr;
+		}
+
 	private:
 		T*& m_ptr;
 	};
