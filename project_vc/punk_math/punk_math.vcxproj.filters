@@ -151,6 +151,15 @@
     <ClInclude Include="..\..\source\math\gramm_shmidt.h" />
     <ClInclude Include="..\..\source\math\icurve.h" />
     <ClInclude Include="..\..\source\math\ispline.h" />
+    <ClInclude Include="..\..\source\math\spatial\module.h">
+      <Filter>spatial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\spatial\iintersection_result.h">
+      <Filter>spatial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\spatial\ibounding_volumes.h">
+      <Filter>spatial</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graph">

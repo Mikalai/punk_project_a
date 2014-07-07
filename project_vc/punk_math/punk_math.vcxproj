@@ -278,6 +278,9 @@
     <ClInclude Include="..\..\source\math\relations.h" />
     <ClInclude Include="..\..\source\math\root_find.h" />
     <ClInclude Include="..\..\source\math\smart_matrix.h" />
+    <ClInclude Include="..\..\source\math\spatial\ibounding_volumes.h" />
+    <ClInclude Include="..\..\source\math\spatial\iintersection_result.h" />
+    <ClInclude Include="..\..\source\math\spatial\module.h" />
     <ClInclude Include="..\..\source\math\spatial\oct_tree.h" />
     <ClInclude Include="..\..\source\math\sphere.h" />
     <ClInclude Include="..\..\source\math\spherical.h" />
