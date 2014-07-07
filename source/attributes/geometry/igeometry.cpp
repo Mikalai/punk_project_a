@@ -9,7 +9,7 @@
 PUNK_ENGINE_BEGIN
 namespace Attributes
 {	
-	class PUNK_ENGINE_LOCAL Geometry : public IGeometry
+	class PUNK_ENGINE_LOCAL Geometry : public IGeometry, public Math::IBoundingBox, public Math::IBoundingSphere
 	{
 	public:
 		Geometry();
@@ -82,6 +82,70 @@ namespace Attributes
 		void SetName(const Core::String& name) override;
 		const Core::String& GetName() const override;
 
+		//	IBoundingVolume3D
+		bool IsPointInside(const Math::vec3& value) override {
+			auto res = Math::ClassifyPoint(value, m_sphere);
+			return res == Math::Relation::INSIDE;
+		}
+
+		bool IsPointInside(const Math::vec3& value, Math::IntersectionHint& hint) override {
+			hint = Math::IntersectionHint::No;
+			auto res = Math::ClassifyPoint(value, m_sphere);
+			if (res == Math::Relation::INSIDE)
+				hint = hint | Math::IntersectionHint::BoundingSphere;
+			res = Math::ClassifyPoint(value, m_bbox);
+			if (res == Math::Relation::INSIDE)
+				hint = hint | Math::IntersectionHint::BoundingBox;
+			return hint != Math::IntersectionHint::No;
+		}
+
+		Core::Pointer<Math::IIntersectionResult> CrossLine(const Math::Line3D& line) override {
+			auto result = System::CreateInstancePtr<Math::IIntersectionResult>(Math::IID_IIntersectionResult);
+			Math::vec3 p1, p2;
+			auto res = Math::CrossLineSphere(line, m_sphere, p1, p2);
+			switch (res)
+			{
+			case Punk::Engine::Math::Relation::INTERSECT_1:
+				result->AddIntersectionPoint(p1, Math::IntersectionHint::BoundingSphere);				
+				break;
+			case Punk::Engine::Math::Relation::INTERSECT_2:
+				result->AddIntersectionPoint(p1, Math::IntersectionHint::BoundingSphere);
+				result->AddIntersectionPoint(p2, Math::IntersectionHint::BoundingSphere);
+				break;
+			}
+			res = Math::CrossLineBoundingBox(line, m_bbox, p1);
+			if (res == Math::Relation::INTERSECT)
+				result->AddIntersectionPoint(p1, Math::IntersectionHint::BoundingBox);
+			return result;
+		}
+
+		bool CrossFrustum(const Math::Frustum& frust, const Math::mat4& to_frustum_space) override {
+			auto sphere = to_frustum_space * m_sphere;
+			if (Math::ClassifyBoudingSphere(m_sphere, frust.GetClipSpace()) == Math::Relation::NOT_VISIBLE)
+				return false;
+
+			auto bbox = to_frustum_space * m_bbox;
+			return Math::ClassifyBoudingBox(bbox, frust.GetClipSpace()) == Math::Relation::VISIBLE;
+		}
+
+		//	IBoundingBox
+		const Math::BoundingBox& GetBox() const override {
+			return m_bbox;
+		}
+
+		void SetBox(const Math::BoundingBox& value) override {
+			m_bbox = value;
+		}
+
+		//	IBoundingSphere
+		const Math::BoundingSphere& GetSphere() const override {
+			return m_sphere;
+		}
+
+		void SetSphere(const Math::BoundingSphere& value) override {
+			m_sphere = value;
+		}
+
 	protected:
 		Geometry(const Geometry&) = delete;
 		Geometry& operator = (const Geometry&) = delete;
@@ -112,9 +176,20 @@ namespace Attributes
 	void Geometry::QueryInterface(const Core::Guid& type, void** object) {
 		if (!object)
 			return;
-		if (type == Core::IID_IObject ||
-			type == IID_IGeometry) {
-			*object = (void*)this;
+		if (type == Core::IID_IObject) {
+			*object = (void*)(IGeometry*)this;
+			AddRef();
+		}
+		else if (type == IID_IGeometry) {
+			*object = (void*)(IGeometry*)this;
+			AddRef();
+		}
+		else if (type == Math::IID_IBoundingBox) {
+			*object = (void*)(Math::IBoundingBox*)this;
+			AddRef();
+		}
+		else if (type == Math::IID_IBoundingSphere) {
+			*object = (void*)(Math::IBoundingSphere*)this;
 			AddRef();
 		}
 		else
@@ -140,6 +215,7 @@ namespace Attributes
 
 	void Geometry::SetVertexPosition(std::uint32_t index, const Math::vec3& value) {
 		m_position[index] = value;
+		m_bbox.Create(m_position.data(), m_position.size());
 	}
 
 	void Geometry::SetVertexPositions(const Math::vec3v& value) {

@@ -11,5 +11,6 @@
 #include "stubs/module.h"
 #include "camera/module.h"
 #include "ai/module.h"
+#include "selection/module.h"
 
 #endif
