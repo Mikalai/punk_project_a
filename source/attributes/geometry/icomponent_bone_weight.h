@@ -13,7 +13,10 @@ namespace Core {
 	class String;
 }
 namespace Attributes {
-	class IBoneWeightComponent {
+
+	DECLARE_PUNK_GUID(IID_IVertexBoneWeightStream, "A7B93F00-CEA8-476A-8496-AC7CF30B7878");
+
+	class IVertexBoneWeightStream {
 	public:
 		//virtual std::uint32_t GetInfluencingBonesCount(std::uint32_t vertex_index) = 0;
 		virtual const Math::vec4* GetVertexBoneWeights(std::uint32_t index) const = 0;
