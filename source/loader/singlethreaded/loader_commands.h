@@ -30,27 +30,27 @@
 //
 //
 //	struct CmdAdd : public SceneModule::Command<LoaderDomain, (int)LoaderCommands::Add> {
-//		SceneModule::INode* parent{ nullptr };
-//		SceneModule::INode* child{ nullptr };
+//		Core::Pointer<SceneModule::INode> parent{ nullptr };
+//		Core::Pointer<SceneModule::INode> child{ nullptr };
 //	};
 //
 //	struct CmdRemove : public SceneModule::Command<LoaderDomain, (int)LoaderCommands::Remove> {
-//		SceneModule::INode* parent{ nullptr };
-//		SceneModule::INode* child{ nullptr };
+//		Core::Pointer<SceneModule::INode> parent{ nullptr };
+//		Core::Pointer<SceneModule::INode> child{ nullptr };
 //	};
 //
 //	struct CmdNodeAdded : public SceneModule::Command<LoaderDomain, (int)LoaderCommands::NodeAdded> {
-//		SceneModule::INode* parent{ nullptr };
-//		SceneModule::INode* new_node{ nullptr };
+//		Core::Pointer<SceneModule::INode> parent{ nullptr };
+//		Core::Pointer<SceneModule::INode> new_node{ nullptr };
 //	};
 //
 //	struct CmdNodeRemoved : public SceneModule::Command<LoaderDomain, (int)LoaderCommands::NodeRemoved> {
-//		SceneModule::INode* parent{ nullptr };
-//		SceneModule::INode* old_node{ nullptr };
+//		Core::Pointer<SceneModule::INode> parent{ nullptr };
+//		Core::Pointer<SceneModule::INode> old_node{ nullptr };
 //	};
 //
 //	struct CmdAddLoadedObject : public SceneModule::Command<LoaderDomain, (int)LoaderCommands::AddLoadedObject> {
-//		SceneModule::INode* node{ nullptr };
+//		Core::Pointer<SceneModule::INode> node{ nullptr };
 //		Core::IObject* object{ nullptr };
 //	};
 //
@@ -59,7 +59,7 @@
 //	};	
 //	
 //	struct CmdLoadFile : public SceneModule::Command<LoaderDomain, (int)LoaderCommands::LoadFile> {
-//		SceneModule::INode* node;
+//		Core::Pointer<SceneModule::INode> node;
 //		Core::String filename;
 //	};
 //}

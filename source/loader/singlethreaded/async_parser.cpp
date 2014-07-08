@@ -1,6 +1,7 @@
 #include <deque>
 #include <core/object.h>
 #include <loader/parser/parse_punk_file.h>
+#include <scene/singlethreaded/inode.h>
 #include "async_parser.h"
 
 PUNK_ENGINE_BEGIN
@@ -21,7 +22,7 @@ namespace IoModule
         }
     }
 
-    AsyncParserTask::AsyncParserTask(SceneModule::INode* node, const Core::String& path)
+    AsyncParserTask::AsyncParserTask(Core::Pointer<SceneModule::INode> node, const Core::String& path)
         : m_object(nullptr, Core::DestroyObject)
         , m_state(AsyncLoading)
         , m_path(path)
@@ -30,7 +31,7 @@ namespace IoModule
         System::GetThreadPool()->EnqueueWorkItem(this);
     }
 
-    SceneModule::INode* AsyncParserTask::GetNode() const {
+    Core::Pointer<SceneModule::INode> AsyncParserTask::GetNode() const {
         return m_node;
     }
 

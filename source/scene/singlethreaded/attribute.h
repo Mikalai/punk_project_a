@@ -109,7 +109,7 @@ namespace SceneModule {
 			m_data.reset(o.release());
 		}
 		for (auto action : m_update_actions) {
-			(*action)(this);
+			(*action)(Core::Pointer < IAttribute > {this, Core::DestroyObject});
 		}
     }
 

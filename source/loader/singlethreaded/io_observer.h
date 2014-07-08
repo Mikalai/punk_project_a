@@ -7,6 +7,7 @@
 #include <atomic>
 #include <scene/singlethreaded/module.h>
 #include <system/logger/module.h>
+#include <attributes/module.h>
 #include <core/module.h>
 #include "async_parser.h"
 #include "iio_observer.h"
@@ -28,18 +29,19 @@ namespace IoModule {
         std::uint32_t AddRef() override;
         std::uint32_t Release() override;
 		void SetScene(SceneModule::IScene* value) override;
-		void OnNodeAdded(SceneModule::INode* parent, SceneModule::INode* child) override;
-		void OnNodeRemoved(SceneModule::INode* parent, SceneModule::INode* child) override;
-		void OnAttributeAdded(SceneModule::INode* node, SceneModule::IAttribute* attribute) override;
-		void OnAttributeUpdated(SceneModule::INode* node, SceneModule::IAttribute* old_attribute, SceneModule::IAttribute* new_attribute) override;
-		void OnAttributeRemoved(SceneModule::INode* node, SceneModule::IAttribute* attribute) override;
+		void OnNodeAdded(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child) override;
+		void OnNodeRemoved(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child) override;
+		void OnAttributeAdded(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> attribute) override;
+		void OnAttributeUpdated(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> old_attribute, Core::Pointer<SceneModule::IAttribute> new_attribute) override;
+		void OnAttributeRemoved(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> attribute) override;
 
 	private:
-		void ProcessNode(SceneModule::INode* node);		
+		void ProcessNode(Core::Pointer<SceneModule::INode> node);		
 		Core::Pointer<Core::IObject> GetFileData(const Core::String& filename);
 
 	private:
         std::atomic<std::uint32_t> m_ref_count;
+		Core::Pointer<Attributes::IOptions> m_options{ nullptr, Core::DestroyObject };
 		System::ILogger* m_logger{ System::GetDefaultLogger() };
 		SceneModule::IScene* m_scene{ nullptr };		
 		Core::ObjectPool<Core::String, Core::IObject> m_loaded_stuff;		

@@ -44,8 +44,13 @@ namespace IoModule {
 		Core::Pointer<Core::IObject> o{ nullptr, Core::DestroyObject };
 		if (!m_loaded_stuff.HasValue(filename))
 		{			
-			o = ParsePunkFile(m_scene->GetSourcePath() + filename);
-			m_loaded_stuff.AddValue(filename, o);
+			if (m_options) {
+				o = ParsePunkFile(m_options->GetDataPath() + filename);
+				m_loaded_stuff.AddValue(filename, o);
+			}
+			else {
+				System::GetDefaultLogger()->Error("No options in the scene");
+			}
 		}
 		else {
 			o = m_loaded_stuff.GetValue(filename);
@@ -53,12 +58,12 @@ namespace IoModule {
 		return o;
 	}
 
-	void IoObserver::ProcessNode(SceneModule::INode* root) {
+	void IoObserver::ProcessNode(Core::Pointer<SceneModule::INode> root) {
 		LOG_FUNCTION_SCOPE;
-		std::stack<SceneModule::INode*> nodes;
+		std::stack<Core::Pointer<SceneModule::INode>> nodes;
 		nodes.push(root);
 		while (!nodes.empty()){
-			SceneModule::INode* node = nodes.top();
+			Core::Pointer<SceneModule::INode> node = nodes.top();
 			nodes.pop();
 
 			auto count = node->GetAttributesCountOfType<Attributes::IFileStub>();
@@ -112,6 +117,11 @@ namespace IoModule {
 						node->Set<Attributes::IArmature>(armature->GetName(), armature);
 					}
 				}				
+				{
+					auto options = Core::QueryInterfacePtr<Attributes::IOptions>(o, Attributes::IID_IOptions);
+					if (options)
+						m_options = options;
+				}
 			}
 
 			for (int i = 0, max_i = (int)node->GetChildrenCount(); i < max_i; ++i) {
@@ -123,19 +133,19 @@ namespace IoModule {
 	void IoObserver::SetScene(SceneModule::IScene* value) {
 		LOG_FUNCTION_SCOPE;
 		m_scene = value;
-		ProcessNode(m_scene->GetRoot().get());
+		ProcessNode(m_scene->GetRoot());
 	}
 
-	void IoObserver::OnNodeAdded(SceneModule::INode* parent, SceneModule::INode* child) {
+	void IoObserver::OnNodeAdded(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child) {
 		LOG_FUNCTION_SCOPE;
 		ProcessNode(child);
 	}
 
-	void IoObserver::OnNodeRemoved(SceneModule::INode* parent, SceneModule::INode* child) {
+	void IoObserver::OnNodeRemoved(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child) {
 		LOG_FUNCTION_SCOPE;
 	}
 
-	void IoObserver::OnAttributeAdded(SceneModule::INode* node, SceneModule::IAttribute* attribute) {
+	void IoObserver::OnAttributeAdded(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> attribute) {
 		LOG_FUNCTION_SCOPE;
 		if (attribute->GetTypeID() == typeid(Attributes::IFileStub).hash_code()) {
 			auto stub = attribute->Get<Attributes::IFileStub>();
@@ -171,12 +181,12 @@ namespace IoModule {
 		}
 	}
 
-	void IoObserver::OnAttributeUpdated(SceneModule::INode* node, SceneModule::IAttribute* old_attribute, SceneModule::IAttribute* new_attribute) {
+	void IoObserver::OnAttributeUpdated(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> old_attribute, Core::Pointer<SceneModule::IAttribute> new_attribute) {
 		LOG_FUNCTION_SCOPE;
 		OnAttributeAdded(node, new_attribute);
 	}
 
-	void IoObserver::OnAttributeRemoved(SceneModule::INode* node, SceneModule::IAttribute* attribute) {
+	void IoObserver::OnAttributeRemoved(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> attribute) {
 		LOG_FUNCTION_SCOPE;
 	}
 
