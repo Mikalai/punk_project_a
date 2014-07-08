@@ -70,9 +70,6 @@
     <ClCompile Include="..\..\source\attributes\manager\camera_manager.cpp">
       <Filter>manager</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\attributes\manager\material_manager.cpp">
-      <Filter>manager</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\attributes\data\entity.cpp">
       <Filter>data</Filter>
     </ClCompile>
@@ -174,6 +171,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\geometry\igeometry_cooker.cpp">
       <Filter>geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\manager\ioptions.cpp">
+      <Filter>manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -296,12 +296,6 @@
       <Filter>motions</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\manager\camera_manager.h">
-      <Filter>manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\attributes\manager\manager.h">
-      <Filter>manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\attributes\manager\material_manager.h">
       <Filter>manager</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\data\door.h">
@@ -522,6 +516,12 @@
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\selection\imouse_selectable2d.h">
       <Filter>selection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\manager\ioptions.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\manager\module.h">
+      <Filter>manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

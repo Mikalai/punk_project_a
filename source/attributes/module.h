@@ -12,5 +12,6 @@
 #include "camera/module.h"
 #include "ai/module.h"
 #include "selection/module.h"
+#include "manager/module.h"
 
 #endif
