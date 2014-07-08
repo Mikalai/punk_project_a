@@ -59,6 +59,17 @@ namespace SceneModule {
 		}
 
 		//	INode
+		void RemoveChild(Core::Pointer<INode> node) override {
+			auto it = std::find(m_children.begin(), m_children.end(), node);
+			if (it == m_children.end())
+				return;
+			m_children.erase(it);
+		}
+
+		void RemoveAllChildren() override {
+			m_children.clear();
+		}
+
 		int GetAttributesCount() const override {
 			LOG_FUNCTION_SCOPE;
 			return (int)m_attributes.size();
@@ -79,6 +90,10 @@ namespace SceneModule {
 			LOG_FUNCTION_SCOPE;
 			node->AddRef();
 			m_children.push_back(node);
+			node->SetScene(m_scene_graph);
+			if (m_scene_graph) {
+				m_scene_graph->OnNodeAdded(Core::Pointer < INode > {this, Core::DestroyObject}, node);
+			}
 		}
 
 		std::uint32_t GetChildrenCount() const override {

@@ -165,10 +165,9 @@ namespace IoModule {
 				{
                     auto scene = Core::QueryInterfacePtr<SceneModule::IScene>(o, SceneModule::IID_IScene);
 					if (scene) {
-						auto new_root = scene->GetRoot();
-						//	we will use this node from proxy scene, thus inc ref count, to protect delete when proxy scene will be deleted
-						new_root->AddRef();
-						m_scene->SetRoot(new_root);						
+						auto new_root = scene->GetRoot();						
+						m_scene->GetRoot()->RemoveAllChildren();
+						m_scene->GetRoot()->AddChild(new_root);
 					}
 				}
 				{
@@ -178,6 +177,11 @@ namespace IoModule {
 					}
 				}
 			}			
+		}
+		{
+			auto options = attribute->Get<Attributes::IOptions>();
+			if (options)
+				m_options = options;
 		}
 	}
 

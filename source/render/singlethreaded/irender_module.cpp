@@ -248,6 +248,7 @@ namespace LowLevelRender {
 				auto renderable = node->GetAttributeOfType<Graphics::IRenderable>(i);
 				if (renderable) {
 					frame->PushAllState();
+					frame->EnableTexturing(false);
 					if (frame->IsEnabledSkinning())
 						frame->EnableSkinning(renderable->GetVertexFormat() & (Graphics::VertexComponent::BoneID::Value() | Graphics::VertexComponent::BoneID::Value()));
 					if (frame->IsEnabledSkinning())
@@ -518,15 +519,10 @@ namespace LowLevelRender {
 			}
 			else
 			{
-				Core::Pointer<Graphics::IVertexArray> vb;
-				Core::Pointer<Graphics::IIndexArray> ib;
+				Core::Pointer<Graphics::IVertexArray> vb{ nullptr, Core::DestroyObject };
+				Core::Pointer<Graphics::IIndexArray> ib{ nullptr, Core::DestroyObject };
 				m_geometry_cooker->Cook(geom, vb, ib);
 				renderable = m_renderable_builder->ToRenderable(Graphics::PrimitiveType::TRIANGLES, vb, ib);
-				void* v = renderable->MapVertexBuffer();
-				//((Math::vec4*)v)->X() = 4;
-				void* ii = renderable->MapIndexBuffer();
-				renderable->UnmapVertexVuffer(v);
-				renderable->UnmapIndexBuffer(ii);
 				m_cooked_geometry.AddValue(geom.get(), renderable);
 				child->Set<Graphics::IRenderable>(geom->GetName(), renderable);
 			}

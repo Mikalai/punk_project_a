@@ -215,7 +215,7 @@ namespace AnimatorModule {
                     Core::Pointer<Attributes::IAnimationPlayer> player = System::CreateInstancePtr<Attributes::IAnimationPlayer>(Attributes::IID_IAnimationPlayer);
 					player->SetAnimation(animation);
 					animated->SetAnimationPlayer(player.get());
-					player->SetDuration(16);
+					player->SetDuration(5);
 					player->Start();
 					player->AddRef();
 					m_players.push_back(Core::Pointer < Attributes::IAnimationPlayer > {player.get(), Core::DestroyObject});

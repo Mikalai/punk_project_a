@@ -75,7 +75,14 @@ namespace Attributes {
 								return;
 							}
 							else {
-								throw System::Error::NotImplemented("Position|Normal|Texture|Bone not implemented");
+								CookPositionNormalBonesWeights(
+									position_stream,
+									normal_stream,
+									bone_stream,
+									index_stream,
+									va, ia);
+								System::GetDefaultLogger()->Warning("Position|Normal|Texture|Bone not implemented, use Position|Normal|Bone");
+								return;
 							}
 						}
 						else {
