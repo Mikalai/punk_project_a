@@ -21,11 +21,11 @@ namespace AnimatorModule {
 
 		//	IAnimatorObserver
 		void SetScene(SceneModule::IScene* value) override;
-		void OnNodeAdded(SceneModule::INode* parent, SceneModule::INode* child) override;
-		void OnNodeRemoved(SceneModule::INode* parent, SceneModule::INode* child) override;
-		void OnAttributeAdded(SceneModule::INode* node, SceneModule::IAttribute* attribute) override;
-		void OnAttributeUpdated(SceneModule::INode* node, SceneModule::IAttribute* old_attribute, SceneModule::IAttribute* new_attribute) override;
-		void OnAttributeRemoved(SceneModule::INode* node, SceneModule::IAttribute* attribute) override;
+		void OnNodeAdded(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child) override;
+		void OnNodeRemoved(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child) override;
+		void OnAttributeAdded(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> attribute) override;
+		void OnAttributeUpdated(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> old_attribute, Core::Pointer<SceneModule::IAttribute> new_attribute) override;
+		void OnAttributeRemoved(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> attribute) override;
 
 		//	IAnimatorProcessor
 		void SetSceneManager(SceneModule::ISceneManager* manager) override;
@@ -34,7 +34,7 @@ namespace AnimatorModule {
 
 	private:
 		
-		void Process(SceneModule::INode* node);
+		void Process(Core::Pointer<SceneModule::INode> node);
 		void OnAnimationLoaded(Core::Pointer<Core::IObject> o) {
 			LOG_FUNCTION_SCOPE;
             auto animation = Core::QueryInterfacePtr<Attributes::IAnimation>(o, Attributes::IID_IAnimation);
@@ -132,19 +132,19 @@ namespace AnimatorModule {
 		value->AddRef();
 		m_scene.reset(value);
 		if (m_scene.get())
-			Process(m_scene->GetRoot().get());
+			Process(m_scene->GetRoot());
 	}
 
-	void Animator::OnNodeAdded(SceneModule::INode* parent, SceneModule::INode* child) {
+	void Animator::OnNodeAdded(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child) {
 		LOG_FUNCTION_SCOPE;
         Process(child);
 	}
 
-	void Animator::OnNodeRemoved(SceneModule::INode* parent, SceneModule::INode* child) {
+	void Animator::OnNodeRemoved(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child) {
 		LOG_FUNCTION_SCOPE;
 	}
 
-	void Animator::OnAttributeAdded(SceneModule::INode* node, SceneModule::IAttribute* attribute) {
+	void Animator::OnAttributeAdded(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> attribute) {
 		LOG_FUNCTION_SCOPE;
 		auto animation = attribute->Get<Attributes::IAnimation>();
 		if (animation) {
@@ -153,15 +153,15 @@ namespace AnimatorModule {
 		}
 	}
 
-	void Animator::OnAttributeUpdated(SceneModule::INode* node, SceneModule::IAttribute* old_attribute, SceneModule::IAttribute* new_attribute) {
+	void Animator::OnAttributeUpdated(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> old_attribute, Core::Pointer<SceneModule::IAttribute> new_attribute) {
 		LOG_FUNCTION_SCOPE;
 	}
 
-	void Animator::OnAttributeRemoved(SceneModule::INode* node, SceneModule::IAttribute* attribute) {
+	void Animator::OnAttributeRemoved(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> attribute) {
 		LOG_FUNCTION_SCOPE;
 	}
 
-	void Animator::Process(SceneModule::INode* node) {
+	void Animator::Process(Core::Pointer<SceneModule::INode> node) {
 		LOG_FUNCTION_SCOPE;
 		auto count = node->GetAttributesCount();
 		for (int i = 0; i < count; ++i) {
