@@ -25,11 +25,11 @@ namespace LowLevelRender {
 	};
 
 	struct CmdCookMesh : public SceneModule::Command < RenderDomain, (int)RenderCommands::CookMesh > {
-		SceneModule::INode* node_with_data{ nullptr };
+		Core::Pointer<SceneModule::INode> node_with_data{ nullptr };
 	};
 
 	struct CmdMeshCooked : public SceneModule::Command < RenderDomain, (int)RenderCommands::MeshCooked > {
-		SceneModule::INode* node_with_data{ nullptr };
+		Core::Pointer<SceneModule::INode> node_with_data{ nullptr };
 		Graphics::IRenderable* renderable{ nullptr };
 	};
 }

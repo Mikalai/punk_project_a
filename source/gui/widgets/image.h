@@ -15,14 +15,14 @@ namespace Gui
         Image(float x, float y, float width, float heigh, int order, const std::string& name);
         virtual ~Image();
 
-        void SetContent(boost::shared_ptr<AbstractPicture> value) { m_image = value; }
-        boost::shared_ptr<AbstractPicture> GetContent() const { return m_image; }
+        void SetContent(boost::shared_ptr<Graphics::ITexture2D> value) { m_image = value; }
+        boost::shared_ptr<Graphics::ITexture2D> GetContent() const { return m_image; }
 
     protected:
         virtual void OnRepaint(WidgetRender* r);
 
     private:
-        boost::shared_ptr<AbstractPicture> m_image;
+        boost::shared_ptr<Graphics::ITexture2D> m_image;
     };
 
     typedef boost::shared_ptr<Image> ImagePtr;

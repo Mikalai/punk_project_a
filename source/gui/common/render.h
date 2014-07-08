@@ -7,7 +7,7 @@ PUNK_ENGINE_BEGIN
 namespace Gui
 {
 	class AbstractFontManager;
-	class AbstractPicture;
+	class Graphics::ITexture2D;
     struct Color;
 
 	/**
@@ -31,7 +31,7 @@ namespace Gui
         virtual void SetAlpha(float a) = 0;
         virtual void SetFontManager(AbstractFontManager* value) = 0;
         virtual AbstractFontManager* GetFontManager() = 0;
-        virtual void SetTexture(AbstractPicture* value) = 0;
+        virtual void SetTexture(Graphics::ITexture2D* value) = 0;
         virtual void PushSate() = 0;
         virtual void PopState() = 0;
     };

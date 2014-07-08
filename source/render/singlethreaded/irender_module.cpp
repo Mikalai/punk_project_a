@@ -2,7 +2,6 @@
 #include <render/error/module.h>
 #include <system/module.h>
 #include <graphics/module.h>
-#include <attributes/module.h>
 #include "irender_module.h"
 #include <images/module.h>
 #include <system/environment.h>
@@ -16,6 +15,7 @@
 #include "irender_processor.h"
 #include "irender_observer.h"
 #include <math/vec4.h>
+#include <attributes/module.h>
 
 PUNK_ENGINE_BEGIN
 namespace LowLevelRender {
@@ -37,17 +37,63 @@ namespace LowLevelRender {
 
 		// IRenderObserver
 		void SetScene(SceneModule::IScene* value) override;
-		void OnNodeAdded(SceneModule::INode* parent, SceneModule::INode* child) override;
-		void OnNodeRemoved(SceneModule::INode* parent, SceneModule::INode* child) override;
-		void OnAttributeAdded(SceneModule::INode* node, SceneModule::IAttribute* attribute) override;
-		void OnAttributeUpdated(SceneModule::INode* node, SceneModule::IAttribute* old_attribute, SceneModule::IAttribute* new_attribute) override;
-		void OnAttributeRemoved(SceneModule::INode* node, SceneModule::IAttribute* attribute) override;
+		void OnNodeAdded(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child) override;
+		void OnNodeRemoved(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child) override;
+		void OnAttributeAdded(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> attribute) override;
+		void OnAttributeUpdated(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> old_attribute, Core::Pointer<SceneModule::IAttribute> new_attribute) override;
+		void OnAttributeRemoved(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> attribute) override;
 
 	private:
 
+		bool Process2dSelection(Core::Pointer<SceneModule::INode> parent, Math::vec2 parent_pos) {
+			auto count = parent->GetAttributesCountOfType<Attributes::IMouseSelectable2D>();
+			for (int i = 0; i < count; ++i) {
+				auto selectable = parent->GetAttributeOfType<Attributes::IMouseSelectable2D>(i);
+				auto pos = selectable->GetLocalTopLeftPosition();
+				if (pos.x >= 0
+					&& pos.y >= 0
+					&& pos <= selectable->GetWidth()
+					&& pos <= selectable->GetHeight()) {
+					bool flag = false;
+					for (std::uint32_t j = 0, max_j = parent->GetChildrenCount(); ++j) {
+						flag = Process2dSelection(parent->GetChild(j), pos);
+						if (flag)
+							break;
+					}
+					if (!flag) {
+
+					}
+				}
+			}
+		}
+
+		void OnMouseMove(const System::MouseEvent& event) {
+			/*std::stack<Core::Pointer<SceneModule::INode>> nodes;
+			std::stack<Math::vec2> positions;
+			nodes.push(m_scene->GetRoot());
+			positions.push({ event.x, event.y });
+			while (!nodes.empty()) {
+				auto node = nodes.top();
+				nodes.pop();
+				auto pos_in_parent = positions.top();
+				positions.pop();
+				int count = node->GetAttributesCountOfType<Attributes::IMouseSelectable2D>();
+				for (int i = 0; i < count; ++i) {
+					auto selectable = node->GetAttributeOfType<Attributes::IMouseSelectable2D>(i);
+					pos_in_parent -= selectable->GetLocalTopLeftPosition();
+					if (pos_in_parent.x >= 0
+						&& pos_in_parent.y >= 0
+						&& pos_in_parent <= selectable->GetWidth()
+						&& pos_in_parent <= selectable->GetHeight()) {
+
+						selectable->EmitMouseMoveEvent(pos_in_parent.x, pos_in_parent.y);
+					}
+				}
+			}*/
+		}
 		void OnWindowResized(const System::WindowResizeEvent& event);
 		void OnWindowClose();
-		void Process(Graphics::IFrame* frame, SceneModule::INode* node);
+		void Process(Graphics::IFrame* frame, Core::Pointer<SceneModule::INode> node);
 
 		template<class T>
 		struct LightCache {
@@ -85,7 +131,7 @@ namespace LowLevelRender {
 		CameraCache<Attributes::IPerspectiveCamera> m_perspective_camera{ Core::Pointer < Attributes::IPerspectiveCamera > {nullptr, Core::DestroyObject}, { 0, 0, 0 }, { 0, 0, -1 } };
 
 		Core::ObjectPool<Attributes::IGeometry*, Graphics::IRenderable> m_cooked_geometry;
-		std::map<SceneModule::INode*, RenderGeoemetryCache> m_geometry_cache;
+		std::map<Core::Pointer<SceneModule::INode>, RenderGeoemetryCache> m_geometry_cache;
 		//Graphics::ICanvasPointer m_canvas{ nullptr, Core::DestroyObject };
 		SceneModule::ISceneGraphPointer m_scene{ nullptr, Core::DestroyObject };
 		Core::Pointer<SceneModule::INode> m_camera_node{ nullptr, Core::DestroyObject };
@@ -168,6 +214,7 @@ namespace LowLevelRender {
 		m_frame_buffer = Graphics::GetBackbuffer();
 		m_frame_buffer->SetViewport(0, 0, m_canvas->GetWindow()->GetWidth(), m_canvas->GetWindow()->GetHeight());
 		m_canvas->GetWindow()->SubscribeResizeEvent(new Core::Action<RenderModule, const System::WindowResizeEvent&>(this, &RenderModule::OnWindowResized));
+		m_canvas->GetWindow()->SubscribeMouseMoveEvent(new Core::Action<RenderModule, const System::MouseEvent&>(this, &RenderModule::OnMouseMove));
         m_geometry_cooker = System::CreateInstancePtr<Attributes::IGeometryCooker>(Attributes::IID_IGeometryCooker);
         m_renderable_builder = System::CreateInstancePtr<Graphics::IRenderableBuilder>(Graphics::IID_IRenderableBuilder);		
 	}
@@ -175,9 +222,9 @@ namespace LowLevelRender {
 	RenderModule::~RenderModule() {
 		LOG_FUNCTION_SCOPE;
 		m_frame->Release();		
-	}
+	}	
 
-	void RenderModule::Process(Graphics::IFrame* frame, SceneModule::INode* node) {
+	void RenderModule::Process(Graphics::IFrame* frame, Core::Pointer<SceneModule::INode> node) {
 		LOG_FUNCTION_SCOPE;
 		int count = node->GetAttributesCountOfType<Attributes::ITransform>();
 		if (count != 0) {
@@ -450,7 +497,7 @@ namespace LowLevelRender {
 			m_scene->GetRoot()->Set<Graphics::ICanvas>(L"Canvas", m_canvas);
 	}
 
-	void RenderModule::OnNodeAdded(SceneModule::INode* parent, SceneModule::INode* child) {
+	void RenderModule::OnNodeAdded(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child) {
 		LOG_FUNCTION_SCOPE;
 		if (parent == nullptr) {
 			if (!child->Get<Graphics::ICanvas>(L"Canvas"))
@@ -507,11 +554,11 @@ namespace LowLevelRender {
 		}
 	}
 
-	void RenderModule::OnNodeRemoved(SceneModule::INode* parent, SceneModule::INode* child) {
+	void RenderModule::OnNodeRemoved(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child) {
 		LOG_FUNCTION_SCOPE;
 	}
 
-	void RenderModule::OnAttributeAdded(SceneModule::INode* node, SceneModule::IAttribute* attribute) {
+	void RenderModule::OnAttributeAdded(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> attribute) {
 		LOG_FUNCTION_SCOPE;
 		if (attribute->GetTypeID() == typeid(Attributes::IGeometry).hash_code()) {
 			auto geom = attribute->Get<Attributes::IGeometry>();
@@ -532,11 +579,11 @@ namespace LowLevelRender {
 		}
 	}
 
-	void RenderModule::OnAttributeUpdated(SceneModule::INode* node, SceneModule::IAttribute* old_attribute, SceneModule::IAttribute* new_attribute) {
+	void RenderModule::OnAttributeUpdated(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> old_attribute, Core::Pointer<SceneModule::IAttribute> new_attribute) {
 		LOG_FUNCTION_SCOPE;
 	}
 
-	void RenderModule::OnAttributeRemoved(SceneModule::INode* node, SceneModule::IAttribute* attribute) {
+	void RenderModule::OnAttributeRemoved(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> attribute) {
 		LOG_FUNCTION_SCOPE;
 	}
 

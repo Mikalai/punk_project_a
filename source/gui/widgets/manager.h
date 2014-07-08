@@ -14,7 +14,7 @@ namespace Gui
 	class AbstractFontManager;
 	class AbstractRender;
 	class AbstractInputDevice;
-    class AbstractPictureFactory;
+    class Graphics::ITexture2DFactory;
     class StyleSet;
 
 	struct ManagerImpl;
@@ -30,7 +30,7 @@ namespace Gui
 	*	- AbstractInputDevice (used to get current state of mouse and keyboard)
 	*	- AbstractFontManager (used to get sizes of different letters)
 	*	- AbstractRender (provide basic functionality to draw geometric primitive: lines, points, quad, textures quads)
-	*	- AbstractPictureFactory (provide method for creating AbstractPicture instances from file)
+	*	- Graphics::ITexture2DFactory (provide method for creating Graphics::ITexture2D instances from file)
 	*	
 	*	Any container widget can be added to the Manager. When widget is added to the manager,
 	*	it start recieving user input, and became visible on the screen.
@@ -62,8 +62,8 @@ namespace Gui
 		boost::shared_ptr<AbstractFontManager> GetFontManager();
 		void SetRender(boost::shared_ptr<AbstractRender> render);
 		boost::shared_ptr<AbstractRender> GetRender();
-        void SetPictureFactory(boost::shared_ptr<AbstractPictureFactory> value);
-        boost::shared_ptr<AbstractPictureFactory> GetPictureFactory();
+        void SetPictureFactory(boost::shared_ptr<Graphics::ITexture2DFactory> value);
+        boost::shared_ptr<Graphics::ITexture2DFactory> GetPictureFactory();
         boost::shared_ptr<StyleSet> GetStyleSet(const std::string& name);
 		void Update(float dt);
         void AddWidget(boost::shared_ptr<ContainerWidget> value);

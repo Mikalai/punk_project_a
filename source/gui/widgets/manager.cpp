@@ -41,7 +41,7 @@ namespace Gui
         boost::shared_ptr<AbstractRender> m_render;
         boost::shared_ptr<AbstractFontManager> m_font;
         boost::shared_ptr<AbstractInputDevice> m_input_device;
-        boost::shared_ptr<AbstractPictureFactory> m_picture_factory;
+        boost::shared_ptr<Graphics::ITexture2DFactory> m_picture_factory;
         WidgetPtr m_cursor_widget;
         WidgetPtr m_focus;
         std::map<const std::string, boost::shared_ptr<StyleSet> > m_styles;
@@ -125,12 +125,12 @@ namespace Gui
             m_viewport_height = height;
         }
 
-        void SetPictureFactory(boost::shared_ptr<AbstractPictureFactory> factory)
+        void SetPictureFactory(boost::shared_ptr<Graphics::ITexture2DFactory> factory)
         {
             m_picture_factory = factory;
         }
 
-        boost::shared_ptr<AbstractPictureFactory> GetPictureFactory()
+        boost::shared_ptr<Graphics::ITexture2DFactory> GetPictureFactory()
         {
             return m_picture_factory;
         }
@@ -363,12 +363,12 @@ namespace Gui
     {
     }
 
-    void Manager::SetPictureFactory(boost::shared_ptr<AbstractPictureFactory> value)
+    void Manager::SetPictureFactory(boost::shared_ptr<Graphics::ITexture2DFactory> value)
     {
         impl->SetPictureFactory(value);
     }
 
-    boost::shared_ptr<AbstractPictureFactory> Manager::GetPictureFactory()
+    boost::shared_ptr<Graphics::ITexture2DFactory> Manager::GetPictureFactory()
     {
         return impl->GetPictureFactory();
     }
