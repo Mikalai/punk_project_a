@@ -1,0 +1,77 @@
+STYLESCHEMETEXT
+default {
+	*widget_style {
+		*cursor { cursor.png }		
+		*font { font1.fnt }		
+		*type { button }		
+		*back_color { 0.3 0.4 0.5 0.7 }
+		*back_color_mouse_over { 0.3 0.4 0.5 0.7 }
+		*back_color_mouse_pressed { 0.3 0.4 0.5 0.7 }
+		*back_color_focused { 0.3 0.4 0.5 0.7 }
+		*use_texture { 1 }
+		*back_texture {
+			*rect { 2 2 145 60 }		
+			*file { my_gui.png }
+		}
+		*back_texture_mouse_over {
+			*rect { 297 2 145 60 }			
+			*file { my_gui.png }
+		}
+		*back_texture_mouse_pressed { 
+			*rect { 152 4 145 60 }			
+			*file { my_gui.png }
+		}
+		*back_texture_focused {
+			*rect { 2 2 145 60 }			
+			*file { my_gui.png }
+		}
+	}
+
+	*widget_style {
+		*cursor { cursor.png }		
+		*font { font1.fnt }		
+		*type { image }
+		*back_color { 0.3 0.4 0.5 0.7 }
+		*back_color_mouse_over { 0.3 0.4 0.5 0.7 }
+		*back_color_focused { 0.3 0.4 0.5 0.7 }
+		*use_texture { 1 }
+		*back_texture { 
+			*rect { 12 80 240 200 }
+			*file { my_gui.png }
+		}		
+		*back_texture_mouse_over {
+			*rect { 12 80 240 200 }
+			*file { my_gui.png }
+		}
+		*back_texture_mouse_pressed {
+			*rect { 12 80 240 200 }
+			*file { my_gui.png }
+		}
+		*back_texture_focused {
+			*rect { 12 80 240 200 }
+			*file {my_gui.png }
+		}
+	}
+
+	*widget_style {
+		*cursor { cursor.png }
+		*font { font1.fnt }
+		*type { container_widget }
+		*back_color { 0.3 0.4 0.5 0.7 }
+		*back_color_mouse_over { 0.3 0.4 0.5 0.7 }
+		*back_color_focused { 0.3 0.4 0.5 0.7 }
+		*use_texture { 1 }
+		*back_texture {
+			*rect { 12 80 240 203 }
+			*file { my_gui.png }
+		}
+		*back_texture_mouse_over {
+			*rect { 12 80 240 203 }
+			*file { my_gui.png }
+		}
+		*back_texture_focused {
+			*rect { 12 80 240 203 }
+			*file { my_gui.png }
+		}
+	}
+}
