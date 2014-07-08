@@ -24,6 +24,23 @@ namespace Graphics {
 
         virtual ~VertexArray() {}
 
+		//	IObject
+		void QueryInterface(const Core::Guid& type, void** object) {
+			Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IVertexArray });
+		}
+
+		std::uint32_t AddRef() override {
+			return m_ref_count.fetch_add(1);
+		}
+
+		std::uint32_t Release() override {
+			auto v = m_ref_count.fetch_sub(1) - 1;
+			if (!v)
+				delete this;
+			return v;
+		}
+
+		//	IVertexArray
         std::uint64_t GetVertexType() const override {
             return VertexType::Value();
         }
@@ -57,6 +74,7 @@ namespace Graphics {
 			return (const void*)&m_array[0];
 		}
 
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
         std::vector<VertexType> m_array;
     };
 }

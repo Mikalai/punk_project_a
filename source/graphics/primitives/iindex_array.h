@@ -3,11 +3,13 @@
 
 #include <cstdint>
 #include <config.h>
-
+#include <core/iobject.h>
 PUNK_ENGINE_BEGIN
 namespace Graphics {
 
-    class IIndexArray {
+	DECLARE_PUNK_GUID(IID_IIndexArray, "D233907C-6999-4CC6-8C3E-1FBF89146970");
+
+    class IIndexArray : public Core::IObject {
     public:
         virtual std::uint64_t GetIndexCount() const = 0;
         virtual std::uint64_t GetIndexSize() const = 0;

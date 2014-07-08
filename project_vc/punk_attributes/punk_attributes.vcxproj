@@ -244,7 +244,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\geometry\igeometry.cpp" />
-    <ClCompile Include="..\..\source\attributes\geometry\geometry_cooker.cpp" />
+    <ClCompile Include="..\..\source\attributes\geometry\igeometry_cooker.cpp" />
     <ClCompile Include="..\..\source\attributes\geometry\skin_geometry.cpp" />
     <ClCompile Include="..\..\source\attributes\geometry\static_geometry.cpp" />
     <ClCompile Include="..\..\source\attributes\light\light.cpp" />
