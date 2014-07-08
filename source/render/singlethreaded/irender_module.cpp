@@ -46,25 +46,25 @@ namespace LowLevelRender {
 	private:
 
 		bool Process2dSelection(Core::Pointer<SceneModule::INode> parent, Math::vec2 parent_pos) {
-			auto count = parent->GetAttributesCountOfType<Attributes::IMouseSelectable2D>();
-			for (int i = 0; i < count; ++i) {
-				auto selectable = parent->GetAttributeOfType<Attributes::IMouseSelectable2D>(i);
-				auto pos = selectable->GetLocalTopLeftPosition();
-				if (pos.x >= 0
-					&& pos.y >= 0
-					&& pos <= selectable->GetWidth()
-					&& pos <= selectable->GetHeight()) {
-					bool flag = false;
-					for (std::uint32_t j = 0, max_j = parent->GetChildrenCount(); ++j) {
-						flag = Process2dSelection(parent->GetChild(j), pos);
-						if (flag)
-							break;
-					}
-					if (!flag) {
+			//auto count = parent->GetAttributesCountOfType<Attributes::IMouseSelectable2D>();
+			//for (int i = 0; i < count; ++i) {
+			//	auto selectable = parent->GetAttributeOfType<Attributes::IMouseSelectable2D>(i);
+			//	auto pos = selectable->GetLocalTopLeftPosition();
+			//	if (pos.x >= 0
+			//		&& pos.y >= 0
+			//		&& pos <= selectable->GetWidth()
+			//		&& pos <= selectable->GetHeight()) {
+			//		bool flag = false;
+			//		for (std::uint32_t j = 0, max_j = parent->GetChildrenCount(); ++j) {
+			//			flag = Process2dSelection(parent->GetChild(j), pos);
+			//			if (flag)
+			//				break;
+			//		}
+			//		if (!flag) {
 
-					}
-				}
-			}
+			//		}
+			//	}
+			//}
 		}
 
 		void OnMouseMove(const System::MouseEvent& event) {
@@ -133,7 +133,7 @@ namespace LowLevelRender {
 		Core::ObjectPool<Attributes::IGeometry*, Graphics::IRenderable> m_cooked_geometry;
 		std::map<Core::Pointer<SceneModule::INode>, RenderGeoemetryCache> m_geometry_cache;
 		//Graphics::ICanvasPointer m_canvas{ nullptr, Core::DestroyObject };
-		SceneModule::ISceneGraphPointer m_scene{ nullptr, Core::DestroyObject };
+		Core::Pointer<SceneModule::IScene> m_scene{ nullptr, Core::DestroyObject };
 		Core::Pointer<SceneModule::INode> m_camera_node{ nullptr, Core::DestroyObject };
 		Attributes::IGeometryCookerPointer m_geometry_cooker{ nullptr, Core::DestroyObject };
 		Graphics::IRenderableBuilderPointer m_renderable_builder{ nullptr, Core::DestroyObject };
@@ -427,7 +427,7 @@ namespace LowLevelRender {
 		frame->SetViewMatrix(Math::CreateTargetCameraMatrix({ 2, 2, 2 }, { 0, 0, 0 }, { 0, 1, 0 }));
 		frame->SetProjectionMatrix(Math::CreatePerspectiveProjection(Math::PI/4.0f, 1024, 768, 0.1f, 100.0f));
 		frame->EnableDepthTest(true);
-		Process(frame, root.get());
+		Process(frame, root);
 
 		if (!m_point_lights.empty()) {
 			auto light = m_point_lights[0].m_light;
@@ -499,7 +499,7 @@ namespace LowLevelRender {
 
 	void RenderModule::OnNodeAdded(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child) {
 		LOG_FUNCTION_SCOPE;
-		if (parent == nullptr) {
+		if (!parent) {
 			if (!child->Get<Graphics::ICanvas>(L"Canvas"))
 				child->Set<Graphics::ICanvas>(L"Canvas", m_canvas);
 		}
@@ -518,12 +518,10 @@ namespace LowLevelRender {
 			}
 			else
 			{
-				Graphics::IVertexArray* vb;
-				Graphics::IIndexArray* ib;
-				m_geometry_cooker->Cook(geom.get(), vb, ib);
+				Core::Pointer<Graphics::IVertexArray> vb;
+				Core::Pointer<Graphics::IIndexArray> ib;
+				m_geometry_cooker->Cook(geom, vb, ib);
 				renderable = m_renderable_builder->ToRenderable(Graphics::PrimitiveType::TRIANGLES, vb, ib);
-				delete vb;
-				delete ib;
 				void* v = renderable->MapVertexBuffer();
 				//((Math::vec4*)v)->X() = 4;
 				void* ii = renderable->MapIndexBuffer();
@@ -569,9 +567,9 @@ namespace LowLevelRender {
 			}
 			else
 			{
-				Graphics::IVertexArray* vb;
-				Graphics::IIndexArray* ib;
-				m_geometry_cooker->Cook(geom.get(), vb, ib);
+				Core::Pointer<Graphics::IVertexArray> vb{ nullptr, Core::DestroyObject };
+				Core::Pointer<Graphics::IIndexArray> ib{ nullptr, Core::DestroyObject };
+				m_geometry_cooker->Cook(geom, vb, ib);
 				renderable = m_renderable_builder->ToRenderable(Graphics::PrimitiveType::TRIANGLES, vb, ib);
 				m_cooked_geometry.AddValue(geom.get(), renderable);
 			}

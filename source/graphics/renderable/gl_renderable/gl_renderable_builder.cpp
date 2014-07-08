@@ -29,7 +29,7 @@ namespace Graphics
 			void Begin(const PrimitiveType& value) override;
 			Core::Pointer<IRenderable> ToRenderable() override;
 			void End() override;
-			Core::Pointer<IRenderable> ToRenderable(PrimitiveType type, IVertexArray* vb, IIndexArray* ib) override;
+			Core::Pointer<IRenderable> ToRenderable(PrimitiveType type, Core::Pointer<IVertexArray> vb, Core::Pointer<IIndexArray> ib) override;
 
 		private:
 
@@ -152,16 +152,16 @@ namespace Graphics
             typedef Vertex<VertexComponent::Position> VertexType;
             std::vector<VertexType> vb;
             vb.reserve(position.size());
-            for (auto& p : position)
-            {
-                VertexType v;
-                v.m_position = p;
-                vb.push_back(v);
-            }
+			for (auto& p : position) 
+			{
+				VertexType v;
+				v.m_position = p;
+				vb.push_back(v);
+			}
 
             ModifyVertexInput(vb, m_high_level_type);
-            VertexArray<VertexType> array{vb};
-            return ToRenderable(m_primitive_type, &array, nullptr);
+			Core::Pointer<Graphics::IVertexArray> array{new Graphics::VertexArray < VertexType > { vb }, Core::DestroyObject};
+			return ToRenderable(m_primitive_type, array, Core::Pointer < Graphics::IIndexArray > {nullptr, Core::DestroyObject});
         }
 
 		Core::Pointer<IRenderable> GlRenderableBuilder::BuildVertexBufferPC(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& color)
@@ -186,8 +186,8 @@ namespace Graphics
             }
 
             ModifyVertexInput(vb, m_high_level_type);
-            VertexArray<VertexType> array{vb};
-            return ToRenderable(m_primitive_type, &array, nullptr);
+			Core::Pointer<Graphics::IVertexArray> array{new Graphics::VertexArray < VertexType >{ vb }, Core::DestroyObject};
+			return ToRenderable(m_primitive_type, array, Core::Pointer < Graphics::IIndexArray > {nullptr, Core::DestroyObject});
         }
 
 		Core::Pointer<IRenderable> GlRenderableBuilder::BuildVertexBufferPT(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& texcoord)
@@ -212,8 +212,8 @@ namespace Graphics
             }
 
             ModifyVertexInput(vb, m_high_level_type);
-            VertexArray<VertexType> array{vb};
-			return ToRenderable(m_primitive_type, &array, nullptr);
+			Core::Pointer<Graphics::IVertexArray> array{new Graphics::VertexArray < VertexType >{ vb }, Core::DestroyObject};
+			return ToRenderable(m_primitive_type, array, Core::Pointer < Graphics::IIndexArray > {nullptr, Core::DestroyObject});
         }
 
 		Core::Pointer<IRenderable> GlRenderableBuilder::BuildVertexBufferPTC(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& texcoord, const std::vector<Math::vec4>& color)
@@ -241,8 +241,8 @@ namespace Graphics
             }
 
             ModifyVertexInput(vb, m_high_level_type);
-            VertexArray<VertexType> array{vb};
-			return ToRenderable(m_primitive_type, &array, nullptr);
+			Core::Pointer<Graphics::IVertexArray> array{new Graphics::VertexArray < VertexType >{ vb }, Core::DestroyObject};
+			return ToRenderable(m_primitive_type, array, Core::Pointer < Graphics::IIndexArray > {nullptr, Core::DestroyObject});
         }
 
 		Core::Pointer<IRenderable> GlRenderableBuilder::BuildVertexBufferPN(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& normal)
@@ -267,8 +267,8 @@ namespace Graphics
             }
 
             ModifyVertexInput(vb, m_high_level_type);
-            VertexArray<VertexType> array{vb};
-			return ToRenderable(m_primitive_type, &array, nullptr);
+			Core::Pointer<Graphics::IVertexArray> array{new Graphics::VertexArray < VertexType >{ vb }, Core::DestroyObject};
+			return ToRenderable(m_primitive_type, array, Core::Pointer < Graphics::IIndexArray > {nullptr, Core::DestroyObject});
         }
 
 		Core::Pointer<IRenderable> GlRenderableBuilder::BuildVertexBufferPNT0(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& normal, const std::vector<Math::vec4>& texcoord)
@@ -296,8 +296,8 @@ namespace Graphics
             }
 
             ModifyVertexInput(vb, m_high_level_type);
-            VertexArray<VertexType> array{vb};
-			return ToRenderable(m_primitive_type, &array, nullptr);
+			Core::Pointer<Graphics::IVertexArray> array{new Graphics::VertexArray < VertexType >{ vb }, Core::DestroyObject};
+			return ToRenderable(m_primitive_type, array, Core::Pointer < Graphics::IIndexArray > {nullptr, Core::DestroyObject});
         }
 
 		Core::Pointer<IRenderable> GlRenderableBuilder::BuildVertexBufferPNC(const std::vector<Math::vec4>& position, const std::vector<Math::vec4>& normal, const std::vector<Math::vec4>& color)
@@ -325,8 +325,8 @@ namespace Graphics
 			}
 
 			ModifyVertexInput(vb, m_high_level_type);
-			VertexArray<VertexType> array{vb};
-			return ToRenderable(m_primitive_type, &array, nullptr);
+			Core::Pointer<Graphics::IVertexArray> array{new Graphics::VertexArray < VertexType >{ vb }, Core::DestroyObject};
+			return ToRenderable(m_primitive_type, array, Core::Pointer < Graphics::IIndexArray > {nullptr, Core::DestroyObject});
 		}
 
         void GlRenderableBuilder::Begin(const PrimitiveType& value)
@@ -469,9 +469,9 @@ namespace Graphics
 			return result;
 		}
 
-		Core::Pointer<IRenderable> GlRenderableBuilder::ToRenderable(PrimitiveType type, IVertexArray* vb, IIndexArray* ib) {
+		Core::Pointer<IRenderable> GlRenderableBuilder::ToRenderable(PrimitiveType type, Core::Pointer<IVertexArray> vb, Core::Pointer<IIndexArray> ib) {
 			Core::Pointer<IRenderable> result{ CreateRenderable(type, vb->GetVertexType(), ib ? ib->GetIndexSize() : 0), Core::DestroyObject };
-			result->Cook(vb, ib);
+			result->Cook(vb.get(), ib.get());
 			return result;
 		}
 
