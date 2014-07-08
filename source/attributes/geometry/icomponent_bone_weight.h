@@ -5,6 +5,7 @@
 #include <utility>
 #include <config.h>
 #include <cstdint>
+#include <core/iobject.h>
 #include <math/vec4.h>
 #include <math/mat4.h>
 
@@ -16,7 +17,7 @@ namespace Attributes {
 
 	DECLARE_PUNK_GUID(IID_IVertexBoneWeightStream, "A7B93F00-CEA8-476A-8496-AC7CF30B7878");
 
-	class IVertexBoneWeightStream {
+	class IVertexBoneWeightStream : public Core::IObject {
 	public:
 		//virtual std::uint32_t GetInfluencingBonesCount(std::uint32_t vertex_index) = 0;
 		virtual const Math::vec4* GetVertexBoneWeights(std::uint32_t index) const = 0;

@@ -17,7 +17,9 @@ namespace Attributes {
 
 	class IGeometryCooker : public Core::IObject {
 	public:
-		virtual void Cook(IGeometry* geometry, Graphics::IVertexArray*& va, Graphics::IIndexArray*& ia) = 0;
+		virtual void EnableTangetBitangentGeneration(bool flag) = 0;
+		virtual bool IsEnabledTangentBitangentGeneration() const = 0;
+		virtual void Cook(Core::Pointer<IGeometry> geometry, Core::Pointer<Graphics::IVertexArray>& va, Core::Pointer<Graphics::IIndexArray>& ia) = 0;
 	};
 
 	using IGeometryCookerPointer = Core::Pointer < IGeometryCooker > ;
