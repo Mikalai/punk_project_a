@@ -7,7 +7,7 @@ PUNK_ENGINE_BEGIN
 namespace SceneModule {
 	class ISceneBuilder {
 	public:
-		virtual INode* CreateNode(INode* parent);
+		virtual Core::Pointer<INode> CreateNode(Core::Pointer<INode> parent);
 	};
 }
 PUNK_ENGINE_END

@@ -39,6 +39,7 @@ namespace Graphics
 #ifdef _DEBUG
         System::GetDefaultLogger()->Info(L"Create Frame");
 #endif
+		m_builder = System::CreateInstancePtr<IRenderableBuilder>(IID_IRenderableBuilder);
         m_shadow_maps = nullptr;
         m_state.push(new CoreState);
     }
@@ -68,6 +69,7 @@ namespace Graphics
 
 	void Frame::SetRender(ILowLevelRender* render) {
 		m_render = render;
+		m_builder->Initialize(GetVideoDriver());
 	}
 
     void Frame::SetClearColor(const Math::vec4& value)
@@ -139,14 +141,13 @@ namespace Graphics
 //            m_current_frame_buffer->Unbind();
 //    }
 
-    void Frame::Submit(IRenderable* value, bool destroy)
+    void Frame::Submit(Core::Pointer<IRenderable> value)
     {
         if (!value)
             return;
         Batch* batch = new Batch;
         batch->m_renderable = value;
         batch->m_state = m_state.top()->Clone(CoreState::ALL_STATES);
-        batch->m_destroy = destroy;
         m_render->SubmitBatch(batch);
     }
 
@@ -228,6 +229,7 @@ namespace Graphics
 
     void Frame::MultWorldMatrix(const Math::mat4& value)
     {
+		Top()->batch_state->m_local = value;
         Top()->batch_state->m_world *= value;
     }
 
@@ -625,15 +627,13 @@ namespace Graphics
     {
         PushAllState();
         EnableLighting(false);
-        EnableTexturing(false);		
-		IRenderableBuilderUniquePtr b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
-		b->Initialize(GetVideoDriver());
-        b->Begin(PrimitiveType::LINES);
-        b->Vertex3fv(start);
-        b->Vertex3fv(end);
-        b->End();
-        IRenderable* r = b->ToRenderable();
-        Submit(r, true);
+        EnableTexturing(false);				
+        m_builder->Begin(PrimitiveType::LINES);
+        m_builder->Vertex3fv(start);
+        m_builder->Vertex3fv(end);
+        m_builder->End();
+        auto r = m_builder->ToRenderable();
+        Submit(r);
         PopAllState();
     }
 
@@ -662,14 +662,12 @@ namespace Graphics
         p2[1] = -1.0f + 2.0f * y2 / height;
         p2[2] = 0;
 
-		IRenderableBuilderUniquePtr b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
-		b->Initialize(GetVideoDriver());
-        b->Begin(PrimitiveType::LINES);
-        b->Vertex3fv(p1);
-        b->Vertex3fv(p2);
-        b->End();
-        IRenderable* r = b->ToRenderable();
-        Submit(r, true);
+        m_builder->Begin(PrimitiveType::LINES);
+        m_builder->Vertex3fv(p1);
+        m_builder->Vertex3fv(p2);
+        m_builder->End();
+        auto r = m_builder->ToRenderable();
+        Submit(r);
         PopAllState();
 //#ifdef _DEBUG
 //        System::GetDefaultLogger()->Info("End DrawLine(x1,y1,x2,y2)");
@@ -691,13 +689,11 @@ namespace Graphics
         p1[1] = -1.0f + 2.0f * y / height;
         p1[2] = 0;
 
-		IRenderableBuilderUniquePtr b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
-		b->Initialize(GetVideoDriver());
-        b->Begin(PrimitiveType::POINTS);
-        b->Vertex3fv(p1);
-        b->End();
-        IRenderable* r = b->ToRenderable();
-        Submit(r, true);
+        m_builder->Begin(PrimitiveType::POINTS);
+        m_builder->Vertex3fv(p1);
+        m_builder->End();
+        auto r = m_builder->ToRenderable();
+        Submit(r);
         PopAllState();
     }
 
@@ -706,13 +702,11 @@ namespace Graphics
         PushAllState();
         EnableLighting(false);
         EnableTexturing(false);
-		IRenderableBuilderUniquePtr b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
-		b->Initialize(GetVideoDriver());
-        b->Begin(PrimitiveType::POINTS);
-        b->Vertex3fv(Math::vec3(x, y, z));
-        b->End();
-        IRenderable* r = b->ToRenderable();
-        Submit(r, true);
+        m_builder->Begin(PrimitiveType::POINTS);
+        m_builder->Vertex3fv(Math::vec3(x, y, z));
+        m_builder->End();
+        auto r = m_builder->ToRenderable();
+        Submit(r);
         PopAllState();
     }
 
@@ -721,13 +715,11 @@ namespace Graphics
         PushAllState();
         EnableLighting(false);
         EnableTexturing(false);
-		IRenderableBuilderUniquePtr b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
-		b->Initialize(GetVideoDriver());
-        b->Begin(PrimitiveType::POINTS);
-        b->Vertex3fv(v);
-        b->End();
-        IRenderable* r = b->ToRenderable();
-        Submit(r, true);
+        m_builder->Begin(PrimitiveType::POINTS);
+        m_builder->Vertex3fv(v);
+        m_builder->End();
+        auto r = m_builder->ToRenderable();
+        Submit(r);
         PopAllState();
     }
 
@@ -740,20 +732,18 @@ namespace Graphics
         SetProjectionMatrix(Math::CreateOrthographicProjection2(0, window->GetWidth(),
                                                                       0, window->GetHeight(),
                                                                      -1, 1));
-		IRenderableBuilderUniquePtr b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
-		b->Initialize(GetVideoDriver());
-        b->Begin(PrimitiveType::QUADS);
-        b->TexCoord2f(0,0);
-        b->Vertex3f(x, y, 0);
-        b->TexCoord2f(1, 0);
-        b->Vertex3f(x+width, y, 0);
-        b->TexCoord2f(1,1);
-        b->Vertex3f(x+width, y+height,0);
-        b->TexCoord2f(0, 1);
-        b->Vertex3f(x, y+height, 0);
-        b->End();
-        IRenderable* r = b->ToRenderable();
-        Submit(r, true);
+        m_builder->Begin(PrimitiveType::QUADS);
+        m_builder->TexCoord2f(0,0);
+        m_builder->Vertex3f(x, y, 0);
+        m_builder->TexCoord2f(1, 0);
+        m_builder->Vertex3f(x+width, y, 0);
+        m_builder->TexCoord2f(1,1);
+        m_builder->Vertex3f(x+width, y+height,0);
+        m_builder->TexCoord2f(0, 1);
+        m_builder->Vertex3f(x, y+height, 0);
+        m_builder->End();
+        auto r = m_builder->ToRenderable();
+        Submit(r);
         PopAllState();
     }
 
@@ -768,9 +758,7 @@ namespace Graphics
         EnableBlending(false);
         EnableLighting(false);
         EnableDepthTest(false);        
-		IRenderableBuilderUniquePtr b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
-		b->Initialize(GetVideoDriver());
-        b->Begin(PrimitiveType::LINES);
+        m_builder->Begin(PrimitiveType::LINES);
         int n = 32;
         float dphi = Math::PI / (float)n * 2.0f;
         for (int i = 0; i < n; ++i)
@@ -779,16 +767,16 @@ namespace Graphics
                 float xx = x + r * cos(dphi*(float)i);
                 float yy = y + r * sin(dphi*(float)i);
                 float zz = z;
-                b->Vertex3f(xx, yy, zz);
+                m_builder->Vertex3f(xx, yy, zz);
             }
             {
                 float xx = x + r * cos(dphi*(float)(i+1));
                 float yy = y + r * sin(dphi*(float)(i+1));
                 float zz = z;
-                b->Vertex3f(xx, yy, zz);
+                m_builder->Vertex3f(xx, yy, zz);
             }
         }
-        Submit(b->ToRenderable(), true);
+        Submit(m_builder->ToRenderable());
         PopAllState();
     }
 
@@ -799,7 +787,7 @@ namespace Graphics
     void Frame::DrawText2D(float x, float y, const Core::String &value)
     {
         PushAllState();
-        ITextSurfaceUniquePtr surface = CreateTextSurface(0, 0, GetVideoDriver());
+        ITextSurfacePointer surface = CreateTextSurface(0, 0, GetVideoDriver());
         surface->SetText(value);
         int text_width = surface->GetTexture()->GetWidth();
         int text_height = surface->GetTexture()->GetHeight();
@@ -817,20 +805,18 @@ namespace Graphics
         SetProjectionMatrix(Math::CreateOrthographicProjection2(0, width, 0, height, -1, 1));
         SetViewMatrix(Math::CreateIdentity());
 
-		IRenderableBuilderUniquePtr b{ System::CreateInstance<IRenderableBuilder>(IID_IRenderableBuilder), Core::DestroyObject };
-		b->Initialize(GetVideoDriver());
-        b->Begin(PrimitiveType::QUADS);
-        b->TexCoord2f(0, 0);
-        b->Vertex3f(x, y, 0);
-        b->TexCoord2f(1, 0);
-        b->Vertex3f(x+text_width, y, 0);
-        b->TexCoord2f(1, 1);
-        b->Vertex3f(x+text_width, y+text_height, 0);
-        b->TexCoord2f(0, 1);
-        b->Vertex3f(x, y+text_height, 0);
-        b->End();
+        m_builder->Begin(PrimitiveType::QUADS);
+        m_builder->TexCoord2f(0, 0);
+        m_builder->Vertex3f(x, y, 0);
+        m_builder->TexCoord2f(1, 0);
+        m_builder->Vertex3f(x+text_width, y, 0);
+        m_builder->TexCoord2f(1, 1);
+        m_builder->Vertex3f(x+text_width, y+text_height, 0);
+        m_builder->TexCoord2f(0, 1);
+        m_builder->Vertex3f(x, y+text_height, 0);
+        m_builder->End();
 
-        Submit(b->ToRenderable(), true);
+        Submit(m_builder->ToRenderable());
 
         PopAllState();
         m_texts.push_back(surface.release());
@@ -866,6 +852,7 @@ namespace Graphics
     void Frame::DrawAxis(float scale)
     {
         PushAllState();
+		EnableLighting(false);
         EnableDepthTest(false);
         SetDiffuseColor(1, 0, 0, 1);
         DrawLine(Math::vec3{0, 0, 0}, Math::vec3{scale + 1, 0, 0});
@@ -879,6 +866,29 @@ namespace Graphics
     void Frame::EndRendering() {
 
     }
+	
+	void Frame::SetArmatureMatrix(const Math::mat4& value) {
+		Top()->batch_state->m_armature_matrix = value;
+	}
+
+	const Math::mat4& Frame::GetArmatureMatrix() const {
+		return Top()->batch_state->m_armature_matrix;
+	}
+
+	void Frame::SetOffsetMatrix(const Math::mat4& value) {
+		Top()->batch_state->m_offset_matrix = value;
+	}
+
+	const Math::mat4& Frame::GetOffsetMatrix() const {
+		return Top()->batch_state->m_offset_matrix;
+	}
+	const Math::mat4& Frame::GetLastLocalMatrix() const {
+		return Top()->batch_state->m_local;
+	}
+
+	IRenderableBuilder* Frame::GetRenderableBuilder() {
+		return m_builder.get();
+	}
 
 	PUNK_REGISTER_CREATOR(IID_IFrame, (System::CreateInstance<Frame, IFrame>));    
 }

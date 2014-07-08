@@ -13,5 +13,7 @@
 #include "static_information.h"
 #include "component/module.h"
 #include "object_pool.h"
+#include "pointer.h"
+#include "weak_pointer.h"
 
 #endif // MODULE_H

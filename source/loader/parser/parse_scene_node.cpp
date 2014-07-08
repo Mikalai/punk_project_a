@@ -9,7 +9,7 @@ namespace IoModule {
     
 	PUNK_ENGINE_LOCAL bool ParseSceneNode(Core::Buffer& buffer, void* object)
     {
-		SceneModule::INode* node = (SceneModule::INode*)object;
+		Core::Pointer<SceneModule::INode> node{ (SceneModule::INode*)object, Core::DestroyObject };
 		Parser* parser = GetDefaultParser();
 
         CHECK_START(buffer);
@@ -29,7 +29,7 @@ namespace IoModule {
             {
                 auto child = System::CreateInstancePtr<SceneModule::INode>(SceneModule::IID_INode);
                 ParseSceneNode(buffer, child.get());
-                node->AddChild(child.get());
+				node->AddChild(child);
             }
                 break;
             case WORD_NAME:
@@ -38,9 +38,9 @@ namespace IoModule {
 				parser->Parse<Core::String>(WORD_STRING, buffer, name);
 				{
                     auto text = System::CreateInstancePtr<Attributes::IText>(Attributes::IID_IText);
-                    if (text.get()) {
+                    if (text) {
 						text->SetText(name);
-                        node->Set<Attributes::IText>("Name", text.get());
+                        node->Set<Attributes::IText>(L"Name", text);
 					}
 				}
             }
@@ -53,7 +53,7 @@ namespace IoModule {
                     auto stub = System::CreateInstancePtr<Attributes::IFileStub>(Attributes::IID_IFileStub);
 					if (stub) {
 						stub->SetFilename(value);
-                        node->Set<Attributes::IFileStub>("Filename", stub.get());
+                        node->Set<Attributes::IFileStub>("Filename", stub);
 					}
 				}                
             }

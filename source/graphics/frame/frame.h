@@ -36,7 +36,7 @@ namespace Graphics
 
         ILowLevelRender* GetRender() override;
 		void SetRender(ILowLevelRender* render) override;
-        void Submit(IRenderable* value, bool destroy = false) override;
+        void Submit(Core::Pointer<IRenderable> value) override;
         void SetClipSpace(const Math::ClipSpace& value) override;
         const Math::ClipSpace& GetClipSpace() const override;
         void SetLineWidth(float value) override;
@@ -56,6 +56,11 @@ namespace Graphics
         const Math::mat4& GetLocalMatrix() const override;
         const Math::mat4& GetViewMatrix() const override;
         const Math::mat4& GetProjectionMatrix() const override;
+		void SetArmatureMatrix(const Math::mat4& value) override;
+		const Math::mat4& GetArmatureMatrix() const override;
+		void SetOffsetMatrix(const Math::mat4& value) override;
+		const Math::mat4& GetOffsetMatrix() const override;
+		const Math::mat4& GetLastLocalMatrix() const override;
 
         //  COLORS
         void SetDiffuseColor(const Math::vec4& value) override;
@@ -175,6 +180,8 @@ namespace Graphics
         void PopTextureState() override;
 
         IVideoDriver* GetVideoDriver() const override;
+		
+		IRenderableBuilder* GetRenderableBuilder() override;
 
         const Math::vec2 FindZRange(const Math::mat4& view) const override;
 
@@ -191,11 +198,12 @@ namespace Graphics
 		ILowLevelRender* m_render{ nullptr };
         std::vector<ITextSurface*> m_texts;
 		ITexture2DArray* m_shadow_maps{ nullptr };
+		Core::Pointer<IRenderableBuilder> m_builder{ nullptr, Core::DestroyObject };
 
 		Frame(const Frame&) = delete;
 		Frame& operator = (const Frame&) = delete;
 
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
 	};
 }
 PUNK_ENGINE_END

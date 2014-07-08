@@ -1,10 +1,55 @@
-#include <system/factory/module.h>
-#include "spline.h"
 #include <cstdint>
+#include <system/factory/module.h>
+#include <vector>
+#include "ispline.h"
+#include "weighted_point.h"
 
 PUNK_ENGINE_BEGIN
 namespace Math
 {
+	class PUNK_ENGINE_LOCAL Spline : public ISpline
+	{
+	public:
+		Spline();
+		virtual ~Spline();
+
+		//	IObject
+		void QueryInterface(const Core::Guid& type, void** object) override;
+		std::uint32_t AddRef() override;
+		std::uint32_t Release() override;
+
+		//	ISpline
+		void AddPoint(const WeightedPoint& value) override;
+		void AddPoints(const std::vector<WeightedPoint>& value) override;
+		float GetTotalLength() const override;
+		const WeightedPoint At(float t) override;
+		std::uint32_t GetPointsCount() const override;
+		const WeightedPoint& GetPoint(int index) const override;
+
+	private:
+		void UpdateTotalLength();
+	private:
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
+		std::vector<WeightedPoint> m_points;
+		float m_total_length;
+	};
+
+	void Spline::QueryInterface(const Core::Guid& type, void** object) {
+		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_ISpline });
+	}
+
+	std::uint32_t Spline::AddRef() {
+		return m_ref_count.fetch_add(1);
+	}
+
+	std::uint32_t Spline::Release() {
+		auto v = m_ref_count.fetch_sub(1) - 1;
+		if (!v) {
+			delete this;
+		}
+		return v;
+	}
+
     Spline::Spline()
         : m_total_length(0)
     {
@@ -71,25 +116,6 @@ namespace Math
         return m_points.at(index);
     }
 
-	void Spline::QueryInterface(const Core::Guid& type, void** object) {
-		if (!object)
-			return;
-
-		if (type == Core::IID_IObject ||
-			type == IID_ISpline) {
-			*object = (void*)this;
-			AddRef();
-		}
-		else
-			*object = nullptr;
-	}
-
-	void CreateSpline(void** object) {
-		if (!object)
-			return;
-		*object = (void*)(new Spline);
-	}
-
-	PUNK_REGISTER_CREATOR(IID_ISpline, CreateSpline);
+	PUNK_REGISTER_CREATOR(IID_ISpline, (System::CreateInstance<Spline, ISpline>));
 }
 PUNK_ENGINE_END

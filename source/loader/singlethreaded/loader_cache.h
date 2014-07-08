@@ -16,7 +16,7 @@ namespace IoModule {
         LoaderCache();
         LoaderCache* Clone() const;
         AsyncParserTask* m_task {nullptr};
-        SceneModule::INode* m_parent {nullptr};
+		Core::Pointer<SceneModule::INode> m_parent{ nullptr, Core::DestroyObject };
         bool m_delete{nullptr};
     };
 }

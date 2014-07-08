@@ -17,9 +17,11 @@ namespace SceneModule {
 
     class ISceneManager : public Core::IObject {
     public:
-		virtual IScene* GetScene() = 0;
-		virtual void AddProcessor(IProcessor* processor) = 0;
+		virtual Core::Pointer<IScene> GetScene() = 0;
+		virtual void AddProcessor(Core::Pointer<IProcessor> processor) = 0;
 		virtual void Update(float dt) = 0;
+		virtual void Terminate() = 0;
+		virtual bool IsTerminated() const = 0;
 
 		//	processor notifications
 		//virtual void SceneChangeStarted(ISceneProcessor* value) = 0;
@@ -33,10 +35,10 @@ namespace SceneModule {
 		//virtual void RequestResume(ISceneProcessor* value) = 0;
 		//virtual void Resumed(ISceneProcessor* value) = 0;
 
-		//virtual void RequestNodeRemove(ISceneProcessor* suppliant, INode* node) = 0;
-		//virtual void AllowNodeRemove(ISceneProcessor* processor, INode* node) = 0;
+		//virtual void RequestNodeRemove(ISceneProcessor* suppliant, Core::Pointer<INode> node) = 0;
+		//virtual void AllowNodeRemove(ISceneProcessor* processor, Core::Pointer<INode> node) = 0;
 
-		//virtual void RequestNodeAdd(ISceneProcessor* suppliant, INode* parent, INode* child) = 0;
+		//virtual void RequestNodeAdd(ISceneProcessor* suppliant, Core::Pointer<INode> parent, Core::Pointer<INode> child) = 0;
 
 
 		//virtual void BeginSceneSync(ISceneProcessor* value) = 0;

@@ -4,11 +4,13 @@
 #include <cstdint>
 #include <config.h>
 #include <memory>
+#include <core/iobject.h>
 
 PUNK_ENGINE_BEGIN
 namespace Graphics {
 
-    class IVertexArray {
+	DECLARE_PUNK_GUID(IID_IVertexArray, "483898B7-9DE0-4CA8-909C-8D48C78CF2BE");
+    class IVertexArray : public Core::IObject {
     public:
         //virtual ~IVertexArray() = 0;
         virtual std::uint64_t GetVertexType() const = 0;

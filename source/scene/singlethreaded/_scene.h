@@ -1,0 +1,14 @@
+#ifndef _H_PUNK_SCENE_MAIN_HEADER
+#define _H_PUNK_SCENE_MAIN_HEADER
+
+
+
+PUNK_ENGINE_BEGIN
+namespace SceneModule
+{
+   
+
+}
+PUNK_ENGINE_END
+
+#endif	//	_H_PUNK_SCENE_MAIN_HEADER

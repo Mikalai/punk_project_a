@@ -5,12 +5,12 @@
 PUNK_ENGINE_BEGIN
 namespace IoModule
 {
-    Core::IObject* ParsePunkFile(const Core::String& path)
+    Core::Pointer<Core::IObject> ParsePunkFile(const Core::String& path)
     {
 		System::GetDefaultLogger()->Info(Core::String("ParseKeyword {0}").arg(path));
         Core::Buffer buffer;
         if (!System::BinaryFile::Load(path, buffer))
-            return nullptr;
+			return Core::Pointer < Core::IObject > {nullptr, Core::DestroyObject};
         return ParseAnything(buffer);
     }
 }

@@ -36,7 +36,7 @@ namespace Graphics {
 		virtual ILowLevelRender* GetRender() = 0;
 	};
 
-	using IVideoDriverUniquePtr = Core::UniquePtr < IVideoDriver > ;
+	using IVideoDriverPointer = Core::Pointer < IVideoDriver > ;
 }
 PUNK_ENGINE_END
 

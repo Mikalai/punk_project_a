@@ -60,16 +60,19 @@ namespace System
 	}
 
 	void KeyMap::QueryInterface(const Core::Guid& type, void** object) {
-		if (!object)
-			return;
+		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IKeyMap });
+	}
 
-		if (type == Core::IID_IObject ||
-			type == IID_IKeyMap) {
-			*object = (void*)this;
-			AddRef();
+	std::uint32_t KeyMap::AddRef() {
+		return m_ref_count.fetch_add(1);
+	}
+
+	std::uint32_t KeyMap::Release() {
+		auto v = m_ref_count.fetch_sub(1) - 1;
+		if (!v) {
+			delete this;
 		}
-		else
-			*object = nullptr;
+		return v;
 	}
 }
 PUNK_ENGINE_END

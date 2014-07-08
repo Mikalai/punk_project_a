@@ -243,22 +243,35 @@ namespace Math {
 
     const mat4 CreateFromQuaternion(const quat& q)
     {
-        float wx, wy, wz, xx, yy, yz, xy, xz, zz, x2, y2, z2;
-        x2 = q.X() + q.X();
-        y2 = q.Y() + q.Y();
-        z2 = q.Z() + q.Z();
-        xx = q.X() * x2;   xy = q.X() * y2;   xz = q.X() * z2;
-        yy = q.Y() * y2;   yz = q.Y() * z2;   zz = q.Z() * z2;
-        wx = q.W() * x2;   wy = q.W() * y2;   wz = q.W() * z2;
-        mat4 mat;
-        float* m = &mat[0];
-        m[0]=1.0f-(yy+zz); m[1]=xy-wz;        m[2]=xz+wy; m[3] = 0;
-        m[4]=xy+wz;        m[5]=1.0f-(xx+zz); m[6]=yz-wx; m[7] = 0;
-        m[8]=xz-wy;        m[9]=yz+wx;        m[10]=1.0f-(xx+yy); m[11] = 0;
-        m[12] = m[13] = m[14] = 0;
-        m[15] = 1;
+		mat4 m;
+		float xx = q.X()*q.X();
+		float xy = q.X()*q.Y();
+		float xz = q.X()*q.Z();
+		float wx = q.X()*q.W();
 
-        return mat;
+		float yy = q.Y()*q.Y();
+		float yz = q.Y()*q.Z();
+		float wy = q.Y()*q.W();
+
+		float zz = q.Z()*q.Z();
+		float wz = q.Z()*q.W();
+
+		m[0] = 1 - 2 * yy - 2 * zz;
+		m[1] = 2 * xy + 2 * wz;
+		m[2] = 2 * xz - 2 * wy;
+
+		m[4] = 2 * xy - 2 * wz;
+		m[5] = 1 - 2 * xx - 2 * zz;
+		m[6] = 2 * yz + 2 * wx;
+
+		m[8] = 2 * xz + 2 * wy;
+		m[9] = 2 * yz - 2 * wx;
+		m[10] = 1 - 2 * xx - 2 * yy;
+
+		m[3] = m[7] = m[11] = m[12] = m[13] = m[14] = float(0.0);
+		m[15] = float(1.0);
+
+		return m;
     }
 
     const mat4 CreateRotation(float x, float y, float z, float angle)

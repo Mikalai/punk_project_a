@@ -19,13 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\source\scene\singlethreaded\attribute.cpp" />
     <ClCompile Include="..\..\source\scene\singlethreaded\command.cpp" />
     <ClCompile Include="..\..\source\scene\singlethreaded\graph_processor.cpp" />
-    <ClCompile Include="..\..\source\scene\singlethreaded\node.cpp" />
-    <ClCompile Include="..\..\source\scene\singlethreaded\scene.cpp" />
-    <ClCompile Include="..\..\source\scene\singlethreaded\scene_helper.cpp" />
-    <ClCompile Include="..\..\source\scene\singlethreaded\scene_manager.cpp" />
+    <ClCompile Include="..\..\source\scene\singlethreaded\inode.cpp" />
+    <ClCompile Include="..\..\source\scene\singlethreaded\iscene.cpp" />
+    <ClCompile Include="..\..\source\scene\singlethreaded\iscene_manager.cpp" />
     <ClCompile Include="..\..\source\scene\singlethreaded\scene_processor.cpp" />
     <ClCompile Include="..\..\source\scene\singlethreaded\scene_worker.cpp" />
   </ItemGroup>
@@ -42,10 +40,7 @@
     <ClInclude Include="..\..\source\scene\singlethreaded\iscene_observer.h" />
     <ClInclude Include="..\..\source\scene\singlethreaded\iscene_worker.h" />
     <ClInclude Include="..\..\source\scene\singlethreaded\module.h" />
-    <ClInclude Include="..\..\source\scene\singlethreaded\node.h" />
     <ClInclude Include="..\..\source\scene\singlethreaded\node_state.h" />
-    <ClInclude Include="..\..\source\scene\singlethreaded\scene.h" />
-    <ClInclude Include="..\..\source\scene\singlethreaded\scene_helper.h" />
     <ClInclude Include="..\..\source\scene\singlethreaded\scene_manager.h" />
     <ClInclude Include="..\..\source\scene\singlethreaded\scene_manipulator.h" />
     <ClInclude Include="..\..\source\scene\singlethreaded\scene_processor.h" />

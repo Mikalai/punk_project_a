@@ -59,9 +59,11 @@ namespace IoModule {
 			{
 				Core::String name;
 				parser->Parse<Core::String>(WORD_STRING, buffer, name);
-                auto animated = Core::QueryInterfacePtr<Attributes::IAnimated>(transform, Attributes::IID_IAnimated);
-				if (animated.get()) {
+				Attributes::IAnimated* animated = nullptr;
+				transform->QueryInterface(Attributes::IID_IAnimated, (void**)&animated);                
+				if (animated) {
 					animated->AddAnimation(name);
+					animated->Release();
 				}
 			}
 				break;

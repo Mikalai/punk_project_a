@@ -90,9 +90,9 @@ namespace Attributes
 
 	private:
 		
-        Core::UniquePtr<IDiffuseTextureSlot> m_diffuse_textue_slot{ nullptr, Core::DestroyObject };
-        Core::UniquePtr<INormalTextureSlot> m_normal_texture_slot{ nullptr, Core::DestroyObject };
-        Core::UniquePtr<ISpecularIntensityTextureSlot> m_specular_texture_slot{ nullptr, Core::DestroyObject };
+        Core::Pointer<IDiffuseTextureSlot> m_diffuse_textue_slot{ nullptr, Core::DestroyObject };
+        Core::Pointer<INormalTextureSlot> m_normal_texture_slot{ nullptr, Core::DestroyObject };
+        Core::Pointer<ISpecularIntensityTextureSlot> m_specular_texture_slot{ nullptr, Core::DestroyObject };
         Core::String m_specular_map;
 		Math::vec4 m_diffuse_color;
 		Math::vec4 m_specular_color;
@@ -110,7 +110,7 @@ namespace Attributes
 		float m_specular_index_of_refraction;
 		float m_specular_slope;
 		float m_translucency;				
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
 	};
 
 	typedef std::map<Core::String, Material> Materials;

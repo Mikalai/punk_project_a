@@ -32,5 +32,7 @@
 #include "recount.h"
 #include "spherical.h"
 #include "clip_space.h"
+#include "spatial/module.h"
+#include "relations.h"
 
 #endif

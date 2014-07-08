@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <atomic>
 #include "config.h"
+#include "iobject_impl.h"
 //#include <core/atomicint.h>
 
 PUNK_ENGINE_BEGIN
@@ -19,16 +20,22 @@ namespace Core {
             *
             *   Can be viewed as a command (action) pattern
             */
-    class MetaAction
+    class MetaAction : public Core::IObject
     {
     public:		
     
-		std::uint32_t AddRef()
+		void QueryInterface(const Core::Guid& type, void** o) override {
+			if (!o)
+				return;
+			Core::QueryInterface(this, type, o, { Core::IID_IObject });
+		}
+
+		std::uint32_t AddRef() override
 		{
 			return m_ref_count.fetch_add(1);
 		}
 
-		std::uint32_t Release()
+		std::uint32_t Release() override
 		{
 			auto v = m_ref_count.fetch_sub(1) - 1;
 			if (!v)
@@ -36,10 +43,10 @@ namespace Core {
 			return v;
 		}
 
-	protected:
 		virtual ~MetaAction() {}
+
     private:		
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
     };
 
     template<typename... Types>

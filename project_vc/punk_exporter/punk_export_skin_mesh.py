@@ -22,7 +22,7 @@ def export_skin_mesh(object):
     skin = object.data
     start_block(f, skin.name)
     export_string(f, "*armature_schema", object.parent.name)    
-    export_mat4(f, "*world_matrix", object.matrix_world)
+    export_mat4(f, "*armature_matrix", object.matrix_local)
     export_vertex_position(f, skin)
     export_normals(f, skin)
     export_faces(f, skin)

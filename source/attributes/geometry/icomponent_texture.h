@@ -3,11 +3,15 @@
 
 #include <config.h>
 #include <cstdint>
+#include <core/iobject.h>
 #include <math/vec4.h>
 
 PUNK_ENGINE_BEGIN
 namespace Attributes {
-	class ITextureComponent {
+
+	DECLARE_PUNK_GUID(IID_IVertexTextureCoordinateStream, "1ABC81F3-4CFD-4AD2-972F-2D87579ADD9E");
+
+	class IVertexTextureCoordinateStream : public Core::IObject {
 	public:
 		virtual std::uint32_t GetVertexTextureCoordinatesSetCount() const = 0;
 		virtual std::uint32_t GetVertexTextureCoordinatesCount(std::uint32_t set_index) const = 0;

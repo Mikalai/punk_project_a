@@ -33,9 +33,9 @@ namespace Graphics {
         virtual TextVerticalAlignment GetVerticalAlignment() const = 0;
     };
 
-    using ITextSurfaceUniquePtr = std::unique_ptr<ITextSurface, void (*)(ITextSurface*)>;
+    using ITextSurfacePointer = std::unique_ptr<ITextSurface, void (*)(ITextSurface*)>;
 
-    extern PUNK_ENGINE_API ITextSurfaceUniquePtr CreateTextSurface(std::uint32_t width, std::uint32_t height, IVideoDriver* driver);
+    extern PUNK_ENGINE_API ITextSurfacePointer CreateTextSurface(std::uint32_t width, std::uint32_t height, IVideoDriver* driver);
     extern PUNK_ENGINE_API void DestroyTextSurface(ITextSurface* value);
 }
 PUNK_ENGINE_END

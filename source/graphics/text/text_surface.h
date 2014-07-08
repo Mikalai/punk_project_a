@@ -50,7 +50,7 @@ namespace Graphics
         Font::IFont* m_font {nullptr};
 
         // should be destroyed in destructor
-        ITexture2DUniquePtr m_texture {nullptr, Core::DestroyObject};
+        ITexture2DPointer m_texture {nullptr, Core::DestroyObject};
         IVideoDriver* m_video_driver {nullptr};
     };
 }

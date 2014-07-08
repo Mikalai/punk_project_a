@@ -16,7 +16,13 @@ namespace System
 	public:
 		Console();
         virtual ~Console();		
+
+		//	IObject
 		void QueryInterface(const Core::Guid& type, void** object) override;
+		std::uint32_t AddRef() override;
+		std::uint32_t Release() override;
+
+		//	IConsole
 		//	set new cursor position in console
 		void SetPosition(int x, int y) override;
 		//	set new text color
@@ -37,6 +43,7 @@ namespace System
 		const Core::String Read() override;
 
 	private:
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
 #ifdef _WIN32
 		//	handle of the console object
 		HANDLE m_console_handle;
@@ -50,9 +57,7 @@ namespace System
 		CONSOLE_SCREEN_BUFFER_INFO m_screen_info;
 #elif defined __gnu_linux__
 		int m_x, m_y;
-#endif
-
-		PUNK_OBJECT_DEFAULT_IMPL(Console)
+#endif		
 	};
 }
 PUNK_ENGINE_END

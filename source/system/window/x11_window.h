@@ -70,7 +70,7 @@ namespace System
         bool m_left_button {false};
         bool m_right_button {false};
         bool m_middle_button {false};
-        ITimerUniquePtr m_timer{nullptr, Core::DestroyObject};
+        ITimerPointer m_timer{nullptr, Core::DestroyObject};
 
         XVisualInfo* m_visual{nullptr};
     };

@@ -34,6 +34,7 @@ namespace System {
             GetDefaultLogger()->Error(msg);
             throw Error::SystemException(msg);
 		}
+		GetDefaultLogger()->Debug("Register creator " + name + "(" + type.ToString() + ")");
         m_names[type] = name;
 		m_creators[type] = Creator;
 	}

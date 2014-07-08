@@ -305,12 +305,12 @@ namespace Graphics
         }
     }
 
-    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(IVideoDriver* driver) {
-        IFrameBufferUniquePtr buffer{ new OpenGL::GlFrameBuffer(driver), DestroyFrameBuffer};
+    extern PUNK_ENGINE_API IFrameBufferPointer CreateFrameBuffer(IVideoDriver* driver) {
+        IFrameBufferPointer buffer{ new OpenGL::GlFrameBuffer(driver), DestroyFrameBuffer};
         return buffer;
     }
 
-    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, IVideoDriver* driver)
+    extern PUNK_ENGINE_API IFrameBufferPointer CreateFrameBuffer(int width, int height, IVideoDriver* driver)
     {
         auto fb = driver->GetSettings()->GetFrameBufferConfig(0);
         fb.Width(width);
@@ -320,7 +320,7 @@ namespace Graphics
         return buffer;
     }
 
-    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, ImageModule::ImageFormat color_format, ImageModule::ImageFormat depth_format, IVideoDriver* driver)
+    extern PUNK_ENGINE_API IFrameBufferPointer CreateFrameBuffer(int width, int height, ImageModule::ImageFormat color_format, ImageModule::ImageFormat depth_format, IVideoDriver* driver)
     {
         auto fb = driver->GetSettings()->GetFrameBufferConfig(0);
         fb.Width(width);
@@ -332,7 +332,7 @@ namespace Graphics
         return buffer;
     }
 
-    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, ImageModule::ImageFormat color_format, ImageModule::ImageFormat depth_format, int depth_samples, IVideoDriver* driver)
+    extern PUNK_ENGINE_API IFrameBufferPointer CreateFrameBuffer(int width, int height, ImageModule::ImageFormat color_format, ImageModule::ImageFormat depth_format, int depth_samples, IVideoDriver* driver)
     {
         auto fb = driver->GetSettings()->GetFrameBufferConfig(0);
         fb.Width(width);
@@ -345,7 +345,7 @@ namespace Graphics
         return buffer;
     }
 
-    extern PUNK_ENGINE_API IFrameBufferUniquePtr CreateFrameBuffer(int width, int height, ImageModule::ImageFormat color_format, ImageModule::ImageFormat depth_format, int depth_samples, int coverage_samples, IVideoDriver* driver)
+    extern PUNK_ENGINE_API IFrameBufferPointer CreateFrameBuffer(int width, int height, ImageModule::ImageFormat color_format, ImageModule::ImageFormat depth_format, int depth_samples, int coverage_samples, IVideoDriver* driver)
     {
         auto fb = driver->GetSettings()->GetFrameBufferConfig(0);
         fb.Width(width);

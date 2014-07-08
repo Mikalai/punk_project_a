@@ -40,16 +40,16 @@ namespace System
     }
 
 #ifdef WIN32
-#define LOG_FUNCTION_SCOPE System::__private::LogScope __scope(__FUNCSIG__);
+#define LOG_FUNCTION_SCOPE //System::__private::LogScope __scope(__FUNCSIG__)
 #elif defined __linux__
-#define LOG_FUNCTION_SCOPE System::__private::LogScope __scope(Core::String(__PRETTY_FUNCTION__));// + L" in " + Core::String(__FILE__) + L": " + Core::String::Convert(__LINE__));
+#define LOG_FUNCTION_SCOPE System::__private::LogScope __scope(Core::String(__PRETTY_FUNCTION__))// + L" in " + Core::String(__FILE__) + L": " + Core::String::Convert(__LINE__));
 #endif
 
-#define LOG_SCOPE(MESSAGE) System::__private::LogScope __scope(MESSAGE);
+#define LOG_SCOPE(MESSAGE) //System::__private::LogScope __scope(MESSAGE)
 
 #else
 #define LOG_FUNCTION_SCOPE
-#define LOG_FUNCTION_SCOPE(MESSAGE)
+#define LOG_SCOPE(MESSAGE)
 #endif
 }
 PUNK_ENGINE_END

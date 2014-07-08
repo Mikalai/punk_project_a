@@ -1,11 +1,59 @@
-#include <system/factory/module.h>
+#include <vector>
 #include <cstdint>
+#include <system/factory/module.h>
 #include "vec3.h"
-#include "curve.h"
+#include "weighted_point.h"
+#include "ispline.h"
+#include "icurve.h"
+
 
 PUNK_ENGINE_BEGIN
 namespace Math
 {
+	class PUNK_ENGINE_LOCAL Curve : public ICurve
+	{
+	public:
+		typedef std::vector<ISpline*> Splines;
+	public:
+		Curve();
+		virtual ~Curve();
+
+		//	IObject
+		void QueryInterface(const Core::Guid& type, void** object) override;
+		std::uint32_t AddRef() override;
+		std::uint32_t Release() override;
+
+		//	ICurve
+		void AddSpline(ISpline* value) override;
+		void AddSplines(const std::vector<ISpline*>& value) override;
+		float GetTotalLength() const override;
+		const Math::vec3 At(float t) override;
+		std::uint32_t GetSplinesCount() const override;
+		const ISpline* GetSpline(std::uint32_t index) const override;
+		void Clear() override;
+
+	private:
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
+		Splines m_splines;
+		float m_total_length;
+	};
+
+	void Curve::QueryInterface(const Core::Guid& type, void** object) {
+		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_ICurve});
+	}
+
+	std::uint32_t Curve::AddRef() {
+		return m_ref_count.fetch_add(1);
+	}
+
+	std::uint32_t Curve::Release() {
+		auto v = m_ref_count.fetch_sub(1) - 1;
+		if (!v) {
+			delete this;
+		}
+		return v;
+	}
+
 	Curve::Curve() {}
 
 	Curve::~Curve() {
@@ -69,24 +117,6 @@ namespace Math
 		m_splines.clear();
 	}
 
-	void Curve::QueryInterface(const Core::Guid& type, void** object) {
-		if (!object)
-			return;
-		if (type == Core::IID_IObject ||
-			type == IID_ICurve){
-			*object = (void*)this;
-			AddRef();
-		}
-		else
-			*object = nullptr;
-	}
-
-	void CreateCurve(void** object) {
-		if (!object)
-			return;
-		*object = (void*)(new Curve);
-	}
-
-	PUNK_REGISTER_CREATOR(IID_ICurve, CreateCurve);
+	PUNK_REGISTER_CREATOR(IID_ICurve, (System::CreateInstance<Curve, ICurve>));
 }
 PUNK_ENGINE_END

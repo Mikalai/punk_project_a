@@ -33,6 +33,7 @@ namespace Graphics {
 
     protected:
 
+		void Clear();
         void ValidateBegin();
         void ValidateEnd();
         void ValidateDraw();

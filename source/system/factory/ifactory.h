@@ -52,13 +52,13 @@ namespace System {
 	}
 
     template<class I>
-    std::unique_ptr<I, void (*)(Core::IObject*)> CreateInstancePtr(const Core::Guid& type) {
+	Core::Pointer<I> CreateInstancePtr(const Core::Guid& type) {
         //LOG_FUNCTION_SCOPE
         I* object = nullptr;
         GetFactory()->CreateInstance(type, (void**)(I*)&object);
         if (!object)
             throw Error::SystemException("Failed to create object of type " + type.ToString());
-        return Core::UniquePtr<I>{object, Core::DestroyObject};
+        return Core::Pointer<I>{object, Core::DestroyObject};
     }
 
 	template<class T, class I>

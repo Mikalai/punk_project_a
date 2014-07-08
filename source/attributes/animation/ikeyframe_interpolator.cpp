@@ -49,7 +49,7 @@ namespace Attributes
 	public:
 
         KeyFrameInterpolatorImpl()
-            : m_ref_count{1}
+            : m_ref_count{ 0 }
         {}
 
 		//	IObject
@@ -69,20 +69,31 @@ namespace Attributes
 		}
 
 		//	IKeyFrameInterpolator
-		void SetTrack(ITrack* track) override {			
-			m_track = dynamic_cast<Track<T>*>(track);			
-			m_track->AddRef();
+		void SetTrack(Core::Pointer<ITrack> track, float duration) override {			
+			m_track = track;			
+			m_duration = duration;
 		}
 
-		void Interpolate(std::int32_t frame, void* result, std::uint32_t size) {
+		std::int32_t GetCurrentFrame(float current_time) {
+			LOG_FUNCTION_SCOPE;
+			auto frames = m_track->GetDuration();
+			std::int32_t frame = m_track->GetFirstFrame() + std::int32_t((float)frames / m_duration * current_time);
+			return frame;
+		}
+
+		void Interpolate(float time, void* result, std::uint32_t size) {
 			if (!m_track)
 				throw System::Error::SystemException("Track not set");
+			
+			auto frame = GetCurrentFrame(time);
 
 			KeyFrame<T>* before = m_track->KeyBefore(frame);
 			KeyFrame<T>* after = m_track->KeyAfter(frame);
+			float before_time = m_duration / (float)m_track->GetDuration() * (before->GetFrame() - m_track->GetFirstFrame());
+			float after_time = m_duration / (float)m_track->GetDuration() * (after->GetFrame() - m_track->GetFirstFrame());
 			T value;
 			if (before != after) {
-				float t = (frame - before->GetFrame()) / (float)(after->GetFrame() - before->GetFrame());
+				float t = (time - before_time) / (after_time - before_time);
 				value = InterpolationAspect<T, Tag>::Interpolate(before->Key(), after->Key(), t);				
 			}
 			else {
@@ -95,10 +106,14 @@ namespace Attributes
 			return Tag;
 		}
 
-	private:
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
-		Track<T>* m_track{ nullptr };
+		void SetDuration(float duration) override {
+			m_duration = duration;
+		}
 
+	private:
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
+		Core::Pointer<Track<T>> m_track{ nullptr, Core::DestroyObject };
+		float m_duration{ 1 };
 	};
 
 	PUNK_REGISTER_CREATOR(IID_IVec3KeyFrameLinearInterpolator, (System::CreateInstance<KeyFrameInterpolatorImpl<Math::vec3, InterpolatorType::Linear>, IKeyFrameInterpolator>));

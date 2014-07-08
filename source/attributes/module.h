@@ -10,5 +10,8 @@
 #include "skinning/module.h"
 #include "stubs/module.h"
 #include "camera/module.h"
+#include "ai/module.h"
+#include "selection/module.h"
+#include "manager/module.h"
 
 #endif

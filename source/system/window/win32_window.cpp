@@ -10,19 +10,79 @@
 #include <system/input/module.h>
 #include <system/time/module.h>
 #include <string/module.h>
-#include "win32_window.h"
+#include <system/time/module.h>
+#include <core/action.h>
+#include "window_base.h"
 
 PUNK_ENGINE_BEGIN
 namespace System {    
     
-	/*void CreatePunkWindow(void** object) {
-		if (!object)
-			return;
-		*object = (void*)(new WindowWin);
-	}*/
+	LRESULT CALLBACK WindowCallBack(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+	class PUNK_ENGINE_LOCAL WindowWin : public WindowBase
+	{
+	public:
+		WindowWin();
+		~WindowWin();
+
+		//	IObject
+		void QueryInterface(const Core::Guid& type, void** object) override;
+		std::uint32_t AddRef() override;
+		std::uint32_t Release() override;
+
+		//	IWindow
+		void Initialize(const WindowDescription& desc) override;
+		int GetDesktopWidth() const override;
+		int GetDesktopHeight() const override;
+		int GetDesktopBitsPerPixel() const override;
+		int GetDesktopRefreshRate() const override;
+		int GetWidth() const override;
+		int GetHeight() const override;
+		int GetX() const override;
+		int GetY() const override;
+		void SetSize(int width, int height) override;
+		void SetPosition(int x, int y) override;
+		int Update(int dt) override;
+		int Loop() override;
+		void BreakMainLoop() override;
+		void SetTitle(const Core::String& text) override;
+		const Core::String GetTitle() const override;
+		void Quite() override;
+		void ShowCursor(bool value) override;
+		HWND GetNativeHandle() override;
+
+	protected:
+
+		void InternalCreate() override;
+		void InternalDestroy() override;
+
+	private:
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
+		HWND m_hwindow;
+		bool m_use_parent_window;
+		WindowDescription m_window_description;
+		Core::Pointer<ITimer> m_timer{ nullptr, Core::DestroyObject };
+
+		friend LRESULT CALLBACK WindowCallBack(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	};
 
     PUNK_REGISTER_CREATOR(IID_IWindow, (System::CreateInstance<WindowWin, IWindow>));
 
+	void WindowWin::QueryInterface(const Core::Guid& type, void** object) {
+		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IWindow });
+	}
+
+	std::uint32_t WindowWin::AddRef() {
+		return m_ref_count.fetch_add(1);
+	}
+
+	std::uint32_t WindowWin::Release() {
+		auto v = m_ref_count.fetch_sub(1) - 1;
+		if (!v) {
+			delete this;
+		}
+		return v;
+	}
 
 	typedef LRESULT (WINAPI *TWindowCallBack)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -52,10 +112,7 @@ namespace System {
 
     WindowWin::WindowWin()
     {
-		m_timer = nullptr;
-		ITimer* timer;
-		Core::GetFactory()->CreateInstance(System::IID_ITimer, (void**)&timer);
-		m_timer.reset(timer);
+		m_timer = System::CreateInstancePtr<ITimer>(System::IID_ITimer);		
 	}
 
 	void WindowWin::Initialize(const WindowDescription& desc) {

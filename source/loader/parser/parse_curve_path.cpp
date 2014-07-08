@@ -1,5 +1,5 @@
 #include <system/factory/module.h>
-#include <ai/icurvepath.h>
+#include <attributes/ai/module.h>
 #include "parser.h"
 
 PUNK_ENGINE_BEGIN
@@ -7,7 +7,7 @@ namespace IoModule
 {
     bool ParseCurvePath(Core::Buffer &buffer, void* object)
     {
-		AI::ICurvePath *value = (AI::ICurvePath*)object;
+		Attributes::ICurvePath *value = (Attributes::ICurvePath*)object;
 		Parser* parser = GetDefaultParser();
 
         CHECK_START(buffer);

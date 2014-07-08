@@ -24,7 +24,7 @@ namespace Graphics {
 			IVideoDriver* driver) = 0;
 	};
 
-	using ITexture2DArrayUniquePtr = Core::UniquePtr < ITexture2DArray > ;
+	using ITexture2DArrayPointer = Core::Pointer < ITexture2DArray > ;
 }
 PUNK_ENGINE_END
 

@@ -1,0 +1,99 @@
+GUITEXT
+gui {
+	*container_widget {
+		*name { container1 }
+		*rect { 0 0 200 500 }
+		*style { default }
+		*visible { 1 }
+		*moveable { 1 }
+		*fixed { 1 }
+		*order { 0 }
+		
+		*button {
+			*name { btn11 }
+			*rect { 20 10 160 40 }
+			*text { "The button" }
+			*style { default }
+			*visible { 1 }
+			*moveable { 0 }
+			*fixed { 1 }
+			*order { 0 }
+		}
+		*image {
+			*name { image11 }
+			*rect { 10 60 180 180 }
+			*style { default }
+			*visible { 1 }
+			*moveable { 0 }
+			*fixed { 1 }
+			*order { 1 }
+			*image_set_content {
+				*file { image1.jpg }
+				*rect { 0 0 -1 -1 }
+			}
+		}		
+		*image {
+			*name { image12 }
+			*rect { 10 260 180 180 }
+			*style { default }
+			*visible { 0 }
+			*moveable { 0 }
+			*fixed { 1 }
+			*order { 2 }
+			*image_set_content {
+				*file { image2.png }
+				*rect { 0 0 -1 -1 }
+			}
+		}
+	}
+			
+	*container_widget {
+		*name { container2 }
+		*rect { 400 100 200 500 }
+		*style { default }
+		*visible { 0 }
+		*moveable { 1 }
+		*fixed { 1 }
+		*order { 0 }
+		
+		*button {
+			*name { btn21 }
+			*rect { 20 10 160 40 }
+			*text { "Another button" }
+			*style { default }
+			*visible { 1 }
+			*moveable { 0 } 
+			*fixed { 1 }
+			*order { 0 }
+		}
+		
+		*image {
+			*name { image21 }
+			*rect { 10 60 180 180 }
+			*style { default }
+			*visible { 1 }
+			*moveable { 0 }
+			*fixed { 1 }
+			*order { 1 }
+			*image_set_content {
+				*file { image1.jpg }
+				*rect { 0 0 -1 -1 }
+			}
+		}
+		
+		*image {
+			*name { image22 }
+			*rect { 10 260 180 180 }
+			*style { default }
+			*visible { 0 }
+			*moveable { 0 }
+			*fixed { 1 }
+			*order { 2 }	
+			*image_set_content {
+				*file { image2.png }
+				*rect { 0 0 -1 -1 }
+			}
+		}
+	}
+}
+

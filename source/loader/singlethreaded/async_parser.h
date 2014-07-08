@@ -6,10 +6,10 @@
 #include <core/action.h>
 #include <string/string.h>
 #include <system/concurrency/module.h>
+#include <scene/singlethreaded/inode.h>
 
 PUNK_ENGINE_BEGIN
 namespace Core { class IObject; }
-namespace SceneModule { class INode; }
 namespace IoModule
 {
     class PUNK_ENGINE_API AsyncParserTask : public System::WorkItem
@@ -18,24 +18,24 @@ namespace IoModule
         enum StateType { AsyncLoading, AsyncFailed, AsyncSuccess };
 
     public:
-        AsyncParserTask(SceneModule::INode* node, const Core::String& path);
+        AsyncParserTask(Core::Pointer<SceneModule::INode> node, const Core::String& path);
         ~AsyncParserTask();
 
         StateType State();
         void State(StateType state);
-        Core::IObject* Release();
+        Core::Pointer<Core::IObject> Release();
         const Core::String& Path() const;
-        void SetResult(Core::IObject* value);
+        void SetResult(Core::Pointer<Core::IObject> value);
         void Run(void* data) override;
-        SceneModule::INode* GetNode() const;
+        Core::Pointer<SceneModule::INode> GetNode() const;
         Core::ActionSlot<AsyncParserTask*> OnComplete;
 
     private:
         System::ThreadMutex m_mutex;
         StateType m_state;
-        Core::IObject* m_object;
+		Core::Pointer<Core::IObject> m_object{ nullptr, Core::DestroyObject };
         Core::String m_path;        
-        SceneModule::INode* m_node;
+		Core::Pointer<SceneModule::INode> m_node{ nullptr, Core::DestroyObject };
     };    
 }
 PUNK_ENGINE_END

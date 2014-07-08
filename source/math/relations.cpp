@@ -35,7 +35,7 @@
 PUNK_ENGINE_BEGIN
 namespace Math {
 
-	Relation ClassifyPoint(const Line3D& line, const vec3& point)
+	PUNK_ENGINE_API Relation ClassifyPoint(const Line3D& line, const vec3& point)
 	{
 		const vec3 org = line.GetOrigin();
 		const vec3 dst = line.GetDestination();
@@ -58,7 +58,7 @@ namespace Math {
 		return Relation::OUTSIDE;
 	}
 
-	Relation ClassifyPoint(const vec3& p, const Plane& plane)
+	PUNK_ENGINE_API Relation ClassifyPoint(const vec3& p, const Plane& plane)
 	{
 		auto s = plane * p;
 		if (s < -Eps)
@@ -68,7 +68,7 @@ namespace Math {
 		return Relation::ON;
 	}
 
-	Relation ClassifyPoint(const vec3& p, const Triangle3D& triangle)
+	PUNK_ENGINE_API Relation ClassifyPoint(const vec3& p, const Triangle3D& triangle)
 	{
 		const vec3 n = triangle.GetNormal();
 		float org_dst = triangle.GetDistance();
@@ -104,7 +104,7 @@ namespace Math {
 		return Relation::FRONT;
 	}
 
-	Relation ClassifyPoint(const vec3& point, const BoundingBox& bbox)
+	PUNK_ENGINE_API Relation ClassifyPoint(const vec3& point, const BoundingBox& bbox)
 	{
 		for (int i = 0; i < 6; ++i)
 		{
@@ -116,7 +116,7 @@ namespace Math {
 		return Relation::INSIDE;
 	}
 
-	Relation ClassifyPoint(const vec3& point, const BoundingSphere& sphere)
+	PUNK_ENGINE_API Relation ClassifyPoint(const vec3& point, const BoundingSphere& sphere)
 	{
 		float sqr_dst = (point - sphere.GetCenter()).SquareLength();
 		float r = sphere.GetRadius();
@@ -125,7 +125,7 @@ namespace Math {
 		return Relation::INSIDE;
 	}
 
-	Relation ClassifyPoint(const vec3& point, const FrustumCore& frustum)
+	PUNK_ENGINE_API Relation ClassifyPoint(const vec3& point, const FrustumCore& frustum)
 	{
 		Plane p[6];
 		ProjectionMatrixToPlanes(FrustumCreatePerspectiveProjectionMatrix(frustum), p);
@@ -137,7 +137,7 @@ namespace Math {
 		return Relation::INSIDE;
 	}
 
-	Relation ClassifyPoint(const vec3& point, const ClipSpace& space)
+	PUNK_ENGINE_API Relation ClassifyPoint(const vec3& point, const ClipSpace& space)
 	{
 		for (std::size_t i = 0; i != space.GetSize(); ++i)
 		{
@@ -149,7 +149,7 @@ namespace Math {
 		return Relation::INSIDE;
 	}
 
-	Relation ClassifyPoint(const vec3& point, const ConvexShapeMesh& mesh)
+	PUNK_ENGINE_API Relation ClassifyPoint(const vec3& point, const ConvexShapeMesh& mesh)
 	{
 		Relation relation = ClassifyPoint(point, mesh.GetBoundingSphere());
 		if (relation == Relation::OUTSIDE)
@@ -170,12 +170,12 @@ namespace Math {
 		return Relation::INSIDE;
 	}
 
-	Relation ClassifyPoint(const vec2& point, const Line2D& line) {
+	PUNK_ENGINE_API Relation ClassifyPoint(const vec2& point, const Line2D& line) {
 		(void)point; (void)line;
 		throw Error::MathNotImplemented(0);
 	}
 
-	Relation ClassifyLine(const Line3D& line, const Plane& p)
+	PUNK_ENGINE_API Relation ClassifyLine(const Line3D& line, const Plane& p)
 	{
 		const vec3 n = p.GetNormal();
 		float org_dst = p.GetDistance();
@@ -196,11 +196,11 @@ namespace Math {
 		return Relation::INTERSECT;
 	}
 
-	Relation ClassifyLine(const Line3D&, const ClipSpace&) {
+	PUNK_ENGINE_API Relation ClassifyLine(const Line3D&, const ClipSpace&) {
 		throw Error::MathNotImplemented(0);
 	}
 
-	Relation ClassifyLine(const Line3D& line, const Triangle3D& triangle)
+	PUNK_ENGINE_API Relation ClassifyLine(const Line3D& line, const Triangle3D& triangle)
 	{
 		const vec3 org = line.GetOrigin();
 		const vec3 n = triangle.GetNormal();
@@ -230,7 +230,7 @@ namespace Math {
 	}
 
 	//	Bounding box should be in clip space
-	Relation ClassifyBoudingBox(const BoundingBox& bbox, const ClipSpace& clipper)
+	PUNK_ENGINE_API Relation ClassifyBoudingBox(const BoundingBox& bbox, const ClipSpace& clipper)
 	{
 		if (bbox.GetR().Length() > 4 * bbox.GetS().Length() && bbox.GetR().Length() > 4 * bbox.GetT().Length())
 		{
@@ -279,7 +279,7 @@ namespace Math {
 		}
 	}
 
-	Relation ClassifyBoudingSphere(const Sphere& sphere, const ClipSpace& clipper)
+	PUNK_ENGINE_API Relation ClassifyBoudingSphere(const Sphere& sphere, const ClipSpace& clipper)
 	{
 		const vec3 q = sphere.GetCenter();
 		for (auto i = 0u; i < clipper.GetSize(); ++i)
@@ -292,7 +292,7 @@ namespace Math {
 		return Relation::VISIBLE;
 	}
 
-	Relation CrossLineLine(const Line3D& line1, const Line3D& line2, float& t1, float& t2, float& dst)
+	PUNK_ENGINE_API Relation CrossLineLine(const Line3D& line1, const Line3D& line2, float& t1, float& t2, float& dst)
 	{
 		auto s1 = line1.GetOrigin();
 		auto v1 = line1.GetDestination() - line1.GetOrigin();
@@ -333,7 +333,7 @@ namespace Math {
 		return Relation::NOT_INTERSECT;
 	}
 
-	Relation CrossLineLine(const Line3D& line1, const Line3D& line2, vec3& p)
+	PUNK_ENGINE_API Relation CrossLineLine(const Line3D& line1, const Line3D& line2, vec3& p)
 	{
 		float t1;
 		float t2;
@@ -348,7 +348,7 @@ namespace Math {
 		return res;
 	}
 
-	Relation CrossLinePlane(const Line3D& line, const Plane& p, float& t)
+	PUNK_ENGINE_API Relation CrossLinePlane(const Line3D& line, const Plane& p, float& t)
 	{
 		const vec3 org = line.GetOrigin();
 		const vec3 dst = line.GetDestination();
@@ -369,7 +369,7 @@ namespace Math {
 		return Relation::INTERSECT;
 	}
 
-	Relation CrossLinePlane(const Line3D& line, const Plane& p, vec3& point)
+	PUNK_ENGINE_API Relation CrossLinePlane(const Line3D& line, const Plane& p, vec3& point)
 	{
 		float t = 0;
 		Relation res = CrossLinePlane(line, p, t);
@@ -377,7 +377,7 @@ namespace Math {
 		return res;
 	}
 
-	Relation CrossLineTriangle(const Line3D& line, const Triangle3D& triangle, float& t)
+	PUNK_ENGINE_API Relation CrossLineTriangle(const Line3D& line, const Triangle3D& triangle, float& t)
 	{
 		const vec3 org = line.GetOrigin();
 		const vec3 n = triangle.GetNormal();
@@ -406,7 +406,7 @@ namespace Math {
 		return Relation::NOT_INTERSECT;
 	}
 
-	Relation CrossLineTriangle(const Line3D& line, const Triangle3D& triangle, vec3& vec)
+	PUNK_ENGINE_API Relation CrossLineTriangle(const Line3D& line, const Triangle3D& triangle, vec3& vec)
 	{
 		float t = 0;
 		Relation res = CrossLineTriangle(line, triangle, t);
@@ -414,7 +414,7 @@ namespace Math {
 		return res;
 	}
 
-	Relation CrossLineTriangles(const Line3D &line, const std::vector<vec3> &point, const std::vector<ivec3> &faces, std::vector<vec3> &res_points, std::vector<std::size_t> &res_faces)
+	PUNK_ENGINE_API Relation CrossLineTriangles(const Line3D &line, const std::vector<vec3> &point, const std::vector<ivec3> &faces, std::vector<vec3> &res_points, std::vector<std::size_t> &res_faces)
 	{
 		res_faces.clear();
 		res_points.clear();
@@ -439,7 +439,7 @@ namespace Math {
 		return Relation::INTERSECT;
 	}
 
-	Relation CrossLineSphere(const Line3D& line, const Sphere& sphere, float& t1, float& t2)
+	PUNK_ENGINE_API Relation CrossLineSphere(const Line3D& line, const Sphere& sphere, float& t1, float& t2)
 	{
 		const vec3 org = line.GetOrigin() - sphere.GetCenter();
 		const vec3 dir = line.GetDestination() - line.GetOrigin();
@@ -466,7 +466,7 @@ namespace Math {
 		return Relation::NOT_INTERSECT;
 	}
 
-	Relation CrossLineSphere(const Line3D& line, const Sphere& sphere, vec3& p1, vec3& p2)
+	PUNK_ENGINE_API Relation CrossLineSphere(const Line3D& line, const Sphere& sphere, vec3& p1, vec3& p2)
 	{
 		float t1, t2;
 		Relation res = CrossLineSphere(line, sphere, t1, t2);
@@ -486,7 +486,7 @@ namespace Math {
 		return Relation::NOT_INTERSECT;
 	}
 
-	Relation CrossLineEllipsoid(const Line3D& line, const Ellipsoid& ellipsoid, float& t1, float& t2)
+	PUNK_ENGINE_API Relation CrossLineEllipsoid(const Line3D& line, const Ellipsoid& ellipsoid, float& t1, float& t2)
 	{
 		float m = ellipsoid.GetRadiusX() / ellipsoid.GetRadiusY();
 		float n = ellipsoid.GetRadiusX() / ellipsoid.GetRadiusZ();
@@ -518,7 +518,7 @@ namespace Math {
 		return Relation::NOT_INTERSECT;
 	}
 
-	Relation CrossLineEllipsoid(const Line3D& line, const Ellipsoid& ellipsoid, vec3& p1, vec3& p2)
+	PUNK_ENGINE_API Relation CrossLineEllipsoid(const Line3D& line, const Ellipsoid& ellipsoid, vec3& p1, vec3& p2)
 	{
 		float t1, t2;
 		Relation res = CrossLineEllipsoid(line, ellipsoid, t1, t2);
@@ -538,7 +538,7 @@ namespace Math {
 		return Relation::NOT_INTERSECT;
 	}
 
-	Relation CrossLineConvexShape(const Line3D& line, const ConvexShapeMesh& mesh, float& t1, float& t2, int& face1, int& face2)
+	PUNK_ENGINE_API Relation CrossLineConvexShape(const Line3D& line, const ConvexShapeMesh& mesh, float& t1, float& t2, int& face1, int& face2)
 	{
 		Relation result[] = { Relation::NOT_INTERSECT, Relation::INTERSECT_1, Relation::INTERSECT_2 };
 		int* res_face[] = { &face1, &face2 };
@@ -567,7 +567,7 @@ namespace Math {
 		return *cur_result;
 	}
 
-	Relation CrossLineConvexShape(const Line3D& line, const ConvexShapeMesh& shape, vec3& p1, vec3& p2, int& face_index1, int& face_index2)
+	PUNK_ENGINE_API Relation CrossLineConvexShape(const Line3D& line, const ConvexShapeMesh& shape, vec3& p1, vec3& p2, int& face_index1, int& face_index2)
 	{
 		float t1, t2;
 		auto res = CrossLineConvexShape(line, shape, t1, t2, face_index1, face_index2);
@@ -588,7 +588,7 @@ namespace Math {
 		return Relation::NOT_INTERSECT;
 	}
 
-	Relation CrossThreePlane(const Plane& a, const Plane& b, const Plane& c, vec3& vec)
+	PUNK_ENGINE_API Relation CrossThreePlane(const Plane& a, const Plane& b, const Plane& c, vec3& vec)
 	{
 		Line3D line;
 		if (CrossPlanePlane(a, b, line) != Relation::INTERSECT)
@@ -597,7 +597,7 @@ namespace Math {
 		return CrossLinePlane(line, c, vec);
 	}
 
-	Relation CrossPlanePlane(const Plane& a, const Plane& b, Line3D& line)
+	PUNK_ENGINE_API Relation CrossPlanePlane(const Plane& a, const Plane& b, Line3D& line)
 	{
 		const vec3 n1 = a.GetNormal();
 		const vec3 n2 = b.GetNormal();
@@ -629,7 +629,7 @@ namespace Math {
 		return Relation::INTERSECT;
 	}
 
-	Relation CrossPlaneTriangle(const Plane& plane, const Triangle3D& tr, Line3D& line)
+	PUNK_ENGINE_API Relation CrossPlaneTriangle(const Plane& plane, const Triangle3D& tr, Line3D& line)
 	{
 		Relation res;
 		Line3D ab(tr[0], tr[1]);
@@ -660,7 +660,7 @@ namespace Math {
 		return Relation::NOT_INTERSECT;
 	}
 
-	Relation CrossTriangleTriangle(const Triangle3D& a, const Triangle3D& b, Line3D& /*line*/)
+	PUNK_ENGINE_API Relation CrossTriangleTriangle(const Triangle3D& a, const Triangle3D& b, Line3D& /*line*/)
 	{
 		Line3D ab(a[0], a[1]);
 		Line3D bc(a[1], a[2]);
@@ -699,13 +699,13 @@ namespace Math {
 		return Relation::NOT_INTERSECT;
 	}
 
-	Relation CrossPlanePolygon(const Plane& plane, const Polygon3D& polygon, const Polygon3D& front, const Polygon3D& back)
+	PUNK_ENGINE_API Relation CrossPlanePolygon(const Plane& plane, const Polygon3D& polygon, const Polygon3D& front, const Polygon3D& back)
 	{
 		(void)plane; (void)polygon; (void)front; (void)back;
 		throw Error::MathNotImplemented(0);
 	}
 
-	Relation SplitTriangle(const Plane& splitter, const Triangle3D& t, Triangle3D front[2], Triangle3D back[2])
+	PUNK_ENGINE_API Relation SplitTriangle(const Plane& splitter, const Triangle3D& t, Triangle3D front[2], Triangle3D back[2])
 	{
 		Plane plane(t[0], t[1], t[2]);
 		float ss0 = splitter.GetNormal().Dot(t[0]) + splitter.GetDistance();
@@ -856,7 +856,7 @@ namespace Math {
 	}
 
 	//	clipping should be performed in camera space
-	Relation ClipPortal(const ClipSpace& clipper, const Portal& portal, Portal& clipped_portal, ClipSpace& reduced_frustum)
+	PUNK_ENGINE_API Relation ClipPortal(const ClipSpace& clipper, const Portal& portal, Portal& clipped_portal, ClipSpace& reduced_frustum)
 	{
 		//	check negative side of the portal
 		if (portal.GetDistance() < 0)
@@ -961,7 +961,7 @@ namespace Math {
 		return Relation::VISIBLE;
 	}
 
-	Relation Distance(const Line3D& line1, const Line3D& line2, float& dst, float& t1, float& t2)
+	PUNK_ENGINE_API Relation Distance(const Line3D& line1, const Line3D& line2, float& dst, float& t1, float& t2)
 	{
 		const vec3 s1 = line1.GetOrigin();
 		const vec3 s2 = line2.GetOrigin();
@@ -988,7 +988,7 @@ namespace Math {
 		return Relation::NOT_INTERSECT;
 	}
 
-	Relation Distance(const Line3D& line, const Math::vec3& point, float& dst)
+	PUNK_ENGINE_API Relation Distance(const Line3D& line, const Math::vec3& point, float& dst)
 	{
 		const Math::vec3 q = point;
 		const Math::vec3 s = line.GetOrigin();
@@ -1003,7 +1003,7 @@ namespace Math {
 		return Relation::OUTSIDE;
 	}
 
-	Relation CrossSphereSphere(const Sphere& a, const Sphere& b)
+	PUNK_ENGINE_API Relation CrossSphereSphere(const Sphere& a, const Sphere& b)
 	{
 		float dst = a.GetRadius() + b.GetRadius();
 		float sqr_dst = dst * dst;
@@ -1013,7 +1013,7 @@ namespace Math {
 		return Relation::NOT_INTERSECT;
 	}
 
-	Relation CrossLines(const std::vector<Line3D>& lines, std::vector<vec3>& points)
+	PUNK_ENGINE_API Relation CrossLines(const std::vector<Line3D>& lines, std::vector<vec3>& points)
 	{
 		points.clear();
 		std::size_t count = lines.size();
@@ -1114,7 +1114,7 @@ namespace Math {
 		return Relation::INTERSECT;
 	}
 
-	Relation CrossCircleTrianglesProjection(const std::vector<vec3>& point, const std::vector<ivec3>& faces, const Math::vec3& center, float radius)
+	PUNK_ENGINE_API Relation CrossCircleTrianglesProjection(const std::vector<vec3>& point, const std::vector<ivec3>& faces, const Math::vec3& center, float radius)
 	{
 		for (const Math::ivec3& f : faces)
 		{
@@ -1129,7 +1129,7 @@ namespace Math {
 		return Relation::NOT_INTERSECT;
 	}
 
-	Relation CrossLineAxisAlignedBox(const Line3D& line, const AxisAlignedBox& a, float& tmin, vec3& q)
+	PUNK_ENGINE_API Relation CrossLineAxisAlignedBox(const Line3D& line, const AxisAlignedBox& a, float& tmin, vec3& q)
 	{
 		auto p = line.GetOrigin();
 		auto d = line.GetDestination() - line.GetOrigin();
@@ -1161,7 +1161,7 @@ namespace Math {
 		return Relation::INTERSECT;
 	}
 
-	Relation CrossLineBoundingBox(const Line3D& line, const BoundingBox& bbox, vec3& p)
+	PUNK_ENGINE_API  Relation CrossLineBoundingBox(const Line3D& line, const BoundingBox& bbox, vec3& p)
 	{
 		mat4 t;
 		t.SetColumn(0, vec4(bbox.GetR(), 0));
@@ -1180,7 +1180,7 @@ namespace Math {
 		return Relation::INTERSECT;
 	}
 
-	Relation ClassifyPoint(const vec3 &p, const AxisAlignedBox &aabb)
+	PUNK_ENGINE_API Relation ClassifyPoint(const vec3 &p, const AxisAlignedBox &aabb)
 	{
 		if (p[0] >= aabb.MinPoint()[0] && p[0] <= aabb.MaxPoint()[0] &&
 			p[1] >= aabb.MinPoint()[1] && p[1] <= aabb.MaxPoint()[1] &&
@@ -1190,7 +1190,7 @@ namespace Math {
 	}
 
 
-	Relation CrossTriangleAxisAlignedBox(const Triangle3D& t, const AxisAlignedBox& aabb)
+	PUNK_ENGINE_API Relation CrossTriangleAxisAlignedBox(const Triangle3D& t, const AxisAlignedBox& aabb)
 	{
 		auto pp1 = t[0];
 		auto pp2 = t[2];
@@ -1225,7 +1225,7 @@ namespace Math {
 		return Relation::NOT_INTERSECT;
 	}
 
-	bool ClipSegment(float min, float max, float a, float b, float d, float* t0, float* t1)
+	PUNK_ENGINE_API bool ClipSegment(float min, float max, float a, float b, float d, float* t0, float* t1)
 	{
 		if (fabs(d) < std::numeric_limits<float>().epsilon())
 		{
@@ -1267,7 +1267,7 @@ namespace Math {
 		return true;
 	}
 
-	bool ClipSegment3D(const vec3& A, const vec3& B, const vec3& min, const vec3& max)
+	PUNK_ENGINE_API bool ClipSegment3D(const vec3& A, const vec3& B, const vec3& min, const vec3& max)
 	{
 		float t0 = 0.0f, t1 = 1.0f;
 		//		float S[3] = {A[0], A[1], A[2]};
@@ -1292,7 +1292,7 @@ namespace Math {
 		return true;
 	}
 
-	bool ClipSegment2D(const vec2& A, const vec2& B, const vec2& min, const vec2& max)
+	PUNK_ENGINE_API bool ClipSegment2D(const vec2& A, const vec2& B, const vec2& min, const vec2& max)
 	{
 		float t0 = 0.0f, t1 = 1.0f;
 		//		float S[2] = {A[0], A[1]};
@@ -1311,7 +1311,7 @@ namespace Math {
 		return true;
 	}
 
-	bool IsLeftRotation(const vec2& a, const vec2& b, const vec2& c)
+	PUNK_ENGINE_API bool IsLeftRotation(const vec2& a, const vec2& b, const vec2& c)
 	{
 		float ux = b.X() - a.X();
 		float uy = b.Y() - a.Y();
@@ -1321,7 +1321,7 @@ namespace Math {
 		return ux*vy - uy*vx > 0.0f;
 	}
 
-	bool IsRightRotation(const vec2& a, const vec2& b, const vec2& c)
+	PUNK_ENGINE_API bool IsRightRotation(const vec2& a, const vec2& b, const vec2& c)
 	{
 		float ux = b.X() - a.X();
 		float uy = b.Y() - a.Y();

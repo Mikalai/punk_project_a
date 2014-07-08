@@ -21,24 +21,21 @@ namespace SceneModule {
     public:
         virtual void Lock() = 0;
         virtual void Unlock() = 0;
-        virtual INode* GetRoot() = 0;
-        virtual const INode* GetRoot() const = 0;
-        virtual void SetRoot(INode* node) = 0;
-		virtual INode* ReleaseRoot() = 0;		
+		virtual Core::Pointer<INode> GetRoot() = 0;
+		virtual const Core::Pointer<INode> GetRoot() const = 0;
+        virtual void SetRoot(Core::Pointer<INode> node) = 0;
 		
-		virtual void AddObserver(IObserver* observer) = 0;
-		virtual void RemoveObserver(IObserver* observer) = 0;
+		virtual void AddObserver(Core::Pointer<IObserver> observer) = 0;
+		virtual void RemoveObserver(Core::Pointer<IObserver> observer) = 0;
 
-        virtual void OnNodeAdded(INode* parent, INode* child) = 0;
-        virtual void OnNodeRemoved(INode* parent, INode* child) = 0;		
-		virtual void OnAttributeAdded(INode* node, IAttribute* attribute) = 0;
-		virtual void OnAttributeUpdated(INode* node, IAttribute* old_attribute, IAttribute* new_attribute) = 0;
-		virtual void OnAttributeRemoved(INode* node, IAttribute* attribute) = 0;
-		virtual void SetSourcePath(const Core::String& path) = 0;
-		virtual const Core::String GetSourcePath() const = 0;
+        virtual void OnNodeAdded(Core::Pointer<INode> parent, Core::Pointer<INode> child) = 0;
+        virtual void OnNodeRemoved(Core::Pointer<INode> parent, Core::Pointer<INode> child) = 0;		
+		virtual void OnAttributeAdded(Core::Pointer<INode> node, Core::Pointer<IAttribute> attribute) = 0;
+		virtual void OnAttributeUpdated(Core::Pointer<INode> node, Core::Pointer<IAttribute> old_attribute, Core::Pointer<IAttribute> new_attribute) = 0;
+		virtual void OnAttributeRemoved(Core::Pointer<INode> node, Core::Pointer<IAttribute> attribute) = 0;		
 
 		template<class T>
-		INode* FindNodeByAttribute(const Core::String& name) {
+		Core::Pointer<INode> FindNodeByAttribute(const Core::String& name) {
 			auto root = GetRoot();
 			if (root)
 				return root->FindChildByAttribute<T>(name);
@@ -46,10 +43,10 @@ namespace SceneModule {
 		}
     };
 
-	using ISceneGraphUniquePtr = Core::UniquePtr < IScene > ;
+	//using ISceneGraphPointer = Core::Pointer < IScene > ;
 
-    extern PUNK_ENGINE_API ISceneGraphUniquePtr CreateSceneFromFile(const Core::String& datafolder, const Core::String& file);
-    extern PUNK_ENGINE_API ISceneGraphUniquePtr CreateScene();
+    /*extern PUNK_ENGINE_API ISceneGraphPointer CreateSceneFromFile(const Core::String& datafolder, const Core::String& file);
+    extern PUNK_ENGINE_API ISceneGraphPointer CreateScene();*/
 }
 PUNK_ENGINE_END
 

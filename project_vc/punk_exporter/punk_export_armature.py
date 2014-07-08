@@ -35,7 +35,11 @@ def export_armature(object):
     pose = object.pose
     armature = object.data
     start_block(f, armature.name)
-    export_action_ref(f, object)
+    if object.animation_data != None:
+        animation = object.animation_data
+        for track in animation.nla_tracks:        
+            for strip in track.strips:
+                export_string(f, "*action_ref", strip.action.name)
     for bone in armature.bones:
         #   export bone
         start_block(f, "*bone")
@@ -45,16 +49,11 @@ def export_armature(object):
         export_string(f, "*name", bone.name)
         #   write bone length
         export_float(f, "*length", bone.length)
-        #   write bone parent
-        parent_matrix = mathutils.Matrix()
-        if bone.parent != None:
-            parent_matrix = armature.bones[bone.parent.name].matrix_local
+        #   write bone parent        
+        if bone.parent != None:            
             export_string(f, "*parent", armature.bones.find(bone.parent.name))
-        #   write bone local position
-        m = parent_matrix.inverted() * bone.matrix_local
-        export_vec3(f, "*position", m.to_translation())
-        #   write bone local rotation
-        export_quat(f, "*rotation", m.to_quaternion())
+        #   write bone local position        
+        export_mat4(f, "*local_matrix", bone.matrix_local)        
         #   write supported animation
         end_block(f)    #*bone
     end_block(f)    #*armature

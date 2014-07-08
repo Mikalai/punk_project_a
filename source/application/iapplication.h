@@ -14,7 +14,7 @@ namespace Runtime {
 
 	class IApplication : public Core::IObject {
 	public:				
-		virtual SceneModule::ISceneManager* GetSceneManager() = 0;
+		virtual Core::Pointer<SceneModule::ISceneManager> GetSceneManager() = 0;
 		virtual void Run() = 0;
 	};
 }

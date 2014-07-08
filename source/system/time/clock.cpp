@@ -1,14 +1,63 @@
-#include "clock.h"
+#include "iclock.h"
 
 #ifdef __GNUC__
 #include <time.h>
 #endif
+
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
+#include <time.h>
+#include "core/iobject_impl.h"
 
 #include <stdio.h>
 #include <string.h>
 
 PUNK_ENGINE_BEGIN
 namespace System {
+
+	class PUNK_ENGINE_LOCAL Clock : public IClock {
+	public:
+		Clock();
+		virtual ~Clock();
+
+		//	IObject
+		void QueryInterface(const Core::Guid& type, void** object) override;
+		std::uint32_t AddRef() override;
+		std::uint32_t Release() override;
+
+		//	IClock		
+		int64_t Now() override;
+
+		void Advance(int64_t us) override;
+		int Year() const override;
+		int Month() const override;
+		int MonthDay() const override;
+		int WeekDay() const override;
+		int YearDay() const override;
+		int Hour() const override;
+		int Minute() const override;
+		int Second() const override;
+		int MilliSecond() const override;
+		void Set(int Year, int Month, int Day, int Hour, int Min, int Sec) override;
+		int64_t SysTimeAsSecondsFromJanuary_1970_1();
+		const Core::String SysTimeAsUTC() override;
+		const Core::String SysTimeNowAsLocal() override;
+		const Core::String ToString() const override;
+
+	private:
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
+		static const int timeSize = 64;
+		wchar_t the_time[timeSize];
+#ifdef _WIN32
+		__time64_t m_time;
+#elif defined __linux__
+		time_t m_time;
+#endif
+		std::int64_t m_us;
+		tm m_date;
+	};
 
 	Clock::Clock()
 	{                
@@ -110,16 +159,19 @@ namespace System {
 	}
 
 	void Clock::QueryInterface(const Core::Guid& type, void** object) {
-		if (!object)
-			return;
+		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IClock });
+	}
 
-		if (type == Core::IID_IObject ||
-			type == IID_IClock) {
-			*object = (void*)this;
-			AddRef();
+	std::uint32_t Clock::AddRef() {
+		return m_ref_count.fetch_add(1);
+	}
+
+	std::uint32_t Clock::Release() {
+		auto v = m_ref_count.fetch_sub(1) - 1;
+		if (!v) {
+			delete this;
 		}
-		else
-			*object = nullptr;
+		return v;
 	}
 
     const Core::String Clock::SysTimeAsUTC()

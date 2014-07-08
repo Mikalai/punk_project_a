@@ -18,9 +18,9 @@
 //        virtual void Cook(const IVertexArray *vb, const IIndexArray* ib) = 0;
 //    };
 //
-//    using ITrianglesUniquePtr = std::unique_ptr<ITriangles, void (*)(IRenderable*)>;
+//    using ITrianglesPointer = std::unique_ptr<ITriangles, void (*)(IRenderable*)>;
 //
-//    extern PUNK_ENGINE_API ITrianglesUniquePtr CreateTriangles(std::int64_t vertex_type, class IVideoDriver* driver);
+//    extern PUNK_ENGINE_API ITrianglesPointer CreateTriangles(std::int64_t vertex_type, class IVideoDriver* driver);
 //}
 //PUNK_ENGINE_END
 //

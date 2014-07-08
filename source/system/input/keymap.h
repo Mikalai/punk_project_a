@@ -20,7 +20,12 @@ namespace System
         KeyMap();
         virtual ~KeyMap();
 
+		//	IObject
 		void QueryInterface(const Core::Guid& type, void** object) override;
+		std::uint32_t AddRef() override;
+		std::uint32_t Release() override;
+
+		//	IKeyMap
         void OnKeyEvent(const KeyEvent& event) override;
         void Add(Key key, KeyboardAction action) override;
         void Remove(Key key, KeyboardAction action) override;
@@ -29,7 +34,8 @@ namespace System
         
         KeyMapImpl* impl;
 
-		PUNK_OBJECT_DEFAULT_IMPL(KeyMap) //  TODO: Keymap can be saved
+	private:
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
     };
 }
 PUNK_ENGINE_END

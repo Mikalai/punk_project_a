@@ -3,11 +3,15 @@
 
 #include <config.h>
 #include <cstdint>
+#include <core/iobject.h>
 #include <math/vec3.h>
 
 PUNK_ENGINE_BEGIN
 namespace Attributes {
-	class IIndexComponent {
+
+	DECLARE_PUNK_GUID(IID_IFaceIndexStream, "C7176CF8-9D56-4940-82DF-C0D7D6C48CEA");
+
+	class IFaceIndexStream : public Core::IObject {
 	public:
 		virtual std::uint32_t GetTrianglesCount() const = 0;
 		virtual const Math::ivec3* GetTriangle(std::uint32_t index) const = 0;

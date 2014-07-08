@@ -70,6 +70,19 @@ namespace Graphics {
 				Core::QueryInterface(this, type, object, { Core::IID_IObject });
 			}
 
+			std::uint32_t AddRef() {
+				return m_ref_count.fetch_add(1);
+			}
+
+			std::uint32_t Release() {
+				auto v = m_ref_count.fetch_sub(1) - 1;
+				if (!v) {
+					delete this;
+				}
+				return v;
+			}
+
+
 			void Bind() override {
 				m_core.m_vao->Bind();
 			}
@@ -120,8 +133,9 @@ namespace Graphics {
 				Cook((VertexArray<Vertex<VC...>>*)vb, (IndexArray<IT>*)ib);
 			}			
 
-			CurrentBatchCore m_core;
-			PUNK_OBJECT_DEFAULT_IMPL(GlBatch);
+		private:
+			std::atomic<std::uint32_t> m_ref_count{ 0 };
+			CurrentBatchCore m_core;			
 		};
 	};
 }

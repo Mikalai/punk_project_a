@@ -24,7 +24,6 @@
     <ClCompile Include="..\..\source\core\component\components_pool_impl.cpp" />
     <ClCompile Include="..\..\source\core\compound_object.cpp" />
     <ClCompile Include="..\..\source\core\core_error.cpp" />
-    <ClCompile Include="..\..\source\core\ifactory.cpp" />
     <ClCompile Include="..\..\source\core\guid.cpp" />
     <ClCompile Include="..\..\source\core\meta_class_base.cpp" />
     <ClCompile Include="..\..\source\core\object.cpp" />
@@ -44,11 +43,10 @@
     <ClInclude Include="..\..\source\core\container.h" />
     <ClInclude Include="..\..\source\core\core_error.h" />
     <ClInclude Include="..\..\source\core\decl_property.h" />
-    <ClInclude Include="..\..\source\core\factory.h" />
     <ClInclude Include="..\..\source\core\guid.h" />
     <ClInclude Include="..\..\source\core\icompound_object.h" />
-    <ClInclude Include="..\..\source\core\ifactory.h" />
     <ClInclude Include="..\..\source\core\iobject.h" />
+    <ClInclude Include="..\..\source\core\iobject_impl.h" />
     <ClInclude Include="..\..\source\core\meta_class.h" />
     <ClInclude Include="..\..\source\core\meta_class_base.h" />
     <ClInclude Include="..\..\source\core\module.h" />
@@ -59,6 +57,8 @@
     <ClInclude Include="..\..\source\core\pool_manager.h" />
     <ClInclude Include="..\..\source\core\rtti.h" />
     <ClInclude Include="..\..\source\core\static_information.h" />
+    <ClInclude Include="..\..\source\core\pointer.h" />
+    <ClInclude Include="..\..\source\core\weak_pointer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{31B26C70-E2E1-4259-B63D-618D876C87D3}</ProjectGuid>

@@ -1,25 +1,4 @@
-#include <string.h>
-#include <utility>
-#include "buffer.h"
-#include "string"
-#include "string_list.h"
-#include "string_error.h"
-
-#ifdef __linux__
-#include <iconv.h>
-#endif
-
-
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
-#include <cstdint>
-#ifdef WIN32
-#include <Windows.h>
-#elif defined __gnu_linux__
-#include "wchar.h"
-#endif
-
+#include <codecvt>
 #include <sstream>
 #include <clocale>
 #include <cctype>
@@ -33,7 +12,9 @@
 #include <istream>
 #include <ostream>
 #include "string.h"
+#include "buffer.h"
 #include "string_error.h"
+#include "string_list.h"
 
 PUNK_ENGINE_BEGIN
 namespace Core {
@@ -49,7 +30,7 @@ namespace Core {
     };
     }
 
-    bool ConvertByteArray(const char* from, const char* to, void* inp, size_t inp_size, void* outp, size_t* outp_size)
+	/*bool ConvertByteArray(const char* from, const char* to, void* inp, std::uint32_t inp_size, void* outp, std::uint32_t* outp_size)
     {
 #ifdef WIN32
         if (!strcmp(from, "WCHAR_T") && !strcmp(to, "UTF8"))
@@ -89,14 +70,14 @@ namespace Core {
                 *outp_size = 0;
                 return false;
             }
-            size_t initial_size = *outp_size;
+            std::uint32_t initial_size = *outp_size;
             char* out = (char*)&result[0];
-            if (iconv(handle, (char**)&inp, &inp_size, (char**)&out, outp_size) == (size_t)-1)
+            if (iconv(handle, (char**)&inp, &inp_size, (char**)&out, outp_size) == (std::uint32_t)-1)
             {
                 *outp_size = 0;
                 return false;
             }
-            size_t actual_size = initial_size - *outp_size;
+            std::uint32_t actual_size = initial_size - *outp_size;
             *outp_size = actual_size;
             iconv_close(handle);
         }
@@ -108,15 +89,13 @@ namespace Core {
         }
         return true;
 #endif
-    }
+    }*/
 
-    const String String::FromUtf8(const char *buffer)
-    {
-        size_t outp_size;
-        ConvertByteArray("UTF8", "WCHAR_T", (void*)buffer, strlen(buffer), 0, &outp_size);
-        std::vector<wchar_t> outp(outp_size);
-        ConvertByteArray("UTF8", "WCHAR_T", (void*)buffer, strlen(buffer), (void*)&outp[0], &outp_size);
-        return String(&buffer[0], (std::uint32_t)outp_size);
+    const String String::FromUtf8(const Buffer& buffer)
+    {				
+		std::wstring_convert<std::codecvt_utf8<wchar_t>> convert;
+		std::wstring string = convert.from_bytes((const char*)buffer.Data(), (const char*)buffer.Data() + buffer.GetSize());		
+		return String(string.data(), string.size());
     }
 
     String& String::Erase(int start, int len)
@@ -138,22 +117,11 @@ namespace Core {
     }
 
     Buffer String::ToAscii() const {
-        size_t inp_size = Size();
-        if (inp_size == 0) {
-            Buffer res(1);
-            res.WriteUnsigned8(0);
-            return res;
-        }
-        std::vector<wchar_t> v(impl->begin(), impl->end());
-        size_t outp_size;
-        void* inp = (void*)&v[0];
-        if (!ConvertByteArray("WCHAR_T", "ASCII", inp, inp_size, nullptr, &outp_size))
-            throw Error::StringConversionError(Error::STR_ERR_CONV_WCHAR_TO_ASCII);
-		Buffer buffer((std::uint32_t)outp_size);
-        if (!ConvertByteArray("WCHAR_T", "ASCII", inp, inp_size, buffer.Data(), &outp_size))
-            throw Error::StringConversionError(Error::STR_ERR_CONV_WCHAR_TO_ASCII);
-        buffer.WriteUnsigned8(0);
-        return buffer;
+		std::wstring_convert<std::codecvt<wchar_t, char, std::mbstate_t>> convert;
+		auto string = convert.to_bytes(impl->data());		
+		Buffer buffer;
+		buffer.WriteBuffer(string.data(), string.size());
+		return buffer;
     }
 
     Buffer String::ToWchar() const {
@@ -177,30 +145,18 @@ namespace Core {
     }
 
     Buffer String::ToUtf8() const {
-        size_t inp_size = Size();
-        if (inp_size == 0) {
-            Buffer res;
-            res.WriteUnsigned8(0);
-            return res;
-        }
-        size_t outp_size;
-        std::vector<wchar_t> v((*impl).begin(), (*impl).end());
-        void* inp = (void*)&v[0];
-        if (!ConvertByteArray("WCHAR_T", "UTF8", inp, inp_size, nullptr, &outp_size))
-            throw Error::StringConversionError(Error::STR_ERR_CONV_WCHAR_TO_UTF8);
-		Buffer buffer((std::uint32_t)outp_size);
-        buffer.SetOffset(outp_size, 0);
-        if (!ConvertByteArray("WCHAR_T", "UTF8", inp, inp_size, (void*)buffer.Data(), &outp_size))
-            throw Error::StringConversionError(Error::STR_ERR_CONV_WCHAR_TO_UTF8);        
-        buffer.WriteUnsigned8(0);
+		std::wstring_convert<std::codecvt_utf8<wchar_t>> convert;
+		auto string = convert.to_bytes(impl->data());
+		Buffer buffer;
+		buffer.WriteBuffer(string.data(), string.size());
         return buffer;
     }
 
     const String String::Replace(const String& what, const String& with) const
     {
         String res = *this;
-        size_t pos = 0;
-        while ((pos = res.impl->find(*what.impl, pos)) != __private::StringImpl::npos)
+        std::uint32_t pos = 0;
+		while ((pos = (std::uint32_t)res.impl->find(*what.impl, pos)) != (std::uint32_t)__private::StringImpl::npos)
         {
             *res.impl = res.impl->replace(pos, what.Length(), *with.impl);
         }
@@ -254,31 +210,19 @@ namespace Core {
     String::String(const char* s)
         : impl(new __private::StringImpl())
     {
-        size_t inp_size = strlen(s);
-        if (inp_size == 0)
-            return;
-        size_t outp_size;
-        void* inp = (void*)s;
-        if (!ConvertByteArray("ASCII", "WCHAR_T", inp, inp_size, nullptr, &outp_size))
-            return;
-        impl->resize(outp_size / sizeof(wchar_t));
-        if (!ConvertByteArray("ASCII", "WCHAR_T", inp, inp_size, (void*)&impl->at(0), &outp_size))
-            return;
+		if (!s)
+			return;
+		std::wstring_convert<std::codecvt<wchar_t, char, std::mbstate_t>> convert;
+		*impl = convert.from_bytes(s);		
     }
 
     String::String(const char* s, std::uint32_t length)
         : impl(new __private::StringImpl())
     {
-        if (length == 0)
-            return;
-        size_t inp_size = length;
-        size_t outp_size;
-        void* inp = (void*)s;
-        if (!ConvertByteArray("ASCII", "WCHAR_T", inp, inp_size, nullptr, &outp_size))
-            return;
-        impl->resize(outp_size / sizeof(wchar_t));
-        if (!ConvertByteArray("ASCII", "WCHAR_T", inp, inp_size, (void*)&impl->at(0), &outp_size))
-            return;
+		if (!s)
+			return;
+		std::wstring_convert<std::codecvt<wchar_t, char, std::mbstate_t>> convert;
+		*impl = convert.from_bytes(s, s + length);
     }
 
     String::String(const String& s)

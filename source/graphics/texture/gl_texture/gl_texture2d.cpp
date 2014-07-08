@@ -399,7 +399,7 @@ namespace Graphics {
 
 		void GlTexture2D::Initialize(const Core::String& path, bool use_mip_maps, IVideoDriver* driver)
 		{
-			ImageModule::IImageReaderUniquePtr reader{ nullptr, Core::DestroyObject };
+			ImageModule::IImageReaderPointer reader{ nullptr, Core::DestroyObject };
             reader = System::CreateInstancePtr<ImageModule::IImageReader>(ImageModule::IID_IImageReader);
 			ImageModule::IImage* image = reader->Read(path);
 			return Initialize(image, use_mip_maps, driver);
@@ -407,9 +407,9 @@ namespace Graphics {
 
 		void GlTexture2D::Initialize(Core::Buffer *buffer, bool use_mip_maps, IVideoDriver* driver)
 		{
-			ImageModule::IImageReaderUniquePtr reader{ nullptr, Core::DestroyObject };
+			ImageModule::IImageReaderPointer reader{ nullptr, Core::DestroyObject };
             reader = System::CreateInstancePtr<ImageModule::IImageReader>(ImageModule::IID_IImageReader);
-			ImageModule::IImageUniquePtr image{ reader->Read(*buffer), Core::DestroyObject };
+			ImageModule::IImagePointer image{ reader->Read(*buffer), Core::DestroyObject };
 			return Initialize(image.get(), use_mip_maps, driver);
 		}
 

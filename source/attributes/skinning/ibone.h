@@ -13,6 +13,7 @@ namespace Core {
 namespace Math {
 	class vec3;
 	class quat;
+	class mat4;
 }
 namespace Attributes {
 
@@ -26,10 +27,8 @@ namespace Attributes {
 		virtual const Core::String& GetName() const = 0;
 		virtual void SetLength(float value) = 0;
 		virtual float GetLength() const = 0;
-		virtual void SetRestPosition(const Math::vec3& value) = 0;
-		virtual void SetRestRotation(const Math::quat& value) = 0;
-		virtual const Math::vec3& GetRestPosition() const = 0;
-		virtual const Math::quat& GetRestRotation() const = 0;
+		virtual void SetBoneToArmatureMatrix(const Math::mat4& value) = 0;
+		virtual const Math::mat4& GetBoneToArmatureMatrix() const = 0;		
 		virtual void SetParent(std::uint32_t value) = 0;
 		virtual std::uint32_t GetParent() const = 0;
 		virtual bool HasParent() const = 0;
@@ -38,7 +37,7 @@ namespace Attributes {
 		virtual std::uint32_t GetChild(std::uint32_t index) = 0;
 	};
 
-	using IBoneUniquePtr = Core::UniquePtr < IBone > ;
+	using IBonePointer = Core::Pointer < IBone > ;
 }
 PUNK_ENGINE_END
 

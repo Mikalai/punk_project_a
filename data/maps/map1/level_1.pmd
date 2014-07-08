@@ -5,25 +5,17 @@ SCENETEXT
   }
   *node {
     *name {
-      Material.001
+      Transform
     }
     *entity_name {
-      Material.001.material
+      Armature.transform
     }
     *node {
       *name {
-        Transform
+        Armature
       }
       *entity_name {
-        Cube.001.transform
-      }
-      *node {
-        *name {
-          Static
-        }
-        *entity_name {
-          Cube.001.static
-        }
+        Armature.armature
       }
       *node {
         *name {
@@ -41,10 +33,10 @@ SCENETEXT
           }
           *node {
             *name {
-              Static
+              Skin
             }
             *entity_name {
-              Cube.static
+              Cube.skin
             }
           }
         }
@@ -79,7 +71,7 @@ SCENETEXT
         Camera
       }
       *entity_name {
-        FirstCamera.perspective_camera
+        Camera.perspective_camera
       }
     }
   }

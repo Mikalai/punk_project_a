@@ -84,6 +84,13 @@ namespace Punk {
                 return *this;
             }
 
+			mat4& mat4::operator += (const mat4& v) {
+				for (int i = 0; i < 16; ++i) {
+					m[i] += v[i];
+				}
+				return *this;
+			}
+
             const mat4 mat4::Inversed() const
             {
 #define SWAP_ROWS(a, b) {  float * _tmp = a; (a)=(b); (b)=_tmp; }
@@ -440,6 +447,16 @@ namespace Punk {
                 return !(l == r);
             }
 
+			bool mat4::IsEqual(const mat4& v, float eps) const
+			{
+				for (int i = 0; i < 16; ++i)
+				{
+					float a = fabs(v[i] - m[i]);
+					if (a > eps)
+						return false;
+				}
+				return true;
+			}
         }
     }
 }

@@ -70,7 +70,7 @@ namespace ImageModule
 		}
 
         static void DecodeBuffer(Core::Buffer& buffer, IImage** _image) {
-            Core::UniquePtr<IImage> image{nullptr, Core::DestroyObject};
+            Core::Pointer<IImage> image{nullptr, Core::DestroyObject};
 			jpeg_decompress_struct s;
 			s.src = nullptr;
 #ifdef USE_LIB_JPEG

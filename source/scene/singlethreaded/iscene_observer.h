@@ -18,11 +18,11 @@ namespace SceneModule {
     class IObserver : public Core::IObject {
     public:		
 		virtual void SetScene(IScene* value) = 0;
-		virtual void OnNodeAdded(INode* parent, INode* child) = 0;
-		virtual void OnNodeRemoved(INode* parent, INode* child) = 0;
-		virtual void OnAttributeAdded(INode* node, IAttribute* attribute) = 0;
-		virtual void OnAttributeUpdated(INode* node, IAttribute* old_attribute, IAttribute* new_attribute) = 0;
-		virtual void OnAttributeRemoved(INode* node, IAttribute* attribute) = 0;
+		virtual void OnNodeAdded(Core::Pointer<INode> parent, Core::Pointer<INode> child) = 0;
+		virtual void OnNodeRemoved(Core::Pointer<INode> parent, Core::Pointer<INode> child) = 0;
+		virtual void OnAttributeAdded(Core::Pointer<INode> node, Core::Pointer<IAttribute> attribute) = 0;
+		virtual void OnAttributeUpdated(Core::Pointer<INode> node, Core::Pointer<IAttribute> old_attribute, Core::Pointer<IAttribute> new_attribute) = 0;
+		virtual void OnAttributeRemoved(Core::Pointer<INode> node, Core::Pointer<IAttribute> attribute) = 0;
     };    
 }
 PUNK_ENGINE_END

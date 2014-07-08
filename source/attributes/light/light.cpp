@@ -54,7 +54,7 @@ namespace Attributes {
 		float m_linear_attenuation;
 		float m_quadratic_attenuation;
 
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
 	};
 
 

@@ -25,7 +25,7 @@
 //            Math::vec3 v;
 //            v.Set(x,y,z);
 //
-//			Core::UniquePtr<Attributes::KeyFrame<Math::vec3>> key_frame{ nullptr, Core::DestroyObject };
+//			Core::Pointer<Attributes::KeyFrame<Math::vec3>> key_frame{ nullptr, Core::DestroyObject };
 //			Core::GetFactory()->CreateInstance(Attributes::IID_IVec3KeyFrame, (void**)&key_frame);
 //			key_frame->SetFrame(frame);
 //			key_frame->Key(v);

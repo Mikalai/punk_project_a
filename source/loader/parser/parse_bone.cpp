@@ -1,6 +1,7 @@
 #include <attributes/skinning/ibone.h>
 #include <math/quat.h>
 #include <math/vec3.h>
+#include <math/mat4.h>
 #include "parser.h"
 
 PUNK_ENGINE_BEGIN
@@ -28,6 +29,13 @@ namespace IoModule
                 bone->SetName(name);
             }
                 break;
+			case WORD_INDEX:
+			{
+				std::uint32_t index;
+				parser->Parse<std::uint32_t>(WORD_UINT32, buffer, index);
+				bone->SetIndex(index);
+			}
+				break;
             case WORD_PARENT:
             {
                 std::uint32_t index;
@@ -35,20 +43,13 @@ namespace IoModule
                 bone->SetParent(index);
             }
                 break;
-            case WORD_POSITION:
+            case WORD_LOCAL_MATRIX:
             {
-                Math::vec3 v;
-                parser->Parse(WORD_VEC3F, buffer, (void*)&v);
-                bone->SetRestPosition(v);
+                Math::mat4 m;
+                parser->Parse<Math::mat4>(WORD_MATRIX4X4F, buffer, m);
+                bone->SetBoneToArmatureMatrix(m);
             }
                 break;
-			case WORD_ROTATION:
-			{
-				Math::quat q;
-				parser->Parse(WORD_QUAT, buffer, (void*)&q);
-				bone->SetRestRotation(q);
-			}
-				break;
             case WORD_LENGTH:
             {
                 float l;

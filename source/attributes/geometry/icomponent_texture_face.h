@@ -3,10 +3,14 @@
 
 #include <config.h>
 #include <math/vec2.h>
+#include <core/iobject.h>
 
 PUNK_ENGINE_BEGIN
 namespace Attributes {
-	class ITextureFaceComponent {
+
+	DECLARE_PUNK_GUID(IID_IFaceTextureStream, "3BF6C838-10CD-4D2E-9D89-6B2058AA2353");
+
+	class IFaceTextureStream : public Core::IObject {
 	public:
 		virtual std::uint32_t GetFaceTextureCoordinatesSlotsCount() const = 0;
 		virtual void SetFaceTextureCoordinates(const std::vector<std::vector<std::array<Math::vec2, 3>>>& value) = 0;

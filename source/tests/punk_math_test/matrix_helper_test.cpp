@@ -55,10 +55,9 @@ void MatrixHelperTest::testCreateFromQuaternion() {
               -2.0f/3.0f, 1.0f/3.0f, 2.0f/3.0f, 0,
               2.0f/15.0f, 14.0f/15.0f, -1.0f/3.0f, 0,
              0, 0, 0, 1};
-    test = test.Transposed();
     q.Normalize();
     mat4 m = CreateFromQuaternion(q);
-    CPPUNIT_ASSERT(m == test);
+    CPPUNIT_ASSERT(m.IsEqual(test));
 }
 
 void MatrixHelperTest::testCreateFromPoistionAndDirection() {

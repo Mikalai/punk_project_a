@@ -39,7 +39,6 @@ namespace System
         virtual void Quite() override;
         virtual void ShowCursor(bool value) override; */       
 
-		void QueryInterface(const Core::Guid& type, void** object) override;
         virtual void SubscribeResizeEvent(ResizeEventDelegate) override;
         virtual void UnsubscribeResizeEvent(ResizeEventDelegate) override;
         virtual void SubscribeKeyEvent(KeyEventDelegate) override;
@@ -87,9 +86,7 @@ namespace System
         Core::ActionSlot<void> OnWindowCreated;
         Core::ActionSlot<void> OnWindowDestroy;
         Core::ActionSlot<const IdleEvent&> OnIdleEvent;
-        bool m_initialized = false;                       
-
-		PUNK_OBJECT_DEFAULT_IMPL(Window)		
+		bool m_initialized = false;
 	};    
 }
 PUNK_ENGINE_END

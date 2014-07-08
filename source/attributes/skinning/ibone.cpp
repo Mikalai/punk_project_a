@@ -9,6 +9,8 @@
 #include <math/mat4.h>
 #include <math/vec3.h>
 #include <math/helper.h>
+#include <math/matrix_helper.h>
+#include <attributes/animation/module.h>
 #include <config.h>
 #include <math/mat4.h>
 #include <string/string.h>
@@ -42,10 +44,8 @@ namespace Attributes
 		const Core::String& GetName() const override;
 		void SetLength(float value) override;
 		float GetLength() const override;
-		void SetRestPosition(const Math::vec3& value) override;
-		void SetRestRotation(const Math::quat& value) override;
-		const Math::vec3& GetRestPosition() const override;
-		const Math::quat& GetRestRotation() const override;
+		void SetBoneToArmatureMatrix(const Math::mat4& value) override;
+		const Math::mat4& GetBoneToArmatureMatrix() const override;
 		void SetParent(std::uint32_t value) override;
 		std::uint32_t GetParent() const override;
 		bool HasParent() const override;
@@ -54,15 +54,23 @@ namespace Attributes
 		std::uint32_t GetChild(std::uint32_t index) override;
 
 	private:
+		//	IObject
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
 
-		std::uint32_t m_index{ std::numeric_limits<std::uint32_t>::infinity() };
-		std::uint32_t m_parent{ std::numeric_limits<std::uint32_t>::infinity() };
-		Math::vec3 m_rest_position;
-		Math::quat m_rest_rotation;
+		//	IBone
+		std::uint32_t m_index{ std::numeric_limits<std::uint32_t>::max() };
+		std::uint32_t m_parent{ std::numeric_limits<std::uint32_t>::max() };
+		Math::mat4 m_bone_to_armature_matrix;
 		Core::String m_name;
 		float m_length;
-		std::vector<std::uint32_t> m_children;
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		std::vector<std::uint32_t> m_children;		
+
+		//	IAnimated
+		Core::Pointer<IAnimationPlayer> m_animation_player{ nullptr, Core::DestroyObject };
+		std::int32_t m_position_track_index{ -1 };
+		std::int32_t m_rotation_track_index{ -1 };
+		std::int32_t m_scale_track_index{ -1 };
+		std::vector<Core::String> m_supported_animations;
 	};
 
 	Bone::Bone() {}
@@ -85,20 +93,12 @@ namespace Attributes
 		return v;
 	}
 
-	void Bone::SetRestPosition(const Math::vec3& value) {
-		m_rest_position = value;
+	void Bone::SetBoneToArmatureMatrix(const Math::mat4& value) {
+		m_bone_to_armature_matrix = value;
 	}
 
-	void Bone::SetRestRotation(const Math::quat& value) {
-		m_rest_rotation = value;
-	}
-
-	const Math::vec3& Bone::GetRestPosition() const {
-		return m_rest_position;
-	}
-
-	const Math::quat& Bone::GetRestRotation() const {
-		return m_rest_rotation;
+	const Math::mat4& Bone::GetBoneToArmatureMatrix() const {
+		return m_bone_to_armature_matrix;
 	}
 
 	void Bone::SetIndex(std::uint32_t value) {
@@ -134,7 +134,7 @@ namespace Attributes
 	}
 
 	bool Bone::HasParent() const {
-		return m_parent != std::numeric_limits<std::uint32_t>::infinity();
+		return m_parent != std::numeric_limits<std::uint32_t>::max();
 	}
 
 	void Bone::AddChild(std::uint32_t index) {

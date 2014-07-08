@@ -1,4 +1,4 @@
-#include <ai/module.h>
+#include <attributes/ai/module.h>
 #include <math/mat4.h>
 #include "parser.h"
 
@@ -7,7 +7,7 @@ namespace IoModule
 {
 	bool ParseNaviMesh(Core::Buffer &buffer, void* object)
 	{
-		AI::INaviMesh* value = (AI::INaviMesh*)object;
+		Attributes::INaviMesh* value = (Attributes::INaviMesh*)object;
 		Parser* parser = GetDefaultParser();
 
 		CHECK_START(buffer);

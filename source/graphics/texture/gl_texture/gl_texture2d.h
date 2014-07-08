@@ -80,7 +80,7 @@ namespace Graphics {
             GLenum m_format {0};
             GLenum m_internal_format {0};
             GLenum m_internal_type {0};
-			std::atomic<std::uint32_t> m_ref_count{ 1 };
+			std::atomic<std::uint32_t> m_ref_count{ 0 };
         };
     }
 }

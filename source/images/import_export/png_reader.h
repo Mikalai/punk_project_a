@@ -38,7 +38,7 @@ namespace ImageModule
 
         static void DecodeBuffer(Core::Buffer& buffer, IImage** _image) {
 #ifdef USE_LIB_PNG
-            Core::UniquePtr<IImage> image{nullptr, Core::DestroyObject};
+            Core::Pointer<IImage> image{nullptr, Core::DestroyObject};
 			const int bytesToCheck = 8;
 
 			char sig[bytesToCheck];

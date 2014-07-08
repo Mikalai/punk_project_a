@@ -1,7 +1,8 @@
 #include <math/mat4.h>
 #include <math/vec2.h>
 #include <math/vec3.h>
-#include <attributes/geometry/igeometry.h>
+#include <core/iobject_impl.h>
+#include <attributes/geometry/module.h>
 #include "parser.h"
 
 PUNK_ENGINE_BEGIN
@@ -9,7 +10,7 @@ namespace IoModule
 {
     bool ParseGeometry(Core::Buffer& buffer, void* object)
     {
-		Attributes::IGeometry* geometry = (Attributes::IGeometry*)object;
+		Core::Pointer<Attributes::IGeometry> geometry{ (Attributes::IGeometry*)object, Core::DestroyObject };
 		Parser* parser = GetDefaultParser();
 
         CHECK_START(buffer);
@@ -29,7 +30,9 @@ namespace IoModule
 			{
 				Core::String name;
 				parser->Parse<Core::String>(WORD_STRING, buffer, name);
-				geometry->SetArmatureSchema(name);
+				auto bone_stream = Core::QueryInterfacePtr<Attributes::IVertexBoneWeightStream>(geometry, Attributes::IID_IVertexBoneWeightStream);
+				if (bone_stream)
+					bone_stream->SetArmatureSchema(name);
 			}
 				break;
             case WORD_NAME:
@@ -43,41 +46,54 @@ namespace IoModule
             {
                 Math::vec3v v;
                 parser->Parse(WORD_VEC3FV, buffer, v);
-                geometry->SetVertexPositions(v);
+				auto position_stream = Core::QueryInterfacePtr<Attributes::IVertexPositionStream>(geometry, Attributes::IID_IVertexPositionStream);
+				if (position_stream)
+					position_stream->SetVertexPositions(v);
             }
                 break;
             case WORD_NORMALS:
             {
                 Math::vec3v n;
                 parser->Parse(WORD_VEC3FV, buffer, n);
-                geometry->SetVertexNormals(n);
+				auto normal_stream = Core::QueryInterfacePtr<Attributes::IVertexNormalStream>(geometry, Attributes::IID_IVertexNormalStream);
+				if (normal_stream)
+					normal_stream->SetVertexNormals(n);
             }
                 break;
             case WORD_FACES:
             {
                 Math::ivec3v f;
 				parser->Parse(WORD_VEC3IV, buffer, f);
-                geometry->SetTriangles(f);
+				auto index_stream = Core::QueryInterfacePtr<Attributes::IFaceIndexStream>(geometry, Attributes::IID_IFaceIndexStream);
+				if (index_stream)
+					index_stream->SetTriangles(f);
             }
                 break;
             case WORD_TEXTURE:
             {
                 std::vector<std::vector<std::array<Math::vec2, 3>>> t;
                 parser->Parse(WORD_TEXTURE_COORD, buffer, &t);
-                geometry->SetFaceTextureCoordinates(t);
+				auto face_texture_stream = Core::QueryInterfacePtr<Attributes::IFaceTextureStream>(geometry, Attributes::IID_IFaceTextureStream);
+				if (face_texture_stream)
+					face_texture_stream->SetFaceTextureCoordinates(t);
             }
                 break;
 			case WORD_BONES_WEIGHTS:
 			{								
 				std::vector<std::vector<std::pair<int, float>>> b;
 				parser->Parse(WORD_BONES_WEIGHTS, buffer, (void*)&b);
-				geometry->SetVertexBonesWeights(b);
+				auto bone_stream = Core::QueryInterfacePtr<Attributes::IVertexBoneWeightStream>(geometry, Attributes::IID_IVertexBoneWeightStream);
+				if (bone_stream)
+					bone_stream->SetVertexBonesWeights(b);
 			}
 				break;
-			case WORD_WORLD_MATRIX:
+			case WORD_ARMATURE_MATRIX:
 			{
 				Math::mat4 m;
-				parser->Parse(WORD_MATRIX4X4F, buffer, m);				
+				parser->Parse<Math::mat4>(WORD_MATRIX4X4F, buffer, m);				
+				auto bone_stream = Core::QueryInterfacePtr<Attributes::IVertexBoneWeightStream>(geometry, Attributes::IID_IVertexBoneWeightStream);
+				if (bone_stream)
+					bone_stream->SetArmatureOffset(m);
 			}
 				break;
             default:

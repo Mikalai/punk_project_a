@@ -27,7 +27,7 @@
 //            Math::quat v;
 //            v.Set(w,x,y,z);
 //
-//			Core::UniquePtr<Attributes::KeyFrame<Math::quat>> key_frame{ nullptr, Core::DestroyObject };
+//			Core::Pointer<Attributes::KeyFrame<Math::quat>> key_frame{ nullptr, Core::DestroyObject };
 //			Core::GetFactory()->CreateInstance(Attributes::IID_IQuatKeyFrame, (void**)&key_frame);
 //			key_frame->SetFrame(frame);
 //			key_frame->Key(v);

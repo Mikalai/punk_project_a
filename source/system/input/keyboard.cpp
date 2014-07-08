@@ -13,7 +13,9 @@ namespace System {
     };
 
 	Keyboard::Keyboard() 
-        : impl(new KeyboardImpl) {
+        : impl(new KeyboardImpl)
+		, m_ref_count{ 0 }
+	{
         GetDefaultLogger()->Info("Keyboard created");
     }
 
@@ -24,13 +26,19 @@ namespace System {
     }
 
 	void Keyboard::QueryInterface(const Core::Guid& type, void** object) {
-		if (!object)
-			return;
-		if (IID_IKeyboard == type) {
-			*object = (void*)this;
+		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IKeyboard });
+	}
+
+	std::uint32_t Keyboard::AddRef() {
+		return m_ref_count.fetch_add(1);
+	}
+
+	std::uint32_t Keyboard::Release() {
+		auto v = m_ref_count.fetch_sub(1) - 1;
+		if (!v) {
+			delete this;
 		}
-		else
-			*object = nullptr;
+		return v;
 	}
 
     bool& Keyboard::operator[] (int key) {

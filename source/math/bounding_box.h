@@ -8,16 +8,15 @@
 
 PUNK_ENGINE_BEGIN
 namespace Math {
-	namespace __private {
-		struct BoundingBoxImpl;
-	}
-	class vec3;
-	class mat4;
+	
 	class BoundingSphere;
 
 	class PUNK_ENGINE_API BoundingBox
 	{
 	public:
+		BoundingBox();
+		BoundingBox(const BoundingBox& value);
+		BoundingBox& operator = (const BoundingBox& value);
 		void Create(const vec3* points, std::uint32_t count);
 		const vec3& GetR() const;
 		const vec3& GetS() const;
@@ -29,17 +28,23 @@ namespace Math {
 		const BoundingSphere ToBoundingSphere();
 
 	private:
-		//	natural center
-		vec3 m_center_of_mass;
-		//	bbox center
-		vec3 m_center;
-		vec3 m_min_corner;
-		//	natural axes
-		vec3 m_r;
-		vec3 m_s;
-		vec3 m_t;
-		//	natural planes of the bbox
-		Plane m_plane[6];
+
+		struct Core {
+			//	natural center
+			vec3 m_center_of_mass;
+			//	bbox center
+			vec3 m_center;
+			vec3 m_min_corner;
+			//	natural axes
+			vec3 m_r;
+			vec3 m_s;
+			vec3 m_t;
+			//	natural planes of the bbox
+			Plane m_plane[6];
+		};
+
+		Core m_core;
+
 
 		friend PUNK_ENGINE_API const BoundingBox operator * (const mat4& m, const BoundingBox& bbox);
 	};

@@ -54,7 +54,7 @@ namespace Graphics {
 			GLenum m_format{ 0 };
 			GLenum m_type{ 0 };
 			bool m_use_mip_maps{ false };
-			std::atomic<std::uint32_t> m_ref_count{ 1 };
+			std::atomic<std::uint32_t> m_ref_count{ 0 };
         };
     }
 }

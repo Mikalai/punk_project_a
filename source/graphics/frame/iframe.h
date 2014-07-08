@@ -21,6 +21,7 @@ namespace Graphics
     class IRenderable;
     class IFrameBuffer;
     class ILowLevelRender;
+	class IRenderableBuilder;
 
     class Batch;
 
@@ -32,7 +33,7 @@ namespace Graphics
 
         virtual ILowLevelRender* GetRender() = 0;
 		virtual void SetRender(ILowLevelRender* render) = 0;
-        virtual void Submit(IRenderable* value, bool destroy = false) = 0;
+        virtual void Submit(Core::Pointer<IRenderable> value) = 0;
         virtual void SetClipSpace(const Math::ClipSpace& value) = 0;
         virtual const Math::ClipSpace& GetClipSpace() const = 0;
         virtual void SetLineWidth(float value) = 0;
@@ -52,6 +53,11 @@ namespace Graphics
         virtual const Math::mat4& GetLocalMatrix() const = 0;
         virtual const Math::mat4& GetViewMatrix() const = 0;
         virtual const Math::mat4& GetProjectionMatrix() const = 0;
+		virtual void SetArmatureMatrix(const Math::mat4& value) = 0;
+		virtual const Math::mat4& GetArmatureMatrix() const = 0;
+		virtual void SetOffsetMatrix(const Math::mat4& value) = 0;
+		virtual const Math::mat4& GetOffsetMatrix() const = 0;
+		virtual const Math::mat4& GetLastLocalMatrix() const = 0;
 
         //  COLORS
         virtual void SetDiffuseColor(const Math::vec4& value) = 0;
@@ -171,11 +177,11 @@ namespace Graphics
         virtual void PopTextureState() = 0;
 
         virtual IVideoDriver* GetVideoDriver() const = 0;
-
+		virtual IRenderableBuilder* GetRenderableBuilder() = 0;		
         virtual const Math::vec2 FindZRange(const Math::mat4& view) const = 0;
     };
 
-	using IFrameUniquePtr = Core::UniquePtr < IFrame > ;
+	using IFramePointer = Core::Pointer < IFrame > ;
 }
 PUNK_ENGINE_END
 

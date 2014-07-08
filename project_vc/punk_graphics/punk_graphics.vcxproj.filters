@@ -96,15 +96,6 @@
     <ClCompile Include="..\..\source\graphics\blending\gl_blending.cpp">
       <Filter>blending</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\graphics\buffers\ibo.cpp">
-      <Filter>buffers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\graphics\buffers\pbo.cpp">
-      <Filter>buffers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\graphics\buffers\vbo.cpp">
-      <Filter>buffers</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\graphics\canvas\canvas.cpp">
       <Filter>canvas</Filter>
     </ClCompile>
@@ -503,6 +494,9 @@
     <ClCompile Include="..\..\source\graphics\render\gl_render\gl_render_context_base.cpp">
       <Filter>render\gl_render</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\graphics\buffers\_vbo.cpp">
+      <Filter>buffers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\graphics\blending\blend_function.h">
@@ -792,9 +786,6 @@
     </ClInclude>
     <ClInclude Include="..\..\source\graphics\renderable\renderable_builder.h">
       <Filter>renderable</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\graphics\renderable\gl_renderable\gl_renderable_builder.h">
-      <Filter>renderable\gl_renderable</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\graphics\renderable\gl_renderable\module.h">
       <Filter>renderable\gl_renderable</Filter>

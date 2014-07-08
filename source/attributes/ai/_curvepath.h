@@ -1,0 +1,12 @@
+#ifndef PUNK_AI_CURVEPATH_H
+#define PUNK_AI_CURVEPATH_H
+
+
+
+PUNK_ENGINE_BEGIN
+namespace Attributes
+{
+
+PUNK_ENGINE_END
+
+#endif // CURVEPATH_H

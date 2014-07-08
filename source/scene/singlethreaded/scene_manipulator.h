@@ -16,7 +16,7 @@ namespace SceneModule {
 	public:
 		virtual void DestroyCurrentScene() = 0;
 		virtual void LoadSceneFromFile(const Core::String& filename);
-		virtual INode* GetNode(const Core::String& name);		
+		virtual Core::Pointer<INode> GetNode(const Core::String& name);		
 	};
 }
 PUNK_ENGINE_END

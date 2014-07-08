@@ -70,9 +70,6 @@
     <ClCompile Include="..\..\source\attributes\manager\camera_manager.cpp">
       <Filter>manager</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\attributes\manager\material_manager.cpp">
-      <Filter>manager</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\attributes\data\entity.cpp">
       <Filter>data</Filter>
     </ClCompile>
@@ -102,12 +99,6 @@
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\animation\armature_animation_mixer.cpp">
       <Filter>animation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\attributes\geometry\geometry.cpp">
-      <Filter>geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\attributes\geometry\geometry_cooker.cpp">
-      <Filter>geometry</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\geometry\skin_geometry.cpp">
       <Filter>geometry</Filter>
@@ -168,6 +159,21 @@
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\stubs\ifile_stub.cpp">
       <Filter>stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\ai\curvepath.cpp">
+      <Filter>ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\ai\inavi_mesh.cpp">
+      <Filter>ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\geometry\igeometry.cpp">
+      <Filter>geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\geometry\igeometry_cooker.cpp">
+      <Filter>geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\manager\ioptions.cpp">
+      <Filter>manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -292,12 +298,6 @@
     <ClInclude Include="..\..\source\attributes\manager\camera_manager.h">
       <Filter>manager</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\attributes\manager\manager.h">
-      <Filter>manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\attributes\manager\material_manager.h">
-      <Filter>manager</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\attributes\data\door.h">
       <Filter>data</Filter>
     </ClInclude>
@@ -351,12 +351,6 @@
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\animation\object_animation_mixer.h">
       <Filter>animation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\attributes\geometry\geometry.h">
-      <Filter>geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\attributes\geometry\geometry_cooker.h">
-      <Filter>geometry</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\geometry\igeometry.h">
       <Filter>geometry</Filter>
@@ -469,12 +463,6 @@
     <ClInclude Include="..\..\source\attributes\stubs\module.h">
       <Filter>stubs</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\attributes\stubs\file_stub.h">
-      <Filter>stubs</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\attributes\stubs\text_attribute.h">
-      <Filter>stubs</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\attributes\stubs\itext_attribute.h">
       <Filter>stubs</Filter>
     </ClInclude>
@@ -501,6 +489,39 @@
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\stubs\ifile_stub.h">
       <Filter>stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\ai\icurvepath.h">
+      <Filter>ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\ai\inavi_mesh.h">
+      <Filter>ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\ai\interface.h">
+      <Filter>ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\ai\module.h">
+      <Filter>ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\ai\navi_triangle.h">
+      <Filter>ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\selection\module.h">
+      <Filter>selection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\selection\iselectable.h">
+      <Filter>selection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\selection\imouse_selectable.h">
+      <Filter>selection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\selection\imouse_selectable2d.h">
+      <Filter>selection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\manager\ioptions.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\manager\module.h">
+      <Filter>manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -554,6 +575,12 @@
     </Filter>
     <Filter Include="controllers">
       <UniqueIdentifier>{2f13fc1d-b217-48fa-bd2e-fd0a5f1a67a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ai">
+      <UniqueIdentifier>{01652c0f-d066-4fb0-b348-3e057225780b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="selection">
+      <UniqueIdentifier>{468bb8eb-57d6-4ea5-8e72-b8c1cb808ad4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

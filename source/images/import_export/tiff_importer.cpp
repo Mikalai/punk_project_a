@@ -45,7 +45,7 @@ namespace ImageModule
 
         static void DecodeBuffer(Core::Buffer& buffer, IImage** _image) {
 #ifdef USE_LIB_TIFF
-            Core::UniquePtr<IImage> image {nullptr, Core::DestroyObject};
+            Core::Pointer<IImage> image {nullptr, Core::DestroyObject};
 			PunkTiffHandle h;
 			h.stream = &buffer;
 			TIFF* tif;

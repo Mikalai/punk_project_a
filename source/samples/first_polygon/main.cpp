@@ -33,7 +33,7 @@ using namespace Punk::Engine;
 //unsigned PUNK_STDCALL RenderFunc(void* data) {
 //    while (g_flag) {
 //        Graphics::ILowLevelRender* render = (Graphics::ILowLevelRender*)data;
-//        Graphics::IFrameUniquePtr frame = Graphics::CreateFrame(render);
+//        Graphics::IFramePointer frame = Graphics::CreateFrame(render);
 //        frame->SetWorldMatrix(Math::CreateIdentity());
 //        frame->SetViewMatrix(Math::CreateIdentity());
 //        frame->SetProjectionMatrix(Math::CreateOrthographicProjection(0, 1024, 0, 768, -1, 1));
@@ -82,7 +82,7 @@ using namespace Punk::Engine;
 int main() {
 
 	try{
-        Core::UniquePtr<System::IModule> punk_application = System::LoadModule("punk_application");
+        Core::Pointer<System::IModule> punk_application = System::LoadModule("punk_application");
         if (!punk_application)
             throw System::Error::SystemException("Can't load punk_application module");
 
@@ -93,20 +93,22 @@ int main() {
 			return -1;
 		}
 
+		auto options = System::CreateInstancePtr<Attributes::IOptions>(Attributes::IID_IOptions);
 #ifdef WIN32
-		app->GetSceneManager()->GetScene()->SetSourcePath("c:\\Projects\\game\\dev\\punk_project_a\\data\\maps\\map1\\");
+		options->SetDataPath(L"c:\\Projects\\game\\dev\\punk_project_a\\data\\maps\\map1\\");		
 #elif defined __linux__
-        app->GetSceneManager()->GetScene()->SetSourcePath("/home/mikalaj/Projects/punk_project_a/data/maps/map1/");
+		options->SetDataPath(L"/home/mikalaj/Projects/punk_project_a/data/maps/map1/");
 #endif
+		app->GetSceneManager()->GetScene()->GetRoot()->Set<Attributes::IOptions>(L"Options", options);
 
         auto file = System::CreateInstancePtr<Attributes::IFileStub>(Attributes::IID_IFileStub);
 #ifdef WIN32
-        file->SetFilename("c:\\Projects\\game\\dev\\punk_project_a\\data\\maps\\map1\\level_1.pmd");
+        file->SetFilename("level_1.pmd");
 #elif defined __linux__
-        file->SetFilename("/home/mikalaj/Projects/punk_project_a/data/maps/map1/level_1.pmd");
+        file->SetFilename("level_1.pmd");
 #endif
 
-        app->GetSceneManager()->GetScene()->GetRoot()->Set<Attributes::IFileStub>("LevelFile", file.get());
+        app->GetSceneManager()->GetScene()->GetRoot()->Set<Attributes::IFileStub>("LevelFile", file);
 
 		app->Run();
 	}

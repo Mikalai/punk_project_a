@@ -40,7 +40,7 @@
 //        r->SetFlowDirection(dir);
 //
 //        r->SetFlowSpeed(buffer->ReadReal32());
-//		Attributes::IGeometryUniquePtr geom = Attributes::CreateGeometry();
+//		Attributes::IGeometryPointer geom = Attributes::CreateGeometry();
 //        LoadStaticGeometry(buffer, geom.get());
 //        r->SetGeometry(geom.release());
 //    }

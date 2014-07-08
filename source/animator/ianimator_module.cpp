@@ -21,61 +21,55 @@ namespace AnimatorModule {
 
 		//	IAnimatorObserver
 		void SetScene(SceneModule::IScene* value) override;
-		void OnNodeAdded(SceneModule::INode* parent, SceneModule::INode* child) override;
-		void OnNodeRemoved(SceneModule::INode* parent, SceneModule::INode* child) override;
-		void OnAttributeAdded(SceneModule::INode* node, SceneModule::IAttribute* attribute) override;
-		void OnAttributeUpdated(SceneModule::INode* node, SceneModule::IAttribute* old_attribute, SceneModule::IAttribute* new_attribute) override;
-		void OnAttributeRemoved(SceneModule::INode* node, SceneModule::IAttribute* attribute) override;
+		void OnNodeAdded(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child) override;
+		void OnNodeRemoved(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child) override;
+		void OnAttributeAdded(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> attribute) override;
+		void OnAttributeUpdated(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> old_attribute, Core::Pointer<SceneModule::IAttribute> new_attribute) override;
+		void OnAttributeRemoved(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> attribute) override;
 
 		//	IAnimatorProcessor
 		void SetSceneManager(SceneModule::ISceneManager* manager) override;
 		void Update(float dt) override;
+		void Terminate() override;
 
 	private:
-		void Process(SceneModule::INode* node);
-		void OnAnimationLoaded(Core::IObject* o) {
-            LOG_FUNCTION_SCOPE
+		
+		void Process(Core::Pointer<SceneModule::INode> node);
+		void OnAnimationLoaded(Core::Pointer<Core::IObject> o) {
+			LOG_FUNCTION_SCOPE;
             auto animation = Core::QueryInterfacePtr<Attributes::IAnimation>(o, Attributes::IID_IAnimation);
-			if (animation.get()) {
-				animation->AddRef();
-				m_animations.push_back(animation.get());
-				m_animation_map.AddValue(animation->GetName(), animation.get());
+			if (animation) {
+				m_animations.push_back(animation);
+				System::GetDefaultLogger()->Debug(L"Add animation " + animation->GetName());
+				m_animation_map.AddValue(animation->GetName(), animation);
 			}
 		}
+
 	private:
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
-		std::vector<Attributes::IAnimated*> m_animated;
-		std::vector<Attributes::IAnimationPlayer*> m_players;
-		Core::UniquePtr<SceneModule::IScene> m_scene{ nullptr, Core::DestroyObject };
-		Core::UniquePtr<SceneModule::ISceneManager> m_manager{ nullptr, Core::DestroyObject };
-		Core::ObjectPool<Core::String, Attributes::IAnimation*> m_animation_map;
-		std::vector<Attributes::IAnimation*> m_animations;
+		void Clear();
+	private:
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
+		std::vector<Core::Pointer<Attributes::IAnimated>> m_animated;
+		std::vector<Core::Pointer<Attributes::IAnimationPlayer>> m_players;
+		Core::Pointer<SceneModule::IScene> m_scene{ nullptr, Core::DestroyObject };
+		Core::Pointer<SceneModule::ISceneManager> m_manager{ nullptr, Core::DestroyObject };
+		Core::ObjectPool<Core::String, Attributes::IAnimation> m_animation_map;
+		std::vector<Core::Pointer<Attributes::IAnimation>> m_animations;
 	};
 
     Animator::Animator()
-        : m_ref_count{1}
+        : m_ref_count{ 0 }
     {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
     }
 
 	Animator::~Animator() {
-        LOG_FUNCTION_SCOPE
-		while (!m_animated.empty()) {
-			m_animated.back()->Release();
-		}
-		while (!m_players.empty()) {
-			m_players.back()->Release();
-			m_players.pop_back();
-		}
-		while (!m_animations.empty()) {
-			m_animations.back()->Release();
-			m_animations.pop_back();
-		}
+		LOG_FUNCTION_SCOPE;
 	}
 
 	//	IObject
 	void Animator::QueryInterface(const Core::Guid& type, void** object) {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		if (!object)
 			return;
 
@@ -108,73 +102,86 @@ namespace AnimatorModule {
 	}
 
 	std::uint32_t Animator::AddRef() {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		return m_ref_count.fetch_add(1);        
 	}
 
 	std::uint32_t Animator::Release() {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
         auto v = m_ref_count.fetch_sub(1) - 1;
 		if (!v)
 			delete this;
 		return v;
 	}
 
+	void Animator::Clear() {
+		LOG_FUNCTION_SCOPE;
+		m_animated.clear();
+		m_players.clear();
+		m_animations.clear();
+	}
+
+	void Animator::Terminate() {
+		LOG_FUNCTION_SCOPE;
+		Clear();
+	}
+
 	//	IAnimatorObserver
 	void Animator::SetScene(SceneModule::IScene* value) {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		value->AddRef();
 		m_scene.reset(value);
 		if (m_scene.get())
 			Process(m_scene->GetRoot());
 	}
 
-	void Animator::OnNodeAdded(SceneModule::INode* parent, SceneModule::INode* child) {
-        LOG_FUNCTION_SCOPE
+	void Animator::OnNodeAdded(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child) {
+		LOG_FUNCTION_SCOPE;
         Process(child);
 	}
 
-	void Animator::OnNodeRemoved(SceneModule::INode* parent, SceneModule::INode* child) {
-        LOG_FUNCTION_SCOPE
+	void Animator::OnNodeRemoved(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child) {
+		LOG_FUNCTION_SCOPE;
 	}
 
-	void Animator::OnAttributeAdded(SceneModule::INode* node, SceneModule::IAttribute* attribute) {
-        LOG_FUNCTION_SCOPE
+	void Animator::OnAttributeAdded(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> attribute) {
+		LOG_FUNCTION_SCOPE;
 		auto animation = attribute->Get<Attributes::IAnimation>();
 		if (animation) {
-			animation->AddRef();
 			m_animations.push_back(animation);
 			m_animation_map.AddValue(animation->GetName(), animation);
 		}
 	}
 
-	void Animator::OnAttributeUpdated(SceneModule::INode* node, SceneModule::IAttribute* old_attribute, SceneModule::IAttribute* new_attribute) {
-        LOG_FUNCTION_SCOPE
+	void Animator::OnAttributeUpdated(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> old_attribute, Core::Pointer<SceneModule::IAttribute> new_attribute) {
+		LOG_FUNCTION_SCOPE;
 	}
 
-	void Animator::OnAttributeRemoved(SceneModule::INode* node, SceneModule::IAttribute* attribute) {
-        LOG_FUNCTION_SCOPE
+	void Animator::OnAttributeRemoved(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> attribute) {
+		LOG_FUNCTION_SCOPE;
 	}
 
-	void Animator::Process(SceneModule::INode* node) {
-        LOG_FUNCTION_SCOPE
+	void Animator::Process(Core::Pointer<SceneModule::INode> node) {
+		LOG_FUNCTION_SCOPE;
 		auto count = node->GetAttributesCount();
 		for (int i = 0; i < count; ++i) {
 			auto attribute = node->GetAttribute(i);
             auto animated = Core::QueryInterfacePtr<Attributes::IAnimated>(attribute->GetRawData(), Attributes::IID_IAnimated);
-			if (animated.get()) {
+			if (animated && animated->GetAnimationsCount()) {
 				animated->AddRef();
-				m_animated.push_back(animated.get());
+				m_animated.push_back(animated);
 
 				//	submit all animation for loading
 				for (std::uint32_t i = 0, max_i = animated->GetAnimationsCount(); i < max_i; ++i) {
 					auto name = animated->GetAnimation(i);
 					if (!m_animation_map.HasValue(name)) {
-						auto filename = m_scene->GetSourcePath() + name + L".action";
-                        Core::UniquePtr<Attributes::IFileStub> file_stub = System::CreateInstancePtr<Attributes::IFileStub>(Attributes::IID_IFileStub);
+						System::GetDefaultLogger()->Debug(L"Loading animation " + name);
+						auto filename = name + L".action";
+                        Core::Pointer<Attributes::IFileStub> file_stub = System::CreateInstancePtr<Attributes::IFileStub>(Attributes::IID_IFileStub);
 						file_stub->SetFilename(filename);
-						file_stub->SetCallback(new Core::Action < Animator, Core::IObject* > { this, &Animator::OnAnimationLoaded });
-						node->Set<Attributes::IFileStub>(name, file_stub.get());
+						Core::Pointer<Attributes::OnLoadedCallback> callback{ new Core::Action<Animator, Core::Pointer<Core::IObject>>{ this, &Animator::OnAnimationLoaded }, Core::DestroyObject };
+						file_stub->SetCallback(callback);
+						node->Set<Attributes::IFileStub>(name, file_stub);
 					}
 				}
 			}
@@ -187,13 +194,13 @@ namespace AnimatorModule {
 
 	//	IAnimatorProcessor
 	void Animator::SetSceneManager(SceneModule::ISceneManager* manager) {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		manager->AddRef();
 		m_manager.reset(manager);
 	}
 
     void Animator::Update(float dt) {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		dt /= 1000.0f; 
 		for (auto& player : m_players) {			
 			if (player->IsPlaying()) {
@@ -205,11 +212,13 @@ namespace AnimatorModule {
 			if (!animated->GetAnimationPlayer()) {
 				if (animated->GetAnimationsCount() && m_animation_map.HasValue(animated->GetAnimation(0))){
 					auto animation = m_animation_map.GetValue(animated->GetAnimation(0));
-                    Core::UniquePtr<Attributes::IAnimationPlayer> player = System::CreateInstancePtr<Attributes::IAnimationPlayer>(Attributes::IID_IAnimationPlayer);
+                    Core::Pointer<Attributes::IAnimationPlayer> player = System::CreateInstancePtr<Attributes::IAnimationPlayer>(Attributes::IID_IAnimationPlayer);
 					player->SetAnimation(animation);
 					animated->SetAnimationPlayer(player.get());
+					player->SetDuration(5);
 					player->Start();
-					m_players.push_back(player.release());
+					player->AddRef();
+					m_players.push_back(Core::Pointer < Attributes::IAnimationPlayer > {player.get(), Core::DestroyObject});
 				}
 			}
 			if (animated->GetAnimationPlayer() && animated->GetAnimationPlayer()->IsPlaying())

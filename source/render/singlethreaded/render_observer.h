@@ -18,18 +18,18 @@
 //		virtual ~RenderObserver();
 //		void QueryInterface(const Core::Guid& type, void** object) override;
 //		void SetScene(SceneModule::IScene* value) override;
-//		void OnNodeAdded(SceneModule::INode* parent, SceneModule::INode* child) override;
-//		void OnNodeRemoved(SceneModule::INode* parent, SceneModule::INode* child) override;
-//		void OnAttributeAdded(SceneModule::INode* node, SceneModule::IAttribute* attribute) override;
-//		void OnAttributeUpdated(SceneModule::INode* node, SceneModule::IAttribute* old_attribute, SceneModule::IAttribute* new_attribute) override;
-//		void OnAttributeRemoved(SceneModule::INode* node, SceneModule::IAttribute* attribute) override;
+//		void OnNodeAdded(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child) override;
+//		void OnNodeRemoved(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child) override;
+//		void OnAttributeAdded(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> attribute) override;
+//		void OnAttributeUpdated(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> old_attribute, Core::Pointer<SceneModule::IAttribute> new_attribute) override;
+//		void OnAttributeRemoved(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> attribute) override;
 //	
 //	private:
 //		Core::ObjectPool<Attributes::IGeometry*, Graphics::IRenderable*> m_cooked_geometry;
-//		std::map<SceneModule::INode*, RenderGeoemetryCache> m_geometry_cache;
-//		//Graphics::ICanvasUniquePtr m_canvas{ nullptr, Core::DestroyObject };
+//		std::map<Core::Pointer<SceneModule::INode>, RenderGeoemetryCache> m_geometry_cache;
+//		//Graphics::ICanvasPointer m_canvas{ nullptr, Core::DestroyObject };
 //		SceneModule::IScene* m_scene{ nullptr };
-//		SceneModule::INode* m_camera_node{ nullptr };
+//		Core::Pointer<SceneModule::INode> m_camera_node{ nullptr };
 //		Attributes::IGeometryCooker* m_geometry_cooker{ nullptr };
 //		Graphics::IRenderableBuilder* m_renderable_builder{ nullptr };
 //		PUNK_OBJECT_DEFAULT_IMPL(RenderObserver);

@@ -23,7 +23,7 @@ namespace Attributes {
 	public:
 
         TrackImpl()
-            : m_ref_count{1}
+            : m_ref_count{ 0 }
         {}
 
 		~TrackImpl() {
@@ -126,7 +126,7 @@ namespace Attributes {
 		}
 
 	private:
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
 		std::int32_t m_first_frame{ 0 };
 		std::int32_t m_last_frame{ 0 };
 		std::list<IKeyFrame*> m_frames;

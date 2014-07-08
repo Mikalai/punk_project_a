@@ -1,5 +1,6 @@
 #include "string/string.h"
 #include "string/string_list.h"
+#include <string/buffer.h>
 #include "string_test.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(StringTest);
@@ -69,8 +70,7 @@ void StringTest::testAdd() {
 void StringTest::testIndexer() {
     String s1("Hello world");
     CPPUNIT_ASSERT(s1[0] == 'H');
-    CPPUNIT_ASSERT(s1[0] != 'h');
-    CPPUNIT_ASSERT(s1[1000] != 'H');
+    CPPUNIT_ASSERT(s1[0] != 'h');	
 }
 
 void StringTest::testLength() {
@@ -137,7 +137,11 @@ void StringTest::testData() {
 }
 
 void StringTest::testToAscii() {
+	String s = L"Вітаю ў кавярні";
+	Buffer b = s.ToUtf8();
 
+	String s2 = String::FromUtf8(b);
+	CPPUNIT_ASSERT(s == s2);
 }
 
 void StringTest::testToUtf8() {

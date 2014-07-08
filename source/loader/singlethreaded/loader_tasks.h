@@ -15,7 +15,7 @@
 //	};
 //
 //	struct LoadFileTask {
-//		SceneModule::INode* node;
+//		Core::Pointer<SceneModule::INode> node;
 //		wchar_t filename[MAX_PATH];
 //	};
 //

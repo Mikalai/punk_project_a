@@ -20,27 +20,27 @@ namespace Attributes {
 		std::uint32_t GetDuration() const override;
 		std::int32_t GetFirstFrame() const override;
 		std::int32_t GetLastFrame() const override;
-		void AddTrack(ITrack* value) override;
+		void AddTrack(Core::Pointer<ITrack> value) override;
 		std::uint32_t GetTracksCount() const override;
-		const ITrack* GetTrack(std::uint32_t index) const override;
-		ITrack* GetTrack(std::uint32_t index) override;
+		const Core::Pointer<ITrack> GetTrack(std::uint32_t index) const override;
+		Core::Pointer<ITrack> GetTrack(std::uint32_t index) override;
 		void SetName(const Core::String& value) override;
 		const Core::String& GetName() const override;
 		std::uint32_t GetTrackIndex(const Core::String& name) override;
 	private:
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
-		std::vector<ITrack*> m_tracks;
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
+		std::vector<Core::Pointer<ITrack>> m_tracks;
 		Core::String m_name;
 	};
 
     Animation::Animation()
-        : m_ref_count{1}
+        : m_ref_count{ 0 }
     {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
     }
 
 	Animation::~Animation() {        
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		while (!m_tracks.empty()) {
 			m_tracks.back()->Release();
 			m_tracks.pop_back();
@@ -49,17 +49,17 @@ namespace Attributes {
 
 	//	IObject
 	void Animation::QueryInterface(const Core::Guid& type, void** object) {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IAnimation });
 	}
 
 	std::uint32_t Animation::AddRef() {
-        LOG_FUNCTION_SCOPE
+		LOG_FUNCTION_SCOPE;
 		return m_ref_count.fetch_add(1);
 	}
 
 	std::uint32_t Animation::Release() {
-        LOG_FUNCTION_SCOPE
+        LOG_FUNCTION_SCOPE;
 		auto v = m_ref_count.fetch_sub(1) - 1;
 		if (!v)
 			delete this;
@@ -95,8 +95,7 @@ namespace Attributes {
 		return frame;
 	}
 
-	void Animation::AddTrack(ITrack* value) {
-		value->AddRef();
+	void Animation::AddTrack(Core::Pointer<ITrack> value) {
 		m_tracks.push_back(value);
 	}
 
@@ -104,11 +103,11 @@ namespace Attributes {
 		return (std::uint32_t)m_tracks.size();
 	}
 
-	const ITrack* Animation::GetTrack(std::uint32_t index) const {
+	const Core::Pointer<ITrack> Animation::GetTrack(std::uint32_t index) const {
 		return m_tracks.at(index);
 	}
 
-	ITrack* Animation::GetTrack(std::uint32_t index) {
+	Core::Pointer<ITrack> Animation::GetTrack(std::uint32_t index) {
 		return m_tracks.at(index);
 	}
 

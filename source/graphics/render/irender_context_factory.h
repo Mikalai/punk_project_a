@@ -19,7 +19,7 @@ namespace Graphics {
 		virtual void Initialize(IVideoDriver* driver) = 0;
 	};
 
-	using IRenderContextFactoryUniquePtr = Core::UniquePtr < IRenderContextFactory > ;
+	using IRenderContextFactoryPointer = Core::Pointer < IRenderContextFactory > ;
 }
 PUNK_ENGINE_END
 

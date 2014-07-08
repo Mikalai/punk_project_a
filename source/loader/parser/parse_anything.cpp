@@ -1,14 +1,13 @@
 #include <system/factory/module.h>
 #include <attributes/module.h>
 #include <scene/module.h>
-#include <ai/module.h>
 #include <system/logger/module.h>
 #include "parser.h"
 
 PUNK_ENGINE_BEGIN
 namespace IoModule
 {
-    Core::IObject* ParseAnything(Core::Buffer& buffer)
+    Core::Pointer<Core::IObject> ParseAnything(Core::Buffer& buffer)
     {		
 		Parser* parser = GetDefaultParser();
         while (!buffer.IsEnd())
@@ -29,7 +28,7 @@ namespace IoModule
 				if (word == L"transform") {
                     auto transform = System::CreateInstancePtr<Attributes::ITransform>(Attributes::IID_ITransform);
                     parser->Parse(WORD_TRANSFORM, buffer, transform.get());
-                    return transform.release();
+					return transform;
 				}
 			}
 			case WORD_ARMATURE_SCHEMA_TEXT:
@@ -38,14 +37,14 @@ namespace IoModule
                 auto schema = System::CreateInstancePtr<Attributes::IArmatureSchema>(Attributes::IID_IArmatureSchema);
                 parser->Parse(WORD_ARMATURE_SCHEMA, buffer, schema.get());
 				schema->SetName(word);
-                return schema.release();
+				return schema;
 			}
             case WORD_ARMATURETEXT:
             {
                 Core::String word = buffer.ReadWord();         
                 auto armature = System::CreateInstancePtr<Attributes::IArmature>(Attributes::IID_IArmature);
                 parser->Parse(WORD_ARMATURE, buffer, armature.get());
-                return armature.release();
+				return armature;
             }
             case WORD_ACTIONTEXT:
             {
@@ -53,7 +52,7 @@ namespace IoModule
                 auto animation = System::CreateInstancePtr<Attributes::IAnimation>(Attributes::IID_IAnimation);
                 parser->Parse(WORD_ACTION, buffer, animation.get());
 				animation->SetName(word);
-                return animation.release();
+				return animation;
             }
             case WORD_STATICMESHTEXT:
             {
@@ -61,7 +60,7 @@ namespace IoModule
                 auto mesh = System::CreateInstancePtr<Attributes::IGeometry>(Attributes::IID_IGeometry);
                 parser->Parse(WORD_STATIC_MESH, buffer, mesh.get());
                 mesh->SetName(word);
-                return mesh.release();
+				return mesh;
             }
                 break;
             case WORD_MATERIALTEXT:
@@ -69,21 +68,21 @@ namespace IoModule
                 Core::String word = buffer.ReadWord();
                 auto material = System::CreateInstancePtr<Attributes::IMaterial>(Attributes::IID_IMaterial);
                 parser->Parse(WORD_MATERIAL, buffer, material.get());
-                return material.release();
+				return material;
             }
             case WORD_NAVIMESHTEXT:
             {
                 Core::String word = buffer.ReadWord();
-                auto navi_mesh = System::CreateInstancePtr<AI::INaviMesh>(AI::IID_INaviMesh);
+                auto navi_mesh = System::CreateInstancePtr<Attributes::INaviMesh>(Attributes::IID_INaviMesh);
                 parser->Parse(WORD_NAVI_MESH, buffer, navi_mesh.get());
-                return navi_mesh.release();
+				return navi_mesh;
             }
             case WORD_PATHTEXT:
             {
                 Core::String word = buffer.ReadWord();
-                auto path = System::CreateInstancePtr<AI::ICurvePath>(AI::IID_ICurvePath);
+				auto path = System::CreateInstancePtr<Attributes::ICurvePath>(Attributes::IID_ICurvePath);
                 parser->Parse(WORD_CURVE_PATH, buffer, path.get());
-                return path.release();
+				return path;
             }
             /*case WORD_RIVERTEXT:
             {
@@ -96,7 +95,7 @@ namespace IoModule
             {
                 auto graph = System::CreateInstancePtr<SceneModule::IScene>(SceneModule::IID_IScene);
                 parser->Parse(WORD_SCENE_GRAPH, buffer, graph.get());
-                return graph.release();
+				return graph;
             }
            /* case WORD_SUNTEXT:
             {
@@ -118,7 +117,7 @@ namespace IoModule
                 auto mesh = System::CreateInstancePtr<Attributes::IGeometry>(Attributes::IID_IGeometry);
                 parser->Parse(WORD_SKIN_MESH, buffer, mesh.get());
                 mesh->SetName(word);
-                return mesh.get();
+				return mesh;
             }
             case WORD_DIRLIGHTTEXT:
             {
@@ -126,7 +125,7 @@ namespace IoModule
                 auto light = System::CreateInstancePtr<Attributes::IDirectionalLight>(Attributes::IID_IDirectionalLight);
                 parser->Parse(WORD_DIRECTIONAL_LIGHT, buffer, light.get());
                 light->SetName(word);
-                return light.release();
+				return light;
             }
 			case WORD_POINTLIGHTTEXT:
 			{
@@ -134,7 +133,7 @@ namespace IoModule
                 auto light = System::CreateInstancePtr<Attributes::IPointLight>(Attributes::IID_IPointLight);
                 parser->Parse(WORD_POINT_LIGHT, buffer, light.get());
                 light->SetName(word);
-                return light.release();
+				return light;
 			}
 			case WORD_SPOTLIGHTTEXT:
 			{
@@ -142,7 +141,7 @@ namespace IoModule
                 auto light = System::CreateInstancePtr<Attributes::ISpotLight>(Attributes::IID_ISpotLight);
                 parser->Parse(WORD_SPOT_LIGHT, buffer, light.get());
                 light->SetName(word);
-                return light.release();
+				return light;
 			}
 			case WORD_CAMERATEXT:
 			{
@@ -150,9 +149,9 @@ namespace IoModule
 				if (ParseKeyword(word) == WORD_PERSPECTIVE_CAMERA) {
                     auto camera = System::CreateInstancePtr<Attributes::IPerspectiveCamera>(Attributes::IID_IPerspectiveCamera);
                     parser->Parse(WORD_PERSPECTIVE_CAMERA, buffer, camera.get());
-                    return camera.release();
+					return camera;
 				}
-				return nullptr;
+				return Core::Pointer < Core::IObject > {nullptr, Core::DestroyObject};
 			}
             default:
                 throw Error::LoaderException(L"Unexpected keyword " + word);

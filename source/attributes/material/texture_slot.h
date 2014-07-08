@@ -42,8 +42,8 @@ namespace Attributes
         Math::vec3 m_scale;
         Core::String m_image_filename;
 		float m_factor{ 1.0f };
-		Core::UniquePtr<Graphics::ITexture2D> m_texture_2d{ nullptr, Core::DestroyObject };
-		std::atomic<std::uint32_t> m_ref_count{ 1 };
+		Core::Pointer<Graphics::ITexture2D> m_texture_2d{ nullptr, Core::DestroyObject };
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
     };
 }
 PUNK_ENGINE_END

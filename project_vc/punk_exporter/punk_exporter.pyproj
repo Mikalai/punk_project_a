@@ -29,6 +29,7 @@
     <PtvsTargetsFile>$(VSToolsPath)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="punk_export_gui.py" />
     <Compile Include="punk_export_light_node.py" />
     <Compile Include="punk_export.py" />
     <Compile Include="punk_export_action.py" />

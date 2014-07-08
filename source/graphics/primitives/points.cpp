@@ -57,21 +57,21 @@
 //        }
 //    };
 //
-//    extern PUNK_ENGINE_API IPointsUniquePtr CreatePoints(std::int64_t vertex_type, class IVideoDriver* driver) {
+//    extern PUNK_ENGINE_API IPointsPointer CreatePoints(std::int64_t vertex_type, class IVideoDriver* driver) {
 //        if (vertex_type == Vertex<VertexComponent::Position>::Value())
-//            return IPointsUniquePtr{new Points<Vertex<VertexComponent::Position>>(driver), DestroyRenderable};
+//            return IPointsPointer{new Points<Vertex<VertexComponent::Position>>(driver), DestroyRenderable};
 //        else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Texture0, VertexComponent::Flag, VertexComponent::Color>::Value())
-//            return IPointsUniquePtr{new Points<Vertex<VertexComponent::Position, VertexComponent::Texture0, VertexComponent::Flag, VertexComponent::Color>>(driver), DestroyRenderable};
+//            return IPointsPointer{new Points<Vertex<VertexComponent::Position, VertexComponent::Texture0, VertexComponent::Flag, VertexComponent::Color>>(driver), DestroyRenderable};
 //        else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Color>::Value())
-//            return IPointsUniquePtr{new Points<Vertex<VertexComponent::Position, VertexComponent::Color>>(driver), DestroyRenderable};
+//            return IPointsPointer{new Points<Vertex<VertexComponent::Position, VertexComponent::Color>>(driver), DestroyRenderable};
 //        else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Texture0>::Value())
-//            return IPointsUniquePtr{new Points<Vertex<VertexComponent::Position, VertexComponent::Texture0>>(driver), DestroyRenderable};
+//            return IPointsPointer{new Points<Vertex<VertexComponent::Position, VertexComponent::Texture0>>(driver), DestroyRenderable};
 //        else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Color, VertexComponent::Texture0>::Value())
-//            return IPointsUniquePtr{new Points<Vertex<VertexComponent::Position, VertexComponent::Color, VertexComponent::Texture0>>(driver), DestroyRenderable};
+//            return IPointsPointer{new Points<Vertex<VertexComponent::Position, VertexComponent::Color, VertexComponent::Texture0>>(driver), DestroyRenderable};
 //        else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Normal>::Value())
-//            return IPointsUniquePtr{new Points<Vertex<VertexComponent::Position, VertexComponent::Normal>>(driver), DestroyRenderable};
+//            return IPointsPointer{new Points<Vertex<VertexComponent::Position, VertexComponent::Normal>>(driver), DestroyRenderable};
 //        else if (vertex_type == Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0>::Value())
-//            return IPointsUniquePtr{new Points<Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0>>(driver), DestroyRenderable};
+//            return IPointsPointer{new Points<Vertex<VertexComponent::Position, VertexComponent::Normal, VertexComponent::Texture0>>(driver), DestroyRenderable};
 //        else
 //            throw Error::GraphicsException(L"Can't create lines using " + Core::String::Convert(vertex_type) + L" vertex type");
 //    }

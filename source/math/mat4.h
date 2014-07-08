@@ -44,7 +44,8 @@ namespace Punk {
                 const mat4 Transposed() const;
                 const Core::String ToString() const;
                 mat4& operator *= (const mat4& b);
-
+				mat4& operator += (const mat4& v);
+				bool IsEqual(const mat4& m, float eps = 1e-6) const;
             private:
                 std::array<float, 16> m;
             };
