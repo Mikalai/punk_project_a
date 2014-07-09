@@ -297,7 +297,7 @@
     <ClCompile Include="..\..\source\loader\singlethreaded\loader_cache.cpp" />
     <ClCompile Include="..\..\source\loader\singlethreaded\loader_commands.cpp" />
     <ClCompile Include="..\..\source\loader\singlethreaded\io_observer.cpp" />
-    <ClCompile Include="..\..\source\loader\singlethreaded\loader_tasks.cpp" />
+    <ClCompile Include="..\..\source\loader\singlethreaded\iio_module.cpp" />
     <ClCompile Include="..\..\source\loader\singlethreaded\path_finder.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -441,7 +441,7 @@
     <ClInclude Include="..\..\source\loader\singlethreaded\loader_cache.h" />
     <ClInclude Include="..\..\source\loader\singlethreaded\loader_commands.h" />
     <ClInclude Include="..\..\source\loader\singlethreaded\io_observer.h" />
-    <ClInclude Include="..\..\source\loader\singlethreaded\loader_tasks.h" />
+    <ClInclude Include="..\..\source\loader\singlethreaded\iio_module.h" />
     <ClInclude Include="..\..\source\loader\singlethreaded\module.h" />
     <ClInclude Include="..\..\source\loader\singlethreaded\path_finder.h" />
   </ItemGroup>

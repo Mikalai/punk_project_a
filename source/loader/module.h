@@ -2,5 +2,6 @@
 #define _H_LOADER_MAIN_MODULE
 
 #include "singlethreaded/module.h"
+#include "parser/parse_punk_file.h"
 
 #endif	//	_H_LOADER_MAIN_MODULE

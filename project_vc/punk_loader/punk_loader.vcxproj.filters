@@ -259,9 +259,6 @@
     <ClCompile Include="..\..\source\loader\singlethreaded\loader_commands.cpp">
       <Filter>singlethreaded</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\loader\singlethreaded\loader_tasks.cpp">
-      <Filter>singlethreaded</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\loader\singlethreaded\path_finder.cpp">
       <Filter>singlethreaded</Filter>
     </ClCompile>
@@ -279,6 +276,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\loader\parser\parse_texture_coordinates.cpp">
       <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\loader\singlethreaded\iio_module.cpp">
+      <Filter>singlethreaded</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -540,9 +540,6 @@
     <ClInclude Include="..\..\source\loader\singlethreaded\loader_commands.h">
       <Filter>singlethreaded</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\loader\singlethreaded\loader_tasks.h">
-      <Filter>singlethreaded</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\loader\singlethreaded\module.h">
       <Filter>singlethreaded</Filter>
     </ClInclude>
@@ -556,6 +553,9 @@
       <Filter>singlethreaded</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\loader\module.h" />
+    <ClInclude Include="..\..\source\loader\singlethreaded\iio_module.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="serializer">

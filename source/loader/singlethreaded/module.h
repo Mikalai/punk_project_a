@@ -7,6 +7,7 @@
 //#include "async_parser.h"
 //#include "path_finder.h"
 #include "iio_observer.h"
+#include "iio_module.h"
 
 //#include "elements\terrain.h"
 //#include "utility_lod.h"
