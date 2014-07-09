@@ -1,11 +1,40 @@
 #include <string/module.h>
 #include <system/time/module.h>
+#include <set>
+#include <system/concurrency/thread_mutex.h>
 #include "log_consumer.h"
 #include "console_consumer.h"
-#include "default_logger.h"
+#include "file_consumer.h"
+#include "logger_interface.h"
 
 PUNK_ENGINE_BEGIN
 namespace System {
+
+		class ConsoleConsumer;
+		class IClock;
+
+		class PUNK_ENGINE_LOCAL DefaultLogger : public ILogger {
+		public:
+			DefaultLogger();
+			virtual ~DefaultLogger();
+			void Message(const Core::String& value) override;
+			void Warning(const Core::String& value) override;
+			void Error(const Core::String& value) override;
+			void Info(const Core::String& value) override;
+			void Write(const Core::String& value) override;
+			void Debug(const Core::String& value) override;
+			void AddConsumer(ILogConsumer* consumer) override;
+			void RemoveConsumer(ILogConsumer* consumer) override;
+			void IncreaseOffset() override;
+			void DescreaseOffset() override;
+		private:
+			std::set<ILogConsumer*> m_consumers;
+			ThreadMutex m_consumer_mutex;
+			IClock* m_clock{ nullptr };
+			ConsoleConsumer* m_console_consumer{ nullptr };
+			FileConsumer* m_file_consumer{ nullptr };
+			std::uint32_t m_offset{ 0 };
+		};
 
 #ifdef _DEBUG
     namespace __private {
@@ -49,13 +78,17 @@ namespace System {
     DefaultLogger::DefaultLogger() {
         m_clock = CreateClock();
         m_console_consumer = new ConsoleConsumer;
+		m_file_consumer = new FileConsumer;
         AddConsumer(m_console_consumer);
+		AddConsumer(m_file_consumer);
     }
 
     DefaultLogger::~DefaultLogger() {
         DestroyClock(m_clock);
         RemoveConsumer(m_console_consumer);
+		RemoveConsumer(m_file_consumer);
         delete m_console_consumer;
+		delete m_file_consumer;
     }
 
     void DefaultLogger::AddConsumer(ILogConsumer *consumer) {

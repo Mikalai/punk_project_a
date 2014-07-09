@@ -142,9 +142,6 @@
     <ClInclude Include="..\..\source\system\logger\console_consumer.h">
       <Filter>logger</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\system\logger\default_logger.h">
-      <Filter>logger</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\system\logger\error_logger.h">
       <Filter>logger</Filter>
     </ClInclude>
@@ -252,6 +249,9 @@
     </ClInclude>
     <ClInclude Include="..\..\source\system\time\iclock.h">
       <Filter>time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\logger\file_consumer.h">
+      <Filter>logger</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -404,6 +404,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\system\streaming\iasync_loader.cpp">
       <Filter>streaming</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\logger\file_consumer.cpp">
+      <Filter>logger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -3,7 +3,7 @@
 #include <string/module.h>
 #include <core/iobject.h>
 #include <system/errors/module.h>
-#include <system/logger/default_logger.h>
+#include <system/logger/module.h>
 #include "imodule_manager.h"
 
 #ifdef _WIN32
