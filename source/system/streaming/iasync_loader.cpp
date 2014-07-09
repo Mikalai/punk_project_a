@@ -17,7 +17,6 @@
 #endif
 
 #include <system/concurrency/work_item.h>
-#include "engine_objects.h"
 #include "data_loader.h"
 #include "data_processor.h"
 
