@@ -380,8 +380,8 @@ namespace System {
             MouseEvent event;
             x_prev = x;
             y_prev = y;
-            event.x = LOWORD(lParam);
-            event.y = HIWORD(lParam);
+            x = LOWORD(lParam);
+            y = HIWORD(lParam);
 
             event.x = x;
             event.y = GetHeight(hwnd) - y;
