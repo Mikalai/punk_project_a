@@ -305,7 +305,7 @@
     <ClCompile Include="..\..\source\system\streaming\iasync_loader.cpp" />
     <ClCompile Include="..\..\source\system\streaming\streaming_component.cpp" />
     <ClCompile Include="..\..\source\system\time\clock.cpp" />
-    <ClCompile Include="..\..\source\system\time\timer.cpp" />
+    <ClCompile Include="..\..\source\system\time\itimer.cpp" />
     <ClCompile Include="..\..\source\system\window\win32_window.cpp" />
     <ClCompile Include="..\..\source\system\window\window_base.cpp" />
     <ClCompile Include="..\..\source\system\window\window_component.cpp" />

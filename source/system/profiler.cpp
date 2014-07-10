@@ -10,7 +10,7 @@ namespace System
 	//
 	Profiler::Profiler()
 	{
-		m_timer = CreateInstancePtr<ITimer>(IID_ITimer);
+		m_timer = CreateInstancePtr<ITimer>(CLSID_Timer, IID_ITimer);
 	}
 
 	void Profiler::Start(const Core::String& description)

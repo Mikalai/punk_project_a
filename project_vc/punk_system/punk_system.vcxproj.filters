@@ -373,9 +373,6 @@
     <ClCompile Include="..\..\source\system\time\clock.cpp">
       <Filter>time</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\system\time\timer.cpp">
-      <Filter>time</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\system\window\win32_window.cpp">
       <Filter>window</Filter>
     </ClCompile>
@@ -405,6 +402,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\system\logger\file_consumer.cpp">
       <Filter>logger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\time\itimer.cpp">
+      <Filter>time</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

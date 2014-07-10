@@ -112,7 +112,7 @@ namespace System {
 
     WindowWin::WindowWin()
     {
-		m_timer = System::CreateInstancePtr<ITimer>(System::IID_ITimer);		
+		m_timer = System::CreateInstancePtr<ITimer>(CLSID_Timer, IID_ITimer);		
 	}
 
 	void WindowWin::Initialize(const WindowDescription& desc) {

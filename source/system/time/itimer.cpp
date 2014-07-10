@@ -130,6 +130,6 @@ namespace System
         return impl->GetTime();
     }
 
-    PUNK_REGISTER_CREATOR(IID_ITimer, (System::CreateInstance<Timer, ITimer>));
+    PUNK_REGISTER_CREATOR(CLSID_Timer, (System::CreateInstance<Timer, ITimer>));
 }
 PUNK_ENGINE_END
