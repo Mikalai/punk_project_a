@@ -1,6 +1,7 @@
 #include <system/factory/module.h>
 #include <attributes/stubs/module.h>
 #include <string/module.h>
+#include <core/iserializable.h>
 #include <set>
 #include <system/concurrency/thread_mutex.h>
 #include <core/object.h>
@@ -11,7 +12,7 @@
 PUNK_ENGINE_BEGIN
 namespace SceneModule
 {
-	class PUNK_ENGINE_LOCAL Scene : public IScene {
+	class PUNK_ENGINE_LOCAL Scene : public IScene, Core::ISerializable {
 	public:
 		Scene() {
 			LOG_FUNCTION_SCOPE;
@@ -25,7 +26,21 @@ namespace SceneModule
 
 		//	IObject
 		void QueryInterface(const Core::Guid& type, void** object) override {
-			Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IScene });
+			if (!object)
+				return;
+			*object = nullptr;
+			if (type == Core::IID_IObject) {
+				*object = (IScene*)this;
+				AddRef();
+			}
+			else if (type == Core::IID_ISerializable) {
+				*object = (Core::ISerializable*)this;
+				AddRef();
+			}
+			else if (type == IID_IScene) {
+				*object = (IScene*)this;
+				AddRef();
+			}
 		}
 
 		std::uint32_t AddRef() override {
@@ -127,7 +142,40 @@ namespace SceneModule
 				o->OnAttributeRemoved(node, attribute);
 			});
 		}
-		
+
+		//	ISerializable
+		void Serialize(Core::Buffer& buffer) override {
+			buffer.WriteBuffer(CLSID_Scene.ToPointer(), sizeof(CLSID_Scene));
+
+			auto serializable = Core::QueryInterfacePtr<Core::ISerializable>(m_root, Core::IID_ISerializable);
+			bool flag = serializable.get() != nullptr;
+			buffer.WriteBoolean(flag);
+			if (flag) {
+				serializable->Serialize(buffer);
+			}
+			else {
+				System::GetDefaultLogger()->Warning("Root node is not serializable");
+			}
+		}
+
+		void Deserialize(Core::Buffer& buffer) override {
+			bool flag = buffer.ReadBoolean();
+			if (flag) {
+				Core::Guid clsid;
+				buffer.ReadBuffer(clsid.ToPointer(), sizeof(clsid));
+				auto serializable = System::CreateInstancePtr<Core::ISerializable>(clsid, Core::IID_ISerializable);
+				if (serializable) {
+					serializable->Deserialize(buffer);
+					m_root = Core::QueryInterfacePtr<INode>(serializable, IID_INode);
+				}
+				else
+					System::GetDefaultLogger()->Error("No serializable object found in buffer");
+			}
+			else {
+				System::GetDefaultLogger()->Warning("No root node found");
+			}
+		}
+
 	private:
 		std::atomic<std::uint32_t> m_ref_count{ 0 };
 		std::set<Core::Pointer<IObserver>> m_observers;
@@ -136,7 +184,6 @@ namespace SceneModule
 		Core::ActionSlot<Core::Pointer<INode>, Core::Pointer<IAttribute>> m_on_attribute_added;
 		Core::ActionSlot<Core::Pointer<INode>, Core::Pointer<IAttribute>, Core::Pointer<IAttribute>> m_on_attribute_updated;
 		Core::ActionSlot<Core::Pointer<INode>, Core::Pointer<IAttribute>> m_on_attribute_removed;
-		Core::String m_source_path;
 		System::ThreadMutex m_lock;
 		Core::Pointer<INode> m_root{ nullptr, Core::DestroyObject };
 	};				    

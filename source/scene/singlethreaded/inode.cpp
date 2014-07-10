@@ -4,8 +4,11 @@
 #include <atomic>
 #include <vector>
 #include <map>
+#include <core/iserializable.h>
+#include <string/module.h>
 #include <system/factory/module.h>
 #include <system/concurrency/module.h>
+#include <core/iserializable.h>
 #include "iscene.h"
 #include <string/module.h>
 #include "inode.h"
@@ -13,7 +16,7 @@
 PUNK_ENGINE_BEGIN
 namespace SceneModule {	
 
-	class PUNK_ENGINE_LOCAL Node : public INode {
+	class PUNK_ENGINE_LOCAL Node : public INode, public Core::ISerializable {
 	public:
 		Node() {}
 
@@ -43,7 +46,21 @@ namespace SceneModule {
 		//	IObject
 		void QueryInterface(const Core::Guid& type, void** object) override {
 			LOG_FUNCTION_SCOPE;
-			Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_INode });
+			if (!object)
+				return;
+			*object = nullptr;
+			if (type == Core::IID_IObject) {
+				*object = (INode*)this;
+				AddRef();
+			}
+			else if (type == Core::IID_ISerializable) {
+				*object = (Core::ISerializable*)this;
+				AddRef();
+			}
+			else if (type == IID_INode) {
+				*object = this;
+				AddRef();
+			}
 		}
 
 		std::uint32_t AddRef() override {
@@ -182,11 +199,11 @@ namespace SceneModule {
 
 		NodeState GetState() const override {
 			LOG_FUNCTION_SCOPE;
-			return m_state;
+			return NodeState::Active;
 		}
 
 		void SetState(NodeState value) override {
-			m_state = value;
+			//m_state = value;
 		}
 
 		IScene* GetSceneGraph() override {
@@ -201,10 +218,83 @@ namespace SceneModule {
 			}
 		}
 
+		//	ISerializable
+		void Serialize(Core::Buffer& buffer) override {
+			//	save clsid
+			buffer.WriteBuffer(CLSID_Node.ToPointer(), sizeof(CLSID_Node));
+			
+			//	save attributes
+			std::vector<std::pair<std::pair<Core::String, std::uint64_t>, Core::Pointer<IAttribute>>> serializable_attributes;
+			serializable_attributes.reserve(m_attributes.size());
+			for (auto& pair : m_attributes) {
+				auto data = pair.second->GetRawData();
+				if (data) {
+					auto serializable = Core::QueryInterfacePtr<Core::ISerializable>(data, Core::IID_ISerializable);	
+					if (serializable) {
+						serializable_attributes.push_back(pair);
+
+					}
+					else {
+						System::GetDefaultLogger()->Warning("Data is not serializable in " + pair.first.first);
+					}
+				}
+			}
+			std::uint32_t count = (std::uint32_t)serializable_attributes.size();
+			buffer.WriteUnsigned32(count);
+			for (auto& pair : serializable_attributes) {
+				auto data = pair.second->GetRawData();
+				auto serializable = Core::QueryInterfacePtr<Core::ISerializable>(data, Core::IID_ISerializable);
+				buffer.WriteString(pair.first.first);
+				buffer.WriteUnsigned64(pair.first.second);
+				serializable->Serialize(buffer);
+			}
+
+			//	save childre
+			std::vector<Core::Pointer<Core::ISerializable>> serializable_nodes;
+			serializable_nodes.reserve(m_children.size());
+			for (auto& node : m_children) {
+				auto serializable = Core::QueryInterfacePtr<Core::ISerializable>(node, Core::IID_ISerializable);
+				if (serializable)
+					serializable_nodes.push_back(serializable);
+			}
+
+			count = (std::uint32_t)serializable_nodes.size();
+			buffer.WriteUnsigned32(count);
+			for (auto& node : serializable_nodes) {
+				node->Serialize(buffer);
+			}
+		}
+
+		void Deserialize(Core::Buffer& buffer) override {
+
+			//	save attributes
+			
+			std::uint32_t count = buffer.ReadUnsigned32();		
+			for (std::uint32_t i = 0; i < count; ++i) {
+				Core::String name = buffer.ReadString();
+				std::uint64_t type = buffer.ReadUnsigned64();
+				Core::Guid clsid;
+				buffer.ReadBuffer(clsid.ToPointer(), sizeof(clsid));
+				auto serializable = System::CreateInstancePtr<Core::ISerializable>(clsid, Core::IID_ISerializable);
+				serializable->Deserialize(buffer);				
+			}
+
+			//	save childre
+			count = buffer.ReadUnsigned32();
+			m_children.resize(count);
+			for (auto& child : m_children) {
+				Core::Guid clsid;
+				buffer.ReadBuffer(clsid.ToPointer(), sizeof(clsid));
+				auto serializable = System::CreateInstancePtr<Core::ISerializable>(clsid, Core::IID_ISerializable);
+				serializable->Deserialize(buffer);
+				child = Core::QueryInterfacePtr<INode>(serializable, IID_INode);
+			}
+		}
+
 	private:
 		std::atomic<std::uint32_t> m_ref_count{ 0 };
-		NodeState m_state{ NodeState::Inactive };
-		std::uint64_t m_id{ 0 };
+		//NodeState m_state{ NodeState::Inactive };
+		//std::uint64_t m_id{ 0 };
 		INode* m_parent{ nullptr };
 		std::vector<Core::Pointer<INode>> m_children;
 		std::map<std::pair<Core::String, std::uint64_t>, Core::Pointer<IAttribute>> m_attributes;

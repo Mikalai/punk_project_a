@@ -62,6 +62,8 @@ int main(int argc, char** argv)
 		}
 
 		auto object = io_module->Parse(input);
+
+		io_module->Serialize(object, output);
 	}
 	catch (System::Error::SystemException& e) {
 		System::GetDefaultLogger()->Error(e.Message() + " at \n" + e.GetStack());
