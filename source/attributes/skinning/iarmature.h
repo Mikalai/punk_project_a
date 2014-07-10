@@ -13,11 +13,12 @@ namespace Math {
 namespace Core { class String; }
 namespace Attributes {
 
-	class Bone;
-	class Action;
+	class IBone;
+	class IAction;
 	class IArmatureSchema;
 
 	DECLARE_PUNK_GUID(IID_IArmature, "A67EECF9-EC55-4830-93BA-3BDE1207B332");
+	DECLARE_PUNK_GUID(CLSID_Armature, "5379C670-63DC-424A-B1FF-FB8FB0166BD7");
 
 	class IArmature : public Core::IObject {
 	public:

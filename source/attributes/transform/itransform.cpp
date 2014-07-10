@@ -180,18 +180,7 @@ namespace Attributes {
 			buffer.WriteBuffer(&m_rotation, sizeof(m_rotation));
 			buffer.WriteBuffer(&m_position, sizeof(m_position));
 			buffer.WriteBuffer(&m_scale, sizeof(m_scale));
-			//	Save IAnimated
-			{
-				auto animation = Core::QueryInterfacePtr<Core::ISerializable>(m_animation_player, Core::IID_ISerializable);
-				bool flag = animation.get() != nullptr;
-				buffer.WriteBoolean(flag);
-				if (flag) {
-					animation->Serialize(buffer);
-					buffer.WriteSigned32(m_position_track_index);
-					buffer.WriteSigned32(m_rotation_track_index);
-					buffer.WriteSigned32(m_scale_track_index);
-				}				
-			}
+			//	Save IAnimated			
 			std::uint32_t anim_count = (std::uint32_t)m_supported_animations.size();
 			buffer.WriteUnsigned32(anim_count);
 			for (std::uint32_t i = 0; i < anim_count; ++i) {
@@ -204,20 +193,7 @@ namespace Attributes {
 			buffer.ReadBuffer(&m_rotation, sizeof(m_rotation));
 			buffer.ReadBuffer(&m_position, sizeof(m_position));
 			buffer.ReadBuffer(&m_scale, sizeof(m_scale));
-			//	Save IAnimated
-			bool flag = buffer.ReadBoolean();
-			if (flag) {
-				Core::Guid animated_clsid;
-				buffer.ReadBuffer(&animated_clsid, sizeof(animated_clsid));
-				m_animation_player = System::CreateInstancePtr<IAnimated>(animated_clsid);
-				auto serializable = Core::QueryInterfacePtr<Core::ISerializable>(m_animation_player, Core::IID_ISerializable);
-				if (serializable) {
-					serializable->Deserialize(buffer);
-					m_position_track_index = buffer.ReadSigned32();
-					m_rotation_track_index = buffer.ReadSigned32();
-					m_scale_track_index = buffer.ReadSigned32();					
-				}
-			}
+			//	Save IAnimated			
 			std::uint32_t anim_count = buffer.ReadUnsigned32();
 			m_supported_animations.resize(anim_count);
 			for (std::uint32_t i = 0; i < anim_count; ++i) {
