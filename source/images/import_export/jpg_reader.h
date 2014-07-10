@@ -93,11 +93,11 @@ namespace ImageModule
 
 			ImageFormat format;
 			if (output_components == 1) {
-                image = System::CreateInstancePtr<IImage>(IID_IAlphaImage);
+                image = System::CreateInstancePtr<IImage>(CLSID_AlphaImage, IID_IAlphaImage);
 				format = ImageFormat::ALPHA;
 			}
 			else if (output_components == 3) {
-                image = System::CreateInstancePtr<IImage>(IID_IRgbImage);
+                image = System::CreateInstancePtr<IImage>(CLSID_RgbImage, IID_IRgbImage);
 				format = ImageFormat::RGB;
 			}
 			else

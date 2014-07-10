@@ -403,8 +403,8 @@ namespace ImageModule {
 		return Core::Guid::Empty();
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IRgbaImage, (System::CreateInstance < Image<ImageFormat::RGBA>, IImage>));
-	PUNK_REGISTER_CREATOR(IID_IRgbImage, (System::CreateInstance < Image<ImageFormat::RGB>, IImage>));
-	PUNK_REGISTER_CREATOR(IID_IAlphaImage, (System::CreateInstance < Image<ImageFormat::ALPHA>, IImage>));
+	PUNK_REGISTER_CREATOR(CLSID_RgbaImage, (System::CreateInstance < Image<ImageFormat::RGBA>, IImage>));
+	PUNK_REGISTER_CREATOR(CLSID_RgbImage, (System::CreateInstance < Image<ImageFormat::RGB>, IImage>));
+	PUNK_REGISTER_CREATOR(CLSID_AlphaImage, (System::CreateInstance < Image<ImageFormat::ALPHA>, IImage>));
 }
 PUNK_ENGINE_END

@@ -85,23 +85,23 @@ namespace ImageModule
 			switch (colorType)
 			{
 			case PNG_COLOR_TYPE_RGB:
-                image = System::CreateInstancePtr<IImage>(IID_IRgbImage);
+                image = System::CreateInstancePtr<IImage>(CLSID_RgbImage, IID_IRgbImage);
 				format = ImageFormat::RGB;
 				break;
 
 			case PNG_COLOR_TYPE_RGB_ALPHA:
-                image = System::CreateInstancePtr<IImage>(IID_IRgbaImage);
+                image = System::CreateInstancePtr<IImage>(CLSID_RgbaImage, IID_IRgbaImage);
 				format = ImageFormat::RGBA;
 				break;
 
 			case PNG_COLOR_TYPE_GRAY:
 			case PNG_COLOR_TYPE_GRAY_ALPHA:
-                image = System::CreateInstancePtr<IImage>(IID_IAlphaImage);
+                image = System::CreateInstancePtr<IImage>(CLSID_AlphaImage, IID_IAlphaImage);
 				format = ImageFormat::ALPHA;
 				break;
 
 			case PNG_COLOR_TYPE_PALETTE:
-                image = System::CreateInstancePtr<IImage>(IID_IRgbImage);
+                image = System::CreateInstancePtr<IImage>(CLSID_RgbImage, IID_IRgbImage);
 				format = ImageFormat::RGB;
 				break;
 

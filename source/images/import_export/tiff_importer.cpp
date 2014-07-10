@@ -70,7 +70,7 @@ namespace ImageModule
 				throw Error::ImageException("Failed ro read RGBA image");
 			}
 
-            image = System::CreateInstancePtr<IImage>(IID_IRgbaImage);
+            image = System::CreateInstancePtr<IImage>(CLSID_RgbaImage, IID_IRgbaImage);
             image->SetSize(width, height);
             memcpy(image->GetData(), raster, npixels*sizeof(uint32));
 
