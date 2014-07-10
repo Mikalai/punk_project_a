@@ -119,18 +119,24 @@ namespace System
 	{
 #ifdef _WIN32
 
-        HANDLE hFile = CreateFileW((LPCWSTR)filename.ToWchar().Data(), GENERIC_WRITE, 0, 0,CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-		CHECK_SYS_ERROR(L"Error in binary file, open file for saving " + filename);
+        HANDLE hFile = CreateFileW((LPCWSTR)filename.ToWchar().Data(), GENERIC_WRITE, 0, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+		if (hFile == INVALID_HANDLE_VALUE) {
+			CHECK_SYS_ERROR(L"Error in binary file, open file for saving " + filename);
+		} else {
+			GetLastError();
+		}
 
         DWORD written;
-        WriteFile(hFile, (LPCVOID)buffer.Data(), (DWORD)buffer.GetSize(), &written, 0);
-		CHECK_SYS_ERROR(L"Error in binary file, can't write data to file " + filename);
+		if (!WriteFile(hFile, (LPCVOID)buffer.Data(), (DWORD)buffer.GetSize(), &written, 0)) {
+			CHECK_SYS_ERROR(L"Error in binary file, can't write data to file " + filename);
+		}
 
         if (written != (DWORD)buffer.GetSize())
             throw Error::OSException(L"Error in binary file, written data is less than should be " + filename);
 
-		CloseHandle(hFile);
-		CHECK_SYS_ERROR(L"Saving binary file failed " + filename);
+		if (FAILED(CloseHandle(hFile))) {
+			CHECK_SYS_ERROR(L"Saving binary file failed " + filename);
+		}
 #endif	//	_WIN32
 		return true;
 	}
