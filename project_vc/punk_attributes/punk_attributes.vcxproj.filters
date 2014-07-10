@@ -124,9 +124,6 @@
     <ClCompile Include="..\..\source\attributes\camera\camera.cpp">
       <Filter>camera</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\attributes\stubs\text_attribute.cpp">
-      <Filter>stubs</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\attributes\skinning\iarmature.cpp">
       <Filter>skinning</Filter>
     </ClCompile>
@@ -174,6 +171,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\transform\itransform.cpp">
       <Filter>transform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\stubs\itext_attribute.cpp">
+      <Filter>stubs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
