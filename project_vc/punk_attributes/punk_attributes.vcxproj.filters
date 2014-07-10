@@ -112,9 +112,6 @@
     <ClCompile Include="..\..\source\attributes\light\light.cpp">
       <Filter>light</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\attributes\transform\transform.cpp">
-      <Filter>transform</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\attributes\transform\module.h">
       <Filter>transform</Filter>
     </ClCompile>
@@ -174,6 +171,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\manager\ioptions.cpp">
       <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\transform\itransform.cpp">
+      <Filter>transform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

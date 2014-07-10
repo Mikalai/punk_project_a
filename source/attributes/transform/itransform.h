@@ -10,6 +10,7 @@ PUNK_ENGINE_BEGIN
 namespace Attributes
 {
 	DECLARE_PUNK_GUID(IID_ITransform, "D5E28CA8-6751-46C3-8AE3-707FCFBF57A3");
+	DECLARE_PUNK_GUID(CLSID_Transform, "2410BE45-F38B-48D1-A8BA-9AC99406B2F8");
 
     class ITransform : public Core::IObject {
 	public:

@@ -34,7 +34,8 @@ namespace IoModule {
 		}
 
 		void Serialize(Core::Pointer<Core::IObject> object, const Core::String& path) {
-
+			auto serializable = Core::QueryInterfacePtr<System::ISerializable>(System::IID_ISerializable);
+			
 		}
 
 		void Serialize(Core::Pointer<Core::IObject> object, Core::Buffer& buffer) override {
