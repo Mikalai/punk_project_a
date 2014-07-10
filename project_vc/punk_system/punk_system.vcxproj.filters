@@ -9,7 +9,6 @@
     <ClInclude Include="..\..\source\system\profiler.h" />
     <ClInclude Include="..\..\source\system\resource.h" />
     <ClInclude Include="..\..\source\system\resource_creator.h" />
-    <ClInclude Include="..\..\source\system\serializable.h" />
     <ClInclude Include="..\..\source\system\state_manager.h" />
     <ClInclude Include="..\..\source\system\storable_data.h" />
     <ClInclude Include="..\..\source\system\types.h" />
@@ -259,7 +258,6 @@
     <ClCompile Include="..\..\source\system\environment.cpp" />
     <ClCompile Include="..\..\source\system\event_manager.cpp" />
     <ClCompile Include="..\..\source\system\profiler.cpp" />
-    <ClCompile Include="..\..\source\system\serializable.cpp" />
     <ClCompile Include="..\..\source\system\storable.cpp" />
     <ClCompile Include="..\..\source\system\commands\cmd_create_timer.cpp">
       <Filter>commands</Filter>

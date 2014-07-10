@@ -23,6 +23,7 @@
     <ClCompile Include="..\..\source\core\rtti.cpp" />
     <ClCompile Include="..\..\source\core\static_information.cpp" />
     <ClCompile Include="..\..\source\core\guid.cpp" />
+    <ClCompile Include="..\..\source\core\serializable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\core\component\component.h">
@@ -62,5 +63,6 @@
     <ClInclude Include="..\..\source\core\iobject_impl.h" />
     <ClInclude Include="..\..\source\core\pointer.h" />
     <ClInclude Include="..\..\source\core\weak_pointer.h" />
+    <ClInclude Include="..\..\source\core\iserializable.h" />
   </ItemGroup>
 </Project>

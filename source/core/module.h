@@ -15,5 +15,6 @@
 #include "object_pool.h"
 #include "pointer.h"
 #include "weak_pointer.h"
+#include "iserializable.h"
 
 #endif // MODULE_H
