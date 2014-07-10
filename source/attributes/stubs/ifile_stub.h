@@ -9,6 +9,7 @@ PUNK_ENGINE_BEGIN
 namespace Attributes {
 
 	DECLARE_PUNK_GUID(IID_IFileStub, "FC0CCDCD-D26B-4BDE-A72B-A671C7A98450");
+	DECLARE_PUNK_GUID(CLSID_FileStub, "0DC7E7A8-7142-48EA-BE05-DEA79499162C");
 
 	using OnLoadedCallback = Core::ActionBase < Core::Pointer<Core::IObject> > ;
 
