@@ -18,6 +18,7 @@ namespace Math {
 namespace Attributes {
 
 	DECLARE_PUNK_GUID(IID_IBone, "58B3E09C-8DC9-4A13-BC04-A76D74DF5C65");
+	DECLARE_PUNK_GUID(CLSID_Bone, "3E5A235D-1FBA-4631-90CA-ED99EC688E1D");
 
 	class IBone : public Core::IObject {
 	public:
