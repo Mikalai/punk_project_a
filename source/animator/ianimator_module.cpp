@@ -177,7 +177,7 @@ namespace AnimatorModule {
 					if (!m_animation_map.HasValue(name)) {
 						System::GetDefaultLogger()->Debug(L"Loading animation " + name);
 						auto filename = name + L".action";
-                        Core::Pointer<Attributes::IFileStub> file_stub = System::CreateInstancePtr<Attributes::IFileStub>(Attributes::IID_IFileStub);
+						Core::Pointer<Attributes::IFileStub> file_stub = System::CreateInstancePtr<Attributes::IFileStub>(Attributes::CLSID_FileStub, Attributes::IID_IFileStub);
 						file_stub->SetFilename(filename);
 						Core::Pointer<Attributes::OnLoadedCallback> callback{ new Core::Action<Animator, Core::Pointer<Core::IObject>>{ this, &Animator::OnAnimationLoaded }, Core::DestroyObject };
 						file_stub->SetCallback(callback);
@@ -212,7 +212,7 @@ namespace AnimatorModule {
 			if (!animated->GetAnimationPlayer()) {
 				if (animated->GetAnimationsCount() && m_animation_map.HasValue(animated->GetAnimation(0))){
 					auto animation = m_animation_map.GetValue(animated->GetAnimation(0));
-                    Core::Pointer<Attributes::IAnimationPlayer> player = System::CreateInstancePtr<Attributes::IAnimationPlayer>(Attributes::IID_IAnimationPlayer);
+                    Core::Pointer<Attributes::IAnimationPlayer> player = System::CreateInstancePtr<Attributes::IAnimationPlayer>(Attributes::CLSID_AnimationPlayer, Attributes::IID_IAnimationPlayer);
 					player->SetAnimation(animation);
 					animated->SetAnimationPlayer(player.get());
 					player->SetDuration(5);
@@ -227,6 +227,6 @@ namespace AnimatorModule {
 	}
 
 
-    PUNK_REGISTER_CREATOR(IID_IAnimatorModule, (System::CreateInstance < Animator, IAnimatorModule>));
+    PUNK_REGISTER_CREATOR(CLSID_AnimatorModule, (System::CreateInstance < Animator, IAnimatorModule>));
 }
 PUNK_ENGINE_END

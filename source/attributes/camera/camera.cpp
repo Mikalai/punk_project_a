@@ -190,7 +190,7 @@ namespace Attributes
 		return m_frustum.GetZRange(view);
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IPerspectiveCamera, (System::CreateInstance<Camera, IPerspectiveCamera>));
+	PUNK_REGISTER_CREATOR(CLSID_PerspectiveCamera, (System::CreateInstance<Camera, IPerspectiveCamera>));
 
 	/*const Math::ClipSpace Camera::ToClipSpace() const
 	{

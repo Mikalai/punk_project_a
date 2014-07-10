@@ -39,6 +39,7 @@ namespace Graphics {
 	};
 
 	DECLARE_PUNK_GUID(IID_IRenderQueue, "5A25B52E-EC47-4774-BBB7-7252D0D1C461");
+	DECLARE_PUNK_GUID(CLSID_RenderQueue, "25DCC626-AB95-4CC4-917F-F0FA8C363D1D");
 
 	class IRenderQueue : public Core::IObject
 	{

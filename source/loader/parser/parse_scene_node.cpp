@@ -27,7 +27,7 @@ namespace IoModule {
                 return true;
             case WORD_NODE:
             {
-                auto child = System::CreateInstancePtr<SceneModule::INode>(SceneModule::IID_INode);
+                auto child = System::CreateInstancePtr<SceneModule::INode>(SceneModule::CLSID_Node, SceneModule::IID_INode);
                 ParseSceneNode(buffer, child.get());
 				node->AddChild(child);
             }
@@ -37,7 +37,7 @@ namespace IoModule {
                 Core::String name;
 				parser->Parse<Core::String>(WORD_STRING, buffer, name);
 				{
-                    auto text = System::CreateInstancePtr<Attributes::IText>(Attributes::IID_IText);
+                    auto text = System::CreateInstancePtr<Attributes::IText>(Attributes::CLSID_Text, Attributes::IID_IText);
                     if (text) {
 						text->SetText(name);
                         node->Set<Attributes::IText>(L"Name", text);
@@ -50,7 +50,7 @@ namespace IoModule {
                 Core::String value;
 				parser->Parse<Core::String>(WORD_STRING, buffer, value);
 				{
-                    auto stub = System::CreateInstancePtr<Attributes::IFileStub>(Attributes::IID_IFileStub);
+					auto stub = System::CreateInstancePtr<Attributes::IFileStub>(Attributes::CLSID_FileStub, Attributes::IID_IFileStub);
 					if (stub) {
 						stub->SetFilename(value);
                         node->Set<Attributes::IFileStub>("Filename", stub);

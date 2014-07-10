@@ -400,7 +400,7 @@ namespace Graphics {
 		void GlTexture2D::Initialize(const Core::String& path, bool use_mip_maps, IVideoDriver* driver)
 		{
 			ImageModule::IImageReaderPointer reader{ nullptr, Core::DestroyObject };
-            reader = System::CreateInstancePtr<ImageModule::IImageReader>(ImageModule::IID_IImageReader);
+            reader = System::CreateInstancePtr<ImageModule::IImageReader>(ImageModule::CLSID_ImageReader, ImageModule::IID_IImageReader);
 			ImageModule::IImage* image = reader->Read(path);
 			return Initialize(image, use_mip_maps, driver);
 		}
@@ -408,7 +408,7 @@ namespace Graphics {
 		void GlTexture2D::Initialize(Core::Buffer *buffer, bool use_mip_maps, IVideoDriver* driver)
 		{
 			ImageModule::IImageReaderPointer reader{ nullptr, Core::DestroyObject };
-            reader = System::CreateInstancePtr<ImageModule::IImageReader>(ImageModule::IID_IImageReader);
+			reader = System::CreateInstancePtr<ImageModule::IImageReader>(ImageModule::CLSID_ImageReader, ImageModule::IID_IImageReader);
 			ImageModule::IImagePointer image{ reader->Read(*buffer), Core::DestroyObject };
 			return Initialize(image.get(), use_mip_maps, driver);
 		}
@@ -423,6 +423,6 @@ namespace Graphics {
 		}
     }   
 
-	PUNK_REGISTER_CREATOR(IID_ITexture2D, (System::CreateInstance<OpenGL::GlTexture2D, ITexture2D>));
+	PUNK_REGISTER_CREATOR(CLSID_Texture2D, (System::CreateInstance<OpenGL::GlTexture2D, ITexture2D>));
 }
 PUNK_ENGINE_END

@@ -120,6 +120,6 @@ namespace Graphics {
 		}
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IRenderQueue, (System::CreateInstance<RenderQueue, IRenderQueue>));
+	PUNK_REGISTER_CREATOR(CLSID_RenderQueue, (System::CreateInstance<RenderQueue, IRenderQueue>));
 }
 PUNK_ENGINE_END

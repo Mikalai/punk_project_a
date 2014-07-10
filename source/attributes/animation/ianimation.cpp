@@ -128,7 +128,7 @@ namespace Attributes {
 		return (std::uint32_t)(-1);
 	}
 
-    PUNK_REGISTER_CREATOR(IID_IAnimation, (System::CreateInstance<Animation, IAnimation>));
+    PUNK_REGISTER_CREATOR(CLSID_Animation, (System::CreateInstance<Animation, IAnimation>));
 	
 }
 PUNK_ENGINE_END

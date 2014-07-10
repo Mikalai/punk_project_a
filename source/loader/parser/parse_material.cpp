@@ -150,21 +150,25 @@ namespace IoModule
 				break;
 			case WORD_DIFFUSE_TEXTURE_SLOT:
 			{
-                auto slot = System::CreateInstancePtr<Attributes::IDiffuseTextureSlot>(Attributes::IID_IDiffuseTextureSlot);
+                auto slot = System::CreateInstancePtr<Attributes::IDiffuseTextureSlot>(
+					Attributes::CLSID_TextureSlot, Attributes::IID_IDiffuseTextureSlot);
                 parser->Parse(WORD_DIFFUSE_TEXTURE_SLOT, buffer, slot.get());
                 mat->SetDiffuseTextureSlot(slot.get());
 			}
 				break;
 			case WORD_NORMAL_TEXTURE_SLOT:
 			{
-                auto slot = System::CreateInstancePtr<Attributes::INormalTextureSlot>(Attributes::IID_INormalTextureSlot);
+				auto slot = System::CreateInstancePtr<Attributes::INormalTextureSlot>(
+					Attributes::CLSID_TextureSlot, Attributes::IID_INormalTextureSlot);
                 parser->Parse(WORD_NORMAL_TEXTURE_SLOT, buffer, slot.get());
                 mat->SetNormalTextureSlot(slot.get());
 			}
 				break;
 			case WORD_SPECULAR_TEXTURE_SLOT:
 			{
-                auto slot = System::CreateInstancePtr<Attributes::ISpecularIntensityTextureSlot>(Attributes::IID_ISpecularIntensityTextureSlot);
+				auto slot = System::CreateInstancePtr<Attributes::ISpecularIntensityTextureSlot>(
+					Attributes::CLSID_TextureSlot, Attributes::IID_ISpecularIntensityTextureSlot);
+
                 parser->Parse(WORD_SPECULAR_TEXTURE_SLOT, buffer, slot.get());
                 mat->SetSpecularTextureSlot(slot.get());
 			}

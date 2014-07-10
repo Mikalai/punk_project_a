@@ -250,7 +250,7 @@ namespace Graphics {
 			m_driver = driver;
 		}
 
-		PUNK_REGISTER_CREATOR(IID_IRenderContextFactory, (System::CreateInstance<GlRenderContextFactory, IRenderContextFactory>));
+		PUNK_REGISTER_CREATOR(CLSID_RenderContextFactory, (System::CreateInstance<GlRenderContextFactory, IRenderContextFactory>));
 
 	}
 }

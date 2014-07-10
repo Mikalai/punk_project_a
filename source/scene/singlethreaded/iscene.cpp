@@ -15,7 +15,7 @@ namespace SceneModule
 	public:
 		Scene() {
 			LOG_FUNCTION_SCOPE;
-			m_root = System::CreateInstancePtr<INode>(IID_INode);
+			m_root = System::CreateInstancePtr<INode>(CLSID_Node, IID_INode);
 			m_root->SetScene(this);
 		}
 
@@ -141,7 +141,7 @@ namespace SceneModule
 		Core::Pointer<INode> m_root{ nullptr, Core::DestroyObject };
 	};				    
     
-	PUNK_REGISTER_CREATOR(IID_IScene, (System::CreateInstance<Scene, IScene>));
+	PUNK_REGISTER_CREATOR(CLSID_Scene, (System::CreateInstance<Scene, IScene>));
 
 }
 PUNK_ENGINE_END

@@ -36,7 +36,7 @@ namespace Graphics
             count++;
             GL_CALL(glGenFramebuffers(1, &m_fb));
 
-			m_color_texture.reset(System::CreateInstance<ITexture2D>(IID_ITexture2D));
+			m_color_texture = System::CreateInstancePtr<ITexture2D>(CLSID_Texture2D, IID_ITexture2D);
 			if (m_color_texture.get()) {
 				m_color_texture->Initialize(config.Width(),
 					config.Height(),
@@ -57,7 +57,7 @@ namespace Graphics
                 AttachDepthTarget(m_depth_rb);
             }
             else {
-				m_depth_texture.reset(System::CreateInstance<ITexture2D>(IID_ITexture2D));
+				m_depth_texture = System::CreateInstancePtr<ITexture2D>(CLSID_Texture2D, IID_ITexture2D);
 				if (m_depth_texture.get()) {
 					m_depth_texture->Initialize(
 						config.Width(),

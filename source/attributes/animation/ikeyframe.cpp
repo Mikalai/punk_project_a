@@ -115,10 +115,10 @@ namespace Attributes {
 		memcpy(&m_key, buffer, size);
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IFloatKeyFrame, (System::CreateInstance < KeyFrameImpl<float>, IKeyFrame>));
-	PUNK_REGISTER_CREATOR(IID_IVec3KeyFrame, (System::CreateInstance < KeyFrameImpl<Math::vec3>, IKeyFrame>));
-	PUNK_REGISTER_CREATOR(IID_IVec4KeyFrame, (System::CreateInstance < KeyFrameImpl<Math::vec4>, IKeyFrame>));
-	PUNK_REGISTER_CREATOR(IID_IQuatKeyFrame, (System::CreateInstance < KeyFrameImpl<Math::quat>, IKeyFrame>));
-	PUNK_REGISTER_CREATOR(IID_IMat4KeyFrame, (System::CreateInstance < KeyFrameImpl<Math::mat4>, IKeyFrame>));
+	PUNK_REGISTER_CREATOR(CLSID_FloatKeyFrame, (System::CreateInstance < KeyFrameImpl<float>, IKeyFrame>));
+	PUNK_REGISTER_CREATOR(CLSID_Vec3KeyFrame, (System::CreateInstance < KeyFrameImpl<Math::vec3>, IKeyFrame>));
+	PUNK_REGISTER_CREATOR(CLSID_Vec4KeyFrame, (System::CreateInstance < KeyFrameImpl<Math::vec4>, IKeyFrame>));
+	PUNK_REGISTER_CREATOR(CLSID_QuatKeyFrame, (System::CreateInstance < KeyFrameImpl<Math::quat>, IKeyFrame>));
+	PUNK_REGISTER_CREATOR(CLSID_Mat4KeyFrame, (System::CreateInstance < KeyFrameImpl<Math::mat4>, IKeyFrame>));
 }
 PUNK_ENGINE_END

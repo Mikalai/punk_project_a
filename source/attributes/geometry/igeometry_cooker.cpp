@@ -767,6 +767,6 @@ namespace Attributes {
 		bool m_enable_tbn_generation{ false };
 	};
 
-	PUNK_REGISTER_CREATOR(IID_IGeometryCooker, (System::CreateInstance<GeometryCooker, IGeometryCooker>));
+	PUNK_REGISTER_CREATOR(CLSID_GeometryCooker, (System::CreateInstance<GeometryCooker, IGeometryCooker>));
 }
 PUNK_ENGINE_END

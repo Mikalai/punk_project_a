@@ -92,9 +92,9 @@ namespace Graphics {
 		if (!m_initialized) {            
             driver->AddRef();
             m_driver.reset(driver);
-            m_queue = System::CreateInstancePtr<IRenderQueue>(IID_IRenderQueue);
+            m_queue = System::CreateInstancePtr<IRenderQueue>(CLSID_RenderQueue, IID_IRenderQueue);
 			m_queue->Initialize(this);
-            m_rc_factory = System::CreateInstancePtr<IRenderContextFactory>(IID_IRenderContextFactory);
+            m_rc_factory = System::CreateInstancePtr<IRenderContextFactory>(CLSID_RenderContextFactory, IID_IRenderContextFactory);
 			m_rc_factory->Initialize(driver);
 			m_initialized = true;
 		}
@@ -138,7 +138,7 @@ namespace Graphics {
 	IFrame* LowLevelRender::BeginFrame() {
 		AssertInitialized();
 		if (!m_frame.get()) {			
-            m_frame = System::CreateInstancePtr<IFrame>(IID_IFrame);
+            m_frame = System::CreateInstancePtr<IFrame>(CLSID_Frame, IID_IFrame);
 			m_frame->SetRender(this);
 		}
 		return m_frame.get();
@@ -187,7 +187,7 @@ namespace Graphics {
 		return m_queue.get();
 	}
 
-	PUNK_REGISTER_CREATOR(IID_ILowLevelRender, (System::CreateInstance<LowLevelRender, ILowLevelRender>));
+	PUNK_REGISTER_CREATOR(CLSID_LowLevelRender, (System::CreateInstance<LowLevelRender, ILowLevelRender>));
 
     
 }

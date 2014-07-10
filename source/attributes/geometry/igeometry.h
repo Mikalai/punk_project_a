@@ -20,6 +20,7 @@ namespace Graphics {
 namespace Attributes {
 
 	DECLARE_PUNK_GUID(IID_IGeometry, "3B04856F-622F-4AAD-984D-0A0FA5C34B27");
+	DECLARE_PUNK_GUID(CLSID_Geometry, "929E04D3-D2B3-456E-9876-5279EE80AA1C");
 
 	class IGeometry 
 		: public Core::IObject

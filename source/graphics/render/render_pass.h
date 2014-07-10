@@ -24,7 +24,7 @@ namespace Graphics
 	private:
         IVideoDriver* m_driver;
 		std::vector<Batch*> m_batches;
-        ITexture2D* m_shadow_map;
+		Core::Pointer<ITexture2D> m_shadow_map{ nullptr, Core::DestroyObject };
 
 		void SetUpShadowMap();
 		void GenerateShadowMap(std::vector<Batch*>& batches);

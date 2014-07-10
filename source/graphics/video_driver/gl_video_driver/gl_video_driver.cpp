@@ -127,14 +127,14 @@ namespace Graphics {
 		ILowLevelRender* GlVideoDriver::GetRender() {
 			AssertInitialize();
 			if (!m_render.get()) {
-                m_render = System::CreateInstancePtr<ILowLevelRender>(IID_ILowLevelRender);
+                m_render = System::CreateInstancePtr<ILowLevelRender>(CLSID_LowLevelRender, IID_ILowLevelRender);
 				m_render->Initialize(this);
 			}
 			return m_render.get();
 		}
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IVideoDriver, (System::CreateInstance < OpenGL::GlVideoDriver, IVideoDriver>));
+	PUNK_REGISTER_CREATOR(CLSID_VideoDriver, (System::CreateInstance < OpenGL::GlVideoDriver, IVideoDriver>));
 }
 
 

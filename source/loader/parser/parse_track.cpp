@@ -10,7 +10,9 @@ namespace IoModule
 	template<>
 	struct KeyReader<Math::vec3> {
 		static Attributes::KeyFrame<Math::vec3>* Read(Core::Buffer& buffer) {
-            auto keyframe = System::CreateInstancePtr<Attributes::KeyFrame<Math::vec3>>(Attributes::IID_IVec3KeyFrame);
+			auto keyframe = System::CreateInstancePtr<Attributes::KeyFrame<Math::vec3>>(
+				Attributes::CLSID_Vec3KeyFrame, Attributes::IID_IVec3KeyFrame);
+
 			auto word = buffer.ReadWord();
 			if (GetKeyword(WORD_CLOSE_BRACKET) == word)
 				return nullptr;
@@ -32,7 +34,9 @@ namespace IoModule
 	template<>
 	struct KeyReader<Math::quat> {
 		static Attributes::KeyFrame<Math::quat>* Read(Core::Buffer& buffer) {
-            auto keyframe = System::CreateInstancePtr<Attributes::KeyFrame<Math::quat>>(Attributes::IID_IQuatKeyFrame);
+            auto keyframe = System::CreateInstancePtr<Attributes::KeyFrame<Math::quat>>(
+				Attributes::CLSID_QuatKeyFrame, Attributes::IID_IQuatKeyFrame);
+
 			auto word = buffer.ReadWord();
 			if (GetKeyword(WORD_CLOSE_BRACKET) == word)
 				return nullptr;

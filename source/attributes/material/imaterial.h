@@ -14,6 +14,7 @@ namespace Attributes {
 	class ITextureSlot;
 
 	DECLARE_PUNK_GUID(IID_IMaterial, "A62FF5E9-6F01-4094-AFEA-CEB9D4F1C3BD");
+	DECLARE_PUNK_GUID(CLSID_Material, "D2F06586-C99F-4CBA-91DD-F0E8C7AA3EC7");
 
 	class IMaterial : public Core::IObject
 	{

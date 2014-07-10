@@ -36,9 +36,10 @@ namespace IoModule
 				break;
 			case WORD_BONE:
 			{
-                auto bone = System::CreateInstancePtr<Attributes::IBone>(Attributes::IID_IBone);
+                auto bone = System::CreateInstancePtr<Attributes::IBone>(
+					Attributes::CLSID_Bone, Attributes::IID_IBone);
 				parser->Parse(WORD_BONE, buffer, bone.get());
-				value->AddBone(bone.get());
+				value->AddBone(bone);
 			}
 				break;
 			default:

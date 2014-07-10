@@ -55,7 +55,7 @@ namespace Attributes
 
     CurvePath::CurvePath()
     {
-        m_curve = System::CreateInstancePtr<Math::ICurve>(Math::IID_ICurve);
+        m_curve = System::CreateInstancePtr<Math::ICurve>(Math::CLSID_Curve, Math::IID_ICurve);
 	}
 
     CurvePath::~CurvePath()
@@ -102,6 +102,6 @@ namespace Attributes
 		m_curve->Clear();
 	}
 
-	PUNK_REGISTER_CREATOR(IID_ICurvePath, (System::CreateInstance<CurvePath, ICurvePath>));
+	PUNK_REGISTER_CREATOR(CLSID_CurvePath, (System::CreateInstance<CurvePath, ICurvePath>));
 }
 PUNK_ENGINE_END

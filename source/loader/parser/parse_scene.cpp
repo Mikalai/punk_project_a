@@ -20,7 +20,7 @@ namespace IoModule
             return true;
             case WORD_NODE:
             {
-                auto node = System::CreateInstancePtr<SceneModule::INode>(SceneModule::IID_INode);
+                auto node = System::CreateInstancePtr<SceneModule::INode>(SceneModule::CLSID_Node, SceneModule::IID_INode);
                 parser->Parse(WORD_NODE, buffer, node.get());
                 value->GetRoot()->AddChild(node);
                 //value->SetRoot(node.release());

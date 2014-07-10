@@ -26,6 +26,7 @@ namespace Graphics {
 	class ILowLevelRender;
 
 	DECLARE_PUNK_GUID(IID_IVideoDriver, "A40FB690-DB16-44BA-AAE7-8F6D00315085");
+	DECLARE_PUNK_GUID(CLSID_VideoDriver, "734BD528-965F-4D6D-9CAA-EFAE29B1F947");
 
 	class PUNK_ENGINE_API IVideoDriver : public Core::IObject
 	{

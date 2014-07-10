@@ -194,7 +194,7 @@ namespace IoModule {
 		LOG_FUNCTION_SCOPE;
 	}
 
-    PUNK_REGISTER_CREATOR(IID_IIoObserver, (System::CreateInstance<IoObserver, IIoObserver>));
+    PUNK_REGISTER_CREATOR(CLSID_IoObserver, (System::CreateInstance<IoObserver, IIoObserver>));
 }
 
 PUNK_ENGINE_END

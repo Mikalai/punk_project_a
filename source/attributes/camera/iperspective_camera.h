@@ -7,6 +7,7 @@ PUNK_ENGINE_BEGIN
 namespace Attributes {
 
 	DECLARE_PUNK_GUID(IID_IPerspectiveCamera, "13309930-833F-4783-9B16-6F10DF01C8B4");
+	DECLARE_PUNK_GUID(CLSID_PerspectiveCamera, "0675F012-041E-4AB9-9FD9-E26688FD4E14");
 
 	class IPerspectiveCamera : public ICamera {
 	public:

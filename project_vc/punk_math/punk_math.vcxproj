@@ -171,7 +171,7 @@
     <ClCompile Include="..\..\source\math\bounding_sphere.cpp" />
     <ClCompile Include="..\..\source\math\clip_space.cpp" />
     <ClCompile Include="..\..\source\math\convex_shape_mesh.cpp" />
-    <ClCompile Include="..\..\source\math\curve.cpp" />
+    <ClCompile Include="..\..\source\math\icurve.cpp" />
     <ClCompile Include="..\..\source\math\ellipsoid.cpp" />
     <ClCompile Include="..\..\source\math\frustum.cpp" />
     <ClCompile Include="..\..\source\math\frustum_plane.cpp" />

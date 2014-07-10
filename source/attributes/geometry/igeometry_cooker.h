@@ -14,6 +14,7 @@ namespace Attributes {
 	class IGeometry;
 
 	DECLARE_PUNK_GUID(IID_IGeometryCooker, "F72357C2-133F-4B8D-9E4E-060372691779");
+	DECLARE_PUNK_GUID(CLSID_GeometryCooker, "8F88EE1E-9723-47F9-8648-7ED0D39BCD2B");
 
 	class IGeometryCooker : public Core::IObject {
 	public:

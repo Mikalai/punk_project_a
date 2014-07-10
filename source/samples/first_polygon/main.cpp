@@ -5,110 +5,39 @@
 #include <stdio.h>
 #include <punk_engine.h>
 
-using namespace Punk::Engine;
-
-//static System::Thread thread;
-//static bool g_flag = true;
-//static Graphics::ICanvas* canvas;
-//static Graphics::IVideoDriver* driver;
-//static Graphics::IFrameBuffer* buffer;
-//static Graphics::ILowLevelRender* render;
-//
-//void f(const System::IdleEvent& e) {
-//    buffer->Bind();
-//    buffer->SetViewport(0, 0, 1024, 768);
-//    buffer->SetClearColor(0, 0, 1, 0);
-//    buffer->SetClearFlag(true, true, true);
-//    buffer->Clear();
-//    render->AsyncBeginRendering(buffer);
-//    buffer->Unbind();
-//    canvas->SwapBuffers();
-//}
-//
-//void OnExit() {
-//    g_flag = false;
-//    thread.Join();
-//}
-//
-//unsigned PUNK_STDCALL RenderFunc(void* data) {
-//    while (g_flag) {
-//        Graphics::ILowLevelRender* render = (Graphics::ILowLevelRender*)data;
-//        Graphics::IFramePointer frame = Graphics::CreateFrame(render);
-//        frame->SetWorldMatrix(Math::CreateIdentity());
-//        frame->SetViewMatrix(Math::CreateIdentity());
-//        frame->SetProjectionMatrix(Math::CreateOrthographicProjection(0, 1024, 0, 768, -1, 1));
-//        frame->DrawLine(100, 100, 200, 200);
-//        frame->DrawLine(200, 200, 300, 100);
-//        frame->DrawLine(300, 100, 100, 100);
-//        frame->DrawQuad(400, 100, 100, 100);
-//        System::GetDefaultLogger()->Info("Draw");
-//        render->WaitEndRendering();
-//    }
-//}
-//
-//void Start()
-//{
-//    canvas = Graphics::CreateCanvas(Graphics::CanvasDescription());
-//    auto wnd = canvas->GetWindow();
-//    wnd->SubscribeIdleEvent(f);
-//    wnd->SubscribeWindowDestroyEvent(OnExit);
-//    wnd->Open();
-//
-//    if (!driver)
-//        driver = canvas->GetVideoDriver();
-//
-//    if (!buffer)
-//        buffer = Graphics::GetBackbuffer();
-//
-//	if (!render)
-//		render = driver->GetRender();
-//
-//    thread.Create(RenderFunc, (void*)render);
-//
-//    wnd->Loop();
-//    delete wnd;
-//}
-//
-//int main() {
-//    try {
-//        Start();
-//    }
-//    catch(System::Error::SystemException& e) {
-//        System::GetDefaultLogger()->Error(e.Message());
-//        MessageBoxW(0, (LPCWSTR)e.Message().ToWchar().Data(), L"Error", MB_OK|MB_ICONERROR);
-//    }
-//}
-
 int main() {
-
+	using namespace Punk::Engine;
+	
 	try{
         Core::Pointer<System::IModule> punk_application = System::LoadModule("punk_application");
         if (!punk_application)
             throw System::Error::SystemException("Can't load punk_application module");
 
-        auto app = System::CreateInstancePtr<Runtime::IApplication>(Runtime::IID_IApplication);
+        auto app = System::CreateInstancePtr<Runtime::IApplication>(Runtime::CLSID_Application, Runtime::IID_IApplication);
 
 		if (!app) {
 			System::GetDefaultLogger()->Error("Can't create application");
 			return -1;
 		}
+		
+		auto options = System::CreateInstancePtr<Punk::Engine::Attributes::IOptions>(
+			Punk::Engine::Attributes::CLSID_Options, Punk::Engine::Attributes::IID_IOptions);
 
-		auto options = System::CreateInstancePtr<Attributes::IOptions>(Attributes::IID_IOptions);
 #ifdef WIN32
 		options->SetDataPath(L"c:\\Projects\\game\\dev\\punk_project_a\\data\\maps\\map1\\");		
 #elif defined __linux__
 		options->SetDataPath(L"/home/mikalaj/Projects/punk_project_a/data/maps/map1/");
 #endif
-		app->GetSceneManager()->GetScene()->GetRoot()->Set<Attributes::IOptions>(L"Options", options);
+		app->GetSceneManager()->GetScene()->GetRoot()->Set<Punk::Engine::Attributes::IOptions>(L"Options", options);
 
-        auto file = System::CreateInstancePtr<Attributes::IFileStub>(Attributes::IID_IFileStub);
+		auto file = System::CreateInstancePtr<Punk::Engine::Attributes::IFileStub>(Punk::Engine::Attributes::CLSID_FileStub, Punk::Engine::Attributes::IID_IFileStub);
 #ifdef WIN32
         file->SetFilename("level_1.pmd");
 #elif defined __linux__
         file->SetFilename("level_1.pmd");
 #endif
 
-        app->GetSceneManager()->GetScene()->GetRoot()->Set<Attributes::IFileStub>("LevelFile", file);
+		app->GetSceneManager()->GetScene()->GetRoot()->Set<Punk::Engine::Attributes::IFileStub>("LevelFile", file);
 
 		app->Run();
 	}

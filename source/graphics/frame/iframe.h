@@ -26,6 +26,7 @@ namespace Graphics
     class Batch;
 
 	DECLARE_PUNK_GUID(IID_IFrame, "AF81422A-F379-418D-B869-7BC24216080F");
+	DECLARE_PUNK_GUID(CLSID_Frame, "826EF1FC-C3E8-48E3-B09F-82CE6F42AC03");
 
     class IFrame : public Core::IObject
     {

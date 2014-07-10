@@ -12,6 +12,7 @@ namespace ImageModule {
 	class IImage;
 
 	DECLARE_PUNK_GUID(IID_IImageReader, "93C2826B-6F2D-4672-A8F0-C04608E64A40");
+	DECLARE_PUNK_GUID(CLSID_ImageReader, "93C2826B-6F2D-4672-A8F0-C04608E64A40");
 
 	class IImageReader : public Core::IObject {
 	public:

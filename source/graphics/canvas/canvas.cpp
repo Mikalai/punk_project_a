@@ -599,7 +599,7 @@ namespace Graphics {
 
         SetFullscreen(m_canvas_description.fullscreen);
 
-        m_video_driver = System::CreateInstancePtr<IVideoDriver>(IID_IVideoDriver);
+        m_video_driver = System::CreateInstancePtr<IVideoDriver>(CLSID_VideoDriver, IID_IVideoDriver);
         m_video_driver->Initialize(this);
 
         OpenGL::glViewport(0, m_canvas_description.m_width, 0, m_canvas_description.m_height);
@@ -835,6 +835,6 @@ namespace Graphics {
 
 #endif	//	 _WIN32
 
-    PUNK_REGISTER_CREATOR(IID_ICanvas, (System::CreateInstance<Canvas, ICanvas>));
+    PUNK_REGISTER_CREATOR(CLSID_Canvas, (System::CreateInstance<Canvas, ICanvas>));
 }
 PUNK_ENGINE_END

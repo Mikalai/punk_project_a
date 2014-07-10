@@ -133,10 +133,10 @@ namespace Attributes {
 		Core::String m_name;
 	};
 
-	PUNK_REGISTER_CREATOR(IID_IFloatTrack, (System::CreateInstance<TrackImpl<float>, ITrack>));
-	PUNK_REGISTER_CREATOR(IID_IVec3Track, (System::CreateInstance<TrackImpl<Math::vec3>, ITrack>));
-	PUNK_REGISTER_CREATOR(IID_IVec4Track, (System::CreateInstance<TrackImpl<Math::vec4>, ITrack>));
-	PUNK_REGISTER_CREATOR(IID_IQuatTrack, (System::CreateInstance<TrackImpl<Math::quat>, ITrack>));
-	PUNK_REGISTER_CREATOR(IID_IMat4Track, (System::CreateInstance<TrackImpl<Math::mat4>, ITrack>));
+	PUNK_REGISTER_CREATOR(CLSID_FloatTrack, (System::CreateInstance<TrackImpl<float>, ITrack>));
+	PUNK_REGISTER_CREATOR(CLSID_Vec3Track, (System::CreateInstance<TrackImpl<Math::vec3>, ITrack>));
+	PUNK_REGISTER_CREATOR(CLSID_Vec4Track, (System::CreateInstance<TrackImpl<Math::vec4>, ITrack>));
+	PUNK_REGISTER_CREATOR(CLSID_QuatTrack, (System::CreateInstance<TrackImpl<Math::quat>, ITrack>));
+	PUNK_REGISTER_CREATOR(CLSID_Mat4Track, (System::CreateInstance<TrackImpl<Math::mat4>, ITrack>));
 }
 PUNK_ENGINE_END

@@ -12,6 +12,7 @@ namespace Graphics {
     class IVideoDriver;
 
 	static const Core::Guid IID_ICanvas{ "32DD4B5D-3DA5-4738-A740-744077E1B223" };
+	static const Core::Guid CLSID_Canvas{ "B7A689F0-A5DD-479A-B292-D13A04D8EAD7" };
 
     class ICanvas : public Core::IObject {
     public:

@@ -15,6 +15,7 @@ namespace Graphics {
     class IVideoDriver;
 
 	DECLARE_PUNK_GUID(IID_ITexture2D, "42ECD9F3-6028-4396-B242-974EC637607A");
+	DECLARE_PUNK_GUID(CLSID_Texture2D, "8D557D62-30C8-462C-B1C7-1A8ED4454D22");
 
     class ITexture2D : public ITexture {
     public:

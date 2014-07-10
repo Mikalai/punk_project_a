@@ -11,6 +11,7 @@ PUNK_ENGINE_BEGIN
 namespace Attributes {
 
 	DECLARE_PUNK_GUID(IID_IAnimation, "3B79F2D8-3FCA-4EDC-8DE2-F51B1E4BFA84");
+	DECLARE_PUNK_GUID(CLSID_Animation, "AB589B15-49C1-4BCD-AD75-EC681DC9E67D");
 
 	class IAnimation : public Core::IObject {
 	public:

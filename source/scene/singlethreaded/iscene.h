@@ -16,6 +16,7 @@ namespace SceneModule {
 	class IObserver;
 
 	DECLARE_PUNK_GUID(IID_IScene, "3BA9C2DB-27C9-42BD-B3CC-AAEF16A91E19");
+	DECLARE_PUNK_GUID(CLSID_Scene, "7141D1B0-988C-40FD-9AF5-4FA4EEF9803E");
 
     class IScene : public Core::IObject {
     public:

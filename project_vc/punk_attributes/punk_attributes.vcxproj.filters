@@ -154,9 +154,6 @@
     <ClCompile Include="..\..\source\attributes\stubs\ifile_stub.cpp">
       <Filter>stubs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\attributes\ai\curvepath.cpp">
-      <Filter>ai</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\attributes\ai\inavi_mesh.cpp">
       <Filter>ai</Filter>
     </ClCompile>
@@ -174,6 +171,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\stubs\itext_attribute.cpp">
       <Filter>stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\ai\icurvepath.cpp">
+      <Filter>ai</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

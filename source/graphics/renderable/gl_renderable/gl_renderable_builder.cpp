@@ -476,7 +476,7 @@ namespace Graphics
 		}
 
 
-		PUNK_REGISTER_CREATOR(IID_IRenderableBuilder, (System::CreateInstance<GlRenderableBuilder, IRenderableBuilder>));
+		PUNK_REGISTER_CREATOR(CLSID_RenderableBuilder, (System::CreateInstance<GlRenderableBuilder, IRenderableBuilder>));
     }    	
 }
 PUNK_ENGINE_END

@@ -44,7 +44,7 @@ namespace SceneModule {
 
 	SceneManager::SceneManager() {
 		LOG_FUNCTION_SCOPE;
-		m_scene = System::CreateInstancePtr<IScene>(IID_IScene);
+		m_scene = System::CreateInstancePtr<IScene>(CLSID_Scene, IID_IScene);
 	}
 
 	SceneManager::~SceneManager() {
@@ -118,6 +118,6 @@ namespace SceneModule {
 		}
 	}
 
-	PUNK_REGISTER_CREATOR(IID_ISceneManager, (System::CreateInstance<SceneManager, ISceneManager>));
+	PUNK_REGISTER_CREATOR(CLSID_SceneManager, (System::CreateInstance<SceneManager, ISceneManager>));
 }
 PUNK_ENGINE_END

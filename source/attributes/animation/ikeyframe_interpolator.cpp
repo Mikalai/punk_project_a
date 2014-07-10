@@ -14,11 +14,11 @@ namespace Attributes
 	template<typename T, InterpolatorType Tag> struct InterpolationAspect;
 	template<typename T, InterpolatorType Tag> struct InterpolatorGuidAspect;
 
-	template<> struct InterpolatorGuidAspect < Math::vec3, InterpolatorType::Linear > { static const Core::Guid GetGuid() { return IID_IVec3KeyFrameLinearInterpolator; } };
-	template<> struct InterpolatorGuidAspect < Math::vec4, InterpolatorType::Linear > { static const Core::Guid GetGuid() { return IID_IVec4KeyFrameLinearInterpolator; } };
-	template<> struct InterpolatorGuidAspect < Math::mat4, InterpolatorType::Linear > { static const Core::Guid GetGuid() { return IID_IMat4KeyFrameLinearInterpolator; } };
-	template<> struct InterpolatorGuidAspect < Math::quat, InterpolatorType::Linear > { static const Core::Guid GetGuid() { return IID_IQuatKeyFrameLinearInterpolator; } };
-	template<> struct InterpolatorGuidAspect < float, InterpolatorType::Linear > { static const Core::Guid GetGuid() { return IID_IFloatKeyFrameLinearInterpolator; } };
+	template<> struct InterpolatorGuidAspect < Math::vec3, InterpolatorType::Linear > { static const Core::Guid GetGuid() { return CLSID_Vec3KeyFrameLinearInterpolator; } };
+	template<> struct InterpolatorGuidAspect < Math::vec4, InterpolatorType::Linear > { static const Core::Guid GetGuid() { return CLSID_Vec4KeyFrameLinearInterpolator; } };
+	template<> struct InterpolatorGuidAspect < Math::mat4, InterpolatorType::Linear > { static const Core::Guid GetGuid() { return CLSID_Mat4KeyFrameLinearInterpolator; } };
+	template<> struct InterpolatorGuidAspect < Math::quat, InterpolatorType::Linear > { static const Core::Guid GetGuid() { return CLSID_QuatKeyFrameLinearInterpolator; } };
+	template<> struct InterpolatorGuidAspect < float, InterpolatorType::Linear > { static const Core::Guid GetGuid() { return CLSID_FloatKeyFrameLinearInterpolator; } };
 
 	template<typename T>
 	struct InterpolationAspect < T, InterpolatorType::Linear> : public InterpolatorGuidAspect<T, InterpolatorType::Linear>{
@@ -116,10 +116,10 @@ namespace Attributes
 		float m_duration{ 1 };
 	};
 
-	PUNK_REGISTER_CREATOR(IID_IVec3KeyFrameLinearInterpolator, (System::CreateInstance<KeyFrameInterpolatorImpl<Math::vec3, InterpolatorType::Linear>, IKeyFrameInterpolator>));
-	PUNK_REGISTER_CREATOR(IID_IVec4KeyFrameLinearInterpolator, (System::CreateInstance<KeyFrameInterpolatorImpl<Math::vec4, InterpolatorType::Linear>, IKeyFrameInterpolator>));
-	PUNK_REGISTER_CREATOR(IID_IMat4KeyFrameLinearInterpolator, (System::CreateInstance<KeyFrameInterpolatorImpl<Math::mat4, InterpolatorType::Linear>, IKeyFrameInterpolator>));
-	PUNK_REGISTER_CREATOR(IID_IQuatKeyFrameLinearInterpolator, (System::CreateInstance<KeyFrameInterpolatorImpl<Math::quat, InterpolatorType::Linear>, IKeyFrameInterpolator>));
-	PUNK_REGISTER_CREATOR(IID_IFloatKeyFrameLinearInterpolator, (System::CreateInstance<KeyFrameInterpolatorImpl<float, InterpolatorType::Linear>, IKeyFrameInterpolator>));
+	PUNK_REGISTER_CREATOR(CLSID_Vec3KeyFrameLinearInterpolator, (System::CreateInstance<KeyFrameInterpolatorImpl<Math::vec3, InterpolatorType::Linear>, IKeyFrameInterpolator>));
+	PUNK_REGISTER_CREATOR(CLSID_Vec4KeyFrameLinearInterpolator, (System::CreateInstance<KeyFrameInterpolatorImpl<Math::vec4, InterpolatorType::Linear>, IKeyFrameInterpolator>));
+	PUNK_REGISTER_CREATOR(CLSID_Mat4KeyFrameLinearInterpolator, (System::CreateInstance<KeyFrameInterpolatorImpl<Math::mat4, InterpolatorType::Linear>, IKeyFrameInterpolator>));
+	PUNK_REGISTER_CREATOR(CLSID_QuatKeyFrameLinearInterpolator, (System::CreateInstance<KeyFrameInterpolatorImpl<Math::quat, InterpolatorType::Linear>, IKeyFrameInterpolator>));
+	PUNK_REGISTER_CREATOR(CLSID_FloatKeyFrameLinearInterpolator, (System::CreateInstance<KeyFrameInterpolatorImpl<float, InterpolatorType::Linear>, IKeyFrameInterpolator>));
 }
 PUNK_ENGINE_END

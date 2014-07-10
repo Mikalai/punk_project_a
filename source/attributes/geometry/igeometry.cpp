@@ -400,7 +400,7 @@ namespace Attributes
 		}
 
 		Core::Pointer<Math::IIntersectionResult> CrossLine(const Math::Line3D& line) override {
-			auto result = System::CreateInstancePtr<Math::IIntersectionResult>(Math::IID_IIntersectionResult);
+			auto result = System::CreateInstancePtr<Math::IIntersectionResult>(Math::CLSID_IntersectionResult, Math::IID_IIntersectionResult);
 			Math::vec3 p1, p2;
 			auto res = Math::CrossLineSphere(line, m_sphere, p1, p2);
 			switch (res)
@@ -453,6 +453,6 @@ namespace Attributes
 
 	
 
-	PUNK_REGISTER_CREATOR(IID_IGeometry, (System::CreateInstance<Geometry3D, IGeometry>));
+	PUNK_REGISTER_CREATOR(CLSID_Geometry, (System::CreateInstance<Geometry3D, IGeometry>));
 }
 PUNK_ENGINE_END

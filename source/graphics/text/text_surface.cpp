@@ -20,7 +20,7 @@ namespace Graphics {
     TextSurface::TextSurface(std::uint32_t width, std::uint32_t height, IVideoDriver *driver)
         : m_video_driver(driver)
         , m_need_update(false) {
-        m_texture = System::CreateInstancePtr<Graphics::ITexture2D>(Graphics::IID_ITexture2D);
+        m_texture = System::CreateInstancePtr<Graphics::ITexture2D>(CLSID_Texture2D, IID_ITexture2D);
 		if (m_texture)
 			m_texture->Initialize(width, height, ImageModule::ImageFormat::RED, nullptr, false, m_video_driver);
         m_halignment = TextHorizontalAlignment::Left;
@@ -36,7 +36,7 @@ namespace Graphics {
     void TextSurface::SetSize(std::uint32_t width, std::uint32_t height)
     {
 		if (!m_texture) {
-            m_texture = System::CreateInstancePtr<Graphics::ITexture2D>(Graphics::IID_ITexture2D);
+            m_texture = System::CreateInstancePtr<Graphics::ITexture2D>(CLSID_Texture2D, IID_ITexture2D);
 			if (m_texture)
 				m_texture->Initialize(width, height, ImageModule::ImageFormat::RED, 0, false, m_video_driver);
 		}
@@ -174,7 +174,7 @@ namespace Graphics {
             if (m_texture)
                 m_texture->Resize(width, height);
 			else {
-                m_texture = System::CreateInstancePtr<Graphics::ITexture2D>(Graphics::IID_ITexture2D);
+                m_texture = System::CreateInstancePtr<Graphics::ITexture2D>(CLSID_Texture2D, IID_ITexture2D);
 				if (m_texture)
 					m_texture->Initialize(width, height, ImageModule::ImageFormat::RED, nullptr, false, m_video_driver);
 			}

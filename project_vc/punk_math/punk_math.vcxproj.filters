@@ -9,7 +9,6 @@
     <ClCompile Include="..\..\source\math\bounding_sphere.cpp" />
     <ClCompile Include="..\..\source\math\clip_space.cpp" />
     <ClCompile Include="..\..\source\math\convex_shape_mesh.cpp" />
-    <ClCompile Include="..\..\source\math\curve.cpp" />
     <ClCompile Include="..\..\source\math\ellipsoid.cpp" />
     <ClCompile Include="..\..\source\math\frustum.cpp" />
     <ClCompile Include="..\..\source\math\frustum_plane.cpp" />
@@ -66,6 +65,7 @@
     </ClCompile>
     <ClCompile Include="..\..\source\math\linear_equation_solver.cpp" />
     <ClCompile Include="..\..\source\math\gramm_shmidt.cpp" />
+    <ClCompile Include="..\..\source\math\icurve.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\math\aabb.h" />

@@ -120,6 +120,6 @@ namespace Attributes
         return m_name;
     }    
 
-	PUNK_REGISTER_CREATOR(IID_INaviMesh, (System::CreateInstance<NaviMesh, INaviMesh>));
+	PUNK_REGISTER_CREATOR(CLSID_NaviMesh, (System::CreateInstance<NaviMesh, INaviMesh>));
 }
 PUNK_ENGINE_END

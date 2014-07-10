@@ -8,6 +8,7 @@ PUNK_ENGINE_BEGIN
 namespace Math {
 
 	DECLARE_PUNK_GUID(IID_IIntersectionResult, "4B66AE62-DC9D-4C09-BADB-8CA7780A6F8E");
+	DECLARE_PUNK_GUID(CLSID_IntersectionResult, "4B66AE62-DC9D-4C09-BADB-8CA7780A6F8E");
 
 	enum class IntersectionHint : std::uint64_t {
 		No = 0x0, 

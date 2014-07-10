@@ -212,7 +212,7 @@ namespace SceneModule {
 		std::atomic<int> m_delete_count;
 	};	               				    			
 		
-    PUNK_REGISTER_CREATOR(IID_INode, (System::CreateInstance<Node, INode>));
+    PUNK_REGISTER_CREATOR(CLSID_Node, (System::CreateInstance<Node, INode>));
 
 }
 PUNK_ENGINE_END

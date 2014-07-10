@@ -21,6 +21,7 @@ namespace Graphics {
 	class IRenderContextFactory;
 
 	DECLARE_PUNK_GUID(IID_ILowLevelRender, "5B3310D7-3954-4047-ABF2-694B98355C79");
+	DECLARE_PUNK_GUID(CLSID_LowLevelRender, "DE5FC1D9-D605-4A0F-9692-5B0C701C9FD1");
 
     class ILowLevelRender : public Core::IObject {
     public:

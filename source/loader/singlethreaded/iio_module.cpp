@@ -1,6 +1,10 @@
+#include <string/module.h>
 #include <core/iobject_impl.h>
+#include <core/iserializable.h>
 #include <loader/parser/parse_punk_file.h>
 #include <loader/parser/parse_anything.h>
+#include <loader/error/loader_error.h>
+#include <system/filesystem/module.h>
 #include "iio_module.h"
 
 PUNK_ENGINE_BEGIN
@@ -34,18 +38,26 @@ namespace IoModule {
 		}
 
 		void Serialize(Core::Pointer<Core::IObject> object, const Core::String& path) {
-			auto serializable = Core::QueryInterfacePtr<System::ISerializable>(System::IID_ISerializable);
-			
+			auto serializable = Core::QueryInterfacePtr<Core::ISerializable>(object, Core::IID_ISerializable);			
+			if (serializable) {
+				Core::Buffer buffer;
+				serializable->Serialize(buffer);
+				System::BinaryFile::Save(path, buffer);
+			}
+			else {
+				throw Error::LoaderException(L"Object is not serializable");
+			}
 		}
 
 		void Serialize(Core::Pointer<Core::IObject> object, Core::Buffer& buffer) override {
 		}
 
 		Core::Pointer<Core::IObject> Deserialize(const Core::String& path) override {
+			throw Error::LoaderException(L"Not implemented");
 		}
 
 		Core::Pointer<Core::IObject> Deserialize(Core::Buffer& buffer) override {
-
+			throw Error::LoaderException(L"Not implemented");
 		}
 
 	private:

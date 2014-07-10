@@ -163,7 +163,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\source\attributes\ai\curvepath.cpp" />
+    <ClCompile Include="..\..\source\attributes\ai\icurvepath.cpp" />
     <ClCompile Include="..\..\source\attributes\ai\inavi_mesh.cpp" />
     <ClCompile Include="..\..\source\attributes\animation\action.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>

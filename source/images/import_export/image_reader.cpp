@@ -75,6 +75,6 @@ namespace ImageModule {
 		std::atomic<std::uint32_t> m_ref_count{ 0 };
 	};
 
-    PUNK_REGISTER_CREATOR(IID_IImageReader, (System::CreateInstance<AnyImageReader, IImageReader>));
+    PUNK_REGISTER_CREATOR(CLSID_ImageReader, (System::CreateInstance<AnyImageReader, IImageReader>));
 }
 PUNK_ENGINE_END

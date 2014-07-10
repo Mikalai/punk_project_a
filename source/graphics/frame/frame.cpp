@@ -39,7 +39,7 @@ namespace Graphics
 #ifdef _DEBUG
         System::GetDefaultLogger()->Info(L"Create Frame");
 #endif
-		m_builder = System::CreateInstancePtr<IRenderableBuilder>(IID_IRenderableBuilder);
+		m_builder = System::CreateInstancePtr<IRenderableBuilder>(CLSID_RenderableBuilder, IID_IRenderableBuilder);
         m_shadow_maps = nullptr;
         m_state.push(new CoreState);
     }
@@ -890,6 +890,6 @@ namespace Graphics
 		return m_builder.get();
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IFrame, (System::CreateInstance<Frame, IFrame>));    
+	PUNK_REGISTER_CREATOR(CLSID_Frame, (System::CreateInstance<Frame, IFrame>));    
 }
 PUNK_ENGINE_END

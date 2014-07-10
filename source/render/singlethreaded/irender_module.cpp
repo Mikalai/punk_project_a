@@ -78,7 +78,8 @@ namespace LowLevelRender {
 		RenderModule() 
 		{
 			LOG_FUNCTION_SCOPE;			
-			m_canvas = System::CreateInstancePtr<Graphics::ICanvas>(Graphics::IID_ICanvas);
+			m_canvas = System::CreateInstancePtr<Graphics::ICanvas>(
+				Graphics::CLSID_Canvas, Graphics::IID_ICanvas);
 			m_canvas->Initialize(Graphics::CanvasDescription{});
 			m_canvas->GetWindow()->SubscribeWindowDestroyEvent(new Core::Action<RenderModule, void>(this, &RenderModule::OnWindowClose));
 			m_canvas->GetWindow()->Open();
@@ -88,8 +89,10 @@ namespace LowLevelRender {
 			m_frame_buffer->SetViewport(0, 0, m_canvas->GetWindow()->GetWidth(), m_canvas->GetWindow()->GetHeight());
 			m_canvas->GetWindow()->SubscribeResizeEvent(new Core::Action<RenderModule, const System::WindowResizeEvent&>(this, &RenderModule::OnWindowResized));
 			m_canvas->GetWindow()->SubscribeMouseMoveEvent(new Core::Action<RenderModule, const System::MouseEvent&>(this, &RenderModule::OnMouseMove));
-			m_geometry_cooker = System::CreateInstancePtr<Attributes::IGeometryCooker>(Attributes::IID_IGeometryCooker);
-			m_renderable_builder = System::CreateInstancePtr<Graphics::IRenderableBuilder>(Graphics::IID_IRenderableBuilder);
+			m_geometry_cooker = System::CreateInstancePtr<Attributes::IGeometryCooker>(
+				Attributes::CLSID_GeometryCooker, Attributes::IID_IGeometryCooker);
+			m_renderable_builder = System::CreateInstancePtr<Graphics::IRenderableBuilder>(
+				Graphics::CLSID_RenderableBuilder, Graphics::IID_IRenderableBuilder);
 		}
 		
 		~RenderModule() {
@@ -296,9 +299,12 @@ namespace LowLevelRender {
 				if (diffuse_slot) {
 					System::Folder folder;
 					folder.Open(System::Environment::Instance()->GetTextureFolder());
-					ImageModule::IImageReaderPointer image_reader = System::CreateInstancePtr<ImageModule::IImageReader>(ImageModule::IID_IImageReader);
+					ImageModule::IImageReaderPointer image_reader = System::CreateInstancePtr<ImageModule::IImageReader>(
+						ImageModule::CLSID_ImageReader, ImageModule::IID_IImageReader);
+
 					ImageModule::IImagePointer image{ image_reader->Read(diffuse_slot->GetFilename()), Core::DestroyObject };
-					Graphics::ITexture2DPointer texture = System::CreateInstancePtr<Graphics::ITexture2D>(Graphics::IID_ITexture2D);
+					Graphics::ITexture2DPointer texture = System::CreateInstancePtr<Graphics::ITexture2D>(
+						Graphics::CLSID_Texture2D, Graphics::IID_ITexture2D);
 					if (texture)
 						texture->Initialize(image.get(), true, m_canvas->GetVideoDriver());
 					diffuse_slot->SetTexture(texture.get());
@@ -589,6 +595,6 @@ namespace LowLevelRender {
 		}
 	};	
 
-    PUNK_REGISTER_CREATOR(IID_IRenderModule, (System::CreateInstance<RenderModule, IRenderModule>));
+    PUNK_REGISTER_CREATOR(CLSID_RenderModule, (System::CreateInstance<RenderModule, IRenderModule>));
 }
 PUNK_ENGINE_END

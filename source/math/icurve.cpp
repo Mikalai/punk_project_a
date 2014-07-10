@@ -117,6 +117,6 @@ namespace Math
 		m_splines.clear();
 	}
 
-	PUNK_REGISTER_CREATOR(IID_ICurve, (System::CreateInstance<Curve, ICurve>));
+	PUNK_REGISTER_CREATOR(CLSID_Curve, (System::CreateInstance<Curve, ICurve>));
 }
 PUNK_ENGINE_END

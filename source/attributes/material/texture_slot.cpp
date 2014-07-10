@@ -21,23 +21,23 @@ namespace Attributes
 			return;
 
 		if (type == Core::IID_IObject) {
-			*object = (Core::IObject*)(IDiffuseTextureSlot*)object;
+			*object = (Core::IObject*)(IDiffuseTextureSlot*)this;
 			AddRef();
 		}
 		else if (type == IID_ITextureSlot) {
-			*object = (ITextureSlot*)(IDiffuseTextureSlot*)object;
+			*object = (ITextureSlot*)(IDiffuseTextureSlot*)this;
 			AddRef();
 		}
 		else if (type == IID_IDiffuseTextureSlot) {
-			*object = (IDiffuseTextureSlot*)object;
+			*object = (IDiffuseTextureSlot*)this;
 			AddRef();
 		}
 		else if (type == IID_INormalTextureSlot) {
-			*object = (INormalTextureSlot*)object;
+			*object = (INormalTextureSlot*)this;
 			AddRef();
 		}
 		else if (type == IID_ISpecularIntensityTextureSlot) {
-			*object = (ISpecularIntensityTextureSlot*)object;
+			*object = (ISpecularIntensityTextureSlot*)this;
 			AddRef();
 		}
 		else
@@ -89,8 +89,6 @@ namespace Attributes
 		return m_texture_2d.get();
 	}
 
-	PUNK_REGISTER_CREATOR(IID_IDiffuseTextureSlot, (System::CreateInstance<TextureSlot, IDiffuseTextureSlot>));
-	PUNK_REGISTER_CREATOR(IID_INormalTextureSlot, (System::CreateInstance<TextureSlot, INormalTextureSlot>));
-	PUNK_REGISTER_CREATOR(IID_ISpecularIntensityTextureSlot, (System::CreateInstance<TextureSlot, ISpecularIntensityTextureSlot>));
+	PUNK_REGISTER_CREATOR(CLSID_TextureSlot, (System::CreateInstance<TextureSlot, IDiffuseTextureSlot>));
 }
 PUNK_ENGINE_END

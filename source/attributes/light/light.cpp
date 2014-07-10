@@ -78,7 +78,7 @@ namespace Attributes {
 			*object = (ISpotLight*)this;
 			AddRef();
 		}
-		else if (type == IID_ILight) {		
+		else if (type == IID_ILight) {
 			*object = (ILight*)(IPointLight*)this;
 			AddRef();
 		}
@@ -99,29 +99,8 @@ namespace Attributes {
 		}
 		return v;
 	}
-	
-	void CreateDirectionalLight(void** object) {
-		if (!object)
-			return;
-		*object = (IDirectionalLight*)(new Light);
-	}
 
-	void CreatePointLight(void** object) {
-		if (!object)
-			return;
-		*object = (IPointLight*)(new Light);
-	}
-
-	void CreateSpotLight(void** object) {
-		if (!object)
-			return;
-		*object = (ISpotLight*)(new Light);
-	}
-
-
-	PUNK_REGISTER_CREATOR(IID_IDirectionalLight, CreateDirectionalLight);
-	PUNK_REGISTER_CREATOR(IID_ISpotLight, CreateSpotLight);
-	PUNK_REGISTER_CREATOR(IID_IPointLight, CreatePointLight);
+	PUNK_REGISTER_CREATOR(CLSID_Light, (System::CreateInstance<Light, IDirectionalLight>));
 	
 }
 PUNK_ENGINE_END

@@ -11,6 +11,7 @@ PUNK_ENGINE_BEGIN
 namespace Attributes {
 
 	DECLARE_PUNK_GUID(IID_IAnimationPlayer, "81D98892-B9A8-4571-B30B-CEC355EE837E");
+	DECLARE_PUNK_GUID(CLSID_AnimationPlayer, "8EA1157A-8A93-4CE4-AF8F-1278578C39BB");
 
 	enum class AnimationSeekDirection : std::uint32_t {
 		Current,

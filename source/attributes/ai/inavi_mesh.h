@@ -14,6 +14,7 @@ namespace Math {
 namespace Attributes {
 	
 	DECLARE_PUNK_GUID(IID_INaviMesh, "F8A31959-7761-4670-930C-D71850C4A6C2");
+	DECLARE_PUNK_GUID(CLSID_NaviMesh, "30D5D0A8-D29C-4657-A731-757E46796030");
 
 	class INaviMesh : public Core::IObject {
 	public:

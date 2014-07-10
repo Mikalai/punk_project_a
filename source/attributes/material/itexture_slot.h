@@ -11,6 +11,7 @@ PUNK_ENGINE_BEGIN
 namespace Attributes
 {
 	DECLARE_PUNK_GUID(IID_ITextureSlot, "6040A5FF-D45D-467E-A17D-AF165F5D3CAC");
+	DECLARE_PUNK_GUID(CLSID_TextureSlot, "5ECBF1DA-C68B-4ED5-8650-4BB8AA662FB3");
 
 	class ITextureSlot : public Core::IObject
 	{

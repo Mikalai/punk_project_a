@@ -39,6 +39,6 @@ namespace Attributes {
 		Core::String m_data_path;		
 	};
 
-	PUNK_REGISTER_CREATOR(IID_IOptions, (System::CreateInstance<Options, IOptions>));
+	PUNK_REGISTER_CREATOR(CLSID_Options, (System::CreateInstance<Options, IOptions>));
 }
 PUNK_ENGINE_END

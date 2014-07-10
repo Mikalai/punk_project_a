@@ -11,6 +11,7 @@ namespace Core {
 namespace Attributes {
 
 	DECLARE_PUNK_GUID(IID_ICurvePath, "7B1EBE2B-6E2E-467A-BE39-EF7890622C41");
+	DECLARE_PUNK_GUID(CLSID_CurvePath, "45E23224-9925-428A-83E9-F46979BD6E0F");
 
 	class ICurvePath : public Math::ICurve {
 	public:
