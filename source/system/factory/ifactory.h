@@ -52,13 +52,19 @@ namespace System {
 	}
 
     template<class I>
-	Core::Pointer<I> CreateInstancePtr(const Core::Guid& type) {
+	Core::Pointer<I> CreateInstancePtr(const Core::Guid& clsid, const Core::Guid& iid) {
         //LOG_FUNCTION_SCOPE
-        I* object = nullptr;
-        GetFactory()->CreateInstance(type, (void**)(I*)&object);
+        Core::IObject* object = nullptr;
+        GetFactory()->CreateInstance(clsid, (void**)&object);
         if (!object)
-            throw Error::SystemException("Failed to create object of type " + type.ToString());
-        return Core::Pointer<I>{object, Core::DestroyObject};
+            throw Error::SystemException("Failed to create object of type " + clsid.ToString());
+		I* result = nullptr;
+		object->QueryInterface(iid, (void**)&result);
+
+		auto res = Core::Pointer < I > {result, Core::DestroyObject};
+		if (result)
+			result->Release();
+		return res;
     }
 
 	template<class T, class I>
