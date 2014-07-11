@@ -1,0 +1,54 @@
+MATERIALTEXT
+MALE.001 {
+  *alpha {
+    1.0
+  }
+  *ambient {
+    1.0
+  }
+  *darkness {
+    1.0
+  }
+  *diffuse_color {
+    0.6117647290229797 0.545098066329956 0.45490196347236633
+  }
+  *diffuse_fresnel {
+    0.10000000149011612
+  }
+  *diffuse_fresnel_factor {
+    0.5
+  }
+  *diffuse_intensity {
+    0.800000011920929
+  }
+  *emit {
+    0.0
+  }
+  *mirror_color {
+    0.0 0.0 0.0
+  }
+  *roughness {
+    0.5
+  }
+  *specular_alpha {
+    1.0
+  }
+  *specular_color {
+    0.0 0.0 0.0
+  }
+  *specular_hardness {
+    50
+  }
+  *specular_intensity {
+    0.5
+  }
+  *specular_ior {
+    4.0
+  }
+  *specular_slope {
+    0.10000000149011612
+  }
+  *translucency {
+    0.0
+  }
+}

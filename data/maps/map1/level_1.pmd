@@ -5,73 +5,25 @@ SCENETEXT
   }
   *node {
     *name {
-      Transform
+      MALE
     }
     *entity_name {
-      Armature.transform
+      MALE.material
     }
     *node {
       *name {
-        Armature
+        Transform
       }
       *entity_name {
-        Armature.armature
+        sub01.transform
       }
       *node {
         *name {
-          Material
+          Static
         }
         *entity_name {
-          Material.material
+          sub01.static
         }
-        *node {
-          *name {
-            Transform
-          }
-          *entity_name {
-            Cube.transform
-          }
-          *node {
-            *name {
-              Skin
-            }
-            *entity_name {
-              Cube.skin
-            }
-          }
-        }
-      }
-    }
-  }
-  *node {
-    *name {
-      Transform
-    }
-    *entity_name {
-      Lamp.transform
-    }
-    *node {
-      *name {
-        PointLight
-      }
-      *entity_name {
-        Lamp.point_light
-      }
-    }
-  }
-  *node {
-    *name {
-      Transform
-    }
-    *entity_name {
-      Camera.transform
-    }
-    *node {
-      *name {
-        Camera
-      }
-      *entity_name {
-        Camera.perspective_camera
       }
     }
   }

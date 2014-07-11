@@ -62,7 +62,7 @@ namespace IoModule
             {
                 Core::String word = buffer.ReadWord();
                 auto mesh = System::CreateInstancePtr<Attributes::IGeometry>(
-					Attributes::CLSID_Geometry, Attributes::IID_IGeometry);
+					Attributes::CLSID_Geometry3D, Attributes::IID_IGeometry);
 
                 parser->Parse(WORD_STATIC_MESH, buffer, mesh.get());
                 mesh->SetName(word);
@@ -125,7 +125,7 @@ namespace IoModule
             {
                 Core::String word = buffer.ReadWord();
                 auto mesh = System::CreateInstancePtr<Attributes::IGeometry>(
-					Attributes::CLSID_Geometry, Attributes::IID_IGeometry);
+					Attributes::CLSID_Geometry3D, Attributes::IID_IGeometry);
                 parser->Parse(WORD_SKIN_MESH, buffer, mesh.get());
                 mesh->SetName(word);
 				return mesh;

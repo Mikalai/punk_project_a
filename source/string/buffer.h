@@ -2,6 +2,8 @@
 #define _H_PUNK_BUFFER
 
 #include <cstdint>
+#include <vector>
+#include <array>
 #include "config.h"
 
 PUNK_ENGINE_BEGIN
@@ -63,6 +65,64 @@ namespace Core
         void WriteReal64(double value);
         void WriteBoolean(bool value);
         void WriteBuffer(const void* buffer, int size);
+
+		template<class T>
+		void WritePod(const T& value) {
+			WriteBuffer(&value, sizeof(value));
+		}
+
+		template<class T>
+		void ReadPod(T& value) {
+			ReadBuffer(&value, sizeof(value));
+		}
+
+		template<class T, std::size_t N>
+		void WriteStdArray(const std::array<T, N>& a) {			
+			WriteBuffer(a.data(), sizeof(a[0])*N);
+		}
+
+		template<class T, std::size_t N>
+		void ReadStdArray(std::array<T, N>& a) {
+			ReadBuffer(a.data(), sizeof(a[0])*N);
+		}
+
+		template<class T>
+		void WriteStdVector(const std::vector<T>& v) {
+			WriteUnsigned32((std::uint32_t)v.size());
+			if (!v.empty())
+				WriteBuffer(v.data(), sizeof(v[0])*v.size());
+		}
+
+		template<class T>
+		void ReadStdVector(std::vector<T>& v) {
+			std::uint32_t count = ReadUnsigned32();
+			if (count) {
+				v.resize(count);
+				ReadBuffer(v.data(), sizeof(v[0])*count);
+			}
+		}
+
+		template<class T>
+		void WriteStdVector(const std::vector<std::vector<T>>& v) {
+			std::uint32_t count = (std::uint32_t)v.size();			
+			WriteUnsigned32(count);
+			if (count) {
+				for (const auto& c : v) {
+					WriteStdVector(c);
+				}
+			}
+		}
+
+		template<class T>
+		void ReadStdVector(std::vector<std::vector<T>>& v) {
+			std::uint32_t count = ReadUnsigned32();
+			if (count) {
+				v.resize(count);				
+				for (auto& c : v) {
+					ReadStdVector(c);
+				}
+			}
+		}
 
         void* Release();
 

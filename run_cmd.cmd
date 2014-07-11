@@ -1,0 +1,2 @@
+set PATH=c:\Projects\game\dev\punk_project_a\bin\release_x64;c:\Projects\game\dev\punk_project_a\bin\release_win32;c:\Projects\game\dev\punk_project_a\bin\debug_win32;c:\Projects\game\dev\punk_project_a\bin\debug_x64;%PATH%
+start cmd

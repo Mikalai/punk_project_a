@@ -1,6 +1,8 @@
 #include <system/factory/module.h>
 #include <config.h>
 #include <core/object.h>
+#include <core/iserializable.h>
+#include <string/buffer.h>
 #include <math/module.h>
 #include <graphics/module.h>
 #include <attributes/selection/iselectable.h>
@@ -24,7 +26,7 @@ namespace Attributes
 		, public IVertexTextureCoordinateStream
 		, public IVertexBoneWeightStream
 		, public IFaceIndexStream
-		, public IFaceTextureStream
+		, public IFaceTextureStream		
 	{
 	public:
 		GeometryBase() {}
@@ -69,7 +71,7 @@ namespace Attributes
 			else if (type == IID_IFaceTextureStream) {
 				*object = (void*)(IFaceTextureStream*)this;
 				AddRef();
-			}
+			}			
 			else
 				*object = nullptr;
 		}
@@ -282,7 +284,7 @@ namespace Attributes
 
 		const Core::String& GetName() const override {
 			return m_name;
-		}
+		}		
 
 	protected:
 		GeometryBase(const GeometryBase&) = delete;
@@ -306,6 +308,7 @@ namespace Attributes
 	class PUNK_ENGINE_LOCAL Geometry3D : public GeometryBase
 		, public Math::IBoundingBox
 		, public Math::IBoundingSphere
+		, public Core::ISerializable
 	{
 	public:
 		Geometry3D() {}
@@ -357,6 +360,10 @@ namespace Attributes
 			}
 			else if (type == IID_IFaceTextureStream) {
 				*object = (void*)(IFaceTextureStream*)this;
+				AddRef();
+			}
+			else if (type == Core::IID_ISerializable) {
+				*object = (void*)(Core::ISerializable*)this;
 				AddRef();
 			}
 			else
@@ -446,6 +453,42 @@ namespace Attributes
 			m_sphere = value;
 		}
 
+		//	ISerializable
+		void Serialize(Core::Buffer& buffer) override {
+			buffer.WriteBuffer(CLSID_Geometry3D.ToPointer(), sizeof(CLSID_Geometry3D));
+
+			//	GeometryBase
+			buffer.WriteStdVector(m_position);			
+			buffer.WriteStdVector(m_normals);
+			buffer.WriteStdVector(m_colors);
+			buffer.WriteStdVector(m_textures);
+			buffer.WriteStdVector(m_weights);
+			buffer.WriteStdVector(m_bones);
+			buffer.WriteStdVector(m_texture_faces);
+			buffer.WriteStdVector(m_triangles);
+			buffer.WriteString(m_armature_schema);
+			buffer.WriteString(m_name);
+			buffer.WritePod(m_armature_offset);
+			buffer.WritePod(m_bbox);
+			buffer.WritePod(m_sphere);
+		}
+
+		void Deserialize(Core::Buffer& buffer) override {
+			buffer.ReadStdVector(m_position);
+			buffer.ReadStdVector(m_normals);
+			buffer.ReadStdVector(m_colors);
+			buffer.ReadStdVector(m_textures);
+			buffer.ReadStdVector(m_weights);
+			buffer.ReadStdVector(m_bones);
+			buffer.ReadStdVector(m_texture_faces);
+			buffer.ReadStdVector(m_triangles);
+			m_armature_schema = buffer.ReadString();
+			m_name = buffer.ReadString();
+			buffer.ReadPod(m_armature_offset);
+			buffer.ReadPod(m_bbox);
+			buffer.ReadPod(m_sphere);
+		}
+
 	protected:
 		Math::BoundingBox m_bbox;
 		Math::BoundingSphere m_sphere;
@@ -453,6 +496,6 @@ namespace Attributes
 
 	
 
-	PUNK_REGISTER_CREATOR(CLSID_Geometry, (System::CreateInstance<Geometry3D, IGeometry>));
+	PUNK_REGISTER_CREATOR(CLSID_Geometry3D, (System::CreateInstance<Geometry3D, IGeometry>));
 }
 PUNK_ENGINE_END
