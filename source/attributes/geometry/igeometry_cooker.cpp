@@ -58,10 +58,10 @@ namespace Attributes {
 			va.reset(nullptr);
 			ia.reset(nullptr);
 
-			if (position_stream) {
-				if (normal_stream) {
-					if (texture_stream) {
-						if (bone_stream) {
+			if (position_stream && position_stream->HasVertexPositions() ) {
+				if (normal_stream && normal_stream->HasVertexNormals()) {
+					if (face_texture_stream && face_texture_stream->HasFaceTextureCoordinates()) {
+						if (bone_stream && bone_stream->HasVertexBoneWeights()) {
 							if (m_enable_tbn_generation) {
 
 								CookPositionNormalTangentBitangentTexture0BoneIDBoneWeight(
@@ -108,7 +108,7 @@ namespace Attributes {
 						}
 					}
 					else {
-						if (bone_stream) {
+						if (bone_stream && bone_stream->HasVertexBoneWeights()) {
 							CookPositionNormalBonesWeights(
 								position_stream,
 								normal_stream,
@@ -128,7 +128,7 @@ namespace Attributes {
 					}
 				}
 				else { //	Position !Normal
-					if (texture_stream) {	//Position !Normal Texture
+					if (face_texture_stream && face_texture_stream->HasFaceTextureCoordinates()) {	//Position !Normal Texture
 						CookPositionTexture0(
 							position_stream,
 							texture_stream,
