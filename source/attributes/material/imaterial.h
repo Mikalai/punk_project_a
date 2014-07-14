@@ -19,12 +19,12 @@ namespace Attributes {
 	class IMaterial : public Core::IObject
 	{
 	public:
-		virtual void SetDiffuseTextureSlot(IDiffuseTextureSlot* value) = 0;
-		virtual void SetNormalTextureSlot(INormalTextureSlot* value) = 0;
-		virtual void SetSpecularTextureSlot(ISpecularIntensityTextureSlot* value) = 0;
-		virtual IDiffuseTextureSlot* GetDiffuseTextureSlot() = 0;
-		virtual INormalTextureSlot* GetNormalTextureSlot() = 0;
-		virtual ISpecularIntensityTextureSlot* GetSpecularTextureSlot() = 0;
+		virtual void SetDiffuseTextureSlot(Core::Pointer<IDiffuseTextureSlot> value) = 0;
+		virtual void SetNormalTextureSlot(Core::Pointer<INormalTextureSlot> value) = 0;
+		virtual void SetSpecularTextureSlot(Core::Pointer<ISpecularIntensityTextureSlot> value) = 0;
+		virtual Core::Pointer<IDiffuseTextureSlot> GetDiffuseTextureSlot() = 0;
+		virtual Core::Pointer<INormalTextureSlot> GetNormalTextureSlot() = 0;
+		virtual Core::Pointer<ISpecularIntensityTextureSlot> GetSpecularTextureSlot() = 0;
 		virtual void SetDiffuseColor(const Math::vec4& color) = 0;
 		virtual void SetSpecularColor(const Math::vec4& color) = 0;
 		virtual void SetSpecularFactor(float value) = 0;

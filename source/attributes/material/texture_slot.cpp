@@ -3,7 +3,6 @@
 #include <images/module.h>
 #include <system/logger/module.h>
 #include <system/environment.h>
-#include "material.h"
 #include "texture_slot.h"
 
 PUNK_ENGINE_BEGIN

@@ -251,7 +251,7 @@
     <ClCompile Include="..\..\source\attributes\light\light_set.cpp" />
     <ClCompile Include="..\..\source\attributes\manager\camera_manager.cpp" />
     <ClCompile Include="..\..\source\attributes\manager\ioptions.cpp" />
-    <ClCompile Include="..\..\source\attributes\material\material.cpp" />
+    <ClCompile Include="..\..\source\attributes\material\imaterial.cpp" />
     <ClCompile Include="..\..\source\attributes\material\texture_slot.cpp" />
     <ClCompile Include="..\..\source\attributes\motions\motion_strategy.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -568,7 +568,6 @@
     <ClInclude Include="..\..\source\attributes\material\inormal_texture_slot.h" />
     <ClInclude Include="..\..\source\attributes\material\ispecular_intensity_texture_slot.h" />
     <ClInclude Include="..\..\source\attributes\material\itexture_slot.h" />
-    <ClInclude Include="..\..\source\attributes\material\material.h" />
     <ClInclude Include="..\..\source\attributes\material\material_manager.h" />
     <ClInclude Include="..\..\source\attributes\material\module.h" />
     <ClInclude Include="..\..\source\attributes\material\texture_slot.h" />

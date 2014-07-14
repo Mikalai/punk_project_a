@@ -115,9 +115,6 @@
     <ClCompile Include="..\..\source\attributes\transform\module.h">
       <Filter>transform</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\attributes\material\material.cpp">
-      <Filter>material</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\attributes\material\texture_slot.cpp">
       <Filter>material</Filter>
     </ClCompile>
@@ -174,6 +171,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\ai\icurvepath.cpp">
       <Filter>ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\material\imaterial.cpp">
+      <Filter>material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -423,9 +423,6 @@
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\transform\transform.h">
       <Filter>transform</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\attributes\material\material.h">
-      <Filter>material</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\material\material_manager.h">
       <Filter>material</Filter>
