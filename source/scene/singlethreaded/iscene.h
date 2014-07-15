@@ -42,6 +42,39 @@ namespace SceneModule {
 				return root->FindChildByAttribute<T>(name);
 			return nullptr;
 		}
+
+		bool Traverse(bool(*f)(Core::Pointer<INode>)) {
+			return InternalTraverse(GetRoot(), f);
+		}
+
+		template<class T>
+		bool Traverse(T* object, bool(T::*f)(Core::Pointer<INode>)) {
+			return InternalTraverse(GetRoot(), object, f);
+		}
+
+	private:
+		bool InternalTraverse(Core::Pointer<INode> parent, bool(*f)(Core::Pointer<INode>)) {
+			if (parent) {
+				f(parent);
+				for (auto i = 0, max_i = (int)parent->GetChildrenCount(); i < max_i; ++i) {
+					if (InternalTraverse(parent->GetChild(i), f))
+						return true;
+				}
+			}
+			return false;
+		}
+
+		template<class T>
+		bool InternalTraverse(Core::Pointer<INode> parent, T* object, bool(T::*f)(Core::Pointer<INode>)) {
+			if (parent) {
+				(object->*f)(parent);
+				for (auto i = 0, max_i = (int)parent->GetChildrenCount(); i < max_i; ++i) {
+					if (InternalTraverse(parent->GetChild(i), object, f))
+						return true;
+				}
+			}
+			return false;
+		}
     };
 
 	//using ISceneGraphPointer = Core::Pointer < IScene > ;

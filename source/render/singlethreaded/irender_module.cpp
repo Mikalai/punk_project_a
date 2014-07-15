@@ -402,8 +402,7 @@ namespace LowLevelRender {
 				for (int i = 0; i < count; ++i) {
 					auto renderable = node->GetAttributeOfType<Graphics::IRenderable>(i);
 					if (renderable) {
-						frame->PushAllState();
-						frame->EnableTexturing(false);
+						frame->PushAllState();						
 						if (frame->IsEnabledSkinning())
 							frame->EnableSkinning(renderable->GetVertexFormat() & (Graphics::VertexComponent::BoneID::Value() | Graphics::VertexComponent::BoneID::Value()));
 						if (frame->IsEnabledSkinning())
@@ -414,60 +413,7 @@ namespace LowLevelRender {
 					}
 				}
 				return;
-			}
-			//count = node->GetAttributesCountOfType<Attributes::IGeometry>();
-			//if (count != 0) {
-			//	for (int i = 0; i < count; ++i) {
-			//		auto renderable = node->GetAttributeOfType<Attributes::IGeometry>(i);
-			//		if (renderable) {
-			//			if (renderable->HasVertexBoneWeights())
-			//			{						
-			//				frame->PushAllState();
-			//				{
-			//					for (int i = 0; i < Graphics::BaseState::MAX_BONES; ++i) {
-			//						frame->SetBoneMatrix(i, renderable->GetArmatureOffset().Inversed() * frame->GetBoneMatrix(i) * renderable->GetArmatureOffset());
-			//					}
-
-			//					frame->EnableDepthTest(true);
-			//					frame->EnableLighting(true);
-			//					frame->SetPointSize(10);
-			//					auto b = frame->GetRenderableBuilder();
-			//					b->Begin(Graphics::PrimitiveType::TRIANGLES);
-			//					{
-			//						for (int i = 0, max_i = renderable->GetTrianglesCount(); i < max_i; ++i) {
-			//							auto t = renderable->GetTriangle(i);
-			//							int p[] = { t->X(), t->Y(), t->Z() };
-			//							float max = renderable->GetVertexCount();
-			//							Math::vec3 color{ t->X() / float(max), t->Y() / float(max), t->Z() / float(max) };
-			//							for (auto j = 0; j < 3; ++j) {
-			//								const Math::vec3& v = *renderable->GetVertexPosition(p[j]);
-			//								const Math::vec3& n = *renderable->GetVertexNormal(p[j]);
-			//								const Math::ivec4& bones = *renderable->GetVertexBonesIndecies(p[j]);
-			//								const Math::vec4& weights = *renderable->GetVertexBoneWeights(p[j]);
-			//								Math::vec3 res_v{ 0, 0, 0 };
-			//								Math::vec3 res_n{ 0, 0, 0 };
-			//								for (int k = 0; k < 4; ++k) {
-			//									auto armature = frame->GetBoneMatrix(bones[k]);
-			//									res_v +=  armature * v * weights[k];
-			//									res_n += (armature * Math::vec4(n, 0) * k).XYZ();
-			//								}
-			//								b->Color3fv(color);
-			//								b->Normal3fv((frame->GetWorldMatrix() * Math::vec4{ res_n, 0 }).XYZ());
-			//								b->Vertex3fv(res_v);
-			//							}
-			//						}
-			//					}
-			//					b->End();
-			//					frame->SetWorldMatrix(Math::CreateIdentity());
-			//					frame->Submit(b->ToRenderable());
-			//					//frame->Submit(renderable);
-			//				}
-			//				frame->PopAllState();
-			//			}
-			//		}
-			//	}
-			//	return;
-			//}
+			}			
 			count = node->GetAttributesCountOfType<Attributes::IMaterial>();
 			if (count != 0) {
 				for (int i = 0; i < count; ++i){

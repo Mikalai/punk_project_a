@@ -5,25 +5,81 @@ SCENETEXT
   }
   *node {
     *name {
-      MALE
+      Material.001
     }
     *entity_name {
-      MALE.material
+      Material.001.material
     }
     *node {
       *name {
         Transform
       }
       *entity_name {
-        sub01.transform
+        Cube.001.transform
       }
       *node {
         *name {
           Static
         }
         *entity_name {
-          sub01.static
+          Cube.001.static
         }
+      }
+    }
+  }
+  *node {
+    *name {
+      Material
+    }
+    *entity_name {
+      Material.material
+    }
+    *node {
+      *name {
+        Transform
+      }
+      *entity_name {
+        Cube.transform
+      }
+      *node {
+        *name {
+          Static
+        }
+        *entity_name {
+          Cube.static
+        }
+      }
+    }
+  }
+  *node {
+    *name {
+      Transform
+    }
+    *entity_name {
+      Lamp.transform
+    }
+    *node {
+      *name {
+        PointLight
+      }
+      *entity_name {
+        Lamp.point_light
+      }
+    }
+  }
+  *node {
+    *name {
+      Transform
+    }
+    *entity_name {
+      Camera.transform
+    }
+    *node {
+      *name {
+        Camera
+      }
+      *entity_name {
+        FirstCamera.perspective_camera
       }
     }
   }

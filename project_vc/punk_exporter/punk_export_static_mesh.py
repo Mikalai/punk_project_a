@@ -20,7 +20,7 @@ def export_static_mesh(f, object):
     f.write("STATICMESHTEXT\n")
     mesh = object.data
     start_block(f, mesh.name)
-    export_mat4(f, "*world_matrix", object.matrix_world)
+    #export_mat4(f, "*world_matrix", object.matrix_world)
     export_vertex_position(f, mesh)
     export_normals(f, mesh)
     export_faces(f, mesh)

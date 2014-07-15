@@ -66,8 +66,13 @@ namespace Core {
 
 	const String StringList::ToString(const String& delim) const {
 		String res;
-		for (const auto& s : impl->m_list) {
-			res += s + delim;
+		auto last = impl->m_list.end();
+		last--;
+		for (auto it = impl->m_list.begin(); it != impl->m_list.end(); ++it) {
+			if (it != last)
+				res += *it + delim;
+			else
+				res += *it;
 		}
 		return res;
 	}
