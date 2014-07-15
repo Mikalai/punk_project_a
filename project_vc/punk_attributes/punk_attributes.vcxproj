@@ -252,7 +252,7 @@
     <ClCompile Include="..\..\source\attributes\manager\camera_manager.cpp" />
     <ClCompile Include="..\..\source\attributes\manager\ioptions.cpp" />
     <ClCompile Include="..\..\source\attributes\material\imaterial.cpp" />
-    <ClCompile Include="..\..\source\attributes\material\texture_slot.cpp" />
+    <ClCompile Include="..\..\source\attributes\material\itexture_slot.cpp" />
     <ClCompile Include="..\..\source\attributes\motions\motion_strategy.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>

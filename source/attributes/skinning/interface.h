@@ -3,11 +3,5 @@
 
 #include "types.h"
 
-namespace Attributes
-{
-	class Armature;
-	class Bone;
-	class BoneFrame;
-}
 
 #endif	//	_H_PUNK_VIRTUAL_SKINNING_MODULE_INTERFACE

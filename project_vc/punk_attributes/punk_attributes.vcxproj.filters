@@ -115,9 +115,6 @@
     <ClCompile Include="..\..\source\attributes\transform\module.h">
       <Filter>transform</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\attributes\material\texture_slot.cpp">
-      <Filter>material</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\attributes\camera\camera.cpp">
       <Filter>camera</Filter>
     </ClCompile>
@@ -173,6 +170,9 @@
       <Filter>ai</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\material\imaterial.cpp">
+      <Filter>material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\material\itexture_slot.cpp">
       <Filter>material</Filter>
     </ClCompile>
   </ItemGroup>
