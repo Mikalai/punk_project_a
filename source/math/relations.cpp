@@ -22,7 +22,7 @@
 #include "clip_space.h"
 #include "bounding_box.h"
 #include "convex_shape_mesh.h"
-#include "frustum.h"
+#include "ifrustum.h"
 #include "triangle2d.h"
 #include "frustum_plane.h"
 #include "frustum_points.h"
@@ -31,6 +31,7 @@
 #include "bounding_sphere.h"
 #include "mat4.h"
 #include "math_error.h"
+#include "frustum_core.h"
 
 PUNK_ENGINE_BEGIN
 namespace Math {

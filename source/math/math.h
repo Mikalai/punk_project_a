@@ -22,7 +22,7 @@
 #include "low_level_math.h"
 #include "interpolation.h"
 #include "complex.h"
-#include "frustum.h"
+#include "ifrustum.h"
 #include "matrix.h"
 #include "random.h"
 #include "noise.h"

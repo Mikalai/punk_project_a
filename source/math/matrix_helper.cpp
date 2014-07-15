@@ -1,6 +1,7 @@
 #include <limits>
 #include <math/math_error.h>
 #include <math.h>
+#include "frustum_core.h"
 #include "gramm_shmidt.h"
 #include "linear_equation_solver.h"
 #include "vec2.h"
@@ -9,7 +10,7 @@
 #include "mat4.h"
 #include "mat3.h"
 #include "quat.h"
-#include "frustum.h"
+#include "ifrustum.h"
 #include "matrix_helper.h"
 
 PUNK_ENGINE_BEGIN
