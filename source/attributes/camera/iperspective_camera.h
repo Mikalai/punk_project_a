@@ -17,7 +17,7 @@ namespace Attributes {
 		virtual float GetFieldOfView() const = 0;
 		virtual float GetNearClipPlane() const = 0;
 		virtual float GetFarClipPlane() const = 0;
-		virtual const Math::Frustum GetFrustum() const = 0;
+		virtual const Core::Pointer<Math::IFrustum> GetFrustum() const = 0;
 	};
 }
 PUNK_ENGINE_END

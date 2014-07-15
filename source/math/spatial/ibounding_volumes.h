@@ -57,7 +57,7 @@ namespace Math {
 		virtual bool IsPointInside(const Math::vec3& value) = 0;
 		virtual bool IsPointInside(const Math::vec3& value, Math::IntersectionHint& hint) = 0;
 		virtual Core::Pointer<IIntersectionResult> CrossLine(const Math::Line3D& line) = 0;
-		virtual bool CrossFrustum(const Math::Frustum& frust, const Math::mat4& to_frustum_space) = 0;
+		virtual bool CrossFrustum(const Core::Pointer<Math::IFrustum> frust, const Math::mat4& to_frustum_space) = 0;
 	};
 
 	DECLARE_PUNK_GUID(IID_IBoundingBox, "6A7CE36E-F404-424C-82FA-8FB5EBECA9D3");

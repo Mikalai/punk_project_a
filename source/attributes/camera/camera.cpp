@@ -1,13 +1,14 @@
 #include <config.h>
 #include <system/factory/module.h>
 #include <core/iobject.h>
+#include <core/iserializable.h>
+#include <string/module.h>
 #include <math/mat4.h>
 #include <math/line3d.h>
-#include <math/frustum.h>
+#include <math/ifrustum.h>
 #include <math/constants.h>
 #include <math/rect.h>
 #include <math/helper.h>
-#include <math/frustum.h>
 #include <math/line3d.h>
 #include <math/matrix_helper.h>
 #include <math/clip_space.h>
@@ -32,38 +33,166 @@ namespace Attributes
 		{}
 	};
 
-	class PUNK_ENGINE_LOCAL Camera : public IPerspectiveCamera
+	class PUNK_ENGINE_LOCAL Camera :
+		public IPerspectiveCamera,
+		public Core::ISerializable
 	{
 	public:
-		Camera();
-		virtual ~Camera();
+		Camera()
+			: m_frustum{ System::CreateInstancePtr<Math::IFrustum>(Math::CLSID_Frustum, Math::IID_IFrustum) }
+		{}
+
+		virtual ~Camera() {}
 
 		//	IObject
-		void QueryInterface(const Core::Guid& type, void** object) override;
-		std::uint32_t AddRef() override;
-		std::uint32_t Release() override;
+		void QueryInterface(const Core::Guid& type, void** object) override {
+			if (!object)
+				return;
+
+			*object = nullptr;
+
+			if (type == IID_ICamera) {
+				*object = (ICamera*)(IPerspectiveCamera*)this;
+				AddRef();
+			}
+			else if (type == IID_IPerspectiveCamera) {
+				*object = (IPerspectiveCamera*)this;
+				AddRef();
+			}
+			else if (type == Core::IID_IObject) {
+				*object = (Core::IObject*)(IPerspectiveCamera*)this;
+				AddRef();
+			}				
+			else if (type == Core::IID_ISerializable) {
+				*object = (Core::ISerializable*)this;
+				AddRef();
+			}
+		}
+
+		std::uint32_t AddRef() override {
+			m_ref_count.fetch_add(1);
+			return m_ref_count;
+		}
+
+		std::uint32_t Release() override {
+			auto v = m_ref_count.fetch_sub(1) - 1;
+			if (!v)
+				delete this;
+			return v;
+		}
+
 
 		//	ICamera
-		void SetName(const Core::String& value) override;
-		const Core::String GetName() const override;
-		const Math::mat4 GetProjectionMatrix() const override;
-		const Math::vec3 GetDirection() const override;
-		void SetDirection(const Math::vec3& value) override;
-		const Math::vec3 GetUpVector() const override;
-		void SetUpVector(const Math::vec3& value) override;
-		const Math::ClipSpace GetClipSpace() const override;
-		void BindToWindow(System::IWindow* window) override;
-		System::IWindow* GetWindow() const override;
-		const Math::vec2 GetZRange(const Math::mat4& view) const override;
+		void SetName(const Core::String& value) override {
+			m_name = value;
+		}
+
+		const Core::String GetName() const override {
+			return m_name;
+		}
+
+		const Math::mat4 GetProjectionMatrix() const override {
+			return m_frustum->GetPerspectiveProjectionMatrix();
+		}
+
+		const Math::vec3 GetDirection() const override {
+			return m_direction;
+		}
+
+		void SetDirection(const Math::vec3& value) override {
+			m_direction = value;
+		}
+
+		const Math::vec3 GetUpVector() const override {
+			return m_up;
+		}
+
+		void SetUpVector(const Math::vec3& value) override {
+			m_up = value;
+		}
+
+		const Math::ClipSpace GetClipSpace() const override {
+			return m_frustum->GetClipSpace();
+		}
+
+		void BindToWindow(System::IWindow* window) override {
+			m_window = window;
+			m_frustum->SetAspectRatio((float)m_window->GetWidth(), (float)m_window->GetHeight());
+		}
+
+		System::IWindow* GetWindow() const override {
+			return m_window;
+		}
 
 		//	IPerspectiveCamera
-		void SetFieldOfView(float angle) override;
-		void SetNearClipPlane(float value) override;
-		void SetFarClipPlane(float value) override;
-		float GetFieldOfView() const override;
-		float GetNearClipPlane() const override;
-		float GetFarClipPlane() const override;
-		const Math::Frustum GetFrustum() const override;
+		void SetFieldOfView(float angle) override {
+			m_frustum->SetFov(angle);
+		}
+
+		void SetNearClipPlane(float value) override {
+			m_frustum->SetNearDistance(value);
+		}
+
+		void SetFarClipPlane(float value) override {
+			m_frustum->SetFarDistance(value);
+		}
+
+		const Core::Pointer<Math::IFrustum> GetFrustum() const override {
+			return m_frustum;
+		}
+
+		float GetFieldOfView() const override {
+			return m_frustum->GetFov();
+		}
+
+		float GetNearClipPlane() const override {
+			return m_frustum->GetNearDistance();
+		}
+
+		float GetFarClipPlane() const override {
+			return m_frustum->GetFarDistance();
+		}
+
+		const Math::vec2 GetZRange(const Math::mat4& view) const override {
+			return m_frustum->GetZRange(view);
+		}
+
+		//	ISerializable
+		void Serialize(Core::Buffer& buffer) override {
+			//	IObject
+			buffer.WritePod(CLSID_PerspectiveCamera);
+
+			//	ICamera
+			buffer.WriteString(m_name);
+			buffer.WritePod(m_direction);
+			buffer.WritePod(m_up);
+
+			//	IPerspectiveCamera
+			auto serializable = Core::QueryInterfacePtr<Core::ISerializable>(m_frustum, Core::IID_ISerializable);
+			auto flag = serializable.get() != nullptr;
+			buffer.WriteBoolean(flag);
+			if (flag) {
+				serializable->Serialize(buffer);
+			}
+		}
+
+		void Deserialize(Core::Buffer& buffer) override {
+			//	ICamera
+			buffer.WriteString(m_name);
+			buffer.WritePod(m_direction);
+			buffer.WritePod(m_up);
+
+			//	IPerspectiveCamera			
+			auto flag = buffer.ReadBoolean();
+			if (flag) {
+				Core::Guid clsid;
+				buffer.ReadPod(clsid);
+				auto serializable = System::CreateInstancePtr<Core::ISerializable>(clsid, Core::IID_ISerializable);
+				if (serializable)
+					serializable->Deserialize(buffer);
+				m_frustum = Core::QueryInterfacePtr<Math::IFrustum>(serializable, Math::IID_IFrustum);
+			}
+		}
 
 	private:
 		//	IObject
@@ -76,125 +205,14 @@ namespace Attributes
 		System::IWindow* m_window{ nullptr };
 
 		//	IPerspectiveCamera
-		Math::Frustum m_frustum;
+		Core::Pointer<Math::IFrustum> m_frustum{ nullptr, Core::DestroyObject };
 	};
-
-	Camera::Camera() {}
-
-	Camera::~Camera() {}
-
-	void Camera::QueryInterface(const Core::Guid& type, void** object) {
-		if (!object)
-			return;
-
-		if (type == IID_ICamera) {
-			*object = (ICamera*)(IPerspectiveCamera*)this;
-			AddRef();
-		}
-		else if (type == IID_IPerspectiveCamera) {
-			*object = (IPerspectiveCamera*)this;
-			AddRef();
-		}
-		else if (type == Core::IID_IObject) {
-			*object = (Core::IObject*)(IPerspectiveCamera*)this;
-			AddRef();
-		}
-		else
-			*object = nullptr;
-	}
-
-	std::uint32_t Camera::AddRef() {
-		m_ref_count.fetch_add(1);
-		return m_ref_count;
-	}
-
-	std::uint32_t Camera::Release() {
-		auto v = m_ref_count.fetch_sub(1) - 1;
-		if (!v)
-			delete this;
-		return v;
-	}
-
-	//	ICamera
-	void Camera::SetName(const Core::String& value) {
-		m_name = value;
-	}
-
-	const Core::String Camera::GetName() const {
-		return m_name;
-	}
-
-	const Math::mat4 Camera::GetProjectionMatrix() const {
-		return m_frustum.GetPerspectiveProjectionMatrix();
-	}
-
-	const Math::vec3 Camera::GetDirection() const {
-		return m_direction;
-	}
-
-	void Camera::SetDirection(const Math::vec3& value) {
-		m_direction = value;
-	}
-
-	const Math::vec3 Camera::GetUpVector() const {
-		return m_up;
-	}
-
-	void Camera::SetUpVector(const Math::vec3& value) {
-		m_up = value;
-	}
-
-	const Math::ClipSpace Camera::GetClipSpace() const {
-		return m_frustum.GetClipSpace();
-	}
-
-	void Camera::BindToWindow(System::IWindow* window) {
-		m_window = window;
-		m_frustum.SetAspectRatio(m_window->GetWidth(), m_window->GetHeight());
-	}
-
-	System::IWindow* Camera::GetWindow() const {
-		return m_window;
-	}
-
-	//	IPerspectiveCamera
-	void Camera::SetFieldOfView(float angle) {
-		m_frustum.SetFov(angle);
-	}
-
-	void Camera::SetNearClipPlane(float value) {
-		m_frustum.SetNearDistance(value);
-	}
-
-	void Camera::SetFarClipPlane(float value) {
-		m_frustum.SetFarDistance(value);
-	}
-
-	const Math::Frustum Camera::GetFrustum() const {
-		return m_frustum;
-	}
-
-	float Camera::GetFieldOfView() const {
-		return m_frustum.GetFov();
-	}
-
-	float Camera::GetNearClipPlane() const {
-		return m_frustum.GetNearDistance();
-	}
-
-	float Camera::GetFarClipPlane() const {
-		return m_frustum.GetFarDistance();
-	}
-
-	const Math::vec2 Camera::GetZRange(const Math::mat4& view) const {
-		return m_frustum.GetZRange(view);
-	}
-
+	
 	PUNK_REGISTER_CREATOR(CLSID_PerspectiveCamera, (System::CreateInstance<Camera, IPerspectiveCamera>));
 
 	/*const Math::ClipSpace Camera::ToClipSpace() const
 	{
-	return m_frustum.GetClipSpace();
+	return m_frustum->GetClipSpace();
 	}*/
 
 	/*void Camera::SetPosition(const Math::vec3& pos)
@@ -234,7 +252,7 @@ namespace Attributes
 
 
 	//	//	find mouse point in the view space
-	//       Math::vec3 mouse_in_view(proj_x, proj_y, -1.0f / tan(m_frustum.fov/2.0f));
+	//       Math::vec3 mouse_in_view(proj_x, proj_y, -1.0f / tan(m_frustum->fov/2.0f));
 	//	//	translate mouse point to the world space
 	//	Math::vec4 mouse_in_world_4 = (m_view_matrix.Inversed() * Math::vec4(mouse_in_view, 1.0f));
 	//	mouse_in_world_4 /= mouse_in_world_4[3];

@@ -426,13 +426,13 @@ namespace Attributes
 			return result;
 		}
 
-		bool CrossFrustum(const Math::Frustum& frust, const Math::mat4& to_frustum_space) override {
+		bool CrossFrustum(const Core::Pointer<Math::IFrustum> frust, const Math::mat4& to_frustum_space) override {
 			auto sphere = to_frustum_space * m_sphere;
-			if (Math::ClassifyBoudingSphere(m_sphere, frust.GetClipSpace()) == Math::Relation::NOT_VISIBLE)
+			if (Math::ClassifyBoudingSphere(m_sphere, frust->GetClipSpace()) == Math::Relation::NOT_VISIBLE)
 				return false;
 
 			auto bbox = to_frustum_space * m_bbox;
-			return Math::ClassifyBoudingBox(bbox, frust.GetClipSpace()) == Math::Relation::VISIBLE;
+			return Math::ClassifyBoudingBox(bbox, frust->GetClipSpace()) == Math::Relation::VISIBLE;
 		}
 
 		//	IBoundingBox
