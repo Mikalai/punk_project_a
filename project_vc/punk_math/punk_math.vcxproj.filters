@@ -42,7 +42,6 @@
     <ClCompile Include="..\..\source\math\triangle2d.cpp" />
     <ClCompile Include="..\..\source\math\triangle3d.cpp" />
     <ClCompile Include="..\..\source\math\trigonometry.cpp" />
-    <ClCompile Include="..\..\source\math\vec2.cpp" />
     <ClCompile Include="..\..\source\math\vec3.cpp" />
     <ClCompile Include="..\..\source\math\vec4.cpp" />
     <ClCompile Include="..\..\source\math\volume_construction.cpp" />
@@ -67,6 +66,7 @@
     <ClCompile Include="..\..\source\math\icurve.cpp" />
     <ClCompile Include="..\..\source\math\ifrustum.cpp" />
     <ClCompile Include="..\..\source\math\frustum_core.cpp" />
+    <ClCompile Include="..\..\source\math\tuple.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\math\aabb.h" />
@@ -162,6 +162,7 @@
     </ClInclude>
     <ClInclude Include="..\..\source\math\ifrustum.h" />
     <ClInclude Include="..\..\source\math\frustum_core.h" />
+    <ClInclude Include="..\..\source\math\tuple.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graph">

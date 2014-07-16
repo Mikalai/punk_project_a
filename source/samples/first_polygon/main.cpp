@@ -32,9 +32,9 @@ int main() {
 
 		auto file = System::CreateInstancePtr<Punk::Engine::Attributes::IFileStub>(Punk::Engine::Attributes::CLSID_FileStub, Punk::Engine::Attributes::IID_IFileStub);
 #ifdef WIN32
-        file->SetFilename("level_1.pmd");
+        file->SetFilename("level_1.bpmd");
 #elif defined __linux__
-        file->SetFilename("level_1.pmd");
+        file->SetFilename("level_1.bpmd");
 #endif
 
 		app->GetSceneManager()->GetScene()->GetRoot()->Set<Punk::Engine::Attributes::IFileStub>("LevelFile", file);

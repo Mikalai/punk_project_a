@@ -40,15 +40,7 @@ namespace Math {
 		for (int i = 0; i < Size_c; i++) {
 			m_v[i] = destination[i] - origin[i];
 		}
-	}
-
-	const float& vec3::X() const {
-		return m_v[0];
-	}
-
-	float& vec3::X() {
-		return m_v[0];
-	}
+	}	
 
 	float vec3::Length() const {
 		auto sqr_l = m_v[0] * m_v[0] + m_v[1] * m_v[1] + m_v[2] * m_v[2];
@@ -60,22 +52,6 @@ namespace Math {
 		auto p = *this;
 		auto l = Length();
 		return p / l;
-	}
-
-	const float& vec3::Y() const {
-		return m_v[1];
-	}
-
-	float& vec3::Y() {
-		return m_v[1];
-	}
-
-	const float& vec3::Z() const {
-		return m_v[2];
-	}
-
-	float& vec3::Z() {
-		return m_v[2];
 	}
 
 	const vec3 vec3::Negated() const {
@@ -107,53 +83,7 @@ namespace Math {
 		return vec3(m_v[0] * v[0], m_v[1] * v[1], m_v[2] * v[2]);
 	}
 
-	const vec2 vec3::XY() const {
-		return vec2(m_v[0], m_v[1]);
-	}
-
-	const vec2 vec3::YX() const {
-		return vec2(m_v[1], m_v[0]);
-	}
-
-	const vec2 vec3::XZ() const {
-		return vec2(m_v[0], m_v[2]);
-	}
-
-	const vec2 vec3::ZX() const {
-		return vec2(m_v[2], m_v[0]);
-	}
-
-	const vec2 vec3::YZ() const {
-		return vec2(m_v[1], m_v[2]);
-	}
-
-	const vec2 vec3::ZY() const {
-		return vec2(m_v[2], m_v[1]);
-	}
-
-	const vec3 vec3::XYZ() const {
-		return vec3(m_v[0], m_v[1], m_v[2]);
-	}
-
-	const vec3 vec3::XZY() const {
-		return vec3(m_v[0], m_v[2], m_v[1]);
-	}
-
-	const vec3 vec3::YXZ() const {
-		return vec3(m_v[1], m_v[0], m_v[2]);
-	}
-
-	const vec3 vec3::YZX() const {
-		return vec3(m_v[1], m_v[2], m_v[0]);
-	}
-
-	const vec3 vec3::ZXY() const {
-		return vec3(m_v[2], m_v[0], m_v[1]);
-	}
-
-	const vec3 vec3::ZYX() const {
-		return vec3(m_v[2], m_v[1], m_v[0]);
-	}
+	
 
 	vec3& vec3::Nullify() {
 		memset(m_v, 0, sizeof(m_v));

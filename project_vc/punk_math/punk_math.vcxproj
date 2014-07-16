@@ -214,7 +214,10 @@
     <ClCompile Include="..\..\source\math\triangle2d.cpp" />
     <ClCompile Include="..\..\source\math\triangle3d.cpp" />
     <ClCompile Include="..\..\source\math\trigonometry.cpp" />
-    <ClCompile Include="..\..\source\math\vec2.cpp" />
+    <ClInclude Include="..\..\source\math\tuple.h">
+      <FileType>CppCode</FileType>
+    </ClInclude>
+    <ClCompile Include="..\..\source\math\tuple.cpp" />
     <ClCompile Include="..\..\source\math\vec3.cpp" />
     <ClCompile Include="..\..\source\math\vec4.cpp" />
     <ClCompile Include="..\..\source\math\volume_construction.cpp" />
