@@ -42,7 +42,7 @@ void Vector2Test::testXYRG() {
     vec2 v{1, 2};
     CPPUNIT_ASSERT(v.X() == 1);
     CPPUNIT_ASSERT(v.Y() == 2);
-    CPPUNIT_ASSERT(v.XY() == vec2(1, 2));
+	CPPUNIT_ASSERT(v.XY() == vec2( 1, 2 ));
     CPPUNIT_ASSERT(v.YX() == vec2(2, 1));
 }
 

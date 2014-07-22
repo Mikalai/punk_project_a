@@ -27,7 +27,7 @@ void MatrixHelperTest::testCreateOrthographicProjection() {
     float n = 0;
     float f = 1;
     mat4 test {2, 0, 0, 0, 0, 2, 0, 0, 0, 0, -2, 0, -1, -1, -1, 1};
-    mat4 m = CreateOrthographicProjection(l, r, b, t, n, f);
+    mat4 m = mat4::CreateOrthographicProjection(l, r, b, t, n, f);
     CPPUNIT_ASSERT(test == m);
 }
 
@@ -37,7 +37,7 @@ void MatrixHelperTest::testCreateOrthographicProjection2() {
 
 void MatrixHelperTest::testCreateTextureBiasMatrix() {
     mat4 test {0.5, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0.5, 0, 0.5, 0.5, 0.5, 1};
-    mat4 m = CreateTextureBiasMatrix();
+    mat4 m = mat4::CreateTextureBiasMatrix();
     CPPUNIT_ASSERT(test == m);
 }
 
@@ -56,7 +56,7 @@ void MatrixHelperTest::testCreateFromQuaternion() {
               2.0f/15.0f, 14.0f/15.0f, -1.0f/3.0f, 0,
              0, 0, 0, 1};
     q.Normalize();
-    mat4 m = CreateFromQuaternion(q);
+    mat4 m = mat4::CreateFromQuaternion(q);
     CPPUNIT_ASSERT(m.IsEqual(test));
 }
 
@@ -71,7 +71,7 @@ void MatrixHelperTest::testCreatePerspectiveProjectionInfinity() {
     float t = 1;
     float b = 0;
     mat4 test{2, 0, 0, 0, 0, 2, 0, 0, 1, 1, -1, -1, 0, 0, -2, 0};
-    mat4 m = CreatePerspectiveProjectionInfinity(l, r, t, b, n);
+    mat4 m = mat4::CreatePerspectiveProjectionInfinity(l, r, t, b, n);
     CPPUNIT_ASSERT(test == m);
 }
 

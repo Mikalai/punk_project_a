@@ -6,6 +6,82 @@
 using namespace Punk::Engine::Math;
 using namespace Punk::Engine::Core;
 
+void f() {
+		{
+			TupleData<float, 3, tagVector> d{ 1, 2, 3 };
+			vec3 vv = d;
+		}
+	{
+		TupleData<float, 2, tagVector> d{ 1, 2 };
+		vec2 vv = d;
+	}
+	vec3 v{ 1, 2, 3 };
+
+	{
+		TupleOperations<float, 3, tagVector>& a = v;
+	}
+
+	{
+		TupleOperationsBase<float, 3, tagVector>& a = v;
+	}
+
+	{
+		TupleComponentAccessor<float, 3, tagVector>& a = v;
+	}
+
+	{
+		TupleComponentAccessorBase<float, 3, tagVector>& a = v;
+	}
+	{
+		TupleData<float, 3, tagVector>& a = v;
+	}
+}
+
+#include <cppunit/TestFixture.h>
+#include <cppunit/extensions/HelperMacros.h>
+
+class Vector3Test : public CppUnit::TestFixture
+{
+	CPPUNIT_TEST_SUITE(Vector3Test);
+	CPPUNIT_TEST(testVec3);
+	CPPUNIT_TEST(testNull);
+	CPPUNIT_TEST(testXYZ);
+	CPPUNIT_TEST(testNegate);
+	CPPUNIT_TEST(testLength);
+	CPPUNIT_TEST(testNormalized);
+	CPPUNIT_TEST(testCross);
+	CPPUNIT_TEST(testChop);
+	CPPUNIT_TEST(testComponentMult);
+	CPPUNIT_TEST(testNullify);
+	CPPUNIT_TEST(testOperations);
+	CPPUNIT_TEST(testIndex);
+	CPPUNIT_TEST(testSquareLength);
+	CPPUNIT_TEST(testSet);
+	CPPUNIT_TEST(testDot);
+	CPPUNIT_TEST(testToString);
+	CPPUNIT_TEST_SUITE_END();
+public:
+	void testVec3();
+	void testNull();
+	void testXYZ();
+	void testNegate();
+	void testLength();
+	void testNormalized();
+	void testCross();
+	void testChop();
+	void testComponentMult();
+	void testNullify();
+	void testOperations();
+	void testIndex();
+	void testSquareLength();
+	void testSet();
+	void testDot();
+	void testToString();
+};
+
+CPPUNIT_TEST_SUITE_REGISTRATION(Vector3Test);
+
+
 void Vector3Test::testVec3() {
     vec3 v1{};
     CPPUNIT_ASSERT(v1 == vec3(0.0f,0.0f,0.0f));
@@ -88,9 +164,9 @@ void Vector3Test::testChop() {
 }
 
 void Vector3Test::testComponentMult() {
-    vec3 v1(2, 4, 6);
-    vec3 v2(7, 5, 3);
-    vec3 v = v1.ComponentMult(v2);
+    Tuple<float, 3, tagVector> v1(2, 4, 6);
+    Tuple<float, 3, tagVector> v2(7, 5, 3);
+    Tuple<float, 3, tagVector> v = v1.ComponentMult(v2);
     CPPUNIT_ASSERT(v == vec3(14, 20, 18));
 }
 

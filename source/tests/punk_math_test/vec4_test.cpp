@@ -171,7 +171,7 @@ void Vector4Test::testSet() {
 void Vector4Test::testComponentMul() {
     vec4 v1(2, 3, 4, 5);
     vec4 v2(6, 7, 8, 9);
-    vec4 v = v1.ComponentMul(v2);
+    vec4 v = v1.ComponentMult(v2);
     CPPUNIT_ASSERT(v == vec4(12, 21, 32, 45));
 }
 
