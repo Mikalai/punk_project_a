@@ -7,14 +7,14 @@ PUNK_ENGINE_BEGIN
 namespace Math {
 
     template<class T, int Dim, typename tag>
-    const Tuple<T, Dim, tag> CalculateAverage(const Tuple<T, Dim, tag>* points, std::uint32_t count)
+    const Tuple<T, Dim, tag> CalculateAverage(const std::vector<Tuple<T, Dim, tag>>& points)
     {
         Tuple<T, Dim, tag> center;
 
-        for (auto i = 0u; i < count; ++i)
+        for (auto i = 0u; i < points.size(); ++i)
             center += points[i];
 
-        center /= (T)count;
+        center /= (T)points.size();
 
         return center;
     }

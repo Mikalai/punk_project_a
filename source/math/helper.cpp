@@ -61,20 +61,6 @@ namespace Punk {
 				m[3 * 4 + 2] = (2.0f * zfar * znear) / (znear - zfar);
 				m[3 * 4 + 3] = 0.0f;
 				return res;
-			}
-
-
-
-			const vec3 CalculateAverage(const std::vector<vec3>& points)
-			{
-				vec3 center;
-
-				for (auto v : points)
-					center += v;
-
-				center /= (float)points.size();
-
-				return center;
 			}			
 
 			/*bool DiagonalizeMatrix(const mat3& m, mat3& res)
@@ -91,27 +77,7 @@ namespace Punk {
 				return true;
 			}*/
 
-			//bool EigenValues(const mat3& m, vec3& res)
-			//{
-			//	double a = double(1);
-			//	double b = -(m[0] + m[4] + m[8]);
-			//	double c = (m[0] * m[4] + m[0] * m[8] + m[4] * m[8] - m[7] * m[5] - m[1] * m[3] - m[2] * m[6]);
-			//	double d = -(m[0] * m[4] * m[8] - m[0] * m[7] * m[5] - m[1] * m[3] * m[8] + m[1] * m[6] * m[5] + m[2] * m[3] * m[7] - m[2] * m[6] * m[4]);
-
-			//	double in[] = { d, c, b, a };
-			//	double out[3];
-			//	auto result = SolveCubic(in, out);
-			//	if (result == RootFindResult::RESULT_NO_SOLUTION)
-			//		return false;
-
-			//	std::sort(out, out + 3);
-
-			//	res[0] = (float)out[2];
-			//	res[1] = (float)out[1];
-			//	res[2] = (float)out[0];
-
-			//	return true;
-			//}
+			
 
 			//bool EigenVectors(const mat3& m, const vec3& value, vec3 res[3])
 			//{

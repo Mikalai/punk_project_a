@@ -426,7 +426,7 @@ namespace Math {
 			res[4] = v[1];
 			res[8] = v[2];
 			return res;
-		}
+		}		
 
 		const Tuple<T, 3, tagVector> EigenValues() const {
 			T a = T(1);
@@ -438,7 +438,7 @@ namespace Math {
 			T out[3];
 			auto result = SolveCubic(in, out);
 			if (result == RootFindResult::RESULT_NO_SOLUTION)
-				return;
+				return{ 0, 0, 0 };
 
 			std::sort(out, out + 3);
 			Tuple<T, 3, tagVector> res;
@@ -448,9 +448,9 @@ namespace Math {
 			return res;
 		}
 
-		void EigenVectors(Tuple<T, 3, tagVector> res[3]) const
+		void EigenVectors(const Tuple<T, 3, tagVector>& value, Tuple<T, 3, tagVector> res[3]) const
 		{
-			auto value = EigenValues();
+			Matrix<T, 3, 3> m = *this;
 			for (int v = 0; v < 3; ++v)
 			{
 				//	use inverse power method
@@ -459,11 +459,11 @@ namespace Math {
 				T d;
 				do
 				{
-					bb0 = bb;
-					bb = (*this - (value[v] + T{ 0.001 }) * MatrixOperations < T, 3, 3 > {}).Inversed() * bb;
+					bb0 = bb;					
+					bb = (m - (value[v] + T(0.001)) * CreateIdentity()).Inversed() * bb;
 					bb.Normalize();
-					d = Abs(Abs(bb.Dot(bb0)) - 1.0f);
-				} while (d > 1e-5);
+					d = Abs(Abs(bb.Dot(bb0)) - T{ 1.0 });
+				} while (d > T(1e-5));
 
 				res[v] = bb;
 			}
@@ -514,7 +514,7 @@ namespace Math {
 			this->m_v = tm;			
 		}
 
-		const Matrix<T, 3, 3> CreateCovarianceMatrix(const std::vector<Tuple<T, 3, tagPoint>>& points)
+		static const Matrix<T, 3, 3> CreateCovarianceMatrix(const std::vector<Tuple<T, 3, tagPoint>>& points)
 		{
 			//	find average of the vertices
 			auto center = CalculateAverage(points);
@@ -525,10 +525,10 @@ namespace Math {
 
 			for (auto v : points)
 			{
-				res += MultTransposed((v - center), (v - center));
+				res += (v - center) * (v - center);
 			}
 
-			res /= (float)points.size();
+			res /= (T)points.size();
 
 			return res;
 		}

@@ -3,18 +3,18 @@
 
 #include <config.h>
 #include <core/iobject.h>
+#include <math/line3d.h>
+#include <math/rect.h>
+#include <math/ellipsoid.h>
+#include <math/polygon3d.h>
+#include <math/bounding_box.h>
+#include <math/bounding_sphere.h>
+#include <math/mat4.h>
+#include <math/ifrustum.h>
 
 PUNK_ENGINE_BEGIN
 namespace Math {
 
-	class Line3D;
-	class Rect;
-	class Ellipse;
-	class Polygon;
-	class BoundingBox;
-	class BoundingSphere;
-	class mat4;
-	class Frustum;
 	class IIntersectionResult;
 	enum class IntersectionHint : std::uint64_t;
 
@@ -34,19 +34,19 @@ namespace Math {
 	DECLARE_PUNK_GUID(IID_IBoundingRectangle, "3F6C41B7-C958-4FB0-8863-C964B517773B");
 	class IBoundingRectangle : public IBoundingVolume2D {
 	public:
-		virtual const Math::Rect& GetRectangle() = 0;
+		virtual const Math::Rectangle& GetRectangle() = 0;
 	};
 
 	DECLARE_PUNK_GUID(IID_IBoundingEllipse, "FBFCD138-751C-42D8-ACC3-BD7274190675");
 	class IBoundingEllipse : public IBoundingVolume2D {
 	public:
-		virtual const Math::Ellipse& GetEllipse() = 0;
+		//virtual const Math::Ellipse& GetEllipse() = 0;
 	};
 
 	DECLARE_PUNK_GUID(IID_IBoundingConvexPolygon, "A1185095-3525-410F-A6E5-3868679DB209");
 	class IBoundingConvexPolygon : public IBoundingVolume2D {
 	public:
-		virtual const Math::Polygon& GetPolygon() = 0;
+		//virtual const Math::Polygon& GetPolygon() = 0;
 	};
 
 	DECLARE_PUNK_GUID(IID_IBoundingVolume3D, "FE54F3F5-C00F-405D-8841-545C67A4962F");
