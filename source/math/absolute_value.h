@@ -5,9 +5,11 @@
 
 PUNK_ENGINE_BEGIN
 namespace Math {
-	PUNK_ENGINE_API float Abs(float value);
-	PUNK_ENGINE_API double Abs(double value);
-	PUNK_ENGINE_API int Abs(int value);
+
+	template<class T>
+	T Abs(const T& value) {
+		return (value < 0 ? -value : value);
+	}	
 }
 PUNK_ENGINE_END
 

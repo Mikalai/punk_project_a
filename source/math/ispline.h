@@ -4,13 +4,12 @@
 #include <cstdint>
 #include <config.h>
 #include <core/iobject.h>
+#include "weighted_point.h"
 
 PUNK_ENGINE_BEGIN
 namespace Math {
 
 	DECLARE_PUNK_GUID(IID_ISpline, "25CBA834-CFC7-4CC9-86F9-A2981A21D604");
-
-	class WeightedPoint;
 
 	class ISpline : public Core::IObject {
 	public:

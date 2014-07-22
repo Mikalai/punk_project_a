@@ -24,7 +24,6 @@ namespace Punk {
 			//	PUNK_ENGINE_API const mat4 Scale(vec3 scale);
 			//	PUNK_ENGINE_API const mat4 TargetCamera(vec3 eye, vec3 pos, vec3 up);
 			//	PUNK_ENGINE_API const mat4 FreeCamera(vec3 pos, vec3 dir, vec3 up);
-			PUNK_ENGINE_API const mat3 NormalMatrixFromWorldView(const mat4& worldView);
 
 			//	used to find ceter of the mass of the object
 			PUNK_ENGINE_API bool YawPitchRollToUpDirection(float yaw, float pitch, float roll, vec3& up, vec3& dir);
@@ -82,23 +81,7 @@ namespace Punk {
 			T Clamp(T min_val, T max_val, T x)
 			{
 				return Min(Max(x, min_val), max_val);
-			}
-
-			template<class T>
-			inline T Refract(T I, T N, float eta)
-			{
-				float k = 1.0f - eta*eta*(1.0f - N.Dot(I) * N.Dot(I));
-				if (k < 0.0f)
-					return T(0.0f);
-				else
-					return eta*I - (eta*N.Dot(I) + sqrt(k))*N;
-			}
-
-			template<class T>
-			inline T Reflect(T I, T N)
-			{
-				return I - N.Dot(N, I) * N;
-			}
+			}		
 
 			template<class T>
 			inline T FaceForward(T N, T I, T Nref)
@@ -112,11 +95,6 @@ namespace Punk {
 			{
 				return x*(1 - a) + y*a;
 			}
-
-            extern PUNK_ENGINE_API const vec3 CalculateNormal(const vec3& p1, const vec3& p2, const vec3& p3);
-            extern PUNK_ENGINE_API void CalculateTBN(const vec3& p1, const vec3& p2, const vec3& p3,
-                                              const vec2& tex1, const vec2& tex2, const vec2& tex3,
-                                              vec3& tng, vec3& btn, vec3& nrm, float& mm);
 		}
 	}
 }

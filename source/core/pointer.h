@@ -122,11 +122,11 @@ namespace Core {
 		}
 
 		T* operator * () {
-			return m_object
+            return m_object;
 		}
 
 		const T* operator * () const {
-			return m_object
+            return m_object;
 		}
 
 		~Pointer() {

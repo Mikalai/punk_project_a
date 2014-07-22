@@ -2,14 +2,33 @@
 #define _H_GRAM_SHMIDT_NORMALIZATION
 
 #include <config.h>
+#include "tuple.h"
 
 PUNK_ENGINE_BEGIN
 namespace Math {
-	class vec3;
-	class PUNK_ENGINE_API GrammShmidtNormalization {
+
+	template<class T>
+	class GrammShmidtNormalization {
 	public:
-		static void Orthogonalize(vec3& a, vec3& b, vec3& c);
-		static void OrthogonalizeAndNormalize(vec3& a, vec3& b, vec3& c);
+
+		static void OrthogonalizeAndNormalize(
+			Tuple<T, 3, tagVector>& a,
+			Tuple<T, 3, tagVector>& b, 
+			Tuple<T, 3, tagVector>& c) {
+
+			a.Normalize();
+			b = (b - b.Dot(a)*a).Normalized();
+			c = (c - c.Dot(a)*a - c.Dot(b)*b).Normalized();
+		}
+
+		static void Orthogonalize(
+			Tuple<T, 3, tagVector>& a, 
+			Tuple<T, 3, tagVector>& b, 
+			Tuple<T, 3, tagVector>& c) {
+
+			b = (b - b.Dot(a)*a);
+			c = (c - c.Dot(a)*a - c.Dot(b)*b);
+		}
 	};
 }
 PUNK_ENGINE_END

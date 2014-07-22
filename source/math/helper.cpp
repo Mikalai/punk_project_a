@@ -63,103 +63,7 @@ namespace Punk {
 				return res;
 			}
 
-			const mat4 TargetCamera(vec3 eye, vec3 target, vec3 up)
-			{
-				// Builds a look-at style view matrix.
-				// This is essentially the same matrix used by gluLookAt().
-				vec3 zAxis = eye - target;
-				zAxis.Normalize();
 
-				vec3 xAxis = up.Cross(zAxis);
-				xAxis.Normalize();
-
-				vec3 yAxis = zAxis.Cross(xAxis);
-				yAxis.Normalize();
-
-				mat4 res;
-				float* m = &res[0];
-
-				m[0 * 4 + 0] = xAxis[0];
-				m[1 * 4 + 0] = xAxis[1];
-				m[2 * 4 + 0] = xAxis[2];
-				m[3 * 4 + 0] = -xAxis.Dot(eye);
-
-				m[0 * 4 + 1] = yAxis[0];
-				m[1 * 4 + 1] = yAxis[1];
-				m[2 * 4 + 1] = yAxis[2];
-				m[3 * 4 + 1] = -yAxis.Dot(eye);
-
-				m[0 * 4 + 2] = zAxis[0];
-				m[1 * 4 + 2] = zAxis[1];
-				m[2 * 4 + 2] = zAxis[2];
-				m[3 * 4 + 2] = -zAxis.Dot(eye);
-
-				m[0 * 4 + 3] = 0.0f;
-				m[1 * 4 + 3] = 0.0f;
-				m[2 * 4 + 3] = 0.0f;
-				m[3 * 4 + 3] = 1.0f;
-				return res;
-			}
-
-			const mat4 FreeCamera(vec3 eye, vec3 dir, vec3 up)
-			{
-				// Builds a look-at style view matrix.
-				// This is essentially the same matrix used by gluLookAt().
-				vec3 target = eye + dir;
-				vec3 zAxis = eye - target;
-				zAxis.Normalize();
-
-				vec3 xAxis = up.Cross(zAxis);
-				xAxis.Normalize();
-
-				vec3 yAxis = zAxis.Cross(xAxis);
-				yAxis.Normalize();
-
-				mat4 res;
-				float* m = &res[0];
-
-				m[0 * 4 + 0] = xAxis[0];
-				m[1 * 4 + 0] = xAxis[1];
-				m[2 * 4 + 0] = xAxis[2];
-				m[3 * 4 + 0] = -xAxis.Dot(eye);
-
-				m[0 * 4 + 1] = yAxis[0];
-				m[1 * 4 + 1] = yAxis[1];
-				m[2 * 4 + 1] = yAxis[2];
-				m[3 * 4 + 1] = -yAxis.Dot(eye);
-
-				m[0 * 4 + 2] = zAxis[0];
-				m[1 * 4 + 2] = zAxis[1];
-				m[2 * 4 + 2] = zAxis[2];
-				m[3 * 4 + 2] = -zAxis.Dot(eye);
-
-				m[0 * 4 + 3] = 0.0f;
-				m[1 * 4 + 3] = 0.0f;
-				m[2 * 4 + 3] = 0.0f;
-				m[3 * 4 + 3] = 1.0f;
-				return res;
-			}
-
-			const mat3 NormalMatrixFromWorldView(const mat4& worldView)
-			{
-				mat3 res;
-				float* m = res;
-				m[0 * 3 + 0] = worldView[0 * 4 + 0];
-				m[0 * 3 + 1] = worldView[0 * 4 + 1];
-				m[0 * 3 + 2] = worldView[0 * 4 + 2];
-
-				m[1 * 3 + 0] = worldView[1 * 4 + 0];
-				m[1 * 3 + 1] = worldView[1 * 4 + 1];
-				m[1 * 3 + 2] = worldView[1 * 4 + 2];
-
-				m[2 * 3 + 0] = worldView[2 * 4 + 0];
-				m[2 * 3 + 1] = worldView[2 * 4 + 1];
-				m[2 * 3 + 2] = worldView[2 * 4 + 2];
-
-				res = res.Inversed().Transposed();
-
-				return res;
-			}
 
 			const vec3 CalculateAverage(const std::vector<vec3>& points)
 			{
@@ -171,26 +75,7 @@ namespace Punk {
 				center /= (float)points.size();
 
 				return center;
-			}
-
-			const mat3 CreateCovarianceMatrix(const std::vector<vec3>& points)
-			{
-				//	find average of the vertices
-				vec3 center = CalculateAverage(points);
-
-				//	find covariance matrix
-				mat3 res;
-				res.Zerofy();
-
-				for (auto v : points)
-				{
-					res += MultTransposed((v - center), (v - center));
-				}
-
-				res /= (float)points.size();
-
-				return res;
-			}
+			}			
 
 			/*bool DiagonalizeMatrix(const mat3& m, mat3& res)
 			{
@@ -401,62 +286,7 @@ namespace Punk {
 				return true;
 			}
 
-            extern PUNK_ENGINE_API void CalculateTBN(const vec3& p1, const vec3& p2, const vec3& p3,
-				const vec2& tex1, const vec2& tex2, const vec2& tex3,
-				vec3& tng, vec3& btn, vec3& nrm, float& mm)
-			{
-				nrm = CalculateNormal(p1, p2, p3);
-				Matrix<float> s(2, 2);
-				s.At(0, 0) = (tex2 - tex1)[0];
-				s.At(0, 1) = (tex2 - tex1)[1];
-				s.At(1, 0) = (tex3 - tex1)[0];
-				s.At(1, 1) = (tex3 - tex1)[1];
-
-				Matrix<float> q(2, 3);
-				q.At(0, 0) = (p2 - p1)[0];
-				q.At(0, 1) = (p2 - p1)[1];
-				q.At(0, 2) = (p2 - p1)[2];
-				q.At(1, 0) = (p3 - p1)[0];
-				q.At(1, 1) = (p3 - p1)[1];
-				q.At(1, 2) = (p3 - p1)[2];
-
-				Matrix<float> tb = s.Inversed()*q;
-
-				tng[0] = tb.At(0, 0);
-				tng[1] = tb.At(0, 1);
-				tng[2] = tb.At(0, 2);
-
-				btn[0] = tb.At(1, 0);
-				btn[1] = tb.At(1, 1);
-				btn[2] = tb.At(1, 2);
-
-				if (btn.Length() == 0 || tng.Length() == 0)
-				{
-					nrm.Normalize();
-					mm = 1;
-				}
-				else
-				{
-					//
-					//	gram-shmidt normalization
-					//
-					nrm.Normalize();
-					tng = (tng - tng.Dot(nrm)*nrm).Normalized();
-					btn = (btn - btn.Dot(nrm)*nrm - btn.Dot(tng)*tng).Normalized();
-
-					Matrix<float> m(3, 3);
-					m.At(0, 0) = tng[0]; m.At(0, 1) = tng[1]; m.At(0, 2) = tng[2];
-					m.At(1, 0) = btn[0]; m.At(1, 1) = btn[1]; m.At(1, 2) = btn[2];
-					m.At(2, 0) = nrm[0]; m.At(2, 1) = nrm[1]; m.At(2, 2) = nrm[2];
-
-					mm = m.Determinant();/**/
-				}
-			}
-
-            extern PUNK_ENGINE_API const vec3 CalculateNormal(const vec3& p1, const vec3& p2, const vec3& p3)
-			{
-				return ((p2 - p1).Cross(p3 - p1)).Normalized();
-			}
+                      
 		}
 	}
 }

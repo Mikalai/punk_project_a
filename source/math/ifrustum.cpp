@@ -18,124 +18,122 @@
 #include "matrix_helper.h"
 #include "frustum_core.h"
 
-namespace Punk {
-    namespace Engine {
-        namespace Math {
-			
-			class PUNK_ENGINE_LOCAL Frustum : public IFrustum, Core::ISerializable {
-			public:
-				Frustum() {}
-				virtual ~Frustum() {}
+PUNK_ENGINE_BEGIN
+namespace Math {
 
-				//	IObject
-				void QueryInterface(const Core::Guid& type, void** object) override {
-					if (!object)
-						return;
+    class PUNK_ENGINE_LOCAL Frustum : public IFrustum, Core::ISerializable {
+    public:
+        Frustum() {}
+        virtual ~Frustum() {}
 
-					*object = nullptr;
-					
-					if (type == Core::IID_IObject) {
-						*object = (IFrustum*)this;
-					}
-					else if (type == IID_IFrustum) {
-						*object = (IFrustum*)this;
-					}
-					else if (type == Core::IID_ISerializable) {
-						*object = (Core::ISerializable*)this;
-					}
-					AddRef();
-				}
+        //	IObject
+        void QueryInterface(const Core::Guid& type, void** object) override {
+            if (!object)
+                return;
 
-				std::uint32_t AddRef() override {
-					return m_ref_count.fetch_add(1);
-				}
+            *object = nullptr;
 
-				std::uint32_t Release() override {
-					auto v = m_ref_count.fetch_sub(1) - 1;
-					if (!v)
-						delete this;
-					return v;
-				}
+            if (type == Core::IID_IObject) {
+                *object = (IFrustum*)this;
+            }
+            else if (type == IID_IFrustum) {
+                *object = (IFrustum*)this;
+            }
+            else if (type == Core::IID_ISerializable) {
+                *object = (Core::ISerializable*)this;
+            }
+            AddRef();
+        }
 
-				//	IFrustum
-				const ClipSpace GetClipSpaceFromPoint(const Math::vec3& p) const override {
-					return FrustumBuildClipSpaceFromPoint(m_core, p);
-				}
+        std::uint32_t AddRef() override {
+            return m_ref_count.fetch_add(1);
+        }
 
-				const ClipSpace GetClipSpace() const override {
-					return FrustumToClipSpace(m_core);
-				}
+        std::uint32_t Release() override {
+            auto v = m_ref_count.fetch_sub(1) - 1;
+            if (!v)
+                delete this;
+            return v;
+        }
 
-				void SetPerspectiveProjectionMatrix(const Math::mat4& value) override {
-					m_core = FrustumCreateFromProjectionMatrix(value);
-				}
+        //	IFrustum
+        const ClipSpace GetClipSpaceFromPoint(const point3d& p) const override {
+            return m_core.BuildClipSpaceFromPoint(p);
+        }
 
-				const Math::mat4 GetPerspectiveProjectionMatrix() const override {
-					return FrustumCreatePerspectiveProjectionMatrix(m_core);
-				}
+        const ClipSpace GetClipSpace() const override {
+            return m_core.ToClipSpace();
+        }
 
-				const vec2 GetZRange(const Math::mat4& view) const override {
-					return FrustumFindZRange(m_core, view);
-				}
+        void SetPerspectiveProjectionMatrix(const Math::mat4& value) override {
+			m_core = FrustumCore::CreateFromProjectionMatrix(value);
+        }
 
-				void Transform(const vec3 &center, const vec3 &view_dir, const vec3 &_up) override {
-					FrustumTransform(m_core, center, view_dir, _up);
-				}
+        const Math::mat4 GetPerspectiveProjectionMatrix() const override {
+            return m_core.ToPerspectiveProjectionMatrix();
+        }
 
-				void SetNearDistance(float znear) override {
-					m_core.neard = znear;
-				}
+        const vec2 GetZRange(const Math::mat4& view) const override {
+			return m_core.GetZRange(view);
+        }
 
-				void SetFarDistance(float zfar) override {
-					m_core.fard = zfar;
-				}
+        void Transform(const point3d &center, const vec3 &view_dir, const vec3 &_up) override {
+			m_core.Transform(center, view_dir, _up);
+        }
 
-				void SetFov(float fov) {
-					m_core.fov = fov;
-				}
+        void SetNearDistance(float znear) override {
+            m_core.neard = znear;
+        }
 
-				void SetAspectRatio(float width, float height) override {
-					m_core.ratio = width / height;
-				}
+        void SetFarDistance(float zfar) override {
+            m_core.fard = zfar;
+        }
 
-				void SetAspectRatio(float aspect) override {
-					m_core.ratio = aspect;
-				}
+        void SetFov(float fov) {
+            m_core.fov = fov;
+        }
 
-				float GetFov() const override {
-					return m_core.fov;
-				}
+        void SetAspectRatio(float width, float height) override {
+            m_core.ratio = width / height;
+        }
 
-				float GetFarDistance() const override {
-					return m_core.fard;
-				}
+        void SetAspectRatio(float aspect) override {
+            m_core.ratio = aspect;
+        }
 
-				float GetAspectRation() const override {
-					return m_core.ratio;
-				}
+        float GetFov() const override {
+            return m_core.fov;
+        }
 
-				float GetNearDistance() const override {
-					return m_core.neard;
-				}
+        float GetFarDistance() const override {
+            return m_core.fard;
+        }
 
-				//	ISerializable
-				void Serialize(Core::Buffer& buffer) {
-					buffer.WritePod(CLSID_Frustum);
-					buffer.WritePod(m_core);
+        float GetAspectRation() const override {
+            return m_core.ratio;
+        }
 
-				}
-				void Deserialize(Core::Buffer& buffer) {
-					buffer.ReadPod(m_core);
-				}
+        float GetNearDistance() const override {
+            return m_core.neard;
+        }
 
-			private:
-				std::atomic<std::uint32_t> m_ref_count{ 0 };
-				FrustumCore m_core;
-			};
-
-
-			PUNK_REGISTER_CREATOR(CLSID_Frustum, (System::CreateInstance < Frustum, IFrustum>));
+        //	ISerializable
+        void Serialize(Core::Buffer& buffer) {
+            buffer.WritePod(CLSID_Frustum);
+            buffer.WritePod(m_core);
 
         }
-    }
+        void Deserialize(Core::Buffer& buffer) {
+            buffer.ReadPod(m_core);
+        }
+
+    private:
+        std::atomic<std::uint32_t> m_ref_count{ 0 };
+        FrustumCore m_core;
+    };
+
+
+    PUNK_REGISTER_CREATOR(CLSID_Frustum, (System::CreateInstance < Frustum, IFrustum>));
+
 }
+PUNK_ENGINE_END

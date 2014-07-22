@@ -10,7 +10,7 @@ namespace Punk {
 		{
 			//! \brief Class for workinig with nxm matrices
 			template<class T>
-			class Matrix
+			class SmartMatrix
 			{
 			protected:
 
@@ -80,15 +80,15 @@ namespace Punk {
 
 				Rep* m_rep;
 
-				Matrix<T> ExpandedMatrix(T& det) const
+				SmartMatrix<T> ExpandedSmartMatrix(T& det) const
 				{
 					det = 1;
 
 					if (RowCount() != ColumnCount())
-						return Matrix<T>(); //	should be an error
+						return SmartMatrix<T>(); //	should be an error
 
-					Matrix<T> tmp(*this);
-					Matrix<T> ident(RowCount(), ColumnCount());
+					SmartMatrix<T> tmp(*this);
+					SmartMatrix<T> ident(RowCount(), ColumnCount());
 					ident.Identify();
 					tmp.JoinLeft(ident);
 
@@ -118,11 +118,11 @@ namespace Punk {
 						}
 
 						T a1 = tmp.At(col, col);
-						Matrix<T> src_row = tmp.Row(col);
+						SmartMatrix<T> src_row = tmp.Row(col);
 						for (int row = col + 1; row < tmp.RowCount(); row++)
 						{
 							T a2 = tmp.At(row, col);
-							Matrix<T> dst_row = tmp.Row(row);
+							SmartMatrix<T> dst_row = tmp.Row(row);
 
 							dst_row += -a2 / a1*src_row;
 							tmp.SetRow(row, dst_row);
@@ -140,12 +140,12 @@ namespace Punk {
 
 					for (int col = tmp.RowCount() - 1; col > 0; col--)
 					{
-						Matrix<T> src_row = tmp.Row(col);
+						SmartMatrix<T> src_row = tmp.Row(col);
 						T a1 = tmp.At(col, col);
 						for (int row = col - 1; row >= 0; row--)
 						{
 							T a2 = tmp.At(row, col);
-							Matrix<T> dst_row = tmp.Row(row);
+							SmartMatrix<T> dst_row = tmp.Row(row);
 							/*if (a2/a1 < 0)
 				 det *= T(-1);*/
 							dst_row += -a2 / a1*src_row;
@@ -174,7 +174,7 @@ namespace Punk {
 						}
 						if (tmp.At(col, col) != T(1))
 						{
-							Matrix<T> r = tmp.Row(col);
+							SmartMatrix<T> r = tmp.Row(col);
 							T a = r.At(0, col);
 							r /= a;
 							tmp.SetRow(col, r);
@@ -185,23 +185,23 @@ namespace Punk {
 
 			public:
 
-				Matrix()
+				SmartMatrix()
 				{
 					m_rep = new Rep();
 				}
 
-				Matrix(int row_count, int column_count)
+				SmartMatrix(int row_count, int column_count)
 				{
 					m_rep = new Rep(row_count, column_count);
 				}
 
-				Matrix<T>(const Matrix<T>& m)
+				SmartMatrix<T>(const SmartMatrix<T>& m)
 				{
 					m_rep = m.m_rep;
 					m_rep->used_count++;
 				}
 
-				Matrix<T>& operator = (const Matrix<T>& m)
+				SmartMatrix<T>& operator = (const SmartMatrix<T>& m)
 				{
 					if (this == &m)
 						return *this;
@@ -215,7 +215,7 @@ namespace Punk {
 					return *this;
 				}
 
-				~Matrix()
+				~SmartMatrix()
 				{
 					if (--m_rep->used_count == 0)
 						delete m_rep;
@@ -228,9 +228,9 @@ namespace Punk {
 				}
 
 				template<class U>
-				Matrix<U> operator () (U value) const
+				SmartMatrix<U> operator () (U value) const
 				{
-					Matrix<U> res(RowCount(), ColumnCount());
+					SmartMatrix<U> res(RowCount(), ColumnCount());
 					for (int row = 0; row < RowCount(); ++row)
 					{
 						for (int column = 0; column < ColumnCount(); ++column)
@@ -252,9 +252,9 @@ namespace Punk {
 					m_rep->SetSize(row_count, column_count);
 				}
 
-				Matrix<T> Transposed() const
+				SmartMatrix<T> Transposed() const
 				{
-					Matrix<T> m;
+					SmartMatrix<T> m;
 					m.SetSize(m_rep->column_count, m_rep->row_count);
 					for (int row = 0; row < m_rep->row_count; row++)
 					{
@@ -308,18 +308,18 @@ namespace Punk {
 					}
 				}
 
-				Matrix<T> SubMatrix(int row1, int column1, int row2, int column2) const
+				SmartMatrix<T> SubSmartMatrix(int row1, int column1, int row2, int column2) const
 				{
 					if (column1 < 0 || column1 > column2 || column1 > m_rep->column_count - 1)
-						return Matrix<T>();
+						return SmartMatrix<T>();
 					if (column2 < 0 || column2 < column1 || column2 > m_rep->column_count - 1)
-						return Matrix<T>();
+						return SmartMatrix<T>();
 					if (row1 < 0 || row1 > row2 || row1 > m_rep->row_count - 1)
-						return Matrix<T>();
+						return SmartMatrix<T>();
 					if (row2 < 0 || row2 < row1 || row2 > m_rep->row_count - 1)
-						return Matrix<T>();
+						return SmartMatrix<T>();
 
-					Matrix<T> m;
+					SmartMatrix<T> m;
 					m.SetSize(row2 - row1 + 1, column2 - column1 + 1);
 
 					for (int row = 0; row < m.RowCount(); ++row)
@@ -333,14 +333,14 @@ namespace Punk {
 					return m;
 				}
 
-				Matrix<T>& JoinLeft(const Matrix<T>& mat)
+				SmartMatrix<T>& JoinLeft(const SmartMatrix<T>& mat)
 				{
 					m_rep = m_rep->GetOwnCopy();
 
 					if (m_rep->row_count != mat.RowCount())
 						return *this;	//should be error
 
-					Matrix<T> tmp;
+					SmartMatrix<T> tmp;
 					tmp.SetSize(m_rep->row_count, m_rep->column_count + mat.ColumnCount());
 
 					//
@@ -368,13 +368,13 @@ namespace Punk {
 					return *this;
 				}
 
-				Matrix<T>& JoinBottom(const Matrix<T>& mat)
+				SmartMatrix<T>& JoinBottom(const SmartMatrix<T>& mat)
 				{
 					m_rep = m_rep->GetOwnCopy();
 
 					if (ColumnCount() != mat.ColumnCount())
 						return *this;	//should be error
-					Matrix<T> tmp;
+					SmartMatrix<T> tmp;
 					tmp.SetSize(RowCount() + mat.RowCount(), ColumnCount());
 
 					for (int row = 0; row < RowCount(); row++)
@@ -398,37 +398,37 @@ namespace Punk {
 					return *this;
 				}
 
-				Matrix<T> Row(int row) const
+				SmartMatrix<T> Row(int row) const
 				{
 					if (row < 0 || row > m_rep->row_count - 1)
-						return Matrix<T>();	//	should be an error
-					return SubMatrix(row, 0, row, m_rep->column_count - 1);
+						return SmartMatrix<T>();	//	should be an error
+					return SubSmartMatrix(row, 0, row, m_rep->column_count - 1);
 				}
 
-				Matrix<T> Column(int column) const
+				SmartMatrix<T> Column(int column) const
 				{
 					if (column < 0 || column > m_rep->column_count - 1)
-						return Matrix<T>();	//	should be an error
-					return SubMatrix(0, column, m_rep->row_count - 1, column);
+						return SmartMatrix<T>();	//	should be an error
+					return SubSmartMatrix(0, column, m_rep->row_count - 1, column);
 				}
 
 				T Determinant() const
 				{
 					T det = 0;
-					ExpandedMatrix(det);
+					ExpandedSmartMatrix(det);
 					return det;
 				}
 
 
 
-				Matrix<T> Inversed() const
+				SmartMatrix<T> Inversed() const
 				{
 					T det = 0;
-					Matrix<T> tmp = ExpandedMatrix(det);
-					return tmp.SubMatrix(0, ColumnCount(), RowCount() - 1, 2 * ColumnCount() - 1);
+					SmartMatrix<T> tmp = ExpandedSmartMatrix(det);
+					return tmp.SubSmartMatrix(0, ColumnCount(), RowCount() - 1, 2 * ColumnCount() - 1);
 				}
 
-				Matrix<T>& SetRow(int row, const Matrix<T>& new_row)
+				SmartMatrix<T>& SetRow(int row, const SmartMatrix<T>& new_row)
 				{
 					m_rep = m_rep->GetOwnCopy();
 					if (row < 0 || row > RowCount() - 1)
@@ -438,7 +438,7 @@ namespace Punk {
 					return *this;
 				}
 
-				Matrix<T>& SetColumn(int column, const Matrix<T>& new_column)
+				SmartMatrix<T>& SetColumn(int column, const SmartMatrix<T>& new_column)
 				{
 					m_rep = m_rep->GetOwnCopy();
 					if (column < 0 || column > ColumnCount() - 1)
@@ -448,7 +448,7 @@ namespace Punk {
 					return *this;
 				}
 
-				Matrix<T>& operator += (const Matrix<T>& m2)
+				SmartMatrix<T>& operator += (const SmartMatrix<T>& m2)
 				{
 					m_rep = m_rep->GetOwnCopy();
 					if (RowCount() != m2.RowCount() || ColumnCount() != m2.ColumnCount())
@@ -463,7 +463,7 @@ namespace Punk {
 					return *this;
 				}
 
-				Matrix<T>& operator -= (const Matrix<T>& m2)
+				SmartMatrix<T>& operator -= (const SmartMatrix<T>& m2)
 				{
 					m_rep = m_rep->GetOwnCopy();
 					if (RowCount() != m2.RowCount() || ColumnCount() != m2.ColumnCount())
@@ -478,7 +478,7 @@ namespace Punk {
 					return *this;
 				}
 
-				Matrix<T>& operator *= (const T& value)
+				SmartMatrix<T>& operator *= (const T& value)
 				{
 					m_rep = m_rep->GetOwnCopy();
 					for (int row = 0; row < RowCount(); ++row)
@@ -487,7 +487,7 @@ namespace Punk {
 					return *this;
 				}
 
-				Matrix<T>& operator /= (const T& value)
+				SmartMatrix<T>& operator /= (const T& value)
 				{
 					m_rep = m_rep->GetOwnCopy();
 					for (int row = 0; row < RowCount(); ++row)
@@ -496,7 +496,7 @@ namespace Punk {
 					return *this;
 				}
 
-				Matrix<T>& operator |= (const T& value)
+				SmartMatrix<T>& operator |= (const T& value)
 				{
 					m_rep = m_rep->GetOwnCopy();
 					for (int row = 0; row < RowCount(); ++row)
@@ -505,7 +505,7 @@ namespace Punk {
 					return *this;
 				}
 
-				Matrix<T>& operator &= (const T& value)
+				SmartMatrix<T>& operator &= (const T& value)
 				{
 					m_rep = m_rep->GetOwnCopy();
 					for (int row = 0; row < RowCount(); ++row)
@@ -514,7 +514,7 @@ namespace Punk {
 					return *this;
 				}
 
-				Matrix<T>& operator ^= (const T& value)
+				SmartMatrix<T>& operator ^= (const T& value)
 				{
 					m_rep = m_rep->GetOwnCopy();
 					for (int row = 0; row < RowCount(); ++row)
@@ -531,12 +531,12 @@ namespace Punk {
 					return s*Minor(erow, ecolumn).Determinant();
 				}
 
-				Matrix<T> Minor(int erow, int ecolumn) const
+				SmartMatrix<T> Minor(int erow, int ecolumn) const
 				{
 					if (erow > RowCount() - 1 || ecolumn > ColumnCount() - 1)
 						return *this; //	should be an error
 
-					Matrix<T> m;
+					SmartMatrix<T> m;
 					m.SetSize(RowCount() - 1, ColumnCount() - 1);
 					for (int row = 0, cur_row = 0; row < RowCount(); ++row)
 					{
@@ -556,7 +556,7 @@ namespace Punk {
 					return m;
 				}
 
-				Matrix<T>& SetSubMatrix(int row, int column, const Matrix<T>& matrix)
+				SmartMatrix<T>& SetSubSmartMatrix(int row, int column, const SmartMatrix<T>& matrix)
 				{
 					m_rep = m_rep->GetOwnCopy();
 					if (row + matrix.RowCount() > RowCount())
@@ -573,28 +573,28 @@ namespace Punk {
 					return *this;
 				}
 
-				Matrix<T>& AddRow()
+				SmartMatrix<T>& AddRow()
 				{
 					m_rep = m_rep->GetOwnCopy();
-					Matrix<T> m(1, ColumnCount());
+					SmartMatrix<T> m(1, ColumnCount());
 					JoinBottom(m);
 					return *this;
 				}
 
-				Matrix<T>& AddColumn()
+				SmartMatrix<T>& AddColumn()
 				{
 					m_rep = m_rep->GetOwnCopy();
-					Matrix<T> m(RowCount(), 1);
+					SmartMatrix<T> m(RowCount(), 1);
 					JoinLeft(m);
 					return *this;
 				}
 
-				Matrix<T>& RemoveRow(int row_to_del)
+				SmartMatrix<T>& RemoveRow(int row_to_del)
 				{
 					if (row_to_del < 0 || row_to_del > RowCount() - 1)
 						return *this;
 
-					Matrix<T> m(RowCount() - 1, ColumnCount());
+					SmartMatrix<T> m(RowCount() - 1, ColumnCount());
 					int dst_row = 0;
 					m_rep = m_rep->GetOwnCopy();
 					for (int row = 0; row < RowCount(); ++row)
@@ -611,12 +611,12 @@ namespace Punk {
 					return *this;
 				}
 
-				Matrix<T>& RemoveColumn(int col_to_del)
+				SmartMatrix<T>& RemoveColumn(int col_to_del)
 				{
 					if (col_to_del < 0 || col_to_del > ColumnCount() - 1)
 						return *this;
 					m_rep = m_rep->GetOwnCopy();
-					Matrix<T> m(RowCount(), ColumnCount() - 1);
+					SmartMatrix<T> m(RowCount(), ColumnCount() - 1);
 					for (int row = 0; row < RowCount(); ++row)
 					{
 						int dst_col = 0;
@@ -645,7 +645,7 @@ namespace Punk {
 					return sqrt(sum);
 				}
 
-				Matrix<T>& FillRow(int row, T value)
+				SmartMatrix<T>& FillRow(int row, T value)
 				{
 					if (row >= RowCount())
 						return *this;
@@ -660,7 +660,7 @@ namespace Punk {
 					return *this;
 				}
 
-				Matrix<T>& FillColumn(int col, T value)
+				SmartMatrix<T>& FillColumn(int col, T value)
 				{
 					if (col >= ColumnCount())
 						return *this;
@@ -676,57 +676,57 @@ namespace Punk {
 				}
 			};
 
-			template<class T> bool operator == (const Matrix<T>& m1, const Matrix<T>& m2)
+			template<class T> bool operator == (const SmartMatrix<T>& m1, const SmartMatrix<T>& m2)
 			{
 				if (m1.RowCount() != m2.RowCount() || m1.ColumnCount() != m2.ColumnCount())
 					return false;
 				return memcmp(m1.m, m2.m, sizeof(T)*m1.RowCount()*m1.ColumnCount()) == 0;
 			}
 
-			template<class T> Matrix<T> operator + (const Matrix<T>& m1, const Matrix<T>& m2)
+			template<class T> SmartMatrix<T> operator + (const SmartMatrix<T>& m1, const SmartMatrix<T>& m2)
 			{
 				if (m1.RowCount() != m2.RowCount() || m1.ColumnCount() != m2.ColumnCount())
-					return Matrix<T>();	//	error should be emited
-				Matrix<T> m(m1);
+					return SmartMatrix<T>();	//	error should be emited
+				SmartMatrix<T> m(m1);
 				return m += m2;
 			}
 
-			template<class T> Matrix<T> operator - (const Matrix<T>& m1, const Matrix<T>& m2)
+			template<class T> SmartMatrix<T> operator - (const SmartMatrix<T>& m1, const SmartMatrix<T>& m2)
 			{
 				if (m1.RowCount() != m2.RowCount() || m1.ColumnCount() != m2.ColumnCount())
-					return Matrix<T>();	//	error should be emited
-				Matrix<T> m(m1);
+					return SmartMatrix<T>();	//	error should be emited
+				SmartMatrix<T> m(m1);
 				return m -= m2;
 			}
 
 			template<class T>
-			Matrix<T> operator * (const Matrix<T>& m1, const T& value)
+			SmartMatrix<T> operator * (const SmartMatrix<T>& m1, const T& value)
 			{
-				Matrix<T> m(m1);
+				SmartMatrix<T> m(m1);
 				return m *= value;
 			}
 
 			template<class T>
-			Matrix<T> operator * (const T& value, const Matrix<T>& m1)
+			SmartMatrix<T> operator * (const T& value, const SmartMatrix<T>& m1)
 			{
-				Matrix<T> m(m1);
+				SmartMatrix<T> m(m1);
 				return m *= value;
 			}
 
 			template<class T>
-			Matrix<T> operator / (const Matrix<T>& m1, const T& value)
+			SmartMatrix<T> operator / (const SmartMatrix<T>& m1, const T& value)
 			{
-				Matrix<T> m(m1);
+				SmartMatrix<T> m(m1);
 				return m /= value;
 			}
 
 			template<class T>
-			Matrix<T> operator * (const Matrix<T>& m1, const Matrix<T>& m2)
+			SmartMatrix<T> operator * (const SmartMatrix<T>& m1, const SmartMatrix<T>& m2)
 			{
-				Matrix<T> m;
+				SmartMatrix<T> m;
 
 				if (m1.ColumnCount() != m2.RowCount())
-					return Matrix<T>();
+					return SmartMatrix<T>();
 
 				m.SetSize(m1.RowCount(), m2.ColumnCount());
 
@@ -745,7 +745,7 @@ namespace Punk {
 			}
 
 			template<class T>
-			T FindRowMinimum(const Matrix<T>& m, int row, int& min_col)
+			T FindRowMinimum(const SmartMatrix<T>& m, int row, int& min_col)
 			{
 				T Min = m.At(row, 0);
 				min_col = 0;
@@ -762,7 +762,7 @@ namespace Punk {
 			}
 
 			template<class T>
-			T FindRowMaximum(const Matrix<T>& m, int row, int& max_col)
+			T FindRowMaximum(const SmartMatrix<T>& m, int row, int& max_col)
 			{
 				T Max = m.At(row, 0);
 				max_col = 0;
@@ -779,9 +779,9 @@ namespace Punk {
 			}
 
 			template<class T>
-			const Matrix<T> PerElementMultiplication(const Matrix<T>& m1, const Matrix<T>& m2)
+			const SmartMatrix<T> PerElementMultiplication(const SmartMatrix<T>& m1, const SmartMatrix<T>& m2)
 			{
-				Matrix<T> m(m1.RowCount(), m1.ColumnCount());
+				SmartMatrix<T> m(m1.RowCount(), m1.ColumnCount());
 				for (int row = 0; row < m.RowCount(); ++row)
 				{
 					for (int col = 0; col < m.ColumnCount(); ++col)
@@ -793,11 +793,11 @@ namespace Punk {
 			}
 
 
-			/*	template class PUNK_ENGINE_API Matrix<float>;
-			 template class PUNK_ENGINE_API Matrix<int>;
+			/*	template class PUNK_ENGINE_API SmartMatrix<float>;
+			 template class PUNK_ENGINE_API SmartMatrix<int>;
 
-			 typedef Matrix<float> matrix;
-			 typedef Matrix<int> imatrix;*/
+			 typedef SmartMatrix<float> matrix;
+			 typedef SmartMatrix<int> imatrix;*/
 		}
 	}
 }

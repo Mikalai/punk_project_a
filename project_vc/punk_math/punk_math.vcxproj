@@ -163,12 +163,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\source\math\aabb.cpp" />
     <ClCompile Include="..\..\source\math\absolute_value.cpp" />
     <ClCompile Include="..\..\source\math\array.cpp" />
     <ClCompile Include="..\..\source\math\astar.cpp" />
-    <ClCompile Include="..\..\source\math\bounding_box.cpp" />
-    <ClCompile Include="..\..\source\math\bounding_sphere.cpp" />
+    <ClInclude Include="..\..\source\math\clip_segment.h">
+      <FileType>CppCode</FileType>
+    </ClInclude>
     <ClCompile Include="..\..\source\math\clip_space.cpp" />
     <ClCompile Include="..\..\source\math\convex_shape_mesh.cpp" />
     <ClCompile Include="..\..\source\math\frustum_core.cpp" />
@@ -183,9 +183,7 @@
     <ClCompile Include="..\..\source\math\graph\graph_vertex.cpp" />
     <ClCompile Include="..\..\source\math\helper.cpp" />
     <ClCompile Include="..\..\source\math\line2d.cpp" />
-    <ClCompile Include="..\..\source\math\line3d.cpp" />
     <ClCompile Include="..\..\source\math\linear_equation_solver.cpp" />
-    <ClCompile Include="..\..\source\math\mat2.cpp" />
     <ClCompile Include="..\..\source\math\mat3.cpp" />
     <ClCompile Include="..\..\source\math\mat4.cpp" />
     <ClCompile Include="..\..\source\math\math.cpp" />
@@ -196,7 +194,6 @@
     <ClCompile Include="..\..\source\math\noise.cpp" />
     <ClCompile Include="..\..\source\math\noiseutils.cpp" />
     <ClCompile Include="..\..\source\math\perspective_decoder.cpp" />
-    <ClCompile Include="..\..\source\math\plane.cpp" />
     <ClCompile Include="..\..\source\math\polygon3d.cpp" />
     <ClCompile Include="..\..\source\math\portal.cpp" />
     <ClCompile Include="..\..\source\math\power.cpp" />
@@ -209,13 +206,20 @@
     <ClCompile Include="..\..\source\math\spatial\oct_tree.cpp" />
     <ClCompile Include="..\..\source\math\sphere.cpp" />
     <ClCompile Include="..\..\source\math\spherical.cpp" />
-    <ClCompile Include="..\..\source\math\spline.cpp" />
+    <ClCompile Include="..\..\source\math\ispline.cpp" />
     <ClCompile Include="..\..\source\math\square_root.cpp" />
     <ClCompile Include="..\..\source\math\triangle2d.cpp" />
     <ClCompile Include="..\..\source\math\triangle3d.cpp" />
     <ClCompile Include="..\..\source\math\trigonometry.cpp" />
+    <ClInclude Include="..\..\source\math\calculate_average.h" />
+    <ClInclude Include="..\..\source\math\calculate_native_axis.h" />
+    <ClInclude Include="..\..\source\math\create_covariance_matrix.h" />
+    <ClInclude Include="..\..\source\math\line.h" />
+    <ClInclude Include="..\..\source\math\symmetric_eigen_system.h" />
+    <ClInclude Include="..\..\source\math\tbn_space.h" />
+    <ClInclude Include="..\..\source\math\triangle.h" />
     <ClInclude Include="..\..\source\math\tuple.h">
-      <FileType>CppCode</FileType>
+      <FileType>CppHeader</FileType>
     </ClInclude>
     <ClCompile Include="..\..\source\math\tuple.cpp" />
     <ClCompile Include="..\..\source\math\vec3.cpp" />

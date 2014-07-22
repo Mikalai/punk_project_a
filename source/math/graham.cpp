@@ -7,7 +7,7 @@ namespace Punk {
 	namespace Engine {
 		namespace Math {
 
-			bool operator < (const vec2& l, const vec2& r)
+			bool operator < (const point2d& l, const point2d& r)
 			{
 				if (l.Y() < r.Y())
 					return true;
@@ -21,25 +21,25 @@ namespace Punk {
 
 			struct Sort
 			{
-				Sort(vec2 p0)
+				Sort(point2d p0)
 				: m_p0(p0)
 				{}
 
-				float theta(const vec2& p)
+				float theta(const point2d& p)
 				{
 					float dx = p.X() - m_p0.X();
 					float dy = p.Y() - m_p0.Y();
 					return atan2f(dy, dx);
 				}
 
-				float distance(const vec2& p)
+				float distance(const point2d& p)
 				{
 					float dx = p.X() - m_p0.X();
 					float dy = p.Y() - m_p0.Y();
 					return dx * sqrtf(1.0f + powf(dy / dx, 2.0f));
 				}
 
-				bool operator () (const vec2& l, const vec2& r)
+				bool operator () (const point2d& l, const point2d& r)
 				{
 					float theta1 = theta(l);
 					float theta2 = theta(r);
@@ -54,10 +54,10 @@ namespace Punk {
 					return false;
 				}
 
-				vec2 m_p0;
+				point2d m_p0;
 			};
 
-			void SortPointsForGrahamAlgorithm(std::vector<vec2> &points)
+			void SortPointsForGrahamAlgorithm(std::vector<point2d> &points)
 			{
 				//	find min p
 				int min = 0;
@@ -77,7 +77,7 @@ namespace Punk {
 				std::sort(points.begin() + 1, points.end(), Sort(points[0]));
 			}
 
-			void CreateConvexHullFromSortedPoint(const std::vector<vec2> &points, std::vector<vec2> &stack)
+			void CreateConvexHullFromSortedPoint(const std::vector<point2d> &points, std::vector<point2d> &stack)
 			{
 				stack.clear();
 				stack.push_back(points[0]);
@@ -85,10 +85,10 @@ namespace Punk {
 
 				for (int i = 2, max_i = (int)points.size(); i < max_i; ++i)
 				{
-					const vec2* a = &stack[stack.size() - 2];
-					const vec2* b = &stack[stack.size() - 1];
-					const vec2* c = &points[i];
-					while (!IsLeftRotation(*a, *b, *c))
+					const auto* a = &stack[stack.size() - 2];
+					const auto* b = &stack[stack.size() - 1];
+					const auto* c = &points[i];
+					while (!vec2::IsLeftRotation(*a, *b, *c))
 					{
 						stack.pop_back();
 						a = &stack[stack.size() - 2];
@@ -99,7 +99,7 @@ namespace Punk {
 				}
 			}
 
-			void CreateConvexHull(std::vector<vec2> points, std::vector<vec2> &result)
+			void CreateConvexHull(std::vector<point2d> points, std::vector<point2d> &result)
 			{
 				SortPointsForGrahamAlgorithm(points);
 				CreateConvexHullFromSortedPoint(points, result);

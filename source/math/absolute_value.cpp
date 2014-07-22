@@ -1,18 +1,26 @@
-#include <math.h>
-#include "absolute_value.h"
 
-PUNK_ENGINE_BEGIN
-namespace Math {
-	float Abs(float value) {
-		return (value < 0 ? -value : value);
-	}
+template<class T, int D>
+class A
+{
 
-	double Abs(double value) {
-		return fabs(value);
-	}
+};
 
-	int Abs(int value) {
-		return (value < 0 ? -value : value);
-	}
+
+template<class T, int D>
+class B : public A < T, D > {
+
+};
+
+template<class T>
+class B<T, 2> : public A < T, 2 > {
+
+};
+
+int f()
+{
+	B<float, 2> b;
+
+	A<float, 2>& a = b;
+
+	return 1;
 }
-PUNK_ENGINE_END

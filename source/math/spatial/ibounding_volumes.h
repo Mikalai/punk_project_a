@@ -7,8 +7,6 @@
 PUNK_ENGINE_BEGIN
 namespace Math {
 
-	class vec2;
-	class vec3;
 	class Line3D;
 	class Rect;
 	class Ellipse;

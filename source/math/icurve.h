@@ -19,7 +19,7 @@ namespace Math {
 		virtual void AddSpline(ISpline* value) = 0;
 		virtual void AddSplines(const std::vector<ISpline*>& value) = 0;
 		virtual float GetTotalLength() const = 0;
-		virtual const Math::vec3 At(float t) = 0;
+		virtual const point3d At(float t) = 0;
 		virtual std::uint32_t GetSplinesCount() const = 0;
 		virtual const ISpline* GetSpline(std::uint32_t index) const = 0;
 		virtual void Clear() = 0;

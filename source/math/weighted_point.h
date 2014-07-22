@@ -1,43 +1,132 @@
 #ifndef WEIGHTED_POINT_H
 #define WEIGHTED_POINT_H
 
-#include "vec4.h"
+#include "tuple.h"
 
-namespace Punk {
-    namespace Engine {
-        namespace Math {
-            class PUNK_ENGINE_API WeightedPoint {
-            public:
-                WeightedPoint();
-                WeightedPoint(const vec4& value, float weight = 1);
+PUNK_ENGINE_BEGIN
+namespace Math {
 
-                WeightedPoint& operator += (const WeightedPoint& value);
-                WeightedPoint& operator -= (const WeightedPoint& value);
-                WeightedPoint& operator *= (float value);
-                WeightedPoint& operator /= (float value);
+	template<class T, int D, typename tag>
+	class TWeightedPoint {
+	public:
 
-                //  TODO: implementation requires refinment
-                float Length() const;
+		TWeightedPoint()
+			: m_weight(1.0)
+		{}
 
-                void SetWeight(float value);
-                float GetWeight() const;
+		TWeightedPoint(const Tuple<T, D, tag> &value, float weight)
+			: m_weight(weight)
+			, m_point(value)
+		{}
 
-                void SetPoint(const vec4& value);
-                const vec4& GetPoint() const;
+		TWeightedPoint& operator += (const TWeightedPoint& value)
+		{
+			m_point += value.m_point;
+			m_weight += value.m_weight;
+			return *this;
+		}
 
-            private:
-                float m_weight;
-                vec4 m_point;
-            };
+		TWeightedPoint& operator -= (const TWeightedPoint& value)
+		{
+			m_point -= value.m_point;
+			m_weight -= value.m_weight;
+			return *this;
+		}
 
-            PUNK_ENGINE_API const WeightedPoint operator + (const WeightedPoint& l, const WeightedPoint& r);
-            PUNK_ENGINE_API const WeightedPoint operator - (const WeightedPoint& l, const WeightedPoint& r);
-            PUNK_ENGINE_API const WeightedPoint operator * (const WeightedPoint& l, float r);
-            PUNK_ENGINE_API const WeightedPoint operator * (float l, const WeightedPoint& r);
-            PUNK_ENGINE_API const WeightedPoint operator / (const WeightedPoint& l, float r);
-            PUNK_ENGINE_API const WeightedPoint operator / (float l, const WeightedPoint& r);
-        }
-    }
+		TWeightedPoint& operator *= (float value)
+		{
+			m_point *= value;
+			m_weight *= value;
+			return *this;
+		}
+
+		TWeightedPoint& operator /= (float value)
+		{
+			m_point /= value;
+			m_weight /= value;
+			return *this;
+		}		
+
+		float Length() const
+		{
+			return m_point.Length();
+		}
+
+		void SetWeight(float value)
+		{
+			m_weight = value;
+		}
+
+		float GetWeight() const
+		{
+			return m_weight;
+		}
+
+		void SetPoint(const Tuple<T, D, tag>& value)
+		{
+			m_point = value;
+		}
+
+		const Tuple<T, D, tag>& GetPoint() const {
+			return m_point;
+		}
+
+
+	private:
+		T m_weight;
+		Tuple<T, D, tag> m_point;
+	};
+
+	template<class T, int D, typename tag>
+	const TWeightedPoint<T, D, tag> operator + (const TWeightedPoint<T, D, tag>& l, const TWeightedPoint<T, D, tag>& r)
+	{
+		TWeightedPoint<T, D, tag> res(l);
+		res += r;
+		return res;
+	}
+
+	template<class T, int D, typename tag>
+	const TWeightedPoint<T, D, tag> operator - (const TWeightedPoint<T, D, tag>& l, const TWeightedPoint<T, D, tag>& r)
+	{
+		TWeightedPoint<T, D, tag> res(l);
+		res -= r;
+		return res;
+	}
+
+	template<class T, int D, typename tag>
+	const TWeightedPoint<T, D, tag> operator * (const TWeightedPoint<T, D, tag>& l, float r)
+	{
+		TWeightedPoint<T, D, tag> res(l);
+		res *= r;
+		return res;
+	}
+
+	template<class T, int D, typename tag>
+	const TWeightedPoint<T, D, tag> operator * (float l, const TWeightedPoint<T, D, tag>& r)
+	{
+		TWeightedPoint<T, D, tag> res(r);
+		res *= l;
+		return res;
+	}
+
+	template<class T, int D, typename tag>
+	const TWeightedPoint<T, D, tag> operator / (const TWeightedPoint<T, D, tag>& l, float r)
+	{
+		TWeightedPoint<T, D, tag> res(l);
+		res /= r;
+		return res;
+	}
+
+	template<class T, int D, typename tag>
+	const TWeightedPoint<T, D, tag> operator / (float l, const TWeightedPoint<T, D, tag>& r)
+	{
+		TWeightedPoint<T, D, tag> res(r);
+		res /= l;
+		return res;
+	}
+
+	using WeightedPoint = TWeightedPoint < float, 3, tagPoint > ;
 }
+PUNK_ENGINE_END
 
 #endif // WEIGHTED_POINT_H
