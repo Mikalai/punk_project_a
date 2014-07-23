@@ -210,43 +210,43 @@ namespace Math {
 			return this->m_v[2];
 		}
 
-		const TupleData<T, 2, tag> XZ() const {
+		const Tuple<T, 2, tag> XZ() const {
 			return TupleData < T, 2, tag > { this->m_v[0], this->m_v[2] };
 		}
 
-		const TupleData<T, 2, tag> ZX() const {
+		const Tuple<T, 2, tag> ZX() const {
 			return TupleData < T, 2, tag > {{ this->m_v[2], this->m_v[0] }};
 		}
 
-		const TupleData<T, 2, tag> YZ() const {
+		const Tuple<T, 2, tag> YZ() const {
 			return TupleData < T, 2, tag > {{ this->m_v[1], this->m_v[2] }};
 		}
 
-		const TupleData<T, 2, tag> ZY() const {
+		const Tuple<T, 2, tag> ZY() const {
 			return TupleData < T, 2, tag > {{ this->m_v[2], this->m_v[1] }};
 		}
 
-		const TupleData<T, 3, tag>  XYZ() const {
+		const Tuple<T, 3, tag>  XYZ() const {
 			return TupleData < T, 3, tag > {{ this->m_v[0], this->m_v[1], this->m_v[2] }};
 		}
 
-		const TupleData<T, 3, tag> XZY() const {
+		const Tuple<T, 3, tag> XZY() const {
 			return TupleData < T, 3, tag > {{ this->m_v[0], this->m_v[2], this->m_v[1] }};
 		}
 
-		const TupleData<T, 3, tag> YXZ() const {
+		const Tuple<T, 3, tag> YXZ() const {
 			return TupleData < T, 3, tag > {{ this->m_v[1], this->m_v[0], this->m_v[2] }};
 		}
 
-		const TupleData<T, 3, tag> YZX() const {
+		const Tuple<T, 3, tag> YZX() const {
 			return TupleData < T, 3, tag > {{ this->m_v[1], this->m_v[2], this->m_v[0] }};
 		}
 
-		const TupleData<T, 3, tag> ZXY() const {
+		const Tuple<T, 3, tag> ZXY() const {
 			return TupleData < T, 3, tag > {{ this->m_v[2], this->m_v[0], this->m_v[1] }};
 		}
 
-		const TupleData<T, 3, tag> ZYX() const {
+		const Tuple<T, 3, tag> ZYX() const {
 			return TupleData < T, 3, tag > {{ this->m_v[2], this->m_v[1], this->m_v[0] }};
 		}
 	};
@@ -294,11 +294,11 @@ namespace Math {
 			return this->m_v[1];
 		}
 
-		const TupleData<T, 2, tag> XY() const {
+		const Tuple<T, 2, tag> XY() const {
 			return TupleData < T, 2, tag > { { this->m_v[0], this->m_v[1] } };
 		}
 
-		const TupleData<T, 2, tag> YX() const {
+		const Tuple<T, 2, tag> YX() const {
 			return TupleData < T, 2, tag > { { this->m_v[1], this->m_v[0] } };
 		}
 
@@ -310,43 +310,43 @@ namespace Math {
 			return this->m_v[2];
 		}
 
-		const TupleData<T, 2, tag> XZ() const {
+		const Tuple<T, 2, tag> XZ() const {
 			return TupleData < T, 2, tag > { this->m_v[0], this->m_v[2] };
 		}
 
-		const TupleData<T, 2, tag> ZX() const {
+		const Tuple<T, 2, tag> ZX() const {
 			return TupleData < T, 2, tag > {{ this->m_v[2], this->m_v[0] }};
 		}
 
-		const TupleData<T, 2, tag> YZ() const {
+		const Tuple<T, 2, tag> YZ() const {
 			return TupleData < T, 2, tag > {{ this->m_v[1], this->m_v[2] }};
 		}
 
-		const TupleData<T, 2, tag> ZY() const {
+		const Tuple<T, 2, tag> ZY() const {
 			return TupleData < T, 2, tag > {{ this->m_v[2], this->m_v[1] }};
 		}
 
-		const TupleData<T, 3, tag>  XYZ() const {
+		const Tuple<T, 3, tag>  XYZ() const {
 			return TupleData < T, 3, tag > {{ this->m_v[0], this->m_v[1], this->m_v[2] }};
 		}
 
-		const TupleData<T, 3, tag> XZY() const {
+		const Tuple<T, 3, tag> XZY() const {
 			return TupleData < T, 3, tag > {{ this->m_v[0], this->m_v[2], this->m_v[1] }};
 		}
 
-		const TupleData<T, 3, tag> YXZ() const {
+		const Tuple<T, 3, tag> YXZ() const {
 			return TupleData < T, 3, tag > {{ this->m_v[1], this->m_v[0], this->m_v[2] }};
 		}
 
-		const TupleData<T, 3, tag> YZX() const {
+		const Tuple<T, 3, tag> YZX() const {
 			return TupleData < T, 3, tag > {{ this->m_v[1], this->m_v[2], this->m_v[0] }};
 		}
 
-		const TupleData<T, 3, tag> ZXY() const {
+		const Tuple<T, 3, tag> ZXY() const {
 			return TupleData < T, 3, tag > {{ this->m_v[2], this->m_v[0], this->m_v[1] }};
 		}
 
-		const TupleData<T, 3, tag> ZYX() const {
+		const Tuple<T, 3, tag> ZYX() const {
 			return TupleData < T, 3, tag > {{ this->m_v[2], this->m_v[1], this->m_v[0] }};
 		}
 
@@ -358,196 +358,196 @@ namespace Math {
 			return this->m_v[3];
 		}
 
-		const TupleData<T, 2, tag> XW() const {
+		const Tuple<T, 2, tag> XW() const {
 			return TupleData < T, 2, tag > {{this->m_v[0], this->m_v[3]}};
 		}
 
-		const TupleData<T, 2, tag> WX() const {
+		const Tuple<T, 2, tag> WX() const {
 			return TupleData < T, 2, tag > {{this->m_v[3], this->m_v[0]}};
 		}
 
-		const TupleData<T, 2, tag> WZ() const {
+		const Tuple<T, 2, tag> WZ() const {
 			return TupleData < T, 2, tag > {{this->m_v[3], this->m_v[2]}};
 		}
 
-		const TupleData<T, 2, tag> ZW() const {
+		const Tuple<T, 2, tag> ZW() const {
 			return TupleData < T, 2, tag > {{this->m_v[2], this->m_v[3]}};
 		}
 
-		const TupleData<T, 2, tag> YW() const {
+		const Tuple<T, 2, tag> YW() const {
 			return TupleData < T, 2, tag > {{this->m_v[1], this->m_v[3]}};
 		}
 
-		const TupleData<T, 2, tag> WY() const {
+		const Tuple<T, 2, tag> WY() const {
 			return TupleData < T, 2, tag > {{this->m_v[3], this->m_v[1]}};
 		}
 
-		const TupleData<T, 3, tag> XYW() const {
+		const Tuple<T, 3, tag> XYW() const {
 			return TupleData < T, 3, tag > {{this->X(), this->Y(), this->W()}};
 		}
 
-		const TupleData<T, 3, tag> XZW() const {
+		const Tuple<T, 3, tag> XZW() const {
 			return TupleData < T, 3, tag > {{this->X(), this->Z(), this->W()}};
 		}
 
-		const TupleData<T, 3, tag> XWZ() const {
+		const Tuple<T, 3, tag> XWZ() const {
 			return TupleData < T, 3, tag > {{this->X(), this->W(), this->Z()}};
 		}
 
-		const TupleData<T, 3, tag> XWY() const {
+		const Tuple<T, 3, tag> XWY() const {
 			return TupleData < T, 3, tag > {{this->X(), this->W(), this->Y()}};
 		}
 
-		const TupleData<T, 3, tag> YXW() const {
+		const Tuple<T, 3, tag> YXW() const {
 			return TupleData < T, 3, tag > {{this->Y(), this->X(), this->W()}};
 		}
 
-		const TupleData<T, 3, tag> YZW() const {
+		const Tuple<T, 3, tag> YZW() const {
 			return TupleData < T, 3, tag > {{this->Y(), this->Z(), this->W()}};
 		}
 
-		const TupleData<T, 3, tag> YWX() const {
+		const Tuple<T, 3, tag> YWX() const {
 			return TupleData < T, 3, tag > {{this->Y(), this->W(), this->X()}};
 		}
 
-		const TupleData<T, 3, tag> YWZ() const {
+		const Tuple<T, 3, tag> YWZ() const {
 			return TupleData < T, 3, tag > {{this->Y(), this->W(), this->Z()}};
 		}
 
-		const TupleData<T, 3, tag> ZXW() const {
+		const Tuple<T, 3, tag> ZXW() const {
 			return TupleData < T, 3, tag > {{this->Z(), this->X(), this->W()}};
 		}
 
-		const TupleData<T, 3, tag> ZYW() const {
+		const Tuple<T, 3, tag> ZYW() const {
 			return TupleData < T, 3, tag > {{this->Z(), this->Y(), this->W()}};
 		}
 
-		const TupleData<T, 3, tag> ZWX() const {
+		const Tuple<T, 3, tag> ZWX() const {
 			return TupleData < T, 3, tag > {{this->Z(), this->W(), this->X()}};
 		}
 
-		const TupleData<T, 3, tag> ZWY() const {
+		const Tuple<T, 3, tag> ZWY() const {
 			return TupleData < T, 3, tag > {{this->Z(), this->W(), this->Y()}};
 		}
 
-		const TupleData<T, 3, tag> WXY() const {
+		const Tuple<T, 3, tag> WXY() const {
 			return TupleData < T, 3, tag > {{this->W(), this->X(), this->Y()}};
 		}
 
-		const TupleData<T, 3, tag> WXZ() const {
+		const Tuple<T, 3, tag> WXZ() const {
 			return TupleData < T, 3, tag > {{this->W(), this->X(), this->Z()}};
 		}
 
-		const TupleData<T, 3, tag> WYX() const {
+		const Tuple<T, 3, tag> WYX() const {
 			return TupleData < T, 3, tag > {{this->W(), this->Y(), this->X()}};
 		}
 
-		const TupleData<T, 3, tag> WYZ() const {
+		const Tuple<T, 3, tag> WYZ() const {
 			return TupleData < T, 3, tag > {{this->W(), this->Y(), this->Z()}};
 		}
 
-		const TupleData<T, 3, tag> WZX() const {
+		const Tuple<T, 3, tag> WZX() const {
 			return TupleData < T, 3, tag > {{this->W(), this->Z(), this->X()}};
 		}
 
-		const TupleData<T, 3, tag> WZY() const {
+		const Tuple<T, 3, tag> WZY() const {
 			return TupleData < T, 3, tag > {{this->W(), this->Z(), this->Y()}};
 		}
 
-		const TupleData<T, 4, tag> XYZW() const {
+		const Tuple<T, 4, tag> XYZW() const {
 			return TupleData < T, 4, tag > {{this->m_v[0], this->m_v[1], this->m_v[2], this->m_v[3]}};
 		}
 
-		const TupleData<T, 4, tag> XYWZ() const {
+		const Tuple<T, 4, tag> XYWZ() const {
 			return TupleData < T, 4, tag > {{this->m_v[0], this->m_v[1], this->m_v[3], this->m_v[2]}};
 		}
 
-		const TupleData<T, 4, tag> XZYW() const {
+		const Tuple<T, 4, tag> XZYW() const {
 			return TupleData < T, 4, tag > {{ this->m_v[0], this->m_v[2], this->m_v[1], this->m_v[3] }};
 		}
 
-		const TupleData<T, 4, tag> XZWY() const {
+		const Tuple<T, 4, tag> XZWY() const {
 			return TupleData < T, 4, tag > {{this->m_v[0], this->m_v[2], this->m_v[3], this->m_v[1]}};
 		}
 
-		const TupleData<T, 4, tag> XWYZ() const {
+		const Tuple<T, 4, tag> XWYZ() const {
 			return TupleData < T, 4, tag > {{this->m_v[0], this->m_v[3], this->m_v[1], this->m_v[2]}};
 		}
 
-		const TupleData<T, 4, tag> XWZY() const {
+		const Tuple<T, 4, tag> XWZY() const {
 			return TupleData < T, 4, tag > {{this->m_v[0], this->m_v[3], this->m_v[2], this->m_v[1]}};
 		}
 
-		const TupleData<T, 4, tag> YXZW() const {
+		const Tuple<T, 4, tag> YXZW() const {
 			return TupleData < T, 4, tag > {{this->m_v[1], this->m_v[0], this->m_v[2], this->m_v[3]}};
 		}
 
-		const TupleData<T, 4, tag> YXWZ() const {
+		const Tuple<T, 4, tag> YXWZ() const {
 			return TupleData < T, 4, tag > {{this->m_v[1], this->m_v[0], this->m_v[3], this->m_v[2]}};
 		}
 
-		const TupleData<T, 4, tag> YZXW() const {
+		const Tuple<T, 4, tag> YZXW() const {
 			return TupleData < T, 4, tag > {{this->m_v[1], this->m_v[2], this->m_v[0], this->m_v[3]}};
 		}
 
-		const TupleData<T, 4, tag> YZWX() const {
+		const Tuple<T, 4, tag> YZWX() const {
 			return TupleData < T, 4, tag > {{this->m_v[1], this->m_v[2], this->m_v[3], this->m_v[0]}};
 		}
 
-		const TupleData<T, 4, tag> YWZX() const {
+		const Tuple<T, 4, tag> YWZX() const {
 			return TupleData < T, 4, tag > {{this->m_v[1], this->m_v[3], this->m_v[2], this->m_v[0]}};
 		}
 
-		const TupleData<T, 4, tag> YWXZ() const {
+		const Tuple<T, 4, tag> YWXZ() const {
 			return TupleData < T, 4, tag > {{this->m_v[1], this->m_v[3], this->m_v[0], this->m_v[2]}};
 		}
 
 
-		const TupleData<T, 4, tag> ZXYW() const {
+		const Tuple<T, 4, tag> ZXYW() const {
 			return TupleData < T, 4, tag > {{this->m_v[2], this->m_v[0], this->m_v[1], this->m_v[3]}};
 		}
 
-		const TupleData<T, 4, tag> ZXWY() const {
+		const Tuple<T, 4, tag> ZXWY() const {
 			return TupleData < T, 4, tag > {{this->m_v[2], this->m_v[0], this->m_v[3], this->m_v[1]}};
 		}
 
-		const TupleData<T, 4, tag> ZYXW() const {
+		const Tuple<T, 4, tag> ZYXW() const {
 			return TupleData < T, 4, tag > {{this->m_v[2], this->m_v[1], this->m_v[0], this->m_v[3]}};
 		}
 
-		const TupleData<T, 4, tag> ZYWX() const {
+		const Tuple<T, 4, tag> ZYWX() const {
 			return TupleData < T, 4, tag > {{this->m_v[2], this->m_v[1], this->m_v[3], this->m_v[0]}};
 		}
 
-		const TupleData<T, 4, tag> ZWXY() const {
+		const Tuple<T, 4, tag> ZWXY() const {
 			return TupleData < T, 4, tag > {{this->m_v[2], this->m_v[3], this->m_v[0], this->m_v[1]}};
 		}
 
-		const TupleData<T, 4, tag> ZWYX() const {
+		const Tuple<T, 4, tag> ZWYX() const {
 			return TupleData < T, 4, tag > {{this->m_v[2], this->m_v[3], this->m_v[1], this->m_v[0]}};
 		}
 
-		const TupleData<T, 4, tag> WXYZ() const {
+		const Tuple<T, 4, tag> WXYZ() const {
 			return TupleData < T, 4, tag > {{this->m_v[3], this->m_v[0], this->m_v[1], this->m_v[2]}};
 		}
 
-		const TupleData<T, 4, tag> WXZY() const {
+		const Tuple<T, 4, tag> WXZY() const {
 			return TupleData < T, 4, tag > {{this->m_v[3], this->m_v[0], this->m_v[2], this->m_v[1]}};
 		}
 
-		const TupleData<T, 4, tag> WYXZ() const {
+		const Tuple<T, 4, tag> WYXZ() const {
 			return TupleData < T, 4, tag > {{this->m_v[3], this->m_v[1], this->m_v[0], this->m_v[2]}};
 		}
 
-		const TupleData<T, 4, tag> WYZX() const {
+		const Tuple<T, 4, tag> WYZX() const {
 			return TupleData < T, 4, tag > {{this->m_v[3], this->m_v[1], this->m_v[2], this->m_v[0]}};
 		}
 
-		const TupleData<T, 4, tag> WZXY() const {
+		const Tuple<T, 4, tag> WZXY() const {
 			return TupleData < T, 4, tag > {{this->m_v[3], this->m_v[2], this->m_v[0], this->m_v[1]}};
 		}
 
-		const TupleData<T, 4, tag> WZYX() const {
+		const Tuple<T, 4, tag> WZYX() const {
 			return TupleData < T, 4, tag > {{this->m_v[3], this->m_v[2], this->m_v[1], this->m_v[0]}};
 		}
 	};
@@ -865,8 +865,8 @@ namespace Math {
 
 		TupleOperations() {}
 
-		TupleOperations(const TupleData<T, 3, tagVector>& value)
-			: TupleOperationsBase<T, 3, tagVector>(value) {}
+		TupleOperations(const TupleData<T, 4, tagVector>& value)
+			: TupleOperationsBase<T, 4, tagVector>(value) {}
 
 		const TupleData<T, 3, tagVector> ToHomogeneus() const {
 			TupleData<T, 3, tagVector> res = { this->m_v[0], this->m_v[1], this->m_v[2] };
@@ -907,7 +907,7 @@ namespace Math {
 			return{ p.X(), p.Y(), p.Z() };
 		}
 
-		const TupleData<T, 4, tagQuaternion> Inversed() const {
+		const Tuple<T, 4, tagQuaternion> Inversed() const {
 			T l = this->SqrLength();
 			if (l == 0.0f) {
 				return{ 0, 0, 0, 0 };

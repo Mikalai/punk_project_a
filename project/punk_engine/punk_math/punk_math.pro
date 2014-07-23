@@ -13,19 +13,12 @@ INCLUDEPATH += ../../../source
 LIBS += -L$${LIBDIR} -lpunk_error -lpunk_string -lpunk_system
 
 SOURCES += \    
-    ../../../source/math/vec4.cpp \
-    ../../../source/math/vec3.cpp \
-    ../../../source/math/vec2.cpp \
     ../../../source/math/mat4.cpp \
     ../../../source/math/mat3.cpp \
-    ../../../source/math/mat2.cpp \
     ../../../source/math/quat.cpp \
     ../../../source/math/math_error.cpp \
     ../../../source/math/matrix_helper.cpp \
-    ../../../source/math/bounding_box.cpp \
     ../../../source/math/bounding_sphere.cpp \
-    ../../../source/math/plane.cpp \
-    ../../../source/math/line3d.cpp \
     ../../../source/math/line2d.cpp \
     ../../../source/math/volume_construction.cpp \
     ../../../source/math/root_find.cpp \
@@ -35,7 +28,6 @@ SOURCES += \
     ../../../source/math/trigonometry.cpp \
     ../../../source/math/sphere.cpp \
     ../../../source/math/relations.cpp \
-    ../../../source/math/aabb.cpp \
     ../../../source/math/triangle2d.cpp \
     ../../../source/math/triangle3d.cpp \
     ../../../source/math/array.cpp \
@@ -44,16 +36,27 @@ SOURCES += \
     ../../../source/math/portal.cpp \
     ../../../source/math/clip_space.cpp \
     ../../../source/math/convex_shape_mesh.cpp \
-    ../../../source/math/frustum_plane.cpp \
-    ../../../source/math/frustum.cpp \
+    ../../../source/math/frustum_plane.cpp \    
     ../../../source/math/perspective_decoder.cpp \
     ../../../source/math/min_max.cpp \
     ../../../source/math/metric/value.cpp \
     ../../../source/math/helper.cpp \
-    ../../../source/math/rect.cpp \
-    ../../../source/math/curve.cpp \
-    ../../../source/math/spline.cpp \
-    ../../../source/math/weighted_point.cpp
+    ../../../source/math/rect.cpp \        
+    ../../../source/math/weighted_point.cpp \
+    ../../../source/math/astar.cpp \
+    ../../../source/math/frustum_core.cpp \
+    ../../../source/math/graham.cpp \
+    ../../../source/math/gramm_shmidt.cpp \
+    ../../../source/math/icurve.cpp \
+    ../../../source/math/ifrustum.cpp \
+    ../../../source/math/linear_equation_solver.cpp \
+    ../../../source/math/math.cpp \
+    ../../../source/math/noise.cpp \
+    ../../../source/math/noiseutils.cpp \
+    ../../../source/math/random.cpp \
+    ../../../source/math/recount.cpp \
+    ../../../source/math/spherical.cpp \
+    ../../../source/math/tuple.cpp
 
 
 HEADERS += \
@@ -98,4 +101,38 @@ HEADERS += \
     ../../../source/math/rect.h \
     ../../../source/math/curve.h \
     ../../../source/math/spline.h \
-    ../../../source/math/weighted_point.h
+    ../../../source/math/weighted_point.h \
+    ../../../source/math/astar.h \
+    ../../../source/math/catmull_rom_spline.h \
+    ../../../source/math/complex.h \
+    ../../../source/math/constants.h \
+    ../../../source/math/frustum_core.h \
+    ../../../source/math/graham.h \
+    ../../../source/math/gramm_shmidt.h \
+    ../../../source/math/header_matrix.h \
+    ../../../source/math/icurve.h \
+    ../../../source/math/ifrustum.h \
+    ../../../source/math/interpolation.h \
+    ../../../source/math/ispline.h \
+    ../../../source/math/linear_equation_solver.h \
+    ../../../source/math/low_level_math.h \
+    ../../../source/math/math.h \
+    ../../../source/math/matrix.h \
+    ../../../source/math/module.h \
+    ../../../source/math/noise.h \
+    ../../../source/math/noiseutils.h \
+    ../../../source/math/nrm.h \
+    ../../../source/math/polygon.h \
+    ../../../source/math/random.h \
+    ../../../source/math/ray.h \
+    ../../../source/math/recount.h \
+    ../../../source/math/region.h \
+    ../../../source/math/smart_matrix.h \
+    ../../../source/math/spherical.h \
+    ../../../source/math/tuple.h \
+    ../../../source/math/type.h \
+    ../../../source/math/line.h \
+    ../../../source/math/calculate_native_axis.h \
+    ../../../source/math/create_covariance_matrix.h \
+    ../../../source/math/calculate_average.h \
+    ../../../source/math/triangle.h

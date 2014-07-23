@@ -1,5 +1,6 @@
 #include <attributes/ai/module.h>
 #include <math/mat4.h>
+#include <math/vec3.h>
 #include "parser.h"
 
 PUNK_ENGINE_BEGIN

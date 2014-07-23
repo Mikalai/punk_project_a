@@ -81,7 +81,7 @@ namespace Graphics
             (void)xc; (void)yc; (void)major_axis; (void)minor_axis;
 		}
 
-		void DrawEllipse(const Math::Rect& rect)
+		void DrawEllipse(const Math::Rectangle& rect)
 		{
             (void)rect;
 		}
@@ -96,7 +96,7 @@ namespace Graphics
             (void)point; (void)image;
 		}        
 
-		void DrawRect(const Math::Rect& rect)
+		void DrawRect(const Math::Rectangle& rect)
 		{
             (void)rect;
 		}
@@ -116,12 +116,12 @@ namespace Graphics
             (void)x; (void)y; (void)text;
 		}
 
-		void EraseRect(const Math::Rect& rect)
+		void EraseRect(const Math::Rectangle& rect)
 		{
             (void)rect;
 		}
 
-		void FillRect(const Math::Rect& rect, const Brush& brush)
+		void FillRect(const Math::Rectangle& rect, const Brush& brush)
 		{
             (void)rect; (void)brush;
 		}
@@ -280,7 +280,7 @@ namespace Graphics
 		impl->DrawEllipse(xc, yc, major_axis, minor_axis);
 	}
 
-	void Painter::DrawEllipse(const Math::Rect& rect)
+	void Painter::DrawEllipse(const Math::Rectangle& rect)
 	{
 		impl->DrawRect(rect);
 	}
@@ -295,7 +295,7 @@ namespace Graphics
 		impl->DrawImage(point, image);
 	}
 	
-	void Painter::DrawRect(const Math::Rect& rect)
+	void Painter::DrawRect(const Math::Rectangle& rect)
 	{
 		impl->DrawRect(rect);
 	}
@@ -315,12 +315,12 @@ namespace Graphics
         impl->DrawText(x, y, text);
 	}
 
-	void Painter::EraseRect(const Math::Rect& rect)
+	void Painter::EraseRect(const Math::Rectangle& rect)
 	{
         impl->EraseRect(rect);
 	}
 
-	void Painter::FillRect(const Math::Rect& rect, const Brush& brush)
+	void Painter::FillRect(const Math::Rectangle& rect, const Brush& brush)
 	{
         impl->FillRect(rect, brush);
 	}

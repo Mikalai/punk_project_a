@@ -6,6 +6,7 @@
 PUNK_ENGINE_BEGIN
 namespace Math {
 
+	using point4d = Tuple < float, 4, tagPoint >;
 	using vec4 = Tuple < float, 4, tagVector >;
 	using ivec4 = Tuple < int, 4, tagVector >;
 	using ivec4v = std::vector < ivec4 >;

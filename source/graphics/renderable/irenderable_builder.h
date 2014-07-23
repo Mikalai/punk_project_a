@@ -4,18 +4,13 @@
 #include <memory>
 #include <config.h>
 #include <core/iobject.h>
+#include <math/vec3.h>
+#include <math/vec2.h>
+#include <math/bounding_sphere.h>
 #include <graphics/primitives/iindex_array.h>
 #include <graphics/primitives/ivertex_array.h>
 
 PUNK_ENGINE_BEGIN
-
-namespace Math {
-    class vec4;
-    class vec3;
-    class vec2;
-    class BoundingSphere;
-}
-
 namespace Graphics {
 
     enum class PrimitiveType;

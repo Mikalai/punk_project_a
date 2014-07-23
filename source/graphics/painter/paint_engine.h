@@ -4,16 +4,12 @@
 #include <cstddef>
 #include <config.h>
 #include <string/module.h>
+#include <math/line2d.h>
+#include <math/vec2.h>
+#include <math/rect.h>
+#include <math/vec4.h>
 
 PUNK_ENGINE_BEGIN
-namespace Math
-{
-	class Line2D;
-	class vec2;
-	class Rect;
-	class vec4;
-}
-
 namespace Graphics
 {
 	class PaintDevice;
@@ -34,12 +30,12 @@ namespace Graphics
 
         virtual bool Begin(PaintDevice* device) = 0;
         virtual void DrawLines(const Math::Line2D* lines, size_t count) = 0;
-        virtual void DrawRects(const Math::Rect* rects, size_t count) = 0;
+        virtual void DrawRects(const Math::Rectangle* rects, size_t count) = 0;
         virtual void DrawArc(float xc, float yc, float width, float height, float start_angle, float span_angle) = 0;
         virtual void DrawChord(float xc, float yc, float width, float height, float start_angle, float span_angle) = 0;
         virtual void DrawPoint(float x, float y) = 0;
         virtual void DrawEllipse(float xc, float yc, float major_axis, float minor_axis) = 0;
-        virtual void DrawRect(const Math::Rect& rect) = 0;
+        virtual void DrawRect(const Math::Rectangle& rect) = 0;
         virtual void SetColor(const Math::vec4& value) = 0;
         virtual void SetColor(float r, float g, float b, float a) = 0;
         virtual void SetFillColor(const Math::vec4& value) = 0;

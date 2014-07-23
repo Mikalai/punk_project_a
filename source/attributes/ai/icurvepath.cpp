@@ -25,7 +25,7 @@ namespace Attributes
 		void AddSpline(Math::ISpline* value) override;
 		void AddSplines(const std::vector<Math::ISpline*>& value) override;
 		float GetTotalLength() const override;
-		const Math::vec3 At(float t) override;
+		const Math::point3d At(float t) override;
 		std::uint32_t GetSplinesCount() const override;
 		const Math::ISpline* GetSpline(std::uint32_t index) const override;
 		void Clear() override;
@@ -86,7 +86,7 @@ namespace Attributes
 		return m_curve->GetTotalLength();
 	}
 
-	const Math::vec3 CurvePath::At(float t) {
+	const Math::point3d CurvePath::At(float t) {
 		return m_curve->At(t);
 	}
 

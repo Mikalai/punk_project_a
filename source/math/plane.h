@@ -117,7 +117,7 @@ namespace Math {
             return *this;
         }
 
-		Relation ClassifyPoint(const Tuple<T, 3, tagPoint>& p) {
+		Relation ClassifyPoint(const Tuple<T, 3, tagPoint>& p) const {
 			auto s = *this * p;
 			if (s < -Eps)
 				return Relation::BACK;

@@ -15,7 +15,7 @@ namespace Graphics
 
 	template<std::uint32_t _offset>
 	struct ComponentAccessor <_offset, VertexComponent::Position > {
-		Math::vec4 m_position;
+		Math::point4d m_position;
 		static constexpr std::uint32_t PositionOffset() {
 			return _offset;
 		}
@@ -55,7 +55,7 @@ namespace Graphics
 
 	template<std::uint32_t _offset>
 	struct ComponentAccessor < _offset, VertexComponent::Texture0 > {
-		Math::vec4 m_texture0;
+		Math::point4d m_texture0;
 		static constexpr std::uint32_t Texture0Offset() {
 			return _offset;
 		}

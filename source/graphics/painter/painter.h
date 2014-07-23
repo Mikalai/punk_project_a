@@ -5,16 +5,12 @@
 #include <config.h>
 #include <vector>
 #include <images/module.h>
+#include <math/line2d.h>
+#include <math/vec2.h>
+#include <math/triangle2d.h>
+#include <math/rect.h>
+#include <math/mat3.h>
 PUNK_ENGINE_BEGIN
-namespace Math
-{
-	class Line2D;
-	class Triangle2D;
-	class vec2;
-	class ivec2;
-	class Rect;
-	class mat3;
-}
 
 namespace Graphics
 {
@@ -42,15 +38,15 @@ namespace Graphics
 		void DrawLines(const Math::Line2D* lines, size_t count);
 		void DrawLines(const std::vector<Math::Line2D>& lines);
 		void DrawEllipse(float xc, float yc, float major_axis, float minor_axis);
-		void DrawEllipse(const Math::Rect& rect);
+		void DrawEllipse(const Math::Rectangle& rect);
         void DrawImage(float x, float y, const ImageModule::IImage* image);
         void DrawImage(const Math::vec2& point, const ImageModule::IImage* image);
-		void DrawRect(const Math::Rect& rect);
+		void DrawRect(const Math::Rectangle& rect);
 		void DrawRect(float x, float y, float width, float height);
 		void DrawRoundedRect(float x, float y, float x_r, float y_r);
 		void DrawText(float x, float y, const Core::String& text);
-		void EraseRect(const Math::Rect& rect);
-		void FillRect(const Math::Rect& rect, const Brush& brush);
+		void EraseRect(const Math::Rectangle& rect);
+		void FillRect(const Math::Rectangle& rect, const Brush& brush);
 		void SetOpacity(float value);
 		float GetOpacity() const;
 		void SetPen(const Pen& pen);

@@ -4,13 +4,10 @@
 #include <config.h>
 #include <cstdint>
 #include <core/iobject.h>
+#include <math/mat4.h>
+#include <math/vec3.h>
 
 PUNK_ENGINE_BEGIN
-namespace Math {
-	class vec3;
-	class ivec3;
-	class mat4;
-}
 namespace Attributes {
 	
 	DECLARE_PUNK_GUID(IID_INaviMesh, "F8A31959-7761-4670-930C-D71850C4A6C2");

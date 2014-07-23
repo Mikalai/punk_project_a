@@ -169,14 +169,14 @@ namespace Attributes
 		}
 
 		const Math::quat GetBoneLocalRotation(std::uint32_t index) override {
-			return Math::quat::CreateFromMatrix4x4(m_bones.at(index).m_child_to_parent);
+			return m_bones.at(index).m_child_to_parent.ToQuaternion();
 		}
 
 		const Math::quat GetBoneGlobalRotation(std::uint32_t index) override {
 			auto& bone = m_bones.at(index);
 			if (bone.m_need_update)
 				Update();
-			return Math::quat::CreateFromMatrix4x4(bone.m_bone_to_armature);
+			return bone.m_bone_to_armature.ToQuaternion();
 		}
 
 		void SetBoneLocalPosition(std::uint32_t index, const Math::vec3& value) override {
@@ -272,7 +272,7 @@ namespace Attributes
 
 					BoneCache& cache = m_bones.at(bone->GetIndex());
 
-					Math::mat4 local_transform = Math::CreateTranslate(cache.m_local_position) * cache.m_local_rotation.ToMatrix4x4();
+					Math::mat4 local_transform = Math::mat4::CreateTranslate(cache.m_local_position) * Math::mat4::CreateFromQuaternion(cache.m_local_rotation);
 
 					if (cache.m_need_update) {
 						if (bone->HasParent()) {

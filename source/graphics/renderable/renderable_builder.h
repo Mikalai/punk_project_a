@@ -40,10 +40,10 @@ namespace Graphics {
 
         IVideoDriver* m_driver {nullptr};
 
-        std::vector<Math::vec4> m_vertex;
+        std::vector<Math::point4d> m_vertex;
         std::vector<Math::vec4> m_color;
         std::vector<Math::vec4> m_normal;
-        std::vector<Math::vec4> m_texcoord;
+        std::vector<Math::point4d> m_texcoord;
 
         bool m_begin_active {false};
 

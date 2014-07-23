@@ -62,7 +62,7 @@ namespace Math {
 
     template<class T>
     const TBoundingSphere<T> operator * (const Matrix<T, 4, 4>& m, const TBoundingSphere<T>& bsphere) {
-        TBoundingSphere res;
+        TBoundingSphere<T> res;
         res.SetCenter(m * bsphere.GetCenter());
         res.SetRadius(bsphere.GetRadius());
         return res;

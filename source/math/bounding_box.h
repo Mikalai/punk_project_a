@@ -6,6 +6,8 @@
 #include "tuple.h"
 #include "plane.h"
 #include "aabb.h"
+#include "calculate_native_axis.h"
+#include "calculate_average.h"
 #include "bounding_sphere.h"
 
 PUNK_ENGINE_BEGIN
@@ -31,19 +33,19 @@ namespace Math {
         void Create(const std::vector<Tuple<T, 3, tagPoint>>& points) {
 
             //	check input data
-            if (!points || count == 0)
+			if (points.empty());
                 throw Error::NotEnoughData(0);
 
             //	find average of the vertices
-            m_core.m_center_of_mass = Statistics::Average(points);
+            m_core.m_center_of_mass = CalculateAverage(points);
 
-            CalculateNativeAxis(points, count, m_core.m_r, m_core.m_s, m_core.m_t);
+            CalculateNativeAxis(points, m_core.m_r, m_core.m_s, m_core.m_t);
 
             //	find plane distances
             float d[6];
 
             //	init distances with appropriate values
-            const Tuple<T, 3, tagVector> v = points[0];
+            const auto v = points[0].GetRadiusVector();
             d[0] = v.Dot(m_core.m_r);
             d[1] = v.Dot(m_core.m_r);
 
@@ -53,7 +55,7 @@ namespace Math {
             d[4] = v.Dot(m_core.m_t);
             d[5] = v.Dot(m_core.m_t);
 
-            for (auto i = 0u; i < count; ++i)
+            for (auto i = 0u; i < points.size(); ++i)
             {
                 float r = m_core.m_r.Dot(v);
                 if (d[0] > r)
@@ -88,7 +90,7 @@ namespace Math {
                 float b = (d[2] + d[3]) / 2.0f;
                 float c = (d[4] + d[5]) / 2.0f;
 
-                m_core.m_center = a*m_core.m_r + b*m_core.m_s + c*m_core.m_t;
+				m_core.m_center = Math::Tuple < T, 3, tagPoint > {0, 0, 0}+a*m_core.m_r + b*m_core.m_s + c*m_core.m_t;
 
                 m_core.m_r *= (d[1] - d[0]);
                 m_core.m_s *= (d[3] - d[2]);
@@ -118,7 +120,7 @@ namespace Math {
             return m_core.m_t;
         }
 
-        const Tuple<T, 3, tagVector>& GetCenter() const {
+        const Tuple<T, 3, tagPoint>& GetCenter() const {
             return m_core.m_center;
         }
 
@@ -126,7 +128,7 @@ namespace Math {
             return m_core.m_center_of_mass;
         }
 
-        const Tuple<T, 3, tagVector>& GetMinCorner() const {
+        const Tuple<T, 3, tagPoint>& GetMinCorner() const {
             return m_core.m_min_corner;
         }
 
@@ -138,15 +140,15 @@ namespace Math {
 		{
 			for (int i = 0; i < 6; ++i)
 			{
-				const Plane p = GetPlane(i);
-				Relation relation = ClassifyPoint(point, p);
+				const auto p = GetPlane(i);
+				Relation relation = p.ClassifyPoint(point);
 				if (relation == Relation::BACK)
 					return Relation::OUTSIDE;
 			}
 			return Relation::INSIDE;
 		}
 
-		Relation CrossLine(const Line3D& line, Tuple<T, 3, tagVector>& p)
+		Relation CrossLine(const Line<T, 3>& line, Tuple<T, 3, tagPoint>& p)
 		{
 			mat4 t;
 			t.SetColumn(0, vec4(this->GetR(), 0));
@@ -157,22 +159,22 @@ namespace Math {
 			auto l = t.Inversed() * line;
 
 			TAxisAlignedBox<T> aabb;
-			aabb.Set(Tuple<T, 3, tagVector>(0, 0, 0), Tuple<T, 3, tagVector>(this->GetR().Length(), this->GetS().Length(), this->GetT().Length()));
+			aabb.Set({ 0, 0, 0 }, { this->GetR().Length(), this->GetS().Length(), this->GetT().Length() });
 			T tmin;
-			if (Relation::NOT_INTERSECT == CrossLineAxisAlignedBox(l, aabb, tmin, p))
+			if (Relation::NOT_INTERSECT == aabb.CrossLine(l, tmin, p))
 				return Relation::NOT_INTERSECT;
 			p = t * p;
 			return Relation::INTERSECT;
 		}
 
-	private:
+	public:
 
 		struct Core {
 			//	natural center
-			Tuple<T, 3, tagVector> m_center_of_mass;
+			Tuple<T, 3, tagPoint> m_center_of_mass;
 			//	bbox center
-			Tuple<T, 3, tagVector> m_center;
-			Tuple<T, 3, tagVector> m_min_corner;
+			Tuple<T, 3, tagPoint> m_center;
+			Tuple<T, 3, tagPoint> m_min_corner;
 			//	natural axes
 			Tuple<T, 3, tagVector> m_r;
 			Tuple<T, 3, tagVector> m_s;
@@ -184,25 +186,25 @@ namespace Math {
 		Core m_core;
 
 
-        friend const TBoundingBox<T> operator * (const Matrix<T, 4, 4>& m, const TBoundingBox<T>& bbox);
+       // friend const TBoundingBox<T> operator * (const Matrix<T, 4, 4>& m, const TBoundingBox<T>& bbox);
 	};
 
     template<class T>
-    const TBoundingBox<T> operator * (const Matrix<T, 4, 4>& m, const TBoundingBox<T>& bbox)
+	const TBoundingBox<T> operator * (const Matrix<T, 4, 4>& m, const TBoundingBox<T>& bbox)
     {
         TBoundingBox<T> res;
         Matrix<T, 4, 4> plane_matrix = m.Inversed().Transposed();
         Matrix<T, 3, 3> normal_matrix = plane_matrix.RotationPart();
 
-        res.m_core.m_center_of_mass = m * this->m_core.m_center_of_mass;
-        res.m_core.m_center = m * this->m_core.m_center;
-        res.m_core.m_r = normal_matrix * this->m_core.m_r;
-        res.m_core.m_s = normal_matrix * this->m_core.m_s;
-        res.m_core.m_t = normal_matrix * this->m_core.m_t;
+        res.m_core.m_center_of_mass = m * bbox.m_core.m_center_of_mass;
+        res.m_core.m_center = m * bbox.m_core.m_center;
+        res.m_core.m_r = normal_matrix * bbox.m_core.m_r;
+        res.m_core.m_s = normal_matrix * bbox.m_core.m_s;
+        res.m_core.m_t = normal_matrix * bbox.m_core.m_t;
 
         for (int i = 0; i < 6; ++i)
         {
-            res.m_core.m_plane[i] = plane_matrix * this->m_core.m_plane[i];
+            res.m_core.m_plane[i] = plane_matrix * bbox.m_core.m_plane[i];
         }
 
         return res;

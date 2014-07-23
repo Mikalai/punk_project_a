@@ -5,15 +5,11 @@
 #include <cstdint>
 #include <memory>
 #include <core/iobject.h>
+#include <math/mat4.h>
 
 PUNK_ENGINE_BEGIN
 namespace Core {
 	class String;
-}
-namespace Math {
-	class vec3;
-	class quat;
-	class mat4;
 }
 namespace Attributes {
 

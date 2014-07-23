@@ -1,6 +1,7 @@
 #include <math/mat4.h>
 #include <math/vec3.h>
 #include <math/quat.h>
+
 #include <string/buffer.h>
 #include <core/iserializable.h>
 #include <system/factory/module.h>
@@ -69,13 +70,13 @@ namespace Attributes {
 		//	ITransform
 		void SetMatrix(const Math::mat4& value) override {
 			m_transform = value;
-			Math::Decompose(m_transform, m_position, m_rotation, m_scale);
+			m_transform.Decompose(m_position, m_rotation, m_scale);
 			m_need_update = false;
 		}
 
 		const Math::mat4& GetMatrix() const override {
 			if (m_need_update) {
-				m_transform = Math::CreatePositionRotationScaleMatrix(m_position, m_rotation, m_scale);
+				m_transform = Math::mat4::CreatePositionRotationScaleMatrix(m_position, m_rotation, m_scale);
 				m_need_update = false;
 			}
 			return m_transform;

@@ -1,5 +1,6 @@
 #include <system/factory/module.h>
 #include <graphics/module.h>
+#include <math/tbn_space.h>
 #include "igeometry_cooker.h"
 #include "igeometry.h"
 #include "icomponent_position.h"
@@ -198,8 +199,8 @@ namespace Attributes {
 			for (unsigned i = 0, max_i = index_stream->GetTrianglesCount(); i < max_i; i++)
 			{
 				const Math::ivec3* f = index_stream->GetTriangle(i);
-				const Math::vec3* position[3] = { position_stream->GetVertexPosition(f->X()), position_stream->GetVertexPosition(f->Y()), position_stream->GetVertexPosition(f->Z()) };
-				const Math::vec2* texture[3] = { face_texture_stream->GetFaceTextureCoordinate(0, i, 0), face_texture_stream->GetFaceTextureCoordinate(0, i, 1), face_texture_stream->GetFaceTextureCoordinate(0, i, 2) };
+				const Math::point3d* position[3] = { position_stream->GetVertexPosition(f->X()), position_stream->GetVertexPosition(f->Y()), position_stream->GetVertexPosition(f->Z()) };
+				const Math::point2d* texture[3] = { face_texture_stream->GetFaceTextureCoordinate(0, i, 0), face_texture_stream->GetFaceTextureCoordinate(0, i, 1), face_texture_stream->GetFaceTextureCoordinate(0, i, 2) };
 				const Math::vec3* normal[3] = { normal_stream->GetVertexNormal(f->X()), normal_stream->GetVertexNormal(f->Y()), normal_stream->GetVertexNormal(f->Z()) };
 
 				Math::vec3 tgn;
@@ -251,10 +252,10 @@ namespace Attributes {
 				tang = (tang - norm.Dot(tang)*norm).Normalized();
 				btan = (btan - norm.Dot(btan)*norm - tang.Dot(btan)*tang).Normalized();
 
-				Math::Matrix<float> m(3, 3);
-				m.At(0, 0) = tang[0]; m.At(0, 1) = tang[1]; m.At(0, 2) = tang[2];
-				m.At(1, 0) = btan[0]; m.At(1, 1) = btan[1]; m.At(1, 2) = btan[2];
-				m.At(2, 0) = norm[0]; m.At(2, 1) = norm[1]; m.At(2, 2) = norm[2];
+				Math::mat3 m;
+				m.at(0, 0) = tang[0]; m.at(0, 1) = tang[1]; m.at(0, 2) = tang[2];
+				m.at(1, 0) = btan[0]; m.at(1, 1) = btan[1]; m.at(1, 2) = btan[2];
+				m.at(2, 0) = norm[0]; m.at(2, 1) = norm[1]; m.at(2, 2) = norm[2];
 				float w = m.Determinant();
 
 				for (int j = 0; j < (int)vb.size(); j++)
@@ -306,7 +307,7 @@ namespace Attributes {
 			for (unsigned i = 0, max_i = index_stream->GetTrianglesCount(); i < max_i; i++)
 			{
 				const Math::ivec3* f = index_stream->GetTriangle(i);
-				const Math::vec3* position[3] = { position_stream->GetVertexPosition(f->X()), position_stream->GetVertexPosition(f->Y()), position_stream->GetVertexPosition(f->Z()) };
+				const Math::point3d* position[3] = { position_stream->GetVertexPosition(f->X()), position_stream->GetVertexPosition(f->Y()), position_stream->GetVertexPosition(f->Z()) };
 				const Math::vec3* normal[3] = { normal_stream->GetVertexNormal(f->X()), normal_stream->GetVertexNormal(f->Y()), normal_stream->GetVertexNormal(f->Z()) };
 
 				for (int j = 0; j < 3; ++j)
@@ -378,7 +379,7 @@ namespace Attributes {
 			for (unsigned i = 0, max_i = index_stream->GetTrianglesCount(); i < max_i; i++)
 			{
 				const Math::ivec3* f = index_stream->GetTriangle(i);
-				const Math::vec3* position[3] = { position_stream->GetVertexPosition(f->X()), position_stream->GetVertexPosition(f->Y()), position_stream->GetVertexPosition(f->Z()) };
+				const Math::point3d* position[3] = { position_stream->GetVertexPosition(f->X()), position_stream->GetVertexPosition(f->Y()), position_stream->GetVertexPosition(f->Z()) };
 
 				for (int j = 0; j < 3; ++j)
 				{
@@ -426,8 +427,8 @@ namespace Attributes {
 			for (unsigned i = 0, max_i = index_stream->GetTrianglesCount(); i < max_i; i++)
 			{
 				const Math::ivec3* f = index_stream->GetTriangle(i);
-				const Math::vec3* position[3] = { position_stream->GetVertexPosition(f->X()), position_stream->GetVertexPosition(f->Y()), position_stream->GetVertexPosition(f->Z()) };
-				const Math::vec2* texture[3] = { face_texture_stream->GetFaceTextureCoordinate(0, i, 0), face_texture_stream->GetFaceTextureCoordinate(0, i, 1), face_texture_stream->GetFaceTextureCoordinate(0, i, 2) };
+				const Math::point3d* position[3] = { position_stream->GetVertexPosition(f->X()), position_stream->GetVertexPosition(f->Y()), position_stream->GetVertexPosition(f->Z()) };
+				const Math::point2d* texture[3] = { face_texture_stream->GetFaceTextureCoordinate(0, i, 0), face_texture_stream->GetFaceTextureCoordinate(0, i, 1), face_texture_stream->GetFaceTextureCoordinate(0, i, 2) };
 
 
 				for (int j = 0; j < 3; ++j)
@@ -483,8 +484,8 @@ namespace Attributes {
 			for (unsigned i = 0, max_i = index_stream->GetTrianglesCount(); i < max_i; i++)
 			{
 				const Math::ivec3* f = index_stream->GetTriangle(i);
-				const Math::vec3* position[3] = { position_stream->GetVertexPosition(f->X()), position_stream->GetVertexPosition(f->Y()), position_stream->GetVertexPosition(f->Z()) };
-				const Math::vec2* texture[3] = { face_texture_stream->GetFaceTextureCoordinate(0, i, 0), face_texture_stream->GetFaceTextureCoordinate(0, i, 1), face_texture_stream->GetFaceTextureCoordinate(0, i, 2) };
+				const Math::point3d* position[3] = { position_stream->GetVertexPosition(f->X()), position_stream->GetVertexPosition(f->Y()), position_stream->GetVertexPosition(f->Z()) };
+				const Math::point2d* texture[3] = { face_texture_stream->GetFaceTextureCoordinate(0, i, 0), face_texture_stream->GetFaceTextureCoordinate(0, i, 1), face_texture_stream->GetFaceTextureCoordinate(0, i, 2) };
 				const Math::vec3* normal[3] = { normal_stream->GetVertexNormal(f->X()), normal_stream->GetVertexNormal(f->Y()), normal_stream->GetVertexNormal(f->Z()) };
 
 				for (int j = 0; j < 3; ++j)
@@ -566,7 +567,7 @@ namespace Attributes {
 			for (unsigned i = 0, max_i = index_stream->GetTrianglesCount(); i < max_i; i++)
 			{
 				const Math::ivec3* f = index_stream->GetTriangle(i);
-				const Math::vec3* position[3] = { position_stream->GetVertexPosition(f->X()), position_stream->GetVertexPosition(f->Y()), position_stream->GetVertexPosition(f->Z()) };
+				const Math::point3d* position[3] = { position_stream->GetVertexPosition(f->X()), position_stream->GetVertexPosition(f->Y()), position_stream->GetVertexPosition(f->Z()) };
 				const Math::vec3* normal[3] = { normal_stream->GetVertexNormal(f->X()), normal_stream->GetVertexNormal(f->Y()), normal_stream->GetVertexNormal(f->Z()) };
 
 				Math::vec3 tgn;
@@ -670,8 +671,8 @@ namespace Attributes {
 			for (unsigned i = 0, max_i = index_stream->GetTrianglesCount(); i < max_i; i++)
 			{
 				const Math::ivec3* f = index_stream->GetTriangle(i);
-				const Math::vec3* position[3] = { position_stream->GetVertexPosition(f->X()), position_stream->GetVertexPosition(f->Y()), position_stream->GetVertexPosition(f->Z()) };
-				const Math::vec2* texture[3] = { face_texture_stream->GetFaceTextureCoordinate(0, i, 0), face_texture_stream->GetFaceTextureCoordinate(0, i, 1), face_texture_stream->GetFaceTextureCoordinate(0, i, 2) };
+				const Math::point3d* position[3] = { position_stream->GetVertexPosition(f->X()), position_stream->GetVertexPosition(f->Y()), position_stream->GetVertexPosition(f->Z()) };
+				const Math::point2d* texture[3] = { face_texture_stream->GetFaceTextureCoordinate(0, i, 0), face_texture_stream->GetFaceTextureCoordinate(0, i, 1), face_texture_stream->GetFaceTextureCoordinate(0, i, 2) };
 				const Math::vec3* normal[3] = { normal_stream->GetVertexNormal(f->X()), normal_stream->GetVertexNormal(f->Y()), normal_stream->GetVertexNormal(f->Z()) };
 
 				Math::vec3 tgn;
@@ -726,10 +727,10 @@ namespace Attributes {
 				tang = (tang - norm.Dot(tang)*norm).Normalized();
 				btan = (btan - norm.Dot(btan)*norm - tang.Dot(btan)*tang).Normalized();
 
-				Math::Matrix<float> m(3, 3);
-				m.At(0, 0) = tang[0]; m.At(0, 1) = tang[1]; m.At(0, 2) = tang[2];
-				m.At(1, 0) = btan[0]; m.At(1, 1) = btan[1]; m.At(1, 2) = btan[2];
-				m.At(2, 0) = norm[0]; m.At(2, 1) = norm[1]; m.At(2, 2) = norm[2];
+				Math::mat3 m;
+				m.at(0, 0) = tang[0]; m.at(0, 1) = tang[1]; m.at(0, 2) = tang[2];
+				m.at(1, 0) = btan[0]; m.at(1, 1) = btan[1]; m.at(1, 2) = btan[2];
+				m.at(2, 0) = norm[0]; m.at(2, 1) = norm[1]; m.at(2, 2) = norm[2];
 				float w = m.Determinant();
 
 				for (int j = 0; j < (int)vb.size(); j++)

@@ -2,35 +2,36 @@
 #define _H_PUNK_MATH_RECT
 
 #include <config.h>
+#include "tuple.h"
 
 PUNK_ENGINE_BEGIN
 namespace Math {
 
     template<class T>
-    class RectangleTemplate	{
+    class TRectangle	{
 	public:
-        RectangleTemplate()
+        TRectangle()
             : m_x(0)
             , m_y(0)
             , m_width(1)
             , m_height(1)
         {}
 
-        RectangleTemplate(T x, T y, T width, T height)
+        TRectangle(T x, T y, T width, T height)
             : m_x(x)
             , m_y(y)
             , m_width(width)
             , m_height(height)
         {}
 
-        RectangleTemplate(const Math::vec2& left_top_cornder, const Math::vec2 dimension)
+        TRectangle(const Tuple<T, 2, tagPoint>& left_top_cornder, const Tuple<T, 2, tagVector> dimension)
             : m_x(left_top_cornder.X())
             , m_y(left_top_cornder.Y())
             , m_width(dimension.X())
             , m_height(dimension.Y())
         {}
 
-        RectangleTemplate(const Math::vec4& rect)
+        TRectangle(const Tuple<T, 4, tagVector>& rect)
             : m_x(rect.X())
             , m_y(rect.Y())
             , m_width(rect.Z())
@@ -69,7 +70,7 @@ namespace Math {
         T m_height;
 	};
 
-    using Rectangle = RectangleTemplate<float>;
+    using Rectangle = TRectangle<float>;
 
 };
 PUNK_ENGINE_END

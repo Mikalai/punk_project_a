@@ -5,6 +5,7 @@
 #include <array>
 #include <config.h>
 #include "matrix.h"
+
 PUNK_ENGINE_BEGIN
 namespace Math {
 

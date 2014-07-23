@@ -28,73 +28,73 @@ namespace Graphics
     void RenderableBuilder::Vertex3f(float x, float y, float z)
 	{
 		ValidateDraw();
-		m_vertex.push_back(Math::vec4(x, y, z, 1));
+		m_vertex.push_back({ x, y, z, 1 });
 	}
 
     void RenderableBuilder::Vertex3fv(const float* value)
 	{
 		ValidateDraw();
-		m_vertex.push_back(Math::vec4(value[0], value[1], value[2], 1));
+		m_vertex.push_back({ value[0], value[1], value[2], 1 });
 	}
 
     void RenderableBuilder::Vertex3fv(const Math::vec3 &value)
 	{
 		ValidateDraw();
-		m_vertex.push_back(Math::vec4(value[0], value[1], value[2], 1));
+		m_vertex.push_back({ value[0], value[1], value[2], 1 });
 	}
 
     void RenderableBuilder::Color3f(float r, float g, float b)
 	{
 		ValidateDraw();
-		m_color.push_back(Math::vec4(r, g, b, 1.0f));
+		m_color.push_back({ r, g, b, 1.0f });
 	}
 
     void RenderableBuilder::Color3fv(const float* value)
 	{
 		ValidateDraw();
-		m_color.push_back(Math::vec4(value[0], value[1], value[2], 1));
+		m_color.push_back({ value[0], value[1], value[2], 1 });
 	}
 
     void RenderableBuilder::Color3fv(const Math::vec3& value)
 	{
 		ValidateDraw();
-		m_color.push_back(Math::vec4(value, 1));
+		m_color.push_back({ value[0], value[1], value[2], 1 });
 	}
 
     void RenderableBuilder::TexCoord2f(float x, float y)
 	{
 		ValidateDraw();
-		m_texcoord.push_back(Math::vec4(x, y, 0, 0));
+		m_texcoord.push_back({ x, y, 0, 0 });
 	}
 
     void RenderableBuilder::TexCoord2fv(const float* value)
 	{
 		ValidateDraw();
-		m_texcoord.push_back(Math::vec4(value[0], value[1], 0, 0));
+		m_texcoord.push_back({ value[0], value[1], 0, 0 });
 	}
 
     void RenderableBuilder::TexCoord2fv(const Math::vec2& value)
 	{
 		ValidateDraw();
-		m_texcoord.push_back(Math::vec4(value[0], value[1], 0, 0));
+		m_texcoord.push_back({ value[0], value[1], 0, 0 });
 	}
 
     void RenderableBuilder::Normal3f(float x, float y, float z)
 	{
 		ValidateDraw();
-		m_normal.push_back(Math::vec4(x, y, z, 0));
+		m_normal.push_back({ x, y, z, 0 });
 	}
 
     void RenderableBuilder::Normal3fv(const float* value)
 	{
 		ValidateDraw();
-		m_normal.push_back(Math::vec4(value[0], value[1], value[2], 0));
+		m_normal.push_back({ value[0], value[1], value[2], 0 });
 	}
 
     void RenderableBuilder::Normal3fv(const Math::vec3& value)
 	{
 		ValidateDraw();
-		m_normal.push_back(Math::vec4(value[0], value[1], value[2], 0));
+		m_normal.push_back({ value[0], value[1], value[2], 0 });
 	}    
 
     void RenderableBuilder::ValidateBegin()
@@ -123,12 +123,14 @@ namespace Graphics
             delete m_bsphere;
         std::unique_ptr<Math::BoundingSphere> s{new Math::BoundingSphere()};
 
-        std::vector<Math::vec3> p(m_vertex.size());
+        std::vector<Math::point3d> p(m_vertex.size());
         for (auto i = 0u; i != m_vertex.size(); ++i)
         {
-            p[i] = m_vertex[i].XYZ();
+			p[i].X() = m_vertex[i].X();
+			p[i].Y() = m_vertex[i].Y();
+			p[i].Z() = m_vertex[i].Z();
         }
-        s->Create(&p[0], p.size());
+		s->Create(p);
         return (m_bsphere = s.release());
     }
 

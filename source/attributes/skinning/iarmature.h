@@ -3,13 +3,11 @@
 
 #include <config.h>
 #include <core/iobject.h>
+#include <math/vec3.h>
+#include <math/quat.h>
+#include <math/vec4.h>
 
 PUNK_ENGINE_BEGIN
-namespace Math {
-	class vec3;
-	class quat;
-	class mat4;
-}
 namespace Core { class String; }
 namespace Attributes {
 

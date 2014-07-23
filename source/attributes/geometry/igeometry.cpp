@@ -3,6 +3,7 @@
 #include <core/object.h>
 #include <core/iserializable.h>
 #include <string/buffer.h>
+#include <math/bounding_box.h>
 #include <math/module.h>
 #include <graphics/module.h>
 #include <attributes/selection/iselectable.h>
@@ -90,15 +91,15 @@ namespace Attributes
 
 
 		//	position
-		const Math::vec3* GetVertexPosition(std::uint32_t index) const override {
+		const Math::point3d* GetVertexPosition(std::uint32_t index) const override {
 			return &m_position[index];
 		}
 
-		void SetVertexPosition(std::uint32_t index, const Math::vec3& value) override {
+		void SetVertexPosition(std::uint32_t index, const Math::point3d& value) override {
 			m_position[index] = value;			
 		}
 
-		void SetVertexPositions(const Math::vec3v& value) override {
+		void SetVertexPositions(const Math::point3dv& value) override {
 			m_position = value;
 		}
 
@@ -178,17 +179,17 @@ namespace Attributes
 			return m_texture_faces.size();
 		}
 
-		void SetFaceTextureCoordinates(const std::vector<std::vector<std::array<Math::vec2, 3>>>& value) override {
+		void SetFaceTextureCoordinates(const std::vector<std::vector<std::array<Math::point2d, 3>>>& value) override {
 			m_texture_faces = value;
 		}
 
-		void SetFaceTextureCoordinates(std::uint32_t slot, const std::vector	<std::array<Math::vec2, 3>>& value) override {
+		void SetFaceTextureCoordinates(std::uint32_t slot, const std::vector<std::array<Math::point2d, 3>>& value) override {
 			if (m_texture_faces.size() <= slot)
 				m_texture_faces.resize(slot + 1);
 			m_texture_faces[slot] = value;
 		}
 
-		void SetFaceTextureCoordinate(std::uint32_t slot, std::uint32_t triangle_index, std::uint32_t vertex_index, const Math::vec2& t) override {
+		void SetFaceTextureCoordinate(std::uint32_t slot, std::uint32_t triangle_index, std::uint32_t vertex_index, const Math::point2d& t) override {
 			if (m_texture_faces.size() <= slot)
 				m_texture_faces.resize(slot + 1);
 			if (m_texture_faces[slot].size() <= triangle_index)
@@ -196,7 +197,7 @@ namespace Attributes
 			m_texture_faces[slot][triangle_index][vertex_index] = t;
 		}
 
-		const Math::vec2* GetFaceTextureCoordinate(std::uint32_t slot, std::uint32_t triangle_index, int vertex_index) const override {
+		const Math::point2d* GetFaceTextureCoordinate(std::uint32_t slot, std::uint32_t triangle_index, int vertex_index) const override {
 			return &m_texture_faces.at(slot).at(triangle_index).at(vertex_index);
 		}
 
@@ -291,13 +292,13 @@ namespace Attributes
 		GeometryBase& operator = (const GeometryBase&) = delete;
 
 		std::atomic<std::uint32_t> m_ref_count{ 0 };
-		Math::vec3v m_position;
+		Math::point3dv m_position;
 		Math::vec3v m_normals;
 		Math::vec4v m_colors;
 		std::vector<Math::vec4v> m_textures;
 		Math::vec4v m_weights;
 		Math::ivec4v m_bones;
-		std::vector<std::vector<std::array<Math::vec2, 3>>> m_texture_faces;
+		std::vector<std::vector<std::array<Math::point2d, 3>>> m_texture_faces;
 		Math::ivec3v m_triangles;
 		Core::String m_armature_schema;
 		Core::String m_name;
@@ -383,24 +384,24 @@ namespace Attributes
 		}
 
 		//	IVertexPositionStream
-		void SetVertexPosition(std::uint32_t index, const Math::vec3& value) override {
+		void SetVertexPosition(std::uint32_t index, const Math::point3d& value) override {
 			m_position[index] = value;
-			m_bbox.Create(m_position.data(), m_position.size());
-			m_sphere.Create(m_position.data(), m_position.size());
+			m_bbox.Create(m_position);
+			m_sphere.Create(m_position);
 		}
 
 		//	IBoundingVolume3D
-		bool IsPointInside(const Math::vec3& value) override {
-			auto res = Math::ClassifyPoint(value, m_sphere);
+		bool IsPointInside(const Math::point3d& value) override {
+			auto res = m_sphere.ClassifyPoint(value);
 			return res == Math::Relation::INSIDE;
 		}
 
-		bool IsPointInside(const Math::vec3& value, Math::IntersectionHint& hint) override {
+		bool IsPointInside(const Math::point3d& value, Math::IntersectionHint& hint) override {
 			hint = Math::IntersectionHint::No;
-			auto res = Math::ClassifyPoint(value, m_sphere);
+			auto res = m_sphere.ClassifyPoint(value);
 			if (res == Math::Relation::INSIDE)
 				hint = hint | Math::IntersectionHint::BoundingSphere;
-			res = Math::ClassifyPoint(value, m_bbox);
+			res = m_bbox.ClassifyPoint(value);
 			if (res == Math::Relation::INSIDE)
 				hint = hint | Math::IntersectionHint::BoundingBox;
 			return hint != Math::IntersectionHint::No;
@@ -408,8 +409,8 @@ namespace Attributes
 
 		Core::Pointer<Math::IIntersectionResult> CrossLine(const Math::Line3D& line) override {
 			auto result = System::CreateInstancePtr<Math::IIntersectionResult>(Math::CLSID_IntersectionResult, Math::IID_IIntersectionResult);
-			Math::vec3 p1, p2;
-			auto res = Math::CrossLineSphere(line, m_sphere, p1, p2);
+			Math::point3d p1, p2;
+			auto res = m_sphere.CrossLine(line, p1, p2);
 			switch (res)
 			{
 			case Punk::Engine::Math::Relation::INTERSECT_1:
@@ -420,7 +421,7 @@ namespace Attributes
 				result->AddIntersectionPoint(p2, Math::IntersectionHint::BoundingSphere);
 				break;
 			}
-			res = Math::CrossLineBoundingBox(line, m_bbox, p1);
+			res = m_bbox.CrossLine(line, p1);
 			if (res == Math::Relation::INTERSECT)
 				result->AddIntersectionPoint(p1, Math::IntersectionHint::BoundingBox);
 			return result;
@@ -428,11 +429,11 @@ namespace Attributes
 
 		bool CrossFrustum(const Core::Pointer<Math::IFrustum> frust, const Math::mat4& to_frustum_space) override {
 			auto sphere = to_frustum_space * m_sphere;
-			if (Math::ClassifyBoudingSphere(m_sphere, frust->GetClipSpace()) == Math::Relation::NOT_VISIBLE)
+			if (frust->GetClipSpace().ClassifyBoudingSphere(m_sphere) == Math::Relation::NOT_VISIBLE)
 				return false;
 
 			auto bbox = to_frustum_space * m_bbox;
-			return Math::ClassifyBoudingBox(bbox, frust->GetClipSpace()) == Math::Relation::VISIBLE;
+			return frust->GetClipSpace().ClassifyBoudingBox(bbox) == Math::Relation::VISIBLE;
 		}
 
 		//	IBoundingBox

@@ -23,9 +23,9 @@ namespace LowLevelRender {
 	template<class T>
 	struct LightCache {
 		Core::Pointer<T> m_light{ nullptr, Core::DestroyObject };
-		Math::vec3 m_position;
+		Math::point3d m_position;
 		Math::vec3 m_direction;
-		LightCache(Core::Pointer<T> light, Math::vec3 world_pos, Math::vec3 world_dir)
+		LightCache(Core::Pointer<T> light, Math::point3d world_pos, Math::vec3 world_dir)
 			: m_light{ light }
 			, m_direction{ world_dir }
 			, m_position{ world_pos } {}
@@ -34,10 +34,10 @@ namespace LowLevelRender {
 	template<class T>
 	struct CameraCache {
 		Core::Pointer<T> m_camera{ nullptr, Core::DestroyObject };
-		Math::vec3 m_position;
+		Math::point3d m_position;
 		Math::vec3 m_direction;
 
-		CameraCache(Core::Pointer<T> camera, Math::vec3 world_pos, Math::vec3 dir)
+		CameraCache(Core::Pointer<T> camera, Math::point3d world_pos, Math::vec3 dir)
 			: m_camera{ camera }
 			, m_position{ world_pos }
 			, m_direction{ dir }
@@ -185,8 +185,8 @@ namespace LowLevelRender {
 			frame->EnableSkinning(true);
 			frame->SetLightModel(Graphics::LightModel::PerFragmentDiffuse);
 			//	frame->SetWorldMatrix(Math::CreateRotation(0, 1, 0, t));
-			frame->SetViewMatrix(Math::CreateTargetCameraMatrix({ 2, 2, 2 }, { 0, 0, 0 }, { 0, 1, 0 }));
-			frame->SetProjectionMatrix(Math::CreatePerspectiveProjection(Math::PI / 4.0f, 1024, 768, 0.1f, 100.0f));
+			frame->SetViewMatrix(Math::mat4::CreateViewMatrix({ 2, 2, 2 }, Math::point3d{ 0, 0, 0 }, { 0, 1, 0 }));
+			frame->SetProjectionMatrix(Math::mat4::CreatePerspectiveProjection(Math::PI / 4.0f, 1024, 768, 0.1f, 100.0f));
 			frame->EnableDepthTest(true);
 			Process(frame, root);
 
@@ -234,7 +234,7 @@ namespace LowLevelRender {
 					batch->m_state->view_state->m_znear = m_perspective_camera.m_camera->GetNearClipPlane();
 					batch->m_state->view_state->m_zfar = m_perspective_camera.m_camera->GetFarClipPlane();
 					batch->m_state->view_state->m_projection = m_perspective_camera.m_camera->GetProjectionMatrix();
-					batch->m_state->view_state->m_view = Math::CreateFreeCameraMatrix(m_perspective_camera.m_position, m_perspective_camera.m_direction, m_perspective_camera.m_camera->GetUpVector());
+					batch->m_state->view_state->m_view = Math::mat4::CreateViewMatrix(m_perspective_camera.m_position, m_perspective_camera.m_direction, m_perspective_camera.m_camera->GetUpVector());
 				}
 			}
 
@@ -444,13 +444,13 @@ namespace LowLevelRender {
 					if (light) {
 						auto point_light = Core::QueryInterfacePtr<Attributes::IPointLight>(light, Attributes::IID_IPointLight);
 						if (point_light.get()) {
-							auto p = frame->GetWorldMatrix() * Math::vec3(0, 0, 0);
+							auto p = frame->GetWorldMatrix() * Math::point3d(0, 0, 0);
 							m_point_lights.push_back(LightCache < Attributes::IPointLight > {point_light, p, { 0, 0, 0 }});
 							continue;
 						}
 						auto dir_light = Core::QueryInterfacePtr<Attributes::IDirectionalLight>(light, Attributes::IID_IDirectionalLight);
 						if (dir_light.get()) {
-							auto p = frame->GetWorldMatrix() * Math::vec3(0, 0, 0);
+							auto p = frame->GetWorldMatrix() * Math::point3d(0, 0, 0);
 							auto d = (frame->GetWorldMatrix() * Math::vec4{ dir_light->GetDirection(), 0 }).XYZ();
 							m_dir_light.push_back(LightCache < Attributes::IDirectionalLight > {dir_light, p, d});
 							continue;
@@ -465,7 +465,7 @@ namespace LowLevelRender {
 					if (camera) {
 						auto perspective_camera = Core::QueryInterfacePtr<Attributes::IPerspectiveCamera>(camera, Attributes::IID_IPerspectiveCamera);
 						if (perspective_camera.get()) {
-							auto p = frame->GetWorldMatrix() * Math::vec3(0, 0, 0);
+							auto p = frame->GetWorldMatrix() * Math::point3d(0, 0, 0);
 							auto d = (frame->GetWorldMatrix() * Math::vec4{ perspective_camera->GetDirection(), 0 }).XYZ();
 							m_perspective_camera.m_camera = perspective_camera;
 							m_perspective_camera.m_position = p;

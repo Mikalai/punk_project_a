@@ -3,13 +3,11 @@
 
 #include <config.h>
 #include <core/iobject.h>
+#include <math/vec2.h>
+#include <math/mat4.h>
 #include <memory>
 
 PUNK_ENGINE_BEGIN
-namespace Math {
-    class vec2;
-    class mat4;
-}
 
 namespace Graphics {
 

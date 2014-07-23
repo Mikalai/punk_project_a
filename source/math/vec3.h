@@ -11,6 +11,7 @@ namespace Math {
 	using ivec3 = Tuple < int, 3, tagVector >;
 	using ivec3v = std::vector < ivec3 >;
 	using vec3v = std::vector < vec3 >;
+	using point3dv = std::vector < point3d > ;
 }
 PUNK_ENGINE_END
 

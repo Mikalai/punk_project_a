@@ -16,8 +16,8 @@ namespace Graphics
 		LightParameters();
 
 		void SetPosition(float x, float y, float z);
-		void SetPosition(const Math::vec3& value);
-		const Math::vec4& GetPosition() const;
+		void SetPosition(const Math::point3d& value);
+		const Math::point4d& GetPosition() const;
 
 		void SetDirection(float x, float y, float z);
 		void SetDirection(const Math::vec3& value);
@@ -72,8 +72,8 @@ namespace Graphics
         void SetViewDirection(const Math::vec3& value);
         const Math::vec4& GetViewDirection() const;
 
-        void SetViewPosition(const Math::vec3& value);
-        const Math::vec4& GetViewPosition() const;
+        void SetViewPosition(const Math::point4d& value);
+        const Math::point4d& GetViewPosition() const;
 
         void SetEnable(bool value);
         bool IsEnabled() const;
@@ -88,10 +88,10 @@ namespace Graphics
 		float m_quadric_attenuation;
 		float m_spot_exponent;
         /// World light position
-		Math::vec4 m_position;
+		Math::point4d m_position;
         /// World light direction
 		Math::vec4 m_direction;
-        Math::vec4 m_view_position;
+        Math::point4d m_view_position;
         Math::vec4 m_view_direction;
 		Math::vec4 m_diffuse_color;
 		Math::vec4 m_ambient_color;

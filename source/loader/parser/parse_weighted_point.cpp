@@ -28,7 +28,7 @@ namespace IoModule
             break;
             case WORD_POSITION:
             {
-                Math::vec4 v;
+                Math::point3d v;
                 parser->Parse(WORD_VEC3F, buffer, v);
                 value->SetPoint(v);
             }

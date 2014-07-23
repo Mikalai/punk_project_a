@@ -24,14 +24,14 @@ namespace Math {
 
 	struct Intersection {
 		IntersectionHint Hint{ IntersectionHint::No };
-		Math::vec3 Point{ 0, 0, 0 };
+		Math::point3d Point{ 0, 0, 0 };
 	};
 
 	class IIntersectionResult : public Core::IObject {
 	public:
 		virtual bool HasIntersection() const = 0;
-		virtual void AddIntersectionPoint(const Math::vec3& value) = 0;
-		virtual void AddIntersectionPoint(const Math::vec3& value, IntersectionHint hint) = 0;
+		virtual void AddIntersectionPoint(const Math::point3d& value) = 0;
+		virtual void AddIntersectionPoint(const Math::point3d& value, IntersectionHint hint) = 0;
 		virtual std::uint32_t GetIntersectionsCount() const = 0;
 		virtual const Intersection& GetIntersection(std::uint32_t index) = 0;
 	};

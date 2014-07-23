@@ -63,16 +63,16 @@ namespace Math {
 
 
 		//	Bounding box should be in clip space
-		Relation ClassifyBoudingBox(const BoundingBox& bbox)
+		Relation ClassifyBoudingBox(const BoundingBox& bbox) const
 		{
 			if (bbox.GetR().Length() > 4 * bbox.GetS().Length() && bbox.GetR().Length() > 4 * bbox.GetT().Length())
 			{
-				vec3 q1 = bbox.GetCenter() - 0.5f * bbox.GetR();
-				vec3 q2 = bbox.GetCenter() + 0.5f * bbox.GetR();
+				auto q1 = bbox.GetCenter() - 0.5f * bbox.GetR();
+				auto q2 = bbox.GetCenter() + 0.5f * bbox.GetR();
 
-				for (auto i = 0u; i < clipper.GetSize(); ++i)
+				for (auto i = 0u; i < GetSize(); ++i)
 				{
-					Plane<T> plane = this->m_planes[i];
+					const auto plane = this->m_planes[i];
 					const auto n = plane.GetNormal();
 					T r_eff = 0.5f * (Abs(n.Dot(bbox.GetS())) + Abs(n.Dot(bbox.GetT())));
 
@@ -86,7 +86,7 @@ namespace Math {
 						continue;
 
 					T t = (r_eff + plane * q1) / (plane * (q1 - q2));
-					const vec3 q3 = q1 + t*(q2 - q1);
+					auto q3 = q1 + t*(q2 - q1);
 
 					if (r1 <= r_eff)
 						q1 = q3;
@@ -98,9 +98,9 @@ namespace Math {
 			}
 			else
 			{
-				for (std::size_t i = 0, max_i = clipper.GetSize(); i < max_i; ++i)
+				for (std::size_t i = 0, max_i = GetSize(); i < max_i; ++i)
 				{
-					auto plane = clipper[i];
+					auto plane = this->m_planes[i];
 					const vec3 n = plane.GetNormal();
 					T r_eff = 0.5f * (Abs(n.Dot(bbox.GetR())) + Abs(n.Dot(bbox.GetS())) + Abs(n.Dot(bbox.GetT())));
 
@@ -112,7 +112,7 @@ namespace Math {
 			}
 		}
 
-		Relation ClassifyBoudingSphere(const TSphere<T>& sphere)
+		Relation ClassifyBoudingSphere(const TSphere<T>& sphere) const
 		{
 			const auto q = sphere.GetCenter();
 			for (auto i = 0u; i < this->GetSize(); ++i)

@@ -48,7 +48,7 @@ namespace IoModule
             case WORD_VERTEX_POSITION:
             {
 				System::GetDefaultLogger()->Debug("Parse vertex position");
-                Math::vec3v v;
+                Math::point3dv v;
                 parser->Parse(WORD_VEC3FV, buffer, v);
 				auto position_stream = Core::QueryInterfacePtr<Attributes::IVertexPositionStream>(geometry, Attributes::IID_IVertexPositionStream);
 				if (position_stream)
@@ -78,7 +78,7 @@ namespace IoModule
             case WORD_TEXTURE:
             {
 				System::GetDefaultLogger()->Debug("Parse textures");
-                std::vector<std::vector<std::array<Math::vec2, 3>>> t;
+                std::vector<std::vector<std::array<Math::point2d, 3>>> t;
                 parser->Parse(WORD_TEXTURE_COORD, buffer, &t);
 				auto face_texture_stream = Core::QueryInterfacePtr<Attributes::IFaceTextureStream>(geometry, Attributes::IID_IFaceTextureStream);
 				if (face_texture_stream)

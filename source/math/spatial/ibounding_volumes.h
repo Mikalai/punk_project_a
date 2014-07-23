@@ -52,8 +52,8 @@ namespace Math {
 	DECLARE_PUNK_GUID(IID_IBoundingVolume3D, "FE54F3F5-C00F-405D-8841-545C67A4962F");
 	class IBoundingVolume3D : public IBoundingVolume {
 	public:
-		virtual bool IsPointInside(const Math::vec3& value) = 0;
-		virtual bool IsPointInside(const Math::vec3& value, Math::IntersectionHint& hint) = 0;
+		virtual bool IsPointInside(const Math::point3d& value) = 0;
+		virtual bool IsPointInside(const Math::point3d& value, Math::IntersectionHint& hint) = 0;
 		virtual Core::Pointer<IIntersectionResult> CrossLine(const Math::Line3D& line) = 0;
 		virtual bool CrossFrustum(const Core::Pointer<Math::IFrustum> frust, const Math::mat4& to_frustum_space) = 0;
 	};

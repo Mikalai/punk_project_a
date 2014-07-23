@@ -25,12 +25,12 @@ namespace Graphics
 		m_position.Set(x, y, z, 1);
 	}
 
-	void LightParameters::SetPosition(const Math::vec3& value)
+	void LightParameters::SetPosition(const Math::point3d& value)
 	{
 		m_position.Set(value[0], value[1], value[2], 1);
 	}
 
-	const Math::vec4& LightParameters::GetPosition() const
+	const Math::point4d& LightParameters::GetPosition() const
 	{
 		return m_position;
 	}
@@ -144,19 +144,19 @@ namespace Graphics
     {
         if (m_light_type == LightType::Spot)
         {
-            Math::mat4 res = Math::CreatePerspectiveProjection(m_spot_exponent, 1, 1, 0.1, 100.0);
+            Math::mat4 res = Math::mat4::CreatePerspectiveProjection(m_spot_exponent, 1, 1, 0.1, 100.0);
             return res;
         }
         else
         {
-            Math::mat4 res = Math::CreateOrthographicProjection2(-16, 16, -16, 16, 0.1, 100.0);
+			Math::mat4 res = Math::mat4::CreateOrthographicProjection2(-16, 16, -16, 16, 0.1, 100.0);
             return res;
         }
     }
 
     const Math::mat4 LightParameters::GetViewMatrix() const
     {
-        Math::mat4 res = Math::CreateTargetCameraMatrix(m_position.XYZ(), (m_position + m_direction).XYZ(), Math::vec3(0, 0, 1));
+		Math::mat4 res = Math::mat4::CreateViewMatrix(m_position.XYZ(), (m_position + m_direction).XYZ(), Math::vec3(0, 0, 1));
         return res;
     }
 
@@ -250,12 +250,12 @@ namespace Graphics
         return m_view_direction;
     }
 
-    void LightParameters::SetViewPosition(const Math::vec3& value)
+    void LightParameters::SetViewPosition(const Math::point4d& value)
     {
         m_view_position = value;
     }
 
-    const Math::vec4& LightParameters::GetViewPosition() const
+    const Math::point4d& LightParameters::GetViewPosition() const
     {
         return m_view_position;
     }

@@ -9,6 +9,8 @@
 #include "constants.h"
 #include "tuple.h"
 #include "calculate_average.h"
+#include "gramm_shmidt.h"
+#include "linear_equation_solver.h"
 
 PUNK_ENGINE_BEGIN
 namespace Math {
@@ -299,6 +301,17 @@ namespace Math {
 				this->at(i, i) = T{ 1 };
 			}
 		}
+
+		void operator *= (const MatrixSquareOperationsBase<T, Dim>& value) {
+			auto _this = *this;
+			for (auto row = 0; row < Dim; ++row) {
+				for (auto col = 0; col < Dim; ++col) {
+					for (auto j = 0; j < Dim; ++j) {
+						this->at(row, col) += _this.at(row, j) * value.at(j, col);
+					}
+				}
+			}
+		}
 	};
 
 	template<typename T, int Dim>
@@ -347,7 +360,7 @@ namespace Math {
 			return m;
 		}
 
-		static const MatrixData<T, 2, 2> CreateMirrorX() {
+		static const Matrix<T, 2, 2> CreateMirrorX() {
 			MatrixComponentAccessor<T, 2, 2> m;
 			m[0] = 1;
 			m[1] = 0;
@@ -356,7 +369,7 @@ namespace Math {
 			return m;
 		}
 
-		static const MatrixData<T, 2, 2> CreateMirrorY() {
+		static const Matrix<T, 2, 2> CreateMirrorY() {
 			MatrixComponentAccessor<T, 2, 2> m;
 			m[0] = -1;
 			m[1] = 0;
@@ -365,7 +378,7 @@ namespace Math {
 			return m;
 		}
 
-		static const MatrixData<T, 2, 2> CreateMirrorXY() {
+		static const Matrix<T, 2, 2> CreateMirrorXY() {
 			MatrixComponentAccessor<T, 2, 2> m;
 			m[0] = -1;
 			m[1] = 0;
@@ -473,7 +486,7 @@ namespace Math {
 			return{ this->m_v[6], this->m_v[7] };
 		}
 
-		const MatrixData<T, 2, 2> RotationPart() const {
+		const Matrix<T, 2, 2> RotationPart() const {
 			MatrixData<T, 2, 2> tm;
 			tm[0] = this->m_v[0];
 			tm[1] = this->m_v[1];
@@ -485,8 +498,8 @@ namespace Math {
 		//	0 3 6
 		//	1 4 7
 		//	2 5 8
-		const MatrixData<T, 3, 3> Transposed() const {
-			MatrixData<T, 3, 3> res;
+		const Matrix<T, 3, 3> Transposed() const {
+			Matrix<T, 3, 3> res;
 			res.m_v[1] = this->m_v[3];
 			res.m_v[3] = this->m_v[1];
 			res.m_v[6] = this->m_v[2];
@@ -512,6 +525,58 @@ namespace Math {
 			tm[8] = this->m_v[8];
 
 			this->m_v = tm;			
+		}
+
+		const Tuple<T, 4, tagQuaternion> ToQuaternion() const {
+			T t = this->m_v[0] + this->m_v[4] + this->m_v[8] + T(1);
+			if (t > 0)
+			{
+				T s = T(0.5) / Sqrt(t);
+				T w = T(0.25) / s;
+				T x = (this->m_v[5] - this->m_v[7]) * s;
+				T y = (this->m_v[6] - this->m_v[2]) * s;
+				T z = (this->m_v[1] - this->m_v[3]) * s;
+				return{ w, x, y, z };
+			}
+			int Max = 0;
+			for (int i = 0; i < 3; i++)
+			{
+				if (this->m_v[Max * 3 + Max] < this->m_v[i * 3 + i])
+					Max = i;
+			}
+
+			switch (Max)
+			{
+			case 0:
+			{
+				T s = sqrt(T(1.0) + this->m_v[0] - this->m_v[4] - this->m_v[8]) * T(2.0);
+				T x = T(0.5) / s;
+				T y = (this->m_v[1] + this->m_v[3]) / s;
+				T z = (this->m_v[2] + this->m_v[6]) / s;
+				T w = (this->m_v[5] + this->m_v[7]) / s;
+				return quat(w, x, y, z);
+			}
+			case 1:
+			{
+				T s = sqrt(T(1.0) + this->m_v[4] - this->m_v[0] - this->m_v[8]) * T(2.0);
+				T x = (this->m_v[1] + this->m_v[3]) / s;
+				T y = T(0.5) / s;
+				T z = (this->m_v[5] + this->m_v[7]) / s;
+				T w = (this->m_v[2] + this->m_v[6]) / s;
+				return quat(w, x, y, z);
+			}
+			case 2:
+			{
+				T s = sqrt(T(1.0) + this->m_v[8] - this->m_v[0] - this->m_v[4]) * T(2.0);
+				T x = (this->m_v[2] + this->m_v[6]) / s;
+				T y = (this->m_v[5] + this->m_v[7]) / s;
+				T z = T(0.5) / s;
+				T w = (this->m_v[1] + this->m_v[3]) / s;
+				return quat(w, x, y, z);
+			}
+			default:
+				throw Error::MatrixToQuaternionConversionFailed(0);
+			}
 		}
 
 		static const Matrix<T, 3, 3> CreateCovarianceMatrix(const std::vector<Tuple<T, 3, tagPoint>>& points)
@@ -588,7 +653,7 @@ namespace Math {
 		MatrixSquareOperations(const MatrixData<T, 4, 4>& value)
 			: MatrixSquareOperationsBase<T, 4>(value) {}		
 
-		const MatrixData<T, 4, 4> Inversed() const {
+		const Matrix<T, 4, 4> Inversed() const {
 #define SWAP_ROWS(a, b) { T * _tmp = a; (a)=(b); (b)=_tmp; }
 #define MAT(m,r,c) m [r*4+c]
 
@@ -601,37 +666,37 @@ namespace Math {
 			r2 = wtmp[2];
 			r3 = wtmp[3];
 
-			r0[0] = MAT(m, 0, 0);
-			r0[1] = MAT(m, 0, 1);
-			r0[2] = MAT(m, 0, 2);
-			r0[3] = MAT(m, 0, 3);
+			r0[0] = MAT(this->m_v, 0, 0);
+			r0[1] = MAT(this->m_v, 0, 1);
+			r0[2] = MAT(this->m_v, 0, 2);
+			r0[3] = MAT(this->m_v, 0, 3);
 			r0[4] = 1;
 			r0[5] =
 				r0[6] =
 				r0[7] = 0;
 
-			r1[0] = MAT(m, 1, 0);
-			r1[1] = MAT(m, 1, 1);
-			r1[2] = MAT(m, 1, 2);
-			r1[3] = MAT(m, 1, 3);
+			r1[0] = MAT(this->m_v, 1, 0);
+			r1[1] = MAT(this->m_v, 1, 1);
+			r1[2] = MAT(this->m_v, 1, 2);
+			r1[3] = MAT(this->m_v, 1, 3);
 			r1[5] = 1;
 			r1[4] =
 				r1[6] =
 				r1[7] = 0,
 
-				r2[0] = MAT(m, 2, 0);
-			r2[1] = MAT(m, 2, 1);
-			r2[2] = MAT(m, 2, 2);
-			r2[3] = MAT(m, 2, 3);
+				r2[0] = MAT(this->m_v, 2, 0);
+			r2[1] = MAT(this->m_v, 2, 1);
+			r2[2] = MAT(this->m_v, 2, 2);
+			r2[3] = MAT(this->m_v, 2, 3);
 			r2[6] = 1;
 			r2[4] =
 				r2[5] =
 				r2[7] = 0;
 
-			r3[0] = MAT(m, 3, 0);
-			r3[1] = MAT(m, 3, 1);
-			r3[2] = MAT(m, 3, 2);
-			r3[3] = MAT(m, 3, 3);
+			r3[0] = MAT(this->m_v, 3, 0);
+			r3[1] = MAT(this->m_v, 3, 1);
+			r3[2] = MAT(this->m_v, 3, 2);
+			r3[3] = MAT(this->m_v, 3, 3);
 			r3[7] = 1;
 			r3[4] =
 				r3[5] =
@@ -806,16 +871,70 @@ namespace Math {
 			return{ this->m_v[12], this->m_v[13], this->m_v[14] };
 		}
 
-		const MatrixData<T, 3, 3> RotationPart() const {
-			MatrixSquareOperations<T, 3, 3> res;
-			res.SetColumn(0, { m[0], m[1], m[2] });
-			res.SetColumn(1, { m[4], m[5], m[6] });
-			res.SetColumn(2, { m[8], m[9], m[10] });
+		const Matrix<T, 3, 3> RotationPart() const {
+			MatrixSquareOperations<T, 3> res;
+			res.SetColumn(0, { this->m_v[0], this->m_v[1], this->m_v[2] });
+			res.SetColumn(1, { this->m_v[4], this->m_v[5], this->m_v[6] });
+			res.SetColumn(2, { this->m_v[8], this->m_v[9], this->m_v[10] });
 			return res;
 		}
 
+		const Tuple<T, 4, tagQuaternion> ToQuaternion() const
+		{
+			auto m = *this;
+			T t = m[0] + m[5] + m[10] + T(1);
+			if (t > 0)
+			{
+				T s = T(0.5) / Sqrt(t);
+				T w = T(0.25) / s;
+				T x = (m[6] - m[9]) * s;
+				T y = (m[8] - m[2]) * s;
+				T z = (m[1] - m[4]) * s;
+				return quat(w, x, y, z);
+			}
+			int Max = 0;
+			for (int i = 0; i < 3; i++)
+			{
+				if (m[Max * 4 + Max] < m[i * 4 + i])
+					Max = i;
+			}
 
-		const MatrixData<T, 4, 4> GetNormalMatrix() {
+			switch (Max)
+			{
+			case 0:
+			{
+				T s = Sqrt(T(1.0) + m[0] - m[5] - m[10]) * T(2.0);
+				T x = T(0.5) / s;
+				T y = (m[1] + m[4]) / s;
+				T z = (m[2] + m[8]) / s;
+				T w = (m[6] + m[9]) / s;
+				return quat(w, x, y, z);
+			}
+			case 1:
+			{
+				T s = Sqrt(T(1.0) + m[5] - m[0] - m[10]) * T(2.0);
+				T x = (m[1] + m[4]) / s;
+				T y = T(0.5) / s;
+				T z = (m[6] + m[9]) / s;
+				T w = (m[2] + m[8]) / s;
+				return quat(w, x, y, z);
+			}
+			case 2:
+			{
+				T s = Sqrt(T(1.0) + m[10] - m[0] - m[5]) * T(2.0);
+				T x = (m[2] + m[8]) / s;
+				T y = (m[6] + m[9]) / s;
+				T z = T(0.5) / s;
+				T w = (m[1] + m[4]) / s;
+				return quat(w, x, y, z);
+			}
+			default:
+				throw Error::MatrixToQuaternionConversionFailed(0);
+			}
+		}
+
+
+		const Matrix<T, 4, 4> GetNormalMatrix() {
 			MatrixData<T, 4, 4> res;
 			auto& m = res.m_v;
 			m[0 * 3 + 0] = this->m_v[0 * 4 + 0];
@@ -846,24 +965,24 @@ namespace Math {
 				MatrixSquareOperations<T, 4> M = *this;
 				M[12] = M[13] = M[14] = 0;
 				M[15] = 1;
-				Tuple<T, 3, tagVector> b{ { matrix[12], matrix[13], matrix[14], matrix[15] } };
-				perspective = LinearEquationSolver::Solve(M, b);
+				Tuple<T, 3, tagVector> b{ { (*this)[12], (*this)[13], (*this)[14], (*this)[15] } };
+				perspective = LinearEquationSolver<T>::Solve(M, b);
 			}
 
 			//	extract position
-			position.Set(matrix[3], matrix[7], matrix[11]);
+			translation.Set((*this)[3], (*this)[7], (*this)[11]);
 
-			auto row0 = matrix.GetRow(0).XYZ();
-			auto row1 = matrix.GetRow(1).XYZ();
-			auto row2 = matrix.GetRow(2).XYZ();
+			auto row0 = (*this).GetRow(0).XYZ();
+			auto row1 = (*this).GetRow(1).XYZ();
+			auto row2 = (*this).GetRow(2).XYZ();
 
-			GrammShmidtNormalization::Orthogonalize(row0, row1, row2);
+			GrammShmidtNormalization<T>::Orthogonalize(row0, row1, row2);
 
 			scale[0] = row0.Length();
 			scale[1] = row1.Length();
 			scale[2] = row2.Length();
 
-			MatrixSquareOperations<T, 3, 3> rot_matrix;
+			Matrix<T, 3, 3> rot_matrix;
 			rot_matrix.SetRow(0, row0);
 			rot_matrix.SetRow(1, row1);
 			rot_matrix.SetRow(2, row2);
@@ -956,7 +1075,7 @@ namespace Math {
 			return projection;
 		}
 
-		static const MatrixSquareOperations<T, 4> CreateFromQuaternion(const Tuple<T, 4, tagQuaternion>& q)
+		static const Matrix<T, 4, 4> CreateFromQuaternion(const Tuple<T, 4, tagQuaternion>& q)
 		{
 			MatrixSquareOperations<T, 4> m;
 			T xx = q.X()*q.X();
@@ -1007,11 +1126,11 @@ namespace Math {
 			return result;
 		}
 
-		const MatrixSquareOperations<T, 4> CreateScaling(const Tuple<T, 3, tagVector>& value) {
+		static const Matrix<T, 4, 4> CreateScaling(const Tuple<T, 3, tagVector>& value) {
 			return CreateScaling(value.X(), value.Y(), value.Z());
 		}
 
-		const MatrixSquareOperations<T, 4> CreateScaling(T sx, T sy, T sz) {
+		static const Matrix<T, 4, 4> CreateScaling(T sx, T sy, T sz) {
 			auto m = CreateIdentity();
 			m[0] = sx;
 			m[5] = sy;
@@ -1113,20 +1232,20 @@ namespace Math {
 			return res;
 		}
 
-		static const MatrixSquareOperations<T, 4> CreateTranslate(T x, T y, T z) {
-			MatrixSquareOperations<T, 4> m;
+		static const Matrix<T, 4, 4> CreateTranslate(T x, T y, T z) {
+			Matrix<T, 4, 4> m;
 			m[12] = x;
 			m[13] = y;
 			m[14] = z;
 			return m;
 		}
 
-		static const MatrixSquareOperations<T, 4> CreateTranslate(const Tuple<T, 3, tagVector>& v) {
+		static const Matrix<T, 4, 4> CreateTranslate(const Tuple<T, 3, tagVector>& v) {
 			return CreateTranslate(v[0], v[1], v[2]);
 		}
 
 
-		static const MatrixSquareOperations<T, 4> CreateViewMatrix(
+		static const Matrix<T, 4, 4> CreateViewMatrix(
 			const Tuple<T, 3, tagPoint>& _eye,
 			const Tuple<T, 3, tagPoint>& _target,
 			const Tuple<T, 3, tagVector>& _up) {
@@ -1173,10 +1292,10 @@ namespace Math {
 			return CreateViewMatrix(eye, target, up);
 		}
 
-		const MatrixData<T, 4, 4> CreatePositionRotationScaleMatrix(
-			const Tuple<T, 4, tagVector>& position,
+		static const Matrix<T, 4, 4> CreatePositionRotationScaleMatrix(
+			const Tuple<T, 3, tagVector>& position,
 			const Tuple<T, 4, tagQuaternion>& rotation,
-			const Tuple<T, 4, tagVector>& scale) {
+			const Tuple<T, 3, tagVector>& scale) {
 
 			auto translate = CreateTranslate(position);
 			auto rotate = CreateFromQuaternion(rotation);
@@ -1210,15 +1329,15 @@ namespace Math {
 	};
 
 
-	template<class T, int Rows, int Cols>
-	const Matrix<T, Rows, Rows> operator * (
-		const Matrix<T, Rows, Cols>& a,
-		const Matrix<T, Cols, Rows>& b) {
+	template<class T, int Rows1, int Cols, int Cols2 >
+	const Matrix<T, Rows1, Cols2> operator * (
+		const Matrix<T, Rows1, Cols>& a,
+		const Matrix<T, Cols, Cols2>& b) {
 
-		MatrixOperations<T, Rows, Rows> res = MatrixOperations<T, Rows, Rows>::Null();
+		MatrixOperations<T, Rows1, Cols2> res = MatrixOperations<T, Rows1, Cols2>::Null();
 
-		for (auto row = 0; row < Rows; ++row) {
-			for (auto col = 0; col < Rows; ++col) {
+		for (auto row = 0; row < Rows1; ++row) {
+			for (auto col = 0; col < Cols2; ++col) {
 				for (auto j = 0; j < Cols; ++j) {
 					res.at(row, col) += a.at(row, j) * b.at(j, col);
 				}
@@ -1243,7 +1362,7 @@ namespace Math {
 
 	template<class T>
 	const Tuple < T, 3, tagPoint> operator * (
-		const MatrixOperations<T, 4, 4>& a,
+		const Matrix<T, 4, 4>& a,
 		const Tuple<T, 3, tagPoint>& value) {
 
 		Tuple<T, 4, tagPoint> v{ value.X(), value.Y(), value.Z(), 1 };
@@ -1254,6 +1373,23 @@ namespace Math {
 			}
 		}
 		Tuple<T, 3, tagPoint> p = res.XYZ();
+		p /= res.W();
+		return p;
+	}
+
+	template<class T>
+	const Tuple < T, 3, tagVector> operator * (
+		const MatrixOperations<T, 4, 4>& a,
+		const Tuple<T, 3, tagVector>& value) {
+
+		Tuple<T, 4, tagVector> v{ value.X(), value.Y(), value.Z(), 0 };
+		Tuple<T, 4, tagVector> res;
+		for (auto row = 0; row < 4; ++row) {
+			for (auto col = 0; col < 4; ++col) {
+				res.at(row) += a.at(row, col) * v.at(col);
+			}
+		}
+		Tuple<T, 3, tagVector> p = res.XYZ();
 		p /= res.W();
 		return p;
 	}

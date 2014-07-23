@@ -4,14 +4,11 @@
 #include <config.h>
 #include <graphics/state/module.h>
 #include <core/poolable.h>
+#include <math/vec4.h>
+#include <math/mat4.h>
 #include "iframe.h"
 
 PUNK_ENGINE_BEGIN
-namespace Math {
-	class mat4;
-	class vec4;
-}
-
 namespace Graphics
 {
     class IVideoDriver;
@@ -145,7 +142,7 @@ namespace Graphics
         void DrawCircleXY(float x, float y, float z, float r) override;
         //void DrawCircleXY(const Math::vec3& c, float r) override;
         void DrawQuad(float x, float y, float width, float height) override;
-        void DrawQuad(const Math::Rect& rect) override;
+        void DrawQuad(const Math::Rectangle& rect) override;
         void DrawText2D(float x, float y, const Core::String& value) override;
 //        void DrawText2D(float x, float y, float width, float height, const Core::String& value) override;
 //        void DrawText2D(const Math::vec2& pos, const Core::String& value) override;

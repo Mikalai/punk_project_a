@@ -236,7 +236,7 @@ namespace Graphics
     void Frame::SetViewMatrix(const Math::mat4& value)
     {
         Top()->view_state->m_view = value;
-        Top()->view_state->m_camera_position = value.Inversed() * Math::vec3(0,0,0);
+        Top()->view_state->m_camera_position = value.Inversed() * Math::point3d(0,0,0);
     }
 
     void Frame::SetProjectionMatrix(const Math::mat4& value)
@@ -645,9 +645,9 @@ namespace Graphics
         PushAllState();
         EnableLighting(false);
         EnableTexturing(false);
-        SetProjectionMatrix(Math::CreateIdentity());
-        SetViewMatrix(Math::CreateIdentity());
-        SetWorldMatrix(Math::CreateIdentity());
+        SetProjectionMatrix(Math::mat4::CreateIdentity());
+        SetViewMatrix(Math::mat4::CreateIdentity());
+        SetWorldMatrix(Math::mat4::CreateIdentity());
 
         float width = GetVideoDriver()->GetCanvas()->GetWindow()->GetWidth();
         float height = GetVideoDriver()->GetCanvas()->GetWindow()->GetHeight();
@@ -677,9 +677,9 @@ namespace Graphics
     void Frame::DrawPoint(float x, float y)
     {
         PushAllState();
-        SetProjectionMatrix(Math::CreateIdentity());
-        SetViewMatrix(Math::CreateIdentity());
-        SetWorldMatrix(Math::CreateIdentity());
+        SetProjectionMatrix(Math::mat4::CreateIdentity());
+		SetViewMatrix(Math::mat4::CreateIdentity());
+		SetWorldMatrix(Math::mat4::CreateIdentity());
 
         float width = GetVideoDriver()->GetCanvas()->GetWindow()->GetWidth();
         float height = GetVideoDriver()->GetCanvas()->GetWindow()->GetHeight();
@@ -728,8 +728,8 @@ namespace Graphics
         PushAllState();
         EnableLighting(false);
         System::IWindow* window = GetVideoDriver()->GetCanvas()->GetWindow();
-		SetViewMatrix(Math::CreateIdentity());
-        SetProjectionMatrix(Math::CreateOrthographicProjection2(0, window->GetWidth(),
+		SetViewMatrix(Math::mat4::CreateIdentity());
+		SetProjectionMatrix(Math::mat4::CreateOrthographicProjection2(0, window->GetWidth(),
                                                                       0, window->GetHeight(),
                                                                      -1, 1));
         m_builder->Begin(PrimitiveType::QUADS);
@@ -747,7 +747,7 @@ namespace Graphics
         PopAllState();
     }
 
-    void Frame::DrawQuad(const Math::Rect& rect)
+    void Frame::DrawQuad(const Math::Rectangle& rect)
     {
         DrawQuad(rect.GetX(), rect.GetY(), rect.GetWidth(), rect.GetHeight());
     }
@@ -799,11 +799,11 @@ namespace Graphics
         EnableLighting(false);
         EnableFontRendering(true);
         SetBlendFunc(BlendFunction::SourceAlpha, BlendFunction::OneMinusSrcAlpha);
-        SetWorldMatrix(Math::CreateTranslate(x, y, 0));
+		SetWorldMatrix(Math::mat4::CreateTranslate(x, y, 0));
         int width = wnd->GetWidth();
         int height = wnd->GetHeight();
-        SetProjectionMatrix(Math::CreateOrthographicProjection2(0, width, 0, height, -1, 1));
-        SetViewMatrix(Math::CreateIdentity());
+		SetProjectionMatrix(Math::mat4::CreateOrthographicProjection2(0, width, 0, height, -1, 1));
+		SetViewMatrix(Math::mat4::CreateIdentity());
 
         m_builder->Begin(PrimitiveType::QUADS);
         m_builder->TexCoord2f(0, 0);

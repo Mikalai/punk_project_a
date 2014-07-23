@@ -1,4 +1,6 @@
 #include <memory.h>
+#include <math/vec4.h>
+#include <math/mat4.h>
 #include <system/errors/module.h>
 #include <system/factory/module.h>
 #include "ianimation.h"

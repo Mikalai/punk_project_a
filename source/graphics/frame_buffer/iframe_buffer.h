@@ -5,10 +5,10 @@
 #include <cstdint>
 #include <memory>
 #include <images/formats.h>
+#include <math/vec4.h>
 #include "frame_buffer_target.h"
 
 PUNK_ENGINE_BEGIN
-namespace Math { class vec4; }
 namespace Graphics {
     class IVideoDriver;
     class ITexture2D;
