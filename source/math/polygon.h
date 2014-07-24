@@ -13,7 +13,7 @@ namespace Math {
 
     template<class T, int Dim>
     struct PolygonData {
-        std::vector<vec3> m_points;
+        std::vector<Tuple<T, 3, tagPoint>> m_points;
     };
 
     template<class T>

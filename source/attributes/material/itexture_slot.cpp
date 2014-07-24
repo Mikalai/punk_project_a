@@ -5,7 +5,7 @@
 #include <system/environment.h>
 #include <core/iserializable.h>
 #include <config.h>
-#include <math/vec3.h>
+#include <math/tuple.h>
 #include <string/string.h>
 #include "itexture_slot.h"
 #include "inormal_texture_slot.h"

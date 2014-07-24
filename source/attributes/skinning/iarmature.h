@@ -3,9 +3,7 @@
 
 #include <config.h>
 #include <core/iobject.h>
-#include <math/vec3.h>
-#include <math/quat.h>
-#include <math/vec4.h>
+#include <math/forward.h>
 
 PUNK_ENGINE_BEGIN
 namespace Core { class String; }

@@ -638,7 +638,7 @@ namespace Math {
 			for (auto& v : this->m_v) {
 				v = T{ 0 };
 			}
-		}		
+		}
 
 		static TupleData<T, D, tag> Null() {
 			TupleData<T, D, tag> res;
@@ -724,10 +724,10 @@ namespace Math {
 		}
 
 		const Core::String ToString() const {
-			Core::StringList list;			
+			Core::StringList list;
 			for (auto i = 0; i < D; ++i){
 				list.Push(Core::String::Convert(this->m_v[i]));
-			}			
+			}
 			return L"(" + list.ToString("; ") + L")";
 		}
 
@@ -846,11 +846,11 @@ namespace Math {
 						this->m_v[0] * vec.m_v[1] - this->m_v[1] * vec.m_v[0]
 					} };
 			return v;
-		}		
+		}
 
 		static const Tuple<T, 3, tagVector> CalculateNormal(
 			const Tuple<T, 3, tagPoint>& p1,
-			const Tuple<T, 3, tagPoint>& p2, 
+			const Tuple<T, 3, tagPoint>& p2,
 			const Tuple<T, 3, tagPoint>& p3) {
 
 			return ((p2 - p1).Cross(p3 - p1)).Normalized();
@@ -860,7 +860,7 @@ namespace Math {
 
 	template<class T>
 	struct TupleOperations<T, 4, tagVector> : public TupleOperationsBase < T, 4, tagVector > {
-		
+
 		using TupleOperationsBase<T, 4, tagVector>::TupleOperationsBase;
 
 		TupleOperations() {}

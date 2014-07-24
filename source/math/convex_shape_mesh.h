@@ -82,7 +82,7 @@ namespace Math {
             return (std::uint32_t)m_normals.size();
         }
 
-		Relation ClassifyPoint(const vec3& point)
+		Relation ClassifyPoint(const Tuple<T, 3, tagPoint>& point)
 		{
 			Relation relation = ClassifyPoint(point, this->GetBoundingSphere());
 			if (relation == Relation::OUTSIDE)
@@ -104,7 +104,7 @@ namespace Math {
 		}
 
 		Relation CrossLine(
-			const Line3D &line, 
+			const Line<T, 3> &line, 
 			std::vector<Tuple<T, 3, tagPoint>>& res_points, 
 			std::vector<Tuple<T, 3, tagIndex>>& res_faces)
 		{

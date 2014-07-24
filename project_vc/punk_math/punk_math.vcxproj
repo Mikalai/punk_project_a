@@ -173,7 +173,9 @@
     <ClCompile Include="..\..\source\math\convex_shape_mesh.cpp" />
     <ClCompile Include="..\..\source\math\frustum_core.cpp" />
     <ClCompile Include="..\..\source\math\icurve.cpp" />
-    <ClCompile Include="..\..\source\math\ellipsoid.cpp" />
+    <ClInclude Include="..\..\source\math\forward.h">
+      <FileType>CppCode</FileType>
+    </ClInclude>
     <ClCompile Include="..\..\source\math\ifrustum.cpp" />
     <ClCompile Include="..\..\source\math\frustum_plane.cpp" />
     <ClCompile Include="..\..\source\math\graham.cpp" />

@@ -6,14 +6,9 @@
 #include <system/logger/module.h>
 #include <string/module.h>
 #include <core/iserializable.h>
-#include <math/quat.h>
-#include <math/mat4.h>
-#include <math/vec3.h>
-#include <math/helper.h>
-#include <math/matrix_helper.h>
+#include <math/matrix.h>
 #include <attributes/animation/module.h>
 #include <config.h>
-#include <math/mat4.h>
 #include <string/string.h>
 #include "types.h"
 #include "ibone.h"

@@ -3,11 +3,7 @@
 
 #include <config.h>
 #include <core/iobject.h>
-#include <math/mat4.h>
-#include <math/line3d.h>
 #include <math/ifrustum.h>
-#include <math/constants.h>
-#include <math/rect.h>
 
 PUNK_ENGINE_BEGIN
 namespace System {

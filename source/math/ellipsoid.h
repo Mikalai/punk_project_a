@@ -58,8 +58,8 @@ namespace Math {
 			T n = this->GetRadiusX() / this->GetRadiusZ();
 			T r = this->GetRadiusX();
 
-			const vec3 s = line.GetOrigin() - this->GetCenter();
-			const vec3 v = line.GetDestination() - line.GetOrigin();
+			const Tuple<T, 3, tagPoint> s = line.GetOrigin() - this->GetCenter();
+			const Tuple<T, 3, tagPoint> v = line.GetDestination() - line.GetOrigin();
 
 			T a = v[0] * v[0] + m*m*v[1] * v[1] + n*n*v[2] * v[2];
 			T b = 2 * (s[0] * v[0] + m*m*s[1] * v[1] + n*n*s[2] * v[2]);
@@ -84,7 +84,7 @@ namespace Math {
 			return Relation::NOT_INTERSECT;
 		}
 
-		Relation CrossLine(const Line<T, 3>& line, vec3& p1, vec3& p2)
+		Relation CrossLine(const Line<T, 3>& line, Tuple<T, 3, tagPoint>& p1, Tuple<T, 3, tagPoint>& p2)
 		{
 			T t1, t2;
 			Relation res = this->CrossLineEllipsoid(line, t1, t2);

@@ -14,7 +14,7 @@
 
 PUNK_ENGINE_BEGIN
 namespace Math {
-	using mat3 = Matrix < float, 3, 3 > ;
+	
 }
 PUNK_ENGINE_END
 

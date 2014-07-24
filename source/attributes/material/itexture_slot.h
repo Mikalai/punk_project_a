@@ -2,7 +2,7 @@
 #define _H_PUNK_VIRTUAL_ITEXTURE_SLOT
 
 #include <config.h>
-#include <math/vec3.h>
+#include <math/forward.h>
 #include <string/string.h>
 #include <graphics/texture/module.h>
 #include <core/iobject.h>

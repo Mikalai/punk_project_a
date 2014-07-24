@@ -1,6 +1,5 @@
-#include "math/vec2.h"
-#include "math/vec3.h"
-#include "math/vec4.h"
+#include <math/forward.h>
+#include <math/tuple.h>
 #include "string/string.h"
 #include "vec4_test.h"
 

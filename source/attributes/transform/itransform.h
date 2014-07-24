@@ -1,9 +1,7 @@
 #ifndef _H_PUNK_VIRTUAL_ITRANSFORM
 #define _H_PUNK_VIRTUAL_ITRANSFORM
 
-#include <math/mat4.h>
-#include <math/vec3.h>
-#include <math/quat.h>
+#include <math/forward.h>
 #include <core/iobject.h>
 
 PUNK_ENGINE_BEGIN

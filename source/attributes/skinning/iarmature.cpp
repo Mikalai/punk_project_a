@@ -9,11 +9,8 @@
 #include <system/factory/module.h>
 #include <string/module.h>
 #include <core/iserializable.h>
-#include <math/vec4.h>
-#include <math/vec3.h>
-#include <math/quat.h>
-#include <math/mat4.h>
-#include <math/matrix_helper.h>
+#include <math/tuple.h>
+#include <math/matrix.h>
 #include <string/module.h>
 
 #include <attributes/animation/module.h>

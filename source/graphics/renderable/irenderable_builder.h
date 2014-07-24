@@ -4,9 +4,7 @@
 #include <memory>
 #include <config.h>
 #include <core/iobject.h>
-#include <math/vec3.h>
-#include <math/vec2.h>
-#include <math/bounding_sphere.h>
+#include <math/forward.h>
 #include <graphics/primitives/iindex_array.h>
 #include <graphics/primitives/ivertex_array.h>
 

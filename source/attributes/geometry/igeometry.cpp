@@ -4,7 +4,8 @@
 #include <core/iserializable.h>
 #include <string/buffer.h>
 #include <math/bounding_box.h>
-#include <math/module.h>
+#include <math/tuple.h>
+#include <math/tbn_space.h>
 #include <graphics/module.h>
 #include <attributes/selection/iselectable.h>
 #include "icomponent_bone_weight.h"

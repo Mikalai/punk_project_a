@@ -1,7 +1,7 @@
 #ifndef _H_PUNK_RECOUNT_H
 #define _H_PUNK_RECOUNT_H
 
-#include "vec3.h"
+#include "forward.h"
 #include "spherical.h"
 
 PUNK_ENGINE_BEGIN

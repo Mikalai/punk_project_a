@@ -1,42 +1,100 @@
 #ifndef FOG_H
 #define FOG_H
 
-#include <math/vec4.h>
+#include <math/forward.h>
+#include <math/tuple.h>
 #include "fog_mode.h"
 
 PUNK_ENGINE_BEGIN
 namespace Graphics
 {
-	class PUNK_ENGINE_API FogDescription
+	class FogDescription
 	{
 	public:
-		FogDescription();
 
-		void Enable(bool value);
-		void SetMode(FogMode value);
-		void SetColor(const Math::vec4& value);
-		void SetColor(float r, float g, float b, float a);
-		void SetDensity(float value);
-		void SetStart(float value);
-		void SetEnd(float value);
-        void SetScale(float value);
+		void Enable(bool value)
+		{
+			m_enable = value;
+		}
 
-		bool IsEnabled() const;
-        FogMode GetMode() const;
-		const Math::vec4& GetColor() const;
-		float GetDensity() const;
-		float GetStart() const;
-		float GetEnd() const;
-        float GetScale() const;
+		void SetMode(FogMode value)
+		{
+			m_mode = value;
+		}
+
+		void SetColor(const Math::vec4& value)
+		{
+			m_color = value;
+		}
+
+		void SetColor(float r, float g, float b, float a)
+		{
+			m_color.Set(r, g, b, a);
+		}
+
+		void SetDensity(float value)
+		{
+			m_density = value;
+		}
+
+		void SetStart(float value)
+		{
+			m_start = value;
+		}
+
+		void SetEnd(float value)
+		{
+			m_end = value;
+		}
+
+		bool IsEnabled() const
+		{
+			return m_enable;
+		}
+
+		FogMode GetMode() const
+		{
+			return m_mode;
+		}
+
+		const Math::vec4& GetColor() const
+		{
+			return m_color;
+		}
+
+		float GetDensity() const
+		{
+			return m_density;
+		}
+
+		float GetStart() const
+		{
+			return m_start;
+		}
+
+		float GetEnd() const
+		{
+			return m_end;
+		}
+
+		void SetScale(float value)
+		{
+			m_scale = value;
+		}
+
+		float GetScale() const
+		{
+			return m_scale;
+		}
 
 	private:
-		bool m_enable;
-		FogMode m_mode;
-		Math::vec4 m_color;
-		float m_density;
-		float m_start;
-		float m_end;
-        float m_scale;
+		bool m_enable{ false };
+		FogMode m_mode{ FogMode::Linear };
+		Math::vec4 m_color{ 1, 1, 1, 1 };
+		float m_density{ 1 };
+		float m_start{ 0 };
+		float m_end{ 1 };
+		float m_scale{ 1 };
 	};
 }
 PUNK_ENGINE_END

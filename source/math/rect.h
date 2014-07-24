@@ -68,9 +68,7 @@ namespace Math {
         T m_y;
         T m_width;
         T m_height;
-	};
-
-    using Rectangle = TRectangle<float>;
+	};    
 
 };
 PUNK_ENGINE_END

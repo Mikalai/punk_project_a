@@ -58,7 +58,7 @@ namespace Math {
         }
 
 		//	clipping should be performed in camera space
-		Relation Clip(const ClipSpace& clipper, TPortal<T>& clipped_portal, ClipSpace& reduced_frustum)
+		Relation Clip(const TClipSpace<T>& clipper, TPortal<T>& clipped_portal, TClipSpace<T>& reduced_frustum)
 		{
 			//	check negative side of the portal
 			if (this->GetDistance() < 0)

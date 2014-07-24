@@ -1,4 +1,5 @@
 #include <attributes/camera/module.h>
+#include <math/tuple.h>
 #include "parser.h"
 #include "parse_rotation_track.h"
 

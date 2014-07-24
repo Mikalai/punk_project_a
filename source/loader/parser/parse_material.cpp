@@ -1,6 +1,7 @@
 #include <system/factory/module.h>
 #include <attributes/material/imaterial.h>
 #include <attributes/material/itexture_slot.h>
+#include <math/tuple.h>
 #include "parser.h"
 
 PUNK_ENGINE_BEGIN

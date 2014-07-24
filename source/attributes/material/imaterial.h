@@ -2,8 +2,7 @@
 #define _H_IMATERIAL
 
 #include <core/object.h>
-#include <math/vec3.h>
-#include <math/vec4.h>
+#include <math/forward.h>
 #include <string/string.h>
 #include "idiffuse_texture_slot.h"
 #include "inormal_texture_slot.h"

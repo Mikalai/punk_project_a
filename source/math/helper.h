@@ -2,13 +2,8 @@
 #define _H_HELPER_MATH
 
 #include <vector>
-#include "../config.h"
-#include "vec3.h"
-#include "vec4.h"
-#include "mat4.h"
-#include "mat3.h"
-#include "smart_matrix.h"
-#include "quat.h"
+#include <config.h>
+#include "forward.h"
 
 namespace Punk {
 	namespace Engine {

@@ -5,7 +5,7 @@
 #include <cstdint>
 #include <memory>
 #include <images/formats.h>
-#include <math/vec4.h>
+#include <math/forward.h>
 #include "frame_buffer_target.h"
 
 PUNK_ENGINE_BEGIN

@@ -1,14 +1,12 @@
-#include <math/mat4.h>
-#include <math/vec3.h>
-#include <math/quat.h>
-
+#include <math/matrix.h>
+#include <math/tuple.h>
 #include <string/buffer.h>
 #include <core/iserializable.h>
 #include <system/factory/module.h>
 #include <system/logger/module.h>
 #include <attributes/animation/module.h>
 #include <attributes/animation/module.h>
-#include <math/matrix_helper.h>
+
 #include "itransform.h"
 
 PUNK_ENGINE_BEGIN

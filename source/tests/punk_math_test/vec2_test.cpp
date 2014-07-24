@@ -1,4 +1,5 @@
-#include "math/vec2.h"
+#include <math/forward.h>
+#include <math/tuple.h>
 #include "string/string.h"
 
 #include <cppunit/TestFixture.h>

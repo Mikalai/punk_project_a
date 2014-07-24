@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include <config.h>
-#include <math/vec4.h>
+#include <math/forward.h>
 
 PUNK_ENGINE_BEGIN
 namespace Graphics

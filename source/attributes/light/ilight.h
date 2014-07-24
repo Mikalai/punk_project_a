@@ -2,7 +2,7 @@
 #define _H_ILIGHT
 
 #include <config.h>
-#include <math/vec3.h>
+#include <math/forward.h>
 #include <core/iobject.h>
 
 PUNK_ENGINE_BEGIN

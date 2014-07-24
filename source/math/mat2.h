@@ -7,7 +7,7 @@
 
 PUNK_ENGINE_BEGIN
 namespace Math {
-	using mat2 = Matrix <float, 2, 2 > ;
+	
 }
 PUNK_ENGINE_END
 

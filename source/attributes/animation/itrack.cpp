@@ -1,9 +1,7 @@
 #include <list>
 #include <system/factory/module.h>
-#include <math/vec3.h>
-#include <math/vec4.h>
-#include <math/mat4.h>
-#include <math/quat.h>
+#include <math/forward.h>
+#include <math/matrix.h>
 #include "itrack.h"
 
 PUNK_ENGINE_BEGIN

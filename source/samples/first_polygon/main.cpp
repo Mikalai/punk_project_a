@@ -32,7 +32,7 @@ int main() {
 
 		auto file = System::CreateInstancePtr<Punk::Engine::Attributes::IFileStub>(Punk::Engine::Attributes::CLSID_FileStub, Punk::Engine::Attributes::IID_IFileStub);
 #ifdef WIN32
-        file->SetFilename("level_1.bpmd");
+        file->SetFilename("level_1.pmd");
 #elif defined __linux__
         file->SetFilename("level_1.bpmd");
 #endif

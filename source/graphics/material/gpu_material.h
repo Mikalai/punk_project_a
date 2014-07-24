@@ -2,35 +2,33 @@
 #define _H_PUNK_GPU_MATERIAL
 
 #include <config.h>
-#include <math/vec4.h>
+#include <math/forward.h>
+#include <math/tuple.h>
 
 PUNK_ENGINE_BEGIN
 namespace Graphics
 {
-	class PUNK_ENGINE_API Material
-	{	
-	public:		
-
-		Material();
-
-		Math::vec4 m_diffuse_color;
-		Math::vec4 m_text_color;
-		Math::vec4 m_no_diffuse_texture_color;
-		Math::vec4 m_specular_color;
-		Math::vec4 m_mirror_color;
-		Math::vec4 m_emit_color;
+	class Material
+	{
+	public:
+		Math::vec4 m_diffuse_color{ 0.8f, 0.8f, 0.8f, 1.0f };
+		Math::vec4 m_text_color{ 1, 1, 1, 1 };
+		Math::vec4 m_no_diffuse_texture_color{ 1, 1, 1, 1 };
+		Math::vec4 m_specular_color{ 1.0f, 1.0f, 1.0f, 1.0f };
+		Math::vec4 m_mirror_color{ 0.0f, 0.0f, 0.0f, 1.0f };
+		Math::vec4 m_emit_color{ 1, 1, 1, 1 };
 		float m_ambient_color;
-		float m_specular_factor;
-		float m_diffuse_intensity;
-		float m_diffuse_fresnel;
-		float m_diffuse_fresnel_factor;
-		float m_emit;		
-		float m_roughness;
-		float m_specular_intensity;
-		float m_specular_index_of_refraction;
-		float m_specular_slope;
-		float m_translucency;		
-		float m_darkness;
+		float m_specular_factor{ 128 };
+		float m_diffuse_intensity{ 1.0f };
+		float m_diffuse_fresnel{ 1.0f };
+		float m_diffuse_fresnel_factor{ 0.0f };
+		float m_emit{ 0.0f };
+		float m_roughness{ 0.0f };
+		float m_specular_intensity{ 128.0f };
+		float m_specular_index_of_refraction{ 1.0f };
+		float m_specular_slope{ 0.0f };
+		float m_translucency{ 0.0f };
+		float m_darkness{ 0.0f };
 	};
 }
 PUNK_ENGINE_END

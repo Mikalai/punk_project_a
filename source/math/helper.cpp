@@ -3,7 +3,8 @@
 #include "root_find.h"
 #include "absolute_value.h"
 #include "math_error.h"
-#include "vec2.h"
+#include "tuple.h"
+#include "matrix.h"
 
 namespace Punk {
 	namespace Engine {

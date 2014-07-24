@@ -2,6 +2,8 @@
 #include <algorithm>
 #include "relations.h"
 #include "graham.h"
+#include "tuple.h"
+#include "matrix.h"
 
 namespace Punk {
 	namespace Engine {

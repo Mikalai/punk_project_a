@@ -3,104 +3,278 @@
 
 #include <cstddef>
 #include <config.h>
-#include <math/vec4.h>
-#include <math/mat4.h>
+#include <math/forward.h>
+#include <math/matrix.h>
 #include "light_model.h"
 
 PUNK_ENGINE_BEGIN
 namespace Graphics
 {
-	class PUNK_ENGINE_API LightParameters
+	class LightParameters
 	{
 	public:
-		LightParameters();
 
-		void SetPosition(float x, float y, float z);
-		void SetPosition(const Math::point3d& value);
-		const Math::point4d& GetPosition() const;
+		void SetPosition(float x, float y, float z)
+		{
+			m_position.Set(x, y, z, 1);
+		}
 
-		void SetDirection(float x, float y, float z);
-		void SetDirection(const Math::vec3& value);
-		const Math::vec4& GetDirection() const;
+		void SetPosition(const Math::point3d& value)
+		{
+			m_position.Set(value[0], value[1], value[2], 1);
+		}
 
-        void SetFarZ(float value);
-        float GetFarZ() const;
+		const Math::point4d& GetPosition() const
+		{
+			return m_position;
+		}
 
-        void SetNearZ(float value);
-        float GetNearZ() const;
+		void SetDirection(float x, float y, float z)
+		{
+			m_direction.Set(x, y, z, 0);
+		}
 
-		void SetDiffuseColor(float r, float g, float b, float a);
-		void SetDiffuseColor(const Math::vec4& value);
-		const Math::vec4& GetDiffuseColor() const;
+		void SetDirection(const Math::vec3& value)
+		{
+			m_direction.Set(value[0], value[1], value[2], 0);
+		}
 
-		void SetAmbientColor(float r, float g, float b, float a);
-		void SetAmbientColor(const Math::vec4& value);
-		const Math::vec4& GetAmbientColor() const;
+		const Math::vec4& GetDirection() const
+		{
+			return m_direction;
+		}
 
-		void SetLightAttenuation(LightAttenuation value);
-		LightAttenuation GetLightAttenuation() const;
+		void SetDiffuseColor(float r, float g, float b, float a)
+		{
+			m_diffuse_color.Set(r, g, b, a);
+		}
 
-		void SetLightConstantAttenuation(float value);
-		float GetLightConstantAttenuation() const;
+		void SetDiffuseColor(const Math::vec4& value)
+		{
+			m_diffuse_color = value;
+		}
 
-		void SetLightLinearAttenuation(float value);
-		float GetLightLinearAttenuation() const;
+		const Math::vec4& GetDiffuseColor() const
+		{
+			return m_diffuse_color;
+		}
 
-		void SetLightQuadricAttenuation(float value);
-		float GetLightQuadricAttenuation() const;
+		void SetAmbientColor(float r, float g, float b, float a)
+		{
+			m_ambient_color.Set(r, g, b, a);
+		}
 
-		void SetType(LightType value);
-		LightType GetType() const;
+		void SetAmbientColor(const Math::vec4& value)
+		{
+			m_ambient_color = value;
+		}
 
-		void SetSpotExponent(float value);
-		float GetSpotExponent() const;
+		const Math::vec4& GetAmbientColor() const
+		{
+			return m_ambient_color;
+		}
 
-        const Math::mat4 GetProjectionMatrix() const;
-        const Math::mat4 GetViewMatrix() const;
+		void SetLightAttenuation(LightAttenuation value)
+		{
+			m_attenuation = value;
+		}
 
-        void SetShadowMatrix(size_t index, const Math::mat4& value);
-        const Math::mat4& GetShadowMatrix(size_t index) const;
+		LightAttenuation GetLightAttenuation() const
+		{
+			return m_attenuation;
+		}
 
-        void SetFarDistance(size_t index, float value);
-        float GetFarDistance(size_t index) const;
-        const Math::vec4& GetFarDistances() const;
+		void SetLightConstantAttenuation(float value)
+		{
+			m_constant_attenuation = value;
+		}
 
-        void SetSpecularColor(const Math::vec4& value);
-        void SetSpecularColor(float r, float y, float b, float a);
-        const Math::vec4& GetSpecularColor() const;
+		float GetLightConstantAttenuation() const
+		{
+			return m_constant_attenuation;
+		}
 
-        void SetViewDirection(const Math::vec3& value);
-        const Math::vec4& GetViewDirection() const;
+		void SetLightLinearAttenuation(float value)
+		{
+			m_linear_attenuation = value;
+		}
 
-        void SetViewPosition(const Math::point4d& value);
-        const Math::point4d& GetViewPosition() const;
+		float GetLightLinearAttenuation() const
+		{
+			return m_linear_attenuation;
+		}
 
-        void SetEnable(bool value);
-        bool IsEnabled() const;
-        void Enable();
-        void Disable();
+		void SetLightQuadricAttenuation(float value)
+		{
+			m_quadric_attenuation = value;
+		}
+
+		float GetLightQuadricAttenuation() const
+		{
+			return m_quadric_attenuation;
+		}
+
+		void SetType(LightType value)
+		{
+			m_light_type = value;
+		}
+
+		LightType GetType() const
+		{
+			return m_light_type;
+		}
+
+		void SetSpotExponent(float value)
+		{
+			m_spot_exponent = value;
+		}
+
+		float GetSpotExponent() const
+		{
+			return m_spot_exponent;
+		}
+
+		const Math::mat4 GetProjectionMatrix() const
+		{
+			if (m_light_type == LightType::Spot)
+			{
+				Math::mat4 res = Math::mat4::CreatePerspectiveProjection(m_spot_exponent, 1, 1, 0.1, 100.0);
+				return res;
+			}
+			else
+			{
+				Math::mat4 res = Math::mat4::CreateOrthographicProjection2(-16, 16, -16, 16, 0.1, 100.0);
+				return res;
+			}
+		}
+
+		const Math::mat4 GetViewMatrix() const
+		{
+			Math::mat4 res = Math::mat4::CreateViewMatrix(m_position.XYZ(), (m_position + m_direction).XYZ(), Math::vec3(0, 0, 1));
+			return res;
+		}
+
+		void SetShadowMatrix(size_t index, const Math::mat4& value)
+		{
+			m_shadow_matrix[index] = value;
+		}
+
+		const Math::mat4& GetShadowMatrix(size_t index) const
+		{
+			return m_shadow_matrix[index];
+		}
+
+		void SetFarDistance(size_t index, float value)
+		{
+			m_far_distance[index] = value;
+		}
+
+		float GetFarDistance(size_t index) const
+		{
+			return m_far_distance[index];
+		}
+
+		const Math::vec4& GetFarDistances() const
+		{
+			return m_far_distance;
+		}
+
+		void SetFarZ(float value)
+		{
+			m_zfar = value;
+		}
+
+		float GetFarZ() const
+		{
+			return m_zfar;
+		}
+
+		void SetNearZ(float value)
+		{
+			m_znear = value;
+		}
+
+		float GetNearZ() const
+		{
+			return m_znear;
+		}
+
+		void SetEnable(bool value)
+		{
+			m_enabled = value;
+		}
+
+		bool IsEnabled() const
+		{
+			return m_enabled;
+		}
+
+		void Enable()
+		{
+			m_enabled = true;
+		}
+
+		void Disable()
+		{
+			m_enabled = false;
+		}
+
+		void SetSpecularColor(const Math::vec4& value)
+		{
+			m_specular_color = value;
+		}
+
+		void SetSpecularColor(float r, float g, float b, float a)
+		{
+			m_specular_color.Set(r, g, b, a);
+		}
+
+		const Math::vec4& GetSpecularColor() const
+		{
+			return m_specular_color;
+		}
+
+		void SetViewDirection(const Math::vec3& value)
+		{
+			m_view_direction = value;
+		}
+
+		const Math::vec4& GetViewDirection() const
+		{
+			return m_view_direction;
+		}
+
+		void SetViewPosition(const Math::point4d& value)
+		{
+			m_view_position = value;
+		}
+
+		const Math::point4d& GetViewPosition() const
+		{
+			return m_view_position;
+		}
 
 	private:
-		LightType m_light_type;
-		LightAttenuation m_attenuation;
-		float m_constant_attenuation;
-		float m_linear_attenuation;
-		float m_quadric_attenuation;
-		float m_spot_exponent;
+		LightType m_light_type{ LightType::Direction };
+		LightAttenuation m_attenuation{ LightAttenuation::Constant };
+		float m_constant_attenuation{ 1 };
+		float m_linear_attenuation{ 0 };
+		float m_quadric_attenuation{ 0 };
+		float m_spot_exponent{ 100.0f };
         /// World light position
 		Math::point4d m_position;
         /// World light direction
-		Math::vec4 m_direction;
+		Math::vec4 m_direction{ 1, 0, 0, 0 };
         Math::point4d m_view_position;
         Math::vec4 m_view_direction;
-		Math::vec4 m_diffuse_color;
+		Math::vec4 m_diffuse_color{ 1, 1, 1, 1 };
 		Math::vec4 m_ambient_color;
         Math::mat4 m_shadow_matrix[4];
         Math::vec4 m_far_distance;
-        Math::vec4 m_specular_color;
-        float m_zfar;
-        float m_znear;
-        bool m_enabled;
+		Math::vec4 m_specular_color{ 1, 1, 1, 1 };
+		float m_zfar{ 1 };
+		float m_znear{ 0 };
+		bool m_enabled{ false };
 	};
 }
 PUNK_ENGINE_END

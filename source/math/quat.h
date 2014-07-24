@@ -7,7 +7,7 @@
 
 PUNK_ENGINE_BEGIN
 namespace Math {
-	using quat = Tuple < float, 4, tagQuaternion > ;
+	
 }
 PUNK_ENGINE_END
 

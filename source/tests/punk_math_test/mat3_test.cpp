@@ -2,10 +2,8 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include <math.h>
-#include <math/mat3.h>
-#include <math/vec2.h>
-#include <math/vec3.h>
-#include <math/quat.h>
+#include <math/forward.h>
+#include <math/matrix.h>
 #include <string/string.h>
 
 class Matrix3x3Test : public CppUnit::TestFixture {

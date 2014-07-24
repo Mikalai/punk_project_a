@@ -8,8 +8,7 @@
 
 PUNK_ENGINE_BEGIN
 namespace Math {
-
-    using mat4 = Matrix<float, 4, 4>;
+    
 }
 PUNK_ENGINE_END
 

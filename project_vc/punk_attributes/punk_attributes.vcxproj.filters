@@ -112,9 +112,6 @@
     <ClCompile Include="..\..\source\attributes\transform\module.h">
       <Filter>transform</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\attributes\camera\camera.cpp">
-      <Filter>camera</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\attributes\skinning\iarmature.cpp">
       <Filter>skinning</Filter>
     </ClCompile>
@@ -174,6 +171,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\light\ilight.cpp">
       <Filter>light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\camera\icamera.cpp">
+      <Filter>camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

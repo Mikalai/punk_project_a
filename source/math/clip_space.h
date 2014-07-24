@@ -127,9 +127,7 @@ namespace Math {
 
 	private:
         std::vector<TPlane<T>> m_planes;
-    };
-
-    using ClipSpace = TClipSpace<float>;
+    };    
 }
 PUNK_ENGINE_END
 

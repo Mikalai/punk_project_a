@@ -1,7 +1,7 @@
+#include <math/forward.h>
+#include <math/tuple.h>
+#include <string/string.h>
 #include "vec3_test.h"
-#include "math/vec3.h"
-#include "math/vec2.h"
-#include "string/string.h"
 
 using namespace Punk::Engine::Math;
 using namespace Punk::Engine::Core;
@@ -157,9 +157,9 @@ void Vector3Test::testCross() {
 }
 
 void Vector3Test::testChop() {
-    vec3 v(1e-7, 1e-6, 1e-9);
+    vec3 v(1e-7, 2e-5, 1e-9);
     CPPUNIT_ASSERT(v != vec3(0,0,0));
-    v.Chop(1e-5);
+    v.Chop(1e-4);
     CPPUNIT_ASSERT(v == vec3(0,0,0));
 }
 

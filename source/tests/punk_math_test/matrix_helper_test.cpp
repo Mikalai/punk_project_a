@@ -1,6 +1,5 @@
-#include "math/mat4.h"
-#include "math/quat.h"
-#include "math/matrix_helper.h"
+#include <math/forward.h>
+#include <math/matrix.h>
 #include "matrix_helper_test.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(MatrixHelperTest);

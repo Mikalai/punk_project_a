@@ -66,9 +66,7 @@ namespace Math {
         res.SetCenter(m * bsphere.GetCenter());
         res.SetRadius(bsphere.GetRadius());
         return res;
-    }
-
-	using BoundingSphere = TBoundingSphere < float > ;
+    }	
 }
 PUNK_ENGINE_END
 

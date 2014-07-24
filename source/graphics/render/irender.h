@@ -3,8 +3,7 @@
 
 #include <config.h>
 #include <core/iobject.h>
-#include <math/vec2.h>
-#include <math/mat4.h>
+#include <math/forward.h>
 #include <memory>
 
 PUNK_ENGINE_BEGIN

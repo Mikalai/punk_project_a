@@ -1,6 +1,7 @@
 #include <system/factory/module.h>
 #include <string/module.h>
 #include <core/iserializable.h>
+#include <math/tuple.h>
 #include <cstdint>
 #include "idirectional_light.h"
 #include "ispot_light.h"

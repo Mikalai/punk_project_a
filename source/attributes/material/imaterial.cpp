@@ -8,7 +8,7 @@
 
 #include <config.h>
 #include <core/object.h>
-#include <math/vec4.h>
+#include <math/tuple.h>
 #include <string/string.h>
 #include "imaterial.h"
 

@@ -1,5 +1,6 @@
 #include <math.h>
 #include <limits>
+#include "tuple.h"
 #include "recount.h"
 #include "constants.h"
 

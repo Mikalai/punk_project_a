@@ -6,7 +6,6 @@
     <ClCompile Include="..\..\source\math\astar.cpp" />
     <ClCompile Include="..\..\source\math\clip_space.cpp" />
     <ClCompile Include="..\..\source\math\convex_shape_mesh.cpp" />
-    <ClCompile Include="..\..\source\math\ellipsoid.cpp" />
     <ClCompile Include="..\..\source\math\frustum_plane.cpp" />
     <ClCompile Include="..\..\source\math\graham.cpp" />
     <ClCompile Include="..\..\source\math\helper.cpp" />
@@ -165,6 +164,7 @@
     <ClInclude Include="..\..\source\math\symmetric_eigen_system.h" />
     <ClInclude Include="..\..\source\math\clip_segment.h" />
     <ClInclude Include="..\..\source\math\tbn_space.h" />
+    <ClInclude Include="..\..\source\math\forward.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graph">

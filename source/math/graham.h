@@ -2,8 +2,8 @@
 #define GRAHAM_H
 
 #include <vector>
-#include "../config.h"
-#include "vec2.h"
+#include <config.h>
+#include "forward.h"
 
 namespace Punk {
 	namespace Engine {

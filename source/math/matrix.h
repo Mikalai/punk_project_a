@@ -304,6 +304,7 @@ namespace Math {
 
 		void operator *= (const MatrixSquareOperationsBase<T, Dim>& value) {
 			auto _this = *this;
+			Nullify();
 			for (auto row = 0; row < Dim; ++row) {
 				for (auto col = 0; col < Dim; ++col) {
 					for (auto j = 0; j < Dim; ++j) {
@@ -655,7 +656,7 @@ namespace Math {
 
 		const Matrix<T, 4, 4> Inversed() const {
 #define SWAP_ROWS(a, b) { T * _tmp = a; (a)=(b); (b)=_tmp; }
-#define MAT(m,r,c) m [r*4+c]
+#define MAT(m,r,c) m.at(r, c)
 
 			T	wtmp[4][8];
 			T	m0, m1, m2, m3, s;
@@ -666,37 +667,37 @@ namespace Math {
 			r2 = wtmp[2];
 			r3 = wtmp[3];
 
-			r0[0] = MAT(this->m_v, 0, 0);
-			r0[1] = MAT(this->m_v, 0, 1);
-			r0[2] = MAT(this->m_v, 0, 2);
-			r0[3] = MAT(this->m_v, 0, 3);
+			r0[0] = MAT((*this), 0, 0);
+			r0[1] = MAT((*this), 0, 1);
+			r0[2] = MAT((*this), 0, 2);
+			r0[3] = MAT((*this), 0, 3);
 			r0[4] = 1;
 			r0[5] =
 				r0[6] =
 				r0[7] = 0;
 
-			r1[0] = MAT(this->m_v, 1, 0);
-			r1[1] = MAT(this->m_v, 1, 1);
-			r1[2] = MAT(this->m_v, 1, 2);
-			r1[3] = MAT(this->m_v, 1, 3);
+			r1[0] = MAT((*this), 1, 0);
+			r1[1] = MAT((*this), 1, 1);
+			r1[2] = MAT((*this), 1, 2);
+			r1[3] = MAT((*this), 1, 3);
 			r1[5] = 1;
 			r1[4] =
 				r1[6] =
 				r1[7] = 0,
 
-				r2[0] = MAT(this->m_v, 2, 0);
-			r2[1] = MAT(this->m_v, 2, 1);
-			r2[2] = MAT(this->m_v, 2, 2);
-			r2[3] = MAT(this->m_v, 2, 3);
+				r2[0] = MAT((*this), 2, 0);
+			r2[1] = MAT((*this), 2, 1);
+			r2[2] = MAT((*this), 2, 2);
+			r2[3] = MAT((*this), 2, 3);
 			r2[6] = 1;
 			r2[4] =
 				r2[5] =
 				r2[7] = 0;
 
-			r3[0] = MAT(this->m_v, 3, 0);
-			r3[1] = MAT(this->m_v, 3, 1);
-			r3[2] = MAT(this->m_v, 3, 2);
-			r3[3] = MAT(this->m_v, 3, 3);
+			r3[0] = MAT((*this), 3, 0);
+			r3[1] = MAT((*this), 3, 1);
+			r3[2] = MAT((*this), 3, 2);
+			r3[3] = MAT((*this), 3, 3);
 			r3[7] = 1;
 			r3[4] =
 				r3[5] =
@@ -850,16 +851,23 @@ namespace Math {
 			r0[4] = s * (r0[4] - r1[4] * m0), r0[5] = s * (r0[5] - r1[5] * m0),
 				r0[6] = s * (r0[6] - r1[6] * m0), r0[7] = s * (r0[7] - r1[7] * m0);
 
-			MatrixData<T, 4, 4> res;
-			T* out = res.m_v.data();
-			MAT(out, 0, 0) = r0[4]; MAT(out, 0, 1) = r0[5];
-			MAT(out, 0, 2) = r0[6]; MAT(out, 0, 3) = r0[7];
-			MAT(out, 1, 0) = r1[4]; MAT(out, 1, 1) = r1[5];
-			MAT(out, 1, 2) = r1[6]; MAT(out, 1, 3) = r1[7];
-			MAT(out, 2, 0) = r2[4]; MAT(out, 2, 1) = r2[5];
-			MAT(out, 2, 2) = r2[6]; MAT(out, 2, 3) = r2[7];
-			MAT(out, 3, 0) = r3[4]; MAT(out, 3, 1) = r3[5];
-			MAT(out, 3, 2) = r3[6]; MAT(out, 3, 3) = r3[7];
+			Matrix<T, 4, 4> res;			
+			MAT(res, 0, 0) = r0[4];
+			MAT(res, 0, 1) = r0[5];
+			MAT(res, 0, 2) = r0[6]; 
+			MAT(res, 0, 3) = r0[7];
+			MAT(res, 1, 0) = r1[4]; 
+			MAT(res, 1, 1) = r1[5];
+			MAT(res, 1, 2) = r1[6]; 
+			MAT(res, 1, 3) = r1[7];
+			MAT(res, 2, 0) = r2[4]; 
+			MAT(res, 2, 1) = r2[5];
+			MAT(res, 2, 2) = r2[6]; 
+			MAT(res, 2, 3) = r2[7];
+			MAT(res, 3, 0) = r3[4]; 
+			MAT(res, 3, 1) = r3[5];
+			MAT(res, 3, 2) = r3[6]; 
+			MAT(res, 3, 3) = r3[7];
 
 #undef MAT
 #undef SWAP_ROWS
@@ -1257,7 +1265,7 @@ namespace Math {
 			vec3 s = f.Cross(up).Normalized();
 			vec3 u = s.Cross(f);
 
-			mat4 m;
+			Matrix<T, 4, 4> m;
 			m[0 * 4 + 0] = s[0];
 			m[1 * 4 + 0] = s[1];
 			m[2 * 4 + 0] = s[2];
@@ -1366,7 +1374,7 @@ namespace Math {
 		const Tuple<T, 3, tagPoint>& value) {
 
 		Tuple<T, 4, tagPoint> v{ value.X(), value.Y(), value.Z(), 1 };
-		Tuple<T, 4, tagPoint> res;
+		Tuple<T, 4, tagPoint> res{ 0, 0, 0, 0 };
 		for (auto row = 0; row < 4; ++row) {
 			for (auto col = 0; col < 4; ++col) {
 				res.at(row) += a.at(row, col) * v.at(col);

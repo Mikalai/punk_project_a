@@ -1,6 +1,6 @@
 #include <memory.h>
-#include <math/vec4.h>
-#include <math/mat4.h>
+#include <math/forward.h>
+#include <math/matrix.h>
 #include <system/errors/module.h>
 #include <system/factory/module.h>
 #include "ianimation.h"
@@ -144,7 +144,7 @@ namespace Attributes {
 		LOG_FUNCTION_SCOPE;
 		AdvanceTime(direction, dt);
 		for (std::uint32_t i = 0, max_i = m_animation->GetTracksCount(); i < max_i; ++i) {
-			m_track_cache[i].m_interpolator->Interpolate(m_current_time, m_track_cache.at(i).m_current_value.data(), m_track_cache.at(i).m_current_value.size());
+			m_track_cache[i].m_interpolator->Interpolate(m_current_time, m_track_cache.at(i).m_current_value.data(), (std::uint32_t)m_track_cache.at(i).m_current_value.size());
 			//m_track_cache[i].m_on_frame(frame, m_track_cache.at(i).m_current_value.data(), m_track_cache.at(i).m_current_value.size());
 			/*for (auto& animated : m_animated) {
 				animated->Advance(i, frame, m_track_cache.at(i).m_current_value.data(), m_track_cache.at(i).m_current_value.size());

@@ -1,7 +1,7 @@
 #include <vector>
 #include <cstdint>
 #include <system/factory/module.h>
-#include "vec3.h"
+#include "tuple.h"
 #include "weighted_point.h"
 #include "ispline.h"
 #include "icurve.h"

@@ -4,8 +4,7 @@
 #include <config.h>
 #include <cstdint>
 #include <core/iobject.h>
-#include <math/mat4.h>
-#include <math/vec3.h>
+#include <math/forward.h>
 
 PUNK_ENGINE_BEGIN
 namespace Attributes {

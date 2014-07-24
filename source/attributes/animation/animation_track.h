@@ -8,8 +8,8 @@
 #include <string/module.h>
 #include <system/logger/module.h>
 #include <math/interpolation.h>
-#include <math/quat.h>
-#include <math/vec3.h>
+#include <math/forward.h>
+#include <math/tuple.h>
 
 PUNK_ENGINE_BEGIN
 namespace Attributes

@@ -2,6 +2,7 @@
 #include <attributes/material/idiffuse_texture_slot.h>
 #include <attributes/material/inormal_texture_slot.h>
 #include <attributes/material/ispecular_intensity_texture_slot.h>
+#include <math/tuple.h>
 #include "parser.h"
 
 PUNK_ENGINE_BEGIN

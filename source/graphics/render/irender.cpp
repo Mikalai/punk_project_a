@@ -4,8 +4,7 @@
 #include <graphics/primitives/module.h>
 #include <graphics/video_driver/module.h>
 #include "irender.h"
-#include <math/vec2.h>
-#include <math/mat4.h>
+#include <math/matrix.h>
 #include <system/factory/module.h>
 #include <graphics/error/module.h>
 #include <graphics/frame_buffer/module.h>

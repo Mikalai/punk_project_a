@@ -100,10 +100,10 @@ namespace Math {
             }
         }
 
-        const BoundingSphere ToBoundingSphere()
+        const TBoundingSphere<T> ToBoundingSphere()
         {
             Tuple<T, 3, tagVector> p[] {m_core.m_min_corner, m_core.m_min_corner + m_core.m_r + m_core.m_s + m_core.m_t, m_core.m_min_corner + m_core.m_r, m_core.m_min_corner + m_core.m_s};
-            BoundingSphere s;
+            TBoundingSphere<T> s;
             s.Create(p, sizeof(p) / sizeof(p[0]));
             return s;
         }      

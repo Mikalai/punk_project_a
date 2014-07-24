@@ -1,11 +1,9 @@
 #ifndef QUAT_TEST_H
 #define QUAT_TEST_H
 
-#include "math/quat.h"
-#include "math/mat4.h"
-#include "math/mat3.h"
-#include "math/matrix_helper.h"
-#include "string/string.h"
+#include <math/forward.h>
+#include <math/matrix.h>
+#include <string/string.h>
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>

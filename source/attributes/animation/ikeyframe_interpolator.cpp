@@ -2,10 +2,8 @@
 #include <system/errors/module.h>
 #include <system/factory/module.h>
 #include <math/interpolation.h>
-#include <math/vec3.h>
-#include <math/vec4.h>
-#include <math/mat4.h>
-#include <math/quat.h>
+#include <math/forward.h>
+#include <math/matrix.h>
 #include "ikeyframe_interpolator.h"
 
 PUNK_ENGINE_BEGIN

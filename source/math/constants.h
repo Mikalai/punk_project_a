@@ -7,7 +7,7 @@ namespace Punk {
     namespace Engine {
         namespace Math {
             const float PI = atanf(1.0f)*4.0f;
-            const float Eps = 1e-7f;
+            const float Eps = 1e-5f;
         }
     }
 }
