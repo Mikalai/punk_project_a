@@ -21,7 +21,8 @@ namespace Graphics {
     }
 
 	void Canvas::Initialize(const CanvasDescription& desc) {
-		m_canvas_description = desc;		
+		m_canvas_description = desc;	
+		m_window->Initialize(m_canvas_description);
 	}
 
     void Canvas::InternalDestroy() {

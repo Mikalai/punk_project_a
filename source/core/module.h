@@ -1,6 +1,7 @@
 #ifndef _H_PUNK_SYSTEM_CORE_MODULE_H
 #define _H_PUNK_SYSTEM_CORE_MODULE_H
 
+#include "iobject.h"
 #include "action.h"
 #include "container.h"
 #include "iobject.h"
