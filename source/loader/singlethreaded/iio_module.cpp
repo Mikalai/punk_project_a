@@ -1,4 +1,5 @@
 #include <string/module.h>
+#include <system/factory/module.h>
 #include <core/iobject_impl.h>
 #include <core/iserializable.h>
 #include <loader/parser/parse_punk_file.h>
@@ -28,6 +29,28 @@ namespace IoModule {
 			return v;
 		}
 
+		//	IModule
+		void Create(const Core::Guid& clsid, const Core::Guid& iid, void** object) override {
+			System::CreateInstance(clsid, iid, object);
+		}
+
+		const Core::String GetName() const override {
+			return "IoModule";
+		}
+
+		const Core::String GetDescription() const override {
+			return "Perform loading data from persistent storages";
+		}
+
+		const Core::String GetFullpath() const {
+			return m_fullpath;
+		}
+
+		void SetFullpath(const Core::String& value) {
+			m_fullpath = value;
+		}
+
+	
 		//	IIoModule
 		Core::Pointer<Core::IObject> Parse(const Core::String& path) {
 			return ParsePunkFile(path);
@@ -62,6 +85,7 @@ namespace IoModule {
 
 	private:
 		std::atomic<std::uint32_t> m_ref_count;
+		Core::String m_fullpath;
 	};
 
 	IoModuleImpl g_io_module;

@@ -85,7 +85,7 @@ namespace Runtime {
 
         for (auto& module : modules) {
             try{
-                System::LoadModule(module);
+                System::LoadPunkModule(module);
                 m_logger->Info("Module loaded '" + module + "'");
             }
             catch (System::Error::SystemException& e) {

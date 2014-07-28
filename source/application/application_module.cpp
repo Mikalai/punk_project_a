@@ -36,6 +36,27 @@ namespace Runtime {
             return v;
         }
 
+		//	IModule
+		void Create(const Core::Guid& clsid, const Core::Guid& iid, void** object) override {
+			System::CreateInstance(clsid, iid, object);
+		}
+
+		const Core::String GetName() const override {
+			return L"ApplicationModule";
+		}
+
+		const Core::String GetDescription() const override {
+			return L"Entry point to the engine";
+		}
+
+		const Core::String GetFullpath() const {
+			return m_fullpath;
+		}
+
+		void SetFullpath(const Core::String& value) {
+			m_fullpath = value;
+		}
+
     private:
         void Init() {
         }
@@ -45,6 +66,7 @@ namespace Runtime {
 
     private:
         std::atomic<std::uint32_t> m_ref_count{ 0 };
+		Core::String m_fullpath;
     };
 
     extern "C" PUNK_ENGINE_API System::IModule* GetPunkModule() {

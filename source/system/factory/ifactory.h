@@ -67,6 +67,14 @@ namespace System {
 		return res;
     }
 
+	inline void CreateInstance(const Core::Guid& clsid, const Core::Guid& iid, void** object) {
+		Core::IObject* o = nullptr;
+		GetFactory()->CreateInstance(clsid, (void**)&o);
+		if (o) {
+			o->QueryInterface(iid, object);
+		}
+	}
+
 	template<class T, class I>
 	void CreateInstance(void** object) {
         //LOG_FUNCTION_SCOPE
