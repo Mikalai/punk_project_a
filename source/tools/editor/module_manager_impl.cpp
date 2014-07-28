@@ -1,10 +1,46 @@
 #include <config.h>
-#include "forms/noname.h"
+#include <wx/wfstream.h>
+#include <wx/filedlg.h>
+#include <wx/fileconf.h>
+#include <system/module/module.h>
+#include "forms/forms.h"
 
 PUNK_ENGINE_BEGIN
 namespace Tools {
 
-	void ModuleManagerDialog::OnModuleAdd(wxCommandEvent& event) {		
+	void ModuleManagerDialog::OnModuleAdd(wxCommandEvent& event) {
+		wxFileDialog * openFileDialog = new wxFileDialog(this);
+
+		if (openFileDialog->ShowModal() == wxID_OK){
+			wxString filename = openFileDialog->GetFilename();
+			auto module = System::LoadPunkModule(filename.wc_str());
+		}
+
+		m_loaded_modules_list->Clear();
+		for (std::uint32_t i = 0, max_i = System::GetLoadedPunkModulesCount(); i < max_i; ++i) {
+			auto module = System::GetLoadedPunkModule(i);
+			m_loaded_modules_list->Insert(wxString((const wchar_t*)module->GetName().Data()), 0, (void**)module);
+		}
+	}
+
+	void ModuleManagerDialog::OnInit(wxInitDialogEvent& event) {
+		wxFileInputStream stream("modules.ini");
+		wxFileConfig config(stream);
+		wxString key; wxString value;
+		long index;
+		bool has_entry = config.GetFirstEntry(key, index);
+		while (has_entry) {
+			value = config.Read(key, L"");
+			System::LoadPunkModule(value.wc_str());
+			has_entry = config.GetNextEntry(key, index);
+		}
+
+		m_loaded_modules_list->Clear();
+		for (std::uint32_t i = 0, max_i = System::GetLoadedPunkModulesCount(); i < max_i; ++i) {
+			auto module = System::GetLoadedPunkModule(i);
+			m_loaded_modules_list->Insert(wxString((const wchar_t*)module->GetName().Data()), 0, (void**)module);
+		}
+		event.Skip();
 	}
 
 	void ModuleManagerDialog::OnModuleRemove(wxCommandEvent& event) {
@@ -13,6 +49,24 @@ namespace Tools {
 
 	void ModuleManagerDialog::OnOk(wxCommandEvent& event) {
 		Close();
+	}
+
+	void ModuleManagerDialog::OnClose(wxCloseEvent& event) {
+		wxFileConfig config;
+		for (std::uint32_t i = 0, max_i = System::GetLoadedPunkModulesCount(); i < max_i; ++i) {
+			auto module = System::GetLoadedPunkModule(i);
+			config.Write((wchar_t*)module->GetName().Data(), (const wchar_t*)module->GetFullpath().Data());
+		}
+		wxFileOutputStream stream("modules.ini");
+		config.Save(stream);
+		event.Skip();
+	}
+
+	void ModuleManagerDialog::OnItemSelected(wxCommandEvent& event) {
+		int selected_item_index = event.GetSelection();
+		System::IModule* module = (System::IModule*)m_loaded_modules_list->GetClientData(selected_item_index);
+		m_name_value->SetLabelText((wchar_t*)module->GetName().Data());
+		m_module_path_value->SetLabelText((wchar_t*)module->GetDescription().Data());
 	}
 }
 PUNK_ENGINE_END

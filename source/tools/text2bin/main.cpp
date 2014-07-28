@@ -14,7 +14,7 @@ void LoadBasicModules() {
 
 	for (auto& module : modules) {
 		try{
-			System::LoadModule(module);
+			System::LoadPunkModule(module);
 			System::GetDefaultLogger()->Info("Module loaded '" + module + "'");
 		}
 		catch (System::Error::SystemException& e) {
@@ -86,7 +86,7 @@ int main(int argc, char** argv)
 			}
 		}
 
-		auto module = System::LoadModule("punk_loader");
+		auto module = Core::Pointer < System::IModule > { System::LoadPunkModule("punk_loader"), Core::DestroyObject};
 		if (!module) {
 			std::cout << "Failed to load loader module" << std::endl;
 			return 0;

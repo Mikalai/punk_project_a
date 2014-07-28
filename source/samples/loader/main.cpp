@@ -48,7 +48,7 @@ using namespace Punk::Engine;
 int main() {
 
 	try{
-		System::LoadModule("punk_application");		
+		System::LoadPunkModule("punk_application");		
 		auto app = System::CreateInstancePtr<Runtime::IApplication>(Runtime::CLSID_Application, Runtime::IID_IApplication);
 
 		if (!app) {

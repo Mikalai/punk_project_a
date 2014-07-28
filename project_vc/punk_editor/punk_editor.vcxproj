@@ -164,15 +164,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\source\tools\editor\forms\noname.cpp" />
+    <ClCompile Include="..\..\source\tools\editor\forms\forms.cpp" />
     <ClCompile Include="..\..\source\tools\editor\main.cpp" />
-    <ClCompile Include="..\..\source\tools\editor\main_window.cpp" />
+    <ClCompile Include="..\..\source\tools\editor\editor_main_window_impl.cpp" />
     <ClCompile Include="..\..\source\tools\editor\module_manager_impl.cpp" />
     <ClCompile Include="..\..\source\tools\editor\scene_tree.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\source\tools\editor\forms\noname.h" />
-    <ClInclude Include="..\..\source\tools\editor\main_window.h" />
+    <ClInclude Include="..\..\source\tools\editor\forms\forms.h" />
+    <ClInclude Include="..\..\source\tools\editor\resources.h" />
     <ClInclude Include="..\..\source\tools\editor\module_list.h" />
     <ClInclude Include="..\..\source\tools\editor\scene_tree.h" />
   </ItemGroup>

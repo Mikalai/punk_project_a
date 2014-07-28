@@ -9,7 +9,7 @@ int main() {
 	using namespace Punk::Engine;
 	
 	try{
-        Core::Pointer<System::IModule> punk_application = System::LoadModule("punk_application");
+		auto punk_application = Core::Pointer < System::IModule > {System::LoadPunkModule("punk_application"), Core::DestroyObject};
         if (!punk_application)
             throw System::Error::SystemException("Can't load punk_application module");
 

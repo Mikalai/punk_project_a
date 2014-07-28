@@ -5,7 +5,8 @@
 #include <wx/wx.h>
 #endif
 
-#include "main_window.h"
+#include <config.h>
+#include "forms/forms.h"
 
 PUNK_ENGINE_BEGIN
 namespace Tools {
@@ -18,7 +19,7 @@ namespace Tools {
 
 	bool MyApp::OnInit()
 	{
-		EditorMainWindow *frame = new EditorMainWindow("Hello World", wxDefaultPosition, wxSize(1280, 1024));
+		EditorMainWindow *frame = new EditorMainWindow(nullptr);
 		frame->Show(true);
 		return true;
 	}
