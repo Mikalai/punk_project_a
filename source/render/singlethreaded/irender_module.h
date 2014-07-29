@@ -1,19 +1,18 @@
-#ifndef _H_IRENDER_MODULE
-#define _H_IRENDER_MODULE
+#ifndef _H_RENDER_MODULE2
+#define _H_RENDER_MODULE2
 
-#include <config.h>
 #include <core/iobject.h>
+#include <system/module/module.h>
 
 PUNK_ENGINE_BEGIN
 namespace LowLevelRender {
 	
-	DECLARE_PUNK_GUID(IID_IRenderModule, "F9EF350A-AAE3-45BE-A5F8-71FE6B3CB2B3");
-	DECLARE_PUNK_GUID(CLSID_RenderModule, "043B8B3B-3479-4624-B22F-3A81E24487F2");
+	DECLARE_PUNK_GUID(IID_IRenderModule, "E4EE3710-7494-4691-B828-087DB94E2266");
 
-	class IRenderModule : public Core::IObject {
+	class IRenderModule : public System::IModule {
 	public:
 	};
 }
 PUNK_ENGINE_END
 
-#endif	//	_H_IRENDER_MODULE
+#endif	//	_H_RENDER_COMMANDS

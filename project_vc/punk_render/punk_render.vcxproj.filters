@@ -7,9 +7,6 @@
     <ClInclude Include="..\..\source\render\singlethreaded\module.h">
       <Filter>singlethreaded</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\render\singlethreaded\render_commands.h">
-      <Filter>singlethreaded</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\render\module.h" />
     <ClInclude Include="..\..\source\render\singlethreaded\render_observer.h">
       <Filter>singlethreaded</Filter>
@@ -21,6 +18,9 @@
       <Filter>singlethreaded</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\render\singlethreaded\irender_processor.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\render\singlethreaded\irender.h">
       <Filter>singlethreaded</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\render\singlethreaded\irender_module.h">
@@ -36,10 +36,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\source\render\singlethreaded\render_commands.cpp">
+    <ClCompile Include="..\..\source\render\singlethreaded\render_observer.cpp">
       <Filter>singlethreaded</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\render\singlethreaded\render_observer.cpp">
+    <ClCompile Include="..\..\source\render\singlethreaded\irender.cpp">
       <Filter>singlethreaded</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\render\singlethreaded\irender_module.cpp">

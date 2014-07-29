@@ -169,14 +169,14 @@
     <ClInclude Include="..\..\source\render\singlethreaded\irender_processor.h" />
     <ClInclude Include="..\..\source\render\singlethreaded\module.h" />
     <ClInclude Include="..\..\source\render\singlethreaded\render_cache.h" />
-    <ClInclude Include="..\..\source\render\singlethreaded\render_commands.h" />
-    <ClInclude Include="..\..\source\render\singlethreaded\render_observer.h" />
     <ClInclude Include="..\..\source\render\singlethreaded\irender_module.h" />
+    <ClInclude Include="..\..\source\render\singlethreaded\render_observer.h" />
+    <ClInclude Include="..\..\source\render\singlethreaded\irender.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\source\render\singlethreaded\render_commands.cpp" />
-    <ClCompile Include="..\..\source\render\singlethreaded\render_observer.cpp" />
     <ClCompile Include="..\..\source\render\singlethreaded\irender_module.cpp" />
+    <ClCompile Include="..\..\source\render\singlethreaded\render_observer.cpp" />
+    <ClCompile Include="..\..\source\render\singlethreaded\irender.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
