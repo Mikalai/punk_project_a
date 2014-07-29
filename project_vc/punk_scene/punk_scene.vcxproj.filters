@@ -27,6 +27,9 @@
     <ClCompile Include="..\..\source\scene\singlethreaded\inode.cpp">
       <Filter>singlethreaded</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\scene\singlethreaded\iscene_module.cpp">
+      <Filter>singlethreaded</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\scene\singlethreaded\attribute.h">
@@ -78,5 +81,8 @@
       <Filter>singlethreaded</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\scene\module.h" />
+    <ClInclude Include="..\..\source\scene\singlethreaded\iscene_module.h">
+      <Filter>singlethreaded</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
