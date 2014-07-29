@@ -5,13 +5,8 @@
 
 PUNK_ENGINE_BEGIN
 namespace System {
-    class PUNK_ENGINE_LOCAL ConsoleConsumer : public ILogConsumer
-    {
-    public:
-        ConsoleConsumer();
-        virtual ~ConsoleConsumer();
-        void Write(const Core::String &value) override;
-    };
+
+	PUNK_ENGINE_LOCAL ILogConsumer* GetConsoleConsumer();
 }
 PUNK_ENGINE_END
 

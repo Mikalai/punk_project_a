@@ -203,9 +203,9 @@ namespace System {
     {
         RECT r;
 		if (m_window_description.parent_wnd) {
-			GetClientRect(m_window_description.parent_wnd, &r);
+			/*GetClientRect(m_window_description.parent_wnd, &r);
 			width = r.right - r.left;
-			height = r.bottom - r.top;
+			height = r.bottom - r.top;*/
 			MoveWindow(m_hwindow, 0, 0, width, height, TRUE);
 		}
 		else {
@@ -505,19 +505,19 @@ namespace System {
             a->OnWindowCreated();
         }
             break;
-		case WM_SHOWWINDOW:
-		{
-			HWND parent = GetAncestor(hwnd, GA_PARENT);
-			if (parent) {
-				RECT r;
-				GetClientRect(parent, &r);
-				auto w = r.right - r.left;
-				auto h = r.bottom - r.top;								
-				MoveWindow(hwnd, 0, 0, w, h, TRUE);
-			}
-			SetWindowLong(hwnd, GWL_STYLE, WS_CHILD | WS_DLGFRAME);
-		}
-			break;
+		//case WM_SHOWWINDOW:
+		//{
+		//	HWND parent = GetAncestor(hwnd, GA_PARENT);
+		//	if (parent) {
+		//		RECT r;
+		//		GetClientRect(parent, &r);
+		//		auto w = r.right - r.left;
+		//		auto h = r.bottom - r.top;								
+		//		MoveWindow(hwnd, 0, 0, w, h, TRUE);
+		//	}
+		//	SetWindowLong(hwnd, GWL_STYLE, WS_CHILD | WS_DLGFRAME);
+		//}
+		//	break;
         case WM_DESTROY:
             win->OnWindowDestroy();
             PostQuitMessage(0);

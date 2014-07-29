@@ -31,8 +31,8 @@ namespace System {
 			std::set<ILogConsumer*> m_consumers;
 			ThreadMutex m_consumer_mutex;
 			IClock* m_clock{ nullptr };
-			ConsoleConsumer* m_console_consumer{ nullptr };
-			FileConsumer* m_file_consumer{ nullptr };
+			ILogConsumer* m_console_consumer{ nullptr };
+			ILogConsumer* m_file_consumer{ nullptr };
 			std::uint32_t m_offset{ 0 };
 		};
 
@@ -77,8 +77,8 @@ namespace System {
 
     DefaultLogger::DefaultLogger() {
         m_clock = CreateClock();
-        m_console_consumer = new ConsoleConsumer;
-		m_file_consumer = new FileConsumer;
+		m_console_consumer = GetConsoleConsumer();
+		m_file_consumer = GetFileConsumer();
         AddConsumer(m_console_consumer);
 		AddConsumer(m_file_consumer);
     }
@@ -105,7 +105,7 @@ namespace System {
         ThreadMutexLock lock(m_consumer_mutex);
         Core::String s = m_clock->SysTimeNowAsLocal() + L": Message: " + Core::String(L' ', 2*m_offset) + value;
         for (auto c : m_consumers) {
-            c->Write(s);
+			c->Write(m_clock->SysTimeNowAsLocal(), L"Message", value);
         }
     }
 
@@ -113,7 +113,7 @@ namespace System {
         ThreadMutexLock lock(m_consumer_mutex);
         Core::String s = m_clock->SysTimeNowAsLocal() + L": Warning: " + Core::String(L' ', 2*m_offset) + value;
         for (auto c : m_consumers) {
-            c->Write(s);
+			c->Write(m_clock->SysTimeNowAsLocal(), L"Warning", value);
         }
     }
 
@@ -121,7 +121,7 @@ namespace System {
         ThreadMutexLock lock(m_consumer_mutex);
         Core::String s = m_clock->SysTimeNowAsLocal() + L": Error: " + Core::String(L' ', 2*m_offset) + value;
         for (auto c : m_consumers) {
-            c->Write(s);
+			c->Write(m_clock->SysTimeNowAsLocal(), L"Error", value);
         }
     }
 
@@ -129,7 +129,7 @@ namespace System {
         ThreadMutexLock lock(m_consumer_mutex);
         Core::String s = m_clock->SysTimeNowAsLocal() + L": Info: " + Core::String(L' ', 2*m_offset) + value;
         for (auto c : m_consumers) {
-            c->Write(s);
+			c->Write(m_clock->SysTimeNowAsLocal(), L"Info", value);
         }
     }
 
@@ -137,7 +137,7 @@ namespace System {
         ThreadMutexLock lock(m_consumer_mutex);
         Core::String s = m_clock->SysTimeNowAsLocal() + L": Write: " + Core::String(L' ', 2*m_offset) + value;
         for (auto c : m_consumers) {
-            c->Write(s);
+			c->Write(m_clock->SysTimeNowAsLocal(), L"", value);
         }
     }
 
@@ -145,7 +145,7 @@ namespace System {
         ThreadMutexLock lock(m_consumer_mutex);
         Core::String s = m_clock->SysTimeNowAsLocal() + L": Debug: " + Core::String(L' ', 2*m_offset) + value;
         for (auto c : m_consumers) {
-            c->Write(s);
+			c->Write(m_clock->SysTimeNowAsLocal(), L"Debug", value);
         }
     }
 }
