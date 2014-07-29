@@ -2,20 +2,21 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="..\..\source\tools\editor\main.cpp" />
-    <ClCompile Include="..\..\source\tools\editor\scene_tree.cpp" />
     <ClCompile Include="..\..\source\tools\editor\module_manager_impl.cpp" />
-    <ClCompile Include="..\..\source\tools\editor\editor_main_window_impl.cpp" />
     <ClCompile Include="..\..\source\tools\editor\forms\forms.cpp">
       <Filter>forms</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\tools\editor\common.cpp" />
+    <ClCompile Include="..\..\source\tools\editor\editor_main_window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\source\tools\editor\scene_tree.h" />
     <ClInclude Include="..\..\source\tools\editor\module_list.h" />
     <ClInclude Include="..\..\source\tools\editor\resources.h" />
     <ClInclude Include="..\..\source\tools\editor\forms\forms.h">
       <Filter>forms</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\tools\editor\common.h" />
+    <ClInclude Include="..\..\source\tools\editor\editor_main_window.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="forms">

@@ -31,6 +31,7 @@
 #include <wx/ribbon/control.h>
 #include <wx/ribbon/art.h>
 #include <wx/ribbon/bar.h>
+#include <wx/dataview.h>
 #include <wx/notebook.h>
 #include <wx/frame.h>
 
@@ -42,9 +43,16 @@ namespace Punk
 	{
 		namespace Tools
 		{
-			#define ID_ENGINE_MODULES_VIEW 1000
-			#define ID_ENGINE_MODULES_LOAD 1001
-			#define ID_ENGINE_MODULES_UNLOAD 1002
+			#define ID_EDITOR_PANEL_MANAGER_TOGGLE_BOTTOM_PANEL 1000
+			#define ID_EDITOR_TOGGLE_BOTTOM_PANEL 1001
+			#define ID_EDITOR_TOGGLE_LOG 1002
+			#define ID_EDITOR_TOGGLE_FULLSCREEN 1003
+			#define ID_ENGINE_MODULES_VIEW 1004
+			#define ID_ENGINE_MODULES_LOAD 1005
+			#define ID_ENGINE_MODULES_UNLOAD 1006
+			#define ID_SCENE_ASSETS_LOAD 1007
+			#define ID_SCENE_ASSETS_REMOVE 1008
+			#define ID_SCENE_ASSETS_PROPERTY 1009
 			
 			///////////////////////////////////////////////////////////////////////////////
 			/// Class ModuleManagerDialog
@@ -96,36 +104,50 @@ namespace Punk
 			};
 			
 			///////////////////////////////////////////////////////////////////////////////
-			/// Class EditorMainWindow
+			/// Class EditorMainWindowBase
 			///////////////////////////////////////////////////////////////////////////////
-			class EditorMainWindow : public wxFrame 
+			class EditorMainWindowBase : public wxFrame 
 			{
 				private:
 				
 				protected:
-					wxNotebook* m_menu;
-					wxPanel* m_file_panel;
-					wxRibbonBar* m_file_ribbon_bar;
-					wxRibbonPage* m_file_page;
+					wxRibbonBar* m_scene_ribbon_bar;
+					wxRibbonPage* m_editor_page;
 					wxRibbonPanel* m_file_ribbon_panel;
 					wxRibbonToolBar* m_file_toolbar;
-					wxPanel* m_engine_panel;
-					wxRibbonBar* m_modules_bar;
-					wxRibbonPage* m_modules_page;
+					wxRibbonPanel* m_tools_manager;
+					wxRibbonToolBar* m_panel_manager_toolbar;
+					wxRibbonPage* m_engine_page;
 					wxRibbonPanel* m_modules_panel;
 					wxRibbonToolBar* m_module_toolbar;
+					wxRibbonPage* m_scene_assets_page;
+					wxRibbonPanel* m_assets_manager_panel;
+					wxRibbonToolBar* m_assets_manager_toolbar;
+					wxPanel* m_right_panel;
+					wxPanel* m_mid_panel;
+					wxPanel* m_bottom_panel;
+					wxNotebook* m_bottom_panel_stuff;
+					wxPanel* m_log_panel;
+					wxDataViewListCtrl* m_log;
 					
 					// Virtual event handlers, overide them in your derived class
-					void OnViewModules( wxRibbonToolBarEvent& event );
-					void OnLoadModule( wxRibbonToolBarEvent& event );
-					void OnUnloadModule( wxRibbonToolBarEvent& event );
+					virtual void OnActivate( wxActivateEvent& event ) = 0;
+					virtual void OnClose( wxCloseEvent& event ) = 0;
+					virtual void OnIdle( wxIdleEvent& event ) = 0;
+					virtual void OnToggleBottomPanel( wxRibbonToolBarEvent& event ) = 0;
+					virtual void OnToggleLog( wxRibbonToolBarEvent& event ) = 0;
+					virtual void OnToggleFullscreen( wxRibbonToolBarEvent& event ) = 0;
+					virtual void OnViewModules( wxRibbonToolBarEvent& event ) = 0;
+					virtual void OnLoadModule( wxRibbonToolBarEvent& event ) = 0;
+					virtual void OnUnloadModule( wxRibbonToolBarEvent& event ) = 0;
+					virtual void OnSize( wxSizeEvent& event ) = 0;
 					
 				
 				public:
 					
-					EditorMainWindow( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Punk Editor"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1024,840 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+					EditorMainWindowBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Punk Editor"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1024,840 ), long style = wxDEFAULT_FRAME_STYLE|wxMAXIMIZE|wxTAB_TRAVERSAL );
 					
-					~EditorMainWindow();
+					~EditorMainWindowBase();
 				
 			};
 			

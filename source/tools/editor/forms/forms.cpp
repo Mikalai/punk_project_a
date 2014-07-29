@@ -124,7 +124,7 @@ SceneGraphPanel::~SceneGraphPanel()
 {
 }
 
-EditorMainWindow::EditorMainWindow( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
+EditorMainWindowBase::EditorMainWindowBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
 {
 	this->SetSizeHints( wxSize( 1024,768 ), wxDefaultSize );
 	
@@ -134,52 +134,89 @@ EditorMainWindow::EditorMainWindow( wxWindow* parent, wxWindowID id, const wxStr
 	wxBoxSizer* m_menu_sizer;
 	m_menu_sizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_menu = new wxNotebook( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
-	m_file_panel = new wxPanel( m_menu, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	wxBoxSizer* m_file_bar_sizer;
-	m_file_bar_sizer = new wxBoxSizer( wxVERTICAL );
+	wxBoxSizer* m_scene_ribbon_sizer;
+	m_scene_ribbon_sizer = new wxBoxSizer( wxVERTICAL );
 	
-	m_file_ribbon_bar = new wxRibbonBar( m_file_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxRIBBON_BAR_DEFAULT_STYLE );
-	m_file_ribbon_bar->SetArtProvider(new wxRibbonDefaultArtProvider); 
-	m_file_page = new wxRibbonPage( m_file_ribbon_bar, wxID_ANY, wxT("FilePage") , wxNullBitmap , 0 );
-	m_file_ribbon_panel = new wxRibbonPanel( m_file_page, wxID_ANY, wxT("File") , wxNullBitmap , wxDefaultPosition, wxDefaultSize, wxRIBBON_PANEL_DEFAULT_STYLE );
+	m_scene_ribbon_bar = new wxRibbonBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxRIBBON_BAR_DEFAULT_STYLE );
+	m_scene_ribbon_bar->SetArtProvider(new wxRibbonDefaultArtProvider); 
+	m_editor_page = new wxRibbonPage( m_scene_ribbon_bar, wxID_ANY, wxT("Editor") , wxNullBitmap , 0 );
+	m_scene_ribbon_bar->SetActivePage( m_editor_page ); 
+	m_file_ribbon_panel = new wxRibbonPanel( m_editor_page, wxID_ANY, wxT("File") , wxNullBitmap , wxDefaultPosition, wxDefaultSize, wxRIBBON_PANEL_DEFAULT_STYLE );
 	m_file_toolbar = new wxRibbonToolBar( m_file_ribbon_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
-	m_file_toolbar->AddTool( wxID_ANY, wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_BUTTON ), wxEmptyString);
-	m_file_ribbon_bar->Realize();
-	
-	m_file_bar_sizer->Add( m_file_ribbon_bar, 1, wxALL|wxEXPAND, 0 );
-	
-	
-	m_file_panel->SetSizer( m_file_bar_sizer );
-	m_file_panel->Layout();
-	m_file_bar_sizer->Fit( m_file_panel );
-	m_menu->AddPage( m_file_panel, wxT("File"), true );
-	m_engine_panel = new wxPanel( m_menu, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	wxBoxSizer* m_engine_panel_sizer;
-	m_engine_panel_sizer = new wxBoxSizer( wxHORIZONTAL );
-	
-	m_modules_bar = new wxRibbonBar( m_engine_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxRIBBON_BAR_DEFAULT_STYLE );
-	m_modules_bar->SetArtProvider(new wxRibbonDefaultArtProvider); 
-	m_modules_page = new wxRibbonPage( m_modules_bar, wxID_ANY, wxT("ModulesPage") , wxNullBitmap , 0 );
-	m_modules_panel = new wxRibbonPanel( m_modules_page, wxID_ANY, wxT("Modules") , wxNullBitmap , wxDefaultPosition, wxDefaultSize, wxRIBBON_PANEL_DEFAULT_STYLE );
+	m_file_toolbar->AddTool( wxID_ANY, wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_TOOLBAR ), wxEmptyString);
+	m_tools_manager = new wxRibbonPanel( m_editor_page, wxID_ANY, wxT("Panel manager") , wxNullBitmap , wxDefaultPosition, wxDefaultSize, wxRIBBON_PANEL_DEFAULT_STYLE );
+	m_panel_manager_toolbar = new wxRibbonToolBar( m_tools_manager, ID_EDITOR_PANEL_MANAGER_TOGGLE_BOTTOM_PANEL, wxDefaultPosition, wxDefaultSize, 0 );
+	m_panel_manager_toolbar->AddToggleTool( ID_EDITOR_TOGGLE_BOTTOM_PANEL, wxArtProvider::GetBitmap( wxART_TICK_MARK, wxART_TOOLBAR ), wxEmptyString);
+	m_panel_manager_toolbar->AddToggleTool( ID_EDITOR_TOGGLE_LOG, wxArtProvider::GetBitmap( wxART_TICK_MARK, wxART_TOOLBAR ), wxEmptyString);
+	m_panel_manager_toolbar->AddToggleTool( ID_EDITOR_TOGGLE_FULLSCREEN, wxArtProvider::GetBitmap( wxART_TICK_MARK, wxART_TOOLBAR ), wxEmptyString);
+	m_engine_page = new wxRibbonPage( m_scene_ribbon_bar, wxID_ANY, wxT("Engine") , wxNullBitmap , 0 );
+	m_modules_panel = new wxRibbonPanel( m_engine_page, wxID_ANY, wxT("Modules") , wxNullBitmap , wxDefaultPosition, wxDefaultSize, wxRIBBON_PANEL_DEFAULT_STYLE );
 	m_module_toolbar = new wxRibbonToolBar( m_modules_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
-	m_module_toolbar->AddTool( ID_ENGINE_MODULES_VIEW, wxArtProvider::GetBitmap( wxART_LIST_VIEW, wxART_BUTTON ), wxEmptyString);
-	m_module_toolbar->AddTool( ID_ENGINE_MODULES_LOAD, wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_BUTTON ), wxEmptyString);
-	m_module_toolbar->AddTool( ID_ENGINE_MODULES_UNLOAD, wxArtProvider::GetBitmap( wxART_CROSS_MARK, wxART_BUTTON ), wxEmptyString);
-	m_modules_bar->Realize();
+	m_module_toolbar->AddTool( ID_ENGINE_MODULES_VIEW, wxArtProvider::GetBitmap( wxART_LIST_VIEW, wxART_TOOLBAR ), wxEmptyString);
+	m_module_toolbar->AddTool( ID_ENGINE_MODULES_LOAD, wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_TOOLBAR ), wxEmptyString);
+	m_module_toolbar->AddTool( ID_ENGINE_MODULES_UNLOAD, wxArtProvider::GetBitmap( wxART_CROSS_MARK, wxART_TOOLBAR ), wxEmptyString);
+	m_scene_assets_page = new wxRibbonPage( m_scene_ribbon_bar, wxID_ANY, wxT("Scene") , wxNullBitmap , 0 );
+	m_assets_manager_panel = new wxRibbonPanel( m_scene_assets_page, wxID_ANY, wxT("Assets") , wxNullBitmap , wxDefaultPosition, wxDefaultSize, wxRIBBON_PANEL_DEFAULT_STYLE );
+	m_assets_manager_toolbar = new wxRibbonToolBar( m_assets_manager_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	m_assets_manager_toolbar->AddTool( ID_SCENE_ASSETS_LOAD, wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_TOOLBAR ), wxEmptyString);
+	m_assets_manager_toolbar->AddTool( ID_SCENE_ASSETS_REMOVE, wxArtProvider::GetBitmap( wxART_CROSS_MARK, wxART_TOOLBAR ), wxEmptyString);
+	m_assets_manager_toolbar->AddTool( ID_SCENE_ASSETS_PROPERTY, wxArtProvider::GetBitmap( wxART_TIP, wxART_TOOLBAR ), wxEmptyString);
+	m_scene_ribbon_bar->Realize();
 	
-	m_engine_panel_sizer->Add( m_modules_bar, 1, wxALL, 0 );
+	m_scene_ribbon_sizer->Add( m_scene_ribbon_bar, 1, wxALL|wxEXPAND, 0 );
 	
 	
-	m_engine_panel->SetSizer( m_engine_panel_sizer );
-	m_engine_panel->Layout();
-	m_engine_panel_sizer->Fit( m_engine_panel );
-	m_menu->AddPage( m_engine_panel, wxT("Engine"), false );
-	
-	m_menu_sizer->Add( m_menu, 1, wxALL, 0 );
+	m_menu_sizer->Add( m_scene_ribbon_sizer, 1, wxEXPAND, 5 );
 	
 	
 	m_global_sizer->Add( m_menu_sizer, 0, wxEXPAND, 0 );
+	
+	wxBoxSizer* m_central_hor_layout;
+	m_central_hor_layout = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_right_panel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_central_hor_layout->Add( m_right_panel, 1, wxEXPAND | wxALL, 0 );
+	
+	wxBoxSizer* m_central_layout;
+	m_central_layout = new wxBoxSizer( wxVERTICAL );
+	
+	m_mid_panel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_mid_panel->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
+	m_mid_panel->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_GRAYTEXT ) );
+	
+	m_central_layout->Add( m_mid_panel, 3, wxEXPAND | wxALL, 0 );
+	
+	m_bottom_panel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* m_bottom_panel_layout;
+	m_bottom_panel_layout = new wxBoxSizer( wxVERTICAL );
+	
+	m_bottom_panel_stuff = new wxNotebook( m_bottom_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_BOTTOM );
+	m_log_panel = new wxPanel( m_bottom_panel_stuff, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* m_log_layout;
+	m_log_layout = new wxBoxSizer( wxVERTICAL );
+	
+	m_log = new wxDataViewListCtrl( m_log_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxDV_HORIZ_RULES|wxDV_ROW_LINES|wxDV_VERT_RULES );
+	m_log_layout->Add( m_log, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	m_log_panel->SetSizer( m_log_layout );
+	m_log_panel->Layout();
+	m_log_layout->Fit( m_log_panel );
+	m_bottom_panel_stuff->AddPage( m_log_panel, wxT("Log"), false );
+	
+	m_bottom_panel_layout->Add( m_bottom_panel_stuff, 1, wxEXPAND | wxALL, 0 );
+	
+	
+	m_bottom_panel->SetSizer( m_bottom_panel_layout );
+	m_bottom_panel->Layout();
+	m_bottom_panel_layout->Fit( m_bottom_panel );
+	m_central_layout->Add( m_bottom_panel, 1, wxEXPAND | wxALL, 0 );
+	
+	
+	m_central_hor_layout->Add( m_central_layout, 3, wxEXPAND, 5 );
+	
+	
+	m_global_sizer->Add( m_central_hor_layout, 1, wxEXPAND, 5 );
 	
 	
 	this->SetSizer( m_global_sizer );
@@ -188,16 +225,30 @@ EditorMainWindow::EditorMainWindow( wxWindow* parent, wxWindowID id, const wxStr
 	this->Centre( wxBOTH );
 	
 	// Connect Events
-	this->Connect( ID_ENGINE_MODULES_VIEW, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindow::OnViewModules ) );
-	this->Connect( ID_ENGINE_MODULES_LOAD, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindow::OnLoadModule ) );
-	this->Connect( ID_ENGINE_MODULES_UNLOAD, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindow::OnUnloadModule ) );
+	this->Connect( wxEVT_ACTIVATE, wxActivateEventHandler( EditorMainWindowBase::OnActivate ) );
+	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( EditorMainWindowBase::OnClose ) );
+	this->Connect( wxEVT_IDLE, wxIdleEventHandler( EditorMainWindowBase::OnIdle ) );
+	this->Connect( ID_EDITOR_TOGGLE_BOTTOM_PANEL, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnToggleBottomPanel ) );
+	this->Connect( ID_EDITOR_TOGGLE_LOG, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnToggleLog ) );
+	this->Connect( ID_EDITOR_TOGGLE_FULLSCREEN, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnToggleFullscreen ) );
+	this->Connect( ID_ENGINE_MODULES_VIEW, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnViewModules ) );
+	this->Connect( ID_ENGINE_MODULES_LOAD, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnLoadModule ) );
+	this->Connect( ID_ENGINE_MODULES_UNLOAD, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnUnloadModule ) );
+	m_mid_panel->Connect( wxEVT_SIZE, wxSizeEventHandler( EditorMainWindowBase::OnSize ), NULL, this );
 }
 
-EditorMainWindow::~EditorMainWindow()
+EditorMainWindowBase::~EditorMainWindowBase()
 {
 	// Disconnect Events
-	this->Disconnect( ID_ENGINE_MODULES_VIEW, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindow::OnViewModules ) );
-	this->Disconnect( ID_ENGINE_MODULES_LOAD, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindow::OnLoadModule ) );
-	this->Disconnect( ID_ENGINE_MODULES_UNLOAD, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindow::OnUnloadModule ) );
+	this->Disconnect( wxEVT_ACTIVATE, wxActivateEventHandler( EditorMainWindowBase::OnActivate ) );
+	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( EditorMainWindowBase::OnClose ) );
+	this->Disconnect( wxEVT_IDLE, wxIdleEventHandler( EditorMainWindowBase::OnIdle ) );
+	this->Disconnect( ID_EDITOR_TOGGLE_BOTTOM_PANEL, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnToggleBottomPanel ) );
+	this->Disconnect( ID_EDITOR_TOGGLE_LOG, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnToggleLog ) );
+	this->Disconnect( ID_EDITOR_TOGGLE_FULLSCREEN, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnToggleFullscreen ) );
+	this->Disconnect( ID_ENGINE_MODULES_VIEW, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnViewModules ) );
+	this->Disconnect( ID_ENGINE_MODULES_LOAD, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnLoadModule ) );
+	this->Disconnect( ID_ENGINE_MODULES_UNLOAD, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnUnloadModule ) );
+	m_mid_panel->Disconnect( wxEVT_SIZE, wxSizeEventHandler( EditorMainWindowBase::OnSize ), NULL, this );
 	
 }

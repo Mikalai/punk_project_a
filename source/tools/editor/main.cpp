@@ -6,7 +6,7 @@
 #endif
 
 #include <config.h>
-#include "forms/forms.h"
+#include "editor_main_window.h"
 
 PUNK_ENGINE_BEGIN
 namespace Tools {

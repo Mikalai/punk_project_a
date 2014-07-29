@@ -1,5 +1,7 @@
 #include <config.h>
-#include "forms/forms.h"
+#include <punk_engine.h>
+#include "common.h"
+#include "editor_main_window.h"
 
 PUNK_ENGINE_BEGIN
 namespace Tools {
@@ -10,14 +12,95 @@ namespace Tools {
 		dlg->Destroy();
 	}
 
+	EditorMainWindow::EditorMainWindow(wxWindow* parent)
+		: EditorMainWindowBase(parent)
+	{
+		m_log->AppendTextColumn("Time");
+		m_log->AppendTextColumn("Severity");
+		m_log->AppendTextColumn("Message");
+
+		System::GetDefaultLogger()->AddConsumer(this);
+
+		Common::LoadModules();
+
+		if (!m_canvas) {
+			HWND hwnd = (HWND)m_mid_panel->GetHandle();
+
+
+			m_canvas = System::CreateInstancePtr<Graphics::ICanvas>(
+				Graphics::CLSID_Canvas, Graphics::IID_ICanvas);
+
+			auto desc = Graphics::CanvasDescription();
+			desc.use_parent_window = true;
+			desc.parent_wnd = hwnd;
+
+			m_canvas->Initialize(desc);
+			m_canvas->GetWindow()->Open();
+		}
+	}
+
 	void EditorMainWindow::OnLoadModule(wxRibbonToolBarEvent& event) {
 
 	}
 
 	void EditorMainWindow::OnUnloadModule(wxRibbonToolBarEvent& event) {
-	
+
 	}
 
+	void EditorMainWindow::OnActivate(wxActivateEvent& event) {
+		
+
+		event.Skip();
+	}
+
+	void EditorMainWindow::OnIdle(wxIdleEvent& event) {
+		auto interval = event.GetTimestamp();
+		//wxMessageBox("Timer shoot");
+		if (m_canvas) {
+			m_canvas->GetWindow()->Update(interval);
+			m_canvas->SwapBuffers();
+		}
+		event.Skip();
+	}
+
+	void EditorMainWindow::OnClose(wxCloseEvent& event) {
+		event.Skip();
+	}
+
+	void EditorMainWindow::OnSize(wxSizeEvent& event) {
+		if (m_canvas)
+		{
+			int w, h;
+			m_mid_panel->GetClientSize(&w, &h);
+			m_canvas->GetWindow()->SetSize(w, h);
+		}
+		event.Skip();
+	}
+
+	void EditorMainWindow::OnToggleBottomPanel(wxRibbonToolBarEvent& event) {
+
+	}
+
+	void EditorMainWindow::OnToggleLog(wxRibbonToolBarEvent& event) {
+
+	}
+
+	void EditorMainWindow::OnToggleFullscreen(wxRibbonToolBarEvent& event) {
+		bool value = !event.GetBar()->GetToolState(event.GetId());
+		m_right_panel->Show(value);
+		m_bottom_panel->Show(value);
+	}
+
+	void EditorMainWindow::Write(const Core::String& time, const Core::String& level, const Core::String &message) {
+		wxVector<wxVariant> data;
+		data.push_back(wxString((wchar_t*)time.Data(), (wchar_t*)time.Data()+time.Length()));
+		data.push_back(wxString((wchar_t*)level.Data(), (wchar_t*)level.Data() + level.Length()));
+		data.push_back(wxString((wchar_t*)message.Data(), (wchar_t*)message.Data() + message.Length()));
+		m_log->AppendItem(data);		
+		wxScrollWinEvent e(wxEVT_SCROLLWIN_LINEDOWN, 1, 0);		
+		e.SetEventObject(m_log);		
+		m_log->SendAutoScrollEvents(e);
+	}
 }
 PUNK_ENGINE_END
 
@@ -89,17 +172,6 @@ PUNK_ENGINE_END
 //	void EditorMainWindow::OnTimer(wxTimerEvent& event) {
 //		static bool v = false;
 //		/*if (!v) {
-//			HWND hwnd = (HWND)m_mid_panel->GetHandle();
-//
-//
-//			m_canvas = System::CreateInstancePtr<Graphics::ICanvas>(
-//				Graphics::CLSID_Canvas, Graphics::IID_ICanvas);
-//
-//			auto desc = Graphics::CanvasDescription();
-//			desc.use_parent_window = true;
-//			desc.parent_wnd = hwnd;
-//
-//			m_canvas->Initialize(desc);
 //			m_canvas->GetWindow()->Open();
 //			v = true;
 //		}*/
@@ -110,9 +182,6 @@ PUNK_ENGINE_END
 //	}
 //
 //	void EditorMainWindow::OnResize(wxSizeEvent& event) {
-//		if (m_canvas)
-//		m_canvas->GetWindow()->SetSize(m_mid_panel->GetSize().GetWidth(), m_mid_panel->GetSize().GetHeight());
-//		event.Skip();
 //	}
 //
 //	void EditorMainWindow::OnSceneTreeView(wxCommandEvent& event) {
