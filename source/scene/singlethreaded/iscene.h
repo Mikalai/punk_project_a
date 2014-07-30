@@ -35,6 +35,9 @@ namespace SceneModule {
 		virtual void OnAttributeUpdated(Core::Pointer<INode> node, Core::Pointer<IAttribute> old_attribute, Core::Pointer<IAttribute> new_attribute) = 0;
 		virtual void OnAttributeRemoved(Core::Pointer<INode> node, Core::Pointer<IAttribute> attribute) = 0;		
 
+		virtual void SetName(const Core::String& value) = 0;
+		virtual const Core::String& GetName() const = 0;
+
 		template<class T>
 		Core::Pointer<INode> FindNodeByAttribute(const Core::String& name) {
 			auto root = GetRoot();

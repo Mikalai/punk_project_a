@@ -143,10 +143,17 @@ namespace SceneModule
 			});
 		}
 
+		void SetName(const Core::String& value) override {
+			m_name = value;
+		}
+		const Core::String& GetName() const override {
+			return m_name;
+		}
+
 		//	ISerializable
 		void Serialize(Core::Buffer& buffer) override {
 			buffer.WriteBuffer(CLSID_Scene.ToPointer(), sizeof(CLSID_Scene));
-
+			buffer.WriteString(m_name);
 			auto serializable = Core::QueryInterfacePtr<Core::ISerializable>(m_root, Core::IID_ISerializable);
 			bool flag = serializable.get() != nullptr;
 			buffer.WriteBoolean(flag);
@@ -159,6 +166,7 @@ namespace SceneModule
 		}
 
 		void Deserialize(Core::Buffer& buffer) override {
+			m_name = buffer.ReadString();
 			bool flag = buffer.ReadBoolean();
 			if (flag) {
 				Core::Guid clsid;
@@ -178,6 +186,7 @@ namespace SceneModule
 
 	private:
 		std::atomic<std::uint32_t> m_ref_count{ 0 };
+		Core::String m_name;
 		std::set<Core::Pointer<IObserver>> m_observers;
 		Core::ActionSlot<Core::Pointer<INode>, Core::Pointer<INode>> m_on_added_actions;
 		Core::ActionSlot<Core::Pointer<INode>, Core::Pointer<INode>> m_on_removed_action;
