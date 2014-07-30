@@ -153,7 +153,7 @@ namespace LowLevelRender {
 		void SetSceneManager(SceneModule::ISceneManager* manager) override {
 			LOG_FUNCTION_SCOPE;
 			m_manager = manager;
-			auto scene = m_manager->GetScene();
+			auto scene = m_manager->GetCurrentScene();
 			if (scene) {
 				auto root = scene->GetRoot();
 				if (root)
@@ -166,7 +166,7 @@ namespace LowLevelRender {
 			if (!m_manager)
 				return;
 
-			auto root = m_manager->GetScene()->GetRoot();
+			auto root = m_manager->GetCurrentScene()->GetRoot();
 			m_point_lights.clear();
 			m_spot_lights.clear();
 			m_dir_light.clear();

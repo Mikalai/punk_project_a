@@ -49,7 +49,7 @@ namespace Runtime {
 
         auto loader = System::CreateInstancePtr<IoModule::IIoObserver>(
 			IoModule::CLSID_IoObserver, IoModule::IID_IIoObserver);
-        m_scene_manager->GetScene()->AddObserver(loader);
+        m_scene_manager->GetCurrentScene()->AddObserver(loader);
 
 
         auto animator_module = System::CreateInstancePtr<AnimatorModule::IAnimatorModule>(
@@ -60,17 +60,17 @@ namespace Runtime {
         auto animator_observer = Core::QueryInterfacePtr<AnimatorModule::IAnimatorObserver>(animator_module, AnimatorModule::IID_IAnimatorObserver);
         auto animator_processor = Core::QueryInterfacePtr<AnimatorModule::IAnimatorProcessor>(animator_module, AnimatorModule::IID_IAnimatorProcessor);
 
-        m_scene_manager->GetScene()->AddObserver(animator_observer);
+        m_scene_manager->GetCurrentScene()->AddObserver(animator_observer);
         m_scene_manager->AddProcessor(animator_processor);
 
 		m_render_module = System::CreateInstancePtr<LowLevelRender::IRenderModule>(
-			LowLevelRender::CLSID_RenderModule, 
-			LowLevelRender::IID_IRenderModule
+			LowLevelRender::CLSID_Render, 
+			LowLevelRender::IID_IRender
 			);
 
         auto render_processor = Core::QueryInterfacePtr<LowLevelRender::IRenderProcessor>(m_render_module, LowLevelRender::IID_IRenderProcessor);
         auto render_observer = Core::QueryInterfacePtr<LowLevelRender::IRenderObserver>(m_render_module, LowLevelRender::IID_IRenderObserver);
-        m_scene_manager->GetScene()->AddObserver(render_observer);
+        m_scene_manager->GetCurrentScene()->AddObserver(render_observer);
         m_scene_manager->AddProcessor(render_processor);
     }
 

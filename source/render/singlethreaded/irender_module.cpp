@@ -52,10 +52,12 @@ namespace LowLevelRender {
 		Core::String m_fullpath;
 	};
 
-	RenderModule g_render_module;
+	Core::Pointer<RenderModule> g_render_module{ nullptr, Core::DestroyObject };
 
 	extern "C" PUNK_ENGINE_API System::IModule* GetPunkModule() {
-		return &g_render_module;
+		if (!g_render_module)
+			g_render_module.reset(new RenderModule);
+		return g_render_module.get();
 	}
 }
 PUNK_ENGINE_END

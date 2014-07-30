@@ -1,6 +1,7 @@
 #include <config.h>
 #include <punk_engine.h>
 #include "common.h"
+#include "forms/create_scene_dialog_impl.h"
 #include "editor_main_window.h"
 
 PUNK_ENGINE_BEGIN
@@ -87,7 +88,7 @@ namespace Tools {
 
 	void EditorMainWindow::OnToggleFullscreen(wxRibbonToolBarEvent& event) {
 		bool value = !event.GetBar()->GetToolState(event.GetId());
-		m_right_panel->Show(value);
+		m_left_panel->Show(value);
 		m_bottom_panel->Show(value);
 	}
 
@@ -100,6 +101,56 @@ namespace Tools {
 		wxScrollWinEvent e(wxEVT_SCROLLWIN_LINEDOWN, 1, 0);		
 		e.SetEventObject(m_log);		
 		m_log->SendAutoScrollEvents(e);
+	}
+
+	void EditorMainWindow::OnSceneCreate(wxRibbonToolBarEvent& event) {
+		
+		CreateSceneDialogImpl dlg(this);
+		if (dlg.ShowModal() == wxID_OK) {
+			auto module = Common::GetSceneModule();
+			auto scene_manager = module->GetSceneManager();			
+			scene_manager->AddScene(dlg.GetCreatedScene());
+			UpdateScenePanel();
+		}
+		event.Skip();
+	}
+
+	void EditorMainWindow::OnSceneDelete(wxRibbonToolBarEvent& event) {
+		auto index = m_scenes_combobox->GetSelection();
+		if (index != wxNOT_FOUND) {
+			std::uint32_t scene_index = (std::uint32_t)m_scenes_combobox->GetClientData(index);
+			auto module = Common::GetSceneModule();
+			auto scene_manager = module->GetSceneManager();
+			scene_manager->RemoveScene(scene_index);
+			UpdateScenePanel();
+		}
+		event.Skip();
+	}
+
+	void EditorMainWindow::OnNodeCreate(wxRibbonToolBarEvent& event) {
+		event.Skip();
+	}
+
+	void EditorMainWindow::OnNodeDelete(wxRibbonToolBarEvent& event) {
+		event.Skip();
+	}
+
+	void EditorMainWindow::UpdateScenePanel() {		
+		auto module = Common::GetSceneModule();
+		auto scene_manager = module->GetSceneManager();
+		m_scenes_combobox->Clear();
+		for (std::uint32_t i = 0, max_i = scene_manager->GetScenesCount(); i < max_i; ++i) {
+			auto scene = scene_manager->GetScene(i);
+			m_scenes_combobox->Append(Common::PunkStringToWxString(scene->GetName()), (void*)i);
+		}
+		if (scene_manager->GetScenesCount() != 0)
+			m_scenes_combobox->Enable();
+		else
+			m_scenes_combobox->Disable();
+	}
+
+	void EditorMainWindow::OnSceneChanged(wxCommandEvent& event) {
+		event.Skip();
 	}
 }
 PUNK_ENGINE_END

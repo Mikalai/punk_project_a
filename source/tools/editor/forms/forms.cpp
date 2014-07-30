@@ -140,7 +140,6 @@ EditorMainWindowBase::EditorMainWindowBase( wxWindow* parent, wxWindowID id, con
 	m_scene_ribbon_bar = new wxRibbonBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxRIBBON_BAR_DEFAULT_STYLE );
 	m_scene_ribbon_bar->SetArtProvider(new wxRibbonDefaultArtProvider); 
 	m_editor_page = new wxRibbonPage( m_scene_ribbon_bar, wxID_ANY, wxT("Editor") , wxNullBitmap , 0 );
-	m_scene_ribbon_bar->SetActivePage( m_editor_page ); 
 	m_file_ribbon_panel = new wxRibbonPanel( m_editor_page, wxID_ANY, wxT("File") , wxNullBitmap , wxDefaultPosition, wxDefaultSize, wxRIBBON_PANEL_DEFAULT_STYLE );
 	m_file_toolbar = new wxRibbonToolBar( m_file_ribbon_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
 	m_file_toolbar->AddTool( wxID_ANY, wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_TOOLBAR ), wxEmptyString);
@@ -156,11 +155,18 @@ EditorMainWindowBase::EditorMainWindowBase( wxWindow* parent, wxWindowID id, con
 	m_module_toolbar->AddTool( ID_ENGINE_MODULES_LOAD, wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_TOOLBAR ), wxEmptyString);
 	m_module_toolbar->AddTool( ID_ENGINE_MODULES_UNLOAD, wxArtProvider::GetBitmap( wxART_CROSS_MARK, wxART_TOOLBAR ), wxEmptyString);
 	m_scene_assets_page = new wxRibbonPage( m_scene_ribbon_bar, wxID_ANY, wxT("Scene") , wxNullBitmap , 0 );
+	m_scene_ribbon_bar->SetActivePage( m_scene_assets_page ); 
 	m_assets_manager_panel = new wxRibbonPanel( m_scene_assets_page, wxID_ANY, wxT("Assets") , wxNullBitmap , wxDefaultPosition, wxDefaultSize, wxRIBBON_PANEL_DEFAULT_STYLE );
 	m_assets_manager_toolbar = new wxRibbonToolBar( m_assets_manager_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
 	m_assets_manager_toolbar->AddTool( ID_SCENE_ASSETS_LOAD, wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_TOOLBAR ), wxEmptyString);
 	m_assets_manager_toolbar->AddTool( ID_SCENE_ASSETS_REMOVE, wxArtProvider::GetBitmap( wxART_CROSS_MARK, wxART_TOOLBAR ), wxEmptyString);
 	m_assets_manager_toolbar->AddTool( ID_SCENE_ASSETS_PROPERTY, wxArtProvider::GetBitmap( wxART_TIP, wxART_TOOLBAR ), wxEmptyString);
+	m_node_panel = new wxRibbonPanel( m_scene_assets_page, wxID_ANY, wxT("Nodes manager") , wxNullBitmap , wxDefaultPosition, wxDefaultSize, wxRIBBON_PANEL_DEFAULT_STYLE );
+	m_node_panel_bar = new wxRibbonToolBar( m_node_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	m_node_panel_bar->AddTool( ID_SCENE_NEW_SCENE, wxArtProvider::GetBitmap( wxART_NEW, wxART_TOOLBAR ), wxEmptyString);
+	m_node_panel_bar->AddTool( ID_SCENE_DELETE_SCENE, wxArtProvider::GetBitmap( wxART_CROSS_MARK, wxART_TOOLBAR ), wxEmptyString);
+	m_node_panel_bar->AddTool( ID_SCENE_NEW_NODE, wxArtProvider::GetBitmap( wxART_NEW, wxART_TOOLBAR ), wxEmptyString);
+	m_node_panel_bar->AddTool( ID_SCENE_NODE_DELETE, wxArtProvider::GetBitmap( wxART_CROSS_MARK, wxART_TOOLBAR ), wxEmptyString);
 	m_scene_ribbon_bar->Realize();
 	
 	m_scene_ribbon_sizer->Add( m_scene_ribbon_bar, 1, wxALL|wxEXPAND, 0 );
@@ -174,8 +180,48 @@ EditorMainWindowBase::EditorMainWindowBase( wxWindow* parent, wxWindowID id, con
 	wxBoxSizer* m_central_hor_layout;
 	m_central_hor_layout = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_right_panel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	m_central_hor_layout->Add( m_right_panel, 1, wxEXPAND | wxALL, 0 );
+	m_left_panel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer14;
+	bSizer14 = new wxBoxSizer( wxVERTICAL );
+	
+	m_left_notebook = new wxNotebook( m_left_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_LEFT );
+	m_scene_panel = new wxPanel( m_left_notebook, ID_SCENE_PANEL, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* m_scene_panel_sizer;
+	m_scene_panel_sizer = new wxBoxSizer( wxVERTICAL );
+	
+	wxStaticBoxSizer* m_scene_sizer;
+	m_scene_sizer = new wxStaticBoxSizer( new wxStaticBox( m_scene_panel, wxID_ANY, wxT("Scene") ), wxVERTICAL );
+	
+	m_scenes_combobox = new wxComboBox( m_scene_panel, wxID_ANY, wxT("Combo!"), wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY|wxCB_SORT ); 
+	m_scenes_combobox->Enable( false );
+	
+	m_scene_sizer->Add( m_scenes_combobox, 0, wxALL|wxEXPAND, 0 );
+	
+	
+	m_scene_panel_sizer->Add( m_scene_sizer, 0, wxEXPAND, 5 );
+	
+	wxStaticBoxSizer* m_scene_graph;
+	m_scene_graph = new wxStaticBoxSizer( new wxStaticBox( m_scene_panel, wxID_ANY, wxT("Graph") ), wxVERTICAL );
+	
+	m_dataViewTreeCtrl1 = new wxDataViewTreeCtrl( m_scene_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	m_scene_graph->Add( m_dataViewTreeCtrl1, 1, wxALL|wxEXPAND, 0 );
+	
+	
+	m_scene_panel_sizer->Add( m_scene_graph, 1, wxEXPAND, 5 );
+	
+	
+	m_scene_panel->SetSizer( m_scene_panel_sizer );
+	m_scene_panel->Layout();
+	m_scene_panel_sizer->Fit( m_scene_panel );
+	m_left_notebook->AddPage( m_scene_panel, wxT("Scene"), false );
+	
+	bSizer14->Add( m_left_notebook, 1, wxEXPAND | wxALL, 5 );
+	
+	
+	m_left_panel->SetSizer( bSizer14 );
+	m_left_panel->Layout();
+	bSizer14->Fit( m_left_panel );
+	m_central_hor_layout->Add( m_left_panel, 1, wxEXPAND | wxALL, 0 );
 	
 	wxBoxSizer* m_central_layout;
 	m_central_layout = new wxBoxSizer( wxVERTICAL );
@@ -234,6 +280,11 @@ EditorMainWindowBase::EditorMainWindowBase( wxWindow* parent, wxWindowID id, con
 	this->Connect( ID_ENGINE_MODULES_VIEW, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnViewModules ) );
 	this->Connect( ID_ENGINE_MODULES_LOAD, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnLoadModule ) );
 	this->Connect( ID_ENGINE_MODULES_UNLOAD, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnUnloadModule ) );
+	this->Connect( ID_SCENE_NEW_SCENE, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnSceneCreate ) );
+	this->Connect( ID_SCENE_DELETE_SCENE, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnSceneDelete ) );
+	this->Connect( ID_SCENE_NEW_NODE, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnNodeCreate ) );
+	this->Connect( ID_SCENE_NODE_DELETE, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnNodeDelete ) );
+	m_scenes_combobox->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( EditorMainWindowBase::OnSceneChanged ), NULL, this );
 	m_mid_panel->Connect( wxEVT_SIZE, wxSizeEventHandler( EditorMainWindowBase::OnSize ), NULL, this );
 }
 
@@ -249,6 +300,59 @@ EditorMainWindowBase::~EditorMainWindowBase()
 	this->Disconnect( ID_ENGINE_MODULES_VIEW, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnViewModules ) );
 	this->Disconnect( ID_ENGINE_MODULES_LOAD, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnLoadModule ) );
 	this->Disconnect( ID_ENGINE_MODULES_UNLOAD, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnUnloadModule ) );
+	this->Disconnect( ID_SCENE_NEW_SCENE, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnSceneCreate ) );
+	this->Disconnect( ID_SCENE_DELETE_SCENE, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnSceneDelete ) );
+	this->Disconnect( ID_SCENE_NEW_NODE, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnNodeCreate ) );
+	this->Disconnect( ID_SCENE_NODE_DELETE, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnNodeDelete ) );
+	m_scenes_combobox->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( EditorMainWindowBase::OnSceneChanged ), NULL, this );
 	m_mid_panel->Disconnect( wxEVT_SIZE, wxSizeEventHandler( EditorMainWindowBase::OnSize ), NULL, this );
+	
+}
+
+CreateSceneDialog::CreateSceneDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxSize( -1,-1 ), wxDefaultSize );
+	
+	wxBoxSizer* m_global_sizer;
+	m_global_sizer = new wxBoxSizer( wxVERTICAL );
+	
+	wxStaticBoxSizer* m_scene_sizer;
+	m_scene_sizer = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Name") ), wxVERTICAL );
+	
+	m_scene_name = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_scene_sizer->Add( m_scene_name, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	m_global_sizer->Add( m_scene_sizer, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* m_ok_cancel_sizer;
+	m_ok_cancel_sizer = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_ok = new wxButton( this, ID_CREATE_SCENE_OK, wxT("Ok"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_ok_cancel_sizer->Add( m_ok, 0, wxALL, 5 );
+	
+	m_cancel = new wxButton( this, wxID_OK, wxT("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_ok_cancel_sizer->Add( m_cancel, 0, wxALL, 5 );
+	
+	
+	m_global_sizer->Add( m_ok_cancel_sizer, 0, wxEXPAND, 5 );
+	
+	
+	this->SetSizer( m_global_sizer );
+	this->Layout();
+	m_global_sizer->Fit( this );
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	m_ok->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CreateSceneDialog::OnOk ), NULL, this );
+	m_cancel->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CreateSceneDialog::OnCancel ), NULL, this );
+}
+
+CreateSceneDialog::~CreateSceneDialog()
+{
+	// Disconnect Events
+	m_ok->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CreateSceneDialog::OnOk ), NULL, this );
+	m_cancel->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CreateSceneDialog::OnCancel ), NULL, this );
 	
 }

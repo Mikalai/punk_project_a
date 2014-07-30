@@ -7,6 +7,8 @@
 PUNK_ENGINE_BEGIN
 namespace Tools {
 
+	static Core::Pointer<SceneModule::ISceneModule> g_scene_module;
+
 	void Common::LoadModules() {
 		wxFileInputStream stream("modules.ini");
 		wxFileConfig config(stream);
@@ -15,7 +17,10 @@ namespace Tools {
 		bool has_entry = config.GetFirstEntry(key, index);
 		while (has_entry) {
 			value = config.Read(key, L"");
-			System::LoadPunkModule(value.wc_str());
+			auto module = Core::Pointer<System::IModule>(System::LoadPunkModule(value.wc_str()), Core::DestroyObject);
+			if (module) {
+				g_scene_module = Core::QueryInterfacePtr<SceneModule::ISceneModule>(module, SceneModule::IID_ISceneModule);
+			}
 			has_entry = config.GetNextEntry(key, index);
 		}
 	}
@@ -28,6 +33,18 @@ namespace Tools {
 		}
 		wxFileOutputStream stream("modules.ini");
 		config.Save(stream);
+	}
+
+	Core::Pointer<SceneModule::ISceneModule> Common::GetSceneModule() {
+		return g_scene_module;
+	}
+
+	const wxString Common::PunkStringToWxString(const Core::String& value) {
+		return wxString((wchar_t*)value.Data(), value.Length());
+	}
+	
+	const Core::String Common::WxStringToPunkString(const wxString& value) {
+		return Core::String(value.wc_str());
 	}
 }
 PUNK_ENGINE_END

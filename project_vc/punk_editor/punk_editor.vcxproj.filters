@@ -8,6 +8,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\tools\editor\common.cpp" />
     <ClCompile Include="..\..\source\tools\editor\editor_main_window.cpp" />
+    <ClCompile Include="..\..\source\tools\editor\forms\create_scene_dialog_impl.cpp">
+      <Filter>forms</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\tools\editor\module_list.h" />
@@ -17,6 +20,9 @@
     </ClInclude>
     <ClInclude Include="..\..\source\tools\editor\common.h" />
     <ClInclude Include="..\..\source\tools\editor\editor_main_window.h" />
+    <ClInclude Include="..\..\source\tools\editor\forms\create_scene_dialog_impl.h">
+      <Filter>forms</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="forms">

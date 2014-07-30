@@ -6,7 +6,7 @@ PUNK_ENGINE_BEGIN
 namespace Runtime {
 
     System::ThreadMutex g_module_lock;
-    System::IModule* g_module;
+	Core::Pointer<System::IModule> g_module{ nullptr, Core::DestroyObject };
 
     class PUNK_ENGINE_LOCAL ApplicationModule : public System::IModule {
     public:
@@ -71,9 +71,9 @@ namespace Runtime {
 
     extern "C" PUNK_ENGINE_API System::IModule* GetPunkModule() {
         System::ThreadMutexLock lock(g_module_lock);
-        if (!g_module)
-            g_module = new ApplicationModule();
-        return g_module;
+		if (!g_module)
+			g_module.reset(new ApplicationModule());
+        return g_module.get();
     }
 }
 PUNK_ENGINE_END

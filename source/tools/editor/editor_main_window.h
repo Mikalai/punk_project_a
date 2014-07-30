@@ -21,14 +21,21 @@ namespace Tools {
 		void OnActivate(wxActivateEvent& event);
 		void OnClose(wxCloseEvent& event);
 		void OnIdle(wxIdleEvent& event);
-		void OnViewModules(wxRibbonToolBarEvent& event);
-		void OnLoadModule(wxRibbonToolBarEvent& event);
-		void OnUnloadModule(wxRibbonToolBarEvent& event);
-		void OnSize(wxSizeEvent& event);
 		void OnToggleBottomPanel(wxRibbonToolBarEvent& event);
 		void OnToggleLog(wxRibbonToolBarEvent& event);
 		void OnToggleFullscreen(wxRibbonToolBarEvent& event);
+		void OnViewModules(wxRibbonToolBarEvent& event);
+		void OnLoadModule(wxRibbonToolBarEvent& event);
+		void OnUnloadModule(wxRibbonToolBarEvent& event);
+		void OnSceneCreate(wxRibbonToolBarEvent& event);
+		void OnSceneDelete(wxRibbonToolBarEvent& event);
+		void OnNodeCreate(wxRibbonToolBarEvent& event);
+		void OnNodeDelete(wxRibbonToolBarEvent& event);
+		void OnUpdateScenePanel(wxUpdateUIEvent& event);
+		void OnSceneChanged(wxCommandEvent& event);
+		void OnSize(wxSizeEvent& event);
 
+		void UpdateScenePanel();
 	protected:
 		Core::Pointer<Graphics::ICanvas> m_canvas{ nullptr, Core::DestroyObject };
 	};

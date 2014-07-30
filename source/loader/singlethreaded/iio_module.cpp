@@ -88,10 +88,12 @@ namespace IoModule {
 		Core::String m_fullpath;
 	};
 
-	IoModuleImpl g_io_module;
+	Core::Pointer<IoModuleImpl> g_io_module{ nullptr, Core::DestroyObject };
 
 	extern "C" PUNK_ENGINE_API System::IModule* GetPunkModule() {
-		return &g_io_module;
+		if (!g_io_module)
+			g_io_module.reset(new IoModuleImpl);
+		return g_io_module.get();
 	}
 }
 PUNK_ENGINE_END

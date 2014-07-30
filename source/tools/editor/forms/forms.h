@@ -31,9 +31,11 @@
 #include <wx/ribbon/control.h>
 #include <wx/ribbon/art.h>
 #include <wx/ribbon/bar.h>
+#include <wx/combobox.h>
 #include <wx/dataview.h>
 #include <wx/notebook.h>
 #include <wx/frame.h>
+#include <wx/textctrl.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -53,6 +55,12 @@ namespace Punk
 			#define ID_SCENE_ASSETS_LOAD 1007
 			#define ID_SCENE_ASSETS_REMOVE 1008
 			#define ID_SCENE_ASSETS_PROPERTY 1009
+			#define ID_SCENE_NEW_SCENE 1010
+			#define ID_SCENE_DELETE_SCENE 1011
+			#define ID_SCENE_NEW_NODE 1012
+			#define ID_SCENE_NODE_DELETE 1013
+			#define ID_SCENE_PANEL 1014
+			#define ID_CREATE_SCENE_OK 1015
 			
 			///////////////////////////////////////////////////////////////////////////////
 			/// Class ModuleManagerDialog
@@ -123,7 +131,13 @@ namespace Punk
 					wxRibbonPage* m_scene_assets_page;
 					wxRibbonPanel* m_assets_manager_panel;
 					wxRibbonToolBar* m_assets_manager_toolbar;
-					wxPanel* m_right_panel;
+					wxRibbonPanel* m_node_panel;
+					wxRibbonToolBar* m_node_panel_bar;
+					wxPanel* m_left_panel;
+					wxNotebook* m_left_notebook;
+					wxPanel* m_scene_panel;
+					wxComboBox* m_scenes_combobox;
+					wxDataViewTreeCtrl* m_dataViewTreeCtrl1;
 					wxPanel* m_mid_panel;
 					wxPanel* m_bottom_panel;
 					wxNotebook* m_bottom_panel_stuff;
@@ -140,6 +154,11 @@ namespace Punk
 					virtual void OnViewModules( wxRibbonToolBarEvent& event ) = 0;
 					virtual void OnLoadModule( wxRibbonToolBarEvent& event ) = 0;
 					virtual void OnUnloadModule( wxRibbonToolBarEvent& event ) = 0;
+					virtual void OnSceneCreate( wxRibbonToolBarEvent& event ) = 0;
+					virtual void OnSceneDelete( wxRibbonToolBarEvent& event ) = 0;
+					virtual void OnNodeCreate( wxRibbonToolBarEvent& event ) = 0;
+					virtual void OnNodeDelete( wxRibbonToolBarEvent& event ) = 0;
+					virtual void OnSceneChanged( wxCommandEvent& event ) = 0;
 					virtual void OnSize( wxSizeEvent& event ) = 0;
 					
 				
@@ -148,6 +167,30 @@ namespace Punk
 					EditorMainWindowBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Punk Editor"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1024,840 ), long style = wxDEFAULT_FRAME_STYLE|wxMAXIMIZE|wxTAB_TRAVERSAL );
 					
 					~EditorMainWindowBase();
+				
+			};
+			
+			///////////////////////////////////////////////////////////////////////////////
+			/// Class CreateSceneDialog
+			///////////////////////////////////////////////////////////////////////////////
+			class CreateSceneDialog : public wxDialog 
+			{
+				private:
+				
+				protected:
+					wxTextCtrl* m_scene_name;
+					wxButton* m_ok;
+					wxButton* m_cancel;
+					
+					// Virtual event handlers, overide them in your derived class
+					virtual void OnOk( wxCommandEvent& event ) { event.Skip(); }
+					virtual void OnCancel( wxCommandEvent& event ) { event.Skip(); }
+					
+				
+				public:
+					
+					CreateSceneDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Create scene"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE ); 
+					~CreateSceneDialog();
 				
 			};
 			
