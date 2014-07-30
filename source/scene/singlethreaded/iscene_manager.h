@@ -18,11 +18,17 @@ namespace SceneModule {
 
     class ISceneManager : public Core::IObject {
     public:
-		virtual Core::Pointer<IScene> GetScene() = 0;
+		virtual Core::Pointer<IScene> GetCurrentScene() = 0;
+		virtual void SetCurrentScene(Core::Pointer<IScene> scene) = 0;
 		virtual void AddProcessor(Core::Pointer<IProcessor> processor) = 0;
 		virtual void Update(float dt) = 0;
 		virtual void Terminate() = 0;
 		virtual bool IsTerminated() const = 0;
+		virtual void AddScene(Core::Pointer<IScene> scene) = 0;
+		virtual std::uint32_t GetScenesCount() const = 0;
+		virtual Core::Pointer<IScene> GetScene(std::uint32_t index) = 0;
+		virtual void RemoveScene(std::uint32_t index) = 0;
+		virtual void RemoveAllScenes() = 0;
 
 		//	processor notifications
 		//virtual void SceneChangeStarted(ISceneProcessor* value) = 0;

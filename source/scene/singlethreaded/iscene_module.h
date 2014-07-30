@@ -2,6 +2,7 @@
 #define _H_ISCENE_MODULE_IMPL
 
 #include <system/module/module.h>
+#include "iscene_manager.h"
 
 PUNK_ENGINE_BEGIN
 namespace SceneModule {
@@ -10,6 +11,7 @@ namespace SceneModule {
 
 	class ISceneModule : public System::IModule {
 	public:
+		virtual Core::Pointer<ISceneManager> GetSceneManager() = 0;
 	};
 }
 PUNK_ENGINE_END

@@ -23,7 +23,7 @@ namespace SceneModule {
 			return v;
 		}
 
-		//	IRenderModule
+		//	IModule
 		void Create(const Core::Guid& clsid, const Core::Guid& iid, void** object) override {
 			System::CreateInstance(clsid, iid, object);
 		}
@@ -45,11 +45,18 @@ namespace SceneModule {
 		}
 
 
-		//	IRenderModule		
+		//	ISceneModule
+		Core::Pointer<ISceneManager> GetSceneManager() override {
+			if (!m_scene_manager) {
+				m_scene_manager = System::CreateInstancePtr<ISceneManager>(CLSID_SceneManager, IID_ISceneManager);
+			}
+			return m_scene_manager;
+		}
 
 	private:
 		std::atomic<std::uint32_t> m_ref_count;
 		Core::String m_fullpath;
+		Core::Pointer<ISceneManager> m_scene_manager{ nullptr, Core::DestroyObject };
 	};
 
 	SceneModuleImpl g_scene_module;
