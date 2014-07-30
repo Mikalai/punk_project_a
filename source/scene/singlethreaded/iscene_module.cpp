@@ -59,10 +59,13 @@ namespace SceneModule {
 		Core::Pointer<ISceneManager> m_scene_manager{ nullptr, Core::DestroyObject };
 	};
 
-	SceneModuleImpl g_scene_module;
+	Core::Pointer<SceneModuleImpl> g_scene_module{ nullptr, Core::DestroyObject };
 
 	extern "C" PUNK_ENGINE_API System::IModule* GetPunkModule() {
-		return &g_scene_module;
+		if (!g_scene_module) {
+			g_scene_module.reset(new SceneModuleImpl);
+		}			
+		return g_scene_module.get();
 	}
 }
 PUNK_ENGINE_END
