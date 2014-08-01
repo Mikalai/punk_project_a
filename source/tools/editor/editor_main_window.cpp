@@ -3,10 +3,11 @@
 #include "common.h"
 #include "forms/create_scene_dialog_impl.h"
 #include "editor_main_window.h"
+#include "action_manager.h"
 
 PUNK_ENGINE_BEGIN
 namespace Tools {
-	
+
 	void EditorMainWindow::OnViewModules(wxRibbonToolBarEvent& event) {
 		ModuleManagerDialog* dlg = new ModuleManagerDialog(this);
 		dlg->ShowModal();
@@ -49,7 +50,7 @@ namespace Tools {
 	}
 
 	void EditorMainWindow::OnActivate(wxActivateEvent& event) {
-		
+
 
 		event.Skip();
 	}
@@ -94,23 +95,57 @@ namespace Tools {
 
 	void EditorMainWindow::Write(const Core::String& time, const Core::String& level, const Core::String &message) {
 		wxVector<wxVariant> data;
-		data.push_back(wxString((wchar_t*)time.Data(), (wchar_t*)time.Data()+time.Length()));
+		data.push_back(wxString((wchar_t*)time.Data(), (wchar_t*)time.Data() + time.Length()));
 		data.push_back(wxString((wchar_t*)level.Data(), (wchar_t*)level.Data() + level.Length()));
 		data.push_back(wxString((wchar_t*)message.Data(), (wchar_t*)message.Data() + message.Length()));
-		m_log->AppendItem(data);		
-		wxScrollWinEvent e(wxEVT_SCROLLWIN_LINEDOWN, 1, 0);		
-		e.SetEventObject(m_log);		
+		m_log->AppendItem(data);
+		wxScrollWinEvent e(wxEVT_SCROLLWIN_LINEDOWN, 1, 0);
+		e.SetEventObject(m_log);
 		m_log->SendAutoScrollEvents(e);
 	}
 
 	void EditorMainWindow::OnSceneCreate(wxRibbonToolBarEvent& event) {
-		
+
 		CreateSceneDialogImpl dlg(this);
+
+		class CreateSceneAction : public ActionBase {
+		public:
+			CreateSceneAction(EditorMainWindow* panel, const Core::String& name)
+				: m_name{ name }
+				, m_panel{ panel } {}
+
+			void Do() override {
+				m_scene = System::CreateInstancePtr<SceneModule::IScene>(SceneModule::CLSID_Scene, SceneModule::IID_IScene);
+				m_scene->SetName(m_name);
+				auto module = Common::GetSceneModule();
+				auto scene_manager = module->GetSceneManager();
+				scene_manager->AddScene(m_scene);
+				m_panel->UpdateScenePanel();
+			}
+
+			virtual void Undo() {
+				auto module = Common::GetSceneModule();
+				auto scene_manager = module->GetSceneManager();
+				auto index = scene_manager->GetSceneIndex(m_scene);
+				scene_manager->RemoveScene(index);
+				m_panel->UpdateScenePanel();
+			}
+
+			virtual void Redo() {
+				auto module = Common::GetSceneModule();
+				auto scene_manager = module->GetSceneManager();
+				scene_manager->AddScene(m_scene);
+				m_panel->UpdateScenePanel();
+			}
+
+		private:
+			EditorMainWindow* m_panel;
+			Core::String m_name;
+			Core::Pointer<SceneModule::IScene> m_scene{ nullptr, Core::DestroyObject };
+		};
+
 		if (dlg.ShowModal() == wxID_OK) {
-			auto module = Common::GetSceneModule();
-			auto scene_manager = module->GetSceneManager();			
-			scene_manager->AddScene(dlg.GetCreatedScene());
-			UpdateScenePanel();
+			ActionManager::Do(new CreateSceneAction(this, Common::WxStringToPunkString(dlg.GetSceneName())));
 		}
 		event.Skip();
 	}
@@ -135,7 +170,7 @@ namespace Tools {
 		event.Skip();
 	}
 
-	void EditorMainWindow::UpdateScenePanel() {		
+	void EditorMainWindow::UpdateScenePanel() {
 		auto module = Common::GetSceneModule();
 		auto scene_manager = module->GetSceneManager();
 		m_scenes_combobox->Clear();
@@ -151,6 +186,14 @@ namespace Tools {
 
 	void EditorMainWindow::OnSceneChanged(wxCommandEvent& event) {
 		event.Skip();
+	}
+
+	void EditorMainWindow::OnUndo(wxRibbonToolBarEvent& event) {
+		ActionManager::Undo();
+	}
+
+	void EditorMainWindow::OnRedo(wxRibbonToolBarEvent& event) {
+		ActionManager::Redo();
 	}
 }
 PUNK_ENGINE_END

@@ -49,18 +49,20 @@ namespace Punk
 			#define ID_EDITOR_TOGGLE_BOTTOM_PANEL 1001
 			#define ID_EDITOR_TOGGLE_LOG 1002
 			#define ID_EDITOR_TOGGLE_FULLSCREEN 1003
-			#define ID_ENGINE_MODULES_VIEW 1004
-			#define ID_ENGINE_MODULES_LOAD 1005
-			#define ID_ENGINE_MODULES_UNLOAD 1006
-			#define ID_SCENE_ASSETS_LOAD 1007
-			#define ID_SCENE_ASSETS_REMOVE 1008
-			#define ID_SCENE_ASSETS_PROPERTY 1009
-			#define ID_SCENE_NEW_SCENE 1010
-			#define ID_SCENE_DELETE_SCENE 1011
-			#define ID_SCENE_NEW_NODE 1012
-			#define ID_SCENE_NODE_DELETE 1013
-			#define ID_SCENE_PANEL 1014
-			#define ID_CREATE_SCENE_OK 1015
+			#define ID_EDITOR_UNDO 1004
+			#define ID_EDITOR_REDO 1005
+			#define ID_ENGINE_MODULES_VIEW 1006
+			#define ID_ENGINE_MODULES_LOAD 1007
+			#define ID_ENGINE_MODULES_UNLOAD 1008
+			#define ID_SCENE_ASSETS_LOAD 1009
+			#define ID_SCENE_ASSETS_REMOVE 1010
+			#define ID_SCENE_ASSETS_PROPERTY 1011
+			#define ID_SCENE_NEW_SCENE 1012
+			#define ID_SCENE_DELETE_SCENE 1013
+			#define ID_SCENE_NEW_NODE 1014
+			#define ID_SCENE_NODE_DELETE 1015
+			#define ID_SCENE_PANEL 1016
+			#define ID_CREATE_SCENE_OK 1017
 			
 			///////////////////////////////////////////////////////////////////////////////
 			/// Class ModuleManagerDialog
@@ -125,6 +127,8 @@ namespace Punk
 					wxRibbonToolBar* m_file_toolbar;
 					wxRibbonPanel* m_tools_manager;
 					wxRibbonToolBar* m_panel_manager_toolbar;
+					wxRibbonPanel* m_do_undo_panel;
+					wxRibbonToolBar* m_do_undo_tool_bar;
 					wxRibbonPage* m_engine_page;
 					wxRibbonPanel* m_modules_panel;
 					wxRibbonToolBar* m_module_toolbar;
@@ -151,6 +155,8 @@ namespace Punk
 					virtual void OnToggleBottomPanel( wxRibbonToolBarEvent& event ) = 0;
 					virtual void OnToggleLog( wxRibbonToolBarEvent& event ) = 0;
 					virtual void OnToggleFullscreen( wxRibbonToolBarEvent& event ) = 0;
+					virtual void OnUndo( wxRibbonToolBarEvent& event ) = 0;
+					virtual void OnRedo( wxRibbonToolBarEvent& event ) = 0;
 					virtual void OnViewModules( wxRibbonToolBarEvent& event ) = 0;
 					virtual void OnLoadModule( wxRibbonToolBarEvent& event ) = 0;
 					virtual void OnUnloadModule( wxRibbonToolBarEvent& event ) = 0;

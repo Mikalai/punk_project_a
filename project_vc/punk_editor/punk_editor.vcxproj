@@ -164,6 +164,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\source\tools\editor\action_manager.cpp" />
     <ClCompile Include="..\..\source\tools\editor\forms\create_scene_dialog_impl.cpp" />
     <ClCompile Include="..\..\source\tools\editor\forms\forms.cpp" />
     <ClCompile Include="..\..\source\tools\editor\main.cpp" />
@@ -172,6 +173,7 @@
     <ClCompile Include="..\..\source\tools\editor\common.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\source\tools\editor\action_manager.h" />
     <ClInclude Include="..\..\source\tools\editor\forms\create_scene_dialog_impl.h" />
     <ClInclude Include="..\..\source\tools\editor\forms\forms.h" />
     <ClInclude Include="..\..\source\tools\editor\editor_main_window.h" />

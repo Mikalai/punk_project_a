@@ -27,6 +27,7 @@ namespace SceneModule {
 		virtual void AddScene(Core::Pointer<IScene> scene) = 0;
 		virtual std::uint32_t GetScenesCount() const = 0;
 		virtual Core::Pointer<IScene> GetScene(std::uint32_t index) = 0;
+		virtual std::uint32_t GetSceneIndex(Core::Pointer<IScene> scene) = 0;
 		virtual void RemoveScene(std::uint32_t index) = 0;
 		virtual void RemoveAllScenes() = 0;
 

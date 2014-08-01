@@ -1,9 +1,9 @@
 #ifndef _H_COMMON
 #define _H_COMMON
 
+#include <wx/string.h>
 #include <config.h>
 #include <scene/module.h>
-#include <wx/string.h>
 
 PUNK_ENGINE_BEGIN
 namespace Tools {

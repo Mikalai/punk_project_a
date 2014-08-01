@@ -11,6 +11,7 @@
     <ClCompile Include="..\..\source\tools\editor\forms\create_scene_dialog_impl.cpp">
       <Filter>forms</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\tools\editor\action_manager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\tools\editor\module_list.h" />
@@ -23,6 +24,7 @@
     <ClInclude Include="..\..\source\tools\editor\forms\create_scene_dialog_impl.h">
       <Filter>forms</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\tools\editor\action_manager.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="forms">

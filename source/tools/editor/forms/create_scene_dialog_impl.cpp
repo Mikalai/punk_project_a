@@ -1,5 +1,6 @@
 #include "create_scene_dialog_impl.h"
 #include <tools/editor/common.h>
+#include <tools/editor/action_manager.h>
 #include <system/factory/module.h>
 
 PUNK_ENGINE_BEGIN
@@ -14,8 +15,7 @@ namespace Tools {
 	void CreateSceneDialogImpl::OnOk(wxCommandEvent& event)
 	{
 		// TODO: Implement OnOk
-		m_scene = System::CreateInstancePtr<SceneModule::IScene>(SceneModule::CLSID_Scene, SceneModule::IID_IScene);
-		m_scene->SetName(Common::WxStringToPunkString(m_scene_name->GetValue()));
+		
 		EndModal(wxID_OK);
 	}
 

@@ -1,8 +1,8 @@
-#include <system/module/module.h>
 #include <wx/wfstream.h>
 #include <wx/filedlg.h>
 #include <wx/fileconf.h>
 #include "common.h"
+#include <system/module/module.h>
 
 PUNK_ENGINE_BEGIN
 namespace Tools {

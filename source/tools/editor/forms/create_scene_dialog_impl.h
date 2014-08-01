@@ -25,12 +25,10 @@ namespace Tools {
 		CreateSceneDialogImpl(wxWindow* parent);
 		//// end generated class members
 
-		Core::Pointer<SceneModule::IScene> GetCreatedScene() {
-			return m_scene;
+		const wxString GetSceneName() {
+			return m_scene_name->GetValue();
 		}
 
-	private:
-		Core::Pointer<SceneModule::IScene> m_scene{ nullptr, Core::DestroyObject };
 	};
 }
 PUNK_ENGINE_END

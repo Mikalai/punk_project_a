@@ -34,6 +34,8 @@ namespace Tools {
 		void OnUpdateScenePanel(wxUpdateUIEvent& event);
 		void OnSceneChanged(wxCommandEvent& event);
 		void OnSize(wxSizeEvent& event);
+		void OnUndo(wxRibbonToolBarEvent& event);
+		void OnRedo(wxRibbonToolBarEvent& event);
 
 		void UpdateScenePanel();
 	protected:

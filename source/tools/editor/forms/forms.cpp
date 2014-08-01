@@ -140,6 +140,7 @@ EditorMainWindowBase::EditorMainWindowBase( wxWindow* parent, wxWindowID id, con
 	m_scene_ribbon_bar = new wxRibbonBar( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxRIBBON_BAR_DEFAULT_STYLE );
 	m_scene_ribbon_bar->SetArtProvider(new wxRibbonDefaultArtProvider); 
 	m_editor_page = new wxRibbonPage( m_scene_ribbon_bar, wxID_ANY, wxT("Editor") , wxNullBitmap , 0 );
+	m_scene_ribbon_bar->SetActivePage( m_editor_page ); 
 	m_file_ribbon_panel = new wxRibbonPanel( m_editor_page, wxID_ANY, wxT("File") , wxNullBitmap , wxDefaultPosition, wxDefaultSize, wxRIBBON_PANEL_DEFAULT_STYLE );
 	m_file_toolbar = new wxRibbonToolBar( m_file_ribbon_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
 	m_file_toolbar->AddTool( wxID_ANY, wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_TOOLBAR ), wxEmptyString);
@@ -148,6 +149,10 @@ EditorMainWindowBase::EditorMainWindowBase( wxWindow* parent, wxWindowID id, con
 	m_panel_manager_toolbar->AddToggleTool( ID_EDITOR_TOGGLE_BOTTOM_PANEL, wxArtProvider::GetBitmap( wxART_TICK_MARK, wxART_TOOLBAR ), wxEmptyString);
 	m_panel_manager_toolbar->AddToggleTool( ID_EDITOR_TOGGLE_LOG, wxArtProvider::GetBitmap( wxART_TICK_MARK, wxART_TOOLBAR ), wxEmptyString);
 	m_panel_manager_toolbar->AddToggleTool( ID_EDITOR_TOGGLE_FULLSCREEN, wxArtProvider::GetBitmap( wxART_TICK_MARK, wxART_TOOLBAR ), wxEmptyString);
+	m_do_undo_panel = new wxRibbonPanel( m_editor_page, wxID_ANY, wxT("Edit") , wxNullBitmap , wxDefaultPosition, wxDefaultSize, wxRIBBON_PANEL_DEFAULT_STYLE );
+	m_do_undo_tool_bar = new wxRibbonToolBar( m_do_undo_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	m_do_undo_tool_bar->AddTool( ID_EDITOR_UNDO, wxArtProvider::GetBitmap( wxART_UNDO, wxART_TOOLBAR ), wxEmptyString);
+	m_do_undo_tool_bar->AddTool( ID_EDITOR_REDO, wxArtProvider::GetBitmap( wxART_REDO, wxART_TOOLBAR ), wxEmptyString);
 	m_engine_page = new wxRibbonPage( m_scene_ribbon_bar, wxID_ANY, wxT("Engine") , wxNullBitmap , 0 );
 	m_modules_panel = new wxRibbonPanel( m_engine_page, wxID_ANY, wxT("Modules") , wxNullBitmap , wxDefaultPosition, wxDefaultSize, wxRIBBON_PANEL_DEFAULT_STYLE );
 	m_module_toolbar = new wxRibbonToolBar( m_modules_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
@@ -155,7 +160,6 @@ EditorMainWindowBase::EditorMainWindowBase( wxWindow* parent, wxWindowID id, con
 	m_module_toolbar->AddTool( ID_ENGINE_MODULES_LOAD, wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_TOOLBAR ), wxEmptyString);
 	m_module_toolbar->AddTool( ID_ENGINE_MODULES_UNLOAD, wxArtProvider::GetBitmap( wxART_CROSS_MARK, wxART_TOOLBAR ), wxEmptyString);
 	m_scene_assets_page = new wxRibbonPage( m_scene_ribbon_bar, wxID_ANY, wxT("Scene") , wxNullBitmap , 0 );
-	m_scene_ribbon_bar->SetActivePage( m_scene_assets_page ); 
 	m_assets_manager_panel = new wxRibbonPanel( m_scene_assets_page, wxID_ANY, wxT("Assets") , wxNullBitmap , wxDefaultPosition, wxDefaultSize, wxRIBBON_PANEL_DEFAULT_STYLE );
 	m_assets_manager_toolbar = new wxRibbonToolBar( m_assets_manager_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
 	m_assets_manager_toolbar->AddTool( ID_SCENE_ASSETS_LOAD, wxArtProvider::GetBitmap( wxART_FILE_OPEN, wxART_TOOLBAR ), wxEmptyString);
@@ -277,6 +281,8 @@ EditorMainWindowBase::EditorMainWindowBase( wxWindow* parent, wxWindowID id, con
 	this->Connect( ID_EDITOR_TOGGLE_BOTTOM_PANEL, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnToggleBottomPanel ) );
 	this->Connect( ID_EDITOR_TOGGLE_LOG, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnToggleLog ) );
 	this->Connect( ID_EDITOR_TOGGLE_FULLSCREEN, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnToggleFullscreen ) );
+	this->Connect( ID_EDITOR_UNDO, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnUndo ) );
+	this->Connect( ID_EDITOR_REDO, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnRedo ) );
 	this->Connect( ID_ENGINE_MODULES_VIEW, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnViewModules ) );
 	this->Connect( ID_ENGINE_MODULES_LOAD, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnLoadModule ) );
 	this->Connect( ID_ENGINE_MODULES_UNLOAD, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnUnloadModule ) );
@@ -297,6 +303,8 @@ EditorMainWindowBase::~EditorMainWindowBase()
 	this->Disconnect( ID_EDITOR_TOGGLE_BOTTOM_PANEL, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnToggleBottomPanel ) );
 	this->Disconnect( ID_EDITOR_TOGGLE_LOG, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnToggleLog ) );
 	this->Disconnect( ID_EDITOR_TOGGLE_FULLSCREEN, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnToggleFullscreen ) );
+	this->Disconnect( ID_EDITOR_UNDO, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnUndo ) );
+	this->Disconnect( ID_EDITOR_REDO, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnRedo ) );
 	this->Disconnect( ID_ENGINE_MODULES_VIEW, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnViewModules ) );
 	this->Disconnect( ID_ENGINE_MODULES_LOAD, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnLoadModule ) );
 	this->Disconnect( ID_ENGINE_MODULES_UNLOAD, wxEVT_COMMAND_RIBBONTOOL_CLICKED, wxRibbonToolBarEventHandler( EditorMainWindowBase::OnUnloadModule ) );

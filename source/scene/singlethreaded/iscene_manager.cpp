@@ -82,6 +82,14 @@ namespace SceneModule {
 			return m_scenes[index];
 		}
 
+		std::uint32_t GetSceneIndex(Core::Pointer<IScene> scene) {
+			for (std::uint32_t i = 0, max_i = (std::uint32_t)m_scenes.size(); i < max_i;  ++i) {
+				if (m_scenes[i] == scene)
+					return i;
+			}
+			return -1;
+		}
+
 		void RemoveScene(std::uint32_t index) override {
 			m_scenes.erase(m_scenes.begin() + index);
 		}
