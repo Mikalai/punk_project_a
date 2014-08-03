@@ -15,11 +15,14 @@ namespace Core {
 	template<class I>
 	Pointer<I> QueryInterfacePtr(Core::Pointer<IObject> source, const Guid& type) {
 		I* object = nullptr;
-		source->QueryInterface(type, (void**)&object);
-		auto result = Core::Pointer<I>{object, Core::DestroyObject};
-		if (object)
-			object->Release();
-		return result;
+		if (source) {
+			source->QueryInterface(type, (void**)&object);
+			auto result = Core::Pointer < I > {object, Core::DestroyObject};
+			if (object)
+				object->Release();
+			return result;
+		}
+		return Core::Pointer < I > {nullptr, Core::DestroyObject};
 	}
 
 	template < class This >

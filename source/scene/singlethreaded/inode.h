@@ -21,6 +21,9 @@ namespace SceneModule {
 
     class INode : public Core::IObject {
     public:
+		virtual INode* GetParent() = 0;
+		virtual const INode* GetParent() const = 0;
+		virtual void SetParent(INode* node) = 0;
 		virtual int GetAttributesCount() const = 0;
 		virtual Core::Pointer<IAttribute> GetAttribute(int index) = 0;
 		virtual void AddChild(Core::Pointer<INode> node) = 0;

@@ -38,7 +38,7 @@ namespace SceneModule {
 		}
 
 		virtual ~Node() {
-			LOG_FUNCTION_SCOPE;
+			System::GetDefaultLogger()->Debug(L"Node has been destroyed");
 			m_children.clear();
 			m_attributes.clear();
 		}
@@ -76,6 +76,28 @@ namespace SceneModule {
 		}
 
 		//	INode
+		INode* GetParent() {
+			return m_parent;
+		}
+
+		const INode* GetParent() const {
+			return m_parent;
+		}
+
+		void SetParent(INode* node) {
+			if (node == m_parent)
+				return;
+
+			if (m_parent) {
+				m_parent->RemoveChild(Core::Pointer < INode > {this, Core::DestroyObject});
+			}
+
+			m_parent = node;
+			if (m_parent) {
+				m_parent->AddChild(Core::Pointer < INode > {this, Core::DestroyObject});
+			}
+		}
+
 		void RemoveChild(Core::Pointer<INode> node) override {
 			auto it = std::find(m_children.begin(), m_children.end(), node);
 			if (it == m_children.end())
@@ -105,8 +127,11 @@ namespace SceneModule {
 
 		void AddChild(Core::Pointer<INode> node) override {
 			LOG_FUNCTION_SCOPE;
-			node->AddRef();
+			if (!node)
+				return;
+			//node->AddRef();
 			m_children.push_back(node);
+			node->SetParent(this);
 			node->SetScene(m_scene_graph);
 			if (m_scene_graph) {
 				m_scene_graph->OnNodeAdded(Core::Pointer < INode > {this, Core::DestroyObject}, node);
