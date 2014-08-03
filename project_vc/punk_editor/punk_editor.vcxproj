@@ -177,6 +177,7 @@
     <ClInclude Include="..\..\source\tools\editor\forms\create_scene_dialog_impl.h" />
     <ClInclude Include="..\..\source\tools\editor\forms\forms.h" />
     <ClInclude Include="..\..\source\tools\editor\editor_main_window.h" />
+    <ClInclude Include="..\..\source\tools\editor\forms\show_detailed_graph.png.h" />
     <ClInclude Include="..\..\source\tools\editor\resources.h" />
     <ClInclude Include="..\..\source\tools\editor\module_list.h" />
     <ClInclude Include="..\..\source\tools\editor\common.h" />

@@ -32,6 +32,7 @@
 #include <wx/ribbon/art.h>
 #include <wx/ribbon/bar.h>
 #include <wx/combobox.h>
+#include <wx/toolbar.h>
 #include <wx/dataview.h>
 #include <wx/notebook.h>
 #include <wx/frame.h>
@@ -54,15 +55,21 @@ namespace Punk
 			#define ID_ENGINE_MODULES_VIEW 1006
 			#define ID_ENGINE_MODULES_LOAD 1007
 			#define ID_ENGINE_MODULES_UNLOAD 1008
-			#define ID_SCENE_ASSETS_LOAD 1009
-			#define ID_SCENE_ASSETS_REMOVE 1010
-			#define ID_SCENE_ASSETS_PROPERTY 1011
-			#define ID_SCENE_NEW_SCENE 1012
-			#define ID_SCENE_DELETE_SCENE 1013
-			#define ID_SCENE_NEW_NODE 1014
-			#define ID_SCENE_NODE_DELETE 1015
-			#define ID_SCENE_PANEL 1016
-			#define ID_CREATE_SCENE_OK 1017
+			#define ID_SCENE_LOAD 1009
+			#define ID_SCENE_SAVE 1010
+			#define ID_SCENE_ASSETS_LOAD 1011
+			#define ID_SCENE_ASSETS_REMOVE 1012
+			#define ID_SCENE_ASSETS_PROPERTY 1013
+			#define ID_SCENE_NEW_SCENE 1014
+			#define ID_SCENE_DELETE_SCENE 1015
+			#define ID_SCENE_NEW_NODE 1016
+			#define ID_SCENE_NODE_DELETE 1017
+			#define ID_SCENE_PANEL 1018
+			#define ID_SCENE_CURRENT_SCENE_CHANGED 1019
+			#define ID_SCENE_SHOW_DETAILED_GRAPH 1020
+			#define ID_SCENE_SHOW_OBJECTS_GRAPH 1021
+			#define ID_SCENE_TREE_GRAPH 1022
+			#define ID_CREATE_SCENE_OK 1023
 			
 			///////////////////////////////////////////////////////////////////////////////
 			/// Class ModuleManagerDialog
@@ -133,6 +140,8 @@ namespace Punk
 					wxRibbonPanel* m_modules_panel;
 					wxRibbonToolBar* m_module_toolbar;
 					wxRibbonPage* m_scene_assets_page;
+					wxRibbonPanel* m_scene_file_operations;
+					wxRibbonToolBar* m_scene_file_operation_bar;
 					wxRibbonPanel* m_assets_manager_panel;
 					wxRibbonToolBar* m_assets_manager_toolbar;
 					wxRibbonPanel* m_node_panel;
@@ -141,7 +150,10 @@ namespace Punk
 					wxNotebook* m_left_notebook;
 					wxPanel* m_scene_panel;
 					wxComboBox* m_scenes_combobox;
-					wxDataViewTreeCtrl* m_dataViewTreeCtrl1;
+					wxToolBar* m_toolBar1;
+					wxToolBarToolBase* m_detailed_graph; 
+					wxToolBarToolBase* m_objects_graph; 
+					wxDataViewCtrl* m_scene_tree_graph;
 					wxPanel* m_mid_panel;
 					wxPanel* m_bottom_panel;
 					wxNotebook* m_bottom_panel_stuff;
@@ -160,11 +172,17 @@ namespace Punk
 					virtual void OnViewModules( wxRibbonToolBarEvent& event ) = 0;
 					virtual void OnLoadModule( wxRibbonToolBarEvent& event ) = 0;
 					virtual void OnUnloadModule( wxRibbonToolBarEvent& event ) = 0;
+					virtual void OnSceneLoad( wxRibbonToolBarEvent& event ) = 0;
+					virtual void OnSceneSave( wxRibbonToolBarEvent& event ) = 0;
 					virtual void OnSceneCreate( wxRibbonToolBarEvent& event ) = 0;
 					virtual void OnSceneDelete( wxRibbonToolBarEvent& event ) = 0;
 					virtual void OnNodeCreate( wxRibbonToolBarEvent& event ) = 0;
 					virtual void OnNodeDelete( wxRibbonToolBarEvent& event ) = 0;
 					virtual void OnSceneChanged( wxCommandEvent& event ) = 0;
+					virtual void OnSwitchDetailedGraph( wxCommandEvent& event ) = 0;
+					virtual void OnSwitchObjectsGraph( wxCommandEvent& event ) = 0;
+					virtual void OnSceneGraphItemActivated( wxDataViewEvent& event ) = 0;
+					virtual void OnSceneGraphItemChanged( wxDataViewEvent& event ) = 0;
 					virtual void OnSize( wxSizeEvent& event ) = 0;
 					
 				

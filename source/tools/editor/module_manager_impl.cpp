@@ -10,10 +10,10 @@ PUNK_ENGINE_BEGIN
 namespace Tools {
 
 	void ModuleManagerDialog::OnModuleAdd(wxCommandEvent& event) {
-		wxFileDialog * openFileDialog = new wxFileDialog(this);
+		wxFileDialog openFileDialog(this);
 
-		if (openFileDialog->ShowModal() == wxID_OK){
-			wxString filename = openFileDialog->GetFilename();
+		if (openFileDialog.ShowModal() == wxID_OK){
+			wxString filename = openFileDialog.GetFilename();
 			auto module = System::LoadPunkModule(filename.wc_str());
 		}
 

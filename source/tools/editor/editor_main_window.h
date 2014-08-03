@@ -36,10 +36,21 @@ namespace Tools {
 		void OnSize(wxSizeEvent& event);
 		void OnUndo(wxRibbonToolBarEvent& event);
 		void OnRedo(wxRibbonToolBarEvent& event);
+		void OnSwitchDetailedGraph(wxCommandEvent& event);
+		void OnSwitchObjectsGraph(wxCommandEvent& event);
+		void OnSceneGraphItemActivated(wxDataViewEvent& event);
+		void OnSceneGraphItemChanged(wxDataViewEvent& event);
+		void OnSceneLoad(wxRibbonToolBarEvent& event);
+		void OnSceneSave(wxRibbonToolBarEvent& event);
 
+	public:
 		void UpdateScenePanel();
+		void UpdateSceneGraph();
 	protected:
 		Core::Pointer<Graphics::ICanvas> m_canvas{ nullptr, Core::DestroyObject };
+		Core::Pointer<SceneModule::IScene> m_current_scene{ nullptr, Core::DestroyObject};
+		Core::Pointer<SceneModule::INode> m_current_node{ nullptr, Core::DestroyObject };
+		Core::Pointer<SceneModule::IAttribute> m_current_attribute{ nullptr, Core::DestroyObject };
 	};
 }
 PUNK_ENGINE_END

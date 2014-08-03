@@ -3,11 +3,13 @@
 #include <wx/fileconf.h>
 #include "common.h"
 #include <system/module/module.h>
+#include <loader/module.h>
 
 PUNK_ENGINE_BEGIN
 namespace Tools {
 
 	static Core::Pointer<SceneModule::ISceneModule> g_scene_module;
+	static Core::Pointer<IoModule::IIoModule> g_io_module;
 
 	void Common::LoadModules() {
 		wxFileInputStream stream("modules.ini");
@@ -17,9 +19,14 @@ namespace Tools {
 		bool has_entry = config.GetFirstEntry(key, index);
 		while (has_entry) {
 			value = config.Read(key, L"");
-			auto module = Core::Pointer<System::IModule>(System::LoadPunkModule(value.wc_str()), Core::DestroyObject);
-			if (module) {
-				g_scene_module = Core::QueryInterfacePtr<SceneModule::ISceneModule>(module, SceneModule::IID_ISceneModule);
+			{
+				auto module = Core::Pointer<System::IModule>(System::LoadPunkModule(value.wc_str()), Core::DestroyObject);
+				if (module) {
+					if (!g_scene_module)
+						g_scene_module = Core::QueryInterfacePtr<SceneModule::ISceneModule>(module, SceneModule::IID_ISceneModule);
+					if (!g_io_module)
+						g_io_module = Core::QueryInterfacePtr<IoModule::IIoModule>(module, IoModule::IID_IIoModule);
+				}
 			}
 			has_entry = config.GetNextEntry(key, index);
 		}
@@ -37,6 +44,10 @@ namespace Tools {
 
 	Core::Pointer<SceneModule::ISceneModule> Common::GetSceneModule() {
 		return g_scene_module;
+	}
+
+	Core::Pointer<IoModule::IIoModule> Common::GetIoModule() {
+		return g_io_module;
 	}
 
 	const wxString Common::PunkStringToWxString(const Core::String& value) {

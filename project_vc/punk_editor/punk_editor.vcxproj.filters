@@ -25,6 +25,9 @@
       <Filter>forms</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\tools\editor\action_manager.h" />
+    <ClInclude Include="..\..\source\tools\editor\forms\show_detailed_graph.png.h">
+      <Filter>forms</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="forms">

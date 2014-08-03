@@ -1,5 +1,6 @@
 #include <config.h>
 #include <punk_engine.h>
+#include <wx/filedlg.h>
 #include "common.h"
 #include "forms/create_scene_dialog_impl.h"
 #include "editor_main_window.h"
@@ -150,19 +151,66 @@ namespace Tools {
 		event.Skip();
 	}
 
+	class DeleteSceneAction : public ActionBase {
+	public:
+		DeleteSceneAction(EditorMainWindow* panel, Core::Pointer<SceneModule::IScene> scene)
+			: m_scene{ scene }
+			, m_panel{ panel } {}
+
+		void Do() override {
+			auto module = Common::GetSceneModule();
+			auto scene_manager = module->GetSceneManager();
+			auto index = scene_manager->GetSceneIndex(m_scene);
+			scene_manager->RemoveScene(index);
+			m_panel->UpdateScenePanel();
+		}
+
+		void Undo() override {
+			auto module = Common::GetSceneModule();
+			auto scene_manager = module->GetSceneManager();
+			scene_manager->AddScene(m_scene);
+			m_panel->UpdateScenePanel();
+		}
+
+		void Redo() override {
+			auto module = Common::GetSceneModule();
+			auto scene_manager = module->GetSceneManager();
+			auto index = scene_manager->GetSceneIndex(m_scene);
+			scene_manager->RemoveScene(index);
+			m_panel->UpdateScenePanel();
+		}
+
+	private:
+		EditorMainWindow* m_panel;
+		Core::Pointer<SceneModule::IScene> m_scene{ nullptr, Core::DestroyObject };
+	};
+
 	void EditorMainWindow::OnSceneDelete(wxRibbonToolBarEvent& event) {
-		auto index = m_scenes_combobox->GetSelection();
+
+		auto index = m_scenes_combobox->GetSelection();		
+		
 		if (index != wxNOT_FOUND) {
 			std::uint32_t scene_index = (std::uint32_t)m_scenes_combobox->GetClientData(index);
 			auto module = Common::GetSceneModule();
 			auto scene_manager = module->GetSceneManager();
-			scene_manager->RemoveScene(scene_index);
-			UpdateScenePanel();
+			auto scene = scene_manager->GetScene(scene_index);
+			ActionManager::Do(new DeleteSceneAction(this, scene));
 		}
 		event.Skip();
 	}
 
 	void EditorMainWindow::OnNodeCreate(wxRibbonToolBarEvent& event) {
+		if (m_current_scene) {
+			auto node = System::CreateInstancePtr<SceneModule::INode>(SceneModule::CLSID_Node, SceneModule::IID_INode);
+			if (m_current_node) {				
+				m_current_node->AddChild(node);				
+			}
+			else {
+				m_current_scene->SetRoot(node);
+			}
+
+			m_scene_tree_graph->GetModel()->ItemAdded(wxDataViewItem{ m_current_node.get() }, wxDataViewItem{ node.get() });
+		}
 		event.Skip();
 	}
 
@@ -178,13 +226,163 @@ namespace Tools {
 			auto scene = scene_manager->GetScene(i);
 			m_scenes_combobox->Append(Common::PunkStringToWxString(scene->GetName()), (void*)i);
 		}
-		if (scene_manager->GetScenesCount() != 0)
-			m_scenes_combobox->Enable();
+		if (scene_manager->GetScenesCount() != 0) {
+			m_scenes_combobox->Enable();			
+		}
 		else
 			m_scenes_combobox->Disable();
+		UpdateSceneGraph();
+	}
+
+	struct NodeData : public wxClientData {
+		NodeData(Core::Pointer < SceneModule::INode > node)
+			: m_node{ node } {}
+
+		Core::Pointer<SceneModule::INode> m_node;
+	};
+
+	class SceneDataModule : public wxDataViewModel {
+	public:
+		SceneDataModule(Core::Pointer<SceneModule::IScene> scene)
+			: m_scene{ scene } {}
+
+		unsigned int GetColumnCount() const override {
+			return 2;
+		}
+
+		// return type as reported by wxVariant
+		wxString GetColumnType(unsigned int col) const {
+			return "Text";
+		}
+
+		// get value into a wxVariant
+		void GetValue(wxVariant &variant, const wxDataViewItem &item, unsigned int col) const override {
+			Core::Pointer<SceneModule::INode> node{ nullptr, Core::DestroyObject };
+			if (!item.IsOk()) {
+				node = m_scene->GetRoot();
+			}
+			else {
+				auto o = Core::Pointer < Core::IObject > {(Core::IObject*)item.GetID(), Core::DestroyObject};
+				node = Core::QueryInterfacePtr<SceneModule::INode>(o, SceneModule::IID_INode);
+			}
+			if (node) {
+				variant = "Node";
+			}
+			else {
+				variant = "Unknown";
+			}
+		}
+
+		virtual bool SetValue(const wxVariant &variant, const wxDataViewItem &item, unsigned int col) {
+			Core::Pointer<SceneModule::INode> node{ nullptr, Core::DestroyObject };
+			if (!item.IsOk()) {
+				node = m_scene->GetRoot();
+			}
+			else {
+				auto o = Core::Pointer < Core::IObject > {(Core::IObject*)item.GetID(), Core::DestroyObject};
+				node = Core::QueryInterfacePtr<SceneModule::INode>(o, SceneModule::IID_INode);
+			}
+			return true;
+		}
+
+		// define hierarchy
+		virtual wxDataViewItem GetParent(const wxDataViewItem &item) const {
+			if (!item.IsOk())
+				return wxDataViewItem{ nullptr };
+			auto o = Core::Pointer < Core::IObject > {(Core::IObject*)item.GetID(), Core::DestroyObject};
+			auto node = Core::QueryInterfacePtr<SceneModule::INode>(o, SceneModule::IID_INode);
+			if (node) {
+				return wxDataViewItem{ (void*)node->GetParent() };
+			}
+			return wxDataViewItem{ nullptr };
+		}
+
+		virtual bool IsContainer(const wxDataViewItem &item) const {
+			if (!item.IsOk()) {
+				if (m_scene.get() && m_scene->GetRoot().get())
+					return m_scene->GetRoot()->GetChildrenCount() != 0;
+			}
+			auto o = Core::Pointer < Core::IObject > {(Core::IObject*)item.GetID(), Core::DestroyObject};
+			auto node = Core::QueryInterfacePtr<SceneModule::INode>(o, SceneModule::IID_INode);
+			if (node) {
+				return node->GetChildrenCount() != 0;
+			}
+			return false;
+		}
+		
+		virtual unsigned int GetChildren(const wxDataViewItem &item, wxDataViewItemArray &children) const {
+			Core::Pointer<SceneModule::INode> node{ nullptr, Core::DestroyObject };
+			if (!item.IsOk()) {
+				node = m_scene->GetRoot();
+				if (node) {
+					children.push_back(wxDataViewItem{ node.get() });
+					return 1;
+				}
+				else {
+					return 0;
+				}
+			}
+			else {
+				auto o = Core::Pointer < Core::IObject > {(Core::IObject*)item.GetID(), Core::DestroyObject};
+				node = Core::QueryInterfacePtr<SceneModule::INode>(o, SceneModule::IID_INode);
+			}
+			if (node) {
+				std::uint32_t max_i = node->GetChildrenCount();
+				for (std::uint32_t i = 0; i < max_i; ++i) {
+					children.push_back(wxDataViewItem{ (void*)node->GetChild(i).get() });
+				}
+				return max_i;
+			}
+			return 0;
+		}
+
+	private:
+		Core::Pointer<SceneModule::IScene> m_scene;
+	};
+
+	void EditorMainWindow::UpdateSceneGraph() {
+		m_scene_tree_graph->ClearColumns();
+		
+		m_scene_tree_graph->AppendTextColumn("Name", 0);		
+		m_scene_tree_graph->AppendTextColumn("Type", 1);
+		
+		auto index = m_scenes_combobox->GetSelection();
+
+		if (index != wxNOT_FOUND) {
+			std::uint32_t scene_index = (std::uint32_t)m_scenes_combobox->GetClientData(index);
+			auto module = Common::GetSceneModule();
+			auto scene_manager = module->GetSceneManager();
+			m_current_scene = scene_manager->GetScene(scene_index);
+
+			auto model = new SceneDataModule{ m_current_scene };
+			m_scene_tree_graph->AssociateModel(model);
+			model->DecRef();
+
+			//if (scene->GetRoot()) {
+			//	std::stack<Core::Pointer<SceneModule::INode>> nodes;
+			//	std::stack<wxDataViewItem> parents;
+			//	nodes.push(scene->GetRoot());
+			//	parents.push(wxDataViewItem{ nullptr });
+
+			//	/*while (!nodes.empty()) {
+			//		auto node = nodes.top();
+			//		nodes.pop();
+			//		auto parent = parents.top();
+			//		parents.pop();
+			//		parent = m_scene_tree_graph->AppendContainer(parent, "Node", 0, -1, new NodeData{ node });
+			//		m_scene_tree_graph->SetItemText(parent, "Node");					
+			//		for (std::uint32_t i = 0, max_i = node->GetChildrenCount(); i < max_i; ++i) {
+			//			nodes.push(node->GetChild(i));
+			//			parents.push(parent);
+			//		}
+			//	}*/
+			//}
+		}
 	}
 
 	void EditorMainWindow::OnSceneChanged(wxCommandEvent& event) {
+		UpdateSceneGraph();
+		auto index = event.GetSelection();
 		event.Skip();
 	}
 
@@ -195,109 +393,70 @@ namespace Tools {
 	void EditorMainWindow::OnRedo(wxRibbonToolBarEvent& event) {
 		ActionManager::Redo();
 	}
+
+	void EditorMainWindow::OnSwitchDetailedGraph(wxCommandEvent& event) {
+
+	}
+
+	void EditorMainWindow::OnSwitchObjectsGraph(wxCommandEvent& event) {
+
+	}
+
+	void EditorMainWindow::OnSceneGraphItemActivated(wxDataViewEvent& event) {
+
+	}
+
+	void EditorMainWindow::OnSceneGraphItemChanged(wxDataViewEvent& event) {
+		auto item = event.GetItem();
+		if (!item.IsOk()) {
+			if (m_current_scene) {
+				m_current_node = m_current_scene->GetRoot();
+				return;
+			}
+		}
+		else {
+			auto o = Core::Pointer < Core::IObject > {(Core::IObject*)item.GetID(), Core::DestroyObject};
+			auto node = Core::QueryInterfacePtr<SceneModule::INode>(o, SceneModule::IID_INode);
+			if (node) {
+				m_current_node = node;
+				return;
+			}
+			auto attribute = Core::QueryInterfacePtr<SceneModule::IAttribute>(o, SceneModule::IID_IAttribute);
+			if (attribute) {
+				m_current_attribute = attribute;
+			}
+		}
+	}
+
+	void EditorMainWindow::OnSceneLoad(wxRibbonToolBarEvent& event) {		
+		wxFileDialog openFileDialog(this, _("Open scene file"), "", "",
+			"Scene files (*.bpmd)|*.bpmd", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+
+		if (openFileDialog.ShowModal() == wxID_OK){
+			wxString filename = openFileDialog.GetFilename();
+			auto module = Common::GetIoModule();
+			auto object = module->Deserialize(Common::WxStringToPunkString(filename));
+			auto scene = Core::QueryInterfacePtr<SceneModule::IScene>(object, SceneModule::IID_IScene);
+			if (scene) {
+				auto manager = Common::GetSceneModule()->GetSceneManager();
+				manager->AddScene(scene);
+				UpdateScenePanel();
+			}
+		}
+	}
+
+	void EditorMainWindow::OnSceneSave(wxRibbonToolBarEvent& event) {
+		if (m_current_scene) {
+			wxFileDialog saveFileDialog(this, _("Save scene file"), "", "",
+				"Scene files (*.bpmd)|*.bpmd", wxFD_SAVE);			
+
+			if (saveFileDialog.ShowModal() == wxID_OK){
+				wxString filename = saveFileDialog.GetFilename();
+				auto module = Common::GetIoModule();
+				module->Serialize(m_current_scene, Common::WxStringToPunkString(filename));
+			}
+		}
+	}
+
 }
 PUNK_ENGINE_END
-
-//
-//	EditorMainWindow::EditorMainWindow(const wxString& title, const wxPoint& pos, const wxSize& size)
-//		: wxFrame(NULL, wxID_ANY, title, pos, size)
-//	{
-//		wxMenu *menuFile = new wxMenu;
-//		menuFile->Append(ID_Hello, "&Hello...\tCtrl-H",
-//			"Help string shown in status bar for this menu item");
-//		menuFile->AppendSeparator();
-//		menuFile->Append(wxID_EXIT);
-//
-//		wxMenu *menuHelp = new wxMenu;
-//		menuHelp->Append(wxID_ABOUT);
-//
-//		wxMenu* menuScene = new wxMenu;
-//		menuScene->Append(ID_Tree_View, "&Tree view");
-//		menuScene->AppendSeparator();
-//		menuScene->Append(ID_Load_Any, "&Load punk file");
-//
-//		wxMenu* menuEngine = new wxMenu;
-//		menuEngine->Append(ID_Module_Manager, "&Module manager");		
-//
-//		wxMenuBar *menuBar = new wxMenuBar;
-//		menuBar->Append(menuFile, "&File");
-//		menuBar->Append(menuScene, "&Scene");
-//		menuBar->Append(menuEngine, "&Engine");
-//		menuBar->Append(menuHelp, "&Help");		
-//
-//		SetMenuBar(menuBar);
-//		CreateStatusBar();
-//		SetStatusText("Welcome to wxWidgets!");
-//
-//		wxColour col1, col2;
-//		col1.Set(wxT("#4f5049"));
-//		col2.Set(wxT("#ededed"));
-//
-//		wxPanel *panel = new wxPanel(this, -1);
-//		panel->SetBackgroundColour(col1);
-//		wxBoxSizer *vbox = new wxBoxSizer(wxVERTICAL);
-//
-//		m_mid_panel = new wxPanel(panel, wxID_ANY);
-//		m_mid_panel->SetBackgroundColour(col2);
-//
-//		vbox->Add(m_mid_panel, 1, wxEXPAND | wxALL, 2);
-//		panel->SetSizer(vbox);
-//		
-//		Centre();
-//
-//
-//		wxTimer* timer = new wxTimer(this, ID_Timer);
-//		timer->Start(1000);
-//	}
-//	void EditorMainWindow::OnExit(wxCommandEvent& event)
-//	{
-//		Close(true);
-//	}
-//	void EditorMainWindow::OnAbout(wxCommandEvent& event)
-//	{
-//		wxMessageBox("This is a wxWidgets' Hello world sample",
-//			"About Hello World", wxOK | wxICON_INFORMATION);
-//	}
-//	void EditorMainWindow::OnHello(wxCommandEvent& event)
-//	{		
-//		wxLogMessage("Hello world from wxWidgets!");
-//	}
-//
-//	void EditorMainWindow::OnTimer(wxTimerEvent& event) {
-//		static bool v = false;
-//		/*if (!v) {
-//			m_canvas->GetWindow()->Open();
-//			v = true;
-//		}*/
-//		//auto interval = event.GetInterval();
-//		////wxMessageBox("Timer shoot");
-//		//m_canvas->GetWindow()->Update(interval);
-//		//m_canvas->SwapBuffers();
-//	}
-//
-//	void EditorMainWindow::OnResize(wxSizeEvent& event) {
-//	}
-//
-//	void EditorMainWindow::OnSceneTreeView(wxCommandEvent& event) {
-//		SceneTreeView* view = new SceneTreeView(this, "Scene", wxPoint(100, 100), wxSize(200, 200));
-//		view->ShowModal();
-//	}
-//
-//	void EditorMainWindow::OnModuleManager(wxCommandEvent& event) {
-//		ModuleManagerDialog* dialog = new ModuleManagerDialog(this);
-//		dialog->ShowModal();
-//		dialog->Destroy();
-//	}
-//
-//	wxBEGIN_EVENT_TABLE(EditorMainWindow, wxFrame)
-//		EVT_MENU(ID_Hello, EditorMainWindow::OnHello)
-//		EVT_MENU(wxID_EXIT, EditorMainWindow::OnExit)
-//		EVT_MENU(wxID_ABOUT, EditorMainWindow::OnAbout)
-//		EVT_MENU(ID_Tree_View, EditorMainWindow::OnSceneTreeView)
-//		EVT_MENU(ID_Module_Manager, EditorMainWindow::OnModuleManager)
-//		EVT_SIZE(EditorMainWindow::OnResize)
-//		EVT_TIMER(ID_Timer, EditorMainWindow::OnTimer)
-//		wxEND_EVENT_TABLE()
-//}
-//
-//PUNK_ENGINE_END
