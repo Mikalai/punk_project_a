@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\..\source\attributes\building.cpp" />
     <ClCompile Include="..\..\source\attributes\scheme.cpp" />
     <ClCompile Include="..\..\source\attributes\sound.cpp" />
     <ClCompile Include="..\..\source\attributes\water\river.cpp">
@@ -175,11 +174,11 @@
     <ClCompile Include="..\..\source\attributes\camera\icamera.cpp">
       <Filter>camera</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\attributes\iattributes_manager.cpp" />
+    <ClCompile Include="..\..\source\attributes\iattributes_manager.h" />
+    <ClCompile Include="..\..\source\attributes\iattributes_module.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\source\attributes\building.h" />
-    <ClInclude Include="..\..\source\attributes\interface.h" />
-    <ClInclude Include="..\..\source\attributes\intersection.h" />
     <ClInclude Include="..\..\source\attributes\module.h" />
     <ClInclude Include="..\..\source\attributes\scheme.h" />
     <ClInclude Include="..\..\source\attributes\sound.h" />
@@ -520,6 +519,7 @@
     <ClInclude Include="..\..\source\attributes\manager\module.h">
       <Filter>manager</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\attributes\iattributes_module.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="water">
