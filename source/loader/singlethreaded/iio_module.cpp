@@ -76,11 +76,19 @@ namespace IoModule {
 		}
 
 		Core::Pointer<Core::IObject> Deserialize(const Core::String& path) override {
-			throw Error::LoaderException(L"Not implemented");
+			Core::Buffer buffer;
+			System::BinaryFile::Load(path, buffer);
+			return Deserialize(buffer);
 		}
 
 		Core::Pointer<Core::IObject> Deserialize(Core::Buffer& buffer) override {
-			throw Error::LoaderException(L"Not implemented");
+			Core::Guid clsid;
+			buffer.ReadPod<Core::Guid>(clsid);
+			auto o = System::CreateInstancePtr < Core::ISerializable >(clsid, Core::IID_ISerializable);
+			if (o) {
+				o->Deserialize(buffer);
+			}
+			return o;
 		}
 
 	private:

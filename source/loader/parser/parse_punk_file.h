@@ -3,7 +3,6 @@
 
 #include <config.h>
 #include <core/pointer.h>
-#include <attributes/interface.h>
 
 PUNK_ENGINE_BEGIN
 namespace Core
