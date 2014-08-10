@@ -5,17 +5,19 @@
 #include <system/logger/module.h>
 #include <system/factory/module.h>
 #include <core/iserializable.h>
+#include <core/iclonable.h>
 #include "inode.h"
 #include "iattribute.h"
 
 PUNK_ENGINE_BEGIN
 namespace SceneModule {
 
-    class PUNK_ENGINE_LOCAL Attribute : public IAttribute, public Core::ISerializable
+    class PUNK_ENGINE_LOCAL Attribute : public IAttribute, public Core::ISerializable, public Core::IClonable
     {
     public:		
 
 		~Attribute() {
+			SetOwner(nullptr);
 			System::GetDefaultLogger()->Info("Destroy attribute " + m_name);
 			while (!m_update_actions.empty()) {
 				m_update_actions.back()->Release();
@@ -33,17 +35,18 @@ namespace SceneModule {
 			if (type == Core::IID_IObject) {
 				*object = (IAttribute*)this;
 				AddRef();
-				return;
 			}
 			else if (type == Core::IID_ISerializable) {
 				*object = (Core::ISerializable*)this;
 				AddRef();
-				return;
 			}
 			else if (type == IID_IAttribute) {
 				*object = (IAttribute*)this;
 				AddRef();
-				return;
+			}
+			else if (type == Core::IID_IClonable) {
+				*object = (Core::IClonable*)this;
+				AddRef();
 			}
 		}
 
@@ -88,16 +91,17 @@ namespace SceneModule {
 		}
 
 		inline void SetName(const Core::String& value) {
+			if (m_owner) {
+				m_owner->RemoveAttribute(Core::Pointer < IAttribute > {this, Core::DestroyObject});				
+			}
 			m_name = value;
+			if (m_owner) {
+				m_owner->AddAttribute(Core::Pointer<IAttribute>(this, Core::DestroyObject));
+			}
 		}
 
-		inline Core::Pointer<Core::IObject> GetRawData() {
-			Core::IObject* o = dynamic_cast<Core::IObject*>(m_data.get());
-			if (o) {
-				Core::Pointer<Core::IObject> result{ o, Core::DestroyObject };
-				return result;
-			}
-			return Core::Pointer < Core::IObject > {nullptr, Core::DestroyObject};
+		inline Core::Pointer<Core::IObject> GetRawData() const {
+			return m_data;
 		}
 
 		inline void SetRawData(Core::Pointer<Core::IObject> value) {			
@@ -133,6 +137,31 @@ namespace SceneModule {
 				auto serializable = System::CreateInstancePtr<Core::ISerializable>(clsid, Core::IID_ISerializable);
 				serializable->Deserialize(buffer);
 			}
+		}
+
+		//	IClonable
+		Core::Pointer<Core::IClonable> Clone() const override {
+			//	select name
+			Core::String base_name = GetName();
+			Core::String name = base_name;
+			if (m_owner) {
+				int i = 1;
+				while (m_owner->HasAttribute(name)) {
+					name = base_name + L"_" + Core::String::Convert(i);
+				}
+			}
+
+			auto o = Core::Pointer < Core::IObject > {nullptr, Core::DestroyObject};
+			{
+				auto tmp = Core::QueryInterfacePtr<Core::IClonable>(GetRawData(), Core::IID_IClonable);
+				if (tmp) {
+					o = Core::QueryInterfacePtr<Core::IObject>(tmp->Clone(), Core::IID_IObject);
+				}
+			}
+			std::unique_ptr<Attribute> clone{ new Attribute };
+			clone->Initialize(name, o);
+			clone->SetOwner(m_owner);
+			return Core::Pointer<Core::IClonable>(clone.release(), Core::DestroyObject);
 		}
 
     private:        

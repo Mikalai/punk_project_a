@@ -43,7 +43,8 @@ namespace SceneModule {
         virtual void RemoveAttribute(const Core::String& name) = 0;
 		virtual void RemoveAttribute(std::uint32_t index) = 0;
 		virtual void RemoveAttribute(const Core::Pointer<IAttribute> value) = 0;
-		virtual bool HasAttribute(Core::Pointer<IAttribute> value) = 0;
+		virtual bool HasAttribute(Core::Pointer<IAttribute> value) const = 0;
+		virtual bool HasAttribute(const Core::String& name) const = 0;
 		virtual void CacheAttribute(const Core::Guid& iid) = 0;
         
 		virtual NodeState GetState() const = 0;

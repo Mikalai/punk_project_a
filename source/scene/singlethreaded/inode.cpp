@@ -268,20 +268,23 @@ namespace SceneModule {
 
 			//	remove from attributes cache
 			//	get all cached interfaces for current index
-			auto& interfaces = m_interface_map.find(index)->second;
-			for (auto& iid : interfaces) {
-				//	get all attributes that support curent interface
-				auto& objects = m_attributes_cache[iid];
-				//	try to find removing attribute in the attributes cache
-				auto it = std::find(objects.begin(), objects.end(), attribute);
-				if (it == objects.end())
-					continue;
-				//	if found remove
-				objects.erase(it);
-			}
+			auto interfaces_it = m_interface_map.find(index);
+			if (interfaces_it != m_interface_map.end()) {
+				auto& interfaces = interfaces_it->second;
+				for (auto& iid : interfaces) {
+					//	get all attributes that support curent interface
+					auto& objects = m_attributes_cache[iid];
+					//	try to find removing attribute in the attributes cache
+					auto it = std::find(objects.begin(), objects.end(), attribute);
+					if (it == objects.end())
+						continue;
+					//	if found remove
+					objects.erase(it);
+				}
 
-			//	remove from interface map
-			m_interface_map.erase(m_interface_map.find(index));
+				//	remove from interface map
+				m_interface_map.erase(interfaces_it);
+			}
 
 			attribute->SetOwner(nullptr);
 		}
@@ -291,7 +294,11 @@ namespace SceneModule {
 			RemoveAttribute(index);
 		}
 
-		bool HasAttribute(Core::Pointer<IAttribute> value) override {
+		bool HasAttribute(const Core::String& name) const override {
+			return m_name_cache.find(name) != m_name_cache.end();
+		}
+		
+		bool HasAttribute(Core::Pointer<IAttribute> value) const override {
 			auto it = std::find(m_attributes.begin(), m_attributes.end(), value);
 			return it != m_attributes.end();
 		}
