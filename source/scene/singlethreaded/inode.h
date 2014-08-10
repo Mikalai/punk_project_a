@@ -7,7 +7,7 @@
 #include <core/weak_pointer.h>
 #include <core/iobject.h>
 #include <core/action.h>
-#include "attribute.h"
+#include "iattribute.h"
 #include "node_state.h"
 
 PUNK_ENGINE_BEGIN
@@ -24,20 +24,29 @@ namespace SceneModule {
 		virtual INode* GetParent() = 0;
 		virtual const INode* GetParent() const = 0;
 		virtual void SetParent(INode* node) = 0;
-		virtual int GetAttributesCount() const = 0;
-		virtual Core::Pointer<IAttribute> GetAttribute(int index) = 0;
+		
 		virtual void AddChild(Core::Pointer<INode> node) = 0;
 		virtual void RemoveChild(Core::Pointer<INode> node) = 0;
 		virtual void RemoveAllChildren() = 0;
 		virtual std::uint32_t GetChildrenCount() const = 0;
-		virtual Core::Pointer<INode> GetChild(std::uint32_t index) = 0;
-        virtual void SetAttribute(Core::Pointer<IAttribute> value) = 0;
-        virtual Core::Pointer<IAttribute> GetAttribute(const Core::String&, std::uint64_t type) const = 0;
-		virtual Core::Pointer<IAttribute> GetAttribute(std::uint64_t type, std::uint32_t index) const = 0;
-		virtual int GetAttributesCount(std::uint64_t type) const = 0;
-		virtual std::vector<Core::Pointer<IAttribute>> GetAttributes(std::uint64_t type) const = 0;
-        virtual void RemoveAttribute(const Core::String& name, std::uint64_t type) = 0;
-        virtual NodeState GetState() const = 0;
+		virtual Core::Pointer<INode> GetChild(std::uint32_t index) = 0;        
+		
+		virtual void AddAttribute(Core::Pointer<IAttribute> value) = 0;
+		virtual std::uint32_t GetAttributesCount() const = 0;
+		virtual std::uint32_t GetAttributesCount(const Core::Guid& iid) const = 0;
+		virtual std::uint32_t GetAttributeIndex(const Core::String& name) const = 0;
+        virtual Core::Pointer<IAttribute> GetAttribute(const Core::String& name) const = 0;		
+		virtual Core::Pointer<IAttribute> GetAttribute(std::uint32_t index) const = 0;
+		virtual Core::Pointer<IAttribute> GetAttribute(const Core::Guid& iid, std::uint32_t index) const = 0;
+		virtual std::vector<Core::Pointer<IAttribute>> GetAttributes() const = 0;
+		virtual std::vector<Core::Pointer<IAttribute>> GetAttributes(Core::Guid& type) const = 0;
+        virtual void RemoveAttribute(const Core::String& name) = 0;
+		virtual void RemoveAttribute(std::uint32_t index) = 0;
+		virtual void RemoveAttribute(const Core::Pointer<IAttribute> value) = 0;
+		virtual bool HasAttribute(Core::Pointer<IAttribute> value) = 0;
+		virtual void CacheAttribute(const Core::Guid& iid) = 0;
+        
+		virtual NodeState GetState() const = 0;
         virtual void SetState(NodeState value) = 0;
         virtual IScene* GetSceneGraph() = 0;
 		virtual void SetScene(IScene* graph) = 0;
@@ -49,14 +58,12 @@ namespace SceneModule {
         }
 
 		template<class T>
-		std::uint32_t GetAttributesCountOfType() const {
-			return GetAttributesCount(typeid(T).hash_code());
-		}
-
-		template<class T>
-		Core::Pointer<T> GetAttributeOfType(std::uint32_t index) const {
-			auto attribute = GetAttribute(typeid(T).hash_code(), index);
-			return attribute ? attribute->Get<T>() : Core::Pointer < T > { nullptr, Core::DestroyObject };		
+		Core::Pointer<T> GetAttributeOfType(const Core::Guid& iid, std::uint32_t index) const {
+			auto attribute = GetAttribute(iid, index);
+			Core::Pointer<T> res{ nullptr, Core::DestroyObject };
+			if (attribute)
+				res = attribute->Get<T>();
+			return res;
 		}
 
         template<class T>
@@ -71,8 +78,10 @@ namespace SceneModule {
         }
 
         template<class T>
-        void Set(const Core::String& name, Core::Pointer<T> value) {
-			SetAttribute(Core::Pointer < IAttribute > {new Attribute<T>(name, value), Core::DestroyObject});
+        void Add(const Core::String& name, Core::Pointer<T> value) {
+			auto attribute = System::CreateInstancePtr<IAttribute>(CLSID_Attribute, IID_IAttribute);
+			attribute->Initialize(name, value);
+			AddAttribute(attribute);
         }
 
 		template<class T>

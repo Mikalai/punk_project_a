@@ -30,7 +30,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\scene\module.h" />
-    <ClInclude Include="..\..\source\scene\singlethreaded\attribute.h" />
+    <ClCompile Include="..\..\source\scene\singlethreaded\iattribute.cpp">
+      <FileType>CppHeader</FileType>
+    </ClCompile>
     <ClInclude Include="..\..\source\scene\singlethreaded\command.h" />
     <ClInclude Include="..\..\source\scene\singlethreaded\iattribute.h" />
     <ClInclude Include="..\..\source\scene\singlethreaded\inode.h" />

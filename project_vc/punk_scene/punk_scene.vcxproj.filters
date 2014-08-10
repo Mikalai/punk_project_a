@@ -30,11 +30,11 @@
     <ClCompile Include="..\..\source\scene\singlethreaded\iscene_module.cpp">
       <Filter>singlethreaded</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\scene\singlethreaded\iattribute.cpp">
+      <Filter>singlethreaded</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\source\scene\singlethreaded\attribute.h">
-      <Filter>singlethreaded</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\scene\singlethreaded\command.h">
       <Filter>singlethreaded</Filter>
     </ClInclude>

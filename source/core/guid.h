@@ -36,6 +36,7 @@ namespace Core {
 
 	extern PUNK_ENGINE_API bool operator < (const Guid& l, const Guid& r);
 	extern PUNK_ENGINE_API bool operator == (const Guid& l, const Guid& r);
+	extern PUNK_ENGINE_API bool operator != (const Guid& l, const Guid& r);
 }
 PUNK_ENGINE_END
 

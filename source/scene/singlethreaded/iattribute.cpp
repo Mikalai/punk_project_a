@@ -1,0 +1,150 @@
+#ifndef ATTRIBUTE_H
+#define ATTRIBUTE_H
+
+#include <memory>
+#include <system/logger/module.h>
+#include <system/factory/module.h>
+#include <core/iserializable.h>
+#include "inode.h"
+#include "iattribute.h"
+
+PUNK_ENGINE_BEGIN
+namespace SceneModule {
+
+    class PUNK_ENGINE_LOCAL Attribute : public IAttribute, public Core::ISerializable
+    {
+    public:		
+
+		~Attribute() {
+			System::GetDefaultLogger()->Info("Destroy attribute " + m_name);
+			while (!m_update_actions.empty()) {
+				m_update_actions.back()->Release();
+				m_update_actions.pop_back();
+			}
+		}
+
+		//	IObject
+		void QueryInterface(const Core::Guid& type, void** object) {
+			if (!object)
+				return;
+
+			*object = nullptr;
+
+			if (type == Core::IID_IObject) {
+				*object = (IAttribute*)this;
+				AddRef();
+				return;
+			}
+			else if (type == Core::IID_ISerializable) {
+				*object = (Core::ISerializable*)this;
+				AddRef();
+				return;
+			}
+			else if (type == IID_IAttribute) {
+				*object = (IAttribute*)this;
+				AddRef();
+				return;
+			}
+		}
+
+		std::uint32_t AddRef() {
+			return m_ref_count.fetch_add(1);
+		}
+
+		std::uint32_t Release() {
+			auto v = m_ref_count.fetch_sub(1) - 1;
+			if (!v) {
+				delete this;
+			}
+			return v;
+		}
+
+		//	IAttribute		
+		void Initialize(const Core::String& name, Core::Pointer<Core::IObject> value) override {
+			m_name = name;
+			m_data = value;
+		}
+
+		INode* GetOwner() const override {
+			return m_owner;
+		}
+
+		void SetOwner(INode* value) {
+			if (m_owner == value)
+				return; 
+			auto attribute = Core::Pointer < IAttribute > {this, Core::DestroyObject};
+			if (m_owner && m_owner->HasAttribute(attribute)) {
+				m_owner->RemoveAttribute(attribute);
+			}
+
+			m_owner = value;
+			if (m_owner && !m_owner->HasAttribute(attribute)) {
+				m_owner->AddAttribute(attribute);
+			}
+		}
+
+		inline const Core::String& GetName() const {
+			return m_name;
+		}
+
+		inline void SetName(const Core::String& value) {
+			m_name = value;
+		}
+
+		inline Core::Pointer<Core::IObject> GetRawData() {
+			Core::IObject* o = dynamic_cast<Core::IObject*>(m_data.get());
+			if (o) {
+				Core::Pointer<Core::IObject> result{ o, Core::DestroyObject };
+				return result;
+			}
+			return Core::Pointer < Core::IObject > {nullptr, Core::DestroyObject};
+		}
+
+		inline void SetRawData(Core::Pointer<Core::IObject> value) {			
+			m_data = value;
+			for (auto action : m_update_actions) {
+				(*action)(Core::Pointer < IAttribute > {this, Core::DestroyObject});
+			}
+		}
+
+		inline void OnUpdate(Core::ActionBase<Core::Pointer<IAttribute>>* action) {
+			action->AddRef();
+			m_update_actions.push_back(action);
+		}
+
+		//	ISerializable
+		void Serialize(Core::Buffer& buffer) override {
+			buffer.WritePod(CLSID_Attribute);
+			buffer.WriteString(m_name);
+			auto serializable = Core::QueryInterfacePtr<Core::ISerializable>(m_data, Core::IID_ISerializable);
+			bool has_data = serializable.get() != nullptr;
+			buffer.WriteBoolean(has_data);			
+			if (has_data) {
+				serializable->Serialize(buffer);
+			}
+		}
+
+		void Deserialize(Core::Buffer& buffer) override {
+			m_name = buffer.ReadString();
+			bool has_data = buffer.ReadBoolean();
+			if (has_data) {
+				Core::Guid clsid;
+				buffer.ReadPod(clsid);
+				auto serializable = System::CreateInstancePtr<Core::ISerializable>(clsid, Core::IID_ISerializable);
+				serializable->Deserialize(buffer);
+			}
+		}
+
+    private:        
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
+		INode* m_owner = nullptr;
+        Core::String m_name;
+		Core::Pointer<Core::IObject> m_data{ nullptr, Core::DestroyObject };
+		std::vector < Core::ActionBase<Core::Pointer<IAttribute>>*> m_update_actions;
+    };	
+
+	PUNK_REGISTER_CREATOR(CLSID_Attribute, (System::CreateInstance<Attribute, IAttribute>));
+}
+PUNK_ENGINE_END
+
+#endif // ATTRIBUTE_H
