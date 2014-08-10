@@ -6,13 +6,17 @@
 #include <system/logger/module.h>
 #include <attributes/animation/module.h>
 #include <attributes/animation/module.h>
-
+#include <tools/editor/editor_interface.h>
 #include "itransform.h"
 
 PUNK_ENGINE_BEGIN
 namespace Attributes {	
 
-	class PUNK_ENGINE_LOCAL Transform : public ITransform, public IAnimated, public Core::ISerializable {
+	class PUNK_ENGINE_LOCAL Transform 
+		: public ITransform
+		, public IAnimated
+		, public Core::ISerializable
+		, public Tools::IEditableElement {
 	public:
 
 		Transform(const Math::mat4& m) {
@@ -48,6 +52,10 @@ namespace Attributes {
 			}
 			else if (type == Core::IID_ISerializable) {
 				*object = (void*)(Core::ISerializable*)this;
+				AddRef();
+			}
+			else if (type == Tools::IID_IEditableElement) {
+				*object = (void*)(Tools::IEditableElement*)this;
 				AddRef();
 			}
 			else
@@ -200,6 +208,12 @@ namespace Attributes {
 			}
 		}
 
+		//	IEditableElement
+		void AddToPanel(Tools::IEditorParametersPanel* panel) override {
+			panel->AddVec3FloatEditor("Position:", &m_position);
+			panel->AddVec3FloatEditor("Scale:", &m_scale);
+		}
+
 	private:
 		//	IObject
 		std::atomic<std::uint32_t> m_ref_count{ 0 };		
@@ -207,8 +221,8 @@ namespace Attributes {
 		//	ITransform
 		mutable Math::mat4 m_transform;
 		Math::quat m_rotation;
-		Math::vec3 m_position;
-		Math::vec3 m_scale;
+		Math::vec3 m_position{ 0, 0, 0 };
+		Math::vec3 m_scale{ 1, 1, 1 };
 		mutable bool m_need_update{ true };
 
 		//	IAnimated

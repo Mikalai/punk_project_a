@@ -2,11 +2,21 @@
 #include <system/factory/module.h>
 #include <core/iobject_impl.h>
 #include "iattributes_manager.h"
+#include "module.h"
 
 PUNK_ENGINE_BEGIN
 namespace Attributes {
 	class AttributesManager : public IAttributesManager {
 	public:
+
+		AttributesManager() {
+			auto group_index = AddGroup("Animation");
+			AddAttribute(group_index, Attributes::CLSID_Animation, "Animation", "Holds animation data in form of tracks");
+			AddAttribute(group_index, Attributes::CLSID_AnimationPlayer, "Animation player", "Interpolate data from animation source");
+			group_index = AddGroup("Base");
+			AddAttribute(group_index, Attributes::CLSID_Transform, "Transform", "Holds relative transform to the parent node or world");
+		}
+
 		//	IObject
 		void QueryInterface(const Core::Guid& type, void** object) override {
 			Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IAttributesManager});
@@ -25,9 +35,12 @@ namespace Attributes {
 
 		//	IAttributesManager
 		std::uint32_t AddGroup(const Core::String& group) override {
+			m_group_name.push_back(group);
 			m_clsid.push_back(std::vector < Core::Guid > {});
+			m_attribute_name.push_back(std::vector < Core::String > {});
+			m_attribute_description.push_back(std::vector < Core::String > {});
 			m_group_names_cache[group] = (std::uint32_t)m_clsid.size() - 1;
-			return (std::uint32_t)m_clsid.size();
+			return (std::uint32_t)(m_clsid.size()-1);
 		}
 
 		std::uint32_t GetGroupsCount() const override {

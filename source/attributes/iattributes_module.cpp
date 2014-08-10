@@ -57,7 +57,7 @@ namespace Attributes {
 	private:
 		std::atomic<std::uint32_t> m_ref_count;
 		Core::String m_fullpath;
-		Core::Pointer<IAttributesModule> m_attribute_manager{ nullptr, Core::DestroyObject };
+		Core::Pointer<IAttributesManager> m_attribute_manager{ nullptr, Core::DestroyObject };
 	};
 
 	Core::Pointer<AttributeMdoule> g_scene_module{ nullptr, Core::DestroyObject };

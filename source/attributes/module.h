@@ -13,5 +13,7 @@
 #include "ai/module.h"
 #include "selection/module.h"
 #include "manager/module.h"
+#include "iattributes_manager.h"
+#include "iattributes_module.h"
 
 #endif
