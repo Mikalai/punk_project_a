@@ -37,6 +37,7 @@
 #include <wx/notebook.h>
 #include <wx/frame.h>
 #include <wx/textctrl.h>
+#include <wx/checkbox.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -70,6 +71,8 @@ namespace Punk
 			#define ID_SCENE_SHOW_OBJECTS_GRAPH 1021
 			#define ID_SCENE_TREE_GRAPH 1022
 			#define ID_CREATE_SCENE_OK 1023
+			#define ID_ATTRIBUTE_CREATE_GROUP_CHANGED 1024
+			#define ID_ATTRIBUTE_CREATE_LIST_CHANGED 1025
 			
 			///////////////////////////////////////////////////////////////////////////////
 			/// Class ModuleManagerDialog
@@ -182,6 +185,7 @@ namespace Punk
 					virtual void OnSwitchDetailedGraph( wxCommandEvent& event ) = 0;
 					virtual void OnSwitchObjectsGraph( wxCommandEvent& event ) = 0;
 					virtual void OnSceneGraphItemActivated( wxDataViewEvent& event ) = 0;
+					virtual void OnSceneContextMenu( wxDataViewEvent& event ) = 0;
 					virtual void OnSceneGraphItemChanged( wxDataViewEvent& event ) = 0;
 					virtual void OnSize( wxSizeEvent& event ) = 0;
 					
@@ -215,6 +219,97 @@ namespace Punk
 					
 					CreateSceneDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Create scene"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE ); 
 					~CreateSceneDialog();
+				
+			};
+			
+			///////////////////////////////////////////////////////////////////////////////
+			/// Class AttributePanel
+			///////////////////////////////////////////////////////////////////////////////
+			class AttributePanel : public wxPanel 
+			{
+				private:
+				
+				protected:
+				
+				public:
+					wxBoxSizer* m_layout;
+					
+					AttributePanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 831,587 ), long style = wxTAB_TRAVERSAL ); 
+					~AttributePanel();
+				
+			};
+			
+			///////////////////////////////////////////////////////////////////////////////
+			/// Class AttributeDialog
+			///////////////////////////////////////////////////////////////////////////////
+			class AttributeDialog : public wxDialog 
+			{
+				private:
+				
+				protected:
+					wxComboBox* m_groups;
+					wxListBox* m_attributes;
+					wxStaticText* m_label_name;
+					wxTextCtrl* m_attribute_name;
+					wxButton* m_ok;
+					wxButton* m_button6;
+					
+					// Virtual event handlers, overide them in your derived class
+					virtual void OnGroupSelected( wxCommandEvent& event ) { event.Skip(); }
+					virtual void OnItemChanged( wxCommandEvent& event ) { event.Skip(); }
+					virtual void OnOk( wxCommandEvent& event ) { event.Skip(); }
+					virtual void OnCancel( wxCommandEvent& event ) { event.Skip(); }
+					
+				
+				public:
+					wxStaticBoxSizer* m_parameters_sizer;
+					
+					AttributeDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Select attribute"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 752,575 ), long style = wxDEFAULT_DIALOG_STYLE|wxMAXIMIZE_BOX ); 
+					~AttributeDialog();
+				
+			};
+			
+			///////////////////////////////////////////////////////////////////////////////
+			/// Class BooleanEditor
+			///////////////////////////////////////////////////////////////////////////////
+			class BooleanEditor : public wxPanel 
+			{
+				private:
+				
+				protected:
+					wxStaticText* m_name;
+					wxCheckBox* m_check_box;
+				
+				public:
+					
+					BooleanEditor( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 77,26 ), long style = wxTAB_TRAVERSAL ); 
+					~BooleanEditor();
+				
+			};
+			
+			///////////////////////////////////////////////////////////////////////////////
+			/// Class Vec3FloatEditor
+			///////////////////////////////////////////////////////////////////////////////
+			class Vec3FloatEditor : public wxPanel 
+			{
+				private:
+				
+				protected:
+					wxStaticText* m_name;
+					wxTextCtrl* m_x;
+					wxTextCtrl* m_y;
+					wxTextCtrl* m_z;
+					
+					// Virtual event handlers, overide them in your derived class
+					virtual void OnXChanged( wxCommandEvent& event ) { event.Skip(); }
+					virtual void OnYChanged( wxCommandEvent& event ) { event.Skip(); }
+					virtual void OnZChanged( wxCommandEvent& event ) { event.Skip(); }
+					
+				
+				public:
+					
+					Vec3FloatEditor( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,42 ), long style = wxTAB_TRAVERSAL ); 
+					~Vec3FloatEditor();
 				
 			};
 			

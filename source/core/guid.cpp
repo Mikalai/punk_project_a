@@ -88,6 +88,10 @@ namespace Core {
 		return !memcmp(l.ToPointer(), r.ToPointer(), sizeof(Guid));
 	}
 
+	extern PUNK_ENGINE_API bool operator != (const Guid& l, const Guid& r) {
+		return !(l == r);
+	}
+
 	extern PUNK_ENGINE_API bool operator < (const Guid& l, const Guid& r) {
 		return memcmp(l.ToPointer(), r.ToPointer(), sizeof(Guid)) < 0;
 	}

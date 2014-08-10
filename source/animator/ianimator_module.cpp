@@ -181,7 +181,7 @@ namespace AnimatorModule {
 						file_stub->SetFilename(filename);
 						Core::Pointer<Attributes::OnLoadedCallback> callback{ new Core::Action<Animator, Core::Pointer<Core::IObject>>{ this, &Animator::OnAnimationLoaded }, Core::DestroyObject };
 						file_stub->SetCallback(callback);
-						node->Set<Attributes::IFileStub>(name, file_stub);
+						node->Add<Attributes::IFileStub>(name, file_stub);
 					}
 				}
 			}

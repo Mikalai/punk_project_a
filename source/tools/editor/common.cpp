@@ -4,12 +4,14 @@
 #include "common.h"
 #include <system/module/module.h>
 #include <loader/module.h>
+#include <attributes/module.h>
 
 PUNK_ENGINE_BEGIN
 namespace Tools {
 
 	static Core::Pointer<SceneModule::ISceneModule> g_scene_module;
 	static Core::Pointer<IoModule::IIoModule> g_io_module;
+	static Core::Pointer<Attributes::IAttributesModule> g_attributes_module;
 
 	void Common::LoadModules() {
 		wxFileInputStream stream("modules.ini");
@@ -26,6 +28,8 @@ namespace Tools {
 						g_scene_module = Core::QueryInterfacePtr<SceneModule::ISceneModule>(module, SceneModule::IID_ISceneModule);
 					if (!g_io_module)
 						g_io_module = Core::QueryInterfacePtr<IoModule::IIoModule>(module, IoModule::IID_IIoModule);
+					if (!g_attributes_module)
+						g_attributes_module = Core::QueryInterfacePtr<Attributes::IAttributesModule>(module, Attributes::IID_IAttributesModule);
 				}
 			}
 			has_entry = config.GetNextEntry(key, index);
@@ -56,6 +60,19 @@ namespace Tools {
 	
 	const Core::String Common::WxStringToPunkString(const wxString& value) {
 		return Core::String(value.wc_str());
+	}
+
+	Core::Pointer<Attributes::IAttributesManager> Common::GetAttributesManager() {
+		if (g_attributes_module) {
+			return g_attributes_module->GetAttributeManager();
+		}
+		return Core::Pointer < Attributes::IAttributesManager > {nullptr, Core::DestroyObject};
+	}
+
+	void Common::Clean() {
+		g_attributes_module.reset(nullptr);
+		g_io_module.reset(nullptr);
+		g_scene_module.reset(nullptr);
 	}
 }
 PUNK_ENGINE_END

@@ -66,9 +66,9 @@ namespace IoModule {
 			Core::Pointer<SceneModule::INode> node = nodes.top();
 			nodes.pop();
 
-			auto count = node->GetAttributesCountOfType<Attributes::IFileStub>();
+			auto count = node->GetAttributesCount(Attributes::IID_IFileStub);
 			for (auto i = 0; i < count; ++i) {
-				auto stub = node->GetAttributeOfType<Attributes::IFileStub>(i);
+				auto stub = node->GetAttributeOfType<Attributes::IFileStub>(Attributes::IID_IFileStub, i);
 				auto filename = stub->GetFilename();
 				if (stub->IsLoaded())
 					continue;
@@ -85,36 +85,36 @@ namespace IoModule {
 				{
                     auto transform = Core::QueryInterfacePtr<Attributes::ITransform>(o, Attributes::IID_ITransform);
 					if (transform)
-                        node->Set<Attributes::ITransform>("Transform", transform);
+                        node->Add<Attributes::ITransform>("Transform", transform);
 				}
 				{
                     auto geometry = Core::QueryInterfacePtr<Attributes::IGeometry>(o, Attributes::IID_IGeometry);
 					if (geometry)
-                        node->Set<Attributes::IGeometry>(geometry->GetName(), geometry);
+                        node->Add<Attributes::IGeometry>(geometry->GetName(), geometry);
 				}
 				{
                     auto material = Core::QueryInterfacePtr<Attributes::IMaterial>(o, Attributes::IID_IMaterial);
 					if (material) {
-                        node->Set<Attributes::IMaterial>(material->GetName(), material);
+                        node->Add<Attributes::IMaterial>(material->GetName(), material);
 					}
 				}
 				{
                     auto point_light = Core::QueryInterfacePtr<Attributes::ILight>(o, Attributes::IID_ILight);
 					if (point_light) {
-                        node->Set<Attributes::ILight>(point_light->GetName(), point_light);
+                        node->Add<Attributes::ILight>(point_light->GetName(), point_light);
 					}
 				}
 				{
                     auto camera = Core::QueryInterfacePtr<Attributes::ICamera>(o, Attributes::IID_ICamera);
 					if (camera.get())
-						node->Set<Attributes::ICamera>(camera->GetName(), camera);
+						node->Add<Attributes::ICamera>(camera->GetName(), camera);
 				}
 				{
                     auto armature = Core::QueryInterfacePtr<Attributes::IArmature>(o, Attributes::IID_IArmature);
 					if (armature.get()) {
 						auto schema = GetFileData(armature->GetSchemaName());
 						armature->SetSchema(schema);
-						node->Set<Attributes::IArmature>(armature->GetName(), armature);
+						node->Add<Attributes::IArmature>(armature->GetName(), armature);
 					}
 				}				
 				{
@@ -147,9 +147,8 @@ namespace IoModule {
 
 	void IoObserver::OnAttributeAdded(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> attribute) {
 		LOG_FUNCTION_SCOPE;
-		if (attribute->GetTypeID() == typeid(Attributes::IFileStub).hash_code()) {
-			auto stub = attribute->Get<Attributes::IFileStub>();
-			
+		auto stub = Core::QueryInterfacePtr<Attributes::IFileStub>(attribute->GetRawData(), Attributes::IID_IFileStub);
+		if (stub) {			
 
 			Core::Pointer<Core::IObject> o = GetFileData(stub->GetFilename());
 
@@ -160,7 +159,7 @@ namespace IoModule {
 				{
                     auto geom = Core::QueryInterfacePtr<Attributes::IGeometry>(o, Attributes::IID_IGeometry);
 					if (geom)
-                        node->Set<Attributes::IGeometry>(geom->GetName(), geom);
+                        node->Add<Attributes::IGeometry>(geom->GetName(), geom);
 				}
 				{
                     auto scene = Core::QueryInterfacePtr<SceneModule::IScene>(o, SceneModule::IID_IScene);
@@ -173,7 +172,7 @@ namespace IoModule {
 				{
                     auto material = Core::QueryInterfacePtr<Attributes::IMaterial>(o, Attributes::IID_IMaterial);
 					if (material) {
-                        node->Set<Attributes::IMaterial>(material->GetName(), material);
+                        node->Add<Attributes::IMaterial>(material->GetName(), material);
 					}
 				}
 			}			

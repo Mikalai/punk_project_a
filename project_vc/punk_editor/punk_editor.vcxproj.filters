@@ -12,10 +12,18 @@
       <Filter>forms</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\tools\editor\action_manager.cpp" />
+    <ClCompile Include="..\..\source\tools\editor\forms\attribute_dialog_impl.cpp">
+      <Filter>forms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\tools\editor\forms\vec3_float_editor_impl.cpp">
+      <Filter>forms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\tools\editor\forms\attribute_panel_impl.cpp">
+      <Filter>forms</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\tools\editor\module_list.h" />
-    <ClInclude Include="..\..\source\tools\editor\resources.h" />
     <ClInclude Include="..\..\source\tools\editor\forms\forms.h">
       <Filter>forms</Filter>
     </ClInclude>
@@ -28,6 +36,16 @@
     <ClInclude Include="..\..\source\tools\editor\forms\show_detailed_graph.png.h">
       <Filter>forms</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\tools\editor\forms\attribute_dialog_impl.h">
+      <Filter>forms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\tools\editor\forms\vec3_float_editor_impl.h">
+      <Filter>forms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\tools\editor\forms\attribute_panel_impl.h">
+      <Filter>forms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\tools\editor\editor_interface.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="forms">

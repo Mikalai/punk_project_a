@@ -211,7 +211,9 @@
     <ClInclude Include="..\..\source\tests\punk_math_test\line2d_test.h" />
     <ClInclude Include="..\..\source\tests\punk_math_test\line3d_test.h" />
     <ClInclude Include="..\..\source\tests\punk_math_test\mat2_test.h" />
-    <ClInclude Include="..\..\source\tests\punk_math_test\mat3_test.h" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\attribute.cpp">
+      <FileType>CppHeader</FileType>
+    </ClCompile>
     <ClInclude Include="..\..\source\tests\punk_math_test\mat4_test.h" />
     <ClInclude Include="..\..\source\tests\punk_math_test\matrix_helper_test.h" />
     <ClInclude Include="..\..\source\tests\punk_math_test\min_max_test.h" />

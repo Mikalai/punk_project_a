@@ -316,6 +316,7 @@ EditorMainWindowBase::EditorMainWindowBase( wxWindow* parent, wxWindowID id, con
 	this->Connect( m_detailed_graph->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( EditorMainWindowBase::OnSwitchDetailedGraph ) );
 	this->Connect( m_objects_graph->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( EditorMainWindowBase::OnSwitchObjectsGraph ) );
 	this->Connect( ID_SCENE_TREE_GRAPH, wxEVT_COMMAND_DATAVIEW_ITEM_ACTIVATED, wxDataViewEventHandler( EditorMainWindowBase::OnSceneGraphItemActivated ) );
+	this->Connect( ID_SCENE_TREE_GRAPH, wxEVT_COMMAND_DATAVIEW_ITEM_CONTEXT_MENU, wxDataViewEventHandler( EditorMainWindowBase::OnSceneContextMenu ) );
 	this->Connect( ID_SCENE_TREE_GRAPH, wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED, wxDataViewEventHandler( EditorMainWindowBase::OnSceneGraphItemChanged ) );
 	m_mid_panel->Connect( wxEVT_SIZE, wxSizeEventHandler( EditorMainWindowBase::OnSize ), NULL, this );
 }
@@ -344,6 +345,7 @@ EditorMainWindowBase::~EditorMainWindowBase()
 	this->Disconnect( m_detailed_graph->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( EditorMainWindowBase::OnSwitchDetailedGraph ) );
 	this->Disconnect( m_objects_graph->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( EditorMainWindowBase::OnSwitchObjectsGraph ) );
 	this->Disconnect( ID_SCENE_TREE_GRAPH, wxEVT_COMMAND_DATAVIEW_ITEM_ACTIVATED, wxDataViewEventHandler( EditorMainWindowBase::OnSceneGraphItemActivated ) );
+	this->Disconnect( ID_SCENE_TREE_GRAPH, wxEVT_COMMAND_DATAVIEW_ITEM_CONTEXT_MENU, wxDataViewEventHandler( EditorMainWindowBase::OnSceneContextMenu ) );
 	this->Disconnect( ID_SCENE_TREE_GRAPH, wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED, wxDataViewEventHandler( EditorMainWindowBase::OnSceneGraphItemChanged ) );
 	m_mid_panel->Disconnect( wxEVT_SIZE, wxSizeEventHandler( EditorMainWindowBase::OnSize ), NULL, this );
 	
@@ -394,5 +396,160 @@ CreateSceneDialog::~CreateSceneDialog()
 	// Disconnect Events
 	m_ok->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CreateSceneDialog::OnOk ), NULL, this );
 	m_cancel->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CreateSceneDialog::OnCancel ), NULL, this );
+	
+}
+
+AttributePanel::AttributePanel( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	m_layout = new wxBoxSizer( wxVERTICAL );
+	
+	
+	this->SetSizer( m_layout );
+	this->Layout();
+}
+
+AttributePanel::~AttributePanel()
+{
+}
+
+AttributeDialog::AttributeDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* m_global_sizer;
+	m_global_sizer = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* m_inner_sizer;
+	m_inner_sizer = new wxBoxSizer( wxHORIZONTAL );
+	
+	wxBoxSizer* m_attributes_sizer;
+	m_attributes_sizer = new wxBoxSizer( wxVERTICAL );
+	
+	m_groups = new wxComboBox( this, ID_ATTRIBUTE_CREATE_GROUP_CHANGED, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY ); 
+	m_attributes_sizer->Add( m_groups, 0, wxALL|wxEXPAND, 0 );
+	
+	m_attributes = new wxListBox( this, ID_ATTRIBUTE_CREATE_LIST_CHANGED, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
+	m_attributes_sizer->Add( m_attributes, 1, wxALL|wxEXPAND, 0 );
+	
+	
+	m_inner_sizer->Add( m_attributes_sizer, 0, wxEXPAND, 0 );
+	
+	wxBoxSizer* m_sizer;
+	m_sizer = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* m_name_sizer;
+	m_name_sizer = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_label_name = new wxStaticText( this, wxID_ANY, wxT("Name:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_label_name->Wrap( -1 );
+	m_name_sizer->Add( m_label_name, 0, wxALL, 5 );
+	
+	m_attribute_name = new wxTextCtrl( this, wxID_ANY, wxT("Attribute"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_name_sizer->Add( m_attribute_name, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	m_sizer->Add( m_name_sizer, 0, wxEXPAND, 5 );
+	
+	m_parameters_sizer = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Parameters:") ), wxVERTICAL );
+	
+	
+	m_sizer->Add( m_parameters_sizer, 1, wxEXPAND, 5 );
+	
+	
+	m_inner_sizer->Add( m_sizer, 1, wxEXPAND, 5 );
+	
+	
+	m_global_sizer->Add( m_inner_sizer, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* m_btn_sizer;
+	m_btn_sizer = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_ok = new wxButton( this, wxID_OK, wxT("Ok"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_btn_sizer->Add( m_ok, 0, wxALIGN_RIGHT|wxALL|wxRIGHT, 5 );
+	
+	m_button6 = new wxButton( this, wxID_ANY, wxT("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_btn_sizer->Add( m_button6, 0, wxALIGN_RIGHT|wxALL|wxRIGHT, 5 );
+	
+	
+	m_global_sizer->Add( m_btn_sizer, 0, wxALIGN_RIGHT|wxBOTTOM|wxRIGHT, 5 );
+	
+	
+	this->SetSizer( m_global_sizer );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	m_groups->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( AttributeDialog::OnGroupSelected ), NULL, this );
+	m_attributes->Connect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( AttributeDialog::OnItemChanged ), NULL, this );
+	m_ok->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AttributeDialog::OnOk ), NULL, this );
+	m_button6->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AttributeDialog::OnCancel ), NULL, this );
+}
+
+AttributeDialog::~AttributeDialog()
+{
+	// Disconnect Events
+	m_groups->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( AttributeDialog::OnGroupSelected ), NULL, this );
+	m_attributes->Disconnect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( AttributeDialog::OnItemChanged ), NULL, this );
+	m_ok->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AttributeDialog::OnOk ), NULL, this );
+	m_button6->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AttributeDialog::OnCancel ), NULL, this );
+	
+}
+
+BooleanEditor::BooleanEditor( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	wxBoxSizer* bSizer24;
+	bSizer24 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_name = new wxStaticText( this, wxID_ANY, wxT("[NAME]:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_name->Wrap( -1 );
+	bSizer24->Add( m_name, 0, wxALL|wxEXPAND, 0 );
+	
+	m_check_box = new wxCheckBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer24->Add( m_check_box, 0, wxALL|wxEXPAND, 0 );
+	
+	
+	this->SetSizer( bSizer24 );
+	this->Layout();
+}
+
+BooleanEditor::~BooleanEditor()
+{
+}
+
+Vec3FloatEditor::Vec3FloatEditor( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	wxBoxSizer* bSizer25;
+	bSizer25 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_name = new wxStaticText( this, wxID_ANY, wxT("[NAME]:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_name->Wrap( -1 );
+	bSizer25->Add( m_name, 0, wxALL, 5 );
+	
+	m_x = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer25->Add( m_x, 1, wxALL, 5 );
+	
+	m_y = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer25->Add( m_y, 1, wxALL, 5 );
+	
+	m_z = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer25->Add( m_z, 1, wxALL, 5 );
+	
+	
+	this->SetSizer( bSizer25 );
+	this->Layout();
+	
+	// Connect Events
+	m_x->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Vec3FloatEditor::OnXChanged ), NULL, this );
+	m_y->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Vec3FloatEditor::OnYChanged ), NULL, this );
+	m_z->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Vec3FloatEditor::OnZChanged ), NULL, this );
+}
+
+Vec3FloatEditor::~Vec3FloatEditor()
+{
+	// Disconnect Events
+	m_x->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Vec3FloatEditor::OnXChanged ), NULL, this );
+	m_y->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Vec3FloatEditor::OnYChanged ), NULL, this );
+	m_z->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Vec3FloatEditor::OnZChanged ), NULL, this );
 	
 }

@@ -40,7 +40,7 @@ namespace IoModule {
                     auto text = System::CreateInstancePtr<Attributes::IText>(Attributes::CLSID_Text, Attributes::IID_IText);
                     if (text) {
 						text->SetText(name);
-                        node->Set<Attributes::IText>(L"Name", text);
+                        node->Add<Attributes::IText>(L"Name", text);
 					}
 				}
             }
@@ -53,7 +53,7 @@ namespace IoModule {
 					auto stub = System::CreateInstancePtr<Attributes::IFileStub>(Attributes::CLSID_FileStub, Attributes::IID_IFileStub);
 					if (stub) {
 						stub->SetFilename(value);
-                        node->Set<Attributes::IFileStub>("Filename", stub);
+                        node->Add<Attributes::IFileStub>("Filename", stub);
 					}
 				}                
             }

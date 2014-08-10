@@ -1,13 +1,16 @@
 #include <config.h>
 #include <punk_engine.h>
 #include <wx/filedlg.h>
+#include <wx/menu.h>
 #include "common.h"
 #include "forms/create_scene_dialog_impl.h"
 #include "editor_main_window.h"
 #include "action_manager.h"
+#include "forms/attribute_dialog_impl.h"
 
 PUNK_ENGINE_BEGIN
 namespace Tools {
+
 
 	void EditorMainWindow::OnViewModules(wxRibbonToolBarEvent& event) {
 		ModuleManagerDialog* dlg = new ModuleManagerDialog(this);
@@ -67,6 +70,7 @@ namespace Tools {
 	}
 
 	void EditorMainWindow::OnClose(wxCloseEvent& event) {
+		Common::Clean();
 		event.Skip();
 	}
 
@@ -258,15 +262,25 @@ namespace Tools {
 		// get value into a wxVariant
 		void GetValue(wxVariant &variant, const wxDataViewItem &item, unsigned int col) const override {
 			Core::Pointer<SceneModule::INode> node{ nullptr, Core::DestroyObject };
+			Core::Pointer<SceneModule::IAttribute> attribute{ nullptr, Core::DestroyObject };
 			if (!item.IsOk()) {
 				node = m_scene->GetRoot();
 			}
 			else {
 				auto o = Core::Pointer < Core::IObject > {(Core::IObject*)item.GetID(), Core::DestroyObject};
 				node = Core::QueryInterfacePtr<SceneModule::INode>(o, SceneModule::IID_INode);
+				attribute = Core::QueryInterfacePtr<SceneModule::IAttribute>(o, SceneModule::IID_IAttribute);
 			}
 			if (node) {
 				variant = "Node";
+			}
+			else if (attribute) {
+				if (col == 0) {
+					variant = Common::PunkStringToWxString(attribute->GetName());
+				}
+				else {
+					variant = "Attribute";
+				}
 			}
 			else {
 				variant = "Unknown";
@@ -293,6 +307,10 @@ namespace Tools {
 			auto node = Core::QueryInterfacePtr<SceneModule::INode>(o, SceneModule::IID_INode);
 			if (node) {
 				return wxDataViewItem{ (void*)node->GetParent() };
+			}
+			auto attribute = Core::QueryInterfacePtr<SceneModule::IAttribute>(o, SceneModule::IID_IAttribute);
+			if (attribute) {
+				return wxDataViewItem{ (void*)attribute->GetOwner() };
 			}
 			return wxDataViewItem{ nullptr };
 		}
@@ -326,12 +344,17 @@ namespace Tools {
 				auto o = Core::Pointer < Core::IObject > {(Core::IObject*)item.GetID(), Core::DestroyObject};
 				node = Core::QueryInterfacePtr<SceneModule::INode>(o, SceneModule::IID_INode);
 			}
+
 			if (node) {
-				std::uint32_t max_i = node->GetChildrenCount();
-				for (std::uint32_t i = 0; i < max_i; ++i) {
+				std::uint32_t count = node->GetChildrenCount();
+				for (std::uint32_t i = 0, max_i = count; i < max_i; ++i) {
 					children.push_back(wxDataViewItem{ (void*)node->GetChild(i).get() });
 				}
-				return max_i;
+				count += node->GetAttributesCount();
+				for (std::uint32_t i = 0, max_i = node->GetAttributesCount(); i < max_i; ++i) {
+					children.push_back(wxDataViewItem{ (void*)node->GetAttribute(i).get() });
+				}
+				return count;
 			}
 			return 0;
 		}
@@ -456,6 +479,33 @@ namespace Tools {
 				module->Serialize(m_current_scene, Common::WxStringToPunkString(filename));
 			}
 		}
+	}
+
+	void EditorMainWindow::OnSceneContextMenu(wxDataViewEvent& event) {
+		auto item = event.GetItem();
+		if (item.IsOk()) {
+			auto o = Core::Pointer < Core::IObject > {(Core::IObject*)item.GetID(), Core::DestroyObject};
+			auto node = Core::QueryInterfacePtr<SceneModule::INode>(o, SceneModule::IID_INode);
+			if (node) {
+				wxMenu menu;
+				menu.SetClientData((void*)node.get());
+				menu.Append(ID_SCENE_MENU_ADD_ATTRIBUTE, "Add attribute");
+				menu.Connect(wxEVT_COMMAND_MENU_SELECTED, (wxObjectEventFunction)&EditorMainWindow::OnScenePopUpClick, nullptr, this);
+				PopupMenu(&menu);
+			}
+		}
+	}
+
+	void EditorMainWindow::OnScenePopUpClick(wxCommandEvent& event) {
+		auto node = (SceneModule::INode*)(static_cast<wxMenu *>(event.GetEventObject())->GetClientData());
+		AttributeDialogImpl dlg(this);
+		if (dlg.ShowModal() == wxID_OK) {
+			auto attribute = dlg.GetAttribute();
+			if (attribute) {
+				node->AddAttribute(attribute);
+				m_scene_tree_graph->GetModel()->ItemAdded(wxDataViewItem{ node }, wxDataViewItem{ attribute.get() });
+			}
+		}		
 	}
 
 }

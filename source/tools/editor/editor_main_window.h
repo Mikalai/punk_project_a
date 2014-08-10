@@ -7,7 +7,9 @@
 
 PUNK_ENGINE_BEGIN
 namespace Tools {
-	
+
+#define ID_SCENE_MENU_ADD_ATTRIBUTE 10000
+
 	class EditorMainWindow : public EditorMainWindowBase, public System::ILogConsumer {
 	public:
 		using EditorMainWindowBase::EditorMainWindowBase;
@@ -42,7 +44,8 @@ namespace Tools {
 		void OnSceneGraphItemChanged(wxDataViewEvent& event);
 		void OnSceneLoad(wxRibbonToolBarEvent& event);
 		void OnSceneSave(wxRibbonToolBarEvent& event);
-
+		void OnSceneContextMenu(wxDataViewEvent& event);
+		void OnScenePopUpClick(wxCommandEvent& event);
 	public:
 		void UpdateScenePanel();
 		void UpdateSceneGraph();

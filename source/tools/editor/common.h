@@ -3,6 +3,7 @@
 
 #include <wx/string.h>
 #include <config.h>
+#include <attributes/iattributes_manager.h>
 #include <scene/module.h>
 #include <loader/module.h>
 
@@ -17,6 +18,8 @@ namespace Tools {
 		static Core::Pointer<IoModule::IIoModule> GetIoModule();
 		static const wxString PunkStringToWxString(const Core::String& value);
 		static const Core::String WxStringToPunkString(const wxString& value);
+		static Core::Pointer<Attributes::IAttributesManager> GetAttributesManager();
+		static void Clean();
 	};
 }
 PUNK_ENGINE_END

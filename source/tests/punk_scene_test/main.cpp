@@ -2,7 +2,6 @@
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/ui/text/TestRunner.h>
 #include <string/module.h>
-#include <system/module.h>
 
 int main()
 {

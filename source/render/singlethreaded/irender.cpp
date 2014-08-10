@@ -157,7 +157,7 @@ namespace LowLevelRender {
 			if (scene) {
 				auto root = scene->GetRoot();
 				if (root)
-					root->Set<Graphics::ICanvas>(L"Canvas", m_canvas);
+					root->Add<Graphics::ICanvas>(L"Canvas", m_canvas);
 			}
 		}
 
@@ -255,18 +255,18 @@ namespace LowLevelRender {
 			value->AddRef();
 			m_scene.reset(value);
 			if (!m_scene->GetRoot()->Get<Graphics::ICanvas>(L"Canvas"))
-				m_scene->GetRoot()->Set<Graphics::ICanvas>(L"Canvas", m_canvas);
+				m_scene->GetRoot()->Add<Graphics::ICanvas>(L"Canvas", m_canvas);
 		}
 
 		void OnNodeAdded(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child) override {
 			LOG_FUNCTION_SCOPE;
 			if (!parent) {
 				if (!child->Get<Graphics::ICanvas>(L"Canvas"))
-					child->Set<Graphics::ICanvas>(L"Canvas", m_canvas);
+					child->Add<Graphics::ICanvas>(L"Canvas", m_canvas);
 			}
-			auto count = child->GetAttributesCountOfType<Attributes::IGeometry>();
+			auto count = child->GetAttributesCount(Attributes::IID_IGeometry);
 			for (int i = 0; i < (int)count; ++i) {
-				auto geom = child->GetAttributeOfType<Attributes::IGeometry>(i);
+				auto geom = child->GetAttributeOfType<Attributes::IGeometry>(Attributes::IID_IGeometry, i);
 				Core::Pointer<Graphics::IRenderable> renderable{ nullptr, Core::DestroyObject };
 				if (m_cooked_geometry.HasValue(geom.get()))
 				{
@@ -274,7 +274,7 @@ namespace LowLevelRender {
 					auto old = child->Get<Graphics::IRenderable>(geom->GetName());
 					if (old != renderable) {
 						renderable->AddRef();
-						child->Set<Graphics::IRenderable>(geom->GetName(), renderable);
+						child->Add<Graphics::IRenderable>(geom->GetName(), renderable);
 					}
 				}
 				else
@@ -284,16 +284,16 @@ namespace LowLevelRender {
 					m_geometry_cooker->Cook(geom, vb, ib);
 					renderable = m_renderable_builder->ToRenderable(Graphics::PrimitiveType::TRIANGLES, vb, ib);
 					m_cooked_geometry.AddValue(geom.get(), renderable);
-					child->Set<Graphics::IRenderable>(geom->GetName(), renderable);
+					child->Add<Graphics::IRenderable>(geom->GetName(), renderable);
 				}
 			}
 			for (int i = 0, max_i = child->GetChildrenCount(); i < max_i; ++i) {
 				OnNodeAdded(child, child->GetChild(i));
 			}
 
-			count = child->GetAttributesCountOfType<Attributes::IMaterial>();
+			count = child->GetAttributesCount(Attributes::IID_IMaterial);
 			for (int i = 0; i < (int)count; ++i) {
-				auto material = child->GetAttributeOfType<Attributes::IMaterial>(i);
+				auto material = child->GetAttributeOfType<Attributes::IMaterial>(Attributes::IID_IMaterial, i);
 				auto diffuse_slot = material->GetDiffuseTextureSlot();
 				if (diffuse_slot) {
 					System::Folder folder;
@@ -332,7 +332,8 @@ namespace LowLevelRender {
 			Core::Pointer<SceneModule::INode> node, 
 			Core::Pointer<SceneModule::IAttribute> attribute) override {
 			LOG_FUNCTION_SCOPE;
-			if (attribute->GetTypeID() == typeid(Attributes::IGeometry).hash_code()) {
+			auto geom = attribute->Get<Attributes::IGeometry>();
+			if (geom) {
 				auto geom = attribute->Get<Attributes::IGeometry>();
 				Core::Pointer<Graphics::IRenderable> renderable{ nullptr, Core::DestroyObject };
 				if (m_cooked_geometry.HasValue(geom.get()))
@@ -347,7 +348,7 @@ namespace LowLevelRender {
 					renderable = m_renderable_builder->ToRenderable(Graphics::PrimitiveType::TRIANGLES, vb, ib);
 					m_cooked_geometry.AddValue(geom.get(), renderable);
 				}
-				node->Set<Graphics::IRenderable>(geom->GetName(), renderable);
+				node->Add<Graphics::IRenderable>(geom->GetName(), renderable);
 			}
 		}
 
@@ -380,10 +381,10 @@ namespace LowLevelRender {
 		*/
 		void Process(Graphics::IFrame* frame, Core::Pointer<SceneModule::INode> node) {
 			LOG_FUNCTION_SCOPE;
-			int count = node->GetAttributesCountOfType<Attributes::ITransform>();
+			int count = node->GetAttributesCount(Attributes::IID_ITransform);
 			if (count != 0) {
 				for (int i = 0; i < count; ++i) {
-					auto transform = node->GetAttributeOfType<Attributes::ITransform>(i);
+					auto transform = node->GetAttributeOfType<Attributes::ITransform>(Attributes::IID_ITransform, i);
 					auto matrix = transform->GetMatrix();
 					frame->PushAllState();
 					frame->MultWorldMatrix(matrix);
@@ -396,10 +397,10 @@ namespace LowLevelRender {
 				}
 				return;
 			}
-			count = node->GetAttributesCountOfType<Graphics::IRenderable>();
+			count = node->GetAttributesCount(Graphics::IID_IRenderable);
 			if (count != 0) {
 				for (int i = 0; i < count; ++i) {
-					auto renderable = node->GetAttributeOfType<Graphics::IRenderable>(i);
+					auto renderable = node->GetAttributeOfType<Graphics::IRenderable>(Graphics::IID_IRenderable, i);
 					if (renderable) {
 						frame->PushAllState();						
 						if (frame->IsEnabledSkinning())
@@ -413,10 +414,10 @@ namespace LowLevelRender {
 				}
 				return;
 			}			
-			count = node->GetAttributesCountOfType<Attributes::IMaterial>();
+			count = node->GetAttributesCount(Attributes::IID_IMaterial);
 			if (count != 0) {
 				for (int i = 0; i < count; ++i){
-					auto material = node->GetAttributeOfType<Attributes::IMaterial>(i);
+					auto material = node->GetAttributeOfType<Attributes::IMaterial>(Attributes::IID_IMaterial, i);
 					if (material){
 						frame->PushAllState();
 						frame->SetDiffuseColor(material->GetDiffuseColor());
@@ -436,10 +437,10 @@ namespace LowLevelRender {
 				}
 				return;
 			}
-			count = node->GetAttributesCountOfType<Attributes::ILight>();
+			count = node->GetAttributesCount(Attributes::IID_ILight);
 			if (count != 0) {
 				for (int i = 0; i < count; ++i) {
-					auto light = node->GetAttributeOfType<Attributes::ILight>(i);
+					auto light = node->GetAttributeOfType<Attributes::ILight>(Attributes::IID_ILight, i);
 					if (light) {
 						auto point_light = Core::QueryInterfacePtr<Attributes::IPointLight>(light, Attributes::IID_IPointLight);
 						if (point_light.get()) {
@@ -457,10 +458,10 @@ namespace LowLevelRender {
 					}
 				}
 			}
-			count = node->GetAttributesCountOfType<Attributes::ICamera>();
+			count = node->GetAttributesCount(Attributes::IID_ICamera);
 			if (count != 0) {
 				for (int i = 0; i < count; ++i) {
-					auto camera = node->GetAttributeOfType<Attributes::ICamera>(i);
+					auto camera = node->GetAttributeOfType<Attributes::ICamera>(Attributes::IID_ICamera, i);
 					if (camera) {
 						auto perspective_camera = Core::QueryInterfacePtr<Attributes::IPerspectiveCamera>(camera, Attributes::IID_IPerspectiveCamera);
 						if (perspective_camera.get()) {
@@ -473,10 +474,10 @@ namespace LowLevelRender {
 					}
 				}
 			}
-			count = node->GetAttributesCountOfType<Attributes::IArmature>();
+			count = node->GetAttributesCount(Attributes::IID_IArmature);
 			if (count != 0) {
 				for (int i = 0; i < count; ++i) {
-					auto armature = node->GetAttributeOfType<Attributes::IArmature>(i);
+					auto armature = node->GetAttributeOfType<Attributes::IArmature>(Attributes::IID_IArmature, i);
 					if (armature) {
 						frame->PushAllState();
 						for (int i = 0; i < armature->GetSchema()->GetBonesCount(); ++i) {
