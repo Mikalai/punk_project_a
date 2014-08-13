@@ -1,6 +1,6 @@
 #include <sstream>
 #include "assert2.h"
-#include "stack_trace.h"
+#include <system/dbg/stack_trace.h>
 
 #ifdef WIN32
 #ifndef NOMINMAX

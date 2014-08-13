@@ -69,9 +69,6 @@
     <ClInclude Include="..\..\source\system\errors\module.h">
       <Filter>error</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\system\errors\stack_trace.h">
-      <Filter>error</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\system\events\event.h">
       <Filter>events</Filter>
     </ClInclude>
@@ -213,9 +210,6 @@
     <ClInclude Include="..\..\source\system\module\imodule_manager.h">
       <Filter>module</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\system\module\module_manager.h">
-      <Filter>module</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\system\module\module.h">
       <Filter>module</Filter>
     </ClInclude>
@@ -251,6 +245,21 @@
     </ClInclude>
     <ClInclude Include="..\..\source\system\logger\file_consumer.h">
       <Filter>logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\dbg\module.h">
+      <Filter>dbg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\dbg\stack_trace.h">
+      <Filter>dbg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\dbg\isupport_debug.h">
+      <Filter>dbg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\dbg\idebugger.h">
+      <Filter>dbg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\module\isystem_module.h">
+      <Filter>module</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -293,9 +302,6 @@
       <Filter>error</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\system\errors\exceptions.cpp">
-      <Filter>error</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\system\errors\stack_trace.cpp">
       <Filter>error</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\system\events\idle_event.cpp">
@@ -406,6 +412,18 @@
     <ClCompile Include="..\..\source\system\time\itimer.cpp">
       <Filter>time</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\system\dbg\stack_trace.cpp">
+      <Filter>dbg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\module\isystem_module.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\dbg\idebugger.cpp">
+      <Filter>dbg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\dbg\isupport_debugger_template.cpp">
+      <Filter>dbg</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="aop">
@@ -446,6 +464,9 @@
     </Filter>
     <Filter Include="factory">
       <UniqueIdentifier>{f9323c4f-57d9-4fcd-a598-84edc8354832}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dbg">
+      <UniqueIdentifier>{a19242b2-78b8-4af7-8b08-e65460d07c80}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

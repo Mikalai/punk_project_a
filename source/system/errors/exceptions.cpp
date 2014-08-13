@@ -1,5 +1,5 @@
 #include "exceptions.h"
-#include "stack_trace.h"
+#include <system/dbg/stack_trace.h>
 
 PUNK_ENGINE_BEGIN
 namespace System {
