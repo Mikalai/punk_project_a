@@ -5,6 +5,8 @@
 #include <core/iclonable.h>
 #include <system/factory/module.h>
 #include <system/logger/module.h>
+#include <system/dbg/module.h>
+#include <system/dbg/
 #include <attributes/animation/module.h>
 #include <attributes/animation/module.h>
 #include <tools/editor/editor_interface.h>

@@ -421,7 +421,7 @@
     <ClCompile Include="..\..\source\system\dbg\idebugger.cpp">
       <Filter>dbg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\system\dbg\isupport_debugger_template.cpp">
+    <ClCompile Include="..\..\source\system\dbg\isupport_debugger_template.h">
       <Filter>dbg</Filter>
     </ClCompile>
   </ItemGroup>
