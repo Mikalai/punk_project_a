@@ -27,15 +27,28 @@ namespace Tools {
 	public:
 		/** Constructor */
 		AttributeDialogImpl(wxWindow* parent);
+		
 		//// end generated class members
-		Core::Pointer<SceneModule::IAttribute> GetAttribute() {
-			return m_attribute;
+		
+		Core::Pointer<Core::IObject> GetObject() {
+			return m_object;
+		}
+
+		void SetObject(Core::Pointer<Core::IObject> attribute);
+		
+		void SetObjectName(const Core::String& value);
+		
+		const Core::String& GetObjectName() const {
+			return m_name;
 		}
 
 		Core::Pointer<Core::IObject> CreateObject();
+		void UpdatePanel();
+	
 	private:
 		AttributePanelImpl* m_attributes_panel;
-		Core::Pointer<SceneModule::IAttribute> m_attribute;
+		Core::Pointer<Core::IObject> m_object;
+		Core::String m_name;
 	};
 }
 

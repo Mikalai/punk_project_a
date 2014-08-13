@@ -214,7 +214,7 @@ namespace AnimatorModule {
 					auto animation = m_animation_map.GetValue(animated->GetAnimation(0));
                     Core::Pointer<Attributes::IAnimationPlayer> player = System::CreateInstancePtr<Attributes::IAnimationPlayer>(Attributes::CLSID_AnimationPlayer, Attributes::IID_IAnimationPlayer);
 					player->SetAnimation(animation);
-					animated->SetAnimationPlayer(player.get());
+					animated->SetAnimationPlayer(player);
 					player->SetDuration(5);
 					player->Start();
 					player->AddRef();

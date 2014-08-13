@@ -17,5 +17,6 @@
 #include "pointer.h"
 #include "weak_pointer.h"
 #include "iserializable.h"
+#include "iclonable.h"
 
 #endif // MODULE_H

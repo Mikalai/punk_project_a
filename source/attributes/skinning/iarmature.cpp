@@ -76,12 +76,11 @@ namespace Attributes
 		}
 
 		//	IAnimated
-		void SetAnimationPlayer(IAnimationPlayer* value) override {
-			if (value == m_animation_player.get())
+		void SetAnimationPlayer(Core::Pointer<IAnimationPlayer> value) override {
+			if (value == m_animation_player)
 				return;
 
-			value->AddRef();
-			m_animation_player.reset(value);
+			m_animation_player = value;
 
 
 			m_position_track_bone.resize(m_animation_player->GetAnimation()->GetTracksCount());

@@ -10,6 +10,8 @@ namespace Tools {
 
 #define ID_SCENE_MENU_ADD_ATTRIBUTE 10000
 
+	class SceneDataModel;
+
 	class EditorMainWindow : public EditorMainWindowBase, public System::ILogConsumer {
 	public:
 		using EditorMainWindowBase::EditorMainWindowBase;
@@ -18,7 +20,10 @@ namespace Tools {
 
 		//	ILogConsumer
 		void Write(const Core::String& time, const Core::String& level, const Core::String &message) override;
-
+		SceneDataModel* GetCurrentSceneModel();
+		void SetCurrentSceneModel(SceneDataModel* model);
+		//wxDataViewCtrl* GetSceneTreeControl();
+		wxComboBox* GetSceneCombobox();
 	protected:
 		void OnActivate(wxActivateEvent& event);
 		void OnClose(wxCloseEvent& event);
@@ -47,11 +52,11 @@ namespace Tools {
 		void OnSceneContextMenu(wxDataViewEvent& event);
 		void OnScenePopUpClick(wxCommandEvent& event);
 	public:
-		void UpdateScenePanel();
+		//void UpdateScenePanel();
 		void UpdateSceneGraph();
 	protected:
-		Core::Pointer<Graphics::ICanvas> m_canvas{ nullptr, Core::DestroyObject };
-		Core::Pointer<SceneModule::IScene> m_current_scene{ nullptr, Core::DestroyObject};
+		SceneDataModel* m_scene_model{ nullptr };
+		Core::Pointer<Graphics::ICanvas> m_canvas{ nullptr, Core::DestroyObject };		
 		Core::Pointer<SceneModule::INode> m_current_node{ nullptr, Core::DestroyObject };
 		Core::Pointer<SceneModule::IAttribute> m_current_attribute{ nullptr, Core::DestroyObject };
 	};

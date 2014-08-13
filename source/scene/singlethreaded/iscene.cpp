@@ -16,8 +16,8 @@ namespace SceneModule
 	public:
 		Scene() {
 			LOG_FUNCTION_SCOPE;
-			m_root = System::CreateInstancePtr<INode>(CLSID_Node, IID_INode);
-			m_root->SetScene(this);
+			/*m_root = System::CreateInstancePtr<INode>(CLSID_Node, IID_INode);
+			m_root->SetScene(this);*/
 		}
 
 		virtual ~Scene() {
@@ -78,13 +78,14 @@ namespace SceneModule
 
 		void SetRoot(Core::Pointer<INode> node) override {
 			LOG_FUNCTION_SCOPE;
-			node->AddRef();
 			if (m_root.get()) {
 				OnNodeRemoved(Core::Pointer < INode > {nullptr, Core::DestroyObject}, m_root);
 			}
 			m_root = node;
-			m_root->SetScene(this);
-			OnNodeAdded(Core::Pointer < INode > {nullptr, Core::DestroyObject}, m_root);
+			if (m_root) {
+				m_root->SetScene(this);
+				OnNodeAdded(Core::Pointer < INode > {nullptr, Core::DestroyObject}, m_root);
+			}
 		}
 
 		void AddObserver(Core::Pointer<IObserver> observer) override {

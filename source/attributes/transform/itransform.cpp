@@ -2,6 +2,7 @@
 #include <math/tuple.h>
 #include <string/buffer.h>
 #include <core/iserializable.h>
+#include <core/iclonable.h>
 #include <system/factory/module.h>
 #include <system/logger/module.h>
 #include <attributes/animation/module.h>
@@ -16,6 +17,7 @@ namespace Attributes {
 		: public ITransform
 		, public IAnimated
 		, public Core::ISerializable
+		, public Core::IClonable
 		, public Tools::IEditableElement {
 	public:
 
@@ -56,6 +58,10 @@ namespace Attributes {
 			}
 			else if (type == Tools::IID_IEditableElement) {
 				*object = (void*)(Tools::IEditableElement*)this;
+				AddRef();
+			}
+			else if (type == Core::IID_IClonable) {
+				*object = (void*)(Core::IClonable*)this;
 				AddRef();
 			}
 			else
@@ -120,12 +126,11 @@ namespace Attributes {
 		}
 
 		//	IAnimated
-		void SetAnimationPlayer(IAnimationPlayer* value) override {
-			if (value == m_animation_player.get())
+		void SetAnimationPlayer(Core::Pointer<IAnimationPlayer> value) override {
+			if (value == m_animation_player)
 				return;
 
-			value->AddRef();
-			m_animation_player.reset(value);
+			m_animation_player =  value;
 
 			m_position_track_index = -1;
 			m_scale_track_index = -1;
@@ -206,6 +211,25 @@ namespace Attributes {
 			for (std::uint32_t i = 0; i < anim_count; ++i) {
 				m_supported_animations[i] = buffer.ReadString();
 			}
+		}
+
+		//	IClonable
+		Core::Pointer<IClonable> Clone() const override {
+			auto clone = std::unique_ptr < Transform > { new Transform };
+			clone->SetMatrix(GetMatrix());
+
+			{
+				auto tmp = Core::QueryInterfacePtr<Core::IClonable>(m_animation_player, Core::IID_IClonable);
+				if (tmp) {
+					auto o = tmp->Clone();
+					auto player = Core::QueryInterfacePtr<IAnimationPlayer>(o, IID_IAnimationPlayer);
+					clone->SetAnimationPlayer(player);
+				}				
+			}
+			for (std::uint32_t i = 0, max_i = GetAnimationsCount(); i < max_i; ++i) {
+				clone->AddAnimation(GetAnimation(i));
+			}
+			return Core::Pointer < IClonable > {clone.release(), Core::DestroyObject};
 		}
 
 		//	IEditableElement

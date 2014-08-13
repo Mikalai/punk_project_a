@@ -164,6 +164,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\source\tools\editor\actions.cpp" />
     <ClCompile Include="..\..\source\tools\editor\action_manager.cpp" />
     <ClCompile Include="..\..\source\tools\editor\forms\attribute_dialog_impl.cpp" />
     <ClCompile Include="..\..\source\tools\editor\forms\attribute_panel_impl.cpp" />
@@ -174,6 +175,8 @@
     <ClCompile Include="..\..\source\tools\editor\editor_main_window.cpp" />
     <ClCompile Include="..\..\source\tools\editor\module_manager_impl.cpp" />
     <ClCompile Include="..\..\source\tools\editor\common.cpp" />
+    <ClCompile Include="..\..\source\tools\editor\actions.h" />
+    <ClCompile Include="..\..\source\tools\editor\scene_model.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\tools\editor\action_manager.h" />
@@ -187,6 +190,7 @@
     <ClInclude Include="..\..\source\tools\editor\editor_interface.h" />
     <ClInclude Include="..\..\source\tools\editor\module_list.h" />
     <ClInclude Include="..\..\source\tools\editor\common.h" />
+    <ClInclude Include="..\..\source\tools\editor\scene_model.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

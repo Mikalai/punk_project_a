@@ -21,6 +21,9 @@
     <ClCompile Include="..\..\source\tools\editor\forms\attribute_panel_impl.cpp">
       <Filter>forms</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\tools\editor\actions.h" />
+    <ClCompile Include="..\..\source\tools\editor\actions.cpp" />
+    <ClCompile Include="..\..\source\tools\editor\scene_model.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\tools\editor\module_list.h" />
@@ -46,6 +49,7 @@
       <Filter>forms</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\tools\editor\editor_interface.h" />
+    <ClInclude Include="..\..\source\tools\editor\scene_model.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="forms">

@@ -14,7 +14,7 @@ namespace Attributes {
 
 	class IAnimated : public Core::IObject {
 	public:
-		virtual void SetAnimationPlayer(IAnimationPlayer* value) = 0;
+		virtual void SetAnimationPlayer(Core::Pointer<IAnimationPlayer> value) = 0;
 		virtual IAnimationPlayer* GetAnimationPlayer() = 0;
 		virtual void AddAnimation(const Core::String& name) = 0;
 		virtual std::uint32_t GetAnimationsCount() const = 0;
