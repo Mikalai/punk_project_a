@@ -28,7 +28,7 @@
 #include <string.h>
 #include <string>
 
-#include <noise/noise.h>
+#include <noise.h>
 
 using namespace noise;
 
@@ -1365,7 +1365,7 @@ namespace noise
         /// If this method is successful, the destination noise map contains
         /// the coherent-noise values from the noise module specified by
         /// SetSourceModule().
-        virtual void Build () override;
+        virtual void Build () = 0;
 
         /// Returns the height of the destination noise map.
         ///
@@ -2214,7 +2214,7 @@ namespace noise
         /// EnableLight() method before calling the LowLevelRender() method.
         void SetLightContrast (double lightContrast)
         {
-          if (lightContrast <override.0) {
+          if (lightContrast <= 0.0) {
             throw noise::ExceptionInvalidParam ();
           }
 

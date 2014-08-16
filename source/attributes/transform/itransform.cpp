@@ -6,7 +6,7 @@
 #include <system/factory/module.h>
 #include <system/logger/module.h>
 #include <system/dbg/module.h>
-#include <system/dbg/
+#include <system/dbg/isupport_debugger_template.h>
 #include <attributes/animation/module.h>
 #include <attributes/animation/module.h>
 #include <tools/editor/editor_interface.h>
@@ -20,7 +20,8 @@ namespace Attributes {
 		, public IAnimated
 		, public Core::ISerializable
 		, public Core::IClonable
-		, public Tools::IEditableElement {
+		, public Tools::IEditableElement 
+		, public System::ISupportDebugImpl<Transform> {
 	public:
 
 		Transform(const Math::mat4& m) {
@@ -64,6 +65,10 @@ namespace Attributes {
 			}
 			else if (type == Core::IID_IClonable) {
 				*object = (void*)(Core::IClonable*)this;
+				AddRef();
+			}
+			else if (type == System::IID_ISupportDebugger) {
+				*object = (void*)(System::ISupportDebug*)this;
 				AddRef();
 			}
 			else

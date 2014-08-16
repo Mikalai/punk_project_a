@@ -2,7 +2,7 @@
 #include "root_find.h"
 #include "absolute_value.h"
 #include "square_root.h"
-#include "power.h"
+#include "pe_power.h"
 #include "trigonometry.h"
 
 namespace Punk {

@@ -16,19 +16,15 @@
     <ClCompile Include="..\..\source\math\math_error.cpp" />
     <ClCompile Include="..\..\source\math\matrix_helper.cpp" />
     <ClCompile Include="..\..\source\math\min_max.cpp" />
-    <ClCompile Include="..\..\source\math\noise.cpp" />
-    <ClCompile Include="..\..\source\math\noiseutils.cpp" />
     <ClCompile Include="..\..\source\math\perspective_decoder.cpp" />
     <ClCompile Include="..\..\source\math\polygon3d.cpp" />
     <ClCompile Include="..\..\source\math\portal.cpp" />
-    <ClCompile Include="..\..\source\math\power.cpp" />
     <ClCompile Include="..\..\source\math\quat.cpp" />
     <ClCompile Include="..\..\source\math\random.cpp" />
     <ClCompile Include="..\..\source\math\recount.cpp" />
     <ClCompile Include="..\..\source\math\rect.cpp" />
     <ClCompile Include="..\..\source\math\relations.cpp" />
     <ClCompile Include="..\..\source\math\root_find.cpp" />
-    <ClCompile Include="..\..\source\math\sphere.cpp" />
     <ClCompile Include="..\..\source\math\spherical.cpp" />
     <ClCompile Include="..\..\source\math\square_root.cpp" />
     <ClCompile Include="..\..\source\math\triangle2d.cpp" />
@@ -60,6 +56,117 @@
     <ClCompile Include="..\..\source\math\frustum_core.cpp" />
     <ClCompile Include="..\..\source\math\tuple.cpp" />
     <ClCompile Include="..\..\source\math\ispline.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noiseutils\noiseutils.cpp">
+      <Filter>noise\noiseutils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\latlon.cpp">
+      <Filter>noise\libnoise</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\noisegen.cpp">
+      <Filter>noise\libnoise</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\model\cylinder.cpp">
+      <Filter>noise\libnoise\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\model\line.cpp">
+      <Filter>noise\libnoise\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\model\plane.cpp">
+      <Filter>noise\libnoise\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\model\sphere.cpp">
+      <Filter>noise\libnoise\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\abs.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\add.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\billow.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\blend.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\cache.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\checkerboard.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\clamp.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\const.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\curve.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\cylinders.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\displace.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\exponent.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\invert.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\max.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\min.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\modulebase.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\multiply.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\perlin.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\power.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\ridgedmulti.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\rotatepoint.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\scalebias.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\scalepoint.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\select.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\spheres.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\terrace.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\translatepoint.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\turbulence.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\voronoi.cpp">
+      <Filter>noise\libnoise\module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\math\inoise_generator.cpp" />
+    <ClCompile Include="..\..\source\math\pe_power.cpp" />
+    <ClCompile Include="..\..\source\math\pe_sphere.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\math\aabb.h" />
@@ -92,15 +199,12 @@
     <ClInclude Include="..\..\source\math\matrix_helper.h" />
     <ClInclude Include="..\..\source\math\min_max.h" />
     <ClInclude Include="..\..\source\math\module.h" />
-    <ClInclude Include="..\..\source\math\noise.h" />
-    <ClInclude Include="..\..\source\math\noiseutils.h" />
     <ClInclude Include="..\..\source\math\nrm.h" />
     <ClInclude Include="..\..\source\math\perspective_decoder.h" />
     <ClInclude Include="..\..\source\math\plane.h" />
     <ClInclude Include="..\..\source\math\polygon.h" />
     <ClInclude Include="..\..\source\math\polygon3d.h" />
     <ClInclude Include="..\..\source\math\portal.h" />
-    <ClInclude Include="..\..\source\math\power.h" />
     <ClInclude Include="..\..\source\math\quat.h" />
     <ClInclude Include="..\..\source\math\random.h" />
     <ClInclude Include="..\..\source\math\ray.h" />
@@ -165,6 +269,143 @@
     <ClInclude Include="..\..\source\math\clip_segment.h" />
     <ClInclude Include="..\..\source\math\tbn_space.h" />
     <ClInclude Include="..\..\source\math\forward.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noiseutils\noiseutils.h">
+      <Filter>noise\noiseutils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\basictypes.h">
+      <Filter>noise\libnoise</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\exception.h">
+      <Filter>noise\libnoise</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\interp.h">
+      <Filter>noise\libnoise</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\latlon.h">
+      <Filter>noise\libnoise</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\mathconsts.h">
+      <Filter>noise\libnoise</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\misc.h">
+      <Filter>noise\libnoise</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\noise.h">
+      <Filter>noise\libnoise</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\noisegen.h">
+      <Filter>noise\libnoise</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\vectortable.h">
+      <Filter>noise\libnoise</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\model\cylinder.h">
+      <Filter>noise\libnoise\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\model\line.h">
+      <Filter>noise\libnoise\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\model\model.h">
+      <Filter>noise\libnoise\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\model\plane.h">
+      <Filter>noise\libnoise\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\model\sphere.h">
+      <Filter>noise\libnoise\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\abs.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\add.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\billow.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\blend.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\cache.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\checkerboard.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\clamp.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\const.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\curve.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\cylinders.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\displace.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\exponent.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\invert.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\max.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\min.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\module.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\modulebase.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\multiply.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\perlin.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\power.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\ridgedmulti.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\rotatepoint.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\scalebias.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\scalepoint.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\select.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\spheres.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\terrace.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\translatepoint.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\turbulence.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\voronoi.h">
+      <Filter>noise\libnoise\module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\math\inoise_generator.h" />
+    <ClInclude Include="..\..\source\math\pe_power.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graph">
@@ -175,6 +416,21 @@
     </Filter>
     <Filter Include="spatial">
       <UniqueIdentifier>{1e646a6b-d605-44ae-81ba-29b22bdb73a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="noise">
+      <UniqueIdentifier>{13a8aeea-9805-4928-991b-f0dcc1f65649}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="noise\noiseutils">
+      <UniqueIdentifier>{7f484741-d5f6-4cec-b0e1-71b6e7ed6726}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="noise\libnoise">
+      <UniqueIdentifier>{b8e530cb-dfb6-444a-806b-5d6a0831e886}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="noise\libnoise\model">
+      <UniqueIdentifier>{a6bde64d-945b-49c0-8fc6-ea3760812fd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="noise\libnoise\module">
+      <UniqueIdentifier>{b4a7af12-7fc6-4277-8aa7-9fe0689fc567}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

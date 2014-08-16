@@ -92,9 +92,9 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>PUNK_ENGINE_EXPORTS;WIN32;_DEBUG;_WINDOWS;_USRDLL;PUNK_MATH_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>USE_NOISE;PUNK_ENGINE_EXPORTS;WIN32;_DEBUG;_WINDOWS;_USRDLL;PUNK_MATH_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;$(SolutionDir)..\source\math\libnoise\noiseutils;$(SolutionDir)..\source\math\libnoise\noise\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -109,9 +109,9 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>PUNK_ENGINE_EXPORTS;WIN64;WIN32;_DEBUG;_WINDOWS;_USRDLL;PUNK_MATH_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>USE_NOISE;PUNK_ENGINE_EXPORTS;WIN64;WIN32;_DEBUG;_WINDOWS;_USRDLL;PUNK_MATH_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;$(SolutionDir)..\source\math\libnoise\noiseutils;$(SolutionDir)..\source\math\libnoise\noise\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -128,9 +128,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>PUNK_ENGINE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_USRDLL;PUNK_MATH_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>USE_NOISE;PUNK_ENGINE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_USRDLL;PUNK_MATH_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;$(SolutionDir)..\source\math\libnoise\noiseutils;$(SolutionDir)..\source\math\libnoise\noise\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -149,9 +149,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>PUNK_ENGINE_EXPORTS;WIN64;WIN32;NDEBUG;_WINDOWS;_USRDLL;PUNK_MATH_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>USE_NOISE;PUNK_ENGINE_EXPORTS;WIN64;WIN32;NDEBUG;_WINDOWS;_USRDLL;PUNK_MATH_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;$(SolutionDir)..\source\math\libnoise\noiseutils;$(SolutionDir)..\source\math\libnoise\noise\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -184,6 +184,42 @@
     <ClCompile Include="..\..\source\math\graph\graph_edge.cpp" />
     <ClCompile Include="..\..\source\math\graph\graph_vertex.cpp" />
     <ClCompile Include="..\..\source\math\helper.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noiseutils\noiseutils.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\latlon.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\model\cylinder.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\model\line.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\model\plane.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\model\sphere.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\abs.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\add.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\billow.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\blend.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\cache.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\checkerboard.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\clamp.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\const.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\curve.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\cylinders.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\displace.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\exponent.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\invert.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\max.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\min.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\modulebase.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\multiply.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\perlin.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\power.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\ridgedmulti.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\rotatepoint.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\scalebias.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\scalepoint.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\select.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\spheres.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\terrace.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\translatepoint.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\turbulence.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\module\voronoi.cpp" />
+    <ClCompile Include="..\..\source\math\libnoise\noise\src\noisegen.cpp" />
     <ClCompile Include="..\..\source\math\line2d.cpp" />
     <ClCompile Include="..\..\source\math\linear_equation_solver.cpp" />
     <ClCompile Include="..\..\source\math\mat3.cpp" />
@@ -193,12 +229,11 @@
     <ClCompile Include="..\..\source\math\matrix_helper.cpp" />
     <ClCompile Include="..\..\source\math\metric\value.cpp" />
     <ClCompile Include="..\..\source\math\min_max.cpp" />
-    <ClCompile Include="..\..\source\math\noise.cpp" />
-    <ClCompile Include="..\..\source\math\noiseutils.cpp" />
+    <ClCompile Include="..\..\source\math\inoise_generator.cpp" />
     <ClCompile Include="..\..\source\math\perspective_decoder.cpp" />
     <ClCompile Include="..\..\source\math\polygon3d.cpp" />
     <ClCompile Include="..\..\source\math\portal.cpp" />
-    <ClCompile Include="..\..\source\math\power.cpp" />
+    <ClCompile Include="..\..\source\math\pe_power.cpp" />
     <ClCompile Include="..\..\source\math\quat.cpp" />
     <ClCompile Include="..\..\source\math\random.cpp" />
     <ClCompile Include="..\..\source\math\recount.cpp" />
@@ -206,7 +241,7 @@
     <ClCompile Include="..\..\source\math\relations.cpp" />
     <ClCompile Include="..\..\source\math\root_find.cpp" />
     <ClCompile Include="..\..\source\math\spatial\oct_tree.cpp" />
-    <ClCompile Include="..\..\source\math\sphere.cpp" />
+    <ClCompile Include="..\..\source\math\pe_sphere.cpp" />
     <ClCompile Include="..\..\source\math\spherical.cpp" />
     <ClCompile Include="..\..\source\math\ispline.cpp" />
     <ClCompile Include="..\..\source\math\square_root.cpp" />
@@ -216,6 +251,51 @@
     <ClInclude Include="..\..\source\math\calculate_average.h" />
     <ClInclude Include="..\..\source\math\calculate_native_axis.h" />
     <ClInclude Include="..\..\source\math\create_covariance_matrix.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noiseutils\noiseutils.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\basictypes.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\exception.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\interp.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\latlon.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\mathconsts.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\misc.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\model\cylinder.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\model\line.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\model\model.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\model\plane.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\model\sphere.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\abs.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\add.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\billow.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\blend.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\cache.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\checkerboard.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\clamp.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\const.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\curve.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\cylinders.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\displace.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\exponent.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\invert.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\max.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\min.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\module.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\modulebase.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\multiply.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\perlin.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\power.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\ridgedmulti.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\rotatepoint.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\scalebias.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\scalepoint.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\select.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\spheres.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\terrace.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\translatepoint.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\turbulence.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\module\voronoi.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\noise.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\noisegen.h" />
+    <ClInclude Include="..\..\source\math\libnoise\noise\src\vectortable.h" />
     <ClInclude Include="..\..\source\math\line.h" />
     <ClInclude Include="..\..\source\math\symmetric_eigen_system.h" />
     <ClInclude Include="..\..\source\math\tbn_space.h" />
@@ -271,15 +351,14 @@
     <ClInclude Include="..\..\source\math\metric\value.h" />
     <ClInclude Include="..\..\source\math\min_max.h" />
     <ClInclude Include="..\..\source\math\module.h" />
-    <ClInclude Include="..\..\source\math\noise.h" />
-    <ClInclude Include="..\..\source\math\noiseutils.h" />
+    <ClInclude Include="..\..\source\math\inoise_generator.h" />
     <ClInclude Include="..\..\source\math\nrm.h" />
     <ClInclude Include="..\..\source\math\perspective_decoder.h" />
     <ClInclude Include="..\..\source\math\plane.h" />
     <ClInclude Include="..\..\source\math\polygon.h" />
     <ClInclude Include="..\..\source\math\polygon3d.h" />
     <ClInclude Include="..\..\source\math\portal.h" />
-    <ClInclude Include="..\..\source\math\power.h" />
+    <ClInclude Include="..\..\source\math\pe_power.h" />
     <ClInclude Include="..\..\source\math\quat.h" />
     <ClInclude Include="..\..\source\math\random.h" />
     <ClInclude Include="..\..\source\math\ray.h" />

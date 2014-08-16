@@ -238,6 +238,8 @@
     <ClInclude Include="..\..\source\system\profiler.h" />
     <ClInclude Include="..\..\source\system\resource.h" />
     <ClInclude Include="..\..\source\system\resource_creator.h" />
+    <ClInclude Include="..\..\source\system\serializer\module.h" />
+    <ClInclude Include="..\..\source\system\serializer\serializer.h" />
     <ClInclude Include="..\..\source\system\state_manager.h" />
     <ClInclude Include="..\..\source\system\storable_data.h" />
     <ClInclude Include="..\..\source\system\streaming\iasync_loader.h" />

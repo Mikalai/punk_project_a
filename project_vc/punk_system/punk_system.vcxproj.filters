@@ -261,6 +261,12 @@
     <ClInclude Include="..\..\source\system\module\isystem_module.h">
       <Filter>module</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\system\serializer\module.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\system\serializer\serializer.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\system\config_file.cpp" />
@@ -467,6 +473,9 @@
     </Filter>
     <Filter Include="dbg">
       <UniqueIdentifier>{a19242b2-78b8-4af7-8b08-e65460d07c80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="serializer">
+      <UniqueIdentifier>{f7385508-458f-4ff6-8b8a-83ff17c7ffea}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
