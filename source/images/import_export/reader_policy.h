@@ -7,7 +7,7 @@
 
 PUNK_ENGINE_BEGIN
 namespace ImageModule {
-	template<ImageFileType Type> struct ReaderPolicy {
+	template<ImageFileType Type> struct ImageTypePolicy {
 		static bool CanDecode(Core::Buffer& buffer) {
 			return false;
 		}

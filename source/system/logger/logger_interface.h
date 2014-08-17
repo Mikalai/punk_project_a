@@ -40,7 +40,7 @@ namespace System
     }
 
 #ifdef WIN32
-#define LOG_FUNCTION_SCOPE //System::__private::LogScope __scope(__FUNCSIG__)
+#define LOG_FUNCTION_SCOPE() System::__private::LogScope __scope(__FUNCSIG__)
 #elif defined __linux__
 #define LOG_FUNCTION_SCOPE System::__private::LogScope __scope(Core::String(__PRETTY_FUNCTION__))// + L" in " + Core::String(__FILE__) + L": " + Core::String::Convert(__LINE__));
 #endif

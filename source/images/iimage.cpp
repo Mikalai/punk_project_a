@@ -64,6 +64,16 @@ namespace ImageModule {
 			return m_data.data();
 		}
 
+		const void* GetScanline(std::uint32_t index) const override {
+			auto pixe_size = Pixel<Format>::GetSize();
+			return m_data.data() + index * m_width * pixe_size;
+		}
+
+		void* GetScanline(std::uint32_t index) override {
+			auto pixe_size = Pixel<Format>::GetSize();
+			return m_data.data() + index * m_width * pixe_size;
+		}
+
 	private:
 		std::atomic<std::uint32_t> m_ref_count{ 0 };
 		std::uint32_t m_width;
@@ -197,10 +207,10 @@ namespace ImageModule {
 			break;
 		case ImageFormat::IMAGE_FORMAT_SIGNED_HILO8:
 			break;
-		case ImageFormat::IMAGE_FORMAT_FLOAT_R16:
+		case ImageFormat::FloatR16:		
 			break;
-		case ImageFormat::IMAGE_FORMAT_FLOAT_R32:
-			break;
+		case ImageFormat::FloatR32:
+			return IID_IFloatR32Image;
 		case ImageFormat::IMAGE_FORMAT_FLOAT_RG16:
 			break;
 		case ImageFormat::IMAGE_FORMAT_FLOAT_RGB16:
@@ -406,5 +416,6 @@ namespace ImageModule {
 	PUNK_REGISTER_CREATOR(CLSID_RgbaImage, (System::CreateInstance < Image<ImageFormat::RGBA>, IImage>));
 	PUNK_REGISTER_CREATOR(CLSID_RgbImage, (System::CreateInstance < Image<ImageFormat::RGB>, IImage>));
 	PUNK_REGISTER_CREATOR(CLSID_AlphaImage, (System::CreateInstance < Image<ImageFormat::ALPHA>, IImage>));
+	PUNK_REGISTER_CREATOR(CLSID_FloatR32Image, (System::CreateInstance < Image<ImageFormat::FloatR32>, IImage>));
 }
 PUNK_ENGINE_END

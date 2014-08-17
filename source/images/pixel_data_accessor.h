@@ -12,7 +12,7 @@ namespace ImageModule {
 	template<>
 	struct PixelDataAccessor < ImageFormat::RGBA > {
 
-		PixelDataAccessor(void*& pixel_address)
+		PixelDataAccessor(void* pixel_address)
 			: m_pixel{ pixel_address } {}
 
 		void Set(std::uint8_t r, std::uint8_t g, std::uint8_t b, std::uint32_t a) {
@@ -56,13 +56,13 @@ namespace ImageModule {
 		}
 
 	private:
-		void*& m_pixel;
+		void* m_pixel;
 	};
 
 	template<>
 	struct PixelDataAccessor < ImageFormat::RGB > {
 
-		PixelDataAccessor(void*& pixel_address)
+		PixelDataAccessor(void* pixel_address)
 			: m_pixel{ pixel_address } {}
 
 		void Set(std::uint8_t r, std::uint8_t g, std::uint8_t b) {
@@ -98,13 +98,13 @@ namespace ImageModule {
 		}
 
 	private:
-		void*& m_pixel;
+		void* m_pixel;
 	};
 
 	template<>
 	struct PixelDataAccessor < ImageFormat::ALPHA > {
 
-		PixelDataAccessor(void*& pixel_address)
+		PixelDataAccessor(void* pixel_address)
 			: m_pixel{ pixel_address } {}
 
 		void Set(std::uint32_t a) {
@@ -116,15 +116,40 @@ namespace ImageModule {
 		}
 
 		std::uint8_t GetA() const {
-			return *((std::uint8_t*)m_pixel + 3);
+			return *(std::uint8_t*)m_pixel;
 		}
 
 		void SetA(std::uint8_t value) {
-			*((std::uint8_t*)m_pixel + 3) = value;
+			*(std::uint8_t*)m_pixel = value;
 		}
 
 	private:
-		void*& m_pixel;
+		void* m_pixel;
+	};
+
+	template<>
+	struct PixelDataAccessor < ImageFormat::FloatR32 > {
+		PixelDataAccessor(void* pixel_address)
+			: m_pixel{ pixel_address } {}
+
+		void Set(float a) {
+			SetR(a);
+		}
+
+		void Get(float& a) {
+			a = GetR();
+		}
+
+		float GetR() const {
+			return *(float*)m_pixel;
+		}
+
+		void SetR(float value) {
+			*(float*)m_pixel = value;
+		}
+
+	private:
+		void* m_pixel;
 	};
 }
 PUNK_ENGINE_END

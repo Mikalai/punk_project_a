@@ -55,7 +55,7 @@ namespace ImageModule
 #endif  //  USE_LIB_JPEG
 
 	template<>
-	struct ReaderPolicy < ImageFileType::Jpeg > {
+	struct ImageTypePolicy < ImageFileType::Jpeg > {
 		
 		static bool CanDecode(Core::Buffer& buffer)
 		{

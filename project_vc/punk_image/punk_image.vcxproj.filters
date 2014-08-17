@@ -180,6 +180,7 @@
     <ClInclude Include="..\..\source\images\import_export\png_reader.h">
       <Filter>import_export</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\images\iimage_writer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\images\converter\yuy2_to_rgb.cpp">
@@ -195,9 +196,6 @@
       <Filter>import_export</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\images\import_export\png_exporter.cpp">
-      <Filter>import_export</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\images\import_export\tiff_importer.cpp">
       <Filter>import_export</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\images\import_export\libjpeg\cdjpeg.c">
@@ -583,6 +581,12 @@
       <Filter>import_export</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\images\import_export\jpg_reader.h">
+      <Filter>import_export</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\images\import_export\iimage_writer.cpp">
+      <Filter>import_export</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\images\import_export\tiff_importer.h">
       <Filter>import_export</Filter>
     </ClCompile>
   </ItemGroup>

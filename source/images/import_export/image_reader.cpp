@@ -16,7 +16,7 @@ namespace ImageModule {
 
 		IImage* Read(Core::Buffer& buffer) {
 			IImage* image;
-			ReaderPolicy<Type>::DecodeBuffer(buffer, &image);
+			ImageTypePolicy<Type>::DecodeBuffer(buffer, &image);
 			return image;
 		}
 
@@ -54,20 +54,20 @@ namespace ImageModule {
 
 		IImage* Read(Core::Buffer& buffer) {
 			IImage* image = nullptr;
-			if (ReaderPolicy<ImageFileType::Png>::CanDecode(buffer))
-				ReaderPolicy<ImageFileType::Png>::DecodeBuffer(buffer, &image);
-			else if (ReaderPolicy<ImageFileType::Bmp>::CanDecode(buffer))
-				ReaderPolicy<ImageFileType::Bmp>::DecodeBuffer(buffer, &image);
-			else if (ReaderPolicy<ImageFileType::Gif>::CanDecode(buffer))
-				ReaderPolicy<ImageFileType::Gif>::DecodeBuffer(buffer, &image);
-			else if (ReaderPolicy<ImageFileType::Jpeg>::CanDecode(buffer))
-				ReaderPolicy<ImageFileType::Jpeg>::DecodeBuffer(buffer, &image);
-			else if (ReaderPolicy<ImageFileType::Png>::CanDecode(buffer))
-				ReaderPolicy<ImageFileType::Png>::DecodeBuffer(buffer, &image);
-			else if (ReaderPolicy<ImageFileType::Tga>::CanDecode(buffer))
-				ReaderPolicy<ImageFileType::Tga>::DecodeBuffer(buffer, &image);
-			else if (ReaderPolicy<ImageFileType::Tiff>::CanDecode(buffer))
-				ReaderPolicy<ImageFileType::Tiff>::DecodeBuffer(buffer, &image);
+			if (ImageTypePolicy<ImageFileType::Png>::CanDecode(buffer))
+				ImageTypePolicy<ImageFileType::Png>::DecodeBuffer(buffer, &image);
+			else if (ImageTypePolicy<ImageFileType::Bmp>::CanDecode(buffer))
+				ImageTypePolicy<ImageFileType::Bmp>::DecodeBuffer(buffer, &image);
+			else if (ImageTypePolicy<ImageFileType::Gif>::CanDecode(buffer))
+				ImageTypePolicy<ImageFileType::Gif>::DecodeBuffer(buffer, &image);
+			else if (ImageTypePolicy<ImageFileType::Jpeg>::CanDecode(buffer))
+				ImageTypePolicy<ImageFileType::Jpeg>::DecodeBuffer(buffer, &image);
+			else if (ImageTypePolicy<ImageFileType::Png>::CanDecode(buffer))
+				ImageTypePolicy<ImageFileType::Png>::DecodeBuffer(buffer, &image);
+			else if (ImageTypePolicy<ImageFileType::Tga>::CanDecode(buffer))
+				ImageTypePolicy<ImageFileType::Tga>::DecodeBuffer(buffer, &image);
+			else if (ImageTypePolicy<ImageFileType::Tiff>::CanDecode(buffer))
+				ImageTypePolicy<ImageFileType::Tiff>::DecodeBuffer(buffer, &image);
 			return image;
 		}
 

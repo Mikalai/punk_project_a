@@ -14,10 +14,12 @@ namespace ImageModule {
 	DECLARE_PUNK_GUID(IID_IRgbaImage, "F573F681-AEC3-4A2E-A2FF-13E8384A7C59");
 	DECLARE_PUNK_GUID(IID_IRgbImage, "4EF78B7E-C73F-49C8-8F44-75E1F419139C");
 	DECLARE_PUNK_GUID(IID_IAlphaImage, "97E04AD8-4E4A-4256-855C-5812752591F4");
+	DECLARE_PUNK_GUID(IID_IFloatR32Image, "59B26EE5-8A3B-4675-8249-82F90FED1ED4");
 
 	DECLARE_PUNK_GUID(CLSID_RgbaImage, "1B9D31B0-518C-4CCB-A36C-14AAB3D45294");
 	DECLARE_PUNK_GUID(CLSID_RgbImage, "EC10AB29-6DB8-47C3-BA0D-9CF3FB512D44");
 	DECLARE_PUNK_GUID(CLSID_AlphaImage, "9F52CAAE-FB97-4490-9232-670BF8C647CA");
+	DECLARE_PUNK_GUID(CLSID_FloatR32Image, "E40BF258-64D2-495D-9052-6DB327DA4FBD");
 
 	class IImage : public Core::IObject {
 	public:
@@ -27,6 +29,8 @@ namespace ImageModule {
 		virtual void SetSize(std::uint32_t width, std::uint32_t height) = 0;
 		virtual const void* GetData() const = 0;
 		virtual void* GetData() = 0;
+		virtual const void* GetScanline(std::uint32_t index) const = 0;
+		virtual void* GetScanline(std::uint32_t index) = 0;
 	};
 
 	using IImagePointer = Core::Pointer < IImage > ;

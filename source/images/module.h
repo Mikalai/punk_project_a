@@ -3,5 +3,6 @@
 
 #include "iimage.h"
 #include "iimage_reader.h"
+#include "iimage_writer.h"
 
 #endif	//	_H_PUNK_IMAGES_MODULE

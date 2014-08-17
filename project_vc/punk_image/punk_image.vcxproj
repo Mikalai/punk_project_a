@@ -169,6 +169,7 @@
     <ClInclude Include="..\..\source\images\formats.h" />
     <ClInclude Include="..\..\source\images\iimage.h" />
     <ClInclude Include="..\..\source\images\iimage_reader.h" />
+    <ClInclude Include="..\..\source\images\iimage_writer.h" />
     <ClInclude Include="..\..\source\images\import_export\exporter.h" />
     <ClInclude Include="..\..\source\images\import_export\iimage_file_reader.h" />
     <ClInclude Include="..\..\source\images\import_export\image_file_types.h" />
@@ -232,6 +233,7 @@
     <ClCompile Include="..\..\source\images\converter\yuy2_to_rgb.cpp" />
     <ClCompile Include="..\..\source\images\iimage.cpp" />
     <ClCompile Include="..\..\source\images\import_export\exporter.cpp" />
+    <ClCompile Include="..\..\source\images\import_export\iimage_writer.cpp" />
     <ClCompile Include="..\..\source\images\import_export\image_reader.cpp" />
     <ClCompile Include="..\..\source\images\import_export\importer.cpp" />
     <ClCompile Include="..\..\source\images\import_export\jpg_reader.h" />
@@ -351,7 +353,9 @@
     <ClInclude Include="..\..\source\images\import_export\png_reader.h">
       <FileType>CppCode</FileType>
     </ClInclude>
-    <ClCompile Include="..\..\source\images\import_export\tiff_importer.cpp" />
+    <ClInclude Include="..\..\source\images\import_export\tiff_importer.h">
+      <FileType>CppCode</FileType>
+    </ClInclude>
     <ClCompile Include="..\..\source\images\import_export\zlib\adler32.c" />
     <ClCompile Include="..\..\source\images\import_export\zlib\compress.c" />
     <ClCompile Include="..\..\source\images\import_export\zlib\crc32.c" />

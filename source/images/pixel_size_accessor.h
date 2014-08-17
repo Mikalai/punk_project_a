@@ -14,6 +14,10 @@ namespace ImageModule {
 		constexpr static std::uint32_t GetSize() {
 			return 4 * GetDataTypeSize<DataType::Byte>::Value();
 		}
+
+		constexpr static DataType GetPixelComponentType() {
+			return DataType::Byte;
+		}
 	};
 
 	template<>
@@ -21,12 +25,31 @@ namespace ImageModule {
 		constexpr static std::uint32_t GetSize() {
 			return 3 * GetDataTypeSize<DataType::Byte>::Value();
 		}
+		
+		constexpr static DataType GetPixelComponentType() {
+			return DataType::Byte;
+		}
 	};
 
 	template<>
 	struct PixelSizeAccessor < ImageFormat::ALPHA > {
 		constexpr static std::uint32_t GetSize() {
 			return GetDataTypeSize<DataType::Byte>::Value();
+		}
+		
+		constexpr static DataType GetPixelComponentType() {
+			return DataType::Byte;
+		}
+	};
+
+	template<>
+	struct PixelSizeAccessor < ImageFormat::FloatR32 > {
+		constexpr static std::uint32_t GetSize() {
+			return GetDataTypeSize<DataType::Float>::Value();
+		}
+
+		constexpr static DataType GetPixelComponentType() {
+			return DataType::Float;
 		}
 	};
 

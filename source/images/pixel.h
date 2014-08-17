@@ -11,10 +11,10 @@ namespace ImageModule {
 	template<ImageFormat format>
 	struct Pixel : public PixelDataAccessor < format >, public PixelSizeAccessor < format > {
 		Pixel(void* start_address)
-		: PixelDataAccessor<format>()
-		, PixelSizeAccessor<format>()
-		, m_address{ start_address }
-	{}
+			: PixelDataAccessor<format>(start_address)
+			, PixelSizeAccessor<format>()
+			, m_address{ start_address }
+		{}
 
 	private:
 		void* m_address{ nullptr };
