@@ -39,6 +39,7 @@ namespace Math {
 		virtual double PerlinNoise4D(double x, double y, double z, double w) = 0;
 
 		virtual void GenerateHeightMap(double offset_x, double offset_y, double dim_x, double dim_y, int width, int height, float* data, int octave_count) = 0;
+		virtual void GenerateSphericalHeightMap(double min_l, double min_b, double max_l, double max_b, int with, int height, float* data, int octave_count) = 0;
 	};
 }
 PUNK_ENGINE_END

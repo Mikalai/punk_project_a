@@ -21,7 +21,7 @@
 #include "ifrustum.h"
 #include "matrix.h"
 #include "random.h"
-#include "noise.h"
+#include "inoise_generator.h"
 #include "constants.h"
 #include "helper.h"
 #include "rect.h"

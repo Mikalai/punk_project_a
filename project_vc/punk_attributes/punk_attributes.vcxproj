@@ -327,6 +327,7 @@
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\stubs\ifile_stub.cpp" />
     <ClCompile Include="..\..\source\attributes\stubs\itext_attribute.cpp" />
+    <ClCompile Include="..\..\source\attributes\terrain\iterrain_data_provider.cpp" />
     <ClCompile Include="..\..\source\attributes\terrain\terrain.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -723,6 +724,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\..\source\attributes\terrain\iterrain_data_provider.h" />
     <ClInclude Include="..\..\source\attributes\terrain\module.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
