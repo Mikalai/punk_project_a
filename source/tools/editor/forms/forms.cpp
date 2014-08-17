@@ -227,7 +227,7 @@ EditorMainWindowBase::EditorMainWindowBase( wxWindow* parent, wxWindowID id, con
 	
 	m_scene_graph->Add( m_toolBar1, 0, wxEXPAND, 5 );
 	
-	m_scene_tree_graph = new wxDataViewCtrl( m_scene_panel, ID_SCENE_TREE_GRAPH, wxDefaultPosition, wxDefaultSize, wxDV_ROW_LINES|wxDV_SINGLE|wxDV_VERT_RULES );
+	m_scene_tree_graph = new wxDataViewTreeCtrl( m_scene_panel, ID_SCENE_TREE_GRAPH, wxDefaultPosition, wxDefaultSize, wxDV_ROW_LINES|wxDV_SINGLE|wxDV_VERT_RULES|wxSUNKEN_BORDER );
 	m_scene_graph->Add( m_scene_tree_graph, 1, wxALL|wxEXPAND, 5 );
 	
 	
@@ -316,7 +316,10 @@ EditorMainWindowBase::EditorMainWindowBase( wxWindow* parent, wxWindowID id, con
 	this->Connect( m_detailed_graph->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( EditorMainWindowBase::OnSwitchDetailedGraph ) );
 	this->Connect( m_objects_graph->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( EditorMainWindowBase::OnSwitchObjectsGraph ) );
 	this->Connect( ID_SCENE_TREE_GRAPH, wxEVT_COMMAND_DATAVIEW_ITEM_ACTIVATED, wxDataViewEventHandler( EditorMainWindowBase::OnSceneGraphItemActivated ) );
+	this->Connect( ID_SCENE_TREE_GRAPH, wxEVT_COMMAND_DATAVIEW_ITEM_BEGIN_DRAG, wxDataViewEventHandler( EditorMainWindowBase::OnSceneDragBegin ) );
 	this->Connect( ID_SCENE_TREE_GRAPH, wxEVT_COMMAND_DATAVIEW_ITEM_CONTEXT_MENU, wxDataViewEventHandler( EditorMainWindowBase::OnSceneContextMenu ) );
+	this->Connect( ID_SCENE_TREE_GRAPH, wxEVT_COMMAND_DATAVIEW_ITEM_DROP, wxDataViewEventHandler( EditorMainWindowBase::OnSceneDragDrop ) );
+	this->Connect( ID_SCENE_TREE_GRAPH, wxEVT_COMMAND_DATAVIEW_ITEM_DROP_POSSIBLE, wxDataViewEventHandler( EditorMainWindowBase::OnSceneCheckDrop ) );
 	this->Connect( ID_SCENE_TREE_GRAPH, wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED, wxDataViewEventHandler( EditorMainWindowBase::OnSceneGraphItemChanged ) );
 	m_mid_panel->Connect( wxEVT_SIZE, wxSizeEventHandler( EditorMainWindowBase::OnSize ), NULL, this );
 }
@@ -345,7 +348,10 @@ EditorMainWindowBase::~EditorMainWindowBase()
 	this->Disconnect( m_detailed_graph->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( EditorMainWindowBase::OnSwitchDetailedGraph ) );
 	this->Disconnect( m_objects_graph->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( EditorMainWindowBase::OnSwitchObjectsGraph ) );
 	this->Disconnect( ID_SCENE_TREE_GRAPH, wxEVT_COMMAND_DATAVIEW_ITEM_ACTIVATED, wxDataViewEventHandler( EditorMainWindowBase::OnSceneGraphItemActivated ) );
+	this->Disconnect( ID_SCENE_TREE_GRAPH, wxEVT_COMMAND_DATAVIEW_ITEM_BEGIN_DRAG, wxDataViewEventHandler( EditorMainWindowBase::OnSceneDragBegin ) );
 	this->Disconnect( ID_SCENE_TREE_GRAPH, wxEVT_COMMAND_DATAVIEW_ITEM_CONTEXT_MENU, wxDataViewEventHandler( EditorMainWindowBase::OnSceneContextMenu ) );
+	this->Disconnect( ID_SCENE_TREE_GRAPH, wxEVT_COMMAND_DATAVIEW_ITEM_DROP, wxDataViewEventHandler( EditorMainWindowBase::OnSceneDragDrop ) );
+	this->Disconnect( ID_SCENE_TREE_GRAPH, wxEVT_COMMAND_DATAVIEW_ITEM_DROP_POSSIBLE, wxDataViewEventHandler( EditorMainWindowBase::OnSceneCheckDrop ) );
 	this->Disconnect( ID_SCENE_TREE_GRAPH, wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED, wxDataViewEventHandler( EditorMainWindowBase::OnSceneGraphItemChanged ) );
 	m_mid_panel->Disconnect( wxEVT_SIZE, wxSizeEventHandler( EditorMainWindowBase::OnSize ), NULL, this );
 	

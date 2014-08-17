@@ -245,5 +245,83 @@ namespace Tools {
 		//m_panel->SetCurrentSceneModel(m_scene_model);
 		m_scene_model->ItemAdded(wxDataViewItem{ m_parent.get() }, wxDataViewItem{ m_attribute.get() });
 	}
+
+	DragItemAction::DragItemAction(EditorMainWindow* panel, Core::Pointer<SceneModule::INode> src, Core::Pointer<SceneModule::INode> dst, Core::Pointer<SceneModule::INode> drag) 
+		: m_panel{ panel }
+		, m_source{ src }
+		, m_destination{ dst }
+		, m_dragged_node{ drag } {
+		if (!m_panel)
+			System::GetDefaultLogger()->Error("Panel is null");
+		m_scene_model = m_panel->GetCurrentSceneModel();
+		if (!m_scene_model)
+			System::GetDefaultLogger()->Error("Scene model is null");
+		else
+			m_scene_model->IncRef();
+	}
+
+	DragItemAction::DragItemAction(EditorMainWindow* panel, Core::Pointer<SceneModule::INode> src, Core::Pointer<SceneModule::INode> dst, Core::Pointer<SceneModule::IAttribute> drag) 
+		: m_panel{ panel }
+		, m_source{ src }
+		, m_destination{ dst }
+		, m_dragged_attribute{ drag } {
+		if (!m_panel)
+			System::GetDefaultLogger()->Error("Panel is null");
+		m_scene_model = m_panel->GetCurrentSceneModel();
+		if (!m_scene_model)
+			System::GetDefaultLogger()->Error("Scene model is null");
+		else
+			m_scene_model->IncRef();
+	}
+
+	DragItemAction::~DragItemAction() {
+		if (m_scene_model)
+			m_scene_model->DecRef();
+	}
+
+	void DragItemAction::Do() {
+		if (m_dragged_node) {
+			m_source->RemoveChild(m_dragged_node);
+			m_scene_model->ItemDeleted(wxDataViewItem{ m_source.get() }, wxDataViewItem{ m_dragged_node.get() });
+			m_destination->AddChild(m_dragged_node);
+			m_scene_model->ItemAdded(wxDataViewItem{ m_destination.get() }, wxDataViewItem{ m_dragged_node.get() });
+		}
+		if (m_dragged_attribute) {
+			m_source->RemoveAttribute(m_dragged_attribute);
+			m_scene_model->ItemDeleted(wxDataViewItem{ m_source.get() }, wxDataViewItem{ m_dragged_attribute.get() });
+			m_destination->AddAttribute(m_dragged_attribute);
+			m_scene_model->ItemAdded(wxDataViewItem{ m_destination.get() }, wxDataViewItem{ m_dragged_attribute.get() });
+		}
+	}
+
+	void DragItemAction::Undo() {
+		if (m_dragged_node) {
+			m_destination->RemoveChild(m_dragged_node);
+			m_scene_model->ItemDeleted(wxDataViewItem{ m_destination.get() }, wxDataViewItem{ m_dragged_node.get() });
+			m_source->AddChild(m_dragged_node);
+			m_scene_model->ItemAdded(wxDataViewItem{ m_source.get() }, wxDataViewItem{ m_dragged_node.get() });
+		}
+		if (m_dragged_attribute) {
+			m_destination->RemoveAttribute(m_dragged_attribute);
+			m_scene_model->ItemDeleted(wxDataViewItem{ m_destination.get() }, wxDataViewItem{ m_dragged_attribute.get() });
+			m_source->AddAttribute(m_dragged_attribute);
+			m_scene_model->ItemAdded(wxDataViewItem{ m_source.get() }, wxDataViewItem{ m_dragged_attribute.get() });
+		}
+	}
+	
+	void DragItemAction::Redo() {
+		if (m_dragged_node) {
+			m_source->RemoveChild(m_dragged_node);
+			m_scene_model->ItemDeleted(wxDataViewItem{ m_source.get() }, wxDataViewItem{ m_dragged_node.get() });
+			m_destination->AddChild(m_dragged_node);
+			m_scene_model->ItemAdded(wxDataViewItem{ m_destination.get() }, wxDataViewItem{ m_dragged_node.get() });
+		}
+		if (m_dragged_attribute) {
+			m_source->RemoveAttribute(m_dragged_attribute);
+			m_scene_model->ItemDeleted(wxDataViewItem{ m_source.get() }, wxDataViewItem{ m_dragged_attribute.get() });
+			m_destination->AddAttribute(m_dragged_attribute);
+			m_scene_model->ItemAdded(wxDataViewItem{ m_destination.get() }, wxDataViewItem{ m_dragged_attribute.get() });
+		}
+	}
 }
 PUNK_ENGINE_END

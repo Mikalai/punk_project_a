@@ -19,9 +19,14 @@ namespace Tools {
 
 	bool MyApp::OnInit()
 	{
-		EditorMainWindow *frame = new EditorMainWindow(nullptr);
-		frame->Show(true);
-		return true;
+		try{
+			EditorMainWindow *frame = new EditorMainWindow(nullptr);
+			frame->Show(true);
+			return true;
+		}
+		catch (System::Error::SystemException& e) {
+			System::GetDefaultLogger()->Error(e.Message());
+		}
 	}
 }
 PUNK_ENGINE_END

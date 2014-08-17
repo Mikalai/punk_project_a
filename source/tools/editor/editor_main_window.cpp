@@ -15,8 +15,8 @@ namespace Tools {
 
 	void EditorMainWindow::SetCurrentSceneModel(SceneDataModel* model) {
 		if (m_scene_model != model) {
-			auto old = m_scene_model;		
-			m_scene_model = model;			
+			auto old = m_scene_model;
+			m_scene_model = model;
 			m_scene_tree_graph->AssociateModel(model);
 			if (old)
 				old->RemoveAllNotifiers();
@@ -59,8 +59,10 @@ namespace Tools {
 			m_canvas->Initialize(desc);
 			m_canvas->GetWindow()->Open();
 		}
-		
+
 		m_scene_tree_graph->ClearColumns();
+		m_scene_tree_graph->EnableDragSource(wxDF_UNICODETEXT);
+		m_scene_tree_graph->EnableDropTarget(wxDF_UNICODETEXT);
 
 		m_scene_tree_graph->AppendTextColumn("Name", 0);
 		m_scene_tree_graph->AppendTextColumn("Type", 1);
@@ -144,8 +146,8 @@ namespace Tools {
 
 	void EditorMainWindow::OnSceneDelete(wxRibbonToolBarEvent& event) {
 
-		auto index = m_scenes_combobox->GetSelection();		
-		
+		auto index = m_scenes_combobox->GetSelection();
+
 		if (index != wxNOT_FOUND) {
 			std::uint32_t scene_index = (std::uint32_t)m_scenes_combobox->GetClientData(index);
 			auto module = Common::GetSceneModule();
@@ -158,14 +160,14 @@ namespace Tools {
 
 	void EditorMainWindow::OnNodeCreate(wxRibbonToolBarEvent& event) {
 		if (m_scene_model) {
-			ActionManager::Do(new CreateNodeAction(this, m_current_node));			
+			ActionManager::Do(new CreateNodeAction(this, m_current_node));
 		}
 		event.Skip();
 	}
 
 	void EditorMainWindow::OnNodeDelete(wxRibbonToolBarEvent& event) {
 		event.Skip();
-	}	
+	}
 
 	struct NodeData : public wxClientData {
 		NodeData(Core::Pointer < SceneModule::INode > node)
@@ -178,12 +180,12 @@ namespace Tools {
 		return m_scene_model;
 	}
 
-	void EditorMainWindow::UpdateSceneGraph() {		
-		
-		auto index = m_scenes_combobox->GetSelection();		
+	void EditorMainWindow::UpdateSceneGraph() {
+
+		auto index = m_scenes_combobox->GetSelection();
 		if (index != wxNOT_FOUND) {
 			auto scene_model = (SceneDataModel*)m_scenes_combobox->GetClientData(index);
-			SetCurrentSceneModel(scene_model);			
+			SetCurrentSceneModel(scene_model);
 		}
 	}
 
@@ -211,7 +213,7 @@ namespace Tools {
 
 	void EditorMainWindow::OnSceneGraphItemActivated(wxDataViewEvent& event) {
 		auto item = event.GetItem();
-		auto o = Core::Pointer < Core::IObject > {(Core::IObject*)item.GetID(), Core::DestroyObject};		
+		auto o = Core::Pointer < Core::IObject > {(Core::IObject*)item.GetID(), Core::DestroyObject};
 		auto attribute = Core::QueryInterfacePtr<SceneModule::IAttribute>(o, SceneModule::IID_IAttribute);
 		if (attribute) {
 			AttributeDialogImpl dlg(this);
@@ -245,7 +247,7 @@ namespace Tools {
 		}
 	}
 
-	void EditorMainWindow::OnSceneLoad(wxRibbonToolBarEvent& event) {		
+	void EditorMainWindow::OnSceneLoad(wxRibbonToolBarEvent& event) {
 		wxFileDialog openFileDialog(this, _("Open scene file"), "", "",
 			"Scene files (*.bpmd)|*.bpmd", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 
@@ -265,7 +267,7 @@ namespace Tools {
 	void EditorMainWindow::OnSceneSave(wxRibbonToolBarEvent& event) {
 		if (m_scene_model && m_scene_model->GetScene()) {
 			wxFileDialog saveFileDialog(this, _("Save scene file"), "", "",
-				"Scene files (*.bpmd)|*.bpmd", wxFD_SAVE);			
+				"Scene files (*.bpmd)|*.bpmd", wxFD_SAVE);
 
 			if (saveFileDialog.ShowModal() == wxID_OK){
 				wxString filename = saveFileDialog.GetFilename();
@@ -297,5 +299,79 @@ namespace Tools {
 		ActionManager::Do(new CreateAttributeAction{ this, Core::Pointer < SceneModule::INode > {node, Core::DestroyObject} });
 	}
 
+	void EditorMainWindow::OnSceneDragBegin(wxDataViewEvent& event) {
+		if (event.GetItem() != wxDataViewItem(m_scene_model->GetScene()->GetRoot().get())) {			
+
+			//m_dragged_item = Core::Pointer < Core::IObject > {(Core::IObject*)event.GetItem().GetID(), Core::DestroyObject};
+			m_dragged_item = event.GetItem();			
+			//event.SetDragFlags(wxDrag_DefaultMove);
+			
+			wxTextDataObject *obj = new wxTextDataObject;
+			obj->SetText("Item");			
+			event.SetDataObject(obj);
+			event.SetDragFlags(wxDrag_AllowMove); // allows both copy and move
+			//event.Allow();
+		}
+		else {
+			event.Veto();
+			//event.Skip();
+		}
+	}
+
+	void EditorMainWindow::OnSceneCheckDrop(wxDataViewEvent& event) {
+		auto o = Core::Pointer < Core::IObject > {(Core::IObject*)event.GetItem().GetID(), Core::DestroyObject};
+		auto destination_node = Core::QueryInterfacePtr < SceneModule::INode >(o, SceneModule::IID_INode);
+		auto dst_attribute = Core::QueryInterfacePtr < SceneModule::IAttribute >(o, SceneModule::IID_IAttribute);
+		if (destination_node){
+			//event.Allow();
+		}
+		else
+			event.Veto();
+	}
+
+	void EditorMainWindow::OnSceneDragDrop(wxDataViewEvent& event) {
+		Core::Pointer<SceneModule::INode> source_node{ nullptr, Core::DestroyObject };
+		Core::Pointer<SceneModule::INode> destination_node{ nullptr, Core::DestroyObject };
+		Core::Pointer<SceneModule::INode> dragged_node{ nullptr, Core::DestroyObject };
+		Core::Pointer<SceneModule::IAttribute> dragged_attribute{ nullptr, Core::DestroyObject };
+
+		{
+			auto o = Core::Pointer < Core::IObject > {(Core::IObject*)m_dragged_item.GetID(), Core::DestroyObject};
+			dragged_node = Core::QueryInterfacePtr<SceneModule::INode>(o, SceneModule::IID_INode);
+			dragged_attribute = Core::QueryInterfacePtr<SceneModule::IAttribute>(o, SceneModule::IID_IAttribute);
+		}
+
+		if (dragged_node)
+			source_node.reset(dragged_node->GetParent());
+		if (dragged_attribute)
+			source_node.reset(dragged_attribute->GetOwner());
+
+		{
+			auto o = Core::Pointer < Core::IObject > {(Core::IObject*)event.GetItem().GetID(), Core::DestroyObject};
+			destination_node = Core::QueryInterfacePtr < SceneModule::INode >(o, SceneModule::IID_INode);
+			auto dst_attribute = Core::QueryInterfacePtr < SceneModule::IAttribute >(o, SceneModule::IID_IAttribute);
+			if (!destination_node){
+				destination_node.reset(dst_attribute->GetOwner());
+			}
+		}
+
+		if (event.GetItem().IsOk()) {
+			if (source_node && destination_node && source_node != destination_node) {
+				if (dragged_node && dragged_node != source_node && dragged_node != destination_node) {
+					ActionManager::Do(new DragItemAction{ this, source_node, destination_node, dragged_node });
+				}
+				else if (dragged_attribute) {
+					ActionManager::Do(new DragItemAction{ this, source_node, destination_node, dragged_attribute });
+				}
+				else {
+					event.Veto();
+				}
+			}
+			else
+				event.Veto();
+		}
+		else 
+			event.Veto();
+	}
 }
 PUNK_ENGINE_END

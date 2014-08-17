@@ -23,14 +23,14 @@ namespace SceneModule {
 		explicit Node(IScene* graph)
 			: m_scene_graph{ graph }
 		{
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			if (m_scene_graph)
 				m_scene_graph->SetRoot(Core::Pointer < INode > {this, Core::DestroyObject});
 		}
 
 		explicit Node(INode* parent)
 			: m_parent{ parent } {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			if (m_parent) {
 				m_parent->AddChild(Core::Pointer < INode > {this, Core::DestroyObject});
 				m_scene_graph = m_parent->GetSceneGraph();
@@ -38,14 +38,23 @@ namespace SceneModule {
 		}
 
 		virtual ~Node() {
+			LOG_FUNCTION_SCOPE();
 			System::GetDefaultLogger()->Debug(L"Node has been destroyed");
-			m_children.clear();
-			m_attributes.clear();
+			while (!m_children.empty()) {
+				auto child = m_children.back();
+				m_children.pop_back();
+				child->SetParent(nullptr);
+			}
+			while (!m_attributes.empty()) {
+				auto attribute = m_attributes.back();
+				m_attributes.pop_back();
+				attribute->SetOwner(nullptr);
+			}
 		}
 
 		//	IObject
 		void QueryInterface(const Core::Guid& type, void** object) override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			if (!object)
 				return;
 			*object = nullptr;
@@ -64,10 +73,12 @@ namespace SceneModule {
 		}
 
 		std::uint32_t AddRef() override {
+			LOG_FUNCTION_SCOPE();
 			return m_ref_count.fetch_add(1);
 		}
 
 		std::uint32_t Release() override {
+			LOG_FUNCTION_SCOPE();
 			auto v = m_ref_count.fetch_sub(1) - 1;
 			if (!v) {
 				delete this;
@@ -77,18 +88,21 @@ namespace SceneModule {
 
 		//	INode
 		INode* GetParent() {
+			LOG_FUNCTION_SCOPE();
 			return m_parent;
 		}
 
 		const INode* GetParent() const {
+			LOG_FUNCTION_SCOPE();
 			return m_parent;
 		}
 
 		void SetParent(INode* node) {
+			LOG_FUNCTION_SCOPE();
 			if (node == m_parent)
 				return;
 
-			if (m_parent) {
+			if (m_parent && m_parent->HasChild(Core::Pointer < INode > {this, Core::DestroyObject})) {
 				m_parent->RemoveChild(Core::Pointer < INode > {this, Core::DestroyObject});
 			}
 
@@ -98,7 +112,14 @@ namespace SceneModule {
 			}
 		}
 
+		bool HasChild(Core::Pointer<INode> node) const override {
+			LOG_FUNCTION_SCOPE();
+			auto it = std::find(m_children.begin(), m_children.end(), node);
+			return it != m_children.end();
+		}
+
 		void RemoveChild(Core::Pointer<INode> node) override {
+			LOG_FUNCTION_SCOPE();
 			auto it = std::find(m_children.begin(), m_children.end(), node);
 			if (it == m_children.end())
 				return;
@@ -107,16 +128,19 @@ namespace SceneModule {
 		}
 
 		void RemoveAllChildren() override {
+			LOG_FUNCTION_SCOPE();
 			while (!m_children.empty()) {
 				RemoveChild(m_children.back());
 			}			
 		}
 
 		Core::Pointer<IAttribute> GetAttribute(std::uint32_t index) const override {
+			LOG_FUNCTION_SCOPE();
 			return m_attributes.at(index);
 		}
 
 		void AddChild(Core::Pointer<INode> node) override {
+			LOG_FUNCTION_SCOPE();
 			if (!node)
 				return;
 
@@ -133,15 +157,17 @@ namespace SceneModule {
 		}
 
 		std::uint32_t GetChildrenCount() const override {
+			LOG_FUNCTION_SCOPE();
 			return (std::uint32_t)m_children.size();
 		}
 
 		Core::Pointer<INode> GetChild(std::uint32_t index) override {
+			LOG_FUNCTION_SCOPE();
 			return m_children.at(index);
 		}
 
 		void AddAttribute(Core::Pointer<IAttribute> value) override {
-
+			LOG_FUNCTION_SCOPE();
 			//	check input
 			if (!value) {
 				System::GetDefaultLogger()->Error("Can't add empty attribute");
@@ -176,6 +202,7 @@ namespace SceneModule {
 		}
 
 		void CacheAttribute(const Core::Guid& iid) override {
+			LOG_FUNCTION_SCOPE();
 			for (int i = 0, max_i = GetAttributesCount(); i < max_i; ++i) {
 				auto o = Core::QueryInterfacePtr<Core::IObject>(m_attributes[i]->GetRawData(), iid);
 				if (o) {
@@ -191,6 +218,7 @@ namespace SceneModule {
 		}
 
 		Core::Pointer<IAttribute> GetAttribute(const Core::Guid& iid, std::uint32_t index) const {
+			LOG_FUNCTION_SCOPE();
 			if (m_invalid_cache)
 				const_cast<Node*>(this)->CacheAttribute(iid);
 			auto it = m_attributes_cache.find(iid);
@@ -202,6 +230,7 @@ namespace SceneModule {
 		}
 
 		Core::Pointer<IAttribute> GetAttribute(const Core::String& name) const override {
+			LOG_FUNCTION_SCOPE();
 			try {
 				auto index = GetAttributeIndex(name);
 				return GetAttribute(index);
@@ -212,6 +241,7 @@ namespace SceneModule {
 		}
 
 		std::uint32_t GetAttributeIndex(const Core::String& name) const {
+			LOG_FUNCTION_SCOPE();
 			for (std::uint32_t i = 0, max_i = GetAttributesCount(); i < max_i; ++i) {
 				if (m_attributes[i]->GetName() == name)
 					return i;
@@ -220,6 +250,7 @@ namespace SceneModule {
 		}
 
 		std::uint32_t GetAttributesCount(const Core::Guid& iid) const override {
+			LOG_FUNCTION_SCOPE();
 			if (m_invalid_cache)
 				const_cast<Node*>(this)->CacheAttribute(iid);					
 			auto it = m_attributes_cache.find(iid);
@@ -231,14 +262,17 @@ namespace SceneModule {
 		}
 
 		std::uint32_t GetAttributesCount() const override {
+			LOG_FUNCTION_SCOPE();
 			return (std::uint32_t)m_attributes.size();
 		}
 
 		std::vector<Core::Pointer<IAttribute>> GetAttributes() const override {
+			LOG_FUNCTION_SCOPE();
 			return m_attributes;
 		}
 
 		std::vector<Core::Pointer<IAttribute>> GetAttributes(Core::Guid& iid) const override {
+			LOG_FUNCTION_SCOPE();
 			if (m_invalid_cache)
 				const_cast<Node*>(this)->CacheAttribute(iid);
 			auto it = m_attributes_cache.find(iid);
@@ -250,6 +284,7 @@ namespace SceneModule {
 		}
 
 		void RemoveAttribute(const Core::String& name) override {
+			LOG_FUNCTION_SCOPE();
 			try {
 				auto index = GetAttributeIndex(name);
 				RemoveAttribute(index);
@@ -259,7 +294,7 @@ namespace SceneModule {
 		}
 
 		void RemoveAttribute(std::uint32_t index) override {
-
+			LOG_FUNCTION_SCOPE();
 			auto attribute = m_attributes.at(index);
 			m_attributes.erase(m_attributes.begin() + index);
 
@@ -290,24 +325,31 @@ namespace SceneModule {
 		}
 
 		void RemoveAttribute(Core::Pointer<IAttribute> value) override {
+			LOG_FUNCTION_SCOPE();
+			if (!HasAttribute(value))
+				return;
 			auto index = GetAttributeIndex(value->GetName());
 			RemoveAttribute(index);
 		}
 
 		bool HasAttribute(const Core::String& name) const override {
+			LOG_FUNCTION_SCOPE();
 			return m_name_cache.find(name) != m_name_cache.end();
 		}
 		
 		bool HasAttribute(Core::Pointer<IAttribute> value) const override {
+			LOG_FUNCTION_SCOPE();
 			auto it = std::find(m_attributes.begin(), m_attributes.end(), value);
 			return it != m_attributes.end();
 		}
 
 		NodeState GetState() const override {
+			LOG_FUNCTION_SCOPE();
 			return NodeState::Active;
 		}
 
 		void SetState(NodeState value) override {
+			LOG_FUNCTION_SCOPE();
 			//m_state = value;
 		}
 
@@ -316,7 +358,7 @@ namespace SceneModule {
 		}
 
 		void SetScene(IScene* graph) override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			m_scene_graph = graph;
 			for (auto child : m_children) {
 				child->SetScene(graph);
@@ -325,6 +367,7 @@ namespace SceneModule {
 
 		//	ISerializable
 		void Serialize(Core::Buffer& buffer) override {
+			LOG_FUNCTION_SCOPE();
 			//	save clsid
 			buffer.WriteBuffer(CLSID_Node.ToPointer(), sizeof(CLSID_Node));
 			
@@ -345,7 +388,7 @@ namespace SceneModule {
 		}
 
 		void Deserialize(Core::Buffer& buffer) override {
-
+			LOG_FUNCTION_SCOPE();
 			std::uint32_t count = buffer.ReadUnsigned32();
 			m_attributes.resize(count);
 			for (auto& value : m_attributes) {

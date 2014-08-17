@@ -7,7 +7,7 @@ PUNK_ENGINE_BEGIN
 namespace Tools {
 
 	SceneDataModel::SceneDataModel(Core::Pointer<SceneModule::IScene> scene)
-		: m_scene{ scene } {		
+		: m_scene{ scene } {	
 	}
 
 	unsigned int SceneDataModel::GetColumnCount() const {

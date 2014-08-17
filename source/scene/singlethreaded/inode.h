@@ -29,7 +29,8 @@ namespace SceneModule {
 		virtual void RemoveChild(Core::Pointer<INode> node) = 0;
 		virtual void RemoveAllChildren() = 0;
 		virtual std::uint32_t GetChildrenCount() const = 0;
-		virtual Core::Pointer<INode> GetChild(std::uint32_t index) = 0;        
+		virtual Core::Pointer<INode> GetChild(std::uint32_t index) = 0;     
+		virtual bool HasChild(Core::Pointer<INode> node) const = 0;
 		
 		virtual void AddAttribute(Core::Pointer<IAttribute> value) = 0;
 		virtual std::uint32_t GetAttributesCount() const = 0;

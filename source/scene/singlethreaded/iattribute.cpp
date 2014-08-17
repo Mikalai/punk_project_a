@@ -17,6 +17,7 @@ namespace SceneModule {
     public:		
 
 		~Attribute() {
+			LOG_FUNCTION_SCOPE();
 			SetOwner(nullptr);
 			System::GetDefaultLogger()->Info("Destroy attribute " + m_name);
 			while (!m_update_actions.empty()) {
@@ -27,6 +28,7 @@ namespace SceneModule {
 
 		//	IObject
 		void QueryInterface(const Core::Guid& type, void** object) {
+			LOG_FUNCTION_SCOPE();
 			if (!object)
 				return;
 
@@ -51,10 +53,12 @@ namespace SceneModule {
 		}
 
 		std::uint32_t AddRef() {
+			LOG_FUNCTION_SCOPE();
 			return m_ref_count.fetch_add(1);
 		}
 
 		std::uint32_t Release() {
+			LOG_FUNCTION_SCOPE();
 			auto v = m_ref_count.fetch_sub(1) - 1;
 			if (!v) {
 				delete this;
@@ -64,15 +68,18 @@ namespace SceneModule {
 
 		//	IAttribute		
 		void Initialize(const Core::String& name, Core::Pointer<Core::IObject> value) override {
+			LOG_FUNCTION_SCOPE();
 			m_name = name;
 			m_data = value;
 		}
 
 		INode* GetOwner() const override {
+			LOG_FUNCTION_SCOPE();
 			return m_owner;
 		}
 
 		void SetOwner(INode* value) {
+			LOG_FUNCTION_SCOPE();
 			if (m_owner == value)
 				return; 
 			auto attribute = Core::Pointer < IAttribute > {this, Core::DestroyObject};
@@ -87,10 +94,12 @@ namespace SceneModule {
 		}
 
 		inline const Core::String& GetName() const {
+			LOG_FUNCTION_SCOPE();
 			return m_name;
 		}
 
 		inline void SetName(const Core::String& value) {
+			LOG_FUNCTION_SCOPE();
 			if (m_owner) {
 				m_owner->RemoveAttribute(Core::Pointer < IAttribute > {this, Core::DestroyObject});				
 			}
@@ -101,10 +110,12 @@ namespace SceneModule {
 		}
 
 		inline Core::Pointer<Core::IObject> GetRawData() const {
+			LOG_FUNCTION_SCOPE();
 			return m_data;
 		}
 
 		inline void SetRawData(Core::Pointer<Core::IObject> value) {			
+			LOG_FUNCTION_SCOPE();
 			m_data = value;
 			for (auto action : m_update_actions) {
 				(*action)(Core::Pointer < IAttribute > {this, Core::DestroyObject});
@@ -112,12 +123,14 @@ namespace SceneModule {
 		}
 
 		inline void OnUpdate(Core::ActionBase<Core::Pointer<IAttribute>>* action) {
+			LOG_FUNCTION_SCOPE();
 			action->AddRef();
 			m_update_actions.push_back(action);
 		}
 
 		//	ISerializable
 		void Serialize(Core::Buffer& buffer) override {
+			LOG_FUNCTION_SCOPE();
 			buffer.WritePod(CLSID_Attribute);
 			buffer.WriteString(m_name);
 			auto serializable = Core::QueryInterfacePtr<Core::ISerializable>(m_data, Core::IID_ISerializable);
@@ -129,6 +142,7 @@ namespace SceneModule {
 		}
 
 		void Deserialize(Core::Buffer& buffer) override {
+			LOG_FUNCTION_SCOPE();
 			m_name = buffer.ReadString();
 			bool has_data = buffer.ReadBoolean();
 			if (has_data) {
@@ -141,6 +155,7 @@ namespace SceneModule {
 
 		//	IClonable
 		Core::Pointer<Core::IClonable> Clone() const override {
+			LOG_FUNCTION_SCOPE();
 			//	select name
 			Core::String base_name = GetName();
 			Core::String name = base_name;

@@ -78,6 +78,19 @@ public:
 		CPPUNIT_ASSERT(node->GetAttributesCount() == 2);
 		CPPUNIT_ASSERT(node->GetAttributeIndex("A2") == 0);
 		CPPUNIT_ASSERT(node->GetAttributeIndex("A1") == 1);
+		{
+			auto root = System::CreateInstancePtr<SceneModule::INode>(SceneModule::CLSID_Node, SceneModule::IID_INode);
+			auto node1 = System::CreateInstancePtr<SceneModule::INode>(SceneModule::CLSID_Node, SceneModule::IID_INode);
+			auto node2 = System::CreateInstancePtr<SceneModule::INode>(SceneModule::CLSID_Node, SceneModule::IID_INode);
+			auto attribute = System::CreateInstancePtr<SceneModule::IAttribute>(SceneModule::CLSID_Attribute, SceneModule::IID_IAttribute);
+			root->AddChild(node1);
+			root->AddChild(node2);
+			attribute->SetName("Attribute");
+			node1->AddAttribute(attribute);
+
+			node1->RemoveAttribute(attribute);
+			node2->AddAttribute(attribute);
+		}
 	}
 
 	void testSerialize() {

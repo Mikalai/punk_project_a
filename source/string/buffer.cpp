@@ -53,8 +53,9 @@ namespace Core {
         }
 
 		void SetOffset(std::uint32_t value, int dir) {
-			if (dir == SEEK_CUR)
+			if (dir == SEEK_CUR) {							
 				m_current += value;
+			}
 			else if (dir == SEEK_END)
 				m_current = m_buffer + m_capacity - value;
 			else if (dir == SEEK_SET)
@@ -74,6 +75,7 @@ namespace Core {
         }
 
         void SetSize(std::uint32_t value) {
+			auto offset = m_current - m_buffer;
             m_capacity = value;
             if (m_buffer) {
                 delete[] m_buffer;
@@ -83,6 +85,7 @@ namespace Core {
                 m_current = m_buffer = new unsigned char[m_capacity];
                 memset(m_buffer, 0, m_capacity);
             }
+			m_current = m_buffer + offset;
         }
 
         const String ReadLine() {
@@ -144,7 +147,7 @@ namespace Core {
             std::uint8_t* tmp = new std::uint8_t[value];
             if (m_buffer)
             {
-#ifdef MSVS
+#ifdef _MSC_VER
                 memcpy_s(tmp, value, m_buffer, m_capacity);
 #else
                 memcpy(tmp, m_buffer, m_capacity);
@@ -164,8 +167,8 @@ namespace Core {
             }
 
             if (m_current + size > m_buffer + m_capacity)
-                Resize(m_capacity + size);
-#ifdef MSVS
+                Resize(size + m_current - m_buffer);
+#ifdef _MSC_VER
             memcpy_s(m_current, size, data, size);
 #else
             memcpy(m_current, data, size);

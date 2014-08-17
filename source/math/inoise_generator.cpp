@@ -279,6 +279,21 @@ namespace Math
 			memcpy(data, heightMap.GetSlabPtr(), width*height*sizeof(float));
 		}
 
+		void GenerateSphericalHeightMap(double min_l, double min_b, double max_l, double max_b, int width, int height, float* data, int octave_count) override {
+			module::Perlin myModule;
+			myModule.SetOctaveCount(octave_count);
+
+			utils::NoiseMap heightMap;
+			utils::NoiseMapBuilderSphere heightMapBuilder;
+			heightMapBuilder.SetSourceModule(myModule);
+			heightMapBuilder.SetDestNoiseMap(heightMap);
+			heightMapBuilder.SetDestSize(width, height);
+			heightMapBuilder.SetBounds(min_b, max_b, min_l, max_l);
+			heightMapBuilder.Build();
+
+			memcpy(data, heightMap.GetSlabPtr(), width*height*sizeof(float));			
+		}
+
 	private:
 		std::atomic<std::uint32_t> m_ref_count{ 0 };
 		module::Perlin m_perlin;

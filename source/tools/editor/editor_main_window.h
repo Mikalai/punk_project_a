@@ -51,6 +51,10 @@ namespace Tools {
 		void OnSceneSave(wxRibbonToolBarEvent& event);
 		void OnSceneContextMenu(wxDataViewEvent& event);
 		void OnScenePopUpClick(wxCommandEvent& event);
+		void OnSceneDragBegin(wxDataViewEvent& event) override;
+		void OnSceneDragDrop(wxDataViewEvent& event) override;
+		void OnSceneCheckDrop(wxDataViewEvent& event) override;
+
 	public:
 		//void UpdateScenePanel();
 		void UpdateSceneGraph();
@@ -59,6 +63,7 @@ namespace Tools {
 		Core::Pointer<Graphics::ICanvas> m_canvas{ nullptr, Core::DestroyObject };		
 		Core::Pointer<SceneModule::INode> m_current_node{ nullptr, Core::DestroyObject };
 		Core::Pointer<SceneModule::IAttribute> m_current_attribute{ nullptr, Core::DestroyObject };
+		wxDataViewItem m_dragged_item;
 	};
 }
 PUNK_ENGINE_END

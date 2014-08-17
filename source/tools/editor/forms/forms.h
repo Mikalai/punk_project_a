@@ -156,7 +156,7 @@ namespace Punk
 					wxToolBar* m_toolBar1;
 					wxToolBarToolBase* m_detailed_graph; 
 					wxToolBarToolBase* m_objects_graph; 
-					wxDataViewCtrl* m_scene_tree_graph;
+					wxDataViewTreeCtrl* m_scene_tree_graph;
 					wxPanel* m_mid_panel;
 					wxPanel* m_bottom_panel;
 					wxNotebook* m_bottom_panel_stuff;
@@ -185,7 +185,10 @@ namespace Punk
 					virtual void OnSwitchDetailedGraph( wxCommandEvent& event ) = 0;
 					virtual void OnSwitchObjectsGraph( wxCommandEvent& event ) = 0;
 					virtual void OnSceneGraphItemActivated( wxDataViewEvent& event ) = 0;
+					virtual void OnSceneDragBegin( wxDataViewEvent& event ) = 0;
 					virtual void OnSceneContextMenu( wxDataViewEvent& event ) = 0;
+					virtual void OnSceneDragDrop( wxDataViewEvent& event ) = 0;
+					virtual void OnSceneCheckDrop( wxDataViewEvent& event ) = 0;
 					virtual void OnSceneGraphItemChanged( wxDataViewEvent& event ) = 0;
 					virtual void OnSize( wxSizeEvent& event ) = 0;
 					

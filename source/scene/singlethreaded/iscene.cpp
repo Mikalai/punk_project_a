@@ -15,13 +15,13 @@ namespace SceneModule
 	class PUNK_ENGINE_LOCAL Scene : public IScene, Core::ISerializable {
 	public:
 		Scene() {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			/*m_root = System::CreateInstancePtr<INode>(CLSID_Node, IID_INode);
 			m_root->SetScene(this);*/
 		}
 
 		virtual ~Scene() {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 		}
 
 		//	IObject
@@ -57,27 +57,27 @@ namespace SceneModule
 
 		//	IScene
 		void Lock() override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			m_lock.Lock();
 		}
 
 		void Unlock() override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			m_lock.Unlock();
 		}
 
 		Core::Pointer<INode> GetRoot() override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			return m_root;
 		}
 
 		const Core::Pointer<INode> GetRoot() const override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			return m_root;
 		}
 
 		void SetRoot(Core::Pointer<INode> node) override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			if (m_root.get()) {
 				OnNodeRemoved(Core::Pointer < INode > {nullptr, Core::DestroyObject}, m_root);
 			}
@@ -89,7 +89,7 @@ namespace SceneModule
 		}
 
 		void AddObserver(Core::Pointer<IObserver> observer) override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			auto it = m_observers.find(observer);
 			if (it == m_observers.end()) {
 				observer->AddRef();
@@ -99,7 +99,7 @@ namespace SceneModule
 		}
 
 		void RemoveObserver(Core::Pointer<IObserver> observer) override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			auto it = m_observers.find(observer);
 			if (it != m_observers.end()) {
 				m_observers.erase(observer);
@@ -108,21 +108,21 @@ namespace SceneModule
 		}
 	
 		void OnNodeAdded(Core::Pointer<INode> parent, Core::Pointer<INode> child) override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			std::for_each(m_observers.begin(), m_observers.end(), [&parent, &child](Core::Pointer<IObserver> o) {
 				o->OnNodeAdded(parent, child);
 			});
 		}
 
 		void OnNodeRemoved(Core::Pointer<INode> parent, Core::Pointer<INode> child) override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			std::for_each(m_observers.begin(), m_observers.end(), [&parent, &child](Core::Pointer<IObserver> o) {
 				o->OnNodeRemoved(parent, child);
 			});
 		}
 
 		void OnAttributeAdded(Core::Pointer<INode> node, Core::Pointer<IAttribute> attribute) override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			node->AddRef();
 			std::for_each(m_observers.begin(), m_observers.end(), [&node, &attribute](Core::Pointer<IObserver> o) {
 				o->OnAttributeAdded(node, attribute);
@@ -131,14 +131,14 @@ namespace SceneModule
 		}
 
 		void OnAttributeUpdated(Core::Pointer<INode> node, Core::Pointer<IAttribute> old_attribute, Core::Pointer<IAttribute> new_attribute) override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			std::for_each(m_observers.begin(), m_observers.end(), [&node, &old_attribute, &new_attribute](Core::Pointer<IObserver> o) {
 				o->OnAttributeUpdated(node, old_attribute, new_attribute);
 			});
 		}
 
 		void OnAttributeRemoved(Core::Pointer<INode> node, Core::Pointer<IAttribute> attribute) override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			std::for_each(m_observers.begin(), m_observers.end(), [&node, &attribute](Core::Pointer<IObserver> o) {
 				o->OnAttributeRemoved(node, attribute);
 			});

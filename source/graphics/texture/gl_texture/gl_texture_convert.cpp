@@ -248,8 +248,8 @@ namespace Graphics {
                 //case ImageModule::ImageFormat::IMAGE_FORMAT_DSDT8_MAG8_INTENSITY8 : return GL_DSDT8_MAG8_INTENSITY8_NV ;
                 //case ImageModule::ImageFormat::IMAGE_FORMAT_HILO8 : return GL_HILO8_NV ;
                 //case ImageModule::ImageFormat::IMAGE_FORMAT_SIGNED_HILO8 : return GL_SIGNED_HILO8_NV ;
-                //case ImageModule::ImageFormat::IMAGE_FORMAT_FLOAT_R16 : return GL_FLOAT_R16_NV ;
-                //case ImageModule::ImageFormat::IMAGE_FORMAT_FLOAT_R32 : return GL_FLOAT_R32_NV ;
+                //case ImageModule::ImageFormat::FloatR16 : return GL_FLOAT_R16_NV ;
+                //case ImageModule::ImageFormat::FloatR32 : return GL_FLOAT_R32_NV ;
                 //case ImageModule::ImageFormat::IMAGE_FORMAT_FLOAT_RG16 : return GL_FLOAT_RG16_NV ;
                 //case ImageModule::ImageFormat::IMAGE_FORMAT_FLOAT_RGB16 : return GL_FLOAT_RGB16_NV ;
                 //case ImageModule::ImageFormat::IMAGE_FORMAT_FLOAT_RGBA16 : return GL_FLOAT_RGBA16_NV ;

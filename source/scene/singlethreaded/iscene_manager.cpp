@@ -16,11 +16,11 @@ namespace SceneModule {
 	class PUNK_ENGINE_LOCAL SceneManager : public ISceneManager {
 	public:
 		SceneManager() {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 		}
 
 		~SceneManager() {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			while (!m_processors.empty()) {
 				m_processors.back()->Release();
 				m_processors.pop_back();
@@ -29,7 +29,7 @@ namespace SceneModule {
 
 		//	IObject
 		void QueryInterface(const Core::Guid& type, void** object) override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_ISceneManager });
 		}
 
@@ -62,7 +62,7 @@ namespace SceneModule {
 		}		
 
 		Core::Pointer<IScene> GetCurrentScene() override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			return m_current_scene;
 		}
 
@@ -100,13 +100,13 @@ namespace SceneModule {
 		}
 
 		void AddProcessor(Core::Pointer<IProcessor> processor) override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			m_processors.push_back(processor);
 			processor->SetSceneManager(this);
 		}
 
 		void Update(float dt) override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 
 			if (m_need_terminate) {
 				TerminateProcessors();

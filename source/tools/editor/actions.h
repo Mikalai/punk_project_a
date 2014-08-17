@@ -86,6 +86,24 @@ namespace Tools {
 		Core::Pointer<SceneModule::INode> m_parent{ nullptr, Core::DestroyObject };
 		bool m_scene_root{ false };
 	};
+
+	class DragItemAction : public ActionBase {
+	public:
+		DragItemAction(EditorMainWindow* panel, Core::Pointer<SceneModule::INode> src, Core::Pointer<SceneModule::INode> dst, Core::Pointer<SceneModule::INode> drag);
+		DragItemAction(EditorMainWindow* panel, Core::Pointer<SceneModule::INode> src, Core::Pointer<SceneModule::INode> dst, Core::Pointer<SceneModule::IAttribute> drag);
+		virtual ~DragItemAction();
+
+		void Do() override;
+		void Undo() override;
+		void Redo() override;
+	private:
+		EditorMainWindow* m_panel;
+		SceneDataModel* m_scene_model;
+		Core::Pointer<SceneModule::INode> m_source{ nullptr, Core::DestroyObject };
+		Core::Pointer<SceneModule::INode> m_destination{ nullptr, Core::DestroyObject };
+		Core::Pointer<SceneModule::IAttribute> m_dragged_attribute{ nullptr, Core::DestroyObject };
+		Core::Pointer<SceneModule::INode> m_dragged_node{ nullptr, Core::DestroyObject };
+	};
 }
 PUNK_ENGINE_END
 
