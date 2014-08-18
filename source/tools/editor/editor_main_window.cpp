@@ -34,7 +34,12 @@ namespace Tools {
 		dlg->Destroy();
 	}
 
+	EditorMainWindow::~EditorMainWindow() {
+		System::GetDefaultLogger()->RemoveConsumer(this);
+	}
+
 	EditorMainWindow::EditorMainWindow(wxWindow* parent)
+		try
 		: EditorMainWindowBase(parent)
 	{
 		m_log->AppendTextColumn("Time");
@@ -66,6 +71,10 @@ namespace Tools {
 
 		m_scene_tree_graph->AppendTextColumn("Name", 0);
 		m_scene_tree_graph->AppendTextColumn("Type", 1);
+	}
+	catch (...) {
+		System::GetDefaultLogger()->RemoveConsumer(this);
+		throw;
 	}
 
 	void EditorMainWindow::OnLoadModule(wxRibbonToolBarEvent& event) {
@@ -300,14 +309,14 @@ namespace Tools {
 	}
 
 	void EditorMainWindow::OnSceneDragBegin(wxDataViewEvent& event) {
-		if (event.GetItem() != wxDataViewItem(m_scene_model->GetScene()->GetRoot().get())) {			
+		if (event.GetItem() != wxDataViewItem(m_scene_model->GetScene()->GetRoot().get())) {
 
 			//m_dragged_item = Core::Pointer < Core::IObject > {(Core::IObject*)event.GetItem().GetID(), Core::DestroyObject};
-			m_dragged_item = event.GetItem();			
+			m_dragged_item = event.GetItem();
 			//event.SetDragFlags(wxDrag_DefaultMove);
-			
+
 			wxTextDataObject *obj = new wxTextDataObject;
-			obj->SetText("Item");			
+			obj->SetText("Item");
 			event.SetDataObject(obj);
 			event.SetDragFlags(wxDrag_AllowMove); // allows both copy and move
 			//event.Allow();
@@ -370,7 +379,7 @@ namespace Tools {
 			else
 				event.Veto();
 		}
-		else 
+		else
 			event.Veto();
 	}
 }

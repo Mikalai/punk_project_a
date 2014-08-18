@@ -303,22 +303,24 @@ namespace SceneModule {
 
 			//	remove from attributes cache
 			//	get all cached interfaces for current index
-			auto interfaces_it = m_interface_map.find(index);
-			if (interfaces_it != m_interface_map.end()) {
-				auto& interfaces = interfaces_it->second;
-				for (auto& iid : interfaces) {
-					//	get all attributes that support curent interface
-					auto& objects = m_attributes_cache[iid];
-					//	try to find removing attribute in the attributes cache
-					auto it = std::find(objects.begin(), objects.end(), attribute);
-					if (it == objects.end())
-						continue;
-					//	if found remove
-					objects.erase(it);
-				}
+			if (!m_interface_map.empty()) {
+				auto interfaces_it = m_interface_map.find(index);
+				if (interfaces_it != m_interface_map.end()) {
+					auto& interfaces = interfaces_it->second;
+					for (auto& iid : interfaces) {
+						//	get all attributes that support curent interface
+						auto& objects = m_attributes_cache[iid];
+						//	try to find removing attribute in the attributes cache
+						auto it = std::find(objects.begin(), objects.end(), attribute);
+						if (it == objects.end())
+							continue;
+						//	if found remove
+						objects.erase(it);
+					}
 
-				//	remove from interface map
-				m_interface_map.erase(interfaces_it);
+					//	remove from interface map
+					m_interface_map.erase(interfaces_it);
+				}
 			}
 
 			attribute->SetOwner(nullptr);
@@ -422,11 +424,11 @@ namespace SceneModule {
 		//std::uint64_t m_id{ 0 };
 		INode* m_parent{ nullptr };
 		std::vector<Core::Pointer<INode>> m_children;
-		std::map<Core::String, std::uint32_t> m_name_cache;
-		std::vector< Core::Pointer < IAttribute >> m_attributes;
+		std::map<Core::String, std::uint32_t> m_name_cache;		
 		IScene* m_scene_graph{ nullptr };
 		std::atomic<int> m_delete_count;
 		bool m_invalid_cache{ false };
+		std::vector< Core::Pointer < IAttribute >> m_attributes;
 		std::map<Core::Guid, std::vector<Core::Pointer<IAttribute>>> m_attributes_cache;
 		std::map<std::uint32_t, std::vector<Core::Guid>> m_interface_map;
 	};

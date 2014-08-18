@@ -150,15 +150,7 @@ namespace Tools {
 			return;
 		}
 		m_node = System::CreateInstancePtr<SceneModule::INode>(SceneModule::CLSID_Node, SceneModule::IID_INode);		
-		if (m_parent) {
-			m_parent->AddChild(m_node);
-			m_scene_root = false;
-		}
-		else {			
-			m_scene_model->GetScene()->SetRoot(m_node);
-			m_scene_root = true;
-		}		
-		m_scene_model->ItemAdded(wxDataViewItem{ m_parent.get() }, wxDataViewItem{ m_node.get() });
+		m_scene_model->AddNode(m_parent, m_node);
 	}
 
 	void CreateNodeAction::Undo() {
@@ -166,11 +158,7 @@ namespace Tools {
 			System::GetDefaultLogger()->Error("Scene model is not specified. Can't create node");
 			return;
 		}
-		if (m_scene_root)
-			m_scene_model->GetScene()->SetRoot(Core::Pointer < SceneModule::INode > {nullptr, Core::DestroyObject});
-		else 
-			m_parent->RemoveChild(m_node);
-		m_scene_model->ItemDeleted(wxDataViewItem{ m_parent.get() }, wxDataViewItem{ m_node.get() });
+		m_scene_model->RemoveNode(m_parent, m_node);
 	}
 
 	void CreateNodeAction::Redo() {
@@ -178,12 +166,7 @@ namespace Tools {
 			System::GetDefaultLogger()->Error("Scene model is not specified. Can't create node");
 			return;
 		}
-		if (m_scene_root)
-			m_scene_model->GetScene()->SetRoot(m_node);
-		else
-			m_parent->AddChild(m_node);
-		//m_panel->SetCurrentSceneModel(m_scene_model);
-		m_scene_model->ItemAdded(wxDataViewItem{ m_parent.get() }, wxDataViewItem{ m_node.get() });
+		m_scene_model->AddNode(m_parent, m_node);
 	}
 
 	CreateAttributeAction::CreateAttributeAction(EditorMainWindow* panel, Core::Pointer<SceneModule::INode> parent)
@@ -218,8 +201,7 @@ namespace Tools {
 			if (m_attribute) {
 				m_attribute->Initialize(dlg.GetObjectName(), dlg.GetObject());
 			}
-			m_parent->AddAttribute(m_attribute);
-			m_scene_model->ItemAdded(wxDataViewItem{ m_parent.get() }, wxDataViewItem{ m_attribute.get() });
+			m_scene_model->AddAttribute(m_parent, m_attribute);			
 		}		
 	}
 
@@ -228,10 +210,7 @@ namespace Tools {
 			System::GetDefaultLogger()->Error("Scene model is not specified. Can't create node");
 			return;
 		}
-		if (m_attribute) {
-			m_parent->RemoveAttribute(m_attribute);
-		}
-		m_scene_model->ItemDeleted(wxDataViewItem{ m_parent.get() }, wxDataViewItem{ m_attribute.get() });
+		m_scene_model->RemoveAttribute(m_parent, m_attribute);
 	}
 
 	void CreateAttributeAction::Redo() {
@@ -239,11 +218,7 @@ namespace Tools {
 			System::GetDefaultLogger()->Error("Scene model is not specified. Can't create node");
 			return;
 		}
-		if (m_attribute) {
-			m_parent->AddAttribute(m_attribute);
-		}
-		//m_panel->SetCurrentSceneModel(m_scene_model);
-		m_scene_model->ItemAdded(wxDataViewItem{ m_parent.get() }, wxDataViewItem{ m_attribute.get() });
+		m_scene_model->AddAttribute(m_parent, m_attribute);
 	}
 
 	DragItemAction::DragItemAction(EditorMainWindow* panel, Core::Pointer<SceneModule::INode> src, Core::Pointer<SceneModule::INode> dst, Core::Pointer<SceneModule::INode> drag) 
@@ -281,46 +256,34 @@ namespace Tools {
 
 	void DragItemAction::Do() {
 		if (m_dragged_node) {
-			m_source->RemoveChild(m_dragged_node);
-			m_scene_model->ItemDeleted(wxDataViewItem{ m_source.get() }, wxDataViewItem{ m_dragged_node.get() });
-			m_destination->AddChild(m_dragged_node);
-			m_scene_model->ItemAdded(wxDataViewItem{ m_destination.get() }, wxDataViewItem{ m_dragged_node.get() });
+			m_scene_model->RemoveNode(m_source, m_dragged_node);
+			m_scene_model->AddNode(m_destination, m_dragged_node);
 		}
 		if (m_dragged_attribute) {
-			m_source->RemoveAttribute(m_dragged_attribute);
-			m_scene_model->ItemDeleted(wxDataViewItem{ m_source.get() }, wxDataViewItem{ m_dragged_attribute.get() });
-			m_destination->AddAttribute(m_dragged_attribute);
-			m_scene_model->ItemAdded(wxDataViewItem{ m_destination.get() }, wxDataViewItem{ m_dragged_attribute.get() });
+			m_scene_model->RemoveAttribute(m_source, m_dragged_attribute);
+			m_scene_model->AddAttribute(m_destination, m_dragged_attribute);
 		}
 	}
 
 	void DragItemAction::Undo() {
 		if (m_dragged_node) {
-			m_destination->RemoveChild(m_dragged_node);
-			m_scene_model->ItemDeleted(wxDataViewItem{ m_destination.get() }, wxDataViewItem{ m_dragged_node.get() });
-			m_source->AddChild(m_dragged_node);
-			m_scene_model->ItemAdded(wxDataViewItem{ m_source.get() }, wxDataViewItem{ m_dragged_node.get() });
+			m_scene_model->RemoveNode(m_destination, m_dragged_node);
+			m_scene_model->AddNode(m_source, m_dragged_node);
 		}
 		if (m_dragged_attribute) {
-			m_destination->RemoveAttribute(m_dragged_attribute);
-			m_scene_model->ItemDeleted(wxDataViewItem{ m_destination.get() }, wxDataViewItem{ m_dragged_attribute.get() });
-			m_source->AddAttribute(m_dragged_attribute);
-			m_scene_model->ItemAdded(wxDataViewItem{ m_source.get() }, wxDataViewItem{ m_dragged_attribute.get() });
+			m_scene_model->RemoveAttribute(m_destination, m_dragged_attribute);
+			m_scene_model->AddAttribute(m_source, m_dragged_attribute);
 		}
 	}
 	
 	void DragItemAction::Redo() {
 		if (m_dragged_node) {
-			m_source->RemoveChild(m_dragged_node);
-			m_scene_model->ItemDeleted(wxDataViewItem{ m_source.get() }, wxDataViewItem{ m_dragged_node.get() });
-			m_destination->AddChild(m_dragged_node);
-			m_scene_model->ItemAdded(wxDataViewItem{ m_destination.get() }, wxDataViewItem{ m_dragged_node.get() });
+			m_scene_model->RemoveNode(m_source, m_dragged_node);
+			m_scene_model->AddNode(m_destination, m_dragged_node);
 		}
 		if (m_dragged_attribute) {
-			m_source->RemoveAttribute(m_dragged_attribute);
-			m_scene_model->ItemDeleted(wxDataViewItem{ m_source.get() }, wxDataViewItem{ m_dragged_attribute.get() });
-			m_destination->AddAttribute(m_dragged_attribute);
-			m_scene_model->ItemAdded(wxDataViewItem{ m_destination.get() }, wxDataViewItem{ m_dragged_attribute.get() });
+			m_scene_model->RemoveAttribute(m_source, m_dragged_attribute);
+			m_scene_model->AddAttribute(m_destination, m_dragged_attribute);
 		}
 	}
 }

@@ -25,6 +25,11 @@ namespace Tools {
 		Core::Pointer<SceneModule::IScene> GetScene() const;
 		void RemoveAllNotifiers();
 
+		void AddNode(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child);
+		void RemoveNode(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child);
+		void AddAttribute(Core::Pointer<SceneModule::INode> owner, Core::Pointer<SceneModule::IAttribute> child);
+		void RemoveAttribute(Core::Pointer<SceneModule::INode> owner, Core::Pointer<SceneModule::IAttribute> child);
+
 	private:
 		Core::Pointer<SceneModule::IScene> m_scene;
 	};

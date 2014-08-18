@@ -15,25 +15,25 @@ namespace IoModule {
     IoObserver::IoObserver()
         : m_ref_count{ 0 }
     {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
     }
 
     IoObserver::~IoObserver() {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
     }
 
 	void IoObserver::QueryInterface(const Core::Guid& type, void** object) {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IIoObserver });
 	}
 
     std::uint32_t IoObserver::AddRef() {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
         return m_ref_count.fetch_add(1);
     }
 
     std::uint32_t IoObserver::Release() {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
         auto v = m_ref_count.fetch_sub(1) - 1;
         if (!v)
             delete this;
@@ -59,7 +59,7 @@ namespace IoModule {
 	}
 
 	void IoObserver::ProcessNode(Core::Pointer<SceneModule::INode> root) {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		std::stack<Core::Pointer<SceneModule::INode>> nodes;
 		nodes.push(root);
 		while (!nodes.empty()){
@@ -131,22 +131,22 @@ namespace IoModule {
 	}
 
 	void IoObserver::SetScene(SceneModule::IScene* value) {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		m_scene = value;
 		ProcessNode(m_scene->GetRoot());
 	}
 
 	void IoObserver::OnNodeAdded(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child) {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		ProcessNode(child);
 	}
 
 	void IoObserver::OnNodeRemoved(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child) {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 	}
 
 	void IoObserver::OnAttributeAdded(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> attribute) {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		auto stub = Core::QueryInterfacePtr<Attributes::IFileStub>(attribute->GetRawData(), Attributes::IID_IFileStub);
 		if (stub) {			
 
@@ -185,12 +185,12 @@ namespace IoModule {
 	}
 
 	void IoObserver::OnAttributeUpdated(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> old_attribute, Core::Pointer<SceneModule::IAttribute> new_attribute) {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		OnAttributeAdded(node, new_attribute);
 	}
 
 	void IoObserver::OnAttributeRemoved(Core::Pointer<SceneModule::INode> node, Core::Pointer<SceneModule::IAttribute> attribute) {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 	}
 
     PUNK_REGISTER_CREATOR(CLSID_IoObserver, (System::CreateInstance<IoObserver, IIoObserver>));

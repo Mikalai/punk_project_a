@@ -77,7 +77,7 @@ namespace LowLevelRender {
 		
 		Render() 
 		{
-			LOG_FUNCTION_SCOPE;			
+			LOG_FUNCTION_SCOPE();			
 			m_canvas = System::CreateInstancePtr<Graphics::ICanvas>(
 				Graphics::CLSID_Canvas, Graphics::IID_ICanvas);
 			m_canvas->Initialize(Graphics::CanvasDescription{});
@@ -96,13 +96,13 @@ namespace LowLevelRender {
 		}
 		
 		~Render() {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			m_frame->Release();
 		}
 
 		//	IObject
 		void QueryInterface(const Core::Guid& type, void** object) override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			if (!object)
 				return;
 
@@ -131,13 +131,13 @@ namespace LowLevelRender {
 		}
 
 		std::uint32_t AddRef() override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			m_ref_count.fetch_add(1);
 			return m_ref_count;
 		}
 
 		std::uint32_t Release() override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			std::uint32_t v = m_ref_count.fetch_sub(1) - 1;
 			if (!v) {
 				delete this;
@@ -151,7 +151,7 @@ namespace LowLevelRender {
 		}
 
 		void SetSceneManager(SceneModule::ISceneManager* manager) override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			m_manager = manager;
 			auto scene = m_manager->GetCurrentScene();
 			if (scene) {
@@ -162,7 +162,7 @@ namespace LowLevelRender {
 		}
 
 		void Update(float dt) override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			if (!m_manager)
 				return;
 
@@ -251,7 +251,7 @@ namespace LowLevelRender {
 
 		// IRenderObserver
 		void SetScene(SceneModule::IScene* value) override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			value->AddRef();
 			m_scene.reset(value);
 			if (!m_scene->GetRoot()->Get<Graphics::ICanvas>(L"Canvas"))
@@ -259,7 +259,7 @@ namespace LowLevelRender {
 		}
 
 		void OnNodeAdded(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child) override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			if (!parent) {
 				if (!child->Get<Graphics::ICanvas>(L"Canvas"))
 					child->Add<Graphics::ICanvas>(L"Canvas", m_canvas);
@@ -312,26 +312,26 @@ namespace LowLevelRender {
 		}
 		
 		void OnNodeRemoved(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child) override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 		}
 		
 		void OnAttributeUpdated (
 			Core::Pointer<SceneModule::INode> node, 
 			Core::Pointer<SceneModule::IAttribute> old_attribute, 
 			Core::Pointer<SceneModule::IAttribute> new_attribute) override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 		}
 
 		void OnAttributeRemoved(
 			Core::Pointer<SceneModule::INode> node, 
 			Core::Pointer<SceneModule::IAttribute> attribute) override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 		}
 
 		void OnAttributeAdded(
 			Core::Pointer<SceneModule::INode> node, 
 			Core::Pointer<SceneModule::IAttribute> attribute) override {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			auto geom = attribute->Get<Attributes::IGeometry>();
 			if (geom) {
 				auto geom = attribute->Get<Attributes::IGeometry>();
@@ -380,7 +380,7 @@ namespace LowLevelRender {
 		*	Process
 		*/
 		void Process(Graphics::IFrame* frame, Core::Pointer<SceneModule::INode> node) {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			int count = node->GetAttributesCount(Attributes::IID_ITransform);
 			if (count != 0) {
 				for (int i = 0; i < count; ++i) {

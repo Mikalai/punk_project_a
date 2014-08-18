@@ -85,17 +85,17 @@ namespace Attributes {
 
 	//	IObject
 	void AnimationPlayerImpl::QueryInterface(const Core::Guid& type, void** object) {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IAnimationPlayer });
 	}
 
 	std::uint32_t AnimationPlayerImpl::AddRef() {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		return m_ref_count.fetch_add(1);
 	}
 
 	std::uint32_t AnimationPlayerImpl::Release() {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		auto v = m_ref_count.fetch_sub(1) - 1;
 		if (!v)
 			delete this;
@@ -104,31 +104,31 @@ namespace Attributes {
 
 	//	IAnimationPlayer
 	void AnimationPlayerImpl::Start() {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		m_active = true;
 	}
 
 	void AnimationPlayerImpl::Stop() {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		m_active = false;
 	}
 
 	bool AnimationPlayerImpl::IsPlaying() const {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		return m_active;
 	}
 
 	void AnimationPlayerImpl::SetPlaybackType(AnimationPlaybackType value) {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		m_playback_type = value;
 	}
 	AnimationPlaybackType AnimationPlayerImpl::GetPlaybackType() const {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		return m_playback_type;
 	}
 
 	void AnimationPlayerImpl::SetDuration(float time_s) {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		m_duration = time_s;		
 		for (std::uint32_t i = 0, max_i = m_animation->GetTracksCount(); i < max_i; ++i) {			
 			m_track_cache.at(i).m_interpolator->SetDuration(m_duration);
@@ -136,12 +136,12 @@ namespace Attributes {
 	}
 
 	float AnimationPlayerImpl::GetDuration() const {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		return m_duration;
 	}
 
 	void AnimationPlayerImpl::Seek(AnimationSeekDirection direction, float dt) {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		AdvanceTime(direction, dt);
 		for (std::uint32_t i = 0, max_i = m_animation->GetTracksCount(); i < max_i; ++i) {
 			m_track_cache[i].m_interpolator->Interpolate(m_current_time, m_track_cache.at(i).m_current_value.data(), (std::uint32_t)m_track_cache.at(i).m_current_value.size());
@@ -168,7 +168,7 @@ namespace Attributes {
 	//}
 
 	void AnimationPlayerImpl::SetAnimation(Core::Pointer<IAnimation> value) {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		if (value == m_animation)
 			return;
 
@@ -192,27 +192,27 @@ namespace Attributes {
 	}
 
 	const Core::Pointer<IAnimation> AnimationPlayerImpl::GetAnimation() const {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		return m_animation;
 	}
 
 	Core::Pointer<IAnimation> AnimationPlayerImpl::GetAnimation() {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		return m_animation;
 	}
 
 	void AnimationPlayerImpl::SetKeyFrameInterpolator(InterpolatorType value) {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		m_interpolator_type = value;
 	}
 
 	InterpolatorType AnimationPlayerImpl::GetKeyFrameInterpolator() {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		return m_interpolator_type;
 	}
 
 	void AnimationPlayerImpl::GetCurrentValue(std::uint32_t track_index, void* buffer, std::uint32_t size) {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		auto& value = m_track_cache.at(track_index).m_current_value;
 		if (value.size() != size)
 			throw System::Error::SystemException("Size mismatch");
@@ -220,7 +220,7 @@ namespace Attributes {
 	}
 
 	void AnimationPlayerImpl::SetupInterpolators() {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		//	if no animation no interpolators can be created
 		if (!m_animation)
 			return;
@@ -265,7 +265,7 @@ namespace Attributes {
 	}
 
 	void AnimationPlayerImpl::AdvanceTime(AnimationSeekDirection dir, float dt) {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		if (dir == AnimationSeekDirection::Begin) {
 			m_current_time = dt;
 			m_dir_factor = 1;
@@ -300,21 +300,21 @@ namespace Attributes {
 	}
 
 	void AnimationPlayerImpl::OnAnimationStarted(Core::ActionBase<void>* action) {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		m_on_started.Add(action);
 	}
 
 	void AnimationPlayerImpl::OnAnimationEnded(Core::ActionBase<void>* action) {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		m_on_ended.Add(action);
 	}
 	void AnimationPlayerImpl::OnFrame(AnimationAdvanced* action) {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		m_on_frame.Add(action);
 	}
 
 	void AnimationPlayerImpl::OnFrame(std::int32_t track_index, TrackAdvanced* action) {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		if (!m_animation)
 			return;
 		m_track_cache.at(track_index).m_on_frame.Add(action);

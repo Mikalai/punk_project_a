@@ -17,6 +17,7 @@ namespace Tools {
 		using EditorMainWindowBase::EditorMainWindowBase;
 		
 		EditorMainWindow(wxWindow* parent);
+		virtual ~EditorMainWindow();
 
 		//	ILogConsumer
 		void Write(const Core::String& time, const Core::String& level, const Core::String &message) override;

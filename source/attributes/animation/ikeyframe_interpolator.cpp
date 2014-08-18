@@ -73,7 +73,7 @@ namespace Attributes
 		}
 
 		std::int32_t GetCurrentFrame(float current_time) {
-			LOG_FUNCTION_SCOPE;
+			LOG_FUNCTION_SCOPE();
 			auto frames = m_track->GetDuration();
 			std::int32_t frame = m_track->GetFirstFrame() + std::int32_t((float)frames / m_duration * current_time);
 			return frame;

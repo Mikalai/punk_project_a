@@ -36,11 +36,11 @@ namespace Attributes {
     Animation::Animation()
         : m_ref_count{ 0 }
     {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
     }
 
 	Animation::~Animation() {        
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		while (!m_tracks.empty()) {
 			m_tracks.back()->Release();
 			m_tracks.pop_back();
@@ -49,17 +49,17 @@ namespace Attributes {
 
 	//	IObject
 	void Animation::QueryInterface(const Core::Guid& type, void** object) {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_IAnimation });
 	}
 
 	std::uint32_t Animation::AddRef() {
-		LOG_FUNCTION_SCOPE;
+		LOG_FUNCTION_SCOPE();
 		return m_ref_count.fetch_add(1);
 	}
 
 	std::uint32_t Animation::Release() {
-        LOG_FUNCTION_SCOPE;
+        LOG_FUNCTION_SCOPE();
 		auto v = m_ref_count.fetch_sub(1) - 1;
 		if (!v)
 			delete this;

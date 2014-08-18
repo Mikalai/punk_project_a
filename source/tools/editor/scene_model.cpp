@@ -134,5 +134,37 @@ namespace Tools {
 		return m_scene;
 	}
 
+	void SceneDataModel::AddNode(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child) {
+		if (parent) {
+			parent->AddChild(child);
+		}
+		else {
+			GetScene()->SetRoot(child);
+		}
+		ItemAdded(wxDataViewItem{ parent.get() }, wxDataViewItem{ child.get() });
+	}
+
+	void SceneDataModel::RemoveNode(Core::Pointer<SceneModule::INode> parent, Core::Pointer<SceneModule::INode> child) {
+		if (GetScene()->GetRoot() == child) {
+			GetScene()->SetRoot(Core::Pointer < SceneModule::INode > {nullptr, Core::DestroyObject});
+		}
+		else {
+			parent->RemoveChild(child);
+		}
+		ItemDeleted(wxDataViewItem{ parent.get() }, wxDataViewItem{ child.get() });
+	}
+
+	void SceneDataModel::AddAttribute(Core::Pointer<SceneModule::INode> owner, Core::Pointer<SceneModule::IAttribute> child) {
+		owner->AddAttribute(child);
+		ItemAdded(wxDataViewItem{ owner.get() }, wxDataViewItem{ child.get() });
+	}
+
+	void SceneDataModel::RemoveAttribute(Core::Pointer<SceneModule::INode> owner, Core::Pointer<SceneModule::IAttribute> child) {
+		if (child) {
+			owner->RemoveAttribute(child);
+		}
+		ItemDeleted(wxDataViewItem{ owner.get() }, wxDataViewItem{ child.get() });
+	}
+
 }
 PUNK_ENGINE_END

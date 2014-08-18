@@ -45,17 +45,17 @@ namespace System
     void CloseFile(std::intptr_t hFile)
     {
         CloseHandle((HANDLE)hFile);
-        CHECK_SYS_ERROR(Core::String("Binary file close failed"));
+        CHECK_SYS_ERROR(L"Binary file close failed");
     }
 
     void ReadFile(std::intptr_t hFile, void* ptr, size_t size)
     {
         DWORD read;
         ::ReadFile((HANDLE)hFile, ptr, size, &read, 0);
-        CHECK_SYS_ERROR(Core::String("Error in binary file, can't read data"));
+        CHECK_SYS_ERROR(L"Error in binary file, can't read data");
 
         if (read != (DWORD)size)
-            throw Error::OSException("Error in binary file, read data less than file contains, possible bad staff happenes");
+            throw Error::OSException(L"Error in binary file, read data less than file contains, possible bad staff happenes");
     }
 
 #elif defined __linux__
