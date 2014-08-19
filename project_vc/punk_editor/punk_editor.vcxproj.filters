@@ -30,6 +30,45 @@
     <ClCompile Include="..\..\source\tools\editor\temp\mymodels.cpp">
       <Filter>temp</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\tools\editor\forms\double_editor_impl.cpp">
+      <Filter>forms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\tools\editor\forms\EngineModuleManagerAttributePanel.cpp">
+      <Filter>forms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\tools\editor\forms\float_editor_impl.cpp">
+      <Filter>forms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\tools\editor\forms\m_attribute_panel_impl.cpp">
+      <Filter>forms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\tools\editor\forms\mat2_float_editor_impl.cpp">
+      <Filter>forms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\tools\editor\forms\mat3_float_editor_impl.cpp">
+      <Filter>forms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\tools\editor\forms\mat4_float_editor_impl.cpp">
+      <Filter>forms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\tools\editor\forms\quat_float_editor_impl.cpp">
+      <Filter>forms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\tools\editor\forms\string_editor_impl.cpp">
+      <Filter>forms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\tools\editor\forms\vec2_float_editor_impl.cpp">
+      <Filter>forms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\tools\editor\forms\vec4_float_editor_impl.cpp">
+      <Filter>forms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\tools\editor\forms\bool_editor_impl.cpp">
+      <Filter>forms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\tools\editor\forms\integer_editor_impl.cpp">
+      <Filter>forms</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\tools\editor\module_list.h" />
@@ -58,6 +97,63 @@
     <ClInclude Include="..\..\source\tools\editor\scene_model.h" />
     <ClInclude Include="..\..\source\tools\editor\temp\mymodels.h">
       <Filter>temp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\tools\editor\forms\double_editor_impl.h">
+      <Filter>forms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\tools\editor\forms\EngineModuleManagerAttributePanel.h">
+      <Filter>forms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\tools\editor\forms\float_editor_impl.h">
+      <Filter>forms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\tools\editor\forms\m_attribute_panel_impl.h">
+      <Filter>forms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\tools\editor\forms\mat2_float_editor_impl.h">
+      <Filter>forms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\tools\editor\forms\mat3_float_editor_impl.h">
+      <Filter>forms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\tools\editor\forms\mat4_float_editor_impl.h">
+      <Filter>forms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\tools\editor\forms\new_node.png.h">
+      <Filter>forms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\tools\editor\forms\new_scene.png.h">
+      <Filter>forms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\tools\editor\forms\opened_folder.png.h">
+      <Filter>forms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\tools\editor\forms\opened_folder-32.png.h">
+      <Filter>forms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\tools\editor\forms\quat_float_editor_impl.h">
+      <Filter>forms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\tools\editor\forms\save.png.h">
+      <Filter>forms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\tools\editor\forms\show_objects_graph.png.h">
+      <Filter>forms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\tools\editor\forms\string_editor_impl.h">
+      <Filter>forms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\tools\editor\forms\vec2_float_editor_impl.h">
+      <Filter>forms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\tools\editor\forms\vec4_float_editor_impl.h">
+      <Filter>forms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\tools\editor\forms\bool_editor_impl.h">
+      <Filter>forms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\tools\editor\forms\integer_editor_impl.h">
+      <Filter>forms</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -267,7 +267,7 @@ namespace Punk
 				public:
 					wxStaticBoxSizer* m_parameters_sizer;
 					
-					AttributeDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Select attribute"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 752,575 ), long style = wxDEFAULT_DIALOG_STYLE|wxMAXIMIZE_BOX ); 
+					AttributeDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Select attribute"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 752,575 ), long style = wxDEFAULT_DIALOG_STYLE|wxMAXIMIZE_BOX|wxRESIZE_BORDER ); 
 					~AttributeDialog();
 				
 			};
@@ -285,7 +285,7 @@ namespace Punk
 				
 				public:
 					
-					BooleanEditor( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 77,26 ), long style = wxTAB_TRAVERSAL ); 
+					BooleanEditor( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 259,25 ), long style = wxTAB_TRAVERSAL ); 
 					~BooleanEditor();
 				
 			};
@@ -311,8 +311,294 @@ namespace Punk
 				
 				public:
 					
-					Vec3FloatEditor( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,42 ), long style = wxTAB_TRAVERSAL ); 
+					Vec3FloatEditor( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 348,42 ), long style = wxTAB_TRAVERSAL ); 
 					~Vec3FloatEditor();
+				
+			};
+			
+			///////////////////////////////////////////////////////////////////////////////
+			/// Class Vec2FloatEditor
+			///////////////////////////////////////////////////////////////////////////////
+			class Vec2FloatEditor : public wxPanel 
+			{
+				private:
+				
+				protected:
+					wxStaticText* m_name;
+					wxTextCtrl* m_x;
+					wxTextCtrl* m_y;
+					
+					// Virtual event handlers, overide them in your derived class
+					virtual void OnXChanged( wxCommandEvent& event ) { event.Skip(); }
+					virtual void OnYChanged( wxCommandEvent& event ) { event.Skip(); }
+					
+				
+				public:
+					
+					Vec2FloatEditor( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,41 ), long style = wxTAB_TRAVERSAL ); 
+					~Vec2FloatEditor();
+				
+			};
+			
+			///////////////////////////////////////////////////////////////////////////////
+			/// Class QuatFloatEditor
+			///////////////////////////////////////////////////////////////////////////////
+			class QuatFloatEditor : public wxPanel 
+			{
+				private:
+				
+				protected:
+					wxStaticText* m_name;
+					wxTextCtrl* m_w;
+					wxTextCtrl* m_x;
+					wxTextCtrl* m_y;
+					wxTextCtrl* m_z;
+					
+					// Virtual event handlers, overide them in your derived class
+					virtual void OnWChanged( wxCommandEvent& event ) { event.Skip(); }
+					virtual void OnXChanged( wxCommandEvent& event ) { event.Skip(); }
+					virtual void OnYChanged( wxCommandEvent& event ) { event.Skip(); }
+					virtual void OnZChanged( wxCommandEvent& event ) { event.Skip(); }
+					
+				
+				public:
+					
+					QuatFloatEditor( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,46 ), long style = wxTAB_TRAVERSAL ); 
+					~QuatFloatEditor();
+				
+			};
+			
+			///////////////////////////////////////////////////////////////////////////////
+			/// Class FloatEditor
+			///////////////////////////////////////////////////////////////////////////////
+			class FloatEditor : public wxPanel 
+			{
+				private:
+				
+				protected:
+					wxStaticText* m_name;
+					wxTextCtrl* m_value;
+					
+					// Virtual event handlers, overide them in your derived class
+					virtual void OnValueChanged( wxCommandEvent& event ) { event.Skip(); }
+					
+				
+				public:
+					
+					FloatEditor( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,44 ), long style = wxTAB_TRAVERSAL ); 
+					~FloatEditor();
+				
+			};
+			
+			///////////////////////////////////////////////////////////////////////////////
+			/// Class IntegerEditor
+			///////////////////////////////////////////////////////////////////////////////
+			class IntegerEditor : public wxPanel 
+			{
+				private:
+				
+				protected:
+					wxStaticText* m_name;
+					wxTextCtrl* m_value;
+					
+					// Virtual event handlers, overide them in your derived class
+					virtual void OnValueChanged( wxCommandEvent& event ) { event.Skip(); }
+					
+				
+				public:
+					
+					IntegerEditor( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,45 ), long style = wxTAB_TRAVERSAL ); 
+					~IntegerEditor();
+				
+			};
+			
+			///////////////////////////////////////////////////////////////////////////////
+			/// Class DoubleEditor
+			///////////////////////////////////////////////////////////////////////////////
+			class DoubleEditor : public wxPanel 
+			{
+				private:
+				
+				protected:
+					wxStaticText* m_name;
+					wxTextCtrl* m_value;
+					
+					// Virtual event handlers, overide them in your derived class
+					virtual void OnValueChanged( wxCommandEvent& event ) { event.Skip(); }
+					
+				
+				public:
+					
+					DoubleEditor( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,44 ), long style = wxTAB_TRAVERSAL ); 
+					~DoubleEditor();
+				
+			};
+			
+			///////////////////////////////////////////////////////////////////////////////
+			/// Class StringEditor
+			///////////////////////////////////////////////////////////////////////////////
+			class StringEditor : public wxPanel 
+			{
+				private:
+				
+				protected:
+					wxStaticText* m_name;
+					wxTextCtrl* m_value;
+					
+					// Virtual event handlers, overide them in your derived class
+					virtual void OnValueChanged( wxCommandEvent& event ) { event.Skip(); }
+					
+				
+				public:
+					
+					StringEditor( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,37 ), long style = wxTAB_TRAVERSAL ); 
+					~StringEditor();
+				
+			};
+			
+			///////////////////////////////////////////////////////////////////////////////
+			/// Class Vec4FloatEditor
+			///////////////////////////////////////////////////////////////////////////////
+			class Vec4FloatEditor : public wxPanel 
+			{
+				private:
+				
+				protected:
+					wxStaticText* m_name;
+					wxTextCtrl* m_x;
+					wxTextCtrl* m_y;
+					wxTextCtrl* m_z;
+					wxTextCtrl* m_w;
+					
+					// Virtual event handlers, overide them in your derived class
+					virtual void OnXChanged( wxCommandEvent& event ) { event.Skip(); }
+					virtual void OnYChanged( wxCommandEvent& event ) { event.Skip(); }
+					virtual void OnZChanged( wxCommandEvent& event ) { event.Skip(); }
+					virtual void OnWChanged( wxCommandEvent& event ) { event.Skip(); }
+					
+				
+				public:
+					
+					Vec4FloatEditor( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,46 ), long style = wxTAB_TRAVERSAL ); 
+					~Vec4FloatEditor();
+				
+			};
+			
+			///////////////////////////////////////////////////////////////////////////////
+			/// Class Mat4FloatEditor
+			///////////////////////////////////////////////////////////////////////////////
+			class Mat4FloatEditor : public wxPanel 
+			{
+				private:
+				
+				protected:
+					wxStaticText* m_name;
+					wxTextCtrl* m_0;
+					wxTextCtrl* m_4;
+					wxTextCtrl* m_8;
+					wxTextCtrl* m_12;
+					wxTextCtrl* m_1;
+					wxTextCtrl* m_5;
+					wxTextCtrl* m_9;
+					wxTextCtrl* m_13;
+					wxTextCtrl* m_2;
+					wxTextCtrl* m_6;
+					wxTextCtrl* m_10;
+					wxTextCtrl* m_14;
+					wxTextCtrl* m_3;
+					wxTextCtrl* m_7;
+					wxTextCtrl* m_11;
+					wxTextCtrl* m_15;
+					
+					// Virtual event handlers, overide them in your derived class
+					virtual void On0Changed( wxCommandEvent& event ) { event.Skip(); }
+					virtual void On4Changed( wxCommandEvent& event ) { event.Skip(); }
+					virtual void On8Changed( wxCommandEvent& event ) { event.Skip(); }
+					virtual void On12Changed( wxCommandEvent& event ) { event.Skip(); }
+					virtual void On1Changed( wxCommandEvent& event ) { event.Skip(); }
+					virtual void On5Changed( wxCommandEvent& event ) { event.Skip(); }
+					virtual void On9Changed( wxCommandEvent& event ) { event.Skip(); }
+					virtual void On13Changed( wxCommandEvent& event ) { event.Skip(); }
+					virtual void On2Changed( wxCommandEvent& event ) { event.Skip(); }
+					virtual void On6Changed( wxCommandEvent& event ) { event.Skip(); }
+					virtual void On10Changed( wxCommandEvent& event ) { event.Skip(); }
+					virtual void On14Changed( wxCommandEvent& event ) { event.Skip(); }
+					virtual void On3Changed( wxCommandEvent& event ) { event.Skip(); }
+					virtual void On7Changed( wxCommandEvent& event ) { event.Skip(); }
+					virtual void On11Changed( wxCommandEvent& event ) { event.Skip(); }
+					virtual void On15Changed( wxCommandEvent& event ) { event.Skip(); }
+					
+				
+				public:
+					
+					Mat4FloatEditor( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 648,146 ), long style = wxTAB_TRAVERSAL ); 
+					~Mat4FloatEditor();
+				
+			};
+			
+			///////////////////////////////////////////////////////////////////////////////
+			/// Class Mat3FloatEditor
+			///////////////////////////////////////////////////////////////////////////////
+			class Mat3FloatEditor : public wxPanel 
+			{
+				private:
+				
+				protected:
+					wxStaticText* m_name;
+					wxTextCtrl* m_0;
+					wxTextCtrl* m_3;
+					wxTextCtrl* m_6;
+					wxTextCtrl* m_1;
+					wxTextCtrl* m_4;
+					wxTextCtrl* m_7;
+					wxTextCtrl* m_2;
+					wxTextCtrl* m_5;
+					wxTextCtrl* m_8;
+					
+					// Virtual event handlers, overide them in your derived class
+					virtual void On0Changed( wxCommandEvent& event ) { event.Skip(); }
+					virtual void On3Changed( wxCommandEvent& event ) { event.Skip(); }
+					virtual void On6Changed( wxCommandEvent& event ) { event.Skip(); }
+					virtual void On1Changed( wxCommandEvent& event ) { event.Skip(); }
+					virtual void On4Changed( wxCommandEvent& event ) { event.Skip(); }
+					virtual void On7Changed( wxCommandEvent& event ) { event.Skip(); }
+					virtual void On2Changed( wxCommandEvent& event ) { event.Skip(); }
+					virtual void On5Changed( wxCommandEvent& event ) { event.Skip(); }
+					virtual void On8Changed( wxCommandEvent& event ) { event.Skip(); }
+					
+				
+				public:
+					
+					Mat3FloatEditor( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,113 ), long style = wxTAB_TRAVERSAL ); 
+					~Mat3FloatEditor();
+				
+			};
+			
+			///////////////////////////////////////////////////////////////////////////////
+			/// Class Mat2FloatEditor
+			///////////////////////////////////////////////////////////////////////////////
+			class Mat2FloatEditor : public wxPanel 
+			{
+				private:
+				
+				protected:
+					wxStaticText* m_name;
+					wxTextCtrl* m_0;
+					wxTextCtrl* m_2;
+					wxTextCtrl* m_1;
+					wxTextCtrl* m_3;
+					
+					// Virtual event handlers, overide them in your derived class
+					virtual void On0Changed( wxCommandEvent& event ) { event.Skip(); }
+					virtual void On2Changed( wxCommandEvent& event ) { event.Skip(); }
+					virtual void On1Changed( wxCommandEvent& event ) { event.Skip(); }
+					virtual void On3Changed( wxCommandEvent& event ) { event.Skip(); }
+					
+				
+				public:
+					
+					Mat2FloatEditor( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,80 ), long style = wxTAB_TRAVERSAL ); 
+					~Mat2FloatEditor();
 				
 			};
 			

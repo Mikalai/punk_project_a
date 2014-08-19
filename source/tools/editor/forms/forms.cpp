@@ -512,7 +512,7 @@ BooleanEditor::BooleanEditor( wxWindow* parent, wxWindowID id, const wxPoint& po
 	bSizer24->Add( m_name, 0, wxALL|wxEXPAND, 0 );
 	
 	m_check_box = new wxCheckBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer24->Add( m_check_box, 0, wxALL|wxEXPAND, 0 );
+	bSizer24->Add( m_check_box, 0, wxALIGN_LEFT|wxALL|wxEXPAND, 0 );
 	
 	
 	this->SetSizer( bSizer24 );
@@ -557,5 +557,530 @@ Vec3FloatEditor::~Vec3FloatEditor()
 	m_x->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Vec3FloatEditor::OnXChanged ), NULL, this );
 	m_y->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Vec3FloatEditor::OnYChanged ), NULL, this );
 	m_z->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Vec3FloatEditor::OnZChanged ), NULL, this );
+	
+}
+
+Vec2FloatEditor::Vec2FloatEditor( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	wxBoxSizer* bSizer27;
+	bSizer27 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_name = new wxStaticText( this, wxID_ANY, wxT("[NAME]:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_name->Wrap( -1 );
+	bSizer27->Add( m_name, 0, wxALL, 5 );
+	
+	m_x = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer27->Add( m_x, 1, wxALL, 5 );
+	
+	m_y = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer27->Add( m_y, 1, wxALL, 5 );
+	
+	
+	this->SetSizer( bSizer27 );
+	this->Layout();
+	
+	// Connect Events
+	m_x->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Vec2FloatEditor::OnXChanged ), NULL, this );
+	m_y->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Vec2FloatEditor::OnYChanged ), NULL, this );
+}
+
+Vec2FloatEditor::~Vec2FloatEditor()
+{
+	// Disconnect Events
+	m_x->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Vec2FloatEditor::OnXChanged ), NULL, this );
+	m_y->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Vec2FloatEditor::OnYChanged ), NULL, this );
+	
+}
+
+QuatFloatEditor::QuatFloatEditor( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	wxBoxSizer* bSizer28;
+	bSizer28 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_name = new wxStaticText( this, wxID_ANY, wxT("[NAME]:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_name->Wrap( -1 );
+	bSizer28->Add( m_name, 0, wxALL, 5 );
+	
+	m_w = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer28->Add( m_w, 1, wxALL, 5 );
+	
+	m_x = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer28->Add( m_x, 1, wxALL, 5 );
+	
+	m_y = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer28->Add( m_y, 1, wxALL, 5 );
+	
+	m_z = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer28->Add( m_z, 1, wxALL, 5 );
+	
+	
+	this->SetSizer( bSizer28 );
+	this->Layout();
+	
+	// Connect Events
+	m_w->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( QuatFloatEditor::OnWChanged ), NULL, this );
+	m_x->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( QuatFloatEditor::OnXChanged ), NULL, this );
+	m_y->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( QuatFloatEditor::OnYChanged ), NULL, this );
+	m_z->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( QuatFloatEditor::OnZChanged ), NULL, this );
+}
+
+QuatFloatEditor::~QuatFloatEditor()
+{
+	// Disconnect Events
+	m_w->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( QuatFloatEditor::OnWChanged ), NULL, this );
+	m_x->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( QuatFloatEditor::OnXChanged ), NULL, this );
+	m_y->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( QuatFloatEditor::OnYChanged ), NULL, this );
+	m_z->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( QuatFloatEditor::OnZChanged ), NULL, this );
+	
+}
+
+FloatEditor::FloatEditor( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	wxBoxSizer* bSizer29;
+	bSizer29 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_name = new wxStaticText( this, wxID_ANY, wxT("[NAME]:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_name->Wrap( -1 );
+	bSizer29->Add( m_name, 0, wxALL, 5 );
+	
+	m_value = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer29->Add( m_value, 1, wxALL, 5 );
+	
+	
+	this->SetSizer( bSizer29 );
+	this->Layout();
+	
+	// Connect Events
+	m_value->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( FloatEditor::OnValueChanged ), NULL, this );
+}
+
+FloatEditor::~FloatEditor()
+{
+	// Disconnect Events
+	m_value->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( FloatEditor::OnValueChanged ), NULL, this );
+	
+}
+
+IntegerEditor::IntegerEditor( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	wxBoxSizer* bSizer30;
+	bSizer30 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_name = new wxStaticText( this, wxID_ANY, wxT("[NAME]:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_name->Wrap( -1 );
+	bSizer30->Add( m_name, 0, wxALL, 5 );
+	
+	m_value = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer30->Add( m_value, 1, wxALL, 5 );
+	
+	
+	this->SetSizer( bSizer30 );
+	this->Layout();
+	
+	// Connect Events
+	m_value->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( IntegerEditor::OnValueChanged ), NULL, this );
+}
+
+IntegerEditor::~IntegerEditor()
+{
+	// Disconnect Events
+	m_value->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( IntegerEditor::OnValueChanged ), NULL, this );
+	
+}
+
+DoubleEditor::DoubleEditor( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	wxBoxSizer* bSizer31;
+	bSizer31 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_name = new wxStaticText( this, wxID_ANY, wxT("[NAME]:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_name->Wrap( -1 );
+	bSizer31->Add( m_name, 0, wxALL, 5 );
+	
+	m_value = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer31->Add( m_value, 1, wxALL, 5 );
+	
+	
+	this->SetSizer( bSizer31 );
+	this->Layout();
+	
+	// Connect Events
+	m_value->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( DoubleEditor::OnValueChanged ), NULL, this );
+}
+
+DoubleEditor::~DoubleEditor()
+{
+	// Disconnect Events
+	m_value->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( DoubleEditor::OnValueChanged ), NULL, this );
+	
+}
+
+StringEditor::StringEditor( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	wxBoxSizer* bSizer32;
+	bSizer32 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_name = new wxStaticText( this, wxID_ANY, wxT("[NAME]:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_name->Wrap( -1 );
+	bSizer32->Add( m_name, 0, wxALL, 5 );
+	
+	m_value = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer32->Add( m_value, 1, wxALL, 5 );
+	
+	
+	this->SetSizer( bSizer32 );
+	this->Layout();
+	
+	// Connect Events
+	m_value->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( StringEditor::OnValueChanged ), NULL, this );
+}
+
+StringEditor::~StringEditor()
+{
+	// Disconnect Events
+	m_value->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( StringEditor::OnValueChanged ), NULL, this );
+	
+}
+
+Vec4FloatEditor::Vec4FloatEditor( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	wxBoxSizer* bSizer33;
+	bSizer33 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_name = new wxStaticText( this, wxID_ANY, wxT("[NAME]:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_name->Wrap( -1 );
+	bSizer33->Add( m_name, 0, wxALL, 5 );
+	
+	m_x = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer33->Add( m_x, 1, wxALL, 5 );
+	
+	m_y = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer33->Add( m_y, 1, wxALL, 5 );
+	
+	m_z = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer33->Add( m_z, 1, wxALL, 5 );
+	
+	m_w = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer33->Add( m_w, 1, wxALL, 5 );
+	
+	
+	this->SetSizer( bSizer33 );
+	this->Layout();
+	
+	// Connect Events
+	m_x->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Vec4FloatEditor::OnXChanged ), NULL, this );
+	m_y->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Vec4FloatEditor::OnYChanged ), NULL, this );
+	m_z->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Vec4FloatEditor::OnZChanged ), NULL, this );
+	m_w->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Vec4FloatEditor::OnWChanged ), NULL, this );
+}
+
+Vec4FloatEditor::~Vec4FloatEditor()
+{
+	// Disconnect Events
+	m_x->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Vec4FloatEditor::OnXChanged ), NULL, this );
+	m_y->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Vec4FloatEditor::OnYChanged ), NULL, this );
+	m_z->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Vec4FloatEditor::OnZChanged ), NULL, this );
+	m_w->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Vec4FloatEditor::OnWChanged ), NULL, this );
+	
+}
+
+Mat4FloatEditor::Mat4FloatEditor( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	wxBoxSizer* bSizer34;
+	bSizer34 = new wxBoxSizer( wxHORIZONTAL );
+	
+	wxBoxSizer* bSizer35;
+	bSizer35 = new wxBoxSizer( wxVERTICAL );
+	
+	m_name = new wxStaticText( this, wxID_ANY, wxT("[NAME]:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_name->Wrap( -1 );
+	bSizer35->Add( m_name, 0, wxALL, 5 );
+	
+	
+	bSizer34->Add( bSizer35, 0, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer36;
+	bSizer36 = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* bSizer37;
+	bSizer37 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_0 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer37->Add( m_0, 1, wxALL|wxEXPAND, 5 );
+	
+	m_4 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer37->Add( m_4, 1, wxALL|wxEXPAND, 5 );
+	
+	m_8 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer37->Add( m_8, 1, wxALL|wxEXPAND, 5 );
+	
+	m_12 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer37->Add( m_12, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	bSizer36->Add( bSizer37, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer38;
+	bSizer38 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_1 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer38->Add( m_1, 1, wxALL|wxEXPAND, 5 );
+	
+	m_5 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer38->Add( m_5, 1, wxALL|wxEXPAND, 5 );
+	
+	m_9 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer38->Add( m_9, 1, wxALL|wxEXPAND, 5 );
+	
+	m_13 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer38->Add( m_13, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	bSizer36->Add( bSizer38, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer39;
+	bSizer39 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_2 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer39->Add( m_2, 1, wxALL|wxEXPAND, 5 );
+	
+	m_6 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer39->Add( m_6, 1, wxALL|wxEXPAND, 5 );
+	
+	m_10 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer39->Add( m_10, 1, wxALL|wxEXPAND, 5 );
+	
+	m_14 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer39->Add( m_14, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	bSizer36->Add( bSizer39, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer40;
+	bSizer40 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_3 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer40->Add( m_3, 1, wxALL|wxEXPAND, 5 );
+	
+	m_7 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer40->Add( m_7, 1, wxALL|wxEXPAND, 5 );
+	
+	m_11 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer40->Add( m_11, 1, wxALL|wxEXPAND, 5 );
+	
+	m_15 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer40->Add( m_15, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	bSizer36->Add( bSizer40, 1, wxEXPAND, 5 );
+	
+	
+	bSizer34->Add( bSizer36, 1, wxEXPAND, 5 );
+	
+	
+	this->SetSizer( bSizer34 );
+	this->Layout();
+	
+	// Connect Events
+	m_0->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On0Changed ), NULL, this );
+	m_4->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On4Changed ), NULL, this );
+	m_8->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On8Changed ), NULL, this );
+	m_12->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On12Changed ), NULL, this );
+	m_1->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On1Changed ), NULL, this );
+	m_5->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On5Changed ), NULL, this );
+	m_9->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On9Changed ), NULL, this );
+	m_13->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On13Changed ), NULL, this );
+	m_2->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On2Changed ), NULL, this );
+	m_6->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On6Changed ), NULL, this );
+	m_10->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On10Changed ), NULL, this );
+	m_14->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On14Changed ), NULL, this );
+	m_3->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On3Changed ), NULL, this );
+	m_7->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On7Changed ), NULL, this );
+	m_11->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On11Changed ), NULL, this );
+	m_15->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On15Changed ), NULL, this );
+}
+
+Mat4FloatEditor::~Mat4FloatEditor()
+{
+	// Disconnect Events
+	m_0->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On0Changed ), NULL, this );
+	m_4->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On4Changed ), NULL, this );
+	m_8->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On8Changed ), NULL, this );
+	m_12->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On12Changed ), NULL, this );
+	m_1->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On1Changed ), NULL, this );
+	m_5->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On5Changed ), NULL, this );
+	m_9->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On9Changed ), NULL, this );
+	m_13->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On13Changed ), NULL, this );
+	m_2->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On2Changed ), NULL, this );
+	m_6->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On6Changed ), NULL, this );
+	m_10->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On10Changed ), NULL, this );
+	m_14->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On14Changed ), NULL, this );
+	m_3->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On3Changed ), NULL, this );
+	m_7->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On7Changed ), NULL, this );
+	m_11->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On11Changed ), NULL, this );
+	m_15->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat4FloatEditor::On15Changed ), NULL, this );
+	
+}
+
+Mat3FloatEditor::Mat3FloatEditor( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	wxBoxSizer* bSizer41;
+	bSizer41 = new wxBoxSizer( wxHORIZONTAL );
+	
+	wxBoxSizer* bSizer42;
+	bSizer42 = new wxBoxSizer( wxVERTICAL );
+	
+	m_name = new wxStaticText( this, wxID_ANY, wxT("[NAME]:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_name->Wrap( -1 );
+	bSizer42->Add( m_name, 0, wxALL, 5 );
+	
+	
+	bSizer41->Add( bSizer42, 0, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer43;
+	bSizer43 = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* bSizer44;
+	bSizer44 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_0 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer44->Add( m_0, 1, wxALL|wxEXPAND, 5 );
+	
+	m_3 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer44->Add( m_3, 1, wxALL|wxEXPAND, 5 );
+	
+	m_6 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer44->Add( m_6, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	bSizer43->Add( bSizer44, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer45;
+	bSizer45 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_1 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer45->Add( m_1, 1, wxALL|wxEXPAND, 5 );
+	
+	m_4 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer45->Add( m_4, 1, wxALL|wxEXPAND, 5 );
+	
+	m_7 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer45->Add( m_7, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	bSizer43->Add( bSizer45, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer46;
+	bSizer46 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_2 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer46->Add( m_2, 1, wxALL|wxEXPAND, 5 );
+	
+	m_5 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer46->Add( m_5, 1, wxALL|wxEXPAND, 5 );
+	
+	m_8 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer46->Add( m_8, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	bSizer43->Add( bSizer46, 1, wxEXPAND, 5 );
+	
+	
+	bSizer41->Add( bSizer43, 1, wxEXPAND, 5 );
+	
+	
+	this->SetSizer( bSizer41 );
+	this->Layout();
+	
+	// Connect Events
+	m_0->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat3FloatEditor::On0Changed ), NULL, this );
+	m_3->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat3FloatEditor::On3Changed ), NULL, this );
+	m_6->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat3FloatEditor::On6Changed ), NULL, this );
+	m_1->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat3FloatEditor::On1Changed ), NULL, this );
+	m_4->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat3FloatEditor::On4Changed ), NULL, this );
+	m_7->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat3FloatEditor::On7Changed ), NULL, this );
+	m_2->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat3FloatEditor::On2Changed ), NULL, this );
+	m_5->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat3FloatEditor::On5Changed ), NULL, this );
+	m_8->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat3FloatEditor::On8Changed ), NULL, this );
+}
+
+Mat3FloatEditor::~Mat3FloatEditor()
+{
+	// Disconnect Events
+	m_0->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat3FloatEditor::On0Changed ), NULL, this );
+	m_3->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat3FloatEditor::On3Changed ), NULL, this );
+	m_6->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat3FloatEditor::On6Changed ), NULL, this );
+	m_1->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat3FloatEditor::On1Changed ), NULL, this );
+	m_4->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat3FloatEditor::On4Changed ), NULL, this );
+	m_7->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat3FloatEditor::On7Changed ), NULL, this );
+	m_2->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat3FloatEditor::On2Changed ), NULL, this );
+	m_5->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat3FloatEditor::On5Changed ), NULL, this );
+	m_8->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat3FloatEditor::On8Changed ), NULL, this );
+	
+}
+
+Mat2FloatEditor::Mat2FloatEditor( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	wxBoxSizer* bSizer47;
+	bSizer47 = new wxBoxSizer( wxHORIZONTAL );
+	
+	wxBoxSizer* bSizer48;
+	bSizer48 = new wxBoxSizer( wxVERTICAL );
+	
+	m_name = new wxStaticText( this, wxID_ANY, wxT("[NAME]:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_name->Wrap( -1 );
+	bSizer48->Add( m_name, 0, wxALL, 5 );
+	
+	
+	bSizer47->Add( bSizer48, 0, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer49;
+	bSizer49 = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* bSizer50;
+	bSizer50 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_0 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer50->Add( m_0, 1, wxALL|wxEXPAND, 5 );
+	
+	m_2 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer50->Add( m_2, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	bSizer49->Add( bSizer50, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer51;
+	bSizer51 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_1 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer51->Add( m_1, 1, wxALL|wxEXPAND, 5 );
+	
+	m_3 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer51->Add( m_3, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	bSizer49->Add( bSizer51, 1, wxEXPAND, 5 );
+	
+	
+	bSizer47->Add( bSizer49, 1, wxEXPAND, 5 );
+	
+	
+	this->SetSizer( bSizer47 );
+	this->Layout();
+	
+	// Connect Events
+	m_0->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat2FloatEditor::On0Changed ), NULL, this );
+	m_2->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat2FloatEditor::On2Changed ), NULL, this );
+	m_1->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat2FloatEditor::On1Changed ), NULL, this );
+	m_3->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat2FloatEditor::On3Changed ), NULL, this );
+}
+
+Mat2FloatEditor::~Mat2FloatEditor()
+{
+	// Disconnect Events
+	m_0->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat2FloatEditor::On0Changed ), NULL, this );
+	m_2->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat2FloatEditor::On2Changed ), NULL, this );
+	m_1->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat2FloatEditor::On1Changed ), NULL, this );
+	m_3->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( Mat2FloatEditor::On3Changed ), NULL, this );
 	
 }

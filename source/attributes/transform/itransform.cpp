@@ -242,7 +242,9 @@ namespace Attributes {
 		//	IEditableElement
 		void AddToPanel(Tools::IEditorParametersPanel* panel) override {
 			panel->AddVec3FloatEditor("Position:", &m_position);
+			panel->AddQuatFloatEditor("Rotation:", &m_rotation);
 			panel->AddVec3FloatEditor("Scale:", &m_scale);
+			panel->AddMat4FloatEditor("Transform:", &m_transform);
 		}
 
 	private:
