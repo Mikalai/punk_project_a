@@ -81,14 +81,14 @@ namespace LowLevelRender {
 			m_canvas = System::CreateInstancePtr<Graphics::ICanvas>(
 				Graphics::CLSID_Canvas, Graphics::IID_ICanvas);
 			m_canvas->Initialize(Graphics::CanvasDescription{});
-			m_canvas->GetWindow()->SubscribeWindowDestroyEvent(new Core::Action<Render, void>(this, &Render::OnWindowClose));
+			m_canvas->GetWindow()->SubscribeWindowDestroyEvent({ new Core::Action<Render, void>(this, &Render::OnWindowClose), Core::DestroyObject });
 			m_canvas->GetWindow()->Open();
 			m_driver = m_canvas->GetVideoDriver();
 			m_render = m_driver->GetRender();
 			m_frame_buffer = Graphics::GetBackbuffer();
 			m_frame_buffer->SetViewport(0, 0, m_canvas->GetWindow()->GetWidth(), m_canvas->GetWindow()->GetHeight());
-			m_canvas->GetWindow()->SubscribeResizeEvent(new Core::Action<Render, const System::WindowResizeEvent&>(this, &Render::OnWindowResized));
-			m_canvas->GetWindow()->SubscribeMouseMoveEvent(new Core::Action<Render, const System::MouseEvent&>(this, &Render::OnMouseMove));
+			m_canvas->GetWindow()->SubscribeResizeEvent({ new Core::Action<Render, const System::WindowResizeEvent&>(this, &Render::OnWindowResized), Core::DestroyObject });
+			m_canvas->GetWindow()->SubscribeMouseMoveEvent({ new Core::Action<Render, const System::MouseEvent&>(this, &Render::OnMouseMove), Core::DestroyObject });
 			m_geometry_cooker = System::CreateInstancePtr<Attributes::IGeometryCooker>(
 				Attributes::CLSID_GeometryCooker, Attributes::IID_IGeometryCooker);
 			m_renderable_builder = System::CreateInstancePtr<Graphics::IRenderableBuilder>(

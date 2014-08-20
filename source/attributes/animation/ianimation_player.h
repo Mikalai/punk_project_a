@@ -46,10 +46,10 @@ namespace Attributes {
 		virtual Core::Pointer<IAnimation> GetAnimation() = 0;
 		virtual void SetKeyFrameInterpolator(InterpolatorType value) = 0;
 		virtual InterpolatorType GetKeyFrameInterpolator() = 0;
-		virtual void OnAnimationStarted(Core::ActionBase<void>* action) = 0;
-		virtual void OnAnimationEnded(Core::ActionBase<void>* action) = 0;
-		virtual void OnFrame(AnimationAdvanced* action) = 0;
-		virtual void OnFrame(std::int32_t track_index, TrackAdvanced* action) = 0;
+		virtual void OnAnimationStarted(Core::Pointer<Core::ActionBase<void>> action) = 0;
+		virtual void OnAnimationEnded(Core::Pointer<Core::ActionBase<void>> action) = 0;
+		virtual void OnFrame(Core::Pointer<AnimationAdvanced> action) = 0;
+		virtual void OnFrame(std::int32_t track_index, Core::Pointer<TrackAdvanced> action) = 0;
 		virtual void GetCurrentValue(std::uint32_t track_index, void* buffer, std::uint32_t size) = 0;
 		/*virtual void Attach(IAnimated* value) = 0;
 		virtual void Detach(IAnimated* value) = 0;*/

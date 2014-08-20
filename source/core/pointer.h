@@ -19,7 +19,7 @@ namespace Core {
 		Pointer()
 			: m_object{ nullptr }
 			, m_destroy{ nullptr }
-		{}
+		{}		
 
 		Pointer(T* object, void(*destroy)(Base*))
 			: m_object{ object }

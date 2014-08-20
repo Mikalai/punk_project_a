@@ -3,6 +3,7 @@
 #include <string/buffer.h>
 #include <core/iserializable.h>
 #include <core/iclonable.h>
+#include <core/value_monitor.h>
 #include <system/factory/module.h>
 #include <system/logger/module.h>
 #include <system/dbg/module.h>
@@ -13,23 +14,34 @@
 #include "itransform.h"
 
 PUNK_ENGINE_BEGIN
-namespace Attributes {	
+namespace Attributes {
 
-	class PUNK_ENGINE_LOCAL Transform 
+	class PUNK_ENGINE_LOCAL Transform
 		: public ITransform
 		, public IAnimated
 		, public Core::ISerializable
 		, public Core::IClonable
-		, public Tools::IEditableElement 
-		, public System::ISupportDebugImpl<Transform> {
+		, public Tools::IEditableElement
+		, public System::ISupportDebugImpl < Transform > {
 	public:
 
 		Transform(const Math::mat4& m) {
-			m_transform = m;
+			m_transform.Set(m);
+			Subscribe();
 		}
 
 		Transform()
-		{}
+		{
+			Subscribe();
+		}
+
+		void Subscribe() {
+			m_position.SubscribeOnValueChanged({ new Core::Action < Transform, const Math::vec3& > { this, &Transform::SetPosition }, Core::DestroyObject });
+			m_rotation.SubscribeOnValueChanged({ new Core::Action < Transform, const Math::quat& >{ this, &Transform::SetRotation }, Core::DestroyObject });
+			m_scale.SubscribeOnValueChanged({ new Core::Action < Transform, const Math::vec3& >{ this, &Transform::SetScale }, Core::DestroyObject });
+			m_transform.SubscribeOnValueChanged({ new Core::Action < Transform, const Math::mat4&>{ this, &Transform::SetMatrix}, Core::DestroyObject });
+
+		}
 
 		virtual ~Transform()
 		{
@@ -88,14 +100,19 @@ namespace Attributes {
 
 		//	ITransform
 		void SetMatrix(const Math::mat4& value) override {
-			m_transform = value;
-			m_transform.Decompose(m_position, m_rotation, m_scale);
+			m_transform.Set(value);
+			Math::vec3 pos, scale;
+			Math::quat rot;
+			m_transform.Get().Decompose(pos, rot, scale);
+			m_position.Set(pos);
+			m_rotation.Set(rot);
+			m_scale.Set(scale);
 			m_need_update = false;
 		}
 
 		const Math::mat4& GetMatrix() const override {
-			if (m_need_update) {
-				m_transform = Math::mat4::CreatePositionRotationScaleMatrix(m_position, m_rotation, m_scale);
+			if (m_need_update) {				
+				m_transform.Set(Math::mat4::CreatePositionRotationScaleMatrix(m_position.Get(), m_rotation.Get(), m_scale.Get()));
 				m_need_update = false;
 			}
 			return m_transform;
@@ -106,30 +123,33 @@ namespace Attributes {
 		}
 
 		void SetPosition(const Math::vec3& value) override {
-			m_position = value;
+			m_position.Set(value);
 			m_need_update = true;
+			GetMatrix();
 		}
 
 		const Math::vec3& GetPosition() const override {
-			return m_position;
+			return m_position.Get();
 		}
 
 		void SetRotation(const Math::quat& value) override {
-			m_rotation = value;
+			m_rotation.Set(value);
 			m_need_update = true;
+			GetMatrix();
 		}
 
 		const Math::quat& GetRotation() const override {
-			return m_rotation;
+			return m_rotation.Get();
 		}
 
 		void SetScale(const Math::vec3& value) override {
-			m_scale = value;
+			m_scale.Set(value);			
 			m_need_update = true;
+			GetMatrix();
 		}
 
 		const Math::vec3& GetScale() const override {
-			return m_scale;
+			return m_scale.Get();
 		}
 
 		//	IAnimated
@@ -137,7 +157,7 @@ namespace Attributes {
 			if (value == m_animation_player)
 				return;
 
-			m_animation_player =  value;
+			m_animation_player = value;
 
 			m_position_track_index = -1;
 			m_scale_track_index = -1;
@@ -154,13 +174,13 @@ namespace Attributes {
 					m_scale_track_index = i;
 				}
 			}
-		}	
+		}
 
 		IAnimationPlayer* GetAnimationPlayer() override {
 			return m_animation_player.get();
 		}
 
-		void Update() override {		
+		void Update() override {
 			if (m_animation_player.get() && m_animation_player->GetAnimation()) {
 				for (std::uint32_t track_index = 0, max_i = m_animation_player->GetAnimation()->GetTracksCount(); track_index < max_i; ++track_index) {
 					auto track = m_animation_player->GetAnimation()->GetTrack(track_index);
@@ -231,7 +251,7 @@ namespace Attributes {
 					auto o = tmp->Clone();
 					auto player = Core::QueryInterfacePtr<IAnimationPlayer>(o, IID_IAnimationPlayer);
 					clone->SetAnimationPlayer(player);
-				}				
+				}
 			}
 			for (std::uint32_t i = 0, max_i = GetAnimationsCount(); i < max_i; ++i) {
 				clone->AddAnimation(GetAnimation(i));
@@ -249,13 +269,13 @@ namespace Attributes {
 
 	private:
 		//	IObject
-		std::atomic<std::uint32_t> m_ref_count{ 0 };		
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
 
 		//	ITransform
-		mutable Math::mat4 m_transform;
-		Math::quat m_rotation;
-		Math::vec3 m_position{ 0, 0, 0 };
-		Math::vec3 m_scale{ 1, 1, 1 };
+		mutable Core::ValueMonitor<Math::mat4> m_transform;
+		Core::ValueMonitor<Math::quat> m_rotation{ { 0, 0, 0, 0 } };
+		Core::ValueMonitor<Math::vec3> m_position{ { 0, 0, 0 } };
+		Core::ValueMonitor<Math::vec3> m_scale{ { 1, 1, 1 } };
 		mutable bool m_need_update{ true };
 
 		//	IAnimated
@@ -264,7 +284,7 @@ namespace Attributes {
 		std::int32_t m_rotation_track_index{ -1 };
 		std::int32_t m_scale_track_index{ -1 };
 		std::vector<Core::String> m_supported_animations;
-	};	
+	};
 
 	PUNK_REGISTER_CREATOR(CLSID_Transform, (System::CreateInstance<Transform, ITransform>));
 }

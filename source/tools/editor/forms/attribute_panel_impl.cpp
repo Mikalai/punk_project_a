@@ -33,84 +33,84 @@ namespace Tools {
 	}
 
 	//	IEditorParametersPanel
-	void AttributePanelImpl::AddIntegerEditor(const Core::String& name, int* value) {
+	void AttributePanelImpl::AddIntegerEditor(const Core::String& name, Core::ValueMonitor<int>* value) {
 		auto panel = new IntegerEditorImpl(this);
 		panel->SetSourceValue(name, value);
 		m_layout->Add(panel, 0, wxEXPAND | wxALIGN_TOP, 0);
 		m_layout->Layout();
 	}
 
-	void AttributePanelImpl::AddBooleanEditor(const Core::String& name, bool *value) {
+	void AttributePanelImpl::AddBooleanEditor(const Core::String& name, Core::ValueMonitor<bool> *value) {
 		auto panel = new BooleanEditorImpl(this);
 		panel->SetSourceValue(name, value);
 		m_layout->Add(panel, 0, wxEXPAND | wxALIGN_TOP, 0);
 		m_layout->Layout();
 	}
 
-	void AttributePanelImpl::AddFloatEditor(const Core::String& name, float* value) {
+	void AttributePanelImpl::AddFloatEditor(const Core::String& name, Core::ValueMonitor<float>* value) {
 		auto panel = new FloatEditorImpl(this);
 		panel->SetSourceValue(name, value);
 		m_layout->Add(panel, 0, wxEXPAND | wxALIGN_TOP, 0);
 		m_layout->Layout();
 	}
 	
-	void AttributePanelImpl::AddDoubleEditor(const Core::String& name, double* value) {
+	void AttributePanelImpl::AddDoubleEditor(const Core::String& name, Core::ValueMonitor<double>* value) {
 		auto panel = new DoubleEditorImpl(this);
 		panel->SetSourceValue(name, value);
 		m_layout->Add(panel, 0, wxEXPAND | wxALIGN_TOP, 0);
 		m_layout->Layout();
 	}
 	
-	void AttributePanelImpl::AddStringEditor(const Core::String& name, Core::String* value) {
+	void AttributePanelImpl::AddStringEditor(const Core::String& name, Core::ValueMonitor<Core::String>* value) {
 		auto panel = new StringEditorImpl(this);
 		panel->SetSourceValue(name, value);
 		m_layout->Add(panel, 0, wxEXPAND | wxALIGN_TOP, 0);
 		m_layout->Layout();
 	}
 
-	void AttributePanelImpl::AddVec4FloatEditor(const Core::String& name, Math::vec4* value) {
+	void AttributePanelImpl::AddVec4FloatEditor(const Core::String& name, Core::ValueMonitor<Math::vec4>* value) {
 		auto panel = new Vec4FloatEditorImpl(this);
 		panel->SetSourceValue(name, value);
 		m_layout->Add(panel, 0, wxEXPAND | wxALIGN_TOP, 0);
 		m_layout->Layout();
 	}
 	
-	void AttributePanelImpl::AddVec3FloatEditor(const Core::String& name, Math::vec3* value) {
+	void AttributePanelImpl::AddVec3FloatEditor(const Core::String& name, Core::ValueMonitor<Math::vec3>* value) {
 		auto panel = new Vec3FloatEditorImpl(this);
 		panel->SetSourceValue(name, value);
 		m_layout->Add(panel, 0, wxEXPAND | wxALIGN_TOP, 0);
 		m_layout->Layout();
 	}
 	
-	void AttributePanelImpl::AddVec2FloatEditor(const Core::String& name, Math::vec2* value) {
+	void AttributePanelImpl::AddVec2FloatEditor(const Core::String& name, Core::ValueMonitor<Math::vec2>* value) {
 		auto panel = new Vec2FloatEditorImpl(this);
 		panel->SetSourceValue(name, value);
 		m_layout->Add(panel, 0, wxEXPAND | wxALIGN_TOP, 0);
 		m_layout->Layout();
 	}
 
-	void AttributePanelImpl::AddQuatFloatEditor(const Core::String& name, Math::quat* value) {
+	void AttributePanelImpl::AddQuatFloatEditor(const Core::String& name, Core::ValueMonitor<Math::quat>* value) {
 		auto panel = new QuatFloatEditorImpl(this);
 		panel->SetSourceValue(name, value);
 		m_layout->Add(panel, 0, wxEXPAND | wxALIGN_TOP, 0);
 		m_layout->Layout();
 	}
 	
-	void AttributePanelImpl::AddMat4FloatEditor(const Core::String& name, Math::mat4* value) {
+	void AttributePanelImpl::AddMat4FloatEditor(const Core::String& name, Core::ValueMonitor<Math::mat4>* value) {
 		auto panel = new Mat4FloatEditorImpl(this);
 		panel->SetSourceValue(name, value);
 		m_layout->Add(panel, 0, wxEXPAND | wxALIGN_TOP, 0);
 		m_layout->Layout();
 	}
 	
-	void AttributePanelImpl::AddMat3FloatEditor(const Core::String& name, Math::mat3* value) {
+	void AttributePanelImpl::AddMat3FloatEditor(const Core::String& name, Core::ValueMonitor<Math::mat3>* value) {
 		auto panel = new Mat3FloatEditorImpl(this);
 		panel->SetSourceValue(name, value);
 		m_layout->Add(panel, 0, wxEXPAND | wxALIGN_TOP, 0);
 		m_layout->Layout();
 	}
 
-	void AttributePanelImpl::AddMat2FloatEditor(const Core::String& name, Math::mat2* value) {
+	void AttributePanelImpl::AddMat2FloatEditor(const Core::String& name, Core::ValueMonitor<Math::mat2>* value) {
 		auto panel = new Mat2FloatEditorImpl(this);
 		panel->SetSourceValue(name, value);
 		m_layout->Add(panel, 0, wxEXPAND | wxALIGN_TOP, 0);

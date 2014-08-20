@@ -8,17 +8,26 @@ namespace Tools {
 		IntegerEditor(parent) {
 	}
 
+	IntegerEditorImpl::~IntegerEditorImpl() {
+		m_int->UnsubscribeOnValueChanged(this);
+	}
+
 	void IntegerEditorImpl::OnValueChanged(wxCommandEvent& event) {
 		long v;
 		if (m_value->GetValue().ToLong(&v)) {
-			*m_int = (int)v;
+			m_int->Set((int)v);
 		}
 	}
 
-	void IntegerEditorImpl::SetSourceValue(const Core::String& name, int* value) {
+	void IntegerEditorImpl::SetSourceValue(const Core::String& name, Core::ValueMonitor<int>* value) {
 		m_int = value;
-		m_value->SetValue(wxString::Format(wxT("%d"), *m_int));
+		UpdateGui(*m_int);
 		m_name->SetLabelText(Common::PunkStringToWxString(name));
+		m_int->SubscribeOnValueChanged({ new Core::Action < IntegerEditorImpl, const int& > { this, &IntegerEditorImpl::UpdateGui }, Core::DestroyObject });
+	}
+
+	void IntegerEditorImpl::UpdateGui(const int& value) {
+		m_value->SetValue(wxString::Format(wxT("%d"), m_int->Get()));
 	}
 }
 PUNK_ENGINE_END

@@ -26,18 +26,18 @@ namespace Tools {
 		std::uint32_t Release() override;
 
 		//	IEditorParametersPanel
-		void AddIntegerEditor(const Core::String& name, int* value) override;
-		void AddBooleanEditor(const Core::String& name, bool *value) override;
-		void AddFloatEditor(const Core::String& name, float* value) override;
-		void AddDoubleEditor(const Core::String& name, double* value) override;
-		void AddStringEditor(const Core::String& name, Core::String* value) override;
-		void AddVec4FloatEditor(const Core::String& name, Math::vec4* value) override;
-		void AddVec3FloatEditor(const Core::String& name, Math::vec3* value) override;
-		void AddVec2FloatEditor(const Core::String& name, Math::vec2* value) override;
-		void AddQuatFloatEditor(const Core::String& name, Math::quat* value) override;
-		void AddMat4FloatEditor(const Core::String& name, Math::mat4* value) override;
-		void AddMat3FloatEditor(const Core::String& name, Math::mat3* value) override;
-		void AddMat2FloatEditor(const Core::String& name, Math::mat2* value) override;
+		void AddIntegerEditor(const Core::String& name, Core::ValueMonitor<int>* value) override;
+		void AddBooleanEditor(const Core::String& name, Core::ValueMonitor<bool> *value) override;
+		void AddFloatEditor(const Core::String& name, Core::ValueMonitor<float>* value) override;
+		void AddDoubleEditor(const Core::String& name, Core::ValueMonitor<double>* value) override;
+		void AddStringEditor(const Core::String& name, Core::ValueMonitor<Core::String>* value) override;
+		void AddVec4FloatEditor(const Core::String& name, Core::ValueMonitor<Math::vec4>* value) override;
+		void AddVec3FloatEditor(const Core::String& name, Core::ValueMonitor<Math::vec3>* value) override;
+		void AddVec2FloatEditor(const Core::String& name, Core::ValueMonitor<Math::vec2>* value) override;
+		void AddQuatFloatEditor(const Core::String& name, Core::ValueMonitor<Math::quat>* value) override;
+		void AddMat4FloatEditor(const Core::String& name, Core::ValueMonitor<Math::mat4>* value) override;
+		void AddMat3FloatEditor(const Core::String& name, Core::ValueMonitor<Math::mat3>* value) override;
+		void AddMat2FloatEditor(const Core::String& name, Core::ValueMonitor<Math::mat2>* value) override;
 	};
 }
 PUNK_ENGINE_END

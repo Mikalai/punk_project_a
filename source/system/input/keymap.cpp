@@ -44,7 +44,7 @@ namespace System
 
 	void KeyMap::OnKeyEvent(const KeyEvent &event) {
 		for (auto action : impl->m_actions[event.key]) {
-			(*action)(event);
+			(*(*action))(event);
 		}
 	}
 

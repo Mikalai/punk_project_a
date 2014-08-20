@@ -965,7 +965,7 @@ namespace Math {
 		void Decompose(
 			Tuple<T, 3, tagVector>& translation,
 			Tuple<T, 4, tagQuaternion>& rotation,
-			Tuple<T, 3, tagVector>& scale) {
+			Tuple<T, 3, tagVector>& scale) const {
 
 			//	extract perspective components
 			Tuple<T, 4, tagVector> perspective;

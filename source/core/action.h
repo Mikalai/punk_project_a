@@ -11,19 +11,19 @@
 
 PUNK_ENGINE_BEGIN
 namespace Core {
-    /**
-            *	A set of template classes that represent one action.
-            *	Action can encapsulate method and object, or be just
-            *	a simple function.
-            *	When action is activated it is possible to provide
-            *	several parameters.
-            *
-            *   Can be viewed as a command (action) pattern
-            */
-    class MetaAction : public Core::IObject
-    {
-    public:		
-    
+	/**
+			*	A set of template classes that represent one action.
+			*	Action can encapsulate method and object, or be just
+			*	a simple function.
+			*	When action is activated it is possible to provide
+			*	several parameters.
+			*
+			*   Can be viewed as a command (action) pattern
+			*/
+	class MetaAction : public Core::IObject
+	{
+	public:
+
 		void QueryInterface(const Core::Guid& type, void** o) override {
 			if (!o)
 				return;
@@ -45,223 +45,239 @@ namespace Core {
 
 		virtual ~MetaAction() {}
 
-    private:		
+	private:
 		std::atomic<std::uint32_t> m_ref_count{ 0 };
-    };
+	};
 
-    template<typename... Types>
-    class ActionBase : public MetaAction
-    {
-    public:
-        virtual void operator () (Types...) = 0;			
-    };
+	template<typename... Types>
+	class ActionBase : public MetaAction
+	{
+	public:
+		virtual void operator () (Types...) = 0;
+		virtual bool IsOwner(void* o) const = 0;
+	};
 
-    template<>
-    class ActionBase<void> : public MetaAction
-    {
-    public:
-        virtual void operator () () = 0;
-    };
+	template<>
+	class ActionBase<void> : public MetaAction
+	{
+	public:
+		virtual void operator () () = 0;
+		virtual bool IsOwner(void* o) const = 0;
+	};
 
-    template<class O, typename... Types>
-    class Action : public ActionBase<Types...>
-    {
-    public:
-        Action(O* object, void (O::*method)(Types...))
-            : m_object(object),
-              m_method(method)
-        {}
+	template<class O, typename... Types>
+	class Action : public ActionBase < Types... >
+	{
+	public:
+		Action(O* object, void (O::*method)(Types...))
+			: m_object(object),
+			m_method(method)
+		{}
 
-        virtual void operator() (Types... value)
-        {
-            if (m_object && m_method)
-            {
-                (m_object->*m_method)(value...);
-            }
-        }
+		virtual void operator() (Types... value)
+		{
+			if (m_object && m_method)
+			{
+				(m_object->*m_method)(value...);
+			}
+		}
 
-    private:
-        O* m_object;
-        void (O::*m_method)(Types...);		
-    };
+		bool IsOwner(void* o) const override {
+			return (void*)m_object == o;
+		}
 
-    template<typename... T>
-    using ActionBasePtr = ActionBase<T...>*;
+	private:
+		O* m_object;
+		void (O::*m_method)(Types...);
+	};
 
-    template<class O>
-    class Action<O, void> : public ActionBase<void>
-    {
-    public:
-        Action(O* object, void (O::*method)())
-            : m_object(object),
-              m_method(method)
-        {}
+	template<typename... T>
+	using ActionBasePtr = Core::Pointer<ActionBase<T...>>;
 
-        virtual void operator() ()
-        {
-            if (m_object && m_method)
-            {
-                (m_object->*m_method)();
-            }
-        }
-    private:
-        O* m_object;
-        void (O::*m_method)();
-    };
+	template<class O>
+	class Action<O, void> : public ActionBase < void >
+	{
+	public:
+		Action(O* object, void (O::*method)())
+			: m_object(object),
+			m_method(method)
+		{}
 
-    template<typename... Types>
-    class ActionSlot
-    {
-    public:
-        typedef ActionBase<Types...> Action;
-        typedef void (*Function)(Types...);
+		virtual void operator() ()
+		{
+			if (m_object && m_method)
+			{
+				(m_object->*m_method)();
+			}
+		}
 
-    private:
-        struct ActionSlotData {
-            ActionSlotData(Action* action, bool del)
-                : action{action}
-                , auto_delete{del} {}
+		bool IsOwner(void* o) const override {
+			return (void*)m_object == o;
+		}
 
-            Action* action {nullptr};
-            bool auto_delete {false};
-        };
+	private:
+		O* m_object;
+		void (O::*m_method)();
+	};
 
-        typedef std::vector<ActionSlotData> MethodCollection;
-        typedef std::vector<Function> FunctionCollection;
+	template<typename... Types>
+	class ActionSlot
+	{
+	public:
+		typedef ActionBase<Types...> Action;
+		typedef void(*Function)(Types...);
 
-    public:
+	private:
 
-        void operator () (Types... value)
-        {
-            for (typename FunctionCollection::iterator it = m_functions.begin(); it != m_functions.end(); ++it)
-            {
-                (*it)(value...);
-            }
 
-            for (typename MethodCollection::iterator it = m_methods.begin(); it != m_methods.end(); ++it)
-            {
-                (*(*it).action)(value...);
-            }
-        }
+		typedef std::vector<Core::Pointer<Action>> MethodCollection;
+		typedef std::vector<Function> FunctionCollection;
 
-        void Add(Action* action, bool auto_delete = false)
-        {
-            m_methods.push_back(ActionSlotData{action, auto_delete});
-        }
+	public:
 
-        void Add(Function f)
-        {
-            m_functions.push_back(f);
-        }
+		void operator () (Types... value)
+		{
+			for (typename FunctionCollection::iterator it = m_functions.begin(); it != m_functions.end(); ++it)
+			{
+				(*it)(value...);
+			}
 
-        void Remove(Action* action)
-        {
-            typename MethodCollection::iterator it = std::find_if(
-                        m_methods.begin(),
-                        m_methods.end(),
-                        [&action] (const ActionSlotData& slot) -> bool
-            {
-                return slot.action == action;
-            });
+			for (typename MethodCollection::iterator it = m_methods.begin(); it != m_methods.end(); ++it)
+			{
+				(*(*(*it)))(value...);
+			}
+		}
 
-            if (it == m_methods.end())
-                return;
-            m_methods.erase(it);
-        }
+		void Add(Core::Pointer<Action> action)
+		{
+			m_methods.push_back(action);
+		}
 
-        void Remove(Function f)
-        {
-            typename FunctionCollection::iterator it = std::find(m_functions.begin(), m_functions.end(), f);
-            if (it == m_functions.end())
-                return;
-            m_functions.erase(it);
-        }
+		void Add(Function f)
+		{
+			m_functions.push_back(f);
+		}
 
-        ~ActionSlot()
-        {
-            while (!m_methods.empty())
-            {
-                m_methods.pop_back();
-            }
-        }
+		void Remove(Core::Pointer<Action> action)
+		{
+			typename MethodCollection::iterator it = std::find_if(
+				m_methods.begin(),
+				m_methods.end(),
+				[&action](const Core::Pointer<Action>& slot) -> bool
+			{
+				return slot == action;
+			});
 
-    private:
+			if (it == m_methods.end())
+				return;
+			m_methods.erase(it);
+		}
 
-        MethodCollection m_methods;
-        FunctionCollection m_functions;
-    };
+		void Remove(Function f)
+		{
+			typename FunctionCollection::iterator it = std::find(m_functions.begin(), m_functions.end(), f);
+			if (it == m_functions.end())
+				return;
+			m_functions.erase(it);
+		}
 
-    template<>
-    class ActionSlot<void>
-    {
-    public:
-        typedef ActionBase<void> Action;
-        typedef void (*Function)();
+		void RemoveOwnerActions(void* o) {
+			auto it = std::find_if(m_methods.begin(), m_methods.end(), [&o](const Core::Pointer<Action>& action) -> bool {
+				return action->IsOwner(o);
+			});
+			while (it != m_methods.end()) {
+				m_methods.erase(it);
+				it = std::find_if(m_methods.begin(), m_methods.end(), [&o](const Core::Pointer<Action>& action) -> bool {
+					return action->IsOwner(o);
+				});
+			}
+		}
 
-    private:
-        typedef std::vector<Action*> MethodCollection;
-        typedef std::vector<Function> FunctionCollection;
+		~ActionSlot()
+		{
+			while (!m_methods.empty())
+			{
+				m_methods.pop_back();
+			}
+		}
 
-    public:
+	private:
 
-        void operator () ()
-        {
-            for (auto it = m_functions.begin(); it != m_functions.end(); ++it)
-            {
-                (*it)();
-            }
+		MethodCollection m_methods;
+		FunctionCollection m_functions;
+	};
 
-            for (auto it = m_methods.begin(); it != m_methods.end(); ++it)
-            {
-                (*(*it))();
-            }
-        }
+	template<>
+	class ActionSlot < void >
+	{
+	public:
+		typedef ActionBase<void> Action;
+		typedef void(*Function)();
 
-        void Add(Action* action)
-        {
-            m_methods.push_back(action);
-            //action->AddRef();
-        }
+	private:
+		typedef std::vector<Core::Pointer<Action>> MethodCollection;
+		typedef std::vector<Function> FunctionCollection;
 
-        void Add(Function f)
-        {
-            m_functions.push_back(f);
-        }
+	public:
 
-        void Remove(Action* action)
-        {
-            auto it = std::find(m_methods.begin(), m_methods.end(), action);
-            if (it == m_methods.end())
-                return;
-            m_methods.erase(it);
-            //action->Release();
-        }
+		void operator () ()
+		{
+			for (auto it = m_functions.begin(); it != m_functions.end(); ++it)
+			{
+				(*it)();
+			}
 
-        void Remove(Function f)
-        {
-            auto it = std::find(m_functions.begin(), m_functions.end(), f);
-            if (it == m_functions.end())
-                return;
-            m_functions.erase(it);
-        }
+			for (auto it = m_methods.begin(); it != m_methods.end(); ++it)
+			{
+				(*(*(*it)))();
+			}
+		}
 
-        ~ActionSlot()
-        {
-            while (!m_methods.empty())
-            {
-              //  m_methods.back()->Release();
-                m_methods.pop_back();
-            }
-        }
+		void Add(Core::Pointer<Action> action)
+		{
+			m_methods.push_back(action);
+			//action->AddRef();
+		}
 
-    private:
+		void Add(Function f)
+		{
+			m_functions.push_back(f);
+		}
 
-        MethodCollection m_methods;
-        FunctionCollection m_functions;
-    };
+		void Remove(Core::Pointer<Action> action)
+		{
+			auto it = std::find(m_methods.begin(), m_methods.end(), action);
+			if (it == m_methods.end())
+				return;
+			m_methods.erase(it);
+			//action->Release();
+		}
 
-    template<class O, typename... Types>
-    using ActionPtr = Action<O, Types...>*;
+		void Remove(Function f)
+		{
+			auto it = std::find(m_functions.begin(), m_functions.end(), f);
+			if (it == m_functions.end())
+				return;
+			m_functions.erase(it);
+		}
+
+		~ActionSlot()
+		{
+			while (!m_methods.empty())
+			{
+				//  m_methods.back()->Release();
+				m_methods.pop_back();
+			}
+		}
+
+	private:
+
+		MethodCollection m_methods;
+		FunctionCollection m_functions;
+	};
+
+	template<class O, typename... Types>
+	using ActionPtr = Action<O, Types...>*;
 }
 PUNK_ENGINE_END
 

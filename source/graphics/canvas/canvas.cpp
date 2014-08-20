@@ -596,7 +596,7 @@ namespace Graphics {
             m_logger->Info(L"\tCompatible profile selected");
 #endif
 
-        SubscribeResizeEvent(new Core::Action<Canvas, const System::WindowResizeEvent&>(this, &Canvas::OnResize));
+		SubscribeResizeEvent({ new Core::Action<Canvas, const System::WindowResizeEvent&>(this, &Canvas::OnResize), Core::DestroyObject });
 
         SetFullscreen(m_canvas_description.fullscreen);
 

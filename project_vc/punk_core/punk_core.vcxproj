@@ -61,6 +61,7 @@
     <ClInclude Include="..\..\source\core\iserializable.h" />
     <ClInclude Include="..\..\source\core\static_information.h" />
     <ClInclude Include="..\..\source\core\pointer.h" />
+    <ClInclude Include="..\..\source\core\value_monitor.h" />
     <ClInclude Include="..\..\source\core\weak_pointer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

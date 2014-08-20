@@ -36,10 +36,10 @@ namespace Attributes {
 		void SetKeyFrameInterpolator(InterpolatorType value) override;
 		InterpolatorType GetKeyFrameInterpolator() override;
 		void GetCurrentValue(std::uint32_t track_index, void* buffer, std::uint32_t size) override;
-		void OnAnimationStarted(Core::ActionBase<void>* action) override;
-		void OnAnimationEnded(Core::ActionBase<void>* action) override;
-		void OnFrame(AnimationAdvanced* action) override;
-		void OnFrame(std::int32_t track_index, TrackAdvanced* action) override;
+		void OnAnimationStarted(Core::Pointer<Core::ActionBase<void>> action) override;
+		void OnAnimationEnded(Core::Pointer<Core::ActionBase<void>> action) override;
+		void OnFrame(Core::Pointer<AnimationAdvanced> action) override;
+		void OnFrame(std::int32_t track_index, Core::Pointer<TrackAdvanced> action) override;
 		/*void Attach(IAnimated* value) override;
 		void Detach(IAnimated* value) override;*/
 
@@ -299,21 +299,21 @@ namespace Attributes {
 		}
 	}
 
-	void AnimationPlayerImpl::OnAnimationStarted(Core::ActionBase<void>* action) {
+	void AnimationPlayerImpl::OnAnimationStarted(Core::Pointer<Core::ActionBase<void>> action) {
 		LOG_FUNCTION_SCOPE();
 		m_on_started.Add(action);
 	}
 
-	void AnimationPlayerImpl::OnAnimationEnded(Core::ActionBase<void>* action) {
+	void AnimationPlayerImpl::OnAnimationEnded(Core::Pointer<Core::ActionBase<void>> action) {
 		LOG_FUNCTION_SCOPE();
 		m_on_ended.Add(action);
 	}
-	void AnimationPlayerImpl::OnFrame(AnimationAdvanced* action) {
+	void AnimationPlayerImpl::OnFrame(Core::Pointer<AnimationAdvanced> action) {
 		LOG_FUNCTION_SCOPE();
 		m_on_frame.Add(action);
 	}
 
-	void AnimationPlayerImpl::OnFrame(std::int32_t track_index, TrackAdvanced* action) {
+	void AnimationPlayerImpl::OnFrame(std::int32_t track_index, Core::Pointer<TrackAdvanced> action) {
 		LOG_FUNCTION_SCOPE();
 		if (!m_animation)
 			return;
