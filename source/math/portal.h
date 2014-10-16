@@ -7,6 +7,7 @@
 #include "tuple.h"
 #include "matrix.h"
 #include "plane.h"
+#include "frustum_plane.h"
 #include "clip_space.h"
 
 PUNK_ENGINE_BEGIN
@@ -68,7 +69,7 @@ namespace Math {
 			}
 
 			bool partial_visible = false;
-			TPortal<T> temp(portal);
+            TPortal<T> temp(*this);
 			FrustumPlane p = (FrustumPlane)0;
 			for (std::size_t j = 0u, max_j = clipper.GetSize(); j < max_j; ++j)
 			{

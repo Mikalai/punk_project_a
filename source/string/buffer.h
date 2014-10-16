@@ -1,6 +1,10 @@
 #ifndef _H_PUNK_BUFFER
 #define _H_PUNK_BUFFER
 
+#ifdef USE_QT
+#include <QByteArray>
+#endif
+
 #include <cstdint>
 #include <vector>
 #include <array>
@@ -9,6 +13,9 @@
 PUNK_ENGINE_BEGIN
 namespace Core
 {
+#ifdef USE_QT
+    typedef QByteArray Buffer;
+#else
     namespace __private
     {
     struct BufferImpl;
@@ -144,6 +151,8 @@ namespace Core
 
     template<typename T>
     const T* end(const Buffer& buffer) { return reinterpret_cast<const T*>(buffer.Data()) + buffer.GetSize() / sizeof(T); }
+#endif
+
 }
 PUNK_ENGINE_END
 

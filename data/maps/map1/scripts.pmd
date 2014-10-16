@@ -1,0 +1,22 @@
+SCENETEXT
+*node {
+  *name {
+    Root
+  }
+  *node {
+    *name {
+      Transform
+    }
+    *entity_name {
+      Plane.transform
+    }
+    *node {
+      *name {
+        Static
+      }
+      *entity_name {
+        Plane.static
+      }
+    }
+  }
+}

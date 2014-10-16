@@ -113,9 +113,9 @@ namespace Math {
 
 		bool GetBarycentric(const Tuple<T, 3, tagPoint>& p, T& w0, T& w1, T& w2) const
 		{
-			auto r = p - m_v[0];
-			auto q1 = m_v[1] - m_v[0];
-			auto q2 = m_v[2] - m_v[0];
+            auto r = p - this->m_v[0];
+            auto q1 = this->m_v[1] - this->m_v[0];
+            auto q2 = this->m_v[2] - this->m_v[0];
 			T q1_q2 = q1.Dot(q2);
 			T r_q1 = r.Dot(q1);
 			T r_q2 = r.Dot(q2);
@@ -169,7 +169,7 @@ namespace Math {
 		}
 
 		const TriangleData<T, 2> ProjectXZ() const {
-			return TriangleData < T, 2{
+            return TriangleData < T, 2> {
 					{this->m_v[0].X(), this->m_v[0].Z()},
 					{ this->m_v[1].X(), this->m_v[1].Z() },
 					{ this->m_v[2].X(), this->m_v[2].Z() }};
@@ -204,7 +204,7 @@ namespace Math {
 			T t = -(n.Dot(org) + org_dst) / v;
 			const auto intersect_point = line.PointAt(t);
 
-			Relation res = ClassifyPoint(intersect_point, triangle);
+            Relation res = this->ClassifyPoint(intersect_point);
 
 			if (res != Relation::INSIDE)
 				return Relation::INTERSECT;
@@ -318,9 +318,9 @@ namespace Math {
 
 		Relation CrossTriangle(const Triangle<T, 3>& b, Line<T, 3>& /*line*/)
 		{
-			Line<T, 3> ab(this->[0], this->[1]);
-			Line<T, 3> bc(this->[1], this->[2]);
-			Line<T, 3> ca(this->[2], this->[0]);
+            Line<T, 3> ab(this->m_v[0], this->m_v[1]);
+            Line<T, 3> bc(this->m_v[1], this->m_v[2]);
+            Line<T, 3> ca(this->m_v[2], this->m_v[0]);
 
 			Line<T, 3> de(b[0], b[1]);
 			Line<T, 3> ef(b[1], b[2]);
@@ -391,12 +391,12 @@ namespace Math {
 			return Relation::NOT_INTERSECT;
 		}
 
-		Relation SplitTriangle(const Plane& splitter, Triangle<T, 3> front[2], Triangle<T, 3> back[2])
+        Relation SplitTriangle(const Plane& splitter, Triangle<T, 3> front[2], Triangle<T, 3> back[2])
 		{
-			Plane plane(this->m_v[0], this->m_v[1], this->m_v[2]);
-			T ss0 = splitter.GetNormal().Dot(t[0]) + splitter.GetDistance();
-			T ss1 = splitter.GetNormal().Dot(t[1]) + splitter.GetDistance();
-			T ss2 = splitter.GetNormal().Dot(t[2]) + splitter.GetDistance();
+            Plane plane(this->m_v[0], this->m_v[1], this->m_v[2]);
+            T ss0 = splitter.GetNormal().Dot(this->m_v[0]) + splitter.GetDistance();
+            T ss1 = splitter.GetNormal().Dot(this->m_v[1]) + splitter.GetDistance();
+            T ss2 = splitter.GetNormal().Dot(this->m_v[2]) + splitter.GetDistance();
 			int s0, s1, s2;
 
 			if (Abs(ss0) < Eps)
@@ -420,7 +420,7 @@ namespace Math {
 
 			if (s0 == 0)	//	split on front and back
 			{
-				Line<T, 3> l{ t[1], t[2] };
+                Line<T, 3> l{ this->m_v[1], this->m_v[2] };
 				Tuple<T, 3, tagPoint> p;
 				Relation r = splitter.CrossLine(l, p);
 
@@ -429,21 +429,21 @@ namespace Math {
 
 				if (s1 <= 0 && s2 >= 0)
 				{
-					(*cur_back) = Triangle<T, 3>(t[0], t[1], p);
-					(*cur_front) = Triangle<T, 3>(p, t[2], t[0]);
+                    (*cur_back) = Triangle<T, 3>(this->m_v[0], this->m_v[1], p);
+                    (*cur_front) = Triangle<T, 3>(p, this->m_v[2], this->m_v[0]);
 					return Relation::SPLIT_1_FRONT_1_BACK;
 				}
 				else
 				{
-					(*cur_back) = Triangle<T, 3>(p, t[2], t[0]);
-					(*cur_front) = Triangle<T, 3>(t[0], t[1], p);
+                    (*cur_back) = Triangle<T, 3>(p, this->m_v[2], this->m_v[0]);
+                    (*cur_front) = Triangle<T, 3>(this->m_v[0], this->m_v[1], p);
 					return Relation::SPLIT_1_FRONT_1_BACK;
 				}
 			}
 
 			if (s1 == 0)	//	split on front and back
 			{
-				Line<T, 3> l(t[2], t[0]);
+                Line<T, 3> l(this->m_v[2], this->m_v[0]);
 				Tuple<T, 3, tagPoint> p;
 				Relation r = splitter.CrossLine(l, p);
 
@@ -452,21 +452,21 @@ namespace Math {
 
 				if (s0 <= 0 && s2 >= 0)
 				{
-					(*cur_back) = Triangle<T, 3>(t[1], p, t[0]);
-					(*cur_front) = Triangle<T, 3>(t[1], t[2], p);
+                    (*cur_back) = Triangle<T, 3>(this->m_v[1], p, this->m_v[0]);
+                    (*cur_front) = Triangle<T, 3>(this->m_v[1], this->m_v[2], p);
 					return Relation::SPLIT_1_FRONT_1_BACK;
 				}
 				else
 				{
-					(*cur_back) = Triangle<T, 3>(t[1], t[2], p);
-					(*cur_front) = Triangle<T, 3>(t[1], p, t[0]);
+                    (*cur_back) = Triangle<T, 3>(this->m_v[1], this->m_v[2], p);
+                    (*cur_front) = Triangle<T, 3>(this->m_v[1], p, this->m_v[0]);
 					return Relation::SPLIT_1_FRONT_1_BACK;
 				}
 			}
 
 			if (s2 == 0)	//	split on front and back
 			{
-				Line<T, 3> l(t[0], t[1]);
+                Line<T, 3> l(this->m_v[0], this->m_v[1]);
 				Tuple<T, 3, tagPoint> p;
 				Relation r = splitter.CrossLine(l, p);
 
@@ -475,44 +475,44 @@ namespace Math {
 
 				if (s0 <= 0 && s1 >= 0)
 				{
-					(*cur_back) = Triangle<T, 3>(t[2], t[0], p);
-					(*cur_front) = Triangle<T, 3>(t[2], p, t[1]);
+                    (*cur_back) = Triangle<T, 3>(this->m_v[2], this->m_v[0], p);
+                    (*cur_front) = Triangle<T, 3>(this->m_v[2], p, this->m_v[1]);
 					return Relation::SPLIT_1_FRONT_1_BACK;
 				}
 				else
 				{
-					(*cur_front) = Triangle<T, 3>(t[2], t[0], p);
-					(*cur_back) = Triangle<T, 3>(t[2], p, t[1]);
+                    (*cur_front) = Triangle<T, 3>(this->m_v[2], this->m_v[0], p);
+                    (*cur_back) = Triangle<T, 3>(this->m_v[2], p, this->m_v[1]);
 					return Relation::SPLIT_1_FRONT_1_BACK;
 				}
 			}
 
-			const Tuple<T, 3, tagPoint>* a = &t[0];
-			const Tuple<T, 3, tagPoint>* b = &t[1];
-			const Tuple<T, 3, tagPoint>* c = &t[2];
+            const Tuple<T, 3, tagPoint>* a = &this->m_v[0];
+            const Tuple<T, 3, tagPoint>* b = &this->m_v[1];
+            const Tuple<T, 3, tagPoint>* c = &this->m_v[2];
 
 			Relation result = Relation::SPLIT_1_FRONT_2_BACK;
 
 			//	common case
 			if ((s1 < 0 && s2 < 0) || (s1 > 0 && s2 > 0))
 			{
-				a = &t[0];
-				b = &t[1];
-				c = &t[2];
+                a = &this->m_v[0];
+                b = &this->m_v[1];
+                c = &this->m_v[2];
 			}
 
 			if ((s2 < 0 && s0 < 0) || (s2 > 0 && s0 > 0))
 			{
-				a = &t[1];
-				b = &t[2];
-				c = &t[0];
+                a = &this->m_v[1];
+                b = &this->m_v[2];
+                c = &this->m_v[0];
 			}
 
 			if ((s0 < 0 && s1 < 0) || (s0 > 0 && s1 > 0))
 			{
-				a = &t[2];
-				b = &t[0];
-				c = &t[1];
+                a = &this->m_v[2];
+                b = &this->m_v[0];
+                c = &this->m_v[1];
 			}
 
 			if (s1 < 0)

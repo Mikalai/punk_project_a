@@ -44,7 +44,7 @@ namespace Math {
         }
 
         const Tuple<T, Dim, tagPoint>* GetPoints() const {
-            return m_points.data();
+            return this->m_points.data();
         }
 
         bool IsTriangle() const {
@@ -112,7 +112,7 @@ namespace Math {
 
 		Relation CrossPlane(const TPlane<T>& plane, Polygon<T, 3>& front, Polygon<T, 3>& back)
 		{
-			(void)plane; (void)polygon; (void)front; (void)back;
+            (void)plane; (void)front; (void)back;
 		}
 
     };

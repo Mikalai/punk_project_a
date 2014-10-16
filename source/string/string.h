@@ -1,12 +1,20 @@
 #ifndef _H_PUNK_STRING
 #define _H_PUNK_STRING
 
+#ifdef USE_QT
+#include <QString>
+#endif
+
 #include <cstdint>
 #include <config.h>
 
 PUNK_ENGINE_BEGIN
 namespace Core
 {
+
+#ifdef USE_QT
+    using String = QString;
+#else
     namespace __private {
     struct StringImpl;
     }
@@ -100,6 +108,8 @@ namespace Core
     PUNK_ENGINE_API bool operator != (const String& l, const String& r);
     PUNK_ENGINE_API const String operator + (const String& l, const String& r);
     PUNK_ENGINE_API bool operator < (const String& l, const String& r);
+#endif
+
 }
 PUNK_ENGINE_END
 

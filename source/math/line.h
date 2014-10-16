@@ -120,12 +120,30 @@ namespace Math {
 			return this->m_origin + t * (this->m_destination - this->m_origin);
 		}
 
+        T Parameter(const Tuple<T, Dim, tagPoint>& p) const {
+            auto DO = this->m_destination - this->m_origin;
+            auto PO = p - this->m_origin;
+            auto DO_PO = DO.Dot(PO);
+            auto DO_DO = DO.Dot(DO);
+            auto t = DO_PO / DO_DO;
+            return t;
+        }
+
 		T GetSegmentLength() const
 		{
 			auto res = (this->m_destination - this->m_origin).Length();
 			return res;
 		}		
 
+#ifdef USE_QT
+        const QString ToString() const {
+            QString result = QString("{Org: ")
+                + this->m_origin.ToString() + "; Dst: "
+                + this->m_destination.ToString() + " Dir: "
+                + this->m_direction.ToString();
+            return result;
+        }
+#else
 		const Core::String ToString() const
 		{
 			Core::String result = L"{Org: "
@@ -134,6 +152,7 @@ namespace Math {
 				+ this->m_direction.ToString();
 			return result;
 		}
+#endif
 	};
 
 	template<class T, int Dim>
@@ -382,6 +401,13 @@ namespace Math {
 
 			return Relation::INTERSECT;
 		}
+
+        Tuple<T, 2, tagVector> GetNormal() {
+            auto v = this->m_destination - this->m_origin;
+            auto dx = v.X();
+            auto dy = v.Y();
+            return Tuple<T, 2, tagVector>{-dy, dx};
+        }
 	};
 
 	template<class T, int Dim>

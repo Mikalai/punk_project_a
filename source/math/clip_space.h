@@ -53,7 +53,7 @@ namespace Math {
 		{
 			for (std::size_t i = 0; i != this->GetSize(); ++i)
 			{
-				auto r = (*space[i]).ClassifyPoint(point);
+                auto r = (*this[i]).ClassifyPoint(point);
 				if (r == Relation::BACK)
 					return Relation::OUTSIDE;
 

@@ -1,0 +1,1198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ManageBuildingSchema</class>
+ <widget class="QWidget" name="ManageBuildingSchema">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1140</width>
+    <height>774</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Create building schema</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QTabWidget" name="tabWidget">
+       <property name="tabPosition">
+        <enum>QTabWidget::South</enum>
+       </property>
+       <property name="currentIndex">
+        <number>2</number>
+       </property>
+       <widget class="QWidget" name="tab">
+        <attribute name="title">
+         <string>Genaral</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <item>
+          <widget class="QRadioButton" name="m_new_schema">
+           <property name="text">
+            <string>Create new schema</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="m_edit_schema">
+           <property name="text">
+            <string>Edit schema</string>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="m_edit_schema_group">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="title">
+            <string>Select schema</string>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_11">
+              <item>
+               <widget class="QComboBox" name="m_schemas">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="m_delete_schema">
+                <property name="text">
+                 <string>Delete</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox">
+           <property name="title">
+            <string>Schema name:</string>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_12">
+              <item>
+               <widget class="QLineEdit" name="m_schema_name">
+                <property name="text">
+                 <string>Schema</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <item>
+            <widget class="QGroupBox" name="groupBox_5">
+             <property name="title">
+              <string>Floors</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_9">
+              <item>
+               <widget class="QLineEdit" name="m_floors"/>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_2">
+             <property name="title">
+              <string>Canvas size and accuracy (mm):</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_7">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_3">
+                <item>
+                 <widget class="QLineEdit" name="m_canvas_width">
+                  <property name="text">
+                   <string>5000</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="m_canvas_height">
+                  <property name="text">
+                   <string>5000</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="m_accuracy">
+                  <property name="text">
+                   <string>100</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QGroupBox" name="groupBox_4">
+             <property name="title">
+              <string>Wall material:</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_6">
+              <item>
+               <widget class="QComboBox" name="m_wall_material">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_3">
+             <property name="title">
+              <string>Roof material</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_5">
+              <item>
+               <widget class="QComboBox" name="m_roof_material">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_2">
+        <attribute name="title">
+         <string>Contour</string>
+        </attribute>
+        <layout class="QHBoxLayout" name="horizontalLayout_8">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <widget class="QGroupBox" name="m_toolbox">
+             <property name="title">
+              <string>Tools</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_6">
+              <item>
+               <widget class="QPushButton" name="m_draw_polygon_btn">
+                <property name="text">
+                 <string>Draw polygon</string>
+                </property>
+                <property name="checkable">
+                 <bool>true</bool>
+                </property>
+                <property name="autoExclusive">
+                 <bool>true</bool>
+                </property>
+                <property name="default">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="m_move_point_btn">
+                <property name="text">
+                 <string>Move point</string>
+                </property>
+                <property name="checkable">
+                 <bool>true</bool>
+                </property>
+                <property name="autoExclusive">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="m_remove_point_btn">
+                <property name="text">
+                 <string>Remove point</string>
+                </property>
+                <property name="checkable">
+                 <bool>true</bool>
+                </property>
+                <property name="autoExclusive">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="m_check">
+             <property name="text">
+              <string>Check</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="m_save">
+             <property name="text">
+              <string>Save</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="m_load">
+             <property name="text">
+              <string>Load</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_7"/>
+         </item>
+         <item>
+          <widget class="Canvas" name="m_canvas">
+           <property name="backgroundBrush">
+            <brush brushstyle="NoBrush">
+             <color alpha="255">
+              <red>0</red>
+              <green>0</green>
+              <blue>0</blue>
+             </color>
+            </brush>
+           </property>
+           <property name="foregroundBrush">
+            <brush brushstyle="NoBrush">
+             <color alpha="255">
+              <red>255</red>
+              <green>255</green>
+              <blue>255</blue>
+             </color>
+            </brush>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_3">
+        <attribute name="title">
+         <string>Floor design</string>
+        </attribute>
+        <layout class="QHBoxLayout" name="horizontalLayout_15">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_14">
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_5">
+             <item>
+              <widget class="QPushButton" name="m_create_from_polygon">
+               <property name="text">
+                <string>Create from polygon</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="m_save_floors_btn">
+               <property name="text">
+                <string>Save</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="m_promote_changes">
+               <property name="text">
+                <string>Promote changes on all floors</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="m_current_floor"/>
+             </item>
+             <item>
+              <widget class="QGroupBox" name="groupBox_6">
+               <property name="title">
+                <string>Tools</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_8">
+                <item>
+                 <widget class="QPushButton" name="m_add_inner_wall">
+                  <property name="text">
+                   <string>Add inner wall</string>
+                  </property>
+                  <property name="checkable">
+                   <bool>true</bool>
+                  </property>
+                  <property name="autoExclusive">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="m_remove_inner_wall">
+                  <property name="text">
+                   <string>Remove inner wall</string>
+                  </property>
+                  <property name="checkable">
+                   <bool>true</bool>
+                  </property>
+                  <property name="autoExclusive">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="m_add_door">
+                  <property name="text">
+                   <string>Add door</string>
+                  </property>
+                  <property name="checkable">
+                   <bool>true</bool>
+                  </property>
+                  <property name="autoExclusive">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="m_remove_door">
+                  <property name="text">
+                   <string>Remove door</string>
+                  </property>
+                  <property name="checkable">
+                   <bool>true</bool>
+                  </property>
+                  <property name="autoExclusive">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="m_add_windows">
+                  <property name="text">
+                   <string>Add window</string>
+                  </property>
+                  <property name="checkable">
+                   <bool>true</bool>
+                  </property>
+                  <property name="autoRepeat">
+                   <bool>false</bool>
+                  </property>
+                  <property name="autoExclusive">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="m_remove_windows">
+                  <property name="text">
+                   <string>Remove window</string>
+                  </property>
+                  <property name="checkable">
+                   <bool>true</bool>
+                  </property>
+                  <property name="autoRepeat">
+                   <bool>false</bool>
+                  </property>
+                  <property name="autoExclusive">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="m_add_stairs_btn">
+                  <property name="text">
+                   <string>Add stairs</string>
+                  </property>
+                  <property name="checkable">
+                   <bool>true</bool>
+                  </property>
+                  <property name="autoRepeat">
+                   <bool>false</bool>
+                  </property>
+                  <property name="autoExclusive">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="m_remove_stairs_btn">
+                  <property name="text">
+                   <string>Remove stairs</string>
+                  </property>
+                  <property name="checkable">
+                   <bool>true</bool>
+                  </property>
+                  <property name="autoRepeat">
+                   <bool>false</bool>
+                  </property>
+                  <property name="autoExclusive">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_3">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="FloorDesign" name="m_floor_design">
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+           </property>
+           <property name="transformationAnchor">
+            <enum>QGraphicsView::NoAnchor</enum>
+           </property>
+           <property name="resizeAnchor">
+            <enum>QGraphicsView::AnchorViewCenter</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_13">
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="m_ok">
+       <property name="text">
+        <string>Ok</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Canvas</class>
+   <extends>QGraphicsView</extends>
+   <header>canvas.h</header>
+   <slots>
+    <slot>setDrawPolygonMode()</slot>
+    <slot>setMovePointMode()</slot>
+    <slot>setRemovePointMode()</slot>
+    <slot>setIdleMode()</slot>
+    <slot>setCanvasHeight(QString)</slot>
+    <slot>setCanvasWidth(QString)</slot>
+    <slot>setCanvasAccuract(QString)</slot>
+    <slot>checkSchema()</slot>
+    <slot>setCurrentSchema(BuildingSchema*)</slot>
+    <slot>saveContour()</slot>
+   </slots>
+  </customwidget>
+  <customwidget>
+   <class>FloorDesign</class>
+   <extends>QGraphicsView</extends>
+   <header location="global">floor_design.h</header>
+   <slots>
+    <slot>setAddInnerWallMode()</slot>
+    <slot>setRemoveInnerWallMode()</slot>
+    <slot>setAddDoorMode()</slot>
+    <slot>setRemoveDoorMode()</slot>
+    <slot>setAddWindowMode()</slot>
+    <slot>setRemoveWindowMode()</slot>
+    <slot>setAddStairsMode()</slot>
+    <slot>setRemoveStairsMode()</slot>
+    <slot>setCurrentFloor(QString)</slot>
+    <slot>setCurrentSchema(BuildingSchema*)</slot>
+    <slot>createFloor()</slot>
+    <slot>setCanvasWidth(QString)</slot>
+    <slot>setCanvasHeight(QString)</slot>
+    <slot>setCanvasAccurace(QString)</slot>
+   </slots>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>m_draw_polygon_btn</sender>
+   <signal>pressed()</signal>
+   <receiver>m_canvas</receiver>
+   <slot>setDrawPolygonMode()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>69</x>
+     <y>56</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>620</x>
+     <y>376</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_move_point_btn</sender>
+   <signal>pressed()</signal>
+   <receiver>m_canvas</receiver>
+   <slot>setMovePointMode()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>69</x>
+     <y>85</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>620</x>
+     <y>376</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_remove_point_btn</sender>
+   <signal>pressed()</signal>
+   <receiver>m_canvas</receiver>
+   <slot>setRemovePointMode()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>69</x>
+     <y>114</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>620</x>
+     <y>376</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_canvas_height</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>m_canvas</receiver>
+   <slot>setCanvasHeight(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>975</x>
+     <y>55</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>620</x>
+     <y>376</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_canvas_width</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>m_canvas</receiver>
+   <slot>setCanvasWidth(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>711</x>
+     <y>55</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>620</x>
+     <y>376</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_check</sender>
+   <signal>clicked()</signal>
+   <receiver>m_canvas</receiver>
+   <slot>checkSchema()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>69</x>
+     <y>153</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>624</x>
+     <y>376</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_schema_name</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>ManageBuildingSchema</receiver>
+   <slot>setSchemaName(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>293</x>
+     <y>55</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>569</x>
+     <y>386</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_floors</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>ManageBuildingSchema</receiver>
+   <slot>setFloorsCount(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>514</x>
+     <y>55</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>569</x>
+     <y>386</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_edit_schema</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>m_edit_schema_group</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>568</x>
+     <y>29</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>568</x>
+     <y>71</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_schemas</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>ManageBuildingSchema</receiver>
+   <slot>setExistingSchema(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>278</x>
+     <y>78</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>569</x>
+     <y>386</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_edit_schema</sender>
+   <signal>clicked()</signal>
+   <receiver>ManageBuildingSchema</receiver>
+   <slot>setExistingSchema()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>568</x>
+     <y>29</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>569</x>
+     <y>386</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_new_schema</sender>
+   <signal>clicked()</signal>
+   <receiver>ManageBuildingSchema</receiver>
+   <slot>setNewSchema()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>568</x>
+     <y>116</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>569</x>
+     <y>386</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_wall_material</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>ManageBuildingSchema</receiver>
+   <slot>setWallsMaterial(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>293</x>
+     <y>321</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>569</x>
+     <y>386</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_roof_material</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>ManageBuildingSchema</receiver>
+   <slot>setRoofMaterial(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>843</x>
+     <y>321</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>569</x>
+     <y>386</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ManageBuildingSchema</sender>
+   <signal>schemaChanged(BuildingSchema*)</signal>
+   <receiver>ManageBuildingSchema</receiver>
+   <slot>setCurrentSchema(BuildingSchema*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>569</x>
+     <y>386</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>569</x>
+     <y>386</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ManageBuildingSchema</sender>
+   <signal>schemaChanged(BuildingSchema*)</signal>
+   <receiver>m_canvas</receiver>
+   <slot>setCurrentSchema(BuildingSchema*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>569</x>
+     <y>386</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>624</x>
+     <y>360</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_save</sender>
+   <signal>clicked()</signal>
+   <receiver>m_canvas</receiver>
+   <slot>saveContour()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>69</x>
+     <y>182</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>624</x>
+     <y>360</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_ok</sender>
+   <signal>clicked()</signal>
+   <receiver>ManageBuildingSchema</receiver>
+   <slot>commitChanges()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1092</x>
+     <y>752</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>569</x>
+     <y>386</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_promote_changes</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>m_current_floor</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>114</x>
+     <y>54</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>114</x>
+     <y>78</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ManageBuildingSchema</sender>
+   <signal>schemaChanged(BuildingSchema*)</signal>
+   <receiver>m_floor_design</receiver>
+   <slot>setCurrentSchema(BuildingSchema*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>569</x>
+     <y>386</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>655</x>
+     <y>360</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_create_from_polygon</sender>
+   <signal>clicked()</signal>
+   <receiver>m_floor_design</receiver>
+   <slot>createFloor()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>104</x>
+     <y>34</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>655</x>
+     <y>360</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_current_floor</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>m_floor_design</receiver>
+   <slot>setCurrentFloor(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>104</x>
+     <y>113</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>655</x>
+     <y>360</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_canvas_width</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>m_floor_design</receiver>
+   <slot>setCanvasWidth(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>667</x>
+     <y>226</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>655</x>
+     <y>360</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_canvas_height</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>m_floor_design</receiver>
+   <slot>setCanvasHeight(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>843</x>
+     <y>226</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>655</x>
+     <y>360</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_accuracy</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>m_floor_design</receiver>
+   <slot>setCanvasAccurace(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1019</x>
+     <y>226</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>655</x>
+     <y>360</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_accuracy</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>m_canvas</receiver>
+   <slot>setCanvasAccuract(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1019</x>
+     <y>226</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>624</x>
+     <y>360</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_delete_schema</sender>
+   <signal>clicked()</signal>
+   <receiver>ManageBuildingSchema</receiver>
+   <slot>removeCurrentSchema()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>569</x>
+     <y>102</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>569</x>
+     <y>386</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_add_inner_wall</sender>
+   <signal>clicked()</signal>
+   <receiver>m_floor_design</receiver>
+   <slot>setAddInnerWallMode()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>104</x>
+     <y>164</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>655</x>
+     <y>360</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_add_door</sender>
+   <signal>clicked()</signal>
+   <receiver>m_floor_design</receiver>
+   <slot>setAddDoorMode()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>104</x>
+     <y>222</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>655</x>
+     <y>360</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_add_stairs_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>m_floor_design</receiver>
+   <slot>setAddStairsMode()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>104</x>
+     <y>338</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>655</x>
+     <y>360</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_add_windows</sender>
+   <signal>clicked()</signal>
+   <receiver>m_floor_design</receiver>
+   <slot>setAddWindowMode()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>104</x>
+     <y>280</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>655</x>
+     <y>360</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_remove_door</sender>
+   <signal>clicked()</signal>
+   <receiver>m_floor_design</receiver>
+   <slot>setRemoveDoorMode()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>104</x>
+     <y>251</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>655</x>
+     <y>360</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_remove_inner_wall</sender>
+   <signal>clicked()</signal>
+   <receiver>m_floor_design</receiver>
+   <slot>setRemoveInnerWallMode()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>104</x>
+     <y>193</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>655</x>
+     <y>360</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_remove_stairs_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>m_floor_design</receiver>
+   <slot>setRemoveStairsMode()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>104</x>
+     <y>367</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>655</x>
+     <y>360</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_remove_windows</sender>
+   <signal>clicked()</signal>
+   <receiver>m_floor_design</receiver>
+   <slot>setRemoveWindowMode()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>104</x>
+     <y>309</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>655</x>
+     <y>360</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <signal>schemaChanged(BuildingSchema*)</signal>
+  <slot>setSchemaName(QString)</slot>
+  <slot>setFloorsCount(QString)</slot>
+  <slot>setExistingSchema()</slot>
+  <slot>setExistingSchema(int)</slot>
+  <slot>setNewSchema()</slot>
+  <slot>setCurrentSchema(BuildingSchema*)</slot>
+  <slot>setWallsMaterial(int)</slot>
+  <slot>setRoofMaterial(int)</slot>
+  <slot>commitChanges()</slot>
+  <slot>removeCurrentSchema()</slot>
+ </slots>
+</ui>

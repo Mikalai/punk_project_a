@@ -122,16 +122,16 @@ namespace Math {
     template<class T>
     const TSphere<T> operator + (const TSphere<T>& a, const TSphere<T>& b)
     {
-        T d = (this->GetCenter() - b.GetCenter()).Length();
-        if (d + this->GetRadius() <= b.GetRadius())
+        T d = (a.GetCenter() - b.GetCenter()).Length();
+        if (d + a.GetRadius() <= b.GetRadius())
             return b;
-        if (d + b.GetRadius() <= this->GetRadius())
+        if (d + b.GetRadius() <= a.GetRadius())
             return a;
 
         TSphere<T> res;
-        T r = T{0.5} * (d + this->GetRadius() + b.GetRadius());
+        T r = T{0.5} * (d + a.GetRadius() + b.GetRadius());
         res.SetRadius(r);
-        res.SetCenter(this->GetCenter() + (r - this->GetRadius()) / d * (b.GetCenter() - this->GetCenter()));
+        res.SetCenter(a.GetCenter() + (r - a.GetRadius()) / d * (b.GetCenter() - a.GetCenter()));
         return res;
     }
 

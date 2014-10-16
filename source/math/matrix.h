@@ -158,7 +158,7 @@ namespace Math {
 
 		MatrixComponentAccessor() {}
 		MatrixComponentAccessor(const MatrixData<T, Rows, Cols>& value)
-			: MatrixComponentAccessorBase{ value } {}
+            : MatrixComponentAccessorBase<T, Rows, Cols>{ value } {}
 	};
 
 	template<class T, int Rows, int Cols>
@@ -183,7 +183,7 @@ namespace Math {
 			MatrixOperationsBase<T, Cols, Rows> res;
 			for (int row = 0; row < Rows; ++row) {
 				for (int col = 0; col < Cols; ++col) {
-					res.at(row, col) = at(col, row);
+                    res.at(row, col) = this->at(col, row);
 				}
 			}
 			return res;
@@ -234,6 +234,17 @@ namespace Math {
 			return v.Negate();
 		}
 
+#ifdef USE_QT
+        const QString ToString() const {
+            QStringList list;
+            list.append("(");
+            for (auto i = 0; i < Rows * Cols; ++i){
+                list.append(QString::number(this->m_v[i]));
+            }
+            list.append(")");
+            return list.join(" ");
+        }
+#else
 		const Core::String ToString() const {
 			Core::StringList list;
 			list.Push("(");
@@ -243,6 +254,7 @@ namespace Math {
 			list.Push(")");
 			return list.ToString(" ");
 		}
+#endif
 
 		void Chop(T eps) {
 			for (auto i = 0; i != Rows*Cols; ++i)
@@ -252,9 +264,9 @@ namespace Math {
 
 		void SwapRows(int r1, int r2) {
 			for (auto col = 0; col < Cols; ++col) {
-				T t = at(r1, col);
-				at(r1, col) = at(r2, col);
-				at(r2, col) = t;
+                T t = this->at(r1, col);
+                this->at(r1, col) = this->at(r2, col);
+                this->at(r2, col) = t;
 			}
 		}
 	};
@@ -283,7 +295,7 @@ namespace Math {
 		}
 
 		void Inverse() {
-			*this = Inversed();
+            *this = this->Inversed();
 		}
 
 		static Matrix<T, Dim, Dim> CreateIdentity() {
@@ -304,7 +316,7 @@ namespace Math {
 
 		void operator *= (const MatrixSquareOperationsBase<T, Dim>& value) {
 			auto _this = *this;
-			Nullify();
+            this->Nullify();
 			for (auto row = 0; row < Dim; ++row) {
 				for (auto col = 0; col < Dim; ++col) {
 					for (auto j = 0; j < Dim; ++j) {
@@ -474,7 +486,7 @@ namespace Math {
 				do
 				{
 					bb0 = bb;					
-					bb = (m - (value[v] + T(0.001)) * CreateIdentity()).Inversed() * bb;
+                    bb = (m - (value[v] + T(0.001)) * this->CreateIdentity()).Inversed() * bb;
 					bb.Normalize();
 					d = Abs(Abs(bb.Dot(bb0)) - T{ 1.0 });
 				} while (d > T(1e-5));
@@ -1139,7 +1151,7 @@ namespace Math {
 		}
 
 		static const Matrix<T, 4, 4> CreateScaling(T sx, T sy, T sz) {
-			auto m = CreateIdentity();
+            auto m = Matrix<T, 4, 4>::CreateIdentity();
 			m[0] = sx;
 			m[5] = sy;
 			m[10] = sz;

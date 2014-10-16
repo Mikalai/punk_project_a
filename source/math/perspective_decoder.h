@@ -65,7 +65,7 @@ namespace Math {
 				v = m_value.GetRow(3) - m_value.GetRow(1);
 				break;
 			default:
-				return Plane<T>();
+                return TPlane<T>{};
 			}
 			TPlane<T> result;
 			T l = Tuple<T, 3, tagVector>(v.XYZ()).Length();

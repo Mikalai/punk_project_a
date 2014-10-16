@@ -22,10 +22,10 @@ namespace System
 	{
 	public:
 		FileConsumer() {
-			std::wstringstream stream;
-			stream << L"_" << GetPid() << L".log";
+            std::stringstream stream;
+            stream << L"_" << GetPid() << ".log";
 			auto file = stream.str();
-			m_stream.open(file);
+            m_stream.open(file);
 			if (!m_stream.is_open()) {
 				std::cout << "Can't open log file" << std::endl;
 				exit(0);

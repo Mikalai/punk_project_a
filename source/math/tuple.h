@@ -1,17 +1,28 @@
 #ifndef _H_MATH_TUPLE
 #define _H_MATH_TUPLE
 
+#ifdef USE_QT
+#include <QPointF>
+#endif  //  USE_QT
+
 #include <initializer_list>
 #include <array>
 #include <vector>
 #include <cstdint>
 #include <config.h>
-#include <string/string.h>
-#include <string/string_list.h>
 #include <algorithm>
 #include "constants.h"
 #include "square_root.h"
 #include "absolute_value.h"
+#include "forward.h"
+
+#ifdef USE_QT
+#include <QString>
+#include <QStringList>
+#else
+#include <string/string.h>
+#include <string/string_list.h>
+#endif
 
 PUNK_ENGINE_BEGIN
 namespace Math {
@@ -99,6 +110,17 @@ namespace Math {
 		operator const T* () const {
 			return this->m_v.data();
 		}
+#ifdef USE_QT
+        const QPointF ToQPointF() const {
+            return QPointF{this->m_v[0], this->m_v[1]};
+        }
+
+        TupleComponentAccessorBase(const QPointF& p) {
+            this->m_v[0] = p.x();
+            this->m_v[1] = p.y();
+        }
+
+#endif // USE_QT
 	};
 
 
@@ -262,7 +284,7 @@ namespace Math {
 		TupleComponentAccessor() {}
 
 		TupleComponentAccessor(const TupleData<T, 3, tag>& v, const T& value)
-			: TupleComponentAccessorBase{ { v.m_v[0], v.m_v[1], v.m_v[2], value } } {}
+            : TupleComponentAccessorBase<T, 4, tag>{ { v.m_v[0], v.m_v[1], v.m_v[2], value } } {}
 
 		TupleComponentAccessor(const TupleData<T, 3, tag>& value)
 			: TupleComponentAccessor{ { value.m_v[0], value.m_v[1], value.m_v[2] } } {}
@@ -723,6 +745,15 @@ namespace Math {
 			return res;
 		}
 
+#ifdef USE_QT
+        const QString ToString() const {
+            QStringList list;
+            for (auto i = 0; i < D; ++i){
+                list.append(QString::number(this->m_v[i]));
+            }
+            return QString("(") + list.join("; ") + ")";
+        }
+#else
 		const Core::String ToString() const {
 			Core::StringList list;
 			for (auto i = 0; i < D; ++i){
@@ -730,6 +761,7 @@ namespace Math {
 			}
 			return L"(" + list.ToString("; ") + L")";
 		}
+#endif
 
 		TupleData<T, D, tag>& Chop(T eps) {
 			for (auto i = 0; i != D; ++i)
@@ -800,6 +832,12 @@ namespace Math {
 
 		TupleOperations(const TupleData<T, 2, tagVector>& value)
 			: TupleOperationsBase<T, 2, tagVector>(value) {}
+
+        TupleOperations(const TupleData<T, 2, tagPoint>& src, const TupleData<T, 2, tagPoint>& dst) {
+            this->m_v[0] = dst.m_v[0] - src.m_v[0];
+            this->m_v[1] = dst.m_v[1] - src.m_v[1];
+        }
+
 
 		static bool IsLeftRotation(
 			const TupleOperations<T, 2, tagPoint>& a,

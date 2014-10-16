@@ -5,6 +5,8 @@
 
 PUNK_ENGINE_BEGIN
 namespace Core {
+
+#ifndef USE_QT
 	namespace __private {
 		struct StringListImpl {
 			std::list<String> m_list;
@@ -85,5 +87,7 @@ namespace Core {
 		impl->m_list.push_back(value);
 		return *this;
 	}
+#endif
+
 }
 PUNK_ENGINE_END

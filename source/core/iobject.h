@@ -12,7 +12,6 @@
 
 PUNK_ENGINE_BEGIN
 namespace Core {
-	class String;
 	class Guid;
 
 	DECLARE_PUNK_GUID(IID_IObject, "B07B8739-46DA-41FF-80FB-02243DBC2D19");

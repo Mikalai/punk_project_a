@@ -13,6 +13,8 @@
 
 PUNK_ENGINE_BEGIN
 namespace Core {
+
+#ifndef USE_QT
     namespace __private {
     struct BufferImpl {
         std::uint32_t m_capacity{ 0 };
@@ -363,5 +365,6 @@ namespace Core {
     void Buffer::WriteBoolean(bool value) {
         WriteData(&value, sizeof(value));
     }
+#endif
 }
 PUNK_ENGINE_END

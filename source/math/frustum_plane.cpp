@@ -5,24 +5,28 @@ namespace Punk {
     namespace Engine {
         namespace Math {
 
+#ifdef USE_QT
+            const QString AsString(const FrustumPlane& value)
+#else
             const Core::String AsString(const FrustumPlane& value)
+#endif
             {
                 switch(value)
                 {
                 case FrustumPlane::Bottom:
-                    return L"Bottom";
+                    return "Bottom";
                 case FrustumPlane::Far:
-                    return L"Far";
+                    return "Far";
                 case FrustumPlane::Left:
-                    return L"Left";
+                    return "Left";
                 case FrustumPlane::Near:
-                    return L"Near";
+                    return "Near";
                 case FrustumPlane::Right:
-                    return L"Right";
+                    return "Right";
                 case FrustumPlane::Top:
-                    return L"Top";
+                    return "Top";
                 default:
-                    return L"Error";
+                    return "Error";
                 }
             }
 

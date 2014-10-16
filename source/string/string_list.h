@@ -1,6 +1,11 @@
 #ifndef _H_PUNK_STRING_LIST
 #define _H_PUNK_STRING_LIST
 
+#ifdef USE_QT
+#include <QStringList>
+#include <QStringBuilder>
+#endif
+
 #include <initializer_list>
 #include <cstdint>
 #include <config.h>
@@ -8,6 +13,9 @@
 PUNK_ENGINE_BEGIN
 namespace Core
 {
+#ifdef USE_QT
+    typedef QStringList StringList;
+#else
 	namespace __private {
 		struct StringListImpl;
 	}
@@ -40,6 +48,7 @@ namespace Core
 	};
 
 	PUNK_ENGINE_API bool operator == (const StringList& l, const StringList& r);
+#endif
 }
 PUNK_ENGINE_END
 

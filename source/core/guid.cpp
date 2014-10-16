@@ -34,11 +34,11 @@ namespace Core {
 	}
 
 	Guid::Guid(const Core::String& value) {		
-		Core::Buffer buffer = value.ToWchar();
-		const wchar_t* buf = (const wchar_t*)buffer.Data();
+        auto buffer = value.toStdWString();
+        const wchar_t* buf = buffer.data();
 		std::uint16_t data[8];
 #ifdef WIN32
-		const auto ret = swscanf_s(buf, L"%8X-%4hX-%4hX-%2hX%2hX-%2hX%2hX%2hX%2hX%2hX%2hX\0", 
+        const auto ret = swscanf(buf, L"%8X-%4hX-%4hX-%2hX%2hX-%2hX%2hX%2hX%2hX%2hX%2hX\0",
 			&m_core.Data1, &m_core.Data2, &m_core.Data3,
 			&data[0], &data[1], &data[2],
 			&data[3], &data[4], &data[5],
@@ -68,7 +68,7 @@ namespace Core {
             (std::uint16_t)m_core.Data4[1], (std::uint16_t)m_core.Data4[2], (std::uint16_t)m_core.Data4[3], (std::uint16_t)m_core.Data4[4],
             (std::uint16_t)m_core.Data4[5], (std::uint16_t)m_core.Data4[6], (std::uint16_t)m_core.Data4[7]);
 #endif
-		return Core::String(output.data());
+        return Core::String::fromUtf16((const char16_t*)output.data());
 	}
 
 	void* Guid::ToPointer() {

@@ -1,4 +1,5 @@
-#include <codecvt>
+#include <locale>
+#include <string.h>
 #include <sstream>
 #include <clocale>
 #include <cctype>
@@ -18,6 +19,8 @@
 
 PUNK_ENGINE_BEGIN
 namespace Core {
+
+#ifndef USE_QT
     namespace __private
     {
     struct StringImpl : public std::wstring {
@@ -92,10 +95,11 @@ namespace Core {
     }*/
 
     const String String::FromUtf8(const Buffer& buffer)
-    {				
-		std::wstring_convert<std::codecvt_utf8<wchar_t>> convert;
-		std::wstring string = convert.from_bytes((const char*)buffer.Data(), (const char*)buffer.Data() + buffer.GetSize());		
-		return String(string.data(), string.size());
+    {
+        return String("");
+//		std::wstring_convert<std::codecvt_utf8<wchar_t>> convert;
+//		std::wstring string = convert.from_bytes((const char*)buffer.Data(), (const char*)buffer.Data() + buffer.GetSize());
+//		return String(string.data(), string.size());
     }
 
     String& String::Erase(int start, int len)
@@ -117,11 +121,12 @@ namespace Core {
     }
 
     Buffer String::ToAscii() const {
-		std::wstring_convert<std::codecvt<wchar_t, char, std::mbstate_t>> convert;
-		auto string = convert.to_bytes(impl->data());		
-		Buffer buffer;
-		buffer.WriteBuffer(string.data(), string.size());
-		return buffer;
+        return Buffer();
+//		std::wstring_convert<std::codecvt<wchar_t, char, std::mbstate_t>> convert;
+//		auto string = convert.to_bytes(impl->data());
+//		Buffer buffer;
+//		buffer.WriteBuffer(string.data(), string.size());
+//		return buffer;
     }
 
     Buffer String::ToWchar() const {
@@ -145,11 +150,12 @@ namespace Core {
     }
 
     Buffer String::ToUtf8() const {
-		std::wstring_convert<std::codecvt_utf8<wchar_t>> convert;
-		auto string = convert.to_bytes(impl->data());
-		Buffer buffer;
-		buffer.WriteBuffer(string.data(), string.size());
-        return buffer;
+        return Buffer();
+//		std::wstring_convert<std::codecvt_utf8<wchar_t>> convert;
+//		auto string = convert.to_bytes(impl->data());
+//		Buffer buffer;
+//		buffer.WriteBuffer(string.data(), string.size());
+//        return buffer;
     }
 
     const String String::Replace(const String& what, const String& with) const
@@ -212,8 +218,8 @@ namespace Core {
     {
 		if (!s)
 			return;
-		std::wstring_convert<std::codecvt<wchar_t, char, std::mbstate_t>> convert;
-		*impl = convert.from_bytes(s);		
+//		std::wstring_convert<std::codecvt<wchar_t, char, std::mbstate_t>> convert;
+//		*impl = convert.from_bytes(s);
     }
 
     String::String(const char* s, std::uint32_t length)
@@ -221,8 +227,8 @@ namespace Core {
     {
 		if (!s)
 			return;
-		std::wstring_convert<std::codecvt<wchar_t, char, std::mbstate_t>> convert;
-		*impl = convert.from_bytes(s, s + length);
+//		std::wstring_convert<std::codecvt<wchar_t, char, std::mbstate_t>> convert;
+//		*impl = convert.from_bytes(s, s + length);
     }
 
     String::String(const String& s)
@@ -726,5 +732,7 @@ namespace Core {
     String* String::Clone() const {
         return new String(*this);
     }
+#endif
+
 }/**/
 PUNK_ENGINE_END

@@ -2,6 +2,11 @@
 #define _H_PUNK_ENGINE_PUBLIC_CONFIG
 
 // Generic helper definitions for shared library support
+#ifdef PUNK_STATIC_LIB
+#   define PUNK_ENGINE_HELPER_DLL_IMPORT
+#   define PUNK_ENGINE_HELPER_DLL_EXPORT
+#   define PUNK_ENGINE_HELPER_DLL_LOCAL
+#else
 #if defined _WIN32 || defined __CYGWIN__
 #   define PUNK_ENGINE_HELPER_DLL_IMPORT __declspec(dllimport)
 #   define PUNK_ENGINE_HELPER_DLL_EXPORT __declspec(dllexport)
@@ -15,6 +20,7 @@
 #   define PUNK_ENGINE_HELPER_DLL_IMPORT
 #   define PUNK_ENGINE_HELPER_DLL_EXPORT
 #   define PUNK_ENGINE_HELPER_DLL_LOCAL
+#endif
 #endif
 #endif
 

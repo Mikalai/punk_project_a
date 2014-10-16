@@ -107,9 +107,15 @@ namespace Math {
             return m_plane;
         }
 
+#ifdef USE_QT
+        const QString ToString() const {
+            return m_plane.ToString();
+        }
+#else
         const Core::String ToString() const {
             return m_plane.ToString();
         }
+#endif
 
         TPlane& Normalize() {
             T f = T{1} / (Tuple<T, 3, tagVector>{m_plane.XYZ()}).Length();
@@ -151,7 +157,7 @@ namespace Math {
 			const auto dst = line.GetDestination();
 			const auto dir = dst - org;
 			T v = *this * vec4(dir, 0);
-			T distance = p * org;
+            T distance = *this * org;
 
 			if (Abs(v) < Eps)
 			{
@@ -169,7 +175,7 @@ namespace Math {
 		Relation CrossLine(const Line<T, 3>& line, Tuple<T, 3, tagPoint>& point) const
 		{
 			T t = 0;
-			Relation res = this->CrossLine(line, p, t);
+            Relation res = this->CrossLine(line, point, t);
 			point = line.PointAt(t);
 			return res;
 		}
@@ -211,14 +217,14 @@ namespace Math {
 			auto org = line.GetOrigin();
 			auto dst = line.GetDestination();
 			auto dir = line.GetDirection();
-			auto normal = plane.GetNormal();
+            auto normal = this->GetNormal();
 			auto s = dir.Dot(normal);
-			auto org_relative = ClassifyPoint(org, plane);
-			auto dst_relative = ClassifyPoint(dst, plane);
+            auto org_relative = ClassifyPoint(org, *this);
+            auto dst_relative = ClassifyPoint(dst, *this);
 
 			//	find intersection point
 			T t;
-			if (plane.CrossLine(line, t) != Relation::INTERSECT)
+            if (this->CrossLine(line, t) != Relation::INTERSECT)
 				return Relation::NOT_INTERSECT;
 
 			if (t < 0 || t > 1)
