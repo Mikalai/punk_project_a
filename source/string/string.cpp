@@ -725,6 +725,11 @@ namespace Core {
         return *this;
     }
 
+	const String String::FromUtf16(const char16_t* buffer) {
+		auto result = String{ (wchar_t*)buffer };
+		return result;
+	}
+
     bool operator < (const String& l, const String& r) {
         return *l.impl < *r.impl;
     }
@@ -732,6 +737,12 @@ namespace Core {
     String* String::Clone() const {
         return new String(*this);
     }
+
+	const std::wstring String::toStdWString() const {
+		std::wstring result{ *impl };
+		return result;
+	}
+
 #endif
 
 }/**/

@@ -38,11 +38,20 @@ namespace Core {
         const wchar_t* buf = buffer.data();
 		std::uint16_t data[8];
 #ifdef WIN32
-        const auto ret = swscanf(buf, L"%8X-%4hX-%4hX-%2hX%2hX-%2hX%2hX%2hX%2hX%2hX%2hX\0",
+#ifdef _MSC_VER
+        const auto ret = swscanf_s(buf, L"%8X-%4hX-%4hX-%2hX%2hX-%2hX%2hX%2hX%2hX%2hX%2hX\0",
 			&m_core.Data1, &m_core.Data2, &m_core.Data3,
 			&data[0], &data[1], &data[2],
 			&data[3], &data[4], &data[5],
 			&data[6], &data[7]);		
+#else
+		const auto ret = swscanf(buf, L"%8X-%4hX-%4hX-%2hX%2hX-%2hX%2hX%2hX%2hX%2hX%2hX\0",
+			&m_core.Data1, &m_core.Data2, &m_core.Data3,
+			&data[0], &data[1], &data[2],
+			&data[3], &data[4], &data[5],
+			&data[6], &data[7]);		
+#endif	//	_MSC_VER
+
 #elif defined __linux__
         const auto ret = swscanf(buf, L"%8X-%4hX-%4hX-%2hX%2hX-%2hX%2hX%2hX%2hX%2hX%2hX\0",
             &m_core.Data1, &m_core.Data2, &m_core.Data3,

@@ -7,6 +7,7 @@
 
 #include <cstdint>
 #include <config.h>
+#include <string>
 
 PUNK_ENGINE_BEGIN
 namespace Core
@@ -68,6 +69,7 @@ namespace Core
         double ToDouble() const;
         const String ToLower() const;
         const String ToUpper() const;
+		const std::wstring toStdWString() const;
 
         String& arg(std::int8_t value);
         String& arg(std::uint8_t value);
@@ -98,6 +100,10 @@ namespace Core
         static const String Convert(bool value);
         static const String Convert(void* value);
         static const String FromUtf8(const Buffer& buffer);
+		static const String FromUtf16(const char16_t* buffer);
+		static const String fromUtf16(const char16_t* buffer) {
+			return FromUtf16(buffer);
+		}
 
         String* Clone() const;
 
