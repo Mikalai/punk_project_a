@@ -1,0 +1,4 @@
+texture0=.\cardboardbox_diff.tex
+texture1=.\cardboardbox_dot3.tex
+shader="Shaders/Model/diffuse+normal.shader"
+

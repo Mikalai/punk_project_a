@@ -1,0 +1,2 @@
+texture0=.\leadwerks.tex
+shader="Shaders/Model/diffuse.shader"

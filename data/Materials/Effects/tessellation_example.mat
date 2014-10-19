@@ -1,0 +1,18 @@
+//Leadwerks Material File
+
+blendmode=0
+castshadows=1
+zsort=0
+cullbackfaces=1
+depthtest=1
+depthmask=1
+diffuse=0.458823532,0.427450985,0.341176480,1.00000000
+specular=1.00000000,1.00000000,1.00000000,0.501960814
+alwaysuseshader=0
+drawmode=-1
+
+shader="shaders\model\diffuse+normal+specular+displacement.shader"
+texture0=".\rockwall_diffuse.tex"
+texture1=".\rockwall_bump.tex"
+texture2=".\rockwall_diffuse.tex"
+texture3=".\rockwall_height.tex"
