@@ -143,6 +143,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\entities\ibag.h" />
+    <ClInclude Include="..\..\source\entities\ijudgment.h" />
+    <ClInclude Include="..\..\source\entities\ilaw.h" />
     <ClInclude Include="..\..\source\entities\ishape.h" />
   </ItemGroup>
   <ItemGroup>

@@ -15,7 +15,7 @@ namespace Entities {
 		virtual double GetMaxVolume() const = 0;
 		virtual bool CanAddItem(IShape* item) const = 0;
 		virtual double GetFreeVolume() const = 0;
-		virtual double Get
+		//virtual double Get
 	};
 }
 PUNK_ENGINE_END
