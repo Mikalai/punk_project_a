@@ -126,7 +126,7 @@ void Matrix2x2Test::testIndex() {
 void Matrix2x2Test::testRowColumn() {
 	mat2 m2{ 1, 2, 3, 4 };
 	vec2 row0 = m2.GetRow(0);
-	CPPUNIT_ASSERT(row0 = vec2(1, 3));
+	CPPUNIT_ASSERT(row0 == vec2(1, 3));
 	vec2 row1 = m2.GetRow(1);
 	CPPUNIT_ASSERT(row1 == vec2(2, 4));
 }

@@ -103,13 +103,14 @@ namespace Math {
 			return this->m_v.at(index);
 		}
 
-		operator T* () {
+		T* data() {
 			return this->m_v.data();
 		}
 
-		operator const T* () const {
+		const T* data() const {
 			return this->m_v.data();
 		}
+
 #ifdef USE_QT
         const QPointF ToQPointF() const {
             return QPointF{this->m_v[0], this->m_v[1]};
@@ -233,7 +234,7 @@ namespace Math {
 		}
 
 		const Tuple<T, 2, tag> XZ() const {
-			return TupleData < T, 2, tag > { this->m_v[0], this->m_v[2] };
+			return TupleData < T, 2, tag > {{this->m_v[0], this->m_v[2]}};
 		}
 
 		const Tuple<T, 2, tag> ZX() const {
@@ -284,13 +285,13 @@ namespace Math {
 		TupleComponentAccessor() {}
 
 		TupleComponentAccessor(const TupleData<T, 3, tag>& v, const T& value)
-            : TupleComponentAccessorBase<T, 4, tag>{ { v.m_v[0], v.m_v[1], v.m_v[2], value } } {}
+            : TupleComponentAccessorBase<T, 4, tag>( { v.m_v[0], v.m_v[1], v.m_v[2], value } ) {}
 
 		TupleComponentAccessor(const TupleData<T, 3, tag>& value)
-			: TupleComponentAccessor{ { value.m_v[0], value.m_v[1], value.m_v[2] } } {}
+			: TupleComponentAccessor( { value.m_v[0], value.m_v[1], value.m_v[2] } ) {}
 
 		TupleComponentAccessor(const TupleData<T, 2, tag>& value)
-			: TupleComponentAccessor{ { value.m_v[0], value.m_v[1], T{ 0 }, T{ 1 } } } {}
+			: TupleComponentAccessor( { value.m_v[0], value.m_v[1], T{ 0 }, T{ 1 } } ) {}
 
 		TupleComponentAccessor(const T& x, const T& y, const T& z, const T& w)
 			: TupleComponentAccessor({ x, y, z, w }) {}
@@ -590,7 +591,7 @@ namespace Math {
 			: TupleComponentAccessor({ w, x, y, z }) {}
 
 		TupleComponentAccessor(const T& w, const TupleData<T, 3, tagVector>& v)
-			: TupleComponentAccessor({ w, v.m_v[0], v.m_v[1], v.m_v[2] }) {}
+			: TupleComponentAccessor(w, v.m_v[0], v.m_v[1], v.m_v[2] ) {}
 
 		void Set(const T& w, const T& x, const T& y, const T& z) {
 			this->m_v[0] = w; this->m_v[1] = x; this->m_v[2] = y; this->m_v[3] = z;

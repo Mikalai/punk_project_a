@@ -9,7 +9,7 @@ using namespace Punk::Engine::Core;
 using namespace Punk::Engine::Math;
 
 void Vector4Test::testVector4() {
-    vec4 v1(1, 2, 3, 4);
+	const vec4 v1{ 1, 2, 3, 4 };
     CPPUNIT_ASSERT(v1[0] == 1);
     CPPUNIT_ASSERT(v1[1] == 2);
     CPPUNIT_ASSERT(v1[2] == 3);

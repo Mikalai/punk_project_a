@@ -26,6 +26,9 @@ class Vector2Test : public CppUnit::TestFixture
 	CPPUNIT_TEST_SUITE_END();
 public:
 	void testXYRG() {
+		TupleData<float, 2, tagVector> vv{ { 1, 2 } };
+		TupleComponentAccessorBase<float, 2, tagVector> vvv{ { 1, 2 } };
+		vvv[0] = 1;
 		vec2 v{ 1, 2 };
 		CPPUNIT_ASSERT(v.X() == 1);
 		CPPUNIT_ASSERT(v.Y() == 2);

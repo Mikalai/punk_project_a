@@ -163,15 +163,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\source\math\absolute_value.cpp" />
     <ClCompile Include="..\..\source\math\array.cpp" />
     <ClCompile Include="..\..\source\math\astar.cpp" />
     <ClInclude Include="..\..\source\math\clip_segment.h">
       <FileType>CppCode</FileType>
     </ClInclude>
-    <ClCompile Include="..\..\source\math\clip_space.cpp" />
-    <ClCompile Include="..\..\source\math\convex_shape_mesh.cpp" />
-    <ClCompile Include="..\..\source\math\frustum_core.cpp" />
     <ClCompile Include="..\..\source\math\icurve.cpp" />
     <ClInclude Include="..\..\source\math\forward.h">
       <FileType>CppCode</FileType>
@@ -179,7 +175,6 @@
     <ClCompile Include="..\..\source\math\ifrustum.cpp" />
     <ClCompile Include="..\..\source\math\frustum_plane.cpp" />
     <ClCompile Include="..\..\source\math\graham.cpp" />
-    <ClCompile Include="..\..\source\math\gramm_shmidt.cpp" />
     <ClCompile Include="..\..\source\math\graph\graph.cpp" />
     <ClCompile Include="..\..\source\math\graph\graph_edge.cpp" />
     <ClCompile Include="..\..\source\math\graph\graph_vertex.cpp" />
@@ -220,33 +215,14 @@
     <ClCompile Include="..\..\source\math\libnoise\noise\src\module\turbulence.cpp" />
     <ClCompile Include="..\..\source\math\libnoise\noise\src\module\voronoi.cpp" />
     <ClCompile Include="..\..\source\math\libnoise\noise\src\noisegen.cpp" />
-    <ClCompile Include="..\..\source\math\line2d.cpp" />
-    <ClCompile Include="..\..\source\math\linear_equation_solver.cpp" />
-    <ClCompile Include="..\..\source\math\mat3.cpp" />
-    <ClCompile Include="..\..\source\math\mat4.cpp" />
-    <ClCompile Include="..\..\source\math\math.cpp" />
-    <ClCompile Include="..\..\source\math\math_error.cpp" />
-    <ClCompile Include="..\..\source\math\matrix_helper.cpp" />
     <ClCompile Include="..\..\source\math\metric\value.cpp" />
-    <ClCompile Include="..\..\source\math\min_max.cpp" />
     <ClCompile Include="..\..\source\math\inoise_generator.cpp" />
-    <ClCompile Include="..\..\source\math\perspective_decoder.cpp" />
-    <ClCompile Include="..\..\source\math\polygon3d.cpp" />
-    <ClCompile Include="..\..\source\math\portal.cpp" />
-    <ClCompile Include="..\..\source\math\pe_power.cpp" />
-    <ClCompile Include="..\..\source\math\quat.cpp" />
     <ClCompile Include="..\..\source\math\random.cpp" />
     <ClCompile Include="..\..\source\math\recount.cpp" />
-    <ClCompile Include="..\..\source\math\rect.cpp" />
-    <ClCompile Include="..\..\source\math\relations.cpp" />
     <ClCompile Include="..\..\source\math\root_find.cpp" />
     <ClCompile Include="..\..\source\math\spatial\oct_tree.cpp" />
-    <ClCompile Include="..\..\source\math\pe_sphere.cpp" />
     <ClCompile Include="..\..\source\math\spherical.cpp" />
     <ClCompile Include="..\..\source\math\ispline.cpp" />
-    <ClCompile Include="..\..\source\math\square_root.cpp" />
-    <ClCompile Include="..\..\source\math\triangle2d.cpp" />
-    <ClCompile Include="..\..\source\math\triangle3d.cpp" />
     <ClCompile Include="..\..\source\math\trigonometry.cpp" />
     <ClInclude Include="..\..\source\math\calculate_average.h" />
     <ClInclude Include="..\..\source\math\calculate_native_axis.h" />
@@ -303,11 +279,6 @@
     <ClInclude Include="..\..\source\math\tuple.h">
       <FileType>CppHeader</FileType>
     </ClInclude>
-    <ClCompile Include="..\..\source\math\tuple.cpp" />
-    <ClCompile Include="..\..\source\math\vec3.cpp" />
-    <ClCompile Include="..\..\source\math\vec4.cpp" />
-    <ClCompile Include="..\..\source\math\volume_construction.cpp" />
-    <ClCompile Include="..\..\source\math\weighted_point.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\math\aabb.h" />
@@ -318,7 +289,6 @@
     <ClInclude Include="..\..\source\math\bounding_sphere.h" />
     <ClInclude Include="..\..\source\math\catmull_rom_spline.h" />
     <ClInclude Include="..\..\source\math\clip_space.h" />
-    <ClInclude Include="..\..\source\math\complex.h" />
     <ClInclude Include="..\..\source\math\constants.h" />
     <ClInclude Include="..\..\source\math\convex_shape_mesh.h" />
     <ClInclude Include="..\..\source\math\ellipsoid.h" />
@@ -347,7 +317,6 @@
     <ClInclude Include="..\..\source\math\math.h" />
     <ClInclude Include="..\..\source\math\math_error.h" />
     <ClInclude Include="..\..\source\math\matrix.h" />
-    <ClInclude Include="..\..\source\math\matrix_helper.h" />
     <ClInclude Include="..\..\source\math\metric\value.h" />
     <ClInclude Include="..\..\source\math\min_max.h" />
     <ClInclude Include="..\..\source\math\module.h" />

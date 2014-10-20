@@ -97,11 +97,11 @@ namespace Math {
 			return this->m_v.at(index);
 		}
 
-		operator T* () {
+		T* data() {
 			return this->m_v.data();
 		}
 
-		operator const T* () const {
+		const T* data() const {
 			return this->m_v.data();
 		}
 
@@ -158,7 +158,7 @@ namespace Math {
 
 		MatrixComponentAccessor() {}
 		MatrixComponentAccessor(const MatrixData<T, Rows, Cols>& value)
-            : MatrixComponentAccessorBase<T, Rows, Cols>{ value } {}
+            : MatrixComponentAccessorBase<T, Rows, Cols>( value ) {}
 	};
 
 	template<class T, int Rows, int Cols>
