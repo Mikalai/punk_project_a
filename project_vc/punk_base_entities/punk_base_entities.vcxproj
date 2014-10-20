@@ -146,6 +146,7 @@
     <ClInclude Include="..\..\source\entities\ijudgment.h" />
     <ClInclude Include="..\..\source\entities\ilaw.h" />
     <ClInclude Include="..\..\source\entities\ishape.h" />
+    <ClInclude Include="icollection.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\entities\main.cpp" />
