@@ -1,3 +1,4 @@
+#include <attributes/transform/module.h>
 #include <system/logger/module.h>
 #include "ibag.h"
 #include "icollection_impl.h"
@@ -6,7 +7,7 @@
 PUNK_ENGINE_BEGIN
 namespace Entities {
 
-	class Bag : public IBag, public ICollection, public Core::ISerializable {
+	class Bag : public IBag, public ICollection, public Core::ISerializable, public IShape {
 	public:
 		//	IObject
 		void QueryInterface(const Core::Guid& type, void** object) override { 
@@ -88,17 +89,38 @@ namespace Entities {
 			return m_collection.GetItem(index);
 		}
 
+		//	IShape
+		void SetMass(double value) override {
+			m_mass = value;
+		}
+
+		double GetMass() const override {
+			return m_mass;
+		}
+
+		void SetVolume(double value) override {
+			m_volume = value;
+		}
+
+		double GetVolume() const override {
+			return m_volume;
+		}
+
 		//	ISerializable
 		void Serialize(Core::Buffer& buffer) override {
 			buffer.WritePod(CLSID_Bag);
 			buffer.WritePod(m_max_volume);
 			buffer.WritePod(m_free_volume);
+			buffer.WritePod(m_mass);
+			buffer.WritePod(m_volume);
 			m_collection.Serialize(buffer);
 		}
 
 		void Deserialize(Core::Buffer& buffer) override {			
 			buffer.ReadPod(m_max_volume);
 			buffer.ReadPod(m_free_volume);
+			buffer.ReadPod(m_mass);
+			buffer.ReadPod(m_volume);
 			m_collection.Deserialize(buffer);
 		}
 
@@ -108,6 +130,8 @@ namespace Entities {
 		//	IBag
 		double m_max_volume{ 10 };
 		double m_free_volume{ 10 };
+		double m_mass{ 0.5 };
+		double m_volume{ 1 };
 
 		//	ICollection
 		Collection<IShape> m_collection;

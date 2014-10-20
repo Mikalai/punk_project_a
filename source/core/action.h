@@ -82,6 +82,14 @@ namespace Core {
 			}
 		}
 
+		virtual void operator() (O* o, Types... value)
+		{
+			if (o && m_method)
+			{
+				(o->*m_method)(value...);
+			}
+		}
+
 		bool IsOwner(void* o) const override {
 			return (void*)m_object == o;
 		}

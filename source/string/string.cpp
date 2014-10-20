@@ -218,8 +218,8 @@ namespace Core {
     {
 		if (!s)
 			return;
-//		std::wstring_convert<std::codecvt<wchar_t, char, std::mbstate_t>> convert;
-//		*impl = convert.from_bytes(s);
+		std::wstring_convert<std::codecvt<wchar_t, char, std::mbstate_t>> convert;
+		*impl = convert.from_bytes(s);
     }
 
     String::String(const char* s, std::uint32_t length)
@@ -227,8 +227,8 @@ namespace Core {
     {
 		if (!s)
 			return;
-//		std::wstring_convert<std::codecvt<wchar_t, char, std::mbstate_t>> convert;
-//		*impl = convert.from_bytes(s, s + length);
+		std::wstring_convert<std::codecvt<wchar_t, char, std::mbstate_t>> convert;
+		*impl = convert.from_bytes(s, s + length);
     }
 
     String::String(const String& s)
