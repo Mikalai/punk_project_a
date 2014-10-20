@@ -5,8 +5,10 @@
     <ClInclude Include="..\..\source\entities\ibag.h" />
     <ClInclude Include="..\..\source\entities\ilaw.h" />
     <ClInclude Include="..\..\source\entities\ijudgment.h" />
+    <ClInclude Include="..\..\source\entities\iactivity_manager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\entities\main.cpp" />
+    <ClCompile Include="..\..\source\entities\ilaw.cpp" />
   </ItemGroup>
 </Project>
