@@ -157,6 +157,18 @@ namespace Core {
 	inline bool operator != (const Core::Pointer<T>& l, const Core::Pointer<T>& r) {
 		return l.get() != r.get();
 	}
+
+	template<class T, class U>
+	inline bool operator != (const Core::Pointer<T>& l, const Core::Pointer<U>& r) {
+		Core::Pointer<T> v = r;
+		return v != l;
+	}
+
+	template<class T, class U>
+	inline bool operator == (const Core::Pointer<T>& l, const Core::Pointer<U>& r) {
+		Core::Pointer<T> v = r;
+		return v == l;
+	}
 }
 PUNK_ENGINE_END
 
