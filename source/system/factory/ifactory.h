@@ -18,6 +18,10 @@ namespace System {
         virtual void CreateInstance(const Core::Guid& type, void** object) = 0;
         virtual void RegisterCreator(const Core::String& name, const Core::Guid& type, void(*Creator)(void** object)) = 0;
         virtual void UnregisterCreator(const Core::Guid& type) = 0;
+		virtual std::uint32_t GetCreatorsCount() const = 0;
+		virtual const Core::String GetCreatorName(std::uint32_t index) const = 0;
+		virtual const Core::Guid GetCreatorGuid(std::uint32_t index) const = 0;
+		virtual const Core::Guid GetCreatorGuid(const Core::String name) const = 0;
 	};
 
 	extern PUNK_ENGINE_API IFactory* GetFactory();

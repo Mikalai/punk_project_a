@@ -45,7 +45,7 @@ namespace System
 #define LOG_FUNCTION_SCOPE System::__private::LogScope __scope(Core::String(__PRETTY_FUNCTION__))// + L" in " + Core::String(__FILE__) + L": " + Core::String::Convert(__LINE__));
 #endif
 
-#define LOG_SCOPE(MESSAGE) //System::__private::LogScope __scope(MESSAGE)
+#define LOG_SCOPE(MESSAGE) System::__private::LogScope __scope(MESSAGE)
 
 #else
 #define LOG_FUNCTION_SCOPE
