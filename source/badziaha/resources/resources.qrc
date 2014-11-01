@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>ranger.png</file>
+        <file>grass.png</file>
+        <file>water.png</file>
+        <file>sand.png</file>
+        <file>dirt.png</file>
+        <file>forest.png</file>
+        <file>rocks.png</file>
+        <file>city.png</file>
+        <file>worker.png</file>
+        <file>saw.png</file>
+        <file>road_e_w.png</file>
+        <file>road_e_w_s.png</file>
+        <file>road_n_e.png</file>
+        <file>road_n_w.png</file>
+        <file>road_n_w_e.png</file>
+        <file>road_n_w_s.png</file>
+        <file>road_s_e.png</file>
+        <file>road.png</file>
+    </qresource>
+</RCC>

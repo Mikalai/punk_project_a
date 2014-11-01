@@ -3,8 +3,105 @@
   <ItemGroup>
     <ClCompile Include="..\..\source\badziaha\App.cpp" />
     <ClCompile Include="..\..\source\badziaha\main.cpp" />
+    <ClCompile Include="..\..\source\badziaha\forms\main_window.cpp">
+      <Filter>forms</Filter>
+    </ClCompile>
+    <ClCompile Include="moc_main_window.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
+    <ClCompile Include="qrc_resources.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\badziaha\unit_model.cpp" />
+    <ClCompile Include="..\..\source\badziaha\unit.cpp" />
+    <ClCompile Include="moc_game.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
+    <ClCompile Include="moc_global_field.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
+    <ClCompile Include="moc_local_field.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
+    <ClCompile Include="moc_player.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
+    <ClCompile Include="moc_unit.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
+    <ClCompile Include="moc_squad.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\badziaha\global_field.cpp" />
+    <ClCompile Include="..\..\source\badziaha\squad.cpp" />
+    <ClCompile Include="..\..\source\badziaha\squad_graphics_item.cpp" />
+    <ClCompile Include="..\..\source\badziaha\resources.cpp" />
+    <ClCompile Include="..\..\source\badziaha\global_field_cell.cpp" />
+    <ClCompile Include="..\..\source\badziaha\city.cpp" />
+    <ClCompile Include="moc_city.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\badziaha\city_graphics_item.cpp" />
+    <ClCompile Include="moc_entity.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\badziaha\entity.cpp" />
+    <ClCompile Include="moc_city_widget.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\badziaha\forms\city_widget.cpp">
+      <Filter>forms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\badziaha\road_graphics_item.cpp" />
+    <ClCompile Include="..\..\source\badziaha\road.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\badziaha\App.h" />
+    <ClInclude Include="..\..\source\badziaha\unit_model.h" />
+    <ClInclude Include="..\..\source\badziaha\unit_type.h" />
+    <ClInclude Include="..\..\source\badziaha\squad_graphics_item.h" />
+    <ClInclude Include="..\..\source\badziaha\resources.h" />
+    <ClInclude Include="..\..\source\badziaha\global_field_cell.h" />
+    <ClInclude Include="..\..\source\badziaha\city_graphics_item.h" />
+    <ClInclude Include="..\..\source\badziaha\model_type.h" />
+    <ClInclude Include="..\..\source\badziaha\entity.h" />
+    <ClInclude Include="..\..\source\badziaha\unit_graphics_item.h" />
+    <ClInclude Include="..\..\source\badziaha\forms\city_widget.h">
+      <Filter>forms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\badziaha\road_graphics_item.h" />
+    <ClInclude Include="..\..\source\badziaha\road.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="forms">
+      <UniqueIdentifier>{78305b68-b81e-46d6-8540-8baacb27322d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="generated">
+      <UniqueIdentifier>{280eeca9-0ad3-4ddb-8a2a-1c2afac88adc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resources">
+      <UniqueIdentifier>{f4143e0b-a77f-4dd5-a7b3-c4a5c3e2c39f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\source\badziaha\city.h" />
+    <CustomBuild Include="..\..\source\badziaha\game.h" />
+    <CustomBuild Include="..\..\source\badziaha\global_field.h" />
+    <CustomBuild Include="..\..\source\badziaha\unit.h" />
+    <CustomBuild Include="..\..\source\badziaha\squad.h" />
+    <CustomBuild Include="..\..\source\badziaha\resources\resources.qrc">
+      <Filter>resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\source\badziaha\forms\main_window.ui">
+      <Filter>forms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\source\badziaha\forms\main_window.h">
+      <Filter>forms</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\source\badziaha\forms\city_widget.ui">
+      <Filter>forms</Filter>
+    </None>
   </ItemGroup>
 </Project>
