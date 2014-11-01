@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/resources/icons">
+        <file>icon.ico</file>
+        <file>head.ico</file>
+        <file>head_dead.ico</file>
+        <file>head_win.ico</file>
+    </qresource>
+</RCC>

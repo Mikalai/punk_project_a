@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="forms">
+      <UniqueIdentifier>{a76b36fb-5dff-409e-8c0e-2d166abad289}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="generated">
+      <UniqueIdentifier>{c972b499-8766-4db3-842a-a0f4f6524b8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resources">
+      <UniqueIdentifier>{671bc7a0-4492-4faf-9953-cc7eb7c32624}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\source\games\minesweeper\main_window.ui">
+      <Filter>forms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\source\games\minesweeper\main_form.h" />
+    <CustomBuild Include="..\..\source\games\minesweeper\field_cell.h" />
+    <CustomBuild Include="..\..\source\games\minesweeper\field.h" />
+    <CustomBuild Include="..\..\source\games\minesweeper\records_window.ui">
+      <Filter>forms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\source\games\minesweeper\records_window.h" />
+    <CustomBuild Include="..\..\source\games\minesweeper\name_dialog.ui">
+      <Filter>forms</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\source\games\minesweeper\field_cell.cpp" />
+    <ClCompile Include="..\..\source\games\minesweeper\main_form.cpp" />
+    <ClCompile Include="moc_main_form.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
+    <ClCompile Include="moc_field_cell.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\games\minesweeper\main.cpp" />
+    <ClCompile Include="moc_field.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\games\minesweeper\field.cpp" />
+    <ClCompile Include="..\..\source\games\minesweeper\records_window.cpp" />
+    <ClCompile Include="moc_records_window.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\games\minesweeper\record_table.cpp" />
+    <ClCompile Include="moc_name_dialog.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\games\minesweeper\name_dialog.cpp" />
+    <ClCompile Include="qrc_resources.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
+    <ClCompile Include="moc_custom_field.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\games\minesweeper\custom_field.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\games\minesweeper\record_table.h" />
+    <ClInclude Include="..\..\source\games\minesweeper\name_dialog.h" />
+    <ClInclude Include="..\..\source\games\minesweeper\custom_field.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\source\games\minesweeper\resources.qrc">
+      <Filter>resources</Filter>
+    </None>
+    <None Include="..\..\source\games\minesweeper\custom_field.ui">
+      <Filter>forms</Filter>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>
