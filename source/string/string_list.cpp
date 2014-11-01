@@ -10,7 +10,10 @@ namespace Core {
 	namespace __private {
 		struct StringListImpl {
 			std::list<String> m_list;
+			static String m_bad_string;
 		};
+
+		String StringListImpl::m_bad_string;
 	}
 
 	StringList::StringList()
@@ -61,6 +64,8 @@ namespace Core {
 	}
 
 	String& StringList::operator [] (std::uint32_t index) {
+		if (index >= impl->m_list.size())
+			return impl->m_bad_string;
 		std::list<String>::iterator it = impl->m_list.begin();
 		std::advance(it, index);
 		return *it;

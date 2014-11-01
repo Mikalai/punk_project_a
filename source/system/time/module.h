@@ -3,5 +3,6 @@
 
 #include "itimer.h"
 #include "iclock.h"
+#include "iimpulse_generator.h"
 
 #endif // MODULE_H

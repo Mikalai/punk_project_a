@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\source\qt\main.cpp" />
+    <ClCompile Include="moc_qt_object_tab.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
+    <ClCompile Include="moc_qt_tab_holder.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\qt\iproperty_window.cpp" />
+    <ClCompile Include="moc_qt_collection_tab.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="forms">
+      <UniqueIdentifier>{af608eff-2474-4665-8225-c62aa456b52f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="generated">
+      <UniqueIdentifier>{4779e8e5-700d-4fb3-b488-496d593c4bb0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\source\qt\forms\qt_iobject_tab.ui">
+      <Filter>forms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\source\qt\forms\qt_tab_holder.ui">
+      <Filter>forms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\source\qt\qt_object_tab.h" />
+    <CustomBuild Include="..\..\source\qt\qt_tab_holder.h" />
+    <CustomBuild Include="..\..\source\qt\forms\qt_icollection_tab.ui">
+      <Filter>forms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\source\qt\qt_collection_tab.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\qt\module.h" />
+    <ClInclude Include="..\..\source\qt\iobject_tab.h" />
+    <ClInclude Include="..\..\source\qt\itab_holder.h" />
+    <ClInclude Include="..\..\source\qt\itab.h" />
+    <ClInclude Include="..\..\source\qt\iwidget.h" />
+    <ClInclude Include="..\..\source\qt\iproperty_window.h" />
+    <ClInclude Include="..\..\source\qt\icollection_tab.h" />
+  </ItemGroup>
+</Project>

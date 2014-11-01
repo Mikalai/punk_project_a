@@ -443,9 +443,9 @@ namespace Graphics {
             if (value.IsEnabled())
             {
                 SetUniformVector4f(light.direction, value.GetDirection());
-                SetUniformVector4f(light.position, value.GetPosition());
+                SetUniformVector4f(light.position, value.GetPosition().data());
                 SetUniformVector4f(light.view_direction, value.GetViewDirection());
-                SetUniformVector4f(light.view_position, value.GetViewPosition());
+                SetUniformVector4f(light.view_position, value.GetViewPosition().data());
                 SetUniformVector4f(light.diffuse_color, value.GetDiffuseColor());
                 SetUniformVector4f(light.ambient_color, value.GetAmbientColor());
                 SetUniformFloat(light.attenuation_constant, value.GetLightConstantAttenuation());

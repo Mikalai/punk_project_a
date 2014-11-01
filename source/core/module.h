@@ -5,7 +5,6 @@
 #include "action.h"
 #include "container.h"
 #include "iobject.h"
-#include "meta_class.h"
 #include "meta_class_base.h"
 #include "pool.h"
 #include "pool_manager.h"
@@ -18,5 +17,6 @@
 #include "weak_pointer.h"
 #include "iserializable.h"
 #include "iclonable.h"
+#include "iinterface_accessor.h"
 
 #endif // MODULE_H

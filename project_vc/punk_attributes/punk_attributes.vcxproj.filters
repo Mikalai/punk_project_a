@@ -526,6 +526,12 @@
     <ClInclude Include="..\..\source\attributes\terrain\iterrain_data_provider.h">
       <Filter>terrain</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\attributes\collection\icollection.h">
+      <Filter>collection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\collection\icollection_impl.h">
+      <Filter>collection</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="water">
@@ -584,6 +590,9 @@
     </Filter>
     <Filter Include="selection">
       <UniqueIdentifier>{468bb8eb-57d6-4ea5-8e72-b8c1cb808ad4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="collection">
+      <UniqueIdentifier>{9c9c697f-d84a-4efd-b5e0-9c39b9ff5431}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

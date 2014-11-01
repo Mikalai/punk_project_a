@@ -11,6 +11,7 @@
 #include <attributes/animation/module.h>
 #include <attributes/animation/module.h>
 #include <tools/editor/editor_interface.h>
+#include <attributes/collection/icollection_impl.h>
 #include "itransform.h"
 
 PUNK_ENGINE_BEGIN
@@ -22,6 +23,7 @@ namespace Attributes {
 		, public Core::ISerializable
 		, public Core::IClonable
 		, public Tools::IEditableElement
+		, public ICollection
 		, public System::ISupportDebugImpl < Transform > {
 	public:
 
@@ -40,7 +42,6 @@ namespace Attributes {
 			m_rotation.SubscribeOnValueChanged({ new Core::Action < Transform, const Math::quat& >{ this, &Transform::SetRotation }, Core::DestroyObject });
 			m_scale.SubscribeOnValueChanged({ new Core::Action < Transform, const Math::vec3& >{ this, &Transform::SetScale }, Core::DestroyObject });
 			m_transform.SubscribeOnValueChanged({ new Core::Action < Transform, const Math::mat4&>{ this, &Transform::SetMatrix}, Core::DestroyObject });
-
 		}
 
 		virtual ~Transform()
@@ -83,6 +84,10 @@ namespace Attributes {
 				*object = (void*)(System::ISupportDebug*)this;
 				AddRef();
 			}
+			else if (type == IID_ICollection) {
+				*object = (void*)(ICollection*)this;
+				AddRef();
+			}
 			else
 				*object = nullptr;
 		}
@@ -98,7 +103,6 @@ namespace Attributes {
 			return v;
 		}
 
-		//	ITransform
 		void SetMatrix(const Math::mat4& value) override {
 			m_transform.Set(value);
 			Math::vec3 pos, scale;
@@ -267,6 +271,27 @@ namespace Attributes {
 			panel->AddMat4FloatEditor("Transform:", &m_transform);
 		}
 
+		//	ICollection
+		void Add(Core::Pointer<Core::IObject> value) override {
+			m_children.Add(value);
+		}
+
+		void Remove(Core::Pointer<Core::IObject> value) override {
+			m_children.Remove(value);
+		}
+
+		std::uint32_t Size() const override {
+			return m_children.Size();
+		}
+
+		const Core::Pointer<Core::IObject> GetItem(std::uint32_t index) const override {
+			return m_children.GetItem(index);
+		}
+
+		Core::Pointer<Core::IObject> GetItem(std::uint32_t index) override {
+			return m_children.GetItem(index);
+		}
+
 	private:
 		//	IObject
 		std::atomic<std::uint32_t> m_ref_count{ 0 };
@@ -284,6 +309,9 @@ namespace Attributes {
 		std::int32_t m_rotation_track_index{ -1 };
 		std::int32_t m_scale_track_index{ -1 };
 		std::vector<Core::String> m_supported_animations;
+
+		//	ICollection
+		Collection<Core::IObject> m_children;
 	};
 
 	PUNK_REGISTER_CREATOR(CLSID_Transform, (System::CreateInstance<Transform, ITransform>));

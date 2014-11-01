@@ -250,6 +250,7 @@
     <ClInclude Include="..\..\source\system\streaming\streaming_component.h" />
     <ClInclude Include="..\..\source\system\streaming\streaming_result.h" />
     <ClInclude Include="..\..\source\system\time\iclock.h" />
+    <ClInclude Include="..\..\source\system\time\iimpulse_generator.h" />
     <ClInclude Include="..\..\source\system\time\module.h" />
     <ClInclude Include="..\..\source\system\time\itimer.h" />
     <ClInclude Include="..\..\source\system\types.h" />
@@ -313,6 +314,7 @@
     <ClCompile Include="..\..\source\system\streaming\iasync_loader.cpp" />
     <ClCompile Include="..\..\source\system\streaming\streaming_component.cpp" />
     <ClCompile Include="..\..\source\system\time\clock.cpp" />
+    <ClCompile Include="..\..\source\system\time\iimpulse_generator.cpp" />
     <ClCompile Include="..\..\source\system\time\itimer.cpp" />
     <ClCompile Include="..\..\source\system\window\win32_window.cpp" />
     <ClCompile Include="..\..\source\system\window\window_base.cpp" />

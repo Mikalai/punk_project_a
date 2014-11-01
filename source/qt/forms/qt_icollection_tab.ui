@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CollectionWidget</class>
+ <widget class="QWidget" name="CollectionWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>802</width>
+    <height>733</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <widget class="QListWidget" name="m_objects"/>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>m_objects</sender>
+   <signal>itemDoubleClicked(QListWidgetItem*)</signal>
+   <receiver>CollectionWidget</receiver>
+   <slot>itemClicked(QListWidgetItem*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>400</x>
+     <y>366</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>400</x>
+     <y>366</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>itemClicked(QListWidgetItem*)</slot>
+ </slots>
+</ui>

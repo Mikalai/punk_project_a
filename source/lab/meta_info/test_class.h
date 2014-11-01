@@ -9,6 +9,12 @@
 
 using namespace Punk::Engine;
 
+
+class IMetaInterface : public Core::IObject {
+public:
+	virtual void Invoke(const Core::String& method, Core::Buffer& args) = 0;
+};
+
 class MetaClassBase {
 
 };

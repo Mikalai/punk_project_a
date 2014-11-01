@@ -267,6 +267,9 @@
     <ClInclude Include="..\..\source\system\serializer\serializer.h">
       <Filter>serializer</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\system\time\iimpulse_generator.h">
+      <Filter>time</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\system\config_file.cpp" />
@@ -429,6 +432,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\system\dbg\isupport_debugger_template.h">
       <Filter>dbg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\system\time\iimpulse_generator.cpp">
+      <Filter>time</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

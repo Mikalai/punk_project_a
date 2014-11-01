@@ -1,6 +1,8 @@
 #include <stdint.h>
 #include <chrono>
 #include <system/factory/module.h>
+#include <core/imeta_interface.h>
+#include <error/module.h>
 #include "itimer.h"
 
 PUNK_ENGINE_BEGIN
@@ -11,7 +13,7 @@ namespace System
 	/**
 	*	Timer is used for strict time count
 	*/
-	class PUNK_ENGINE_LOCAL Timer final : public ITimer
+	class PUNK_ENGINE_LOCAL Timer final : public ITimer, public Core::IMetaInterface
 	{
 	public:
 		Timer();
@@ -27,6 +29,43 @@ namespace System
 		double GetElapsedSeconds() const override;
 		double GetElapsedMiliseconds() const override;
 		void Reset() override;
+
+		//	IMetaInterface
+		void Invoke(const Core::String& method, Core::Buffer& args) override {
+			auto m = method.ToLower();
+			try {
+				if (m == "gettime") {
+					args.Reset();
+					args.WriteUnsigned32(1);
+					args.WriteString(Core::String::Convert(GetTime()));
+					args.SetPosition(0);
+				}
+				else if (m == "getelapsedseconds") {
+					args.Reset();
+					args.WriteUnsigned32(1);
+					args.WriteString(Core::String::Convert(GetElapsedSeconds()));
+					args.SetPosition(0);
+				}
+				else if (m == "getelapsedmiliseconds") {
+					args.Reset();
+					args.WriteUnsigned32(1);
+					args.WriteString(Core::String::Convert(GetElapsedMiliseconds()));
+					args.SetPosition(0);
+				}
+				else if (m == "reset") {
+					args.Reset();
+					args.WriteUnsigned32(0);
+					args.SetPosition(0);
+					Reset();
+				}
+				else {
+					System::GetDefaultLogger()->Error(method + " was not found in 'Timer'");
+				}
+			}
+			catch (System::Error::SystemException& e) {
+				System::GetDefaultLogger()->Error("Error in invoke: " + e.Message());
+			}
+		}
 
 		TimerImpl* impl{ nullptr };
 	private:
@@ -84,7 +123,22 @@ namespace System
 	};
 
 	void Timer::QueryInterface(const Core::Guid& type, void** object) {
-		Core::QueryInterface(this, type, object, { Core::IID_IObject, IID_ITimer });
+		if (!object)
+			return;
+
+		*object = nullptr;
+		if (type == Core::IID_IObject) {
+			*object = this;
+			AddRef();
+		}
+		else if (type == IID_ITimer) {
+			*object = (ITimer*)this;
+			AddRef();
+		}
+		else if (type == Core::IID_IMetaInterface) {
+			*object = (Core::IMetaInterface*)this;
+			AddRef();
+		}
 	}
 
 	std::uint32_t Timer::AddRef() {

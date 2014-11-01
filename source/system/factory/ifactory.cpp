@@ -11,6 +11,37 @@ namespace System {
         void CreateInstance(const Core::Guid& type, void** object) override;
         void RegisterCreator(const Core::String& name, const Core::Guid& type, void(*Creator)(void** object)) override;
         void UnregisterCreator(const Core::Guid& type) override;
+
+		std::uint32_t GetCreatorsCount() const override {
+			return (std::uint32_t)m_names.size();
+		}
+
+		const Core::String GetCreatorName(std::uint32_t index) const override {
+			for (auto& v : m_names) {
+				if (index == 0)
+					return v.second;
+				index--;
+			}
+			return "";
+		}
+
+		const Core::Guid GetCreatorGuid(std::uint32_t index) const override {
+			for (auto& v : m_names) {
+				if (index == 0)
+					return v.first;
+				index--;
+			}
+			return "";
+		}
+
+		const Core::Guid GetCreatorGuid(const Core::String name) const override {
+			for (auto& v : m_names) {
+				if (v.second == name)
+					return v.first;
+			}
+			return Core::Guid{};
+		}
+
 	private:
         std::map<const Core::Guid, void(*)(void**)> m_creators;
         std::map<const Core::Guid, Core::String> m_names;

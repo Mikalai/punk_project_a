@@ -46,7 +46,6 @@
     <ClInclude Include="..\..\source\core\compound_object.h" />
     <ClInclude Include="..\..\source\core\core_error.h" />
     <ClInclude Include="..\..\source\core\decl_property.h" />
-    <ClInclude Include="..\..\source\core\meta_class.h" />
     <ClInclude Include="..\..\source\core\meta_class_base.h" />
     <ClInclude Include="..\..\source\core\module.h" />
     <ClInclude Include="..\..\source\core\object.h" />
@@ -66,5 +65,7 @@
     <ClInclude Include="..\..\source\core\iserializable.h" />
     <ClInclude Include="..\..\source\core\iclonable.h" />
     <ClInclude Include="..\..\source\core\value_monitor.h" />
+    <ClInclude Include="..\..\source\core\imeta_interface.h" />
+    <ClInclude Include="..\..\source\core\iinterface_accessor.h" />
   </ItemGroup>
 </Project>
