@@ -7,6 +7,7 @@ CityGraphicsItem::CityGraphicsItem(City* city, QGraphicsItem* parent)
 	, m_city{ city }
 {
 	setFlag(QGraphicsItem::ItemIsSelectable, true);
+	setZValue(0.1f);
 }
 
 QRectF CityGraphicsItem::boundingRect() const {

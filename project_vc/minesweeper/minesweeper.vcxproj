@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\TinyInstaller.1.0.20\build\TinyInstaller.props" Condition="Exists('..\packages\TinyInstaller.1.0.20\build\TinyInstaller.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -67,7 +66,7 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros">
-    <NuGetPackageImportStamp>49c1c5ee</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>b5ab0e16</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -361,18 +360,6 @@ xcopy /Y "$(QT_DIR)\bin\libegl.dll" "$(OutDir)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Fullpath).h</Outputs>
     </CustomBuild>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\TinyInstaller.1.0.20\build\TinyInstaller.targets" Condition="Exists('..\packages\TinyInstaller.1.0.20\build\TinyInstaller.targets')" />
-  </ImportGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\TinyInstaller.1.0.20\build\TinyInstaller.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\TinyInstaller.1.0.20\build\TinyInstaller.props'))" />
-    <Error Condition="!Exists('..\packages\TinyInstaller.1.0.20\build\TinyInstaller.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\TinyInstaller.1.0.20\build\TinyInstaller.targets'))" />
-  </Target>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>

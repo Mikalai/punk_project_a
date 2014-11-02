@@ -118,9 +118,9 @@
       <Command>xcopy /Y "$(QT_DIR)\bin\Qt5cored.dll" "$(OutDir)"
 xcopy /Y "$(QT_DIR)\bin\Qt5widgetsd.dll" "$(OutDir)"
 xcopy /Y "$(QT_DIR)\bin\Qt5guid.dll" "$(OutDir)"
-xcopy /Y "$(QT_DIR)\bin\icuin52d.dll" "$(OutDir)"
-xcopy /Y "$(QT_DIR)\bin\icuuc52d.dll" "$(OutDir)"
-xcopy /Y "$(QT_DIR)\bin\icudt52d.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\icuin52.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\icuuc52.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\icudt52.dll" "$(OutDir)"
 xcopy /Y "$(QT_DIR)\bin\libglesv2d.dll" "$(OutDir)"
 xcopy /Y "$(QT_DIR)\bin\qt5opengld.dll" "$(OutDir)"
 xcopy /Y "$(QT_DIR)\bin\libegld.dll" "$(OutDir)"</Command>
@@ -154,9 +154,9 @@ xcopy /Y "$(QT_DIR)\bin\libegld.dll" "$(OutDir)"</Command>
       <Command>xcopy /Y "$(QT_DIR)\bin\Qt5cored.dll" "$(OutDir)"
 xcopy /Y "$(QT_DIR)\bin\Qt5widgetsd.dll" "$(OutDir)"
 xcopy /Y "$(QT_DIR)\bin\Qt5guid.dll" "$(OutDir)"
-xcopy /Y "$(QT_DIR)\bin\icuin52d.dll" "$(OutDir)"
-xcopy /Y "$(QT_DIR)\bin\icuuc52d.dll" "$(OutDir)"
-xcopy /Y "$(QT_DIR)\bin\icudt52d.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\icuin52.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\icuuc52.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\icudt52.dll" "$(OutDir)"
 xcopy /Y "$(QT_DIR)\bin\libglesv2d.dll" "$(OutDir)"
 xcopy /Y "$(QT_DIR)\bin\qt5opengld.dll" "$(OutDir)"
 xcopy /Y "$(QT_DIR)\bin\libegld.dll" "$(OutDir)"</Command>
@@ -256,8 +256,10 @@ xcopy /Y "$(QT_DIR)\bin\libegl.dll" "$(OutDir)"</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\badziaha\App.cpp" />
+    <ClCompile Include="..\..\source\badziaha\buildings.cpp" />
     <ClCompile Include="..\..\source\badziaha\city.cpp" />
     <ClCompile Include="..\..\source\badziaha\city_graphics_item.cpp" />
+    <ClCompile Include="..\..\source\badziaha\city_task.cpp" />
     <ClCompile Include="..\..\source\badziaha\entity.cpp" />
     <ClCompile Include="..\..\source\badziaha\forms\city_widget.cpp" />
     <ClCompile Include="..\..\source\badziaha\forms\main_window.cpp" />
@@ -269,8 +271,10 @@ xcopy /Y "$(QT_DIR)\bin\libegl.dll" "$(OutDir)"</Command>
     <ClCompile Include="..\..\source\badziaha\road_graphics_item.cpp" />
     <ClCompile Include="..\..\source\badziaha\squad.cpp" />
     <ClCompile Include="..\..\source\badziaha\squad_graphics_item.cpp" />
+    <ClCompile Include="..\..\source\badziaha\time_dependent.cpp" />
     <ClCompile Include="..\..\source\badziaha\unit.cpp" />
     <ClCompile Include="..\..\source\badziaha\unit_model.cpp" />
+    <ClCompile Include="moc_buildings.cpp" />
     <ClCompile Include="moc_city.cpp" />
     <ClCompile Include="moc_city_widget.cpp" />
     <ClCompile Include="moc_entity.cpp" />
@@ -285,6 +289,21 @@ xcopy /Y "$(QT_DIR)\bin\libegl.dll" "$(OutDir)"</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\badziaha\App.h" />
+    <CustomBuild Include="..\..\source\badziaha\buildings.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QT_DIR)\bin\moc.exe" -DUNICODE -DWIN32 -DWIN64 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -I$(QT_DIR)/mkspecs/win32-msvc2013 -I$(SolutionDir)source -I$(QT_DIR)/include -I$(QT_DIR)/include/QtWidgets -I$(QT_DIR)/include/QtGui -I$(QT_DIR)/include/QtANGLE -I$(QT_DIR)/include/QtCore -o moc_%(Filename).cpp %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QT_DIR)\bin\moc.exe" -DUNICODE -DWIN32 -DWIN64 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -I$(QT_DIR)/mkspecs/win32-msvc2013 -I$(SolutionDir)source -I$(QT_DIR)/include -I$(QT_DIR)/include/QtWidgets -I$(QT_DIR)/include/QtGui -I$(QT_DIR)/include/QtANGLE -I$(QT_DIR)/include/QtCore -o moc_%(Filename).cpp %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QT_DIR)\bin\moc.exe" -DUNICODE -DWIN32 -DWIN64 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -I$(QT_DIR)/mkspecs/win32-msvc2013 -I$(SolutionDir)source -I$(QT_DIR)/include -I$(QT_DIR)/include/QtWidgets -I$(QT_DIR)/include/QtGui -I$(QT_DIR)/include/QtANGLE -I$(QT_DIR)/include/QtCore -o moc_%(Filename).cpp %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QT_DIR)\bin\moc.exe" -DUNICODE -DWIN32 -DWIN64 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -I$(QT_DIR)/mkspecs/win32-msvc2013 -I$(SolutionDir)source -I$(QT_DIR)/include -I$(QT_DIR)/include/QtWidgets -I$(QT_DIR)/include/QtGui -I$(QT_DIR)/include/QtANGLE -I$(QT_DIR)/include/QtCore -o moc_%(Filename).cpp %(FullPath)</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc'ing %(Filename).h</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc'ing %(Filename).h</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc'ing %(Filename).h</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc'ing %(Filename).h</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
+    <ClInclude Include="..\..\source\badziaha\time_dependent.h" />
     <CustomBuild Include="..\..\source\badziaha\city.h">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QT_DIR)\bin\moc.exe" -DUNICODE -DWIN32 -DWIN64 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -I$(QT_DIR)/mkspecs/win32-msvc2013 -I$(SolutionDir)source -I$(QT_DIR)/include -I$(QT_DIR)/include/QtWidgets -I$(QT_DIR)/include/QtGui -I$(QT_DIR)/include/QtANGLE -I$(QT_DIR)/include/QtCore -o moc_%(Filename).cpp %(FullPath)</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QT_DIR)\bin\moc.exe" -DUNICODE -DWIN32 -DWIN64 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -I$(QT_DIR)/mkspecs/win32-msvc2013 -I$(SolutionDir)source -I$(QT_DIR)/include -I$(QT_DIR)/include/QtWidgets -I$(QT_DIR)/include/QtGui -I$(QT_DIR)/include/QtANGLE -I$(QT_DIR)/include/QtCore -o moc_%(Filename).cpp %(FullPath)</Command>
@@ -328,6 +347,7 @@ xcopy /Y "$(QT_DIR)\bin\libegl.dll" "$(OutDir)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc_%(Filename).cpp</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc_%(Filename).cpp</Outputs>
     </CustomBuild>
+    <ClInclude Include="..\..\source\badziaha\city_task.h" />
     <ClInclude Include="..\..\source\badziaha\global_field_cell.h" />
     <ClInclude Include="..\..\source\badziaha\model_type.h" />
     <ClInclude Include="..\..\source\badziaha\resources.h" />

@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_CityWidget_t {
-    QByteArrayData data[5];
-    char stringdata[31];
+    QByteArrayData data[12];
+    char stringdata[124];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -33,9 +33,19 @@ QT_MOC_LITERAL(0, 0, 10),
 QT_MOC_LITERAL(1, 11, 7),
 QT_MOC_LITERAL(2, 19, 0),
 QT_MOC_LITERAL(3, 20, 5),
-QT_MOC_LITERAL(4, 26, 4)
+QT_MOC_LITERAL(4, 26, 4),
+QT_MOC_LITERAL(5, 31, 15),
+QT_MOC_LITERAL(6, 47, 25),
+QT_MOC_LITERAL(7, 73, 5),
+QT_MOC_LITERAL(8, 79, 16),
+QT_MOC_LITERAL(9, 96, 4),
+QT_MOC_LITERAL(10, 101, 9),
+QT_MOC_LITERAL(11, 111, 12)
     },
-    "CityWidget\0setCity\0\0City*\0city"
+    "CityWidget\0setCity\0\0City*\0city\0"
+    "selectFieldCell\0QGraphicsSceneMouseEvent*\0"
+    "event\0GlobalFieldCell*\0cell\0buildRoad\0"
+    "buildSawmill"
 };
 #undef QT_MOC_LITERAL
 
@@ -45,7 +55,7 @@ static const uint qt_meta_data_CityWidget[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       1,   14, // methods
+       4,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -53,10 +63,16 @@ static const uint qt_meta_data_CityWidget[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,   19,    2, 0x0a /* Public */,
+       1,    1,   34,    2, 0x0a /* Public */,
+       5,    2,   37,    2, 0x0a /* Public */,
+      10,    0,   42,    2, 0x0a /* Public */,
+      11,    0,   43,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void, 0x80000000 | 3,    4,
+    QMetaType::Void, 0x80000000 | 6, 0x80000000 | 8,    7,    9,
+    QMetaType::Void,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -67,6 +83,9 @@ void CityWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         CityWidget *_t = static_cast<CityWidget *>(_o);
         switch (_id) {
         case 0: _t->setCity((*reinterpret_cast< City*(*)>(_a[1]))); break;
+        case 1: _t->selectFieldCell((*reinterpret_cast< QGraphicsSceneMouseEvent*(*)>(_a[1])),(*reinterpret_cast< GlobalFieldCell*(*)>(_a[2]))); break;
+        case 2: _t->buildRoad(); break;
+        case 3: _t->buildSawmill(); break;
         default: ;
         }
     }
@@ -97,13 +116,13 @@ int CityWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 1)
+        if (_id < 4)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 1;
+        _id -= 4;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 1)
+        if (_id < 4)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 1;
+        _id -= 4;
     }
     return _id;
 }

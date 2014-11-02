@@ -1,6 +1,7 @@
 #ifndef _H_UNIT_GRAPHICS_ITEM
 #define _H_UNIT_GRAPHICS_ITEM
 
+#include <QtGui/qpainter.h>
 #include <QtWidgets/qgraphicsitem.h>
 #include "resources.h"
 #include "model_type.h"

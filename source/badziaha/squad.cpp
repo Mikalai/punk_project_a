@@ -107,22 +107,28 @@ void Squad::update() {
 		if (m_path.empty()) {
 			m_move_path = false;
 		}
-		else {
-			auto cell = m_path.front();
-			auto target = cell->position;
-			auto current = fullPosition();
-			if ((target - current).manhattanLength() <= m_speed * dt) {
-				auto top = m_path.front();
-				setPosition(top->position.x(), top->position.y(), 0, 0);
-				m_path.pop_front();
-				if (m_path.empty()) {
-					m_move_path = false;
+		else {			
+			auto time = dt;
+			while (time > 0 && m_move_path) {
+				auto cell = m_path.front();
+				auto target = cell->position;
+				auto current = fullPosition();
+				auto t = (target - current).manhattanLength() / getBaseSpeed(cell);
+				if (t < time) {
+					auto top = m_path.front();
+					setPosition(top->position.x(), top->position.y(), 0, 0);
+					m_path.pop_front();
+					if (m_path.empty()) {
+						m_move_path = false;
+					}
+					time -= t;
 				}
-			}
-			else {
-				auto dir = (target - current) / (target - current).manhattanLength();
-				dir = dir * getBaseSpeed(cell) * dt;
-				move(dir.x(), dir.y());
+				else {
+					auto dir = (target - current) / (target - current).manhattanLength();
+					dir = dir * getBaseSpeed(cell) * time;
+					move(dir.x(), dir.y());
+					time = 0;
+				}
 			}
 		}
 	}

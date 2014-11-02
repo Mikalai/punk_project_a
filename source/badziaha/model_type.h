@@ -8,6 +8,8 @@ enum class ModelType {
 	Worker,
 	Warrior,
 	Road,
+	SawMill,
+	Construction,
 	End
 };
 

@@ -25,6 +25,9 @@
     <CustomBuild Include="..\..\source\games\minesweeper\name_dialog.ui">
       <Filter>forms</Filter>
     </CustomBuild>
+    <CustomBuild Include="..\..\source\games\minesweeper\custom_field.h" />
+    <CustomBuild Include="..\..\source\games\minesweeper\resources.qrc" />
+    <CustomBuild Include="..\..\source\games\minesweeper\custom_field.ui" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\games\minesweeper\field_cell.cpp" />
@@ -60,15 +63,5 @@
   <ItemGroup>
     <ClInclude Include="..\..\source\games\minesweeper\record_table.h" />
     <ClInclude Include="..\..\source\games\minesweeper\name_dialog.h" />
-    <ClInclude Include="..\..\source\games\minesweeper\custom_field.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\source\games\minesweeper\resources.qrc">
-      <Filter>resources</Filter>
-    </None>
-    <None Include="..\..\source\games\minesweeper\custom_field.ui">
-      <Filter>forms</Filter>
-    </None>
-    <None Include="packages.config" />
   </ItemGroup>
 </Project>

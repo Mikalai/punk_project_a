@@ -17,9 +17,15 @@ void Entity::update() {
 }
 
 void Entity::setModel(QGraphicsItem* item) {
-	if (m_model)
+	QGraphicsScene* scene = nullptr;
+	if (m_model) {
+		scene = m_model->scene();
 		delete m_model;
+	}
 	m_model = item;
+	if (scene && m_model ) {
+		scene->addItem(m_model);
+	}
 	updateModelTransform();
 }
 
@@ -39,6 +45,14 @@ void Entity::setPosition(int x, int y, float dx, float dy) {
 	m_position = QPoint{ x, y };
 	m_offset = QPointF{ dx, dy };
 
+	updateModelTransform();
+}
+
+void Entity::setPosition(QPointF value) {
+	m_position.setX(value.x());
+	m_position.setY(value.y());
+	m_offset.setX(value.x() - m_position.x());
+	m_offset.setY(value.y() - m_position.y());
 	updateModelTransform();
 }
 

@@ -14,6 +14,7 @@ struct GlobalFieldCell;
 class Squad;
 class City;
 class Road;
+class Entity; 
 
 struct FindPathResult {
 	std::list<GlobalFieldCell*> path;
@@ -25,12 +26,20 @@ struct FindPathResult {
 	bool is_canceled{ false };
 };
 
+
 class GlobalField : public QGraphicsScene {
 	Q_OBJECT;
 public:
 
 	struct Tls {
 		int find_path_magic{ 0 };
+	};
+
+	enum class InteractionMode {
+		Select,
+		ControlSquad,
+		BuildRoad,
+		Building
 	};
 
 public:
@@ -84,14 +93,26 @@ public:
 		return m_roads;
 	}
 
+	//	buildings
+	void addBuilding(Entity* value);
+	void removeBuilding(Entity* value);
+
+	std::vector<Entity*> getBuilding() {
+		return m_building;
+	}
+
 public slots:
 	void update();
 	void onSelectionChanged();
 	void terminate();
 
+	void setInteractionMode(InteractionMode value);
+
 signals:
 	void citySelected(City* city);
 	void selectionDropped();
+	void fieldCellPressed(QGraphicsSceneMouseEvent* event, GlobalFieldCell* cell);
+
 
 protected:
 	void mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent) override;
@@ -113,18 +134,18 @@ private:
 private:
 
 	//	field description
-	int m_width{ 256};
-	int m_height{ 256};
+	int m_width{ 64};
+	int m_height{ 64};
 	std::vector<GlobalFieldCell> m_cells;
 
 	//	squads data
 	std::vector<Squad*> m_squads;
 	std::set<Squad*> m_selected_squads;
-	int m_max_squad_count{ 200 };
+	int m_max_squad_count{ 5 };
 
 	// cities data
 	std::vector<City*> m_cities;
-	int m_max_city_count{ 100 };
+	int m_max_city_count{ 10 };
 
 	//	path finding 
 	bool m_terminate{ false };
@@ -143,6 +164,12 @@ private:
 
 	//	all the roads 
 	std::set<Road*> m_roads;
+
+	//	current interaction mode
+	InteractionMode m_mode{ InteractionMode::Select };
+
+	//	entities: Buildings
+	std::vector<Entity*> m_building;
 };
 
 #endif	//	_H_GLOBAL_FIELD

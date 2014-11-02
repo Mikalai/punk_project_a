@@ -35,6 +35,7 @@ public:
     QSpacerItem *verticalSpacer;
     QWidget *tab;
     QPushButton *m_build_saw_mill;
+    QPushButton *m_road;
     QWidget *tab_2;
     QWidget *tab_3;
 
@@ -87,11 +88,18 @@ public:
         tab->setObjectName(QStringLiteral("tab"));
         m_build_saw_mill = new QPushButton(tab);
         m_build_saw_mill->setObjectName(QStringLiteral("m_build_saw_mill"));
-        m_build_saw_mill->setGeometry(QRect(0, 0, 64, 64));
+        m_build_saw_mill->setGeometry(QRect(0, 20, 64, 64));
         QIcon icon;
-        icon.addFile(QStringLiteral(":/images/saw.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QStringLiteral(":/icons/saw.png"), QSize(), QIcon::Normal, QIcon::Off);
         m_build_saw_mill->setIcon(icon);
         m_build_saw_mill->setIconSize(QSize(64, 64));
+        m_road = new QPushButton(tab);
+        m_road->setObjectName(QStringLiteral("m_road"));
+        m_road->setGeometry(QRect(60, 20, 64, 64));
+        QIcon icon1;
+        icon1.addFile(QStringLiteral(":/icons/road_icon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        m_road->setIcon(icon1);
+        m_road->setIconSize(QSize(64, 64));
         m_tabs->addTab(tab, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QStringLiteral("tab_2"));
@@ -104,6 +112,8 @@ public:
 
 
         retranslateUi(CityWidget);
+        QObject::connect(m_road, SIGNAL(clicked()), CityWidget, SLOT(buildRoad()));
+        QObject::connect(m_build_saw_mill, SIGNAL(clicked()), CityWidget, SLOT(buildSawmill()));
 
         m_tabs->setCurrentIndex(1);
 
@@ -121,6 +131,10 @@ public:
         m_build_saw_mill->setToolTip(QApplication::translate("CityWidget", "Build sawmill", 0));
 #endif // QT_NO_TOOLTIP
         m_build_saw_mill->setText(QString());
+#ifndef QT_NO_TOOLTIP
+        m_road->setToolTip(QApplication::translate("CityWidget", "Build road", 0));
+#endif // QT_NO_TOOLTIP
+        m_road->setText(QString());
         m_tabs->setTabText(m_tabs->indexOf(tab), QApplication::translate("CityWidget", "Expanding", 0));
         m_tabs->setTabText(m_tabs->indexOf(tab_2), QApplication::translate("CityWidget", "Training", 0));
         m_tabs->setTabText(m_tabs->indexOf(tab_3), QApplication::translate("CityWidget", "Managment", 0));

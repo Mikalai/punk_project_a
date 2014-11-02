@@ -6,6 +6,7 @@
 
 class QGraphicsItem;
 
+class CityTask;
 class GlobalField;
 struct GlobalFieldCell;
 
@@ -23,11 +24,15 @@ public:
 	City(GlobalField* field, QObject* parent = nullptr);
 	void update() override;
 
+	void buildRoad(GlobalFieldCell* start, GlobalFieldCell* end);
+	void addTask(CityTask* value);
+
 signals:
 	void clicked(City* item);
 
 private:	
 
+	std::vector<CityTask*> m_tasks;
 	std::vector<std::unique_ptr<Unit>> m_workers;
 	std::vector<std::unique_ptr<Unit>> m_warriors;
 

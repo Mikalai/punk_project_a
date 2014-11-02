@@ -34,8 +34,10 @@ void MainWindow::quickSave() {
 void MainWindow::newGame() {
 	qDebug(__FUNCTION__);
 
-	if (m_global_field)
+	if (m_global_field) {
+		m_global_field->terminate();
 		delete m_global_field;
+	}
 
 	if (m_timer)
 		delete m_timer;
@@ -51,6 +53,8 @@ void MainWindow::newGame() {
 
 	connect(m_timer, SIGNAL(timeout()), m_global_field, SLOT(update()));
 	connect(m_global_field, SIGNAL(citySelected(City*)), ui->m_city_widget, SLOT(setCity(City*)));
+	connect(m_global_field, SIGNAL(fieldCellPressed(QGraphicsSceneMouseEvent*, GlobalFieldCell*)), ui->m_city_widget, SLOT(selectFieldCell(QGraphicsSceneMouseEvent*, GlobalFieldCell*)));
+
 	m_timer->start();
 }
 

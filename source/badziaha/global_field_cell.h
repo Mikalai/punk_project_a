@@ -72,6 +72,8 @@ struct GlobalFieldCell {
 		return m_roads;
 	}
 
+	bool isNeighbour(GlobalFieldCell* cell) const;
+
 private:
 	std::chrono::high_resolution_clock::time_point last_update;
 	std::vector<Tls> tls;

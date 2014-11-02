@@ -22,6 +22,11 @@ public:
 		return m_path;
 	}
 
+	//	can extend current road on one neighbour cell
+	void extend(GlobalFieldCell* cell);
+
+	void removeRoad();
+
 private:
 	QGraphicsItem* m_model{ nullptr };
 	std::list<GlobalFieldCell*> m_path;

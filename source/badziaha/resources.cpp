@@ -17,6 +17,8 @@ Resources::Resources() {
 	m_models[(int)ModelType::Squad].reset(new QImage{ ":/images/ranger.png" });
 	m_models[(int)ModelType::Warrior].reset(new QImage{ ":/images/warrior.png" });
 	m_models[(int)ModelType::Worker].reset(new QImage{ ":/images/worker.png" });
+	m_models[(int)ModelType::SawMill].reset(new QImage{ ":/images/sawmill.png" });
+	m_models[(int)ModelType::Construction].reset(new QImage{ ":/images/construction.png" });
 }
 
 QImage* Resources::getImage(const GlobalFieldCellGround& value) {

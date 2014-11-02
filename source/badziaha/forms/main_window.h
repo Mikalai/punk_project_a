@@ -1,6 +1,7 @@
 #include "main_window.ui.h"
 
 class GlobalField;
+class CityTask;
 
 class MainWindow : public QMainWindow {
 	Q_OBJECT

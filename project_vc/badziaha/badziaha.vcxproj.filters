@@ -54,6 +54,12 @@
     </ClCompile>
     <ClCompile Include="..\..\source\badziaha\road_graphics_item.cpp" />
     <ClCompile Include="..\..\source\badziaha\road.cpp" />
+    <ClCompile Include="..\..\source\badziaha\time_dependent.cpp" />
+    <ClCompile Include="..\..\source\badziaha\city_task.cpp" />
+    <ClCompile Include="..\..\source\badziaha\buildings.cpp" />
+    <ClCompile Include="moc_buildings.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\badziaha\App.h" />
@@ -64,13 +70,12 @@
     <ClInclude Include="..\..\source\badziaha\global_field_cell.h" />
     <ClInclude Include="..\..\source\badziaha\city_graphics_item.h" />
     <ClInclude Include="..\..\source\badziaha\model_type.h" />
-    <ClInclude Include="..\..\source\badziaha\entity.h" />
     <ClInclude Include="..\..\source\badziaha\unit_graphics_item.h" />
-    <ClInclude Include="..\..\source\badziaha\forms\city_widget.h">
-      <Filter>forms</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\badziaha\road_graphics_item.h" />
     <ClInclude Include="..\..\source\badziaha\road.h" />
+    <ClInclude Include="..\..\source\badziaha\city_task.h" />
+    <ClInclude Include="..\..\source\badziaha\time_dependent.h" />
+    <ClInclude Include="..\..\source\badziaha\buildings.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="forms">
@@ -98,10 +103,12 @@
     <CustomBuild Include="..\..\source\badziaha\forms\main_window.h">
       <Filter>forms</Filter>
     </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\source\badziaha\forms\city_widget.ui">
+    <CustomBuild Include="..\..\source\badziaha\entity.h" />
+    <CustomBuild Include="..\..\source\badziaha\forms\city_widget.ui">
       <Filter>forms</Filter>
-    </None>
+    </CustomBuild>
+    <CustomBuild Include="..\..\source\badziaha\forms\city_widget.h">
+      <Filter>forms</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

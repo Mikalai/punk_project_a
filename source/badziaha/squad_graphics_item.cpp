@@ -11,6 +11,7 @@ SquadGraphicsItem::SquadGraphicsItem(Squad* squad, QGraphicsItem* parent)
 	, m_squad{ squad }
 {
 	setFlag(QGraphicsItem::ItemIsSelectable, true);
+	setZValue(0.2);
 }
 
 QRectF SquadGraphicsItem::boundingRect() const {

@@ -9,7 +9,6 @@
         <file>rocks.png</file>
         <file>city.png</file>
         <file>worker.png</file>
-        <file>saw.png</file>
         <file>road_e_w.png</file>
         <file>road_e_w_s.png</file>
         <file>road_n_e.png</file>
@@ -18,5 +17,11 @@
         <file>road_n_w_s.png</file>
         <file>road_s_e.png</file>
         <file>road.png</file>
+        <file>sawmill.png</file>
+        <file>construction.png</file>
+    </qresource>
+    <qresource prefix="/icons">
+        <file>saw.png</file>
+        <file>road_icon.png</file>
     </qresource>
 </RCC>

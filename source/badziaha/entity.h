@@ -33,6 +33,7 @@ public:
 		return m_dt;
 	}
 
+	void setPosition(QPointF value);
 	void setPosition(int x, int y);
 	void setPosition(int x, int y, float dx, float dy);
 

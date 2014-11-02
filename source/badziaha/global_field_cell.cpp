@@ -2,6 +2,9 @@
 #include "global_field_cell.h"
 
 float GlobalFieldCell::getBaseMoveDifficulty() const {
+	if (!m_roads.empty())
+		return 0.1f;
+
 	switch (ground)
 	{
 	case GlobalFieldCellGround::Dirt:
@@ -19,6 +22,7 @@ float GlobalFieldCell::getBaseMoveDifficulty() const {
 	default:
 		break;
 	}
+	return 100;
 }
 
 GlobalFieldCell::GlobalFieldCell() {
@@ -41,4 +45,20 @@ void GlobalFieldCell::removeEntity(Entity* value) {
 	if (it == entities.end())
 		return;
 	entities.erase(it);
+}
+
+bool GlobalFieldCell::isNeighbour(GlobalFieldCell* cell) const {
+	if (cell == this)
+		return false;
+
+	for (int y = -1; y < 2; ++y) {
+		for (int x = -1; x < 2; ++x) {
+			if (x == 0 && y == 0)
+				continue;
+
+			if (position.x() + x == cell->position.x() && position.y() + y == cell->position.y())
+				return true;
+		}
+	}
+	return false;
 }

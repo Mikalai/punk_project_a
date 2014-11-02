@@ -100,7 +100,7 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>0</y>
+         <y>20</y>
          <width>64</width>
          <height>64</height>
         </rect>
@@ -113,7 +113,33 @@
        </property>
        <property name="icon">
         <iconset resource="../resources/resources.qrc">
-         <normaloff>:/images/saw.png</normaloff>:/images/saw.png</iconset>
+         <normaloff>:/icons/saw.png</normaloff>:/icons/saw.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>64</width>
+         <height>64</height>
+        </size>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="m_road">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>20</y>
+         <width>64</width>
+         <height>64</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Build road</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../resources/resources.qrc">
+         <normaloff>:/icons/road_icon.png</normaloff>:/icons/road_icon.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -140,5 +166,42 @@
  <resources>
   <include location="../resources/resources.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>m_road</sender>
+   <signal>clicked()</signal>
+   <receiver>CityWidget</receiver>
+   <slot>buildRoad()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>113</x>
+     <y>53</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>220</x>
+     <y>309</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_build_saw_mill</sender>
+   <signal>clicked()</signal>
+   <receiver>CityWidget</receiver>
+   <slot>buildSawmill()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>53</x>
+     <y>53</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>220</x>
+     <y>309</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>buildRoad()</slot>
+  <slot>buildSawmill()</slot>
+ </slots>
 </ui>

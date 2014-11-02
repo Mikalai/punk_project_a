@@ -21,6 +21,10 @@ public:
 	int type() const override {
 		return Type;
 	}
+
+	void updateBoundingBox();
+
+	void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
 private:
 	QRectF m_bbox;
 	Road* m_road{ nullptr };
