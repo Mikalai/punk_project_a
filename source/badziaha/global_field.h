@@ -47,6 +47,7 @@ public:
 	virtual ~GlobalField();
 	void Create();
 	void addSquad(Squad* value);
+	void removeSquad(Squad* value);
 	void addCity(City* value);
 
 	GlobalFieldCell* getCell(const QPoint& p);

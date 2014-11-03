@@ -5,9 +5,11 @@
 #include "global_field_cell.h"
 #include "squad.h"
 #include "squad_graphics_item.h"
+#include "unit.h"
 
-Squad::Squad(GlobalField* field, QObject* parent)
+Squad::Squad(Unit* leader, GlobalField* field, QObject* parent)
 	: Entity{ field, parent }
+	, m_leader{ leader }
 {
 	setPosition(0, 0);
 	setModel(new SquadGraphicsItem{ this });
@@ -178,3 +180,51 @@ void Squad::standBy(float seconds) {
 	m_stand_by = true;
 	m_seconds_left = seconds;
 }
+
+void Squad::addUnit(Unit* unit) {
+	auto it = std::find(m_party.begin(), m_party.end(), unit);
+	if (it != m_party.end()) {
+		qDebug("Can't add unit to squad. Already in the squad");
+		return;
+	}
+	m_party.push_back(unit);
+}
+
+void Squad::removeUnit(Unit* unit) {
+	auto it = std::find(m_party.begin(), m_party.end(), unit);
+	if (it == m_party.end()) {
+		qDebug("can't remove unit from squad. Not added");
+		return;
+	}
+	m_party.erase(it);
+}
+
+void joinSquad(Squad* squad, Unit* unit) {
+	auto old_squad = unit->squad();
+	if (old_squad)
+		old_squad->removeUnit(unit);
+
+	unit->setSquad(squad);
+
+	if (squad) {
+		squad->addUnit(unit);
+	}
+}
+
+void leaveSquad(Unit* unit) {
+	auto squad = unit->squad();
+
+	if (!squad) {
+		qDebug("Can't leave squad. Not in squad");
+		return;
+	}
+		squad->removeUnit(unit);
+		unit->setSquad{ nullptr };
+
+	auto own_squad = new Squad{ unit, unit->field(), unit->parent() };
+	own_squad->setHumanControl(unit->isHumanControl());
+	own_squad->setPosition(squad->position());
+
+	unit->field()->addSquad(own_squad);
+}
+

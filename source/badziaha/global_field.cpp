@@ -13,6 +13,7 @@
 #include "city_graphics_item.h"
 #include "squad_graphics_item.h"
 #include "road.h"
+#include "unit.h"
 
 static const int CELL_SIZE = 64;
 
@@ -180,7 +181,7 @@ void GlobalField::Create(float grass, float water, float sand, float dirt, float
 	}
 
 	//	create player squad
-	Squad* s = new Squad(this, this);
+	Squad* s = new Squad(new Unit{ this, this }, this, this);
 	s->setHumanControl(true);
 	s->setPosition(6, 6);
 	addSquad(s);
@@ -654,4 +655,13 @@ void GlobalField::removeBuilding(Entity* value) {
 		return;
 	}
 	m_building.erase(it);
+}
+
+void GlobalField::removeSquad(Squad* value) {
+	auto it = std::find(m_squads.begin(), m_squads.end(), value);
+	if (it == m_squads.end()) {
+		qDebug("Can't remove squad from field. Not added");
+		return;
+	}
+	m_squads.erase(it);
 }

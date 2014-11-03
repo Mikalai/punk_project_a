@@ -18,13 +18,17 @@ class Squad : public Entity {
 	Q_OBJECT;
 	Q_PROPERTY(Unit* leader MEMBER m_leader);
 public:
-	Squad(GlobalField* field, QObject* parent = nullptr);
+	Squad(Unit* leader, GlobalField* field, QObject* parent = nullptr);
 
 	float getBaseSpeed(GlobalFieldCell* cell) const;
 	void goTo(GlobalFieldCell* cell);
 	void standBy(float seconds);
 
 	void update() override;
+
+	Unit* leader() { return m_leader; }
+
+	const std::vector<Unit*>& party() const { return m_party; }	
 
 private:
 
@@ -41,12 +45,24 @@ private:
 	void movePath(const std::list<GlobalFieldCell*>& path);
 	void terminateAnyActivity();
 	bool IsIdle();
+
+	//	membership managment
+	void addUnit(Unit* unit);
+	void removeUnit(Unit* unit);
+
+	friend void joinSquad(Squad* squad, Unit* unit);
+	friend void leaveSquad(Unit* unit);
+
 private:
-	float m_speed{ 3 };
-	Unit* m_leader;
+	//	members
+	Unit* m_leader{ nullptr };
+	std::vector<Unit*> m_party;
+
+	//	parameters
+	float m_speed{ 3 };	
 	bool m_move_path{ false };
 	std::list<GlobalFieldCell*> m_path;
-	std::map<UnitType, Members> m_forces;
+	//std::map<UnitType, Members> m_forces;
 	FindPathResult* m_find_path_result{ nullptr };
 
 	//	goto command data
@@ -57,4 +73,8 @@ private:
 	bool m_stand_by{ false };
 	float m_seconds_left{ 0 };
 };
+
+void joinSquad(Squad* squad, Unit* unit);
+void leaveSquad(Unit* unit);
+
 #endif	//	_H_SQUAD

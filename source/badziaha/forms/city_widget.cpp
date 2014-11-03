@@ -16,6 +16,9 @@ void CityWidget::setCity(City* city) {
 	qDebug(__FUNCTION__);
 	m_city = city;
 	setVisible(m_city != nullptr);
+	if (m_city) {
+		ui->m_name->setText(city->name());
+	}
 }
 
 void CityWidget::selectFieldCell(QGraphicsSceneMouseEvent* event, GlobalFieldCell* cell) {

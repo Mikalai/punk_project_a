@@ -255,7 +255,7 @@ xcopy /Y "$(QT_DIR)\bin\libegl.dll" "$(OutDir)"</Command>
     </CustomBuildStep>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\source\badziaha\App.cpp" />
+    <ClCompile Include="..\..\source\badziaha\options.cpp" />
     <ClCompile Include="..\..\source\badziaha\buildings.cpp" />
     <ClCompile Include="..\..\source\badziaha\city.cpp" />
     <ClCompile Include="..\..\source\badziaha\city_graphics_item.cpp" />
@@ -288,7 +288,7 @@ xcopy /Y "$(QT_DIR)\bin\libegl.dll" "$(OutDir)"</Command>
     <ClCompile Include="qrc_resources.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\source\badziaha\App.h" />
+    <ClInclude Include="..\..\source\badziaha\options.h" />
     <CustomBuild Include="..\..\source\badziaha\buildings.h">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QT_DIR)\bin\moc.exe" -DUNICODE -DWIN32 -DWIN64 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -I$(QT_DIR)/mkspecs/win32-msvc2013 -I$(SolutionDir)source -I$(QT_DIR)/include -I$(QT_DIR)/include/QtWidgets -I$(QT_DIR)/include/QtGui -I$(QT_DIR)/include/QtANGLE -I$(QT_DIR)/include/QtCore -o moc_%(Filename).cpp %(FullPath)</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QT_DIR)\bin\moc.exe" -DUNICODE -DWIN32 -DWIN64 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -I$(QT_DIR)/mkspecs/win32-msvc2013 -I$(SolutionDir)source -I$(QT_DIR)/include -I$(QT_DIR)/include/QtWidgets -I$(QT_DIR)/include/QtGui -I$(QT_DIR)/include/QtANGLE -I$(QT_DIR)/include/QtCore -o moc_%(Filename).cpp %(FullPath)</Command>
@@ -303,6 +303,8 @@ xcopy /Y "$(QT_DIR)\bin\libegl.dll" "$(OutDir)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc_%(Filename).cpp</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc_%(Filename).cpp</Outputs>
     </CustomBuild>
+    <ClInclude Include="..\..\source\badziaha\enum_helper.h" />
+    <ClInclude Include="..\..\source\badziaha\raw_material_type.h" />
     <ClInclude Include="..\..\source\badziaha\time_dependent.h" />
     <CustomBuild Include="..\..\source\badziaha\city.h">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QT_DIR)\bin\moc.exe" -DUNICODE -DWIN32 -DWIN64 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -I$(QT_DIR)/mkspecs/win32-msvc2013 -I$(SolutionDir)source -I$(QT_DIR)/include -I$(QT_DIR)/include/QtWidgets -I$(QT_DIR)/include/QtGui -I$(QT_DIR)/include/QtANGLE -I$(QT_DIR)/include/QtCore -o moc_%(Filename).cpp %(FullPath)</Command>

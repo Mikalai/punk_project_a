@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\..\source\badziaha\App.cpp" />
     <ClCompile Include="..\..\source\badziaha\main.cpp" />
     <ClCompile Include="..\..\source\badziaha\forms\main_window.cpp">
       <Filter>forms</Filter>
@@ -60,9 +59,9 @@
     <ClCompile Include="moc_buildings.cpp">
       <Filter>generated</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\badziaha\options.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\source\badziaha\App.h" />
     <ClInclude Include="..\..\source\badziaha\unit_model.h" />
     <ClInclude Include="..\..\source\badziaha\unit_type.h" />
     <ClInclude Include="..\..\source\badziaha\squad_graphics_item.h" />
@@ -75,7 +74,9 @@
     <ClInclude Include="..\..\source\badziaha\road.h" />
     <ClInclude Include="..\..\source\badziaha\city_task.h" />
     <ClInclude Include="..\..\source\badziaha\time_dependent.h" />
-    <ClInclude Include="..\..\source\badziaha\buildings.h" />
+    <ClInclude Include="..\..\source\badziaha\raw_material_type.h" />
+    <ClInclude Include="..\..\source\badziaha\options.h" />
+    <ClInclude Include="..\..\source\badziaha\enum_helper.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="forms">
@@ -110,5 +111,6 @@
     <CustomBuild Include="..\..\source\badziaha\forms\city_widget.h">
       <Filter>forms</Filter>
     </CustomBuild>
+    <CustomBuild Include="..\..\source\badziaha\buildings.h" />
   </ItemGroup>
 </Project>

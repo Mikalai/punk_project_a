@@ -30,7 +30,7 @@ public:
     QTabWidget *m_tabs;
     QWidget *tab_4;
     QVBoxLayout *verticalLayout_2;
-    QLabel *label;
+    QLabel *m_name;
     QLabel *m_subordinated;
     QSpacerItem *verticalSpacer;
     QWidget *tab;
@@ -43,7 +43,7 @@ public:
     {
         if (CityWidget->objectName().isEmpty())
             CityWidget->setObjectName(QStringLiteral("CityWidget"));
-        CityWidget->resize(442, 619);
+        CityWidget->resize(306, 619);
         verticalLayout = new QVBoxLayout(CityWidget);
         verticalLayout->setSpacing(0);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
@@ -55,23 +55,23 @@ public:
         tab_4->setObjectName(QStringLiteral("tab_4"));
         verticalLayout_2 = new QVBoxLayout(tab_4);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
-        label = new QLabel(tab_4);
-        label->setObjectName(QStringLiteral("label"));
+        m_name = new QLabel(tab_4);
+        m_name->setObjectName(QStringLiteral("m_name"));
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(1);
         sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
-        label->setSizePolicy(sizePolicy);
+        sizePolicy.setHeightForWidth(m_name->sizePolicy().hasHeightForWidth());
+        m_name->setSizePolicy(sizePolicy);
         QFont font;
         font.setPointSize(14);
         font.setBold(true);
         font.setUnderline(true);
         font.setWeight(75);
         font.setKerning(true);
-        label->setFont(font);
-        label->setAlignment(Qt::AlignCenter);
+        m_name->setFont(font);
+        m_name->setAlignment(Qt::AlignCenter);
 
-        verticalLayout_2->addWidget(label);
+        verticalLayout_2->addWidget(m_name);
 
         m_subordinated = new QLabel(tab_4);
         m_subordinated->setObjectName(QStringLiteral("m_subordinated"));
@@ -115,7 +115,7 @@ public:
         QObject::connect(m_road, SIGNAL(clicked()), CityWidget, SLOT(buildRoad()));
         QObject::connect(m_build_saw_mill, SIGNAL(clicked()), CityWidget, SLOT(buildSawmill()));
 
-        m_tabs->setCurrentIndex(1);
+        m_tabs->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(CityWidget);
@@ -124,7 +124,7 @@ public:
     void retranslateUi(QWidget *CityWidget)
     {
         CityWidget->setWindowTitle(QApplication::translate("CityWidget", "Form", 0));
-        label->setText(QApplication::translate("CityWidget", "[Name]", 0));
+        m_name->setText(QApplication::translate("CityWidget", "[Name]", 0));
         m_subordinated->setText(QApplication::translate("CityWidget", "[Subordinated]", 0));
         m_tabs->setTabText(m_tabs->indexOf(tab_4), QApplication::translate("CityWidget", "Overview", 0));
 #ifndef QT_NO_TOOLTIP
