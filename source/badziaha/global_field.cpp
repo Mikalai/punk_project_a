@@ -212,7 +212,7 @@ void GlobalField::update() {
 
 	//	create squads if not enough
 	if (m_squads.size() < m_max_squad_count) {
-		Squad* s = new Squad(this, this);
+		Squad* s = new Squad(new Unit{ this, this }, this, this);
 		s->setHumanControl(false);
 		s->setPosition(50, 50);
 		addSquad(s);
@@ -613,6 +613,9 @@ void GlobalField::terminate() {
 }
 
 void GlobalField::addRoad(Road* road) {
+	if (!road)
+		return;
+
 	auto it = m_roads.find(road);
 	if (it != m_roads.end()) {
 		qDebug("Road has been already added to the scene");
@@ -624,6 +627,9 @@ void GlobalField::addRoad(Road* road) {
 }
 
 void GlobalField::removeRoad(Road* road) {
+	if (!road)
+		return;
+
 	auto it = m_roads.find(road);
 	if (it == m_roads.end()) {
 		qDebug("Can't remove road from the field because it was not added");
@@ -639,6 +645,9 @@ void GlobalField::setInteractionMode(GlobalField::InteractionMode value) {
 }
 
 void GlobalField::addBuilding(Entity* value) {
+	if (!value)
+		return;
+
 	auto it = std::find(m_building.begin(), m_building.end(), value);
 	if (it != m_building.end()) {
 		qDebug("Can't add building. Already added");
@@ -649,6 +658,9 @@ void GlobalField::addBuilding(Entity* value) {
 }
 
 void GlobalField::removeBuilding(Entity* value) {
+	if (!value)
+		return;
+
 	auto it = std::find(m_building.begin(), m_building.end(), value);
 	if (it == m_building.end()) {
 		qDebug("Can't remove building. Not added");
@@ -658,10 +670,14 @@ void GlobalField::removeBuilding(Entity* value) {
 }
 
 void GlobalField::removeSquad(Squad* value) {
+	if (!value)
+		return;
+
 	auto it = std::find(m_squads.begin(), m_squads.end(), value);
 	if (it == m_squads.end()) {
 		qDebug("Can't remove squad from field. Not added");
 		return;
 	}
+	removeItem(value->getModel());
 	m_squads.erase(it);
 }

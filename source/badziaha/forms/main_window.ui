@@ -34,8 +34,8 @@
      <widget class="QGraphicsView" name="m_render_view">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>2</horstretch>
-        <verstretch>2</verstretch>
+        <horstretch>4</horstretch>
+        <verstretch>4</verstretch>
        </sizepolicy>
       </property>
      </widget>
@@ -61,7 +61,7 @@
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>21</height>
+     <height>31</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

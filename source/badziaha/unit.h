@@ -8,7 +8,7 @@
 class UnitModel;
 class GlobalField;
 class City;
-
+class Squad;
 
 class Unit : public Entity {
 	Q_OBJECT;
@@ -23,6 +23,7 @@ public:
 
 	QString name() const { return m_name; }
 	void setName(QString value) { m_name = value; }
+
 
 	Squad* squad() { return m_current_squad; }
 

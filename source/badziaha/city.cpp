@@ -12,6 +12,8 @@ City::City(GlobalField* field, QObject* parent)
 	setModel(new CityGraphicsItem{ this });
 	setPosition(0, 0);
 
+	std::fill(m_raw_materials.begin(), m_raw_materials.end(), 0);
+
 	for (auto& raw : m_raw_materials) {
 		raw += 1000.0f;
 	}
@@ -122,7 +124,7 @@ void enterCity(City* city, Squad* squad) {
 		enterCity(city, member);
 	}
 
-	squad->field()->removeSq
+	squad->field()->removeSquad(squad);
 }
 
 void leaveCity(Unit* unit) {
@@ -136,5 +138,5 @@ void leaveCity(Unit* unit) {
 	squad->setHumanControl(unit->isHumanControl());
 	squad->setPosition(city->position());
 
-	city->field()->addSquad();
+	city->field()->addSquad(squad);
 }

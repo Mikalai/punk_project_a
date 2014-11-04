@@ -11,4 +11,9 @@ constexpr int enum_index(T value) {
 	return (int)value;
 }
 
+template<class T>
+inline T enum_value(int index) {
+	return (T)index;
+}
+
 #endif	//	_H_ENUM_SIZE

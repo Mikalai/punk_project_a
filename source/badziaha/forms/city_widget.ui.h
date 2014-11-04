@@ -18,6 +18,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QTabWidget>
+#include <QtWidgets/QTreeView>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -32,6 +33,7 @@ public:
     QVBoxLayout *verticalLayout_2;
     QLabel *m_name;
     QLabel *m_subordinated;
+    QTreeView *m_overview;
     QSpacerItem *verticalSpacer;
     QWidget *tab;
     QPushButton *m_build_saw_mill;
@@ -78,6 +80,16 @@ public:
         m_subordinated->setAlignment(Qt::AlignCenter);
 
         verticalLayout_2->addWidget(m_subordinated);
+
+        m_overview = new QTreeView(tab_4);
+        m_overview->setObjectName(QStringLiteral("m_overview"));
+        QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy1.setHorizontalStretch(1);
+        sizePolicy1.setVerticalStretch(1);
+        sizePolicy1.setHeightForWidth(m_overview->sizePolicy().hasHeightForWidth());
+        m_overview->setSizePolicy(sizePolicy1);
+
+        verticalLayout_2->addWidget(m_overview);
 
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 

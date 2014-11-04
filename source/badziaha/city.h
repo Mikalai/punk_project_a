@@ -26,13 +26,23 @@ class City : public Entity {
 	Q_OBJECT;
 public:
 
+	using RawMaterials = std::array < float, enum_size<RawMaterialType>::Value > ;
+	using Units = std::vector < Unit* > ;
+
 	City(GlobalField* field, QObject* parent = nullptr);
 	void update() override;
 
 	void buildRoad(GlobalFieldCell* start, GlobalFieldCell* end);
 	void addTask(CityTask* value);
+
+	//	resource management
 	void addRawMaterial(RawMaterialType value, float quantity);
 	bool reserveRawMaterial(const std::vector<std::pair<RawMaterialType, float>>& value);
+	const RawMaterials& rawMaterials() const { return m_raw_materials; }
+	float rawMaterial(RawMaterialType value) const { return m_raw_materials[enum_index(value)]; }
+
+	//	units management
+	const Units& units() const { return m_units; }
 
 	QString name() { return m_name; }
 	void setName(QString value) { m_name = value; }
@@ -66,7 +76,7 @@ private:
 	GlobalFieldCell* m_build_cell{ nullptr };
 
 	//	resource supply
-	std::array<float, enum_size<RawMaterialType>::Value> m_raw_materials;
+	RawMaterials m_raw_materials;
 
 	//	general population
 	int m_last_updated_unit{ 0 };

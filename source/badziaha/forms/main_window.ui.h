@@ -68,8 +68,8 @@ public:
         m_render_view = new QGraphicsView(centralwidget);
         m_render_view->setObjectName(QStringLiteral("m_render_view"));
         QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        sizePolicy.setHorizontalStretch(2);
-        sizePolicy.setVerticalStretch(2);
+        sizePolicy.setHorizontalStretch(4);
+        sizePolicy.setVerticalStretch(4);
         sizePolicy.setHeightForWidth(m_render_view->sizePolicy().hasHeightForWidth());
         m_render_view->setSizePolicy(sizePolicy);
 
@@ -89,7 +89,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1024, 21));
+        menubar->setGeometry(QRect(0, 0, 1024, 31));
         menuFile = new QMenu(menubar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         MainWindow->setMenuBar(menubar);

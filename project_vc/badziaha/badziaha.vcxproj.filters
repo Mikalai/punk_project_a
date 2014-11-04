@@ -60,6 +60,7 @@
       <Filter>generated</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\badziaha\options.cpp" />
+    <ClCompile Include="..\..\source\badziaha\raw_material_type.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\badziaha\unit_model.h" />

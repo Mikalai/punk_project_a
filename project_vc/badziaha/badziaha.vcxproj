@@ -266,6 +266,7 @@ xcopy /Y "$(QT_DIR)\bin\libegl.dll" "$(OutDir)"</Command>
     <ClCompile Include="..\..\source\badziaha\global_field.cpp" />
     <ClCompile Include="..\..\source\badziaha\global_field_cell.cpp" />
     <ClCompile Include="..\..\source\badziaha\main.cpp" />
+    <ClCompile Include="..\..\source\badziaha\raw_material_type.cpp" />
     <ClCompile Include="..\..\source\badziaha\resources.cpp" />
     <ClCompile Include="..\..\source\badziaha\road.cpp" />
     <ClCompile Include="..\..\source\badziaha\road_graphics_item.cpp" />
