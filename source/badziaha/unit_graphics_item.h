@@ -26,7 +26,7 @@ public:
 	}
 
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override {
-		auto image = Resources::instance()->getModelImage(MT);
+		auto image = Resources::instance()->modelImage(MT);
 		float w = image->width();
 		float h = image->height();
 		painter->drawImage(QPointF{ -w / 2, -h / 2 }, *image);

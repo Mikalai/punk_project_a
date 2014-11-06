@@ -16,7 +16,7 @@ public:
 	QImage* getImage(const GlobalFieldCellGround& value);
 	QImage* getSquadImage();
 	QImage* getCityImage();
-	QImage* getModelImage(const ModelType& value);
+	QImage* modelImage(const ModelType& value);
 	
 	static void destroy();
 	static Resources* instance();

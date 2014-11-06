@@ -4,14 +4,15 @@
 #include <list>
 #include <memory>
 #include "entity.h"
-#include "time_dependent.h"
 
+class QPainter;
 struct GlobalFieldCell;
 class GlobalField;
 class City;
 class Road;
+class Construction;
 
-class CityTask : public TimeDependent {
+class CityTask : public Entity {
 public:
 
 	enum class Stage {
@@ -67,14 +68,14 @@ private:
 
 class Build : public CityTask {
 public:
-	Build(City* city, Entity* e);
+	Build(City* city, Construction* e);
 
 	void update() override;
 	void selectCell(GlobalFieldCell* cell) override;
 
 private:
 	GlobalFieldCell* m_position{ nullptr };
-	std::unique_ptr<Entity> m_entity{ nullptr };
+	std::unique_ptr<Construction> m_entity{ nullptr };
 	float m_time_to_complete{ 10 };
 };
 

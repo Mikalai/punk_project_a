@@ -45,7 +45,7 @@ QImage* Resources::getCityImage() {
 	return m_city_image.get();
 }
 
-QImage* Resources::getModelImage(const ModelType& value) {
+QImage* Resources::modelImage(const ModelType& value) {
 	int index = (int)value;
 	return m_models.at(index).get();
 }

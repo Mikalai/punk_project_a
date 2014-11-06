@@ -27,7 +27,7 @@ void Squad::updateAi() {
 				auto dy = -5 + rand() % 10;
 				auto x = std::max(0, position().x() + dx);
 				auto y = std::max(0, position().y() + dy);
-				goTo(field()->getCell(x % field()->getWidth(), y % field()->getHeight()));
+				goTo(field()->cell(x % field()->width(), y % field()->height()));
 			}
 		}
 	}
@@ -225,6 +225,5 @@ void leaveSquad(Unit* unit) {
 	own_squad->setHumanControl(unit->isHumanControl());
 	own_squad->setPosition(squad->position());
 
-	unit->field()->addSquad(own_squad);
+	addSquad(unit->field(), own_squad);
 }
-

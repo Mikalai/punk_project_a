@@ -15,6 +15,8 @@ class Squad;
 class City;
 class Road;
 class Entity; 
+class Construction;
+class Building;
 
 struct FindPathResult {
 	std::list<GlobalFieldCell*> path;
@@ -46,20 +48,20 @@ public:
 	GlobalField(QObject* parent = nullptr);
 	virtual ~GlobalField();
 	void Create();
-	void addSquad(Squad* value);
-	void removeSquad(Squad* value);
-	void addCity(City* value);
-
-	GlobalFieldCell* getCell(const QPoint& p);
-	GlobalFieldCell* getCell(int x, int y) {
-		return getCell(QPoint{ x, y });
+	
+	GlobalFieldCell* cell(const QPoint& p);
+	
+	GlobalFieldCell* cell(int x, int y) {
+		return cell(QPoint{ x, y });
 	}
 
-	int getWidth() const {
+	void neighbourCells(GlobalFieldCell* cell, std::vector<GlobalFieldCell*>& cells);
+
+	int width() const {
 		return m_width;
 	}
 
-	int getHeight() const {
+	int height() const {
 		return m_height;
 	}
 
@@ -86,20 +88,18 @@ public:
 	}
 
 	//	roads
-	void addRoad(Road* value);
-
-	void removeRoad(Road* value);
-
-	std::set<Road*>& getRoads() {
+	std::set<Road*>& roads() {
 		return m_roads;
 	}
 
 	//	buildings
-	void addBuilding(Entity* value);
-	void removeBuilding(Entity* value);
-
-	std::vector<Entity*> getBuilding() {
+	std::vector<Construction*> buildings() {
 		return m_building;
+	}
+
+	// delayed destroying
+	void moveToTrash(Entity* value) {
+		m_entities_to_delete.push_back(value);
 	}
 
 public slots:
@@ -119,6 +119,15 @@ protected:
 	void mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent) override;
 private:
 	
+	void addBuilding(Construction* value);
+	void removeBuilding(Construction* value);
+	void addRoad(Road* value);
+	void removeRoad(Road* value);
+	void addSquad(Squad* value);
+	void removeSquad(Squad* value);
+	void addCity(City* value);
+	void removeCity(City* value);
+
 	//	path finding data
 	static void pathFinderFunc(GlobalField* field);
 	bool findPath(const QPoint& start, const QPoint& end, std::list<GlobalFieldCell*>& cells);
@@ -127,7 +136,6 @@ private:
 	float distanceCost(GlobalFieldCell* start, GlobalFieldCell* end);
 	GlobalFieldCell* minimalFullCost(std::vector<GlobalFieldCell*>& cells, int tls_index);	
 	bool reconstructPath(GlobalFieldCell* start, GlobalFieldCell* end, std::list<GlobalFieldCell*>& cells, int tls_index);
-	void neighbourCells(GlobalFieldCell* cell, std::vector<GlobalFieldCell*>& cells);
 
 	//	initialization stuff
 	void Create(float grass, float water, float sand, float dirt, float forest, float rocks, bool island, int sea_width);
@@ -170,7 +178,29 @@ private:
 	InteractionMode m_mode{ InteractionMode::Select };
 
 	//	entities: Buildings
-	std::vector<Entity*> m_building;
+	std::vector<Construction*> m_building;
+
+	//	pending removing
+	std::vector<Entity*> m_entities_to_delete;
+
+private:
+	friend void addSquad(GlobalField* field, Squad* squad);
+	friend void removeSquad(GlobalField* field, Squad* squad);
+	friend void addCity(GlobalField* field, City* city);
+	friend void removeCity(GlobalField* field, City* city);
+	friend void addBuilding(GlobalField* field, Construction* city);
+	friend void removeBuilding(GlobalField* field, Construction* city);
+	friend void addRoad(GlobalField* field, Road* road);
+	friend void removeRoad(GlobalField* field, Road* road);
 };
+
+void addSquad(GlobalField* field, Squad* squad);
+void removeSquad(GlobalField* field, Squad* squad);
+void addCity(GlobalField* field, City* city);
+void removeCity(GlobalField* field, City* city);
+void addBuilding(GlobalField* field, Construction* construction);
+void removeBuilding(GlobalField* field, Construction* construction);
+void addRoad(GlobalField* field, Road* road);
+void removeRoad(GlobalField* field, Road* road);
 
 #endif	//	_H_GLOBAL_FIELD

@@ -18,6 +18,6 @@ public:
 private:
 };
 
-extern UnitModel* GetModel(UnitModelType type);
+extern UnitModel* model(UnitModelType type);
 
 #endif	//	_H_UNIT

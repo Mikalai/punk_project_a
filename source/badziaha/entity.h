@@ -13,7 +13,9 @@ public:
 
 	Entity(GlobalField* field, QObject* parent = nullptr);
 
-	QGraphicsItem* getModel() {
+	virtual ~Entity();
+
+	QGraphicsItem* model() {
 		return m_model;
 	}
 

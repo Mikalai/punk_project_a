@@ -12,7 +12,7 @@ public:
 	Road(GlobalField* field, GlobalFieldCell* start, GlobalFieldCell* end, QObject* parent = nullptr);
 	virtual ~Road();
 
-	QGraphicsItem* getModel() {
+	QGraphicsItem* model() {
 		return m_model;
 	}
 
@@ -26,6 +26,8 @@ public:
 	void extend(GlobalFieldCell* cell);
 
 	void removeRoad();
+
+	GlobalField* field() { return m_field; }
 
 private:
 	QGraphicsItem* m_model{ nullptr };

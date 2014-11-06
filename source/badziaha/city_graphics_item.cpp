@@ -1,5 +1,7 @@
 #include <QtGui/qpainter.h>
 #include "city_graphics_item.h"
+#include "city.h"
+#include "city_task.h"
 #include "resources.h"
 
 CityGraphicsItem::CityGraphicsItem(City* city, QGraphicsItem* parent)

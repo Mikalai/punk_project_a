@@ -14,6 +14,7 @@
 #include "squad_graphics_item.h"
 #include "road.h"
 #include "unit.h"
+#include "buildings.h"
 
 static const int CELL_SIZE = 64;
 
@@ -50,7 +51,7 @@ public:
 		painter->drawText(QPointF{ 0, 0 }, QString::number(m_cell->findPath(m_field->getTlsIndex())->full_path_cost));
 	}
 
-	GlobalFieldCell* getCell() const {
+	GlobalFieldCell* cell() const {
 		return m_cell;
 	}
 
@@ -75,6 +76,25 @@ GlobalField::GlobalField(QObject* parent)
 }
 
 GlobalField::~GlobalField() {
+	while (!m_squads.empty()){
+		delete m_squads.back();
+		m_squads.pop_back();
+	}
+
+	while (!m_cities.empty()) {
+		delete m_cities.back();
+		m_cities.pop_back();
+	}
+
+	while (!m_roads.empty()) {
+		delete *m_roads.begin();
+		m_roads.erase(m_roads.begin());
+	}
+
+	while (!m_building.empty()) {
+		delete m_building.back();
+		m_building.pop_back();
+	}
 }
 
 void GlobalField::pathFinderFunc(GlobalField* _this) {
@@ -188,7 +208,7 @@ void GlobalField::Create(float grass, float water, float sand, float dirt, float
 
 	auto& list = QGraphicsScene::views();
 	for (auto view : list) {
-		view->centerOn(s->getModel());
+		view->centerOn(s->model());
 	}
 
 	//	create cities
@@ -204,11 +224,17 @@ void GlobalField::Create(float grass, float water, float sand, float dirt, float
 		addCity(c);
 	}
 
-	m_cities[0]->buildRoad(getCell(m_cities[0]->position()), getCell(m_cities[1]->position()));
+	m_cities[0]->buildRoad(cell(m_cities[0]->position()), cell(m_cities[1]->position()));
 }
 
 void GlobalField::update() {
 	//qDebug(__FUNCTION__);
+
+	// clear trash
+	while (!m_entities_to_delete.empty()) {
+		delete m_entities_to_delete.back();
+		m_entities_to_delete.pop_back();
+	}
 
 	//	create squads if not enough
 	if (m_squads.size() < m_max_squad_count) {
@@ -253,7 +279,7 @@ void GlobalField::addSquad(Squad* value) {
 	if (it != m_squads.end())
 		return;
 	m_squads.push_back(value);
-	addItem(value->getModel());
+	addItem(value->model());
 }
 
 void GlobalField::addCity(City* city) {
@@ -261,7 +287,7 @@ void GlobalField::addCity(City* city) {
 	if (it != m_cities.end())
 		return;
 	m_cities.push_back(city);
-	addItem(city->getModel());
+	addItem(city->model());
 }
 
 void GlobalField::onSelectionChanged() {
@@ -304,7 +330,7 @@ void GlobalField::mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent) {
 	for (auto& item : all_items) {
 		auto field_cell_item = qgraphicsitem_cast<GlobalFieldCellItem*>(item);
 		if (field_cell_item)
-			emit fieldCellPressed(mouseEvent, field_cell_item->getCell());
+			emit fieldCellPressed(mouseEvent, field_cell_item->cell());
 	}	
 
 	//if (m_mode == InteractionMode::Select) {
@@ -312,7 +338,7 @@ void GlobalField::mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent) {
 			for (auto& item : all_items) {
 				auto field_cell_item = qgraphicsitem_cast<GlobalFieldCellItem*>(item);
 				if (field_cell_item) {
-					auto cell = field_cell_item->getCell();
+					auto cell = field_cell_item->cell();
 					for (auto squad : m_selected_squads) {
 						if (squad->isHumanControl())
 							squad->goTo(cell);
@@ -343,7 +369,7 @@ bool GlobalField::findPath(const QPoint& start, const QPoint& end, std::list<Glo
 	auto tls_index = getTlsIndex();
 
 	getTls(tls_index)->find_path_magic++;
-	auto start_cell = getCell(start);
+	auto start_cell = cell(start);
 	std::deque<GlobalFieldCell*> stack;
 	stack.push_back(start_cell);
 
@@ -361,7 +387,7 @@ bool GlobalField::findPath(const QPoint& start, const QPoint& end, std::list<Glo
 			for (int x = -1; x < 2; ++x) {
 				if (x == 0 && y == 0)
 					continue;
-				auto next_cell = getCell(cell->position.x() + x, cell->position.y() + y);
+				auto next_cell = this->cell(cell->position.x() + x, cell->position.y() + y);
 				if (next_cell) {
 					if (next_cell->findPath(tls_index)->find_path_magic != getTls(tls_index)->find_path_magic) {
 						next_cell->findPath(tls_index)->find_path_number = cell->findPath(tls_index)->find_path_number + 1;
@@ -382,7 +408,7 @@ bool GlobalField::findPath(const QPoint& start, const QPoint& end, std::list<Glo
 			GlobalFieldCell* cell = nullptr;
 			for (int y = -1; y < 2; ++y) {
 				for (int x = -1; x < 2; ++x) {
-					auto temp = getCell(end_cell->position.x() + x, end_cell->position.y() + y);
+					auto temp = this->cell(end_cell->position.x() + x, end_cell->position.y() + y);
 					if (!cell)
 						cell = temp;
 					int diff_old = end_cell->findPath(tls_index)->find_path_number - cell->findPath(tls_index)->find_path_number;
@@ -411,7 +437,7 @@ bool GlobalField::findPath(const QPoint& start, const QPoint& end, std::list<Glo
 	}
 }
 
-GlobalFieldCell* GlobalField::getCell(const QPoint& value) {
+GlobalFieldCell* GlobalField::cell(const QPoint& value) {
 	if (value.x() < 0 || value.x() >= m_width)
 		return nullptr;
 	if (value.y() < 0 || value.y() >= m_height)
@@ -518,7 +544,7 @@ void GlobalField::neighbourCells(GlobalFieldCell* cell, std::vector<GlobalFieldC
 		for (int x = -1; x < 2; ++x) {
 			if (x == 0 && y == 0)
 				continue;
-			auto c = getCell(cell->position.x() + x, cell->position.y() + y);
+			auto c = this->cell(cell->position.x() + x, cell->position.y() + y);
 			if (c) {
 				cells.push_back(c);
 			}
@@ -556,7 +582,7 @@ GlobalFieldCell* GlobalField::minimalFullCost(std::vector<GlobalFieldCell*>& cel
 
 bool GlobalField::getPath(const QPoint& start, const QPoint& end, std::list<GlobalFieldCell*>& path) {
 	auto s = std::chrono::high_resolution_clock::now();
-	auto result = findPathA(getCell(start), getCell(end), path);
+	auto result = findPathA(cell(start), cell(end), path);
 	auto e = std::chrono::high_resolution_clock::now();
 	auto diff = std::chrono::duration_cast<std::chrono::microseconds>(e - s).count() / (float)1000000.0f;
 	//qDebug("Path calculation took %f s", diff);
@@ -623,7 +649,7 @@ void GlobalField::addRoad(Road* road) {
 	}
 
 	m_roads.insert(road);
-	addItem(road->getModel());
+	addItem(road->model());
 }
 
 void GlobalField::removeRoad(Road* road) {
@@ -637,14 +663,14 @@ void GlobalField::removeRoad(Road* road) {
 	}
 	road->removeRoad();
 	m_roads.erase(road);
-	removeItem(road->getModel());
+	removeItem(road->model());
 }
 
 void GlobalField::setInteractionMode(GlobalField::InteractionMode value) {
 	m_mode = value;
 }
 
-void GlobalField::addBuilding(Entity* value) {
+void GlobalField::addBuilding(Construction* value) {
 	if (!value)
 		return;
 
@@ -654,10 +680,10 @@ void GlobalField::addBuilding(Entity* value) {
 		return;
 	}
 	m_building.push_back(value);
-	addItem(value->getModel());
+	addItem(value->model());
 }
 
-void GlobalField::removeBuilding(Entity* value) {
+void GlobalField::removeBuilding(Construction* value) {
 	if (!value)
 		return;
 
@@ -678,6 +704,113 @@ void GlobalField::removeSquad(Squad* value) {
 		qDebug("Can't remove squad from field. Not added");
 		return;
 	}
-	removeItem(value->getModel());
+	removeItem(value->model());
 	m_squads.erase(it);
+}
+
+void GlobalField::removeCity(City* value) {
+	if (!value)
+		return;
+
+	auto it = std::find(m_cities.begin(), m_cities.end(), value);
+	if (it == m_cities.end()) {
+		qDebug("Can't remove city from field. Not added.");
+		return;
+	}
+	removeItem(value->model());
+	m_cities.erase(it);
+}
+
+void addSquad(GlobalField* field, Squad* squad) {
+	if (!field || !squad)
+		return;
+
+	field->addSquad(squad);
+	
+	GlobalFieldCell* cell = field->cell(squad->position());
+	cell->addEntity(squad);
+}
+
+void removeSquad(GlobalField* field, Squad* squad) {
+	if (!field || !squad)
+		return;
+
+	field->removeSquad(squad);
+	field->moveToTrash(squad);
+
+	auto cell = field->cell(squad->position());
+	cell->removeEntity(squad);
+}
+
+void addCity(GlobalField* field, City* value) {
+	if (!field || !value)
+		return;
+
+	field->addCity(value);
+
+	GlobalFieldCell* cell = field->cell(value->position());
+	cell->addEntity(value);
+}
+
+void removeCity(GlobalField* field, City* city) {
+	if (!field || !city)
+		return;
+
+	//	all the units in the city became independent squads
+	auto units = city->units();
+	for (auto& unit : units) {
+		addSquad(field, new Squad{ unit, field, field });
+	}
+
+	field->removeCity(city);
+	field->moveToTrash(city);
+
+	auto cell = field->cell(city->position());
+	cell->removeEntity(city);
+}
+
+void addBuilding(GlobalField* field, Construction* construction) {
+	if (!field || !construction)
+		return;
+
+	field->addBuilding(construction);
+
+	GlobalFieldCell* cell = field->cell(construction->position());
+	cell->addEntity(construction);
+}
+
+void removeBuilding(GlobalField* field, Construction* construction) {
+	if (!field || !construction)
+		return;
+
+	field->removeBuilding(construction);
+	field->moveToTrash(construction);
+
+	auto cell = field->cell(construction->position());
+	cell->removeEntity(construction);
+}
+
+void addRoad(GlobalField* field, Road* road) {
+	if (!field || !road)
+		return;
+
+	field->addRoad(road);
+
+	auto& path = road->getPath();
+	for (auto& cell : path) {
+		cell->addRoad(road);
+	}
+}
+
+void removeRoad(GlobalField* field, Road* road) {
+	if (!field || !road)
+		return;
+
+	field->removeRoad(road);
+
+	auto& path = road->getPath();
+
+	for (auto& cell : path) {
+		cell->removeRoad(road);
+	}
 }

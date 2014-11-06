@@ -42,31 +42,38 @@ void RoadGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 	if (path.empty())
 		return;
 
-	auto cur = path.begin();
-	auto next = cur;
-	std::advance(next, 1);
-	for (; next != path.end(); ++cur, ++next) {
-		auto& cur_cell = *cur;
-		auto& next_cell = *next;
-		auto delta = next_cell->position - cur_cell->position;
-		delta = delta / delta.manhattanLength();
-		auto angle = atan2(delta.y(), delta.x()) * 45 / atan(1);
-		QMatrix m;
-		m.rotate(angle);
-		brush.setMatrix(m);
-		//painter->setBrush(brush);
+	std::vector<GlobalFieldCell*> neighbours;
+	neighbours.reserve(8);
 
-		auto pen = painter->pen();
-		pen.setWidth(10);
-		pen.setStyle(Qt::PenStyle::SolidLine);
-		pen.setBrush(brush);
-		pen.setCosmetic(false);
-		painter->setPen(pen);
+	for (auto& cell : path) {
+		neighbours.clear();
+		m_road->field()->neighbourCells(cell, neighbours);
+		for (auto& n : neighbours) {
+			if (n->getRoads().empty())
+				continue;
 
-		painter->drawLine(cur_cell->position.x() * GlobalField::cellSize(), 
-			cur_cell->position.y()*GlobalField::cellSize(),
-			next_cell->position.x() * GlobalField::cellSize(),
-			next_cell->position.y() * GlobalField::cellSize());
+			auto& cur_cell = cell;
+			auto& next_cell = n;
+			auto delta = next_cell->position - cur_cell->position;
+			delta = delta / delta.manhattanLength();
+			auto angle = atan2(delta.y(), delta.x()) * 45 / atan(1);
+			QMatrix m;
+			m.rotate(angle);
+			brush.setMatrix(m);
+			//painter->setBrush(brush);
+
+			auto pen = painter->pen();
+			pen.setWidth(10);
+			pen.setStyle(Qt::PenStyle::SolidLine);
+			pen.setBrush(brush);
+			pen.setCosmetic(false);
+			painter->setPen(pen);
+
+			painter->drawLine(cur_cell->position.x() * GlobalField::cellSize(),
+				cur_cell->position.y()*GlobalField::cellSize(),
+				next_cell->position.x() * GlobalField::cellSize(),
+				next_cell->position.y() * GlobalField::cellSize());
+		}
 	}
 }
 

@@ -54,11 +54,13 @@ void City::buildRoad(GlobalFieldCell* start, GlobalFieldCell* end) {
 	BuildRoad* task = new BuildRoad{ this };
 	task->selectCell(start);
 	task->selectCell(end);
-	m_tasks.push_back(task);
+
+	addTask(task);
 }
 
 void City::addTask(CityTask* task) {
 	m_tasks.push_back(task);
+	field()->addItem(task->model());
 }
 
 void City::addRawMaterial(RawMaterialType value, float quantity) {
@@ -124,7 +126,7 @@ void enterCity(City* city, Squad* squad) {
 		enterCity(city, member);
 	}
 
-	squad->field()->removeSquad(squad);
+	removeSquad(squad->field(), squad);
 }
 
 void leaveCity(Unit* unit) {
@@ -138,5 +140,5 @@ void leaveCity(Unit* unit) {
 	squad->setHumanControl(unit->isHumanControl());
 	squad->setPosition(city->position());
 
-	city->field()->addSquad(squad);
+	addSquad(city->field(), squad);
 }

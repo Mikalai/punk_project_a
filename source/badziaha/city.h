@@ -28,12 +28,14 @@ public:
 
 	using RawMaterials = std::array < float, enum_size<RawMaterialType>::Value > ;
 	using Units = std::vector < Unit* > ;
+	using Tasks = std::vector < CityTask* > ;
 
 	City(GlobalField* field, QObject* parent = nullptr);
 	void update() override;
 
 	void buildRoad(GlobalFieldCell* start, GlobalFieldCell* end);
 	void addTask(CityTask* value);
+	const Tasks& tasks() const { return m_tasks; }
 
 	//	resource management
 	void addRawMaterial(RawMaterialType value, float quantity);
@@ -61,7 +63,7 @@ private:
 
 	QString m_name;
 
-	std::vector<CityTask*> m_tasks;
+	Tasks m_tasks;
 	std::vector<std::unique_ptr<Unit>> m_workers;
 	std::vector<std::unique_ptr<Unit>> m_warriors;
 
