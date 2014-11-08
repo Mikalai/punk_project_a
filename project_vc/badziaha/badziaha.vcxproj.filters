@@ -78,6 +78,7 @@
     <ClInclude Include="..\..\source\badziaha\raw_material_type.h" />
     <ClInclude Include="..\..\source\badziaha\options.h" />
     <ClInclude Include="..\..\source\badziaha\enum_helper.h" />
+    <ClInclude Include="..\..\source\badziaha\assignment.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="forms">
