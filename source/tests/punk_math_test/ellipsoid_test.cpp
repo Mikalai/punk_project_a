@@ -1,4 +1,9 @@
-#include "ellipsoid_test.h"
+
+class EllipsoidTest
+{
+public:
+	EllipsoidTest();
+};
 
 EllipsoidTest::EllipsoidTest()
 {

@@ -375,6 +375,7 @@
     </ClInclude>
     <ClInclude Include="..\..\source\math\inoise_generator.h" />
     <ClInclude Include="..\..\source\math\pe_power.h" />
+    <ClInclude Include="..\..\source\math\assignment.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graph">

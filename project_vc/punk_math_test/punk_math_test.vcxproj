@@ -206,7 +206,9 @@
     <ClInclude Include="..\..\source\tests\punk_math_test\bounding_sphere_test.h" />
     <ClInclude Include="..\..\source\tests\punk_math_test\clip_space_test.h" />
     <ClInclude Include="..\..\source\tests\punk_math_test\convex_shape_mesh_test.h" />
-    <ClInclude Include="..\..\source\tests\punk_math_test\ellipsoid_test.h" />
+    <ClCompile Include="..\..\source\tests\punk_math_test\assignment_tast.cpp">
+      <FileType>CppHeader</FileType>
+    </ClCompile>
     <ClInclude Include="..\..\source\tests\punk_math_test\frustum_test.h" />
     <ClInclude Include="..\..\source\tests\punk_math_test\line2d_test.h" />
     <ClInclude Include="..\..\source\tests\punk_math_test\line3d_test.h" />

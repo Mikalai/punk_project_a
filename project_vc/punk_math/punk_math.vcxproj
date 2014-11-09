@@ -165,6 +165,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\source\math\array.cpp" />
     <ClCompile Include="..\..\source\math\astar.cpp" />
+    <ClInclude Include="..\..\source\math\assignment.h" />
     <ClInclude Include="..\..\source\math\clip_segment.h">
       <FileType>CppCode</FileType>
     </ClInclude>
