@@ -39,6 +39,8 @@ struct GlobalFieldCell {
 	QPoint position{ 0, 0 };
 	std::vector<Entity*> entities;
 
+public:
+
 	FindPathData* findPath(int index) {
 		return &getTls(index)->path;
 	}
@@ -73,6 +75,12 @@ struct GlobalFieldCell {
 	}
 
 	bool isNeighbour(GlobalFieldCell* cell) const;
+
+	//	Next is a set of function to generate different entities in the cell.
+	//	Constructions, resources, items. Generation is used to reduce memory consumptions
+
+	//	returns random generator seed
+	int magic() const;
 
 private:
 	std::chrono::high_resolution_clock::time_point last_update;

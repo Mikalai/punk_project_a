@@ -61,6 +61,7 @@
     </ClCompile>
     <ClCompile Include="..\..\source\badziaha\options.cpp" />
     <ClCompile Include="..\..\source\badziaha\raw_material_type.cpp" />
+    <ClCompile Include="..\..\source\badziaha\local_field.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\badziaha\unit_model.h" />
@@ -78,6 +79,7 @@
     <ClInclude Include="..\..\source\badziaha\raw_material_type.h" />
     <ClInclude Include="..\..\source\badziaha\options.h" />
     <ClInclude Include="..\..\source\badziaha\enum_helper.h" />
+    <ClInclude Include="..\..\source\badziaha\local_field.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="forms">

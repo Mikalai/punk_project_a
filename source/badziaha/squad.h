@@ -8,11 +8,33 @@
 #include <QtWidgets/qgraphicsitem.h>
 #include "unit_type.h"
 #include "entity.h"
+#include "time_dependent.h"
 
 class Unit;
 class GlobalFieldCell;
 class GlobalField;
 struct FindPathResult;
+class SquadTask;
+class Squad;
+
+class SquadTask : public TimeDependent {
+public:
+	SquadTask(Squad* squad);
+
+private:
+	Squad* m_squad{ nullptr };
+};
+
+class ExploreFieldCellTask : public SquadTask {
+public:
+
+	ExploreFieldCellTask(Squad* squad, GlobalFieldCell* cell);
+	void update() override;
+
+private:
+	GlobalFieldCell* m_cell{ nullptr };
+	float m_progress{ 0 };	
+};
 
 class Squad : public Entity {
 	Q_OBJECT;
@@ -72,6 +94,9 @@ private:
 	//	stand by command data
 	bool m_stand_by{ false };
 	float m_seconds_left{ 0 };
+
+	//	squad tasks
+	std::vector<SquadTask*> m_tasks;
 };
 
 void joinSquad(Squad* squad, Unit* unit);

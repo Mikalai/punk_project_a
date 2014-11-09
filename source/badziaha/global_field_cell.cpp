@@ -1,4 +1,5 @@
 #include <chrono>
+#include "global_field.h"
 #include "global_field_cell.h"
 
 float GlobalFieldCell::getBaseMoveDifficulty() const {
@@ -62,3 +63,8 @@ bool GlobalFieldCell::isNeighbour(GlobalFieldCell* cell) const {
 	}
 	return false;
 }
+
+int GlobalFieldCell::magic() const {
+	return position.x() + position.y() * 1024;
+}
+

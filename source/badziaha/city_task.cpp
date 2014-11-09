@@ -8,6 +8,7 @@
 #include "buildings.h"
 #include "global_field.h"
 #include "global_field_cell.h"
+#include "squad.h"
 
 CityTask::CityTask(City* city)
 	: Entity{ city->field(), city }
@@ -117,4 +118,28 @@ void Build::selectCell(GlobalFieldCell* cell) {
 		//city()->field()->addBuilding(m_entity.get());
 		setStage(Stage::Execution);
 	}
+}
+
+//	EXPLORE
+Explore::Explore(City* city, GlobalFieldCell* cell, Unit* leader, std::vector<Unit*> members) 
+	: CityTask{ city }
+	, m_target{ cell }
+	, m_leader{ leader }
+	, m_members{ members }
+{}
+
+void Explore::update() {
+	if (stage() == Stage::Input) {
+		Squad* s = new Squad{ m_leader, city()->field(), city()->field() };
+	}
+	else if (stage() == Stage::Execution) {
+
+	}
+	else if (stage() == Stage::Complete) {
+
+	}
+}
+
+void Explore::selectCell(GlobalFieldCell* cell) {
+
 }

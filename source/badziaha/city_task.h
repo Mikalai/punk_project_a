@@ -4,7 +4,9 @@
 #include <list>
 #include <memory>
 #include "entity.h"
+#include <vector>
 
+class Unit;
 class QPainter;
 struct GlobalFieldCell;
 class GlobalField;
@@ -66,6 +68,9 @@ private:
 	float m_time_to_complete_cell{ 1 };
 };
 
+/*
+	Build task is used to organize creation of new structures in the global map.
+*/
 class Build : public CityTask {
 public:
 	Build(City* city, Construction* e);
@@ -77,6 +82,22 @@ private:
 	GlobalFieldCell* m_position{ nullptr };
 	std::unique_ptr<Construction> m_entity{ nullptr };
 	float m_time_to_complete{ 10 };
+};
+
+/*
+	Explore is used to retrieve information about cell. Retrieved information is stored in the city center.
+*/
+class Explore : public CityTask {
+public:
+	Explore(City* city, GlobalFieldCell* cell, Unit* leader, std::vector<Unit*> members);
+
+	void update() override;
+	void selectCell(GlobalFieldCell* cell) override;
+
+private:
+	GlobalFieldCell* m_target{ nullptr };
+	Unit* m_leader{ nullptr };
+	std::vector<Unit*> m_members;
 };
 
 #endif	//	_H_CITY_TASK

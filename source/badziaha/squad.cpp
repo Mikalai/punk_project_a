@@ -227,3 +227,30 @@ void leaveSquad(Unit* unit) {
 
 	addSquad(unit->field(), own_squad);
 }
+
+//	SQUAD TASK
+SquadTask::SquadTask(Squad* squad)
+	: m_squad{ squad }
+{}
+
+
+//	EXPLORE FIELD CELL TASK
+ExploreFieldCellTask::ExploreFieldCellTask(Squad* squad, GlobalFieldCell* cell)
+	: SquadTask{ squad }
+	, m_cell{ cell }
+{}
+
+void ExploreFieldCellTask::update() {
+	if (m_progress > 100.0f)
+		return;
+
+	TimeDependent::update();
+	auto dt = getTimeStep();
+
+	m_progress += dt;
+
+	if (m_progress > 100.0f) {
+		//	here we can randomly select what resources, building and etc can be revieled after
+		//	exploring the cell. Result can depend on the squad skill.
+	}	
+}
