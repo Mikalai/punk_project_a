@@ -1,5 +1,5 @@
-#ifndef _H_UNIT_GRAPHICS_ITEM
-#define _H_UNIT_GRAPHICS_ITEM
+#ifndef _H_Character_GRAPHICS_ITEM
+#define _H_Character_GRAPHICS_ITEM
 
 #include <QtGui/qpainter.h>
 #include <QtWidgets/qgraphicsitem.h>
@@ -7,14 +7,14 @@
 #include "model_type.h"
 
 template<class T, ModelType MT >
-class UnitGraphicsItem : public QGraphicsItem {
+class CharacterGraphicsItem : public QGraphicsItem {
 public:
 
 	enum { Type = QGraphicsItem::UserType + (int)MT };
 
-	UnitGraphicsItem(T* unit, QGraphicsItem* parent = nullptr)
+	CharacterGraphicsItem(T* Character, QGraphicsItem* parent = nullptr)
 		: QGraphicsItem{ parent }
-		, m_unit{ unit } {
+		, m_Character{ Character } {
 
 	}
 
@@ -32,8 +32,8 @@ public:
 		painter->drawImage(QPointF{ -w / 2, -h / 2 }, *image);
 	}
 
-	T* getUnit() {
-		return m_unit;
+	T* getCharacter() {
+		return m_Character;
 	}
 
 	int type() const override {
@@ -41,7 +41,7 @@ public:
 	}
 
 private:
-	T* m_unit{ nullptr };
+	T* m_Character{ nullptr };
 };
 
-#endif	//	_H_UNIT_GRAPHICS_ITEM
+#endif	//	_H_Character_GRAPHICS_ITEM

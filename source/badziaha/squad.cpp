@@ -5,9 +5,9 @@
 #include "global_field_cell.h"
 #include "squad.h"
 #include "squad_graphics_item.h"
-#include "unit.h"
+#include "Character.h"
 
-Squad::Squad(Unit* leader, GlobalField* field, QObject* parent)
+Squad::Squad(Character* leader, GlobalField* field, QObject* parent)
 	: Entity{ field, parent }
 	, m_leader{ leader }
 {
@@ -181,51 +181,51 @@ void Squad::standBy(float seconds) {
 	m_seconds_left = seconds;
 }
 
-void Squad::addUnit(Unit* unit) {
-	auto it = std::find(m_party.begin(), m_party.end(), unit);
+void Squad::addCharacter(Character* Character) {
+	auto it = std::find(m_party.begin(), m_party.end(), Character);
 	if (it != m_party.end()) {
-		qDebug("Can't add unit to squad. Already in the squad");
+		qDebug("Can't add Character to squad. Already in the squad");
 		return;
 	}
-	m_party.push_back(unit);
+	m_party.push_back(Character);
 }
 
-void Squad::removeUnit(Unit* unit) {
-	auto it = std::find(m_party.begin(), m_party.end(), unit);
+void Squad::removeCharacter(Character* Character) {
+	auto it = std::find(m_party.begin(), m_party.end(), Character);
 	if (it == m_party.end()) {
-		qDebug("can't remove unit from squad. Not added");
+		qDebug("can't remove Character from squad. Not added");
 		return;
 	}
 	m_party.erase(it);
 }
 
-void joinSquad(Squad* squad, Unit* unit) {
-	auto old_squad = unit->squad();
+void joinSquad(Squad* squad, Character* Character) {
+	auto old_squad = Character->squad();
 	if (old_squad)
-		old_squad->removeUnit(unit);
+		old_squad->removeCharacter(Character);
 
-	unit->setSquad(squad);
+	Character->setSquad(squad);
 
 	if (squad) {
-		squad->addUnit(unit);
+		squad->addCharacter(Character);
 	}
 }
 
-void leaveSquad(Unit* unit) {
-	auto squad = unit->squad();
+void leaveSquad(Character* Character) {
+	auto squad = Character->squad();
 
 	if (!squad) {
 		qDebug("Can't leave squad. Not in squad");
 		return;
 	}
-		squad->removeUnit(unit);
-		unit->setSquad{ nullptr };
+		squad->removeCharacter(Character);
+		Character->setSquad{ nullptr };
 
-	auto own_squad = new Squad{ unit, unit->field(), unit->parent() };
-	own_squad->setHumanControl(unit->isHumanControl());
+	auto own_squad = new Squad{ Character, Character->field(), Character->parent() };
+	own_squad->setHumanControl(Character->isHumanControl());
 	own_squad->setPosition(squad->position());
 
-	addSquad(unit->field(), own_squad);
+	addSquad(Character->field(), own_squad);
 }
 
 //	SQUAD TASK

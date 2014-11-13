@@ -10,7 +10,7 @@ Construction::Construction(GlobalField* field, QObject* parent)
 SawMill::SawMill(GlobalField* field, QObject* parent)
 	: Construction{ field, parent }
 {
-	setModel(new UnitGraphicsItem < SawMill, ModelType::SawMill > { this, nullptr });
+	setModel(new CharacterGraphicsItem < SawMill, ModelType::SawMill > { this, nullptr });
 }
 
 void SawMill::update() {

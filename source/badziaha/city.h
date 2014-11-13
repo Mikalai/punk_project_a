@@ -18,7 +18,7 @@ enum class CityBuilding {
 	Sawmill
 };
 
-class Unit;
+class Character;
 class City;
 class Squad;
 
@@ -27,7 +27,7 @@ class City : public Entity {
 public:
 
 	using RawMaterials = std::array < float, enum_size<RawMaterialType>::Value > ;
-	using Units = std::vector < Unit* > ;
+	using Characters = std::vector < Character* > ;
 	using Tasks = std::vector < CityTask* > ;
 
 	City(GlobalField* field, QObject* parent = nullptr);
@@ -43,8 +43,8 @@ public:
 	const RawMaterials& rawMaterials() const { return m_raw_materials; }
 	float rawMaterial(RawMaterialType value) const { return m_raw_materials[enum_index(value)]; }
 
-	//	units management
-	const Units& units() const { return m_units; }
+	//	Characters management
+	const Characters& characters() const { return m_characters; }
 
 	QString name() { return m_name; }
 	void setName(QString value) { m_name = value; }
@@ -54,18 +54,18 @@ signals:
 	void clicked(City* item);
 
 private:
-	void addUnit(Unit* unit);
-	void removeUnit(Unit* unit);
-	friend void enterCity(City* city, Unit* unit);
-	friend void leaveCity(Unit* unit);
+	void addCharacter(Character* Character);
+	void removeCharacter(Character* Character);
+	friend void enterCity(City* city, Character* Character);
+	friend void leaveCity(Character* Character);
 
 private:	
 
 	QString m_name;
 
 	Tasks m_tasks;
-	std::vector<std::unique_ptr<Unit>> m_workers;
-	std::vector<std::unique_ptr<Unit>> m_warriors;
+	std::vector<std::unique_ptr<Character>> m_workers;
+	std::vector<std::unique_ptr<Character>> m_warriors;
 
 	//	population generation
 	float m_worker_train_time_base{ 300 };
@@ -81,12 +81,12 @@ private:
 	RawMaterials m_raw_materials;
 
 	//	general population
-	int m_last_updated_unit{ 0 };
-	std::vector<Unit*> m_units;
+	int m_last_updated_character{ 0 };
+	std::vector<Character*> m_characters;
 };
 
-void enterCity(City* city, Unit* unit);
-void leaveCity(Unit* unit);
+void enterCity(City* city, Character* Character);
+void leaveCity(Character* Character);
 void enterCity(City* city, Squad* squad);
 
 #endif	//	_H_CITY

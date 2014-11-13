@@ -21,7 +21,7 @@ Resources::Resources() {
 	m_models[(int)ModelType::Construction].reset(new QImage{ ":/images/construction.png" });
 }
 
-QImage* Resources::getImage(const GlobalFieldCellGround& value) {
+QImage* Resources::getImage(const SurfaceType& value) {
 	return m_global_field_cell_ground.at((int)value).get();
 }
 

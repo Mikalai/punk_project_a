@@ -8,17 +8,17 @@ float GlobalFieldCell::getBaseMoveDifficulty() const {
 
 	switch (ground)
 	{
-	case GlobalFieldCellGround::Dirt:
+	case SurfaceType::Dirt:
 		return 4;
-	case GlobalFieldCellGround::Forest:
+	case SurfaceType::Forest:
 		return 3;
-	case GlobalFieldCellGround::Grass:
+	case SurfaceType::Grass:
 		return 1;
-	case GlobalFieldCellGround::Rocks:
+	case SurfaceType::Rocks:
 		return 6;
-	case GlobalFieldCellGround::Sand:
+	case SurfaceType::Sand:
 		return 5;
-	case GlobalFieldCellGround::Water:
+	case SurfaceType::Water:
 		return 10;
 	default:
 		break;

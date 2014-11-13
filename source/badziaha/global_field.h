@@ -8,7 +8,9 @@
 #include <mutex>
 #include <condition_variable>
 #include <QtCore/qobject.h>
+#include <QtCore/qdatetime.h>
 #include <QtWidgets/qgraphicsscene.h>
+#include "time_dependent.h"
 
 struct GlobalFieldCell;
 class Squad;
@@ -17,6 +19,7 @@ class Road;
 class Entity; 
 class Construction;
 class Building;
+struct WeatherStamp;
 
 struct FindPathResult {
 	std::list<GlobalFieldCell*> path;
@@ -29,7 +32,7 @@ struct FindPathResult {
 };
 
 
-class GlobalField : public QGraphicsScene {
+class GlobalField : public QGraphicsScene, public TimeDependent {
 	Q_OBJECT;
 public:
 
@@ -102,8 +105,10 @@ public:
 		m_entities_to_delete.push_back(value);
 	}
 
+	Entity* player();
+
 public slots:
-	void update();
+	void updateByTimer();
 	void onSelectionChanged();
 	void terminate();
 
@@ -113,7 +118,8 @@ signals:
 	void citySelected(City* city);
 	void selectionDropped();
 	void fieldCellPressed(QGraphicsSceneMouseEvent* event, GlobalFieldCell* cell);
-
+	void timeChanged(const QDateTime& dt);
+	void weatherChanged(const WeatherStamp& value);
 
 protected:
 	void mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent) override;
@@ -182,6 +188,9 @@ private:
 
 	//	pending removing
 	std::vector<Entity*> m_entities_to_delete;
+
+	//	time managment
+	QDateTime m_current_time;
 
 private:
 	friend void addSquad(GlobalField* field, Squad* squad);

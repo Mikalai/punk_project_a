@@ -60,7 +60,7 @@ void Unit::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void *
 }
 
 const QMetaObject Unit::staticMetaObject = {
-    { &Entity::staticMetaObject, qt_meta_stringdata_Unit.data,
+    { &QObject::staticMetaObject, qt_meta_stringdata_Unit.data,
       qt_meta_data_Unit,  qt_static_metacall, 0, 0}
 };
 
@@ -75,12 +75,14 @@ void *Unit::qt_metacast(const char *_clname)
     if (!_clname) return 0;
     if (!strcmp(_clname, qt_meta_stringdata_Unit.stringdata))
         return static_cast<void*>(const_cast< Unit*>(this));
-    return Entity::qt_metacast(_clname);
+    if (!strcmp(_clname, "TimeDependent"))
+        return static_cast< TimeDependent*>(const_cast< Unit*>(this));
+    return QObject::qt_metacast(_clname);
 }
 
 int Unit::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = Entity::qt_metacall(_c, _id, _a);
+    _id = QObject::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     return _id;

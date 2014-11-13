@@ -50,6 +50,6 @@ private:
 	City* m_city{ nullptr };
 	const QModelIndex Resources;
 	const QModelIndex Roads;
-	const QModelIndex Units;
+	const QModelIndex Characters;
 };
 #endif	//	_H_CITY_WIDGET

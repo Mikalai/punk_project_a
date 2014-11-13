@@ -116,6 +116,10 @@ namespace Core
     PUNK_ENGINE_API bool operator < (const String& l, const String& r);
 #endif
 
+#ifdef USE_QT
+
+#endif	
+
 }
 PUNK_ENGINE_END
 

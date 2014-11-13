@@ -7,18 +7,18 @@
 #include "../buildings.h"
 #include "../city.h"
 #include "../city_task.h"
-#include "../unit.h"
+#include "../Character.h"
 
 #define CITY_RESOURCES 1
 #define CITY_ROADS 2
-#define CITY_UNITS 3
+#define CITY_CharacterS 3
 
 CityModel::CityModel(City* value, QObject* parent)
 	: QAbstractItemModel{ parent }
 	, m_city{ value }
 	, Resources{ createIndex(0, 0, (quintptr)0) }
 	, Roads{ createIndex(1, 0, (quintptr)0) }
-	, Units{ createIndex(2, 0, (quintptr)0) }
+	, Characters{ createIndex(2, 0, (quintptr)0) }
 {}
 
 void CityModel::refresh() {
@@ -32,8 +32,8 @@ QModelIndex CityModel::index(int row, int column, const QModelIndex &parent) con
 		return createIndex(row, column, CITY_RESOURCES);
 	if (parent == Roads)
 		return createIndex(row, column, CITY_ROADS);
-	if (parent == Units)
-		return createIndex(row, column, CITY_UNITS);
+	if (parent == Characters)
+		return createIndex(row, column, CITY_CharacterS);
 	return QModelIndex();
 }
 
@@ -42,8 +42,8 @@ QModelIndex CityModel::parent(const QModelIndex &child) const {
 		return Resources;
 	if (child.internalId() == CITY_ROADS)
 		return Roads;
-	if (child.internalId() == CITY_UNITS)
-		return Units;
+	if (child.internalId() == CITY_CharacterS)
+		return Characters;
 	return QModelIndex{};
 }
 
@@ -53,8 +53,8 @@ int CityModel::rowCount(const QModelIndex &parent) const {
 	if (parent == Resources) {
 		return (int)m_city->rawMaterials().size();
 	}
-	if (parent == Units) {
-		return (int)m_city->units().size();
+	if (parent == Characters) {
+		return (int)m_city->characters().size();
 	}
 	return 0;
 }
@@ -71,8 +71,8 @@ bool CityModel::hasChildren(const QModelIndex &parent) const {
 		return !m_city->rawMaterials().empty();
 	}
 	
-	if (parent == Units) {
-		return !m_city->units().empty();
+	if (parent == Characters) {
+		return !m_city->characters().empty();
 	}
 
 	return false;
@@ -91,8 +91,8 @@ QVariant CityModel::data(const QModelIndex &index, int role) const {
 	else if (index == Roads) {
 		return QObject::tr("Roads");
 	}
-	else if (index == Units){
-		return QObject::tr("Units");
+	else if (index == Characters){
+		return QObject::tr("Characters");
 	}
 	else if (index.parent() == Resources) {
 		if (index.column() == 0)
@@ -103,9 +103,9 @@ QVariant CityModel::data(const QModelIndex &index, int role) const {
 			return QString::number((int)amount);
 		}
 	}
-	else if (index.parent() == Units) {
+	else if (index.parent() == Characters) {
 		if (index.column() == 0)
-			return m_city->units()[index.row()]->name();
+			return m_city->characters()[index.row()]->name();
 		else if (index.column() == 1) {
 			return QString{};
 		}

@@ -1,56 +1,50 @@
-﻿#ifndef _H_UNIT
+#ifndef _H_UNIT
 #define _H_UNIT
 
 #include <QtCore/qobject.h>
+#include <QtGui/qtransform.h>
 #include <QtCore/qpoint.h>
-#include "entity.h"
+#include "time_dependent.h"
 
-class UnitModel;
-class GlobalField;
-class City;
-class Squad;
+class QGraphicsItem;
+class Character;
+class LocalField;
 
-class Unit : public Entity {
+class Unit : public QObject, public TimeDependent {
 	Q_OBJECT;
+
 public:
-	Unit(GlobalField* field, QObject* parent = nullptr);
+	Unit(LocalField* field, Character* character, int squad_id, QObject* parent = nullptr);
 
-	int builderLevel() const { return m_builder_level; }
-	int warriorLevel() const { return m_warrior_level; }
+	Character* character() { return m_character; }
 
-	City* city() { return m_current_city; };
-	
+	QGraphicsItem* model() { return m_model; }
+	float rotation() const { return m_rotation; }
+	QPointF position() const { return m_position; }
+	void setPosition(QPointF value);
+	LocalField* field() { return m_field; }
 
-	QString name() const { return m_name; }
-	void setName(QString value) { m_name = value; }
+	QMatrix getTransform() const;
 
+	bool isHumanControl() const;
 
-	Squad* squad() { return m_current_squad; }
+	void update() override;
 
-private:
-	void setCity(City* value) { m_current_city = value; }
-	void setSquad(Squad* value) { m_current_squad = value; }
+	QPointF direction() const;
 
-	friend void joinSquad(Squad* squad, Unit* unit);
-	friend void leaveSquad(Unit* unit);
-
-	friend void enterCity(City* city, Unit* unit);
-	friend void leaveCity(Unit* unit);	
+	int squadId() const {
+		return m_squad_id;
+	}
 
 private:
-	QString m_name{ "Vitaŭt" };
-	float m_health{ 10 };
-	float m_min_damage{ 1 };
-	float m_max_damage{ 2 };
-	float m_speed{ 1 };
-	bool m_can_shoot_air{ false };
-	bool m_can_shoot{ false };
-	bool m_can_fly{ false };
-	float m_attack_distance{ 1 };
-	int m_warrior_level{ 0 };
-	int m_builder_level{ 0 };
-	City* m_current_city{ nullptr };
-	Squad* m_current_squad{ nullptr };
+	void updateTransform();
+
+private:
+	LocalField* m_field{ nullptr };
+	QPointF m_position{ 0, 0 };
+	float m_rotation{ 0 };
+	Character* m_character{ nullptr };
+	int m_squad_id{ -1 };
+	QGraphicsItem* m_model{ nullptr };
 };
-
-#endif	//_H_UNIT
+#endif	//	_H_UNIT

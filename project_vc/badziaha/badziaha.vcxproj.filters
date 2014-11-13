@@ -12,7 +12,6 @@
       <Filter>generated</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\badziaha\unit_model.cpp" />
-    <ClCompile Include="..\..\source\badziaha\unit.cpp" />
     <ClCompile Include="moc_game.cpp">
       <Filter>generated</Filter>
     </ClCompile>
@@ -62,6 +61,14 @@
     <ClCompile Include="..\..\source\badziaha\options.cpp" />
     <ClCompile Include="..\..\source\badziaha\raw_material_type.cpp" />
     <ClCompile Include="..\..\source\badziaha\local_field.cpp" />
+    <ClCompile Include="..\..\source\badziaha\character.cpp" />
+    <ClCompile Include="..\..\source\badziaha\unit.cpp" />
+    <ClCompile Include="..\..\source\badziaha\unit_item.cpp" />
+    <ClCompile Include="..\..\source\badziaha\keys.cpp" />
+    <ClCompile Include="..\..\source\badziaha\weather.cpp" />
+    <ClCompile Include="moc_character.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\badziaha\unit_model.h" />
@@ -79,7 +86,11 @@
     <ClInclude Include="..\..\source\badziaha\raw_material_type.h" />
     <ClInclude Include="..\..\source\badziaha\options.h" />
     <ClInclude Include="..\..\source\badziaha\enum_helper.h" />
-    <ClInclude Include="..\..\source\badziaha\local_field.h" />
+    <ClInclude Include="..\..\source\badziaha\surface_type.h" />
+    <ClInclude Include="..\..\source\badziaha\unit_item.h" />
+    <ClInclude Include="..\..\source\badziaha\keys.h" />
+    <ClInclude Include="..\..\source\badziaha\weather.h" />
+    <ClInclude Include="..\..\source\badziaha\string_ex.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="forms">
@@ -96,7 +107,6 @@
     <CustomBuild Include="..\..\source\badziaha\city.h" />
     <CustomBuild Include="..\..\source\badziaha\game.h" />
     <CustomBuild Include="..\..\source\badziaha\global_field.h" />
-    <CustomBuild Include="..\..\source\badziaha\unit.h" />
     <CustomBuild Include="..\..\source\badziaha\squad.h" />
     <CustomBuild Include="..\..\source\badziaha\resources\resources.qrc">
       <Filter>resources</Filter>
@@ -115,5 +125,8 @@
       <Filter>forms</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\source\badziaha\buildings.h" />
+    <CustomBuild Include="..\..\source\badziaha\local_field.h" />
+    <CustomBuild Include="..\..\source\badziaha\character.h" />
+    <CustomBuild Include="..\..\source\badziaha\unit.h" />
   </ItemGroup>
 </Project>

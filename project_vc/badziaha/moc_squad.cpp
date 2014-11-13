@@ -20,7 +20,7 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Squad_t {
     QByteArrayData data[3];
-    char stringdata[19];
+    char stringdata[24];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -31,9 +31,9 @@ static const qt_meta_stringdata_Squad_t qt_meta_stringdata_Squad = {
     {
 QT_MOC_LITERAL(0, 0, 5),
 QT_MOC_LITERAL(1, 6, 6),
-QT_MOC_LITERAL(2, 13, 5)
+QT_MOC_LITERAL(2, 13, 10)
     },
-    "Squad\0leader\0Unit*"
+    "Squad\0leader\0Character*"
 };
 #undef QT_MOC_LITERAL
 
@@ -93,7 +93,7 @@ int Squad::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
      if (_c == QMetaObject::ReadProperty) {
         void *_v = _a[0];
         switch (_id) {
-        case 0: *reinterpret_cast< Unit**>(_v) = m_leader; break;
+        case 0: *reinterpret_cast< Character**>(_v) = m_leader; break;
         default: break;
         }
         _id -= 1;
@@ -101,8 +101,8 @@ int Squad::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         void *_v = _a[0];
         switch (_id) {
         case 0:
-            if (m_leader != *reinterpret_cast< Unit**>(_v)) {
-                m_leader = *reinterpret_cast< Unit**>(_v);
+            if (m_leader != *reinterpret_cast< Character**>(_v)) {
+                m_leader = *reinterpret_cast< Character**>(_v);
             }
             break;
         default: break;

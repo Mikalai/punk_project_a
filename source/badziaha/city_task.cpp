@@ -19,7 +19,7 @@ CityTask::CityTask(City* city)
 BuildRoad::BuildRoad(City* city)
 	: CityTask{ city }
 {
-	setModel(new UnitGraphicsItem < BuildRoad, ModelType::Construction > { this, nullptr });
+	setModel(new CharacterGraphicsItem < BuildRoad, ModelType::Construction > { this, nullptr });
 	setStage(Stage::Input);
 }
 
@@ -85,7 +85,7 @@ Build::Build(City* city, Construction* result)
 	: CityTask{ city }
 	, m_entity{ result }
 {
-	setModel(new UnitGraphicsItem < Build, ModelType::Construction > { this, nullptr });
+	setModel(new CharacterGraphicsItem < Build, ModelType::Construction > { this, nullptr });
 }
 
 void Build::update() {
@@ -121,7 +121,7 @@ void Build::selectCell(GlobalFieldCell* cell) {
 }
 
 //	EXPLORE
-Explore::Explore(City* city, GlobalFieldCell* cell, Unit* leader, std::vector<Unit*> members) 
+Explore::Explore(City* city, GlobalFieldCell* cell, Character* leader, std::vector<Character*> members) 
 	: CityTask{ city }
 	, m_target{ cell }
 	, m_leader{ leader }

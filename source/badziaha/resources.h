@@ -5,7 +5,7 @@
 #include <vector>
 
 class QImage;
-enum class GlobalFieldCellGround;
+enum class SurfaceType;
 enum class ModelType;
 
 class Resources {
@@ -13,7 +13,7 @@ public:
 
 	Resources();
 
-	QImage* getImage(const GlobalFieldCellGround& value);
+	QImage* getImage(const SurfaceType& value);
 	QImage* getSquadImage();
 	QImage* getCityImage();
 	QImage* modelImage(const ModelType& value);

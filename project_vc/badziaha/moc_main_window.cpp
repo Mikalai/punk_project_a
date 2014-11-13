@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[7];
-    char stringdata[50];
+    QByteArrayData data[14];
+    char stringdata[132];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -35,10 +35,19 @@ QT_MOC_LITERAL(2, 16, 0),
 QT_MOC_LITERAL(3, 17, 4),
 QT_MOC_LITERAL(4, 22, 9),
 QT_MOC_LITERAL(5, 32, 9),
-QT_MOC_LITERAL(6, 42, 7)
+QT_MOC_LITERAL(6, 42, 7),
+QT_MOC_LITERAL(7, 50, 13),
+QT_MOC_LITERAL(8, 64, 13),
+QT_MOC_LITERAL(9, 78, 12),
+QT_MOC_LITERAL(10, 91, 5),
+QT_MOC_LITERAL(11, 97, 6),
+QT_MOC_LITERAL(12, 104, 14),
+QT_MOC_LITERAL(13, 119, 12)
     },
     "MainWindow\0save\0\0load\0quickSave\0"
-    "quickLoad\0newGame"
+    "quickLoad\0newGame\0enterLocation\0"
+    "leaveLocation\0setTimeScale\0value\0"
+    "update\0weatherChanged\0WeatherStamp"
 };
 #undef QT_MOC_LITERAL
 
@@ -48,7 +57,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       5,   14, // methods
+      10,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -56,11 +65,16 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   39,    2, 0x0a /* Public */,
-       3,    0,   40,    2, 0x0a /* Public */,
-       4,    0,   41,    2, 0x0a /* Public */,
-       5,    0,   42,    2, 0x0a /* Public */,
-       6,    0,   43,    2, 0x0a /* Public */,
+       1,    0,   64,    2, 0x0a /* Public */,
+       3,    0,   65,    2, 0x0a /* Public */,
+       4,    0,   66,    2, 0x0a /* Public */,
+       5,    0,   67,    2, 0x0a /* Public */,
+       6,    0,   68,    2, 0x0a /* Public */,
+       7,    0,   69,    2, 0x0a /* Public */,
+       8,    0,   70,    2, 0x0a /* Public */,
+       9,    1,   71,    2, 0x0a /* Public */,
+      11,    0,   74,    2, 0x0a /* Public */,
+      12,    1,   75,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
@@ -68,6 +82,11 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,   10,
+    QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 13,   10,
 
        0        // eod
 };
@@ -82,10 +101,14 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 2: _t->quickSave(); break;
         case 3: _t->quickLoad(); break;
         case 4: _t->newGame(); break;
+        case 5: _t->enterLocation(); break;
+        case 6: _t->leaveLocation(); break;
+        case 7: _t->setTimeScale((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 8: _t->update(); break;
+        case 9: _t->weatherChanged((*reinterpret_cast< const WeatherStamp(*)>(_a[1]))); break;
         default: ;
         }
     }
-    Q_UNUSED(_a);
 }
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -113,13 +136,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 5)
+        if (_id < 10)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 10;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 5)
+        if (_id < 10)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 5;
+        _id -= 10;
     }
     return _id;
 }

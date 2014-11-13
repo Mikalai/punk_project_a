@@ -7,18 +7,12 @@ Entity::Entity(GlobalField* field, QObject* parent)
 	: QObject{ parent }
 	, m_field{ field }
 {
-	m_last_update = std::chrono::high_resolution_clock::now();
+	//m_last_update = std::chrono::high_resolution_clock::now();
 }
 
 Entity::~Entity() {
 	delete m_model;
 	m_model = nullptr;
-}
-
-void Entity::update() {
-	auto now = std::chrono::high_resolution_clock::now();
-	m_dt = std::chrono::duration_cast<std::chrono::microseconds>(now - m_last_update).count() / float(1000000);
-	m_last_update = now;
 }
 
 void Entity::setModel(QGraphicsItem* item) {
@@ -37,6 +31,7 @@ void Entity::setModel(QGraphicsItem* item) {
 void Entity::setPosition(int x, int y, float dx, float dy) {
 	//qDebug("Squad position %d;%d %f;%f", x, y, dx, dy);
 	if (m_position.x() != x || m_position.y() != y) {
+		m_prev_position = m_position;
 		auto cell = m_field->cell(m_position);
 		if (cell) {
 			cell->removeEntity(this);

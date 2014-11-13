@@ -6,11 +6,10 @@
 #include <chrono>
 #include <map>
 #include <QtWidgets/qgraphicsitem.h>
-#include "unit_type.h"
 #include "entity.h"
 #include "time_dependent.h"
 
-class Unit;
+class Character;
 class GlobalFieldCell;
 class GlobalField;
 struct FindPathResult;
@@ -38,9 +37,9 @@ private:
 
 class Squad : public Entity {
 	Q_OBJECT;
-	Q_PROPERTY(Unit* leader MEMBER m_leader);
+	Q_PROPERTY(Character* leader MEMBER m_leader);
 public:
-	Squad(Unit* leader, GlobalField* field, QObject* parent = nullptr);
+	Squad(Character* leader, GlobalField* field, QObject* parent = nullptr);
 
 	float getBaseSpeed(GlobalFieldCell* cell) const;
 	void goTo(GlobalFieldCell* cell);
@@ -48,14 +47,14 @@ public:
 
 	void update() override;
 
-	Unit* leader() { return m_leader; }
+	Character* leader() { return m_leader; }
 
-	const std::vector<Unit*>& party() const { return m_party; }	
+	const std::vector<Character*>& party() const { return m_party; }	
 
 private:
 
 	struct Members {
-		Unit* m_unit{ nullptr };
+		Character* m_Character{ nullptr };
 		int m_count{ 0 };
 		int m_injured{ 0 };
 	};
@@ -69,22 +68,22 @@ private:
 	bool IsIdle();
 
 	//	membership managment
-	void addUnit(Unit* unit);
-	void removeUnit(Unit* unit);
+	void addCharacter(Character* Character);
+	void removeCharacter(Character* Character);
 
-	friend void joinSquad(Squad* squad, Unit* unit);
-	friend void leaveSquad(Unit* unit);
+	friend void joinSquad(Squad* squad, Character* Character);
+	friend void leaveSquad(Character* Character);
 
 private:
 	//	members
-	Unit* m_leader{ nullptr };
-	std::vector<Unit*> m_party;
+	Character* m_leader{ nullptr };
+	std::vector<Character*> m_party;
 
 	//	parameters
 	float m_speed{ 3 };	
 	bool m_move_path{ false };
 	std::list<GlobalFieldCell*> m_path;
-	//std::map<UnitType, Members> m_forces;
+	//std::map<CharacterType, Members> m_forces;
 	FindPathResult* m_find_path_result{ nullptr };
 
 	//	goto command data
@@ -99,7 +98,7 @@ private:
 	std::vector<SquadTask*> m_tasks;
 };
 
-void joinSquad(Squad* squad, Unit* unit);
-void leaveSquad(Unit* unit);
+void joinSquad(Squad* squad, Character* Character);
+void leaveSquad(Character* Character);
 
 #endif	//	_H_SQUAD

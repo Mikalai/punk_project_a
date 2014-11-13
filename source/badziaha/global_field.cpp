@@ -1,3 +1,5 @@
+#include <iostream>
+#include <QtCore/qtimezone.h>
 #include <QtWidgets/qgraphicsitem.h>
 #include <stack>
 #include <deque>
@@ -13,8 +15,9 @@
 #include "city_graphics_item.h"
 #include "squad_graphics_item.h"
 #include "road.h"
-#include "unit.h"
+#include "Character.h"
 #include "buildings.h"
+#include "weather.h"
 
 static const int CELL_SIZE = 64;
 
@@ -136,6 +139,8 @@ void GlobalField::Create(float grass, float water, float sand, float dirt, float
 	clear();
 	m_cells.resize(m_width*m_height);
 
+	m_current_time = QDateTime(QDate(2012, 7, 6), QTime(21, 30, 0));
+
 	//	allocate TLS
 	for (int y = 0; y < m_height; ++y) {
 		for (int x = 0; x < m_width; ++x) {
@@ -171,28 +176,28 @@ void GlobalField::Create(float grass, float water, float sand, float dirt, float
 			//	store ground
 			float rnd = rand() / (float)RAND_MAX;
 			if (rnd < grass)
-				cell->ground = GlobalFieldCellGround::Grass;
+				cell->ground = SurfaceType::Grass;
 			else if (rnd < water)
-				cell->ground = GlobalFieldCellGround::Water;
+				cell->ground = SurfaceType::Water;
 			else if (rnd < sand)
-				cell->ground = GlobalFieldCellGround::Sand;
+				cell->ground = SurfaceType::Sand;
 			else if (rnd < dirt)
-				cell->ground = GlobalFieldCellGround::Dirt;
+				cell->ground = SurfaceType::Dirt;
 			else if (rnd < forest)
-				cell->ground = GlobalFieldCellGround::Forest;
+				cell->ground = SurfaceType::Forest;
 			else if (rnd < rocks)
-				cell->ground = GlobalFieldCellGround::Rocks;
+				cell->ground = SurfaceType::Rocks;
 
 			//	if island make water on the edge of the map
 			if (island) {
 				if (y <= sea_width)
-					cell->ground = GlobalFieldCellGround::Water;
+					cell->ground = SurfaceType::Water;
 				if (y >= m_height - sea_width)
-					cell->ground = GlobalFieldCellGround::Water;
+					cell->ground = SurfaceType::Water;
 				if (x <= sea_width)
-					cell->ground = GlobalFieldCellGround::Water;
+					cell->ground = SurfaceType::Water;
 				if (x >= m_width - sea_width)
-					cell->ground = GlobalFieldCellGround::Water;
+					cell->ground = SurfaceType::Water;
 			}
 
 			GlobalFieldCellItem* item = new GlobalFieldCellItem{ cell, this };
@@ -201,7 +206,7 @@ void GlobalField::Create(float grass, float water, float sand, float dirt, float
 	}
 
 	//	create player squad
-	Squad* s = new Squad(new Unit{ this, this }, this, this);
+	Squad* s = new Squad(new Character{ this, this }, this, this);
 	s->setHumanControl(true);
 	s->setPosition(6, 6);
 	addSquad(s);
@@ -227,7 +232,19 @@ void GlobalField::Create(float grass, float water, float sand, float dirt, float
 	m_cities[0]->buildRoad(cell(m_cities[0]->position()), cell(m_cities[1]->position()));
 }
 
-void GlobalField::update() {
+void GlobalField::updateByTimer() {
+	TimeDependent::update();
+	auto dt = getTimeStep();
+	static float t = 0;
+	t += dt;
+	if (t >= 1.0f) {
+		m_current_time = m_current_time.addSecs(t);
+		auto w = Temperature::instance()->weather(m_current_time);
+		emit weatherChanged(w);
+		t = 0;
+		emit timeChanged(m_current_time);
+	}
+	//std::cout << dt * 1000.0f << std::endl;
 	//qDebug(__FUNCTION__);
 
 	// clear trash
@@ -238,7 +255,7 @@ void GlobalField::update() {
 
 	//	create squads if not enough
 	if (m_squads.size() < m_max_squad_count) {
-		Squad* s = new Squad(new Unit{ this, this }, this, this);
+		Squad* s = new Squad(new Character{ this, this }, this, this);
 		s->setHumanControl(false);
 		s->setPosition(50, 50);
 		addSquad(s);
@@ -756,10 +773,10 @@ void removeCity(GlobalField* field, City* city) {
 	if (!field || !city)
 		return;
 
-	//	all the units in the city became independent squads
-	auto units = city->units();
-	for (auto& unit : units) {
-		addSquad(field, new Squad{ unit, field, field });
+	//	all the Characters in the city became independent squads
+	auto characters = city->characters();
+	for (auto& character : characters) {
+		addSquad(field, new Squad{ character, field, field });
 	}
 
 	field->removeCity(city);
@@ -813,4 +830,12 @@ void removeRoad(GlobalField* field, Road* road) {
 	for (auto& cell : path) {
 		cell->removeRoad(road);
 	}
+}
+
+Entity* GlobalField::player() {
+	for (auto& s : m_squads) {
+		if (s->isHumanControl())
+			return s;
+	}
+	return nullptr;
 }

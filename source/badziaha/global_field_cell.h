@@ -2,16 +2,7 @@
 #include <set>
 #include <vector>
 #include <chrono>
-
-enum class GlobalFieldCellGround {
-	Grass,
-	Water,
-	Sand,
-	Dirt,
-	Forest,
-	Rocks,
-	End
-};
+#include "surface_type.h"
 
 class Road;
 struct GlobalFieldCell;
@@ -35,7 +26,7 @@ struct GlobalFieldCell {
 		FindPathData path;
 	};
 
-	GlobalFieldCellGround ground{ GlobalFieldCellGround::Grass };
+	SurfaceType ground{ SurfaceType::Grass };
 	QPoint position{ 0, 0 };
 	std::vector<Entity*> entities;
 

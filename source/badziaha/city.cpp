@@ -2,7 +2,7 @@
 #include "city_task.h"
 #include "city_graphics_item.h"
 #include "global_field.h"
-#include "unit.h"
+#include "character.h"
 #include "squad.h"
 
 City::City(GlobalField* field, QObject* parent)
@@ -18,8 +18,8 @@ City::City(GlobalField* field, QObject* parent)
 		raw += 1000.0f;
 	}
 
-	auto unit = new Unit{ field, parent };
-	unit->setName("Citizen");
+	auto character = new Character{ field, parent };
+	character->setName("Citizen");
 	
 }
 
@@ -41,12 +41,12 @@ void City::update() {
 		return flag;
 	}), m_tasks.end());
 
-	//	update units, one per update
-	if (m_last_updated_unit >= m_units.size())
-		m_last_updated_unit = 0;
-	if (!m_units.empty()) {
-		m_units.at(m_last_updated_unit)->update();
-		m_last_updated_unit++;
+	//	update Characters, one per update
+	if (m_last_updated_character >= m_characters.size())
+		m_last_updated_character = 0;
+	if (!m_characters.empty()) {
+		m_characters.at(m_last_updated_character)->update();
+		m_last_updated_character++;
 	}
 }
 
@@ -87,36 +87,36 @@ bool City::reserveRawMaterial(const std::vector<std::pair<RawMaterialType, float
 	return true;
 }
 
-void City::addUnit(Unit* value) {
-	auto it = std::find(m_units.begin(), m_units.end(), value);
-	if (it != m_units.end()) {
-		qDebug("Unit has been already added");
+void City::addCharacter(Character* value) {
+	auto it = std::find(m_characters.begin(), m_characters.end(), value);
+	if (it != m_characters.end()) {
+		qDebug("Character has been already added");
 		return;
 	}
 
-	m_units.push_back(value);
+	m_characters.push_back(value);
 }
 
-void City::removeUnit(Unit* value) {
-	auto it = std::find(m_units.begin(), m_units.end(), value);
-	if (it == m_units.end()) {
-		qDebug("Can't remove unit, was not added");
+void City::removeCharacter(Character* value) {
+	auto it = std::find(m_characters.begin(), m_characters.end(), value);
+	if (it == m_characters.end()) {
+		qDebug("Can't remove Character, was not added");
 		return;
 	}
 
-	m_units.erase(it);
+	m_characters.erase(it);
 }
 
-void enterCity(City* city, Unit* unit) {
+void enterCity(City* city, Character* Character) {
 
-	auto old_city = unit->city();
+	auto old_city = Character->city();
 	if (old_city)
-		old_city->removeUnit(unit);
+		old_city->removeCharacter(Character);
 
-	unit->setCity(city);
+	Character->setCity(city);
 
 	if (city)
-		city->addUnit(unit);
+		city->addCharacter(Character);
 }
 
 void enterCity(City* city, Squad* squad) {
@@ -129,15 +129,15 @@ void enterCity(City* city, Squad* squad) {
 	removeSquad(squad->field(), squad);
 }
 
-void leaveCity(Unit* unit) {
-	auto city = unit->city();
+void leaveCity(Character* Character) {
+	auto city = Character->city();
 	if (city) {
-		city->removeUnit(unit);
-		unit->setCity(nullptr);
+		city->removeCharacter(Character);
+		Character->setCity(nullptr);
 	}
 
-	auto squad = new Squad{ unit, city->field(), city->parent() };
-	squad->setHumanControl(unit->isHumanControl());
+	auto squad = new Squad{ Character, city->field(), city->parent() };
+	squad->setHumanControl(Character->isHumanControl());
 	squad->setPosition(city->position());
 
 	addSquad(city->field(), squad);

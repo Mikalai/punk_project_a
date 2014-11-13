@@ -4,11 +4,12 @@
 #include <QtCore/qobject.h>
 #include <QtCore/qpoint.h>
 #include <chrono>
+#include "time_dependent.h"
 
 class QGraphicsItem;
 class GlobalField;
 
-class Entity : public QObject {
+class Entity : public QObject, public TimeDependent {
 public:
 
 	Entity(GlobalField* field, QObject* parent = nullptr);
@@ -29,18 +30,16 @@ public:
 		return m_human_control;
 	}
 
-	virtual void update();
-
-	float getTimeStep() const {
-		return m_dt;
-	}
-
 	void setPosition(QPointF value);
 	void setPosition(int x, int y);
 	void setPosition(int x, int y, float dx, float dy);
 
 	const QPoint& position() const {
 		return m_position;
+	}
+
+	const QPoint& prevPosition() const {
+		return m_prev_position;
 	}
 
 	const QPointF fullPosition() const {
@@ -61,11 +60,12 @@ private:
 	void updateModelTransform();
 
 private:
+	QPoint m_prev_position{ 0, 0 };
 	QPoint m_position{ 0, 0 };
 	QPointF m_offset{ 0, 0 };
 
-	std::chrono::high_resolution_clock::time_point m_last_update;
-	float m_dt{ 0 };
+	/*std::chrono::high_resolution_clock::time_point m_last_update;
+	float m_dt{ 0 };*/
 	bool m_human_control{ false };
 	QGraphicsItem* m_model{ nullptr };
 	GlobalField* m_field{ nullptr };

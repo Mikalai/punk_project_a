@@ -1,13 +1,13 @@
-//#ifndef _H_UNIT_TYPE
-//#define _H_UNIT_TYPE
+//#ifndef _H_Character_TYPE
+//#define _H_Character_TYPE
 //
-//enum class UnitType {
+//enum class CharacterType {
 //	Worker,
 //	Warrior
 //};
 //
-//class Unit;
+//class Character;
 //
-//extern Unit* GetEtalonUnit(UnitType type);
+//extern Character* GetEtalonCharacter(CharacterType type);
 //
-//#endif	//	_H_UNIT_TYPE
+//#endif	//	_H_Character_TYPE

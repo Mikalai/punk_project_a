@@ -6,7 +6,7 @@
 #include "entity.h"
 #include <vector>
 
-class Unit;
+class Character;
 class QPainter;
 struct GlobalFieldCell;
 class GlobalField;
@@ -89,15 +89,15 @@ private:
 */
 class Explore : public CityTask {
 public:
-	Explore(City* city, GlobalFieldCell* cell, Unit* leader, std::vector<Unit*> members);
+	Explore(City* city, GlobalFieldCell* cell, Character* leader, std::vector<Character*> members);
 
 	void update() override;
 	void selectCell(GlobalFieldCell* cell) override;
 
 private:
 	GlobalFieldCell* m_target{ nullptr };
-	Unit* m_leader{ nullptr };
-	std::vector<Unit*> m_members;
+	Character* m_leader{ nullptr };
+	std::vector<Character*> m_members;
 };
 
 #endif	//	_H_CITY_TASK

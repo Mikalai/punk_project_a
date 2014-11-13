@@ -24,4 +24,18 @@
         <file>saw.png</file>
         <file>road_icon.png</file>
     </qresource>
+    <qresource prefix="/temperature">
+        <file>temperature/33041_2013-01.csv</file>
+        <file>temperature/33041_2013-02.csv</file>
+        <file>temperature/33041_2013-03.csv</file>
+        <file>temperature/33041_2013-04.csv</file>
+        <file>temperature/33041_2013-05.csv</file>
+        <file>temperature/33041_2013-06.csv</file>
+        <file>temperature/33041_2013-07.csv</file>
+        <file>temperature/33041_2013-08.csv</file>
+        <file>temperature/33041_2013-09.csv</file>
+        <file>temperature/33041_2013-10.csv</file>
+        <file>temperature/33041_2013-11.csv</file>
+        <file>temperature/33041_2013-12.csv</file>
+    </qresource>
 </RCC>

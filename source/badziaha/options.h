@@ -7,6 +7,7 @@
 
 enum class OptionType {
 	EnableCheats,
+	TimeScale,
 	End
 };
 
@@ -24,7 +25,7 @@ public:
 
 	template<class T>
 	T option(OptionType value) const {
-		return static_cast<T>(m_value[enum_index(value)]);
+		return reinterpret_cast<const T&>(m_value[enum_index(value)]);
 	}
 
 	template<class T>
@@ -32,14 +33,14 @@ public:
 		reinterpret_cast<T&>(m_value[enum_index(type)]) = value;
 	}
 
-	Options* instance() {
+	static Options* instance() {
 		if (!m_instance.get()) {
 			m_instance.reset(new Options);
 		}
 		return m_instance.get();
 	}
 
-	void destroy() {
+	static void destroy() {
 		m_instance.reset{ nullptr };
 	}
 
