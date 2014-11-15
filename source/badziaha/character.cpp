@@ -5,6 +5,26 @@
 #include "Character.h"
 #include "unit_graphics_item.h"
 
+std::unique_ptr<ActivityClass> ActivityClass::m_instance;
+
+ActivityClass* ActivityClass::instance() {
+	if (!m_instance.get())
+		m_instance.reset(new ActivityClass);
+	return m_instance.get();
+}
+
+void ActivityClass::destroy() {
+	m_instance.reset(nullptr);
+}
+
+ActivityClass::ActivityClass() {
+	m_consume_power[enum_index(Activity::Idle)] = 60;
+	m_consume_power[enum_index(Activity::Run)] = 810;
+	m_consume_power[enum_index(Activity::Sleep)] = 70;
+	m_consume_power[enum_index(Activity::Walk)] = 325;
+	m_consume_power[enum_index(Activity::Sweem)] = 670;
+}
+
 Character::Character(GlobalField* field, QObject* parent)
 	: Entity{field, parent }
 {}
@@ -22,6 +42,10 @@ float Body::metabolismPower() const {
 	auto C = metabolismConstant();
 	auto M = A + S*C;
 	return M;
+}
+
+float Body::windProtection() const {
+	float result = 0;
 }
 
 float Body::radiativePower() const {
@@ -59,7 +83,7 @@ float Body::convectionHeat() const {
 	auto kc = character()->weather()->heatConvectionFactor();
 	auto tskin = temperature() + Const::CelsiusZero;
 	auto tenv = character()->weather()->temperature + Const::CelsiusZero;
-	auto C = s * p * kc * (tskin - tenv);
+	auto C = S * p * kc * (tskin - tenv);
 	return C;
 }
 
@@ -74,6 +98,54 @@ float Body::powerSurplus() const {
 	auto C = convectionHeat();
 	auto P = M + R - C;
 	return P;
+}
+
+void Body::heatBalance(float dt) {
+	auto power_surplus = powerSurplus();
+	auto max_power_surplus = maxPowerSurplus();	
+	if (power_surplus >= 0 && power_surplus <= max_power_surplus) {
+		// compensate power surplus through water evaporation
+		auto water = powerToEvaporatedWater(power_surplus);
+		m_water -= water;
+		if (m_water < 0) {
+			die();
+			return;
+		}
+	}
+	else if (power_surplus < 0) {
+		//	compensate power shortage through body temperature body decrease
+		auto Q = power_surplus * dt;
+		auto t2 = (Q + Const::HumanBodySpecificHeat * mass() * temperature()) / (mass()*Const::HumanBodySpecificHeat);
+		m_temperature = t2;
+		if (temperature() < minTemperature()) {
+			die();
+			return;
+		}
+	}
+	else {
+		//	compsate power surplus through body temperature increase
+		auto water = powerToEvaporatedWater(maxPowerSurplus());
+		m_water -= water;
+		if (m_water < 0) {
+			die();
+			return;
+		}
+		power_surplus -= maxPowerSurplus();
+		auto Q = power_surplus * dt;
+		auto t2 = (Q + Const::HumanBodySpecificHeat * mass() * temperature()) / (mass()*Const::HumanBodySpecificHeat);
+		m_temperature = t2;
+		if (temperature() > maxTemperature()) {
+			die();
+			return;
+		}
+	}
+}
+
+void Body::update(float dt) {
+	if (!isAlive())
+		return;
+
+	heatBalance(dt);
 }
 
 
@@ -101,4 +173,9 @@ std::vector<HeatSource> Character::heatSources() const {
 		res.push_back(HeatSource{});
 	}
 	return res;
+}
+
+float BodyPart::relativeWeight() const {
+	static const float w[] = { 0.0920575, 0.0920575, 0.1841149, 0.1841149, 0.2761724, 0.2761724, 0.0920575, 0.1742014, 0.1959766, 0.2177518, 0.2395270, 0.2613021, 0.2830773, 0.3048525, 0.3266277, 0.3484028, 0.3701780, 0.3919532 };
+	return w[enum_index(m_part)];
 }

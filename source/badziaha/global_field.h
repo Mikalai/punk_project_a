@@ -11,6 +11,7 @@
 #include <QtCore/qdatetime.h>
 #include <QtWidgets/qgraphicsscene.h>
 #include "time_dependent.h"
+#include "weather.h"
 
 struct GlobalFieldCell;
 class Squad;

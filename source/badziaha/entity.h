@@ -8,6 +8,7 @@
 
 class QGraphicsItem;
 class GlobalField;
+class Building;
 
 class Entity : public QObject, public TimeDependent {
 public:

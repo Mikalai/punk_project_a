@@ -7,6 +7,7 @@
 #include <QtCore/qpoint.h>
 #include "entity.h"
 #include "enum_helper.h"
+#include "weather.h"
 
 enum class Activity {
 	Idle,
@@ -19,6 +20,9 @@ enum class Activity {
 
 class ActivityClass {
 public:
+
+	ActivityClass();
+
 	float powerConsume(Activity value) { return m_consume_power[enum_index(value)]; }
 	
 	static ActivityClass* instance();
@@ -38,8 +42,38 @@ class WeatherStamp;
 
 class BodyPart {
 public:
+	enum Type {
+		LeftFoot,
+		RightFoot,
+		LeftCrus,
+		RightCrus,
+		LeftThigh,
+		RightThigh,
+		LeftPalm,
+		RightPalm,
+		LeftForearm,
+		RightForearm,
+		LeftArm,
+		RightArm,
+		Neck,
+		Chest,
+		Stomach,
+		LeftCollarBone,
+		RightCollarBone,
+		Head,
+		Pelvis,
+		End
+	};
+
 	float windProtection();
 	float heatAbsorbingFactor();
+
+	Type type() const { return m_part; }
+
+	float relativeWeight() const;
+
+private:
+	Type m_part{ Type::LeftFoot };
 };
 
 class Body {
@@ -65,20 +99,34 @@ public:
 	float maxWaterEvaporationPerHour() const { return m_max_evaporation_per_hour; }
 	float maxPowerSurplus() const;
 	float powerSurplus() const;
+	void heatBalance(float dt);
+	//	returns amount of liters that should be evaporated to consume power
+	float powerToEvaporatedWater(float power);
 
 	std::vector<BodyPart> parts;
 	
 	Character* character() const { return m_character; }
 
+	void die();
+
+	float minTemperature() const { return m_min_temperature; }
+	float maxTemperature() const { return m_max_temperature; }
+
+	bool isAlive() const { return m_alive; }
+
 private:
 	Character* m_character{ nullptr };
+	bool m_alive{ true };
+	float m_min_temperature{ 15.0f };
+	float m_max_temperature{ 43.0f };
 	float m_emissivity{ 0.98f };
 	float m_metabolism_constant{ 60 };
 	float m_fat{ 20 };
 	float m_muscle{ 70 };
 	float m_temperature{ 36.6f };
 	float m_surface{ 1.7 };
-	float m_max_evaporation_per_hour{ 1.5 }	//	L / h
+	float m_max_evaporation_per_hour{ 1.5 }; //	L / h		
+	float m_water{ 4000.0f };
 };
 
 class Character : public Entity {

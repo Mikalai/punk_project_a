@@ -147,7 +147,7 @@ const QString WeatherStamp::toString() const {
 	list.append(QString::number(visibility_range, 'f', 1) + " m");
 	list.append(QString::number(humitidy, 'f', 1) + " %");
 	list.append(QString::number(pressure, 'f', 1) + " Pa");
-	list.append(QString::number(heatConvectionFactor(), 'f', 1) + " W/m^2/K")
+	list.append(QString::number(heatConvectionFactor(), 'f', 1) + " W/m^2/K");
 	return list.join("; ");
 }
 
