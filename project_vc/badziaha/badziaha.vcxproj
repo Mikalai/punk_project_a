@@ -309,6 +309,7 @@ xcopy /Y "$(QT_DIR)\bin\libegl.dll" "$(OutDir)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc_%(Filename).cpp</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc_%(Filename).cpp</Outputs>
     </CustomBuild>
+    <ClInclude Include="..\..\source\badziaha\constants.h" />
     <ClInclude Include="..\..\source\badziaha\keys.h" />
     <ClInclude Include="..\..\source\badziaha\options.h" />
     <CustomBuild Include="..\..\source\badziaha\buildings.h">

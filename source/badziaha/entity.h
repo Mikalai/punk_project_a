@@ -69,6 +69,7 @@ private:
 	bool m_human_control{ false };
 	QGraphicsItem* m_model{ nullptr };
 	GlobalField* m_field{ nullptr };
+	Building* m_building{ nullptr };
 };
 
 #endif	//	_H_BUILDING

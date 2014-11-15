@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <array>
+#include <QtCore/qpoint.h>
 #include <QtCore/qdatetime.h>
 
 enum class WindDirection {
@@ -131,6 +132,17 @@ inline const wchar_t* asString(SkyState v) {
 	}
 }
 
+struct WeatherStamp;
+
+struct HeatSource {
+	//	for sun position doesn't mater
+	float power(WeatherStamp* w, const QPointF& position) const;
+private:
+	bool m_is_sun{ true };
+	float m_power{ 1000 };	//	W/m^2 for sun, power of the source should be devided on 4*pi*r^2
+	QPointF m_position;
+};
+
 struct WeatherStamp {
 	QDateTime time;
 	float temperature{ 0 };
@@ -142,6 +154,7 @@ struct WeatherStamp {
 	float humitidy{ 15 };
 	float pressure{ 1000 };
 
+	float heatConvectionFactor() const;
 	const QString toString() const;
 };
 

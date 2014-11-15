@@ -7,6 +7,7 @@
 #include "string_ex.h"
 #include "weather.h"
 #include "enum_helper.h"
+#include "constants.h"
 
 std::unique_ptr<Temperature> Temperature::m_instance;
 
@@ -146,6 +147,7 @@ const QString WeatherStamp::toString() const {
 	list.append(QString::number(visibility_range, 'f', 1) + " m");
 	list.append(QString::number(humitidy, 'f', 1) + " %");
 	list.append(QString::number(pressure, 'f', 1) + " Pa");
+	list.append(QString::number(heatConvectionFactor(), 'f', 1) + " W/m^2/K")
 	return list.join("; ");
 }
 
@@ -188,4 +190,29 @@ const WeatherStamp Temperature::weather(const QDateTime& time) {
 	res.visibility_range = s1.visibility_range*t + s2.visibility_range*(1.0f - t);
 	res.wind_speed = s1.wind_speed*t + s2.wind_speed*(1.0f - t);
 	return res;
+}
+
+float HeatSource::power(WeatherStamp* w, const QPointF& p) const {
+	if (m_is_sun) {
+		return m_power;
+	}
+	else {
+		auto r = (p - m_position).manhattanLength();
+		auto s = 4 * Const::PI * r * r;
+		return m_power / s;
+	}
+}
+
+float WeatherStamp::heatConvectionFactor() const {
+	if (wind_speed < 0.0f)
+		return 0.0f;
+	if (wind_speed > 10.0f)
+		return 41.0f;
+	if (wind_speed >= 0.0f && wind_speed <= 2.0f)
+		return 3.0f + (26.0f - 3.0f) * wind_speed / 2.0f;
+	if (wind_speed > 2.0f && wind_speed <= 8.0f)
+		return 26.0f + (37.0f - 26.0f) * (wind_speed - 2.0f) / (8.0f - 2.0f);
+	if (wind_speed > 8 && wind_speed <= 10.0f)
+		return 37.0f + (41.0f - 37.0f) * (wind_speed - 8.0f) / (10.0f - 8.0f);
+	return 0.0f;
 }

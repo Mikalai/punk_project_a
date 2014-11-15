@@ -107,6 +107,10 @@ public:
 
 	Entity* player();
 
+	WeatherStamp* weather() {
+		return &m_weather;
+	}
+
 public slots:
 	void updateByTimer();
 	void onSelectionChanged();
@@ -191,6 +195,9 @@ private:
 
 	//	time managment
 	QDateTime m_current_time;
+
+	// current weather state
+	WeatherStamp m_weather;
 
 private:
 	friend void addSquad(GlobalField* field, Squad* squad);

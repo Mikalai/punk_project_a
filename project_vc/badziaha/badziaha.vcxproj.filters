@@ -91,6 +91,7 @@
     <ClInclude Include="..\..\source\badziaha\keys.h" />
     <ClInclude Include="..\..\source\badziaha\weather.h" />
     <ClInclude Include="..\..\source\badziaha\string_ex.h" />
+    <ClInclude Include="..\..\source\badziaha\constants.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="forms">
