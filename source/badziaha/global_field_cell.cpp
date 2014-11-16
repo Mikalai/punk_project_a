@@ -34,20 +34,6 @@ void GlobalFieldCell::update() {
 
 }
 
-void GlobalFieldCell::addEntity(Entity* value) {
-	auto it = std::find(entities.begin(), entities.end(), value);
-	if (it != entities.end())
-		return;
-	entities.push_back(value);
-}
-
-void GlobalFieldCell::removeEntity(Entity* value) {
-	auto it = std::find(entities.begin(), entities.end(), value);
-	if (it == entities.end())
-		return;
-	entities.erase(it);
-}
-
 bool GlobalFieldCell::isNeighbour(GlobalFieldCell* cell) const {
 	if (cell == this)
 		return false;

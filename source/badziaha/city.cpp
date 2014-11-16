@@ -142,3 +142,11 @@ void leaveCity(Character* Character) {
 
 	addSquad(city->field(), squad);
 }
+
+GlobalField* City::field() {
+	return dynamic_cast<GlobalField*>(Entity::field());
+}
+
+const GlobalField* City::field() const {
+	return dynamic_cast<const GlobalField*>(Entity::field());
+}

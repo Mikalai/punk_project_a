@@ -7,7 +7,7 @@
 #include "surface_type.h"
 
 class GlobalField;
-class GlobalFieldCell;
+struct GlobalFieldCell;
 class LocalFieldCell;
 class Unit;
 

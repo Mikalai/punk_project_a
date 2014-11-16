@@ -3,6 +3,7 @@
 #include "global_field.h"
 #include "constants.h"
 #include "Character.h"
+#include "items.h"
 #include "unit_graphics_item.h"
 
 std::unique_ptr<ActivityClass> ActivityClass::m_instance;
@@ -34,6 +35,17 @@ void Character::update() {
 	auto dt = Entity::getTimeStep();
 
 	m_body.update(dt);
+
+	processTasks();
+}
+
+void Character::processTasks() {
+	if (m_tasks.empty())
+		return;
+	auto& task = m_tasks.top();
+	if (task.type == TaskType::Drink) {
+
+	}
 }
 
 float Body::metabolismPower() const {
@@ -46,6 +58,12 @@ float Body::metabolismPower() const {
 
 float Body::windProtection() const {
 	float result = 0;
+	for (auto& p : parts) {
+		auto k = p.relativeWeight();
+		auto v = p.windProtection();
+		result += k * v;
+	}
+	return result;
 }
 
 float Body::radiativePower() const {
@@ -105,7 +123,7 @@ void Body::heatBalance(float dt) {
 	auto max_power_surplus = maxPowerSurplus();	
 	if (power_surplus >= 0 && power_surplus <= max_power_surplus) {
 		// compensate power surplus through water evaporation
-		auto water = powerToEvaporatedWater(power_surplus);
+		auto water = powerToEvaporatedWater(power_surplus)*dt;
 		m_water -= water;
 		if (m_water < 0) {
 			die();
@@ -124,7 +142,7 @@ void Body::heatBalance(float dt) {
 	}
 	else {
 		//	compsate power surplus through body temperature increase
-		auto water = powerToEvaporatedWater(maxPowerSurplus());
+		auto water = powerToEvaporatedWater(maxPowerSurplus())*dt;
 		m_water -= water;
 		if (m_water < 0) {
 			die();
@@ -146,6 +164,13 @@ void Body::update(float dt) {
 		return;
 
 	heatBalance(dt);
+	satisfyThirst();
+}
+
+void Body::satisfyThirst() {
+	if (water() < minWater()) {
+		//character()->
+	}
 }
 
 
@@ -178,4 +203,58 @@ std::vector<HeatSource> Character::heatSources() const {
 float BodyPart::relativeWeight() const {
 	static const float w[] = { 0.0920575, 0.0920575, 0.1841149, 0.1841149, 0.2761724, 0.2761724, 0.0920575, 0.1742014, 0.1959766, 0.2177518, 0.2395270, 0.2613021, 0.2830773, 0.3048525, 0.3266277, 0.3484028, 0.3701780, 0.3919532 };
 	return w[enum_index(m_part)];
+}
+
+BodyPart::~BodyPart() {
+	delete m_clothes;
+	m_clothes = nullptr;
+}
+
+Body::~Body() {
+
+}
+
+Character::~Character() {
+
+}
+
+float BodyPart::windProtection() const {
+	if (m_clothes) {
+		return m_clothes->windProtection();
+	}
+	return 0;
+}
+
+float BodyPart::heatAbsorbingFactor() const {
+	if (m_clothes) {
+		return m_clothes->heatRadiationAbsorption();
+	}
+	return 0;
+}
+
+float Body::heatAbsorbingFactor() const {
+	auto result = 0.0f;
+	for (auto& p : parts) {
+		auto w = p.relativeWeight();
+		auto v = p.heatAbsorbingFactor();
+		result += v * w;
+	}
+	return result;
+}
+
+float Body::mass() const {
+	return m_muscle + m_fat + m_water;
+}
+
+float Body::powerToEvaporatedWater(float power) {
+	auto result = power / Const::WaterSpecificHeatVaporization;	//	liter per second
+	return result;
+}
+
+void Body::die() {
+	m_alive = false;
+}
+
+WeatherStamp* Character::weather() const {
+
 }

@@ -221,11 +221,11 @@ void leaveSquad(Character* Character) {
 		squad->removeCharacter(Character);
 		Character->setSquad{ nullptr };
 
-	auto own_squad = new Squad{ Character, Character->field(), Character->parent() };
+	auto own_squad = new Squad{ Character, squad->field(), Character->parent() };
 	own_squad->setHumanControl(Character->isHumanControl());
 	own_squad->setPosition(squad->position());
 
-	addSquad(Character->field(), own_squad);
+	addSquad(squad->field(), own_squad);
 }
 
 //	SQUAD TASK
@@ -253,4 +253,8 @@ void ExploreFieldCellTask::update() {
 		//	here we can randomly select what resources, building and etc can be revieled after
 		//	exploring the cell. Result can depend on the squad skill.
 	}	
+}
+
+GlobalField* Squad::field() {
+	return dynamic_cast<GlobalField*>(Entity::field());
 }

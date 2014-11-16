@@ -12,6 +12,8 @@
 #include <QtWidgets/qgraphicsscene.h>
 #include "time_dependent.h"
 #include "weather.h"
+#include "field.h"
+#include "global_field_cell.h"
 
 struct GlobalFieldCell;
 class Squad;
@@ -32,8 +34,7 @@ struct FindPathResult {
 	bool is_canceled{ false };
 };
 
-
-class GlobalField : public QGraphicsScene, public TimeDependent {
+class GlobalField : public Field, public TimeDependent {
 	Q_OBJECT;
 public:
 
@@ -53,9 +54,9 @@ public:
 	virtual ~GlobalField();
 	void Create();
 	
-	GlobalFieldCell* cell(const QPoint& p);
+	GlobalFieldCell* cell(const QPoint& p) override;
 	
-	GlobalFieldCell* cell(int x, int y) {
+	GlobalFieldCell* cell(int x, int y) override {
 		return cell(QPoint{ x, y });
 	}
 
@@ -87,7 +88,7 @@ public:
 
 	void allocateTls(std::thread::id id) {
 		auto size = m_tls_index.size();
-		m_tls_index[id] = size;
+		m_tls_index[id] = (int)size;
 		m_tls.resize(m_tls_index.size());
 	}
 
@@ -108,10 +109,6 @@ public:
 
 	Entity* player();
 
-	WeatherStamp* weather() {
-		return &m_weather;
-	}
-
 public slots:
 	void updateByTimer();
 	void onSelectionChanged();
@@ -123,9 +120,7 @@ signals:
 	void citySelected(City* city);
 	void selectionDropped();
 	void fieldCellPressed(QGraphicsSceneMouseEvent* event, GlobalFieldCell* cell);
-	void timeChanged(const QDateTime& dt);
-	void weatherChanged(const WeatherStamp& value);
-
+	
 protected:
 	void mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent) override;
 private:
@@ -193,12 +188,6 @@ private:
 
 	//	pending removing
 	std::vector<Entity*> m_entities_to_delete;
-
-	//	time managment
-	QDateTime m_current_time;
-
-	// current weather state
-	WeatherStamp m_weather;
 
 private:
 	friend void addSquad(GlobalField* field, Squad* squad);

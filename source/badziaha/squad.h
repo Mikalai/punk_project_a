@@ -10,7 +10,7 @@
 #include "time_dependent.h"
 
 class Character;
-class GlobalFieldCell;
+struct GlobalFieldCell;
 class GlobalField;
 struct FindPathResult;
 class SquadTask;
@@ -50,6 +50,8 @@ public:
 	Character* leader() { return m_leader; }
 
 	const std::vector<Character*>& party() const { return m_party; }	
+
+	GlobalField* field();
 
 private:
 

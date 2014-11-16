@@ -7,7 +7,7 @@ struct enum_size {
 };
 
 template<class T>
-constexpr int enum_index(T value) {
+inline int enum_index(T value) {
 	return (int)value;
 }
 

@@ -5,12 +5,13 @@
 #include <QtCore/qpoint.h>
 #include <chrono>
 #include "time_dependent.h"
+#include "spatial.h"
 
 class QGraphicsItem;
 class GlobalField;
 class Building;
 
-class Entity : public QObject, public TimeDependent {
+class Entity : public QObject, public TimeDependent, public Spatial {
 public:
 
 	Entity(GlobalField* field, QObject* parent = nullptr);
@@ -31,45 +32,19 @@ public:
 		return m_human_control;
 	}
 
-	void setPosition(QPointF value);
-	void setPosition(int x, int y);
-	void setPosition(int x, int y, float dx, float dy);
 
-	const QPoint& position() const {
-		return m_position;
-	}
-
-	const QPoint& prevPosition() const {
-		return m_prev_position;
-	}
-
-	const QPointF fullPosition() const {
-		return QPointF{ m_position.x() + m_offset.x(), m_position.y() + m_offset.y() };
-	}
-
-	void move(float dx, float dy);
-
-	GlobalField* field() {
-		return m_field;
-	}
-
-	const GlobalField* field() const {
-		return m_field;
-	}
-
+protected:
+	void OnPositionChanged() override;
 private:
 	void updateModelTransform();
 
 private:
-	QPoint m_prev_position{ 0, 0 };
-	QPoint m_position{ 0, 0 };
-	QPointF m_offset{ 0, 0 };
+	
 
 	/*std::chrono::high_resolution_clock::time_point m_last_update;
 	float m_dt{ 0 };*/
 	bool m_human_control{ false };
 	QGraphicsItem* m_model{ nullptr };
-	GlobalField* m_field{ nullptr };
 	Building* m_building{ nullptr };
 };
 

@@ -69,6 +69,13 @@
     <ClCompile Include="moc_character.cpp">
       <Filter>generated</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\badziaha\items.cpp" />
+    <ClCompile Include="..\..\source\badziaha\known_stuff.cpp" />
+    <ClCompile Include="..\..\source\badziaha\spatial.cpp" />
+    <ClCompile Include="..\..\source\badziaha\field.cpp" />
+    <ClCompile Include="moc_field.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\badziaha\unit_model.h" />
@@ -92,6 +99,12 @@
     <ClInclude Include="..\..\source\badziaha\weather.h" />
     <ClInclude Include="..\..\source\badziaha\string_ex.h" />
     <ClInclude Include="..\..\source\badziaha\constants.h" />
+    <ClInclude Include="..\..\source\badziaha\items.h" />
+    <ClInclude Include="..\..\source\badziaha\body_part_type.h" />
+    <ClInclude Include="..\..\source\badziaha\singletone.h" />
+    <ClInclude Include="..\..\source\badziaha\known_stuff.h" />
+    <ClInclude Include="..\..\source\badziaha\spatial.h" />
+    <ClInclude Include="..\..\source\badziaha\field.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="forms">

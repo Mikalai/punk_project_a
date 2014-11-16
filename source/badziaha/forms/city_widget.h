@@ -7,7 +7,7 @@
 
 class CityTask;
 class City;
-class GlobalFieldCell;
+struct GlobalFieldCell;
 class QGraphicsSceneMouseEvent; 
 class QTimer;
 

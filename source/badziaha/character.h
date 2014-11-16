@@ -3,11 +3,13 @@
 
 #include <array>
 #include <memory>
+#include <queue>
 #include <QtCore/qobject.h>
 #include <QtCore/qpoint.h>
 #include "entity.h"
 #include "enum_helper.h"
 #include "weather.h"
+#include "body_part_type.h"
 
 enum class Activity {
 	Idle,
@@ -33,51 +35,45 @@ private:
 	static std::unique_ptr<ActivityClass> m_instance;
 };
 
+class Body;
+class Item;
 class UnitModel;
 class GlobalField;
 class City;
 class Squad;
 class Character;
 class WeatherStamp;
+class Clothes;
 
 class BodyPart {
 public:
-	enum Type {
-		LeftFoot,
-		RightFoot,
-		LeftCrus,
-		RightCrus,
-		LeftThigh,
-		RightThigh,
-		LeftPalm,
-		RightPalm,
-		LeftForearm,
-		RightForearm,
-		LeftArm,
-		RightArm,
-		Neck,
-		Chest,
-		Stomach,
-		LeftCollarBone,
-		RightCollarBone,
-		Head,
-		Pelvis,
-		End
-	};
 
-	float windProtection();
-	float heatAbsorbingFactor();
+	BodyPart(Body* owner)
+		: m_body{ owner }
+	{}
 
-	Type type() const { return m_part; }
+	~BodyPart();
+
+	float windProtection() const;
+	float heatAbsorbingFactor() const;
+
+	BodyPartType type() const { return m_part; }
 
 	float relativeWeight() const;
 
+	Clothes* clothes() { return m_clothes; }
+	void setClothes(Clothes* value);
+
 private:
-	Type m_part{ Type::LeftFoot };
+	BodyPartType m_part{ BodyPartType::LeftFoot };
+	Clothes* m_clothes{ nullptr };
+	Body* m_body{ nullptr };
 };
 
 class Body {
 public:
+	~Body();
+
 	float windProtection() const;
 	float heatAbsorbingFactor() const;
 	float temperature() const { return m_temperature; }
@@ -111,8 +107,14 @@ public:
 
 	float minTemperature() const { return m_min_temperature; }
 	float maxTemperature() const { return m_max_temperature; }
+	float water() const { return m_water; }
+	float minWater() const { return m_min_water; }
+	float maxWater() const { return m_max_water; }
 
 	bool isAlive() const { return m_alive; }
+
+private:
+	void satisfyThirst();
 
 private:
 	Character* m_character{ nullptr };
@@ -127,12 +129,15 @@ private:
 	float m_surface{ 1.7 };
 	float m_max_evaporation_per_hour{ 1.5 }; //	L / h		
 	float m_water{ 4000.0f };
+	float m_min_water{ 1000.0f };
+	float m_max_water{ 5000.0f };
 };
 
 class Character : public Entity {
 	Q_OBJECT;
 public:
 	Character(GlobalField* field, QObject* parent = nullptr);
+	virtual ~Character();
 
 	int builderLevel() const { return m_builder_level; }
 	int warriorLevel() const { return m_warrior_level; }
@@ -156,7 +161,11 @@ public:
 	Building* building() const;
 	std::vector<HeatSource> heatSources() const;
 
+	// inventory managment
+	bool take(Item* item);
+
 private:
+	void processTasks();
 	void setCity(City* value) { m_current_city = value; }
 	void setSquad(Squad* value) { m_current_squad = value; }
 
@@ -182,6 +191,25 @@ private:
 	City* m_current_city{ nullptr };
 	Squad* m_current_squad{ nullptr };
 	Body m_body;
+
+	//	task managment
+	enum class TaskType {
+		Idle,
+		Eat,
+		Drink
+	};
+
+	struct Task {
+		TaskType type{ TaskType::Idle };
+		float time_to_complete{ -1 };
+	};
+
+	std::priority_queue < Task, std::vector<Task>> m_tasks;
+
+	friend bool operator < (const Character::Task& a, const Character::Task& b);
 };
 
+inline bool operator < (const Character::Task& a, const Character::Task& b) {
+	return a.type < b.type;
+}
 #endif	//_H_Character

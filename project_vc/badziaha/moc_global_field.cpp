@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_GlobalField_t {
-    QByteArrayData data[21];
-    char stringdata[252];
+    QByteArrayData data[17];
+    char stringdata[209];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -40,25 +40,20 @@ QT_MOC_LITERAL(7, 71, 25),
 QT_MOC_LITERAL(8, 97, 5),
 QT_MOC_LITERAL(9, 103, 16),
 QT_MOC_LITERAL(10, 120, 4),
-QT_MOC_LITERAL(11, 125, 11),
-QT_MOC_LITERAL(12, 137, 2),
-QT_MOC_LITERAL(13, 140, 14),
-QT_MOC_LITERAL(14, 155, 12),
-QT_MOC_LITERAL(15, 168, 5),
-QT_MOC_LITERAL(16, 174, 13),
-QT_MOC_LITERAL(17, 188, 18),
-QT_MOC_LITERAL(18, 207, 9),
-QT_MOC_LITERAL(19, 217, 18),
-QT_MOC_LITERAL(20, 236, 15)
+QT_MOC_LITERAL(11, 125, 13),
+QT_MOC_LITERAL(12, 139, 18),
+QT_MOC_LITERAL(13, 158, 9),
+QT_MOC_LITERAL(14, 168, 18),
+QT_MOC_LITERAL(15, 187, 15),
+QT_MOC_LITERAL(16, 203, 5)
     },
     "GlobalField\0citySelected\0\0City*\0city\0"
     "selectionDropped\0fieldCellPressed\0"
     "QGraphicsSceneMouseEvent*\0event\0"
-    "GlobalFieldCell*\0cell\0timeChanged\0dt\0"
-    "weatherChanged\0WeatherStamp\0value\0"
-    "updateByTimer\0onSelectionChanged\0"
-    "terminate\0setInteractionMode\0"
-    "InteractionMode"
+    "GlobalFieldCell*\0cell\0updateByTimer\0"
+    "onSelectionChanged\0terminate\0"
+    "setInteractionMode\0InteractionMode\0"
+    "value"
 };
 #undef QT_MOC_LITERAL
 
@@ -68,38 +63,34 @@ static const uint qt_meta_data_GlobalField[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       9,   14, // methods
+       7,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       5,       // signalCount
+       3,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   59,    2, 0x06 /* Public */,
-       5,    0,   62,    2, 0x06 /* Public */,
-       6,    2,   63,    2, 0x06 /* Public */,
-      11,    1,   68,    2, 0x06 /* Public */,
-      13,    1,   71,    2, 0x06 /* Public */,
+       1,    1,   49,    2, 0x06 /* Public */,
+       5,    0,   52,    2, 0x06 /* Public */,
+       6,    2,   53,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      16,    0,   74,    2, 0x0a /* Public */,
-      17,    0,   75,    2, 0x0a /* Public */,
-      18,    0,   76,    2, 0x0a /* Public */,
-      19,    1,   77,    2, 0x0a /* Public */,
+      11,    0,   58,    2, 0x0a /* Public */,
+      12,    0,   59,    2, 0x0a /* Public */,
+      13,    0,   60,    2, 0x0a /* Public */,
+      14,    1,   61,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, 0x80000000 | 3,    4,
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 7, 0x80000000 | 9,    8,   10,
-    QMetaType::Void, QMetaType::QDateTime,   12,
-    QMetaType::Void, 0x80000000 | 14,   15,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 20,   15,
+    QMetaType::Void, 0x80000000 | 15,   16,
 
        0        // eod
 };
@@ -112,12 +103,10 @@ void GlobalField::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 0: _t->citySelected((*reinterpret_cast< City*(*)>(_a[1]))); break;
         case 1: _t->selectionDropped(); break;
         case 2: _t->fieldCellPressed((*reinterpret_cast< QGraphicsSceneMouseEvent*(*)>(_a[1])),(*reinterpret_cast< GlobalFieldCell*(*)>(_a[2]))); break;
-        case 3: _t->timeChanged((*reinterpret_cast< const QDateTime(*)>(_a[1]))); break;
-        case 4: _t->weatherChanged((*reinterpret_cast< const WeatherStamp(*)>(_a[1]))); break;
-        case 5: _t->updateByTimer(); break;
-        case 6: _t->onSelectionChanged(); break;
-        case 7: _t->terminate(); break;
-        case 8: _t->setInteractionMode((*reinterpret_cast< InteractionMode(*)>(_a[1]))); break;
+        case 3: _t->updateByTimer(); break;
+        case 4: _t->onSelectionChanged(); break;
+        case 5: _t->terminate(); break;
+        case 6: _t->setInteractionMode((*reinterpret_cast< InteractionMode(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -141,23 +130,11 @@ void GlobalField::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
                 *result = 2;
             }
         }
-        {
-            typedef void (GlobalField::*_t)(const QDateTime & );
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&GlobalField::timeChanged)) {
-                *result = 3;
-            }
-        }
-        {
-            typedef void (GlobalField::*_t)(const WeatherStamp & );
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&GlobalField::weatherChanged)) {
-                *result = 4;
-            }
-        }
     }
 }
 
 const QMetaObject GlobalField::staticMetaObject = {
-    { &QGraphicsScene::staticMetaObject, qt_meta_stringdata_GlobalField.data,
+    { &Field::staticMetaObject, qt_meta_stringdata_GlobalField.data,
       qt_meta_data_GlobalField,  qt_static_metacall, 0, 0}
 };
 
@@ -174,22 +151,22 @@ void *GlobalField::qt_metacast(const char *_clname)
         return static_cast<void*>(const_cast< GlobalField*>(this));
     if (!strcmp(_clname, "TimeDependent"))
         return static_cast< TimeDependent*>(const_cast< GlobalField*>(this));
-    return QGraphicsScene::qt_metacast(_clname);
+    return Field::qt_metacast(_clname);
 }
 
 int GlobalField::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = QGraphicsScene::qt_metacall(_c, _id, _a);
+    _id = Field::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 9)
+        if (_id < 7)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 9;
+        _id -= 7;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 9)
+        if (_id < 7)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 9;
+        _id -= 7;
     }
     return _id;
 }
@@ -212,19 +189,5 @@ void GlobalField::fieldCellPressed(QGraphicsSceneMouseEvent * _t1, GlobalFieldCe
 {
     void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
     QMetaObject::activate(this, &staticMetaObject, 2, _a);
-}
-
-// SIGNAL 3
-void GlobalField::timeChanged(const QDateTime & _t1)
-{
-    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
-    QMetaObject::activate(this, &staticMetaObject, 3, _a);
-}
-
-// SIGNAL 4
-void GlobalField::weatherChanged(const WeatherStamp & _t1)
-{
-    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
-    QMetaObject::activate(this, &staticMetaObject, 4, _a);
 }
 QT_END_MOC_NAMESPACE

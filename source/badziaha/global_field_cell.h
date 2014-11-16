@@ -1,26 +1,30 @@
+#ifndef _H_GLOBAL_FIELD_CELL
+#define _H_GLOBAL_FIELD_CELL
+
 #include <QtCore/qpoint.h>
 #include <set>
 #include <vector>
 #include <chrono>
 #include "surface_type.h"
+#include "field.h"
 
 class Road;
 struct GlobalFieldCell;
 class Entity;
 
-struct FindPathData {
-	int find_path_magic{ 0 };
-	int find_path_number{ 0 };
-	bool find_path_scanned{ false };
-	float find_path_cost{ 0 };
-	float find_path_heuristic_const{ 0 };
-	float full_path_cost{ 0 };
-	bool closed{ false };
-	int opened{ -1 };
-	GlobalFieldCell* source{ nullptr };
-};
+struct GlobalFieldCell : public FieldCell {
 
-struct GlobalFieldCell {
+	struct FindPathData {
+		int find_path_magic{ 0 };
+		int find_path_number{ 0 };
+		bool find_path_scanned{ false };
+		float find_path_cost{ 0 };
+		float find_path_heuristic_const{ 0 };
+		float full_path_cost{ 0 };
+		bool closed{ false };
+		int opened{ -1 };
+		GlobalFieldCell* source{ nullptr };
+	};
 
 	struct Tls {
 		FindPathData path;
@@ -28,7 +32,6 @@ struct GlobalFieldCell {
 
 	SurfaceType ground{ SurfaceType::Grass };
 	QPoint position{ 0, 0 };
-	std::vector<Entity*> entities;
 
 public:
 
@@ -49,9 +52,6 @@ public:
 	GlobalFieldCell();
 
 	void update();
-
-	void addEntity(Entity* value);
-	void removeEntity(Entity* value);
 
 	void addRoad(Road* value) {
 		m_roads.insert(value);
@@ -78,3 +78,5 @@ private:
 	std::vector<Tls> tls;
 	std::set<Road*> m_roads;
 };
+
+#endif	//	_H_GLOBAL_FIELD_CELL

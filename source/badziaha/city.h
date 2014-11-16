@@ -48,7 +48,9 @@ public:
 
 	QString name() { return m_name; }
 	void setName(QString value) { m_name = value; }
-
+	
+	GlobalField* field();
+	const GlobalField* field() const;
 	
 signals:
 	void clicked(City* item);

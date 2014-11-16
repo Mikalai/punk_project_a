@@ -69,7 +69,7 @@ private:
 
 
 GlobalField::GlobalField(QObject* parent)
-	: QGraphicsScene{ parent }
+	: Field{ parent }
 {
 	connect(this, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
 
