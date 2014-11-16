@@ -64,7 +64,7 @@ public:
 	}
 
 	int find(QString name) {
-		for (int i = 0, max_i = m_clothes.size(); i < max_i; ++i) {
+		for (int i = 0, max_i = (int)m_clothes.size(); i < max_i; ++i) {
 			if (m_clothes[i]->name() == name)
 				return i;
 		}

@@ -76,6 +76,10 @@
     <ClCompile Include="moc_field.cpp">
       <Filter>generated</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\badziaha\world.cpp" />
+    <ClCompile Include="moc_world.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\badziaha\unit_model.h" />
@@ -104,7 +108,7 @@
     <ClInclude Include="..\..\source\badziaha\singletone.h" />
     <ClInclude Include="..\..\source\badziaha\known_stuff.h" />
     <ClInclude Include="..\..\source\badziaha\spatial.h" />
-    <ClInclude Include="..\..\source\badziaha\field.h" />
+    <ClInclude Include="..\..\source\badziaha\world.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="forms">
@@ -142,5 +146,6 @@
     <CustomBuild Include="..\..\source\badziaha\local_field.h" />
     <CustomBuild Include="..\..\source\badziaha\character.h" />
     <CustomBuild Include="..\..\source\badziaha\unit.h" />
+    <CustomBuild Include="..\..\source\badziaha\field.h" />
   </ItemGroup>
 </Project>

@@ -15,6 +15,7 @@
 #include "field.h"
 #include "global_field_cell.h"
 
+class World;
 struct GlobalFieldCell;
 class Squad;
 class City;
@@ -50,7 +51,7 @@ public:
 	};
 
 public:
-	GlobalField(QObject* parent = nullptr);
+	GlobalField(World* world, QObject* parent = nullptr);
 	virtual ~GlobalField();
 	void Create();
 	
@@ -109,11 +110,11 @@ public:
 
 	Entity* player();
 
+	void update() override;
+
 public slots:
-	void updateByTimer();
 	void onSelectionChanged();
 	void terminate();
-
 	void setInteractionMode(InteractionMode value);
 
 signals:

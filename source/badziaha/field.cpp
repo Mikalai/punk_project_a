@@ -1,5 +1,9 @@
 #include "field.h"
+#include "world.h"
 
+WeatherStamp* Field::weather() const {
+	return m_world->weather();
+}
 void FieldCell::addEntity(Spatial* value) {
 	auto it = std::find(entities.begin(), entities.end(), value);
 	if (it != entities.end())

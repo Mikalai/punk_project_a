@@ -36,6 +36,9 @@ public:
 		return m_squad_id;
 	}
 
+	void setTarget(const QPointF& value);
+	const QPointF& target() const { return m_target; }
+
 private:
 	void updateTransform();
 
@@ -46,5 +49,7 @@ private:
 	Character* m_character{ nullptr };
 	int m_squad_id{ -1 };
 	QGraphicsItem* m_model{ nullptr };
+	//	target in scene coordinates
+	QPointF m_target;
 };
 #endif	//	_H_UNIT

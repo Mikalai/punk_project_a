@@ -1,3 +1,4 @@
+#include <iostream>
 #include <QtCore/qpoint.h>
 #include <QtWidgets/qgraphicsview.h>
 #include <QtGui/qevent.h>
@@ -116,7 +117,7 @@ public:
 
 		for (auto view : m_owner->views()) {
 			view->setTransformationAnchor(QGraphicsView::ViewportAnchor::AnchorViewCenter);
-			view->scale(15, 15);
+			view->scale(1, 1);
 			view->centerOn(unit->model());
 		}
 	}
@@ -126,6 +127,9 @@ public:
 		if (it != m_units.end()) {
 			qDebug("Can't add unit. Already added");
 			return;
+		}
+		if (unit->isHumanControl()) {
+			m_human_unit = unit;
 		}
 		m_units.push_back(unit);
 		m_owner->addItem(unit->model());
@@ -161,9 +165,12 @@ public:
 	LocalField* m_owner{ nullptr };
 	GlobalField* m_field{ nullptr };
 	GlobalFieldCell* m_cell{ nullptr };
+	Unit* m_human_unit{ nullptr };
 
 	std::vector<LocalFieldCell> m_cells;
 	std::vector<Unit*> m_units;
+	QPointF m_last_position;
+	QPointF m_target;
 };
 
 LocalField::LocalField(GlobalField* field, GlobalFieldCell* cell, QObject* parent)
@@ -198,7 +205,7 @@ LocalField::~LocalField() {
 }
 
 float LocalField::cellSize() {
-	return 256;
+	return 6250;
 }
 
 bool LocalField::hasStoredData(GlobalFieldCell* cell) {
@@ -237,28 +244,34 @@ int LocalField::height() const {
 }
 
 void LocalField::keyPressEvent(QKeyEvent *event) {
-	qDebug(__FUNCTION__);
+	//qDebug(__FUNCTION__);
 	Keys::instance()->setKeyboard(event->key(), true);
 	event->accept();
 }
 
 void LocalField::keyReleaseEvent(QKeyEvent *event) {
-	qDebug(__FUNCTION__);
+	//qDebug(__FUNCTION__);
 	Keys::instance()->setKeyboard(event->key(), false);
 	event->accept();
 }
 
 void LocalField::mousePressEvent(QGraphicsSceneMouseEvent *event) {
-	qDebug(__FUNCTION__);
+	//qDebug(__FUNCTION__);
 	Keys::instance()->setMouse(event->button(), true);
 	event->accept();
 }
 
 void LocalField::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
+	std::cout << event->scenePos().x() / 100.0f << " " << event->scenePos().y() / 100.0f<< std::endl;
+	impl->m_last_position = event->scenePos();
+	if (impl->m_human_unit){
+		impl->m_human_unit->setTarget(impl->m_last_position);
+	}
+	updateViews();
 }
 
 void LocalField::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
-	qDebug(__FUNCTION__);
+	//qDebug(__FUNCTION__);
 	Keys::instance()->setMouse(event->button(), false);
 	event->accept();
 }
@@ -277,4 +290,16 @@ void LocalField::create(int w, int h) {
 
 float LocalField::cellPhysicalSize() {
 	return 256;
+}
+
+void LocalField::centerOn(const QPointF& value) {
+	impl->m_target = value;	
+	updateViews();	
+}
+
+void LocalField::updateViews() {
+	for (auto view : views()) {
+		auto v = impl->m_target + (impl->m_last_position - impl->m_target) * 0.5f;
+			view->centerOn(v);
+	}
 }

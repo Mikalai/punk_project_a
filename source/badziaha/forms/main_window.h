@@ -1,7 +1,6 @@
 #include "main_window.ui.h"
 
-class GlobalField;
-class LocalField;
+class World;
 class CityTask;
 struct WeatherStamp;
 
@@ -10,6 +9,8 @@ class MainWindow : public QMainWindow {
 public:
 	MainWindow();
 	virtual ~MainWindow();
+
+	World* world() { return m_world; }
 
 public slots:
 	void save();
@@ -32,6 +33,5 @@ private:
 private:
 	Ui::MainWindow* ui;
 	QTimer* m_timer{ nullptr };
-	GlobalField* m_global_field{ nullptr };
-	std::unique_ptr<LocalField> m_local_field{ nullptr };
+	World* m_world{ nullptr };
 };

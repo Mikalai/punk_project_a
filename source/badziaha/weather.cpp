@@ -175,13 +175,13 @@ const WeatherStamp Temperature::weather(const QDateTime& time) {
 	d.setDate(time.date().year(), d.month(), d.day());
 	s1.time.setDate(d);
 	auto s2 = m_stamps[month2-1][date2-1][next];
-	std::wcout << toWString(time.toString()) << std::endl;
-	std::wcout << toWString(s1.toString()) << std::endl;
-	std::wcout << toWString(s2.toString()) << std::endl;
+	//std::wcout << toWString(time.toString()) << std::endl;
+	//std::wcout << toWString(s1.toString()) << std::endl;
+	//std::wcout << toWString(s2.toString()) << std::endl;
 	auto q = s1.time.secsTo(time);
-	std::cout << (std::uint64_t)q << std::endl;
+	//std::cout << (std::uint64_t)q << std::endl;
 	auto t = 1.0f - q / (3.0f * 60.0f * 60.0f);
-	std::cout << t << std::endl;
+	//std::cout << t << std::endl;
 	auto res = s1;
 	res.time = time;
 	res.temperature = s1.temperature*t + s2.temperature*(1.0f - t);

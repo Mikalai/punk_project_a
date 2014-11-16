@@ -36,6 +36,9 @@ public:
 	void update();
 
 	void create(int w, int h);
+
+	void centerOn(const QPointF& target);
+
 protected:
 	void keyPressEvent(QKeyEvent *event) override;
 	void keyReleaseEvent(QKeyEvent *event) override;
@@ -44,13 +47,14 @@ protected:
 	void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 
 private:
+	void updateViews();
 	void load();
 	void save();
 	bool hasStoredData(GlobalFieldCell* cell);
 	QString getFilename(GlobalFieldCell* cell);
 public:
 	class LocalFieldImpl;
-	std::unique_ptr<LocalFieldImpl> impl;
+	std::unique_ptr<LocalFieldImpl> impl;	
 };
 
 #endif	//	_H_LOCAL_FIELD

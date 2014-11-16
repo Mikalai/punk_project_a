@@ -68,8 +68,8 @@ private:
 };
 
 
-GlobalField::GlobalField(QObject* parent)
-	: Field{ parent }
+GlobalField::GlobalField(World* world, QObject* parent)
+	: Field{ world, parent }
 {
 	connect(this, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
 
@@ -137,9 +137,7 @@ void GlobalField::Create() {
 
 void GlobalField::Create(float grass, float water, float sand, float dirt, float forest, float rocks, bool island, int sea_width) {
 	clear();
-	m_cells.resize(m_width*m_height);
-
-	m_current_time = QDateTime(QDate(2012, 7, 6), QTime(21, 30, 0));
+	m_cells.resize(m_width*m_height);	
 
 	//	allocate TLS
 	for (int y = 0; y < m_height; ++y) {
@@ -232,18 +230,10 @@ void GlobalField::Create(float grass, float water, float sand, float dirt, float
 	m_cities[0]->buildRoad(cell(m_cities[0]->position()), cell(m_cities[1]->position()));
 }
 
-void GlobalField::updateByTimer() {
+void GlobalField::update() {
 	TimeDependent::update();
 	auto dt = getTimeStep();
-	static float t = 0;
-	t += dt;
-	if (t >= 1.0f) {
-		m_current_time = m_current_time.addSecs(t);
-		auto w = Temperature::instance()->weather(m_current_time);
-		emit weatherChanged(w);
-		t = 0;
-		emit timeChanged(m_current_time);
-	}
+	
 	//std::cout << dt * 1000.0f << std::endl;
 	//qDebug(__FUNCTION__);
 
@@ -373,7 +363,7 @@ void GlobalField::mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent) {
 }
 
 float GlobalField::timeStep() {
-	return 0.01;
+	return 0.01f;
 }
 
 
@@ -463,7 +453,7 @@ GlobalFieldCell* GlobalField::cell(const QPoint& value) {
 }
 
 void addOpenSet(std::vector<GlobalFieldCell*>& cells, GlobalFieldCell* cell, int tls_index) {
-	auto index = cells.size();
+	auto index = (int)cells.size();
 	cells.push_back(cell);
 	cell->findPath(tls_index)->opened = index;
 }

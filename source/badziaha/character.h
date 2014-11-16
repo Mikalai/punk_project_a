@@ -42,7 +42,7 @@ class GlobalField;
 class City;
 class Squad;
 class Character;
-class WeatherStamp;
+struct WeatherStamp;
 class Clothes;
 
 class BodyPart {
@@ -126,7 +126,7 @@ private:
 	float m_fat{ 20 };
 	float m_muscle{ 70 };
 	float m_temperature{ 36.6f };
-	float m_surface{ 1.7 };
+	float m_surface{ 1.7f };
 	float m_max_evaporation_per_hour{ 1.5 }; //	L / h		
 	float m_water{ 4000.0f };
 	float m_min_water{ 1000.0f };
@@ -158,7 +158,6 @@ public:
 
 	// field or building
 	WeatherStamp* weather() const;
-	Building* building() const;
 	std::vector<HeatSource> heatSources() const;
 
 	// inventory managment
@@ -176,7 +175,7 @@ private:
 	friend void leaveCity(Character* Character);	
 
 private:
-	QString m_name{ "Vitaŭt" };
+	QString m_name{ "Vitaut" };
 	Activity m_activity{ Activity::Idle };
 	float m_health{ 10 };
 	float m_min_damage{ 1 };

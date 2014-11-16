@@ -21,9 +21,10 @@ bool Unit::isHumanControl() const {
 }
 
 QMatrix Unit::getTransform() const {
-	QMatrix m;
+	QMatrix m;	
+	//	position in the renderer is represented in cm
+	m.translate(m_position.x() * 100.0f, m_position.y()*100.0f);
 	m.rotate(m_rotation * 180 / 3.1415926536f);
-	m.translate(m_position.x(), m_position.y());
 	return m;
 }
 
@@ -35,13 +36,13 @@ void Unit::update() {
 		auto keys = Keys::instance();
 
 		QPointF dir{ 0, 0 };
-		if (keys->keyboard(Qt::Key_A))
+		if (keys->keyboard(Qt::Key_W))
+			dir.setX(dir.x() + 1);
+		if (keys->keyboard(Qt::Key_S))
 			dir.setX(dir.x() - 1);
 		if (keys->keyboard(Qt::Key_D))
-			dir.setX(dir.x() + 1);
-		if (keys->keyboard(Qt::Key_W))
 			dir.setY(dir.y() + 1);
-		if (keys->keyboard(Qt::Key_S))
+		if (keys->keyboard(Qt::Key_A))
 			dir.setY(dir.y() - 1);
 
 		auto l = dir.manhattanLength();
@@ -63,21 +64,28 @@ void Unit::updateTransform() {
 	if (!m_model)
 		return;
 
-	float size = 1;// LocalField::cellSize();
-	QMatrix m;
-	m.rotate(m_rotation * 180 / 3.1592653);
+	//	position in the renderer is in cm
+	float size = 100.f;// LocalField::cellSize();
+	QMatrix m;	
 	m.translate(m_position.x() * size, m_position.y() * size);
+	m.rotate(m_rotation * 180 / 3.1592653);
 	m_model->setTransform(QTransform{ m });
 	m_model->update();
 
 	if (isHumanControl()) {
-		for (auto view : field()->views()) {
-			view->centerOn(m_model);
-		}
-	}
+		field()->centerOn(m_model->scenePos());
+	}	
 }
 
 void Unit::setPosition(QPointF value) {
 	m_position = value;
+	updateTransform();
+}
+
+void Unit::setTarget(const QPointF& value) {
+	auto m_target = value;
+	auto dir = m_target - position()*100.0f;
+	dir = dir / dir.manhattanLength();
+	m_rotation = atan2f(dir.y(), dir.x());
 	updateTransform();
 }

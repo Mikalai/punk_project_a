@@ -6,10 +6,11 @@
 #include <QtCore/qdatetime.h>
 #include <list>
 #include <vector>
-#include "weather.h"
 
+struct WeatherStamp;
 class Spatial;
 class FieldCell;
+class World;
 
 class FieldCell {
 public:
@@ -23,26 +24,18 @@ public:
 class Field : public QGraphicsScene {
 	Q_OBJECT
 public:
-	Field(QObject* parent)
+	Field(World* world, QObject* parent)
 		: QGraphicsScene{ parent }
+		, m_world{ world }
 	{}
 
 	virtual FieldCell* cell(const QPoint& p) = 0;
 	virtual FieldCell* cell(int x, int y) = 0;
 
-	WeatherStamp* weather() {
-		return &m_weather;
-	}
-
-signals:
-	void weatherChanged(const WeatherStamp& value);
-	void timeChanged(const QDateTime& dt);
+	WeatherStamp* weather() const;
 
 private:
-	// current weather state
-	WeatherStamp m_weather;
-	//	time managment
-	QDateTime m_current_time;
+	World* m_world{ nullptr };
 };
 
 #endif	//	_H_FIELD

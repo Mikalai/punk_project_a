@@ -191,17 +191,17 @@ void Body::satisfyThirst() {
 
 std::vector<HeatSource> Character::heatSources() const {
 	std::vector<HeatSource> res;
-	if (building()) {
-		//return building()->heatSources(fullPosition());
-	}
-	else if (field()) {
+	//if (building()) {
+	//	//return building()->heatSources(fullPosition());
+	//}
+	//else if (field()) {
 		res.push_back(HeatSource{});
-	}
+	//}
 	return res;
 }
 
 float BodyPart::relativeWeight() const {
-	static const float w[] = { 0.0920575, 0.0920575, 0.1841149, 0.1841149, 0.2761724, 0.2761724, 0.0920575, 0.1742014, 0.1959766, 0.2177518, 0.2395270, 0.2613021, 0.2830773, 0.3048525, 0.3266277, 0.3484028, 0.3701780, 0.3919532 };
+	static const float w[] = { 0.0920575f, 0.0920575f, 0.1841149f, 0.1841149f, 0.2761724f, 0.2761724f, 0.0920575f, 0.1742014f, 0.1959766f, 0.2177518f, 0.2395270f, 0.2613021f, 0.2830773f, 0.3048525f, 0.3266277f, 0.3484028f, 0.3701780f, 0.3919532f };
 	return w[enum_index(m_part)];
 }
 
@@ -256,5 +256,5 @@ void Body::die() {
 }
 
 WeatherStamp* Character::weather() const {
-
+	return field()->weather();
 }

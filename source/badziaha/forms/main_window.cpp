@@ -1,9 +1,11 @@
 //#include <QtOpenGL/QGlWidget>
 #include <QtCore/qtimezone.h>
 #include <QtCore/qtimer.h>
+#include <QtOpenGL/qgl.h>
 #include <QtCore/qdatetime.h>
 #include "main_window.h"
 #include "../options.h"
+#include "../world.h"
 #include "../global_field.h"
 #include "../global_field_cell.h"
 #include "../local_field.h"
@@ -15,7 +17,10 @@ MainWindow::MainWindow()
 	, ui{ new Ui::MainWindow }
 {
 	ui->setupUi(this);
-	ui->m_city_widget->hide();
+	ui->m_city_widget->hide();	
+	ui->m_render_view->setViewport(new QGLWidget{ QGLFormat{ QGL::DoubleBuffer | QGL::DepthBuffer | QGL::Rgba } });
+	ui->m_render_view->setViewportUpdateMode(QGraphicsView::ViewportUpdateMode::FullViewportUpdate);
+	ui->m_render_view->setMouseTracking(true);
 
 	QDateTime date{ QDate{ 1, 1, 1 }, QTime{ 1, 1, 1, 1 }, QTimeZone{} };
 
@@ -29,8 +34,8 @@ MainWindow::MainWindow()
 }
 
 MainWindow::~MainWindow() {
-	m_local_field.reset(nullptr);
-	m_global_field = nullptr;
+	delete m_world;
+	m_world = nullptr;	
 }
 
 void MainWindow::save() {
@@ -52,10 +57,11 @@ void MainWindow::quickSave() {
 void MainWindow::newGame() {
 	qDebug(__FUNCTION__);
 
-	if (m_global_field) {
-		m_global_field->terminate();
-		delete m_global_field;
+	if (m_world) {
+		delete m_world;
 	}
+
+	m_world = new World{};	
 
 	if (m_timer)
 		delete m_timer;
@@ -64,44 +70,52 @@ void MainWindow::newGame() {
 	m_timer->setInterval(0);
 	m_timer->setSingleShot(false);
 
-	m_global_field = new GlobalField{ this };
-	m_global_field->Create();
+	m_world->create();
 
-	ui->m_render_view->setScene(m_global_field);
+	ui->m_render_view->setScene(m_world->globalField());
 
 	connect(m_timer, SIGNAL(timeout()), this, SLOT(update()));
-	connect(m_global_field, SIGNAL(citySelected(City*)), ui->m_city_widget, SLOT(setCity(City*)));
-	connect(m_global_field, SIGNAL(fieldCellPressed(QGraphicsSceneMouseEvent*, GlobalFieldCell*)), ui->m_city_widget, SLOT(selectFieldCell(QGraphicsSceneMouseEvent*, GlobalFieldCell*)));
-	connect(m_global_field, SIGNAL(timeChanged(const QDateTime&)), ui->m_time, SLOT(setDateTime(const QDateTime&)));
-	connect(m_global_field, SIGNAL(weatherChanged(const WeatherStamp&)), this, SLOT(weatherChanged(const WeatherStamp&)));
+	connect(m_world->globalField(), SIGNAL(citySelected(City*)), ui->m_city_widget, SLOT(setCity(City*)));
+	connect(m_world->globalField(), SIGNAL(fieldCellPressed(QGraphicsSceneMouseEvent*, GlobalFieldCell*)), ui->m_city_widget, SLOT(selectFieldCell(QGraphicsSceneMouseEvent*, GlobalFieldCell*)));
+	connect(m_world, SIGNAL(timeChanged(const QDateTime&)), ui->m_time, SLOT(setDateTime(const QDateTime&)));
+	connect(m_world, SIGNAL(weatherChanged(const WeatherStamp&)), this, SLOT(weatherChanged(const WeatherStamp&)));
 
 	m_timer->start();
 }
 
 
 void MainWindow::closeEvent(QCloseEvent* e) {
-	if (m_global_field)
-		m_global_field->terminate();
+	if (m_timer) {
+		delete m_timer;
+		m_timer = nullptr;
+	}
+
+	if (m_world) {
+		m_world->destroy();
+		delete m_world;
+		m_world = nullptr;
+	}
 	QMainWindow::closeEvent(e);
 }
 
 void MainWindow::enterLocation() {
-	auto player = m_global_field->player();
+	auto player = world()->globalField()->player();
 	if (!player) {
 		qDebug("No player. Will not enter any location");
 		return;
 	}
-	auto cell = m_global_field->cell(player->position());
+	auto cell = world()->globalField()->cell(player->position());
 	if (cell) {
-		m_local_field.reset(new LocalField{ m_global_field, cell, this });
-		ui->m_render_view->setScene(m_local_field.get());
-		m_local_field->create(64, 64);
+		auto v = std::unique_ptr < LocalField > { new LocalField{ world()->globalField(), cell, this }};
+		ui->m_render_view->setScene(v.get());
+		v->create(64, 64);
+		world()->setLocalField(v.release());
 	}
 }
 
 void MainWindow::leaveLocation() {
-	ui->m_render_view->setScene(m_global_field);
-	auto player = m_global_field->player();
+	ui->m_render_view->setScene(world()->globalField());
+	auto player = world()->globalField()->player();
 	if (player)
 		ui->m_render_view->centerOn(player->model());
 }
@@ -111,13 +125,7 @@ void MainWindow::setTimeScale(int value) {
 }
 
 void MainWindow::update() {
-	if (m_local_field) {
-		m_local_field->update();
-	}
-
-	if (m_global_field) {
-		m_global_field->updateByTimer();
-	}
+	m_world->updateByTimer();	
 }
 
 void MainWindow::weatherChanged(const WeatherStamp& value) {

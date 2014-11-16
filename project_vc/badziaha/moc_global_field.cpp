@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_GlobalField_t {
-    QByteArrayData data[17];
-    char stringdata[209];
+    QByteArrayData data[16];
+    char stringdata[195];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -40,20 +40,18 @@ QT_MOC_LITERAL(7, 71, 25),
 QT_MOC_LITERAL(8, 97, 5),
 QT_MOC_LITERAL(9, 103, 16),
 QT_MOC_LITERAL(10, 120, 4),
-QT_MOC_LITERAL(11, 125, 13),
-QT_MOC_LITERAL(12, 139, 18),
-QT_MOC_LITERAL(13, 158, 9),
-QT_MOC_LITERAL(14, 168, 18),
-QT_MOC_LITERAL(15, 187, 15),
-QT_MOC_LITERAL(16, 203, 5)
+QT_MOC_LITERAL(11, 125, 18),
+QT_MOC_LITERAL(12, 144, 9),
+QT_MOC_LITERAL(13, 154, 18),
+QT_MOC_LITERAL(14, 173, 15),
+QT_MOC_LITERAL(15, 189, 5)
     },
     "GlobalField\0citySelected\0\0City*\0city\0"
     "selectionDropped\0fieldCellPressed\0"
     "QGraphicsSceneMouseEvent*\0event\0"
-    "GlobalFieldCell*\0cell\0updateByTimer\0"
-    "onSelectionChanged\0terminate\0"
-    "setInteractionMode\0InteractionMode\0"
-    "value"
+    "GlobalFieldCell*\0cell\0onSelectionChanged\0"
+    "terminate\0setInteractionMode\0"
+    "InteractionMode\0value"
 };
 #undef QT_MOC_LITERAL
 
@@ -63,7 +61,7 @@ static const uint qt_meta_data_GlobalField[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       7,   14, // methods
+       6,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -71,15 +69,14 @@ static const uint qt_meta_data_GlobalField[] = {
        3,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   49,    2, 0x06 /* Public */,
-       5,    0,   52,    2, 0x06 /* Public */,
-       6,    2,   53,    2, 0x06 /* Public */,
+       1,    1,   44,    2, 0x06 /* Public */,
+       5,    0,   47,    2, 0x06 /* Public */,
+       6,    2,   48,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      11,    0,   58,    2, 0x0a /* Public */,
-      12,    0,   59,    2, 0x0a /* Public */,
-      13,    0,   60,    2, 0x0a /* Public */,
-      14,    1,   61,    2, 0x0a /* Public */,
+      11,    0,   53,    2, 0x0a /* Public */,
+      12,    0,   54,    2, 0x0a /* Public */,
+      13,    1,   55,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, 0x80000000 | 3,    4,
@@ -89,8 +86,7 @@ static const uint qt_meta_data_GlobalField[] = {
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 15,   16,
+    QMetaType::Void, 0x80000000 | 14,   15,
 
        0        // eod
 };
@@ -103,10 +99,9 @@ void GlobalField::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 0: _t->citySelected((*reinterpret_cast< City*(*)>(_a[1]))); break;
         case 1: _t->selectionDropped(); break;
         case 2: _t->fieldCellPressed((*reinterpret_cast< QGraphicsSceneMouseEvent*(*)>(_a[1])),(*reinterpret_cast< GlobalFieldCell*(*)>(_a[2]))); break;
-        case 3: _t->updateByTimer(); break;
-        case 4: _t->onSelectionChanged(); break;
-        case 5: _t->terminate(); break;
-        case 6: _t->setInteractionMode((*reinterpret_cast< InteractionMode(*)>(_a[1]))); break;
+        case 3: _t->onSelectionChanged(); break;
+        case 4: _t->terminate(); break;
+        case 5: _t->setInteractionMode((*reinterpret_cast< InteractionMode(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -160,13 +155,13 @@ int GlobalField::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 7)
+        if (_id < 6)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 7;
+        _id -= 6;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 7)
+        if (_id < 6)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 7;
+        _id -= 6;
     }
     return _id;
 }
