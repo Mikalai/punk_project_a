@@ -6,14 +6,7 @@
 #include <memory>
 #include "body_part_type.h"
 #include "spatial.h"
-
-enum class ItemClassType {
-	Trash,
-	Bottle,
-	Clothes,
-	Weapon,
-	Bag
-};
+#include "item_class_type.h"
 
 class Item {
 public:
@@ -27,7 +20,7 @@ public:
 	QString name() const { return m_name; }
 	QString description() const { return m_description; }
 
-	QImage icon() const { return m_icon; }
+	QImage* icon() const { return m_icon; }
 	
 	float weight() const { return m_weight; }
 	float technologyLevel() const { return m_tech_level; }
@@ -41,7 +34,7 @@ protected:
 		m_description = value;
 	}
 
-	void setIcon(QImage value) {
+	void setIcon(QImage* value) {
 		m_icon = value;
 	}
 
@@ -61,7 +54,7 @@ private:
 	//	integral parameter that determines amount of resources and knowledge that were
 	//	used to create this item. In some sense this determines base value of the item.
 	float m_tech_level{ 1 };
-	QImage m_icon;
+	QImage* m_icon{ nullptr };
 };
 
 class ClothesFactory;
@@ -82,6 +75,7 @@ public:
 	float heatRadiationAbsorption() const { return m_heat_radiation_absorption; }
 	
 	static int find(QString name);
+	static std::unique_ptr<Clothes> create(int type);
 
 	Clothes* clone();
 

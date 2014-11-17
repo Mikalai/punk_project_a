@@ -10,6 +10,7 @@
 #include "enum_helper.h"
 #include "weather.h"
 #include "body_part_type.h"
+#include "item_class_type.h"
 
 enum class Activity {
 	Idle,
@@ -161,7 +162,8 @@ public:
 	std::vector<HeatSource> heatSources() const;
 
 	// inventory managment
-	bool take(Item* item);
+	bool take(std::unique_ptr<Item> item);
+	const std::vector<const Item*> selectItems(ItemClassType type);
 
 private:
 	void processTasks();
@@ -204,6 +206,10 @@ private:
 	};
 
 	std::priority_queue < Task, std::vector<Task>> m_tasks;
+
+	//	inventory
+	std::vector<std::unique_ptr<Item>> m_items;
+
 
 	friend bool operator < (const Character::Task& a, const Character::Task& b);
 };

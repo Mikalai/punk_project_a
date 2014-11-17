@@ -15,6 +15,8 @@ public:
 		static int SimpleJacket;
 		static int SimplePants;
 		static int SimpleGloves;
-	};
+	};	
 };
+
+void createStuff();
 #endif	//	_H_KNOWN_STUFF

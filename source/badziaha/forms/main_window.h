@@ -1,5 +1,6 @@
 #include "main_window.ui.h"
 
+class InventoryForm;
 class World;
 class CityTask;
 struct WeatherStamp;
@@ -32,6 +33,7 @@ private:
 
 private:
 	Ui::MainWindow* ui;
+	//InventoryForm* m_inventory{ nullptr };
 	QTimer* m_timer{ nullptr };
 	World* m_world{ nullptr };
 };

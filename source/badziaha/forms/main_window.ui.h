@@ -27,6 +27,7 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 #include "city_widget.h"
+#include "inventory_form.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -48,6 +49,7 @@ public:
     QWidget *centralwidget;
     QHBoxLayout *horizontalLayout;
     QGraphicsView *m_render_view;
+    InventoryForm *m_inventory;
     CityWidget *m_city_widget;
     QMenuBar *menubar;
     QMenu *menuFile;
@@ -108,6 +110,12 @@ public:
 
         horizontalLayout->addWidget(m_render_view);
 
+        m_inventory = new InventoryForm(centralwidget);
+        m_inventory->setObjectName(QStringLiteral("m_inventory"));
+        m_inventory->setMinimumSize(QSize(300, 0));
+
+        horizontalLayout->addWidget(m_inventory);
+
         m_city_widget = new CityWidget(centralwidget);
         m_city_widget->setObjectName(QStringLiteral("m_city_widget"));
         m_city_widget->setEnabled(true);
@@ -122,7 +130,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1024, 31));
+        menubar->setGeometry(QRect(0, 0, 1024, 21));
         menuFile = new QMenu(menubar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuAction = new QMenu(menubar);

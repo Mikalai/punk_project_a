@@ -41,6 +41,16 @@
      </widget>
     </item>
     <item>
+     <widget class="InventoryForm" name="m_inventory" native="true">
+      <property name="minimumSize">
+       <size>
+        <width>300</width>
+        <height>0</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="CityWidget" name="m_city_widget" native="true">
       <property name="enabled">
        <bool>true</bool>
@@ -61,7 +71,7 @@
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>31</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -236,6 +246,12 @@
     <signal>cancelTask(CityTask*)</signal>
     <slot>setCity(City*)</slot>
    </slots>
+  </customwidget>
+  <customwidget>
+   <class>InventoryForm</class>
+   <extends>QWidget</extends>
+   <header>inventory_form.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

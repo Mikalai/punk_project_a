@@ -1,3 +1,5 @@
+#include <iostream>
+#include "string_ex.h"
 #include "resources.h"
 #include "global_field.h"
 #include "model_type.h"
@@ -48,4 +50,17 @@ QImage* Resources::getCityImage() {
 QImage* Resources::modelImage(const ModelType& value) {
 	int index = (int)value;
 	return m_models.at(index).get();
+}
+
+QImage* Resources::loadImage(const QString& value) {
+	auto it = m_images.find(value);
+	if (it == m_images.end()) {
+		auto i = new QImage{ value };
+		if (i->isNull()) {
+			std::wcout << L"Failed to load " << toWString(value) << std::endl;
+		}
+		m_images[value].reset(i);
+		return i;
+	}
+	return it->second.get();
 }

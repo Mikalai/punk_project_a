@@ -1,5 +1,6 @@
 #include <QtCore/qfile.h>
 #include <QtCore/qtextstream.h>
+#include "resources.h"
 #include <iostream>
 #include "items.h"
 #include "string_ex.h"
@@ -23,8 +24,8 @@ public:
 				else {
 					auto ss = s.split("=");
 					if (ss.size() == 2) {
-						auto name = ss[0];
-						auto value = ss[1];
+						auto name = ss[0].trimmed();
+						auto value = ss[1].trimmed();
 						if (name == "name") {
 							current->setName(value);
 						}
@@ -32,7 +33,7 @@ public:
 							current->setDescription(value);
 						}
 						else if (name == "icon") {
-							current->setIcon(QImage{ value });
+							current->setIcon(Resources::instance()->loadImage(value));
 						}
 						else if (name == "weight") {
 							current->setWeight(value.toFloat());
@@ -85,4 +86,8 @@ int Clothes::find(QString name) {
 
 Clothes* Clothes::clone() {
 	return new Clothes{ *this };
+}
+
+std::unique_ptr<Clothes> Clothes::create(int index) {
+	return ClothesFactory::instance()->create(index);
 }
