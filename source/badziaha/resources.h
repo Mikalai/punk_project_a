@@ -1,8 +1,11 @@
 #ifndef _H_RESOURCES
 #define _H_RESOURCES
 
+#include <QtCore/qstring.h>
+#include <map>
 #include <memory>
 #include <vector>
+
 
 class QImage;
 enum class SurfaceType;
@@ -16,8 +19,9 @@ public:
 	QImage* getImage(const SurfaceType& value);
 	QImage* getSquadImage();
 	QImage* getCityImage();
-	QImage* modelImage(const ModelType& value);
-	
+	QImage* modelImage(const ModelType& value);	
+	QImage* loadImage(const QString& value);
+
 	static void destroy();
 	static Resources* instance();
 
@@ -27,6 +31,7 @@ private:
 	std::unique_ptr<QImage> m_squad_image;
 	std::unique_ptr<QImage> m_city_image;
 	std::vector<std::unique_ptr<QImage>> m_models;
+	std::map<QString, std::unique_ptr<QImage>> m_images;
 };
 
 #endif	//	_H_RESOURCES

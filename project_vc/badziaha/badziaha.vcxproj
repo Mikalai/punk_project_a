@@ -256,6 +256,7 @@ xcopy /Y "$(QT_DIR)\bin\libegl.dll" "$(OutDir)"</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\badziaha\field.cpp" />
+    <ClCompile Include="..\..\source\badziaha\forms\inventory_form.cpp" />
     <ClCompile Include="..\..\source\badziaha\items.cpp" />
     <ClCompile Include="..\..\source\badziaha\keys.cpp" />
     <ClCompile Include="..\..\source\badziaha\known_stuff.cpp" />
@@ -293,6 +294,7 @@ xcopy /Y "$(QT_DIR)\bin\libegl.dll" "$(OutDir)"</Command>
     <ClCompile Include="moc_field.cpp" />
     <ClCompile Include="moc_game.cpp" />
     <ClCompile Include="moc_global_field.cpp" />
+    <ClCompile Include="moc_inventory_form.cpp" />
     <ClCompile Include="moc_local_field.cpp" />
     <ClCompile Include="moc_main_window.cpp" />
     <ClCompile Include="moc_player.cpp" />
@@ -354,7 +356,22 @@ xcopy /Y "$(QT_DIR)\bin\libegl.dll" "$(OutDir)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc_%(Filename).cpp</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc_%(Filename).cpp</Outputs>
     </CustomBuild>
+    <CustomBuild Include="..\..\source\badziaha\forms\inventory_form.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QT_DIR)\bin\moc.exe" -DUNICODE -DWIN32 -DWIN64 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -I$(QT_DIR)/mkspecs/win32-msvc2013 -I$(SolutionDir)source -I$(QT_DIR)/include -I$(QT_DIR)/include/QtWidgets -I$(QT_DIR)/include/QtGui -I$(QT_DIR)/include/QtANGLE -I$(QT_DIR)/include/QtCore -o moc_%(Filename).cpp %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QT_DIR)\bin\moc.exe" -DUNICODE -DWIN32 -DWIN64 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -I$(QT_DIR)/mkspecs/win32-msvc2013 -I$(SolutionDir)source -I$(QT_DIR)/include -I$(QT_DIR)/include/QtWidgets -I$(QT_DIR)/include/QtGui -I$(QT_DIR)/include/QtANGLE -I$(QT_DIR)/include/QtCore -o moc_%(Filename).cpp %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QT_DIR)\bin\moc.exe" -DUNICODE -DWIN32 -DWIN64 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -I$(QT_DIR)/mkspecs/win32-msvc2013 -I$(SolutionDir)source -I$(QT_DIR)/include -I$(QT_DIR)/include/QtWidgets -I$(QT_DIR)/include/QtGui -I$(QT_DIR)/include/QtANGLE -I$(QT_DIR)/include/QtCore -o moc_%(Filename).cpp %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QT_DIR)\bin\moc.exe" -DUNICODE -DWIN32 -DWIN64 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -I$(QT_DIR)/mkspecs/win32-msvc2013 -I$(SolutionDir)source -I$(QT_DIR)/include -I$(QT_DIR)/include/QtWidgets -I$(QT_DIR)/include/QtGui -I$(QT_DIR)/include/QtANGLE -I$(QT_DIR)/include/QtCore -o moc_%(Filename).cpp %(FullPath)</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc'ing %(Filename).h</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc'ing %(Filename).h</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc'ing %(Filename).h</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc'ing %(Filename).h</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
     <ClInclude Include="..\..\source\badziaha\items.h" />
+    <ClInclude Include="..\..\source\badziaha\item_class_type.h" />
     <ClInclude Include="..\..\source\badziaha\keys.h" />
     <ClInclude Include="..\..\source\badziaha\known_stuff.h" />
     <ClInclude Include="..\..\source\badziaha\options.h" />
@@ -557,6 +574,23 @@ xcopy /Y "$(QT_DIR)\bin\libegl.dll" "$(OutDir)"</Command>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\source\badziaha\forms\city_widget.ui">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QT_DIR)\bin\uic.exe" -o "%(Fullpath).h" "%(Fullpath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QT_DIR)\bin\uic.exe" -o "%(Fullpath).h" "%(Fullpath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QT_DIR)\bin\uic.exe" -o "%(Fullpath).h" "%(Fullpath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QT_DIR)\bin\uic.exe" -o "%(Fullpath).h" "%(Fullpath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">uic'ing %(Filename).ui</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">uic'ing %(Filename).ui</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">uic'ing %(Filename).ui</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">uic'ing %(Filename).ui</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Fullpath).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Fullpath).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Fullpath).h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Fullpath).h</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\source\badziaha\forms\inventory_form.ui">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QT_DIR)\bin\uic.exe" -o "%(Fullpath).h" "%(Fullpath)"</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QT_DIR)\bin\uic.exe" -o "%(Fullpath).h" "%(Fullpath)"</Command>

@@ -6,6 +6,7 @@
 #include <QtWidgets/qgraphicsscene.h>
 #include "surface_type.h"
 
+class Character;
 class GlobalField;
 struct GlobalFieldCell;
 class LocalFieldCell;
@@ -38,6 +39,9 @@ public:
 	void create(int w, int h);
 
 	void centerOn(const QPointF& target);
+
+signals:
+	void toggleInventory(Character*);
 
 protected:
 	void keyPressEvent(QKeyEvent *event) override;

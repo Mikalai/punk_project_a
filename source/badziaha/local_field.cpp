@@ -267,6 +267,9 @@ int LocalField::height() const {
 void LocalField::keyPressEvent(QKeyEvent *event) {
 	//qDebug(__FUNCTION__);
 	Keys::instance()->setKeyboard(event->key(), true);
+	if (event->key() == Qt::Key_I) {
+		emit toggleInventory(impl->m_human_unit->character());
+	}
 	event->accept();
 }
 

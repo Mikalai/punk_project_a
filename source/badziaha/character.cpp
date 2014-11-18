@@ -5,6 +5,7 @@
 #include "Character.h"
 #include "items.h"
 #include "unit_graphics_item.h"
+#include "known_stuff.h"
 
 std::unique_ptr<ActivityClass> ActivityClass::m_instance;
 
@@ -28,7 +29,13 @@ ActivityClass::ActivityClass() {
 
 Character::Character(GlobalField* field, QObject* parent)
 	: Entity{field, parent }
-{}
+{
+	take(Clothes::create(Stuff::Clothes::SimpleBoots));
+	take(Clothes::create(Stuff::Clothes::SimpleGloves));
+	take(Clothes::create(Stuff::Clothes::SimpleHelmet));
+	take(Clothes::create(Stuff::Clothes::SimpleJacket));
+	take(Clothes::create(Stuff::Clothes::SimplePants));
+}
 
 void Character::update() {
 	Entity::update();
@@ -257,4 +264,19 @@ void Body::die() {
 
 WeatherStamp* Character::weather() const {
 	return field()->weather();
+}
+
+bool Character::take(std::unique_ptr<Item> value) {
+	m_items.push_back(std::move(value));
+	return true;
+}
+
+const std::vector<const Item*> Character::selectItems(ItemClassType type) {
+	std::vector<const Item*> res;
+	for (auto& item : m_items) {
+		if (item->classType() == type) {
+			res.push_back(item.get());
+		}
+	}
+	return res;
 }

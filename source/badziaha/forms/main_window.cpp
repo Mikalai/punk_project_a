@@ -4,6 +4,7 @@
 #include <QtOpenGL/qgl.h>
 #include <QtCore/qdatetime.h>
 #include "main_window.h"
+#include "inventory_form.h"
 #include "../options.h"
 #include "../world.h"
 #include "../global_field.h"
@@ -21,6 +22,9 @@ MainWindow::MainWindow()
 	ui->m_render_view->setViewport(new QGLWidget{ QGLFormat{ QGL::DoubleBuffer | QGL::DepthBuffer | QGL::Rgba } });
 	ui->m_render_view->setViewportUpdateMode(QGraphicsView::ViewportUpdateMode::FullViewportUpdate);
 	ui->m_render_view->setMouseTracking(true);
+
+	//m_inventory = new InventoryForm{ this };
+	ui->m_inventory->hide();
 
 	QDateTime date{ QDate{ 1, 1, 1 }, QTime{ 1, 1, 1, 1 }, QTimeZone{} };
 
@@ -107,6 +111,7 @@ void MainWindow::enterLocation() {
 	auto cell = world()->globalField()->cell(player->position());
 	if (cell) {
 		auto v = std::unique_ptr < LocalField > { new LocalField{ world()->globalField(), cell, this }};
+		connect(v.get(), SIGNAL(toggleInventory(Character*)), ui->m_inventory, SLOT(toggle(Character*)));
 		ui->m_render_view->setScene(v.get());
 		v->create(64, 64);
 		world()->setLocalField(v.release());
