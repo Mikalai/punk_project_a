@@ -149,6 +149,24 @@ public:
 		for (auto unit : m_units) {
 			unit->update();
 		}
+
+		if (Keys::instance()->keyboard(Qt::Key_Shift)) {
+			m_scale -= 0.1f;
+			m_scale = std::max(m_min_scale, m_scale);
+			for (auto view : m_owner->views()) {
+				view->resetTransform();
+				view->scale(m_scale, m_scale);
+			}
+		}
+		else {
+			m_scale += 0.1f;
+			m_scale = std::min(1.0f, m_scale);
+			for (auto view : m_owner->views()) {
+				view->resetTransform();
+				view->scale(m_scale, m_scale);
+			}
+		}
+		m_owner->updateViews();
 	}
 
 	void load(std::istream& stream) {
@@ -160,6 +178,9 @@ public:
 	}
 
 
+	float m_scale{ 1 };
+	float m_max_scale{ 5.0f };
+	float m_min_scale{ 0.1f };
 	int m_width{ 0 };
 	int m_height{ 0 };
 	LocalField* m_owner{ nullptr };
