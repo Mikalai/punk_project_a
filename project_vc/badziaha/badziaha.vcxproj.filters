@@ -86,6 +86,7 @@
     <ClCompile Include="moc_inventory_form.cpp">
       <Filter>generated</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\badziaha\body_part_type.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\badziaha\unit_model.h" />
@@ -114,10 +115,8 @@
     <ClInclude Include="..\..\source\badziaha\singletone.h" />
     <ClInclude Include="..\..\source\badziaha\known_stuff.h" />
     <ClInclude Include="..\..\source\badziaha\spatial.h" />
-    <ClInclude Include="..\..\source\badziaha\forms\invetory_form.h">
-      <Filter>forms</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\badziaha\item_class_type.h" />
+    <ClInclude Include="..\..\source\badziaha\fwd_items.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="forms">
@@ -157,10 +156,11 @@
     <CustomBuild Include="..\..\source\badziaha\unit.h" />
     <CustomBuild Include="..\..\source\badziaha\field.h" />
     <CustomBuild Include="..\..\source\badziaha\world.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\source\badziaha\forms\invetory_form.ui">
+    <CustomBuild Include="..\..\source\badziaha\forms\inventory_form.ui">
       <Filter>forms</Filter>
-    </None>
+    </CustomBuild>
+    <CustomBuild Include="..\..\source\badziaha\forms\inventory_form.h">
+      <Filter>forms</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

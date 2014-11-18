@@ -42,6 +42,11 @@
        <property name="currentIndex">
         <number>0</number>
        </property>
+       <widget class="QWidget" name="tab">
+        <attribute name="title">
+         <string>Equiped</string>
+        </attribute>
+       </widget>
        <widget class="QWidget" name="m_clothes_tab">
         <attribute name="title">
          <string>Clothes</string>
@@ -64,6 +69,9 @@
          </property>
          <item>
           <widget class="QTableView" name="m_clothes_view">
+           <property name="contextMenuPolicy">
+            <enum>Qt::CustomContextMenu</enum>
+           </property>
            <property name="acceptDrops">
             <bool>true</bool>
            </property>
@@ -154,5 +162,41 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>m_clothes_view</sender>
+   <signal>clicked(QModelIndex)</signal>
+   <receiver>InventoryForm</receiver>
+   <slot>clothesClicked(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>226</x>
+     <y>286</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>214</x>
+     <y>305</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_clothes_view</sender>
+   <signal>customContextMenuRequested(QPoint)</signal>
+   <receiver>InventoryForm</receiver>
+   <slot>customMenuRequested(QPoint)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>226</x>
+     <y>286</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>214</x>
+     <y>305</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>clothesClicked(QModelIndex)</slot>
+  <slot>customMenuRequested(QPoint)</slot>
+ </slots>
 </ui>

@@ -11,6 +11,7 @@
 #include "weather.h"
 #include "body_part_type.h"
 #include "item_class_type.h"
+#include "fwd_items.h"
 
 enum class Activity {
 	Idle,
@@ -45,12 +46,18 @@ class Squad;
 class Character;
 struct WeatherStamp;
 class Clothes;
+class BodyPart;
+
+extern void delete_part(BodyPart* value);
+extern void delete_clothes(Clothes* value);
+extern void delete_item(Item* value);
 
 class BodyPart {
 public:
 
-	BodyPart(Body* owner)
+	BodyPart(BodyPartType type, Body* owner)
 		: m_body{ owner }
+		, m_part{ type }
 	{}
 
 	~BodyPart();
@@ -62,17 +69,19 @@ public:
 
 	float relativeWeight() const;
 
-	Clothes* clothes() { return m_clothes; }
-	void setClothes(Clothes* value);
+	Clothes* clothes() { return m_clothes.get(); }
+	void putClothes(ClothesPtr value);
+	ClothesPtr dropClothes() { return std::move(m_clothes); }
 
 private:
 	BodyPartType m_part{ BodyPartType::LeftFoot };
-	Clothes* m_clothes{ nullptr };
+	ClothesPtr m_clothes{ make_ptr<Clothes>(nullptr) };
 	Body* m_body{ nullptr };
 };
 
 class Body {
 public:
+	Body();
 	~Body();
 
 	float windProtection() const;
@@ -100,7 +109,7 @@ public:
 	//	returns amount of liters that should be evaporated to consume power
 	float powerToEvaporatedWater(float power);
 
-	std::vector<BodyPart> parts;
+	std::vector<std::unique_ptr<BodyPart>> parts;
 	
 	Character* character() const { return m_character; }
 
@@ -113,6 +122,13 @@ public:
 	float maxWater() const { return m_max_water; }
 
 	bool isAlive() const { return m_alive; }
+
+	BodyPart* part(BodyPartType type) {
+		return parts[enum_index(type)].get();
+	}
+
+	///	Returns a body part that wear specified clothes
+	BodyPart* wearClothes(const Clothes* item);
 
 private:
 	void satisfyThirst();
@@ -162,8 +178,13 @@ public:
 	std::vector<HeatSource> heatSources() const;
 
 	// inventory managment
-	bool take(std::unique_ptr<Item> item);
+	bool hasItem(const Item* item);
+	bool take(ItemPtr item);
+	bool putOn(const Clothes* item);
+	bool putOff(const Clothes* item);
+	void drop(const Item* item);
 	const std::vector<const Item*> selectItems(ItemClassType type);
+	ItemPtr popItem(const Item* item);
 
 private:
 	void processTasks();
@@ -208,7 +229,7 @@ private:
 	std::priority_queue < Task, std::vector<Task>> m_tasks;
 
 	//	inventory
-	std::vector<std::unique_ptr<Item>> m_items;
+	std::vector<ItemPtr> m_items;
 
 
 	friend bool operator < (const Character::Task& a, const Character::Task& b);

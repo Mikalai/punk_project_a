@@ -1,6 +1,8 @@
 #ifndef INVETORY_FORM_H2
 #define INVETORY_FORM_H2
 
+#include <QtWidgets/qabstractitemdelegate.h>
+#include <QtCore/qpoint.h>
 #include <QtWidgets/qwidget.h>
 
 namespace Ui {
@@ -8,6 +10,7 @@ namespace Ui {
 }
 
 class Character;
+class InventoryModel;
 
 class InventoryForm : public QWidget
 {
@@ -19,6 +22,8 @@ public:
 
 public slots:
 	void toggle(Character*);
+	void clothesClicked(QModelIndex index);
+	void customMenuRequested(QPoint point);
 
 private:
 	void updateUi();
@@ -26,6 +31,7 @@ private:
 private:
     Ui::InventoryForm *ui;
 	Character* m_character{ nullptr };
+	InventoryModel* m_inventory{ nullptr };
 };
 
 #endif // INVETORY_FORM_H2

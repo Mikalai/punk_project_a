@@ -10,11 +10,13 @@ public:
 
 	class Clothes {
 	public:
-		static int SimpleBoots;
+		static int SimpleLeftBoots;
+		static int SimpleRightBoots;
 		static int SimpleHelmet;
 		static int SimpleJacket;
 		static int SimplePants;
-		static int SimpleGloves;
+		static int SimpleLeftGloves;
+		static int SimpleRightGloves;
 	};	
 };
 

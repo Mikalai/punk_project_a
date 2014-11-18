@@ -1,10 +1,20 @@
 #include <QtCore/qfile.h>
+#include <QtCore/qdebug.h>
 #include <QtCore/qtextstream.h>
 #include "resources.h"
 #include <iostream>
 #include "items.h"
 #include "string_ex.h"
 #include "singletone.h"
+#include "body_part_type.h"
+
+void destroy_item(Item* value) {
+	delete value;
+}
+
+void destroy_clothes(Clothes* value) {
+	delete value;
+}
 
 class ClothesFactory : public Singletone<ClothesFactory> {
 public:
@@ -12,7 +22,7 @@ public:
 		QFile file{ ":/clothes/clothes/config.ini" };
 		QTextStream stream{ &file };
 		if (file.open(QIODevice::ReadOnly)) {
-			std::unique_ptr<Clothes> current{ new Clothes{} };
+			ClothesPtr current{ make_ptr(new Clothes{}) };
 			while (!stream.atEnd()) {
 				auto s = stream.readLine();
 				if (s == "{") {
@@ -28,6 +38,9 @@ public:
 						auto value = ss[1].trimmed();
 						if (name == "name") {
 							current->setName(value);
+						} 
+						else if (name == "target") {
+							current->setTargetBodyPart(fromString(value));
 						}
 						else if (name == "description") {
 							current->setDescription(value);
@@ -69,15 +82,16 @@ public:
 			if (m_clothes[i]->name() == name)
 				return i;
 		}
+		qDebug() << "Can't find clothes" << name;
 		return -1;
 	}
 
-	std::unique_ptr<Clothes> create(int type) {
-		return std::unique_ptr < Clothes > { m_clothes[type]->clone() };
+	ClothesPtr create(int type) {
+		return make_ptr(m_clothes[type]->clone());
 	}
 
 private:
-	std::vector<std::unique_ptr<Clothes>> m_clothes;
+	std::vector<ClothesPtr> m_clothes;
 };
 
 int Clothes::find(QString name) {
@@ -88,6 +102,6 @@ Clothes* Clothes::clone() {
 	return new Clothes{ *this };
 }
 
-std::unique_ptr<Clothes> Clothes::create(int index) {
+ClothesPtr Clothes::create(int index) {
 	return ClothesFactory::instance()->create(index);
 }

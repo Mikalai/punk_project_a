@@ -7,6 +7,7 @@
 #include "body_part_type.h"
 #include "spatial.h"
 #include "item_class_type.h"
+#include "fwd_items.h"
 
 class Item {
 public:
@@ -67,6 +68,7 @@ public:
 		: Item{ ItemClassType::Clothes }
 	{}
 
+	void setTargetBodyPart(BodyPartType value) { m_target_part = value; }
 	BodyPartType targetBodyPart() const { return m_target_part; }
 	
 	float windProtection() const { return m_wind_protection; }
@@ -75,7 +77,7 @@ public:
 	float heatRadiationAbsorption() const { return m_heat_radiation_absorption; }
 	
 	static int find(QString name);
-	static std::unique_ptr<Clothes> create(int type);
+	static ClothesPtr create(int type);
 
 	Clothes* clone();
 

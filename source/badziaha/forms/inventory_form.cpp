@@ -1,4 +1,5 @@
-
+#include <functional>
+#include <QtWidgets/qmenu.h>
 #include <QtCore/qabstractitemmodel.h>
 #include "../character.h"
 #include "../items.h"
@@ -7,12 +8,12 @@
 
 class InventoryModel : public QAbstractTableModel {
 public:
-	InventoryModel(ItemClassType type, Character* character, QObject* parent = nullptr)
+	InventoryModel(std::function<std::vector<const Item*>(Character*)> func, Character* character, QObject* parent = nullptr)
 		: QAbstractTableModel{ parent }
-		, m_type{ type }
 		, m_character{ character }
+		, m_get_items{ func }
 	{
-		m_cache = m_character->selectItems(m_type);
+		m_cache = m_get_items(m_character);
 	}
 
 	int rowCount(const QModelIndex & parent = QModelIndex()) const override {
@@ -27,7 +28,7 @@ public:
 
 	QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override {
 		if (role == Qt::DecorationRole) {
-			int i = index.row() * m_column_count + index.column();
+			int i = plainIndex(index);
 			if (i < m_cache.size()) {
 				auto icon = QIcon{ QPixmap::fromImage(*m_cache[i]->icon()) };
 				return QVariant{ icon };
@@ -55,11 +56,31 @@ public:
 		return Qt::ItemFlag::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsSelectable | Qt::ItemFlag::ItemIsEnabled;
 	}
 
+	const Clothes* clothes(QModelIndex index) const {
+		int i = plainIndex(index);
+		if (i >= m_cache.size())
+			return nullptr;
+		return (Clothes*)m_cache[i];
+	}
+
+	void update() {
+		int old_row_count = rowCount();
+		m_cache = m_get_items(m_character);
+		int new_row_count = rowCount();
+		dataChanged(index(0, 0), index(std::max(new_row_count, old_row_count) - 1, columnCount()));
+	}
+
+private:
+	
+	int plainIndex(QModelIndex index) const {
+		return index.row() * m_column_count + index.column();
+	}
+
 private:
 	int m_column_count{ 4 };
+	std::function<std::vector<const Item*>(Character*)> m_get_items;
 	std::vector<const Item*> m_cache;
 	Character* m_character{ nullptr };
-	ItemClassType m_type{ ItemClassType::Trash };
 };
 
 InventoryForm::InventoryForm(QWidget *parent) :
@@ -89,5 +110,33 @@ void InventoryForm::toggle(Character* value) {
 
 void InventoryForm::updateUi() {
 	auto clothes = m_character->selectItems(ItemClassType::Clothes);
-	ui->m_clothes_view->setModel(new InventoryModel{ ItemClassType::Clothes, m_character, this });	
+	ui->m_clothes_view->setModel(m_inventory = new InventoryModel{ [](Character* chr) {
+		return chr->selectItems(ItemClassType::Clothes);
+	}, m_character, this });
+}
+
+void InventoryForm::clothesClicked(QModelIndex index) {
+	if (!m_inventory)
+		return;
+}
+
+void InventoryForm::customMenuRequested(QPoint point) {
+	auto clothes = m_inventory->clothes(ui->m_clothes_view->currentIndex());
+	if (!clothes)
+		return;
+
+	QMenu menu{ this };
+	menu.addAction("Put on")->setData(0);
+	menu.addAction("Drop")->setData(1);
+
+	auto action = menu.exec(ui->m_clothes_view->mapToGlobal(point));
+	if (action) {
+		if (action->data().toInt() == 0) {
+			m_character->putOn(clothes);
+			m_inventory->update();
+		}
+		if (action->data().toInt() == 1)
+			qDebug("Drop");
+	}
+	m_inventory->dataChanged(m_inventory->index(0, 0), m_inventory->index(m_inventory->rowCount() - 1, m_inventory->columnCount() - 1));
 }

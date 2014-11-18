@@ -1,4 +1,5 @@
 #include <QtGui/qpainter.h>
+#include <QtCore/qdebug.h>
 #include "weather.h"
 #include "global_field.h"
 #include "constants.h"
@@ -30,11 +31,13 @@ ActivityClass::ActivityClass() {
 Character::Character(GlobalField* field, QObject* parent)
 	: Entity{field, parent }
 {
-	take(Clothes::create(Stuff::Clothes::SimpleBoots));
-	take(Clothes::create(Stuff::Clothes::SimpleGloves));
-	take(Clothes::create(Stuff::Clothes::SimpleHelmet));
-	take(Clothes::create(Stuff::Clothes::SimpleJacket));
-	take(Clothes::create(Stuff::Clothes::SimplePants));
+	take(cast<Item>(Clothes::create(Stuff::Clothes::SimpleLeftBoots)));
+	take(cast<Item>(Clothes::create(Stuff::Clothes::SimpleRightBoots)));
+	take(cast<Item>(Clothes::create(Stuff::Clothes::SimpleLeftGloves)));
+	take(cast<Item>(Clothes::create(Stuff::Clothes::SimpleRightGloves)));
+	take(cast<Item>(Clothes::create(Stuff::Clothes::SimpleHelmet)));
+	take(cast<Item>(Clothes::create(Stuff::Clothes::SimpleJacket)));
+	take(cast<Item>(Clothes::create(Stuff::Clothes::SimplePants)));
 }
 
 void Character::update() {
@@ -55,6 +58,15 @@ void Character::processTasks() {
 	}
 }
 
+Body::Body() {
+	parts.resize(enum_size<BodyPartType>::Value);
+	int index = 0;
+	for (auto& v : parts) {
+		v.reset(new BodyPart{enum_value<BodyPartType>(index), this });
+		++index;
+	}
+}
+
 float Body::metabolismPower() const {
 	auto A = ActivityClass::instance()->powerConsume(character()->activity());
 	auto S = surface();
@@ -66,8 +78,8 @@ float Body::metabolismPower() const {
 float Body::windProtection() const {
 	float result = 0;
 	for (auto& p : parts) {
-		auto k = p.relativeWeight();
-		auto v = p.windProtection();
+		auto k = p->relativeWeight();
+		auto v = p->windProtection();
 		result += k * v;
 	}
 	return result;
@@ -212,13 +224,19 @@ float BodyPart::relativeWeight() const {
 	return w[enum_index(m_part)];
 }
 
+void BodyPart::putClothes(ClothesPtr clothes) {
+	if (m_clothes.get()) {
+		qCritical() << "Body part already has a clothes put on";
+	}
+	m_clothes = std::move(clothes);
+}
+
 BodyPart::~BodyPart() {
-	delete m_clothes;
-	m_clothes = nullptr;
+	m_clothes.reset();
 }
 
 Body::~Body() {
-
+	parts.clear();
 }
 
 Character::~Character() {
@@ -242,8 +260,8 @@ float BodyPart::heatAbsorbingFactor() const {
 float Body::heatAbsorbingFactor() const {
 	auto result = 0.0f;
 	for (auto& p : parts) {
-		auto w = p.relativeWeight();
-		auto v = p.heatAbsorbingFactor();
+		auto w = p->relativeWeight();
+		auto v = p->heatAbsorbingFactor();
 		result += v * w;
 	}
 	return result;
@@ -266,7 +284,7 @@ WeatherStamp* Character::weather() const {
 	return field()->weather();
 }
 
-bool Character::take(std::unique_ptr<Item> value) {
+bool Character::take(ItemPtr value) {
 	m_items.push_back(std::move(value));
 	return true;
 }
@@ -279,4 +297,61 @@ const std::vector<const Item*> Character::selectItems(ItemClassType type) {
 		}
 	}
 	return res;
+}
+
+ItemPtr Character::popItem(const Item* item) {
+	auto it = std::find_if(m_items.begin(), m_items.end(), [&item](const ItemPtr& value) {
+		return value.get() == item; 
+	});
+	if (it == m_items.end())
+		return make_ptr<Item>(nullptr);
+	auto result = std::move(*it);
+	m_items.erase(it);
+	return result;
+}
+
+bool Character::putOn(const Clothes* clothes) {
+	
+	auto item = popItem(clothes);
+	if (!item.get())
+		return false;
+
+	//	insure item can be put on on some body part
+	auto part = body()->part(clothes->targetBodyPart());
+	if (!part) {
+		qDebug() << "Can't put" << clothes->name() << ". Body has got no part" << clothes->targetBodyPart();
+		return false;
+	}
+
+	//	put off any already put on clothes on this body part
+	if (part->clothes()) {
+		m_items.push_back(cast<Item>(part->dropClothes()));
+	}
+
+	part->putClothes(make_ptr(static_cast<Clothes*>(item.release())));
+	qDebug() << clothes->name() << "has been put on " << toString(part->type());
+	return true;
+}
+
+bool Character::putOff(const Clothes* item) {
+	if (!item) {
+		qDebug() << "Can't put off nullptr";
+		return false;
+	}
+
+	auto part = body()->wearClothes(item);
+	if (part == nullptr)
+		return false;
+	
+	qDebug() << item->name() << "has been put off from " << toString(part->type());
+	m_items.push_back(cast<Item>(part->dropClothes()));
+	return true;
+}
+
+BodyPart* Body::wearClothes(const Clothes* item) {
+	auto it = std::find_if(parts.begin(), parts.end(), [&item](std::unique_ptr<BodyPart>& part) {
+		return part->clothes() == item; });
+	if (it == parts.end())
+		return nullptr;
+	return (*it).get();
 }

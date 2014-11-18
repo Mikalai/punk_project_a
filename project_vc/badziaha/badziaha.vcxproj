@@ -255,6 +255,7 @@ xcopy /Y "$(QT_DIR)\bin\libegl.dll" "$(OutDir)"</Command>
     </CustomBuildStep>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\source\badziaha\body_part_type.cpp" />
     <ClCompile Include="..\..\source\badziaha\field.cpp" />
     <ClCompile Include="..\..\source\badziaha\forms\inventory_form.cpp" />
     <ClCompile Include="..\..\source\badziaha\items.cpp" />
@@ -370,6 +371,7 @@ xcopy /Y "$(QT_DIR)\bin\libegl.dll" "$(OutDir)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc_%(Filename).cpp</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc_%(Filename).cpp</Outputs>
     </CustomBuild>
+    <ClInclude Include="..\..\source\badziaha\fwd_items.h" />
     <ClInclude Include="..\..\source\badziaha\items.h" />
     <ClInclude Include="..\..\source\badziaha\item_class_type.h" />
     <ClInclude Include="..\..\source\badziaha\keys.h" />

@@ -30,6 +30,7 @@ public:
     QVBoxLayout *verticalLayout_3;
     QVBoxLayout *verticalLayout;
     QTabWidget *m_tabs;
+    QWidget *tab;
     QWidget *m_clothes_tab;
     QVBoxLayout *verticalLayout_2;
     QTableView *m_clothes_view;
@@ -53,6 +54,9 @@ public:
         m_tabs = new QTabWidget(InventoryForm);
         m_tabs->setObjectName(QStringLiteral("m_tabs"));
         m_tabs->setTabPosition(QTabWidget::West);
+        tab = new QWidget();
+        tab->setObjectName(QStringLiteral("tab"));
+        m_tabs->addTab(tab, QString());
         m_clothes_tab = new QWidget();
         m_clothes_tab->setObjectName(QStringLiteral("m_clothes_tab"));
         verticalLayout_2 = new QVBoxLayout(m_clothes_tab);
@@ -61,6 +65,7 @@ public:
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
         m_clothes_view = new QTableView(m_clothes_tab);
         m_clothes_view->setObjectName(QStringLiteral("m_clothes_view"));
+        m_clothes_view->setContextMenuPolicy(Qt::CustomContextMenu);
         m_clothes_view->setAcceptDrops(true);
         m_clothes_view->setEditTriggers(QAbstractItemView::NoEditTriggers);
         m_clothes_view->setDragEnabled(true);
@@ -101,6 +106,8 @@ public:
 
         retranslateUi(InventoryForm);
         QObject::connect(m_close, SIGNAL(clicked()), InventoryForm, SLOT(hide()));
+        QObject::connect(m_clothes_view, SIGNAL(clicked(QModelIndex)), InventoryForm, SLOT(clothesClicked(QModelIndex)));
+        QObject::connect(m_clothes_view, SIGNAL(customContextMenuRequested(QPoint)), InventoryForm, SLOT(customMenuRequested(QPoint)));
 
         m_tabs->setCurrentIndex(0);
 
@@ -111,6 +118,7 @@ public:
     void retranslateUi(QWidget *InventoryForm)
     {
         InventoryForm->setWindowTitle(QApplication::translate("InventoryForm", "Form", 0));
+        m_tabs->setTabText(m_tabs->indexOf(tab), QApplication::translate("InventoryForm", "Equiped", 0));
         m_tabs->setTabText(m_tabs->indexOf(m_clothes_tab), QApplication::translate("InventoryForm", "Clothes", 0));
         m_tabs->setTabText(m_tabs->indexOf(m_weapons_tab), QApplication::translate("InventoryForm", "Weapons", 0));
         m_close->setText(QApplication::translate("InventoryForm", "Close", 0));

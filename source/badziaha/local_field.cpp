@@ -286,7 +286,7 @@ void LocalField::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 }
 
 void LocalField::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
-	std::cout << event->scenePos().x() / 100.0f << " " << event->scenePos().y() / 100.0f<< std::endl;
+	//std::cout << event->scenePos().x() / 100.0f << " " << event->scenePos().y() / 100.0f<< std::endl;
 	impl->m_last_position = event->scenePos();
 	if (impl->m_human_unit){
 		impl->m_human_unit->setTarget(impl->m_last_position);
