@@ -299,6 +299,15 @@ const std::vector<const Item*> Character::selectItems(ItemClassType type) {
 	return res;
 }
 
+const std::vector<const Item*> Character::selectEquippedItems() {
+	std::vector<const Item*> res;
+	for (auto& p : body()->parts) {
+		if (p->clothes())
+			res.push_back(p->clothes());
+	}
+	return res;
+}
+
 ItemPtr Character::popItem(const Item* item) {
 	auto it = std::find_if(m_items.begin(), m_items.end(), [&item](const ItemPtr& value) {
 		return value.get() == item; 
@@ -355,3 +364,4 @@ BodyPart* Body::wearClothes(const Clothes* item) {
 		return nullptr;
 	return (*it).get();
 }
+

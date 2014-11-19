@@ -40,12 +40,81 @@
         <enum>QTabWidget::West</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
-       <widget class="QWidget" name="tab">
+       <widget class="QWidget" name="m_equipped_tab">
         <attribute name="title">
          <string>Equiped</string>
         </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QTableView" name="m_equipped_view">
+           <property name="contextMenuPolicy">
+            <enum>Qt::CustomContextMenu</enum>
+           </property>
+           <property name="acceptDrops">
+            <bool>true</bool>
+           </property>
+           <property name="editTriggers">
+            <set>QAbstractItemView::NoEditTriggers</set>
+           </property>
+           <property name="dragEnabled">
+            <bool>true</bool>
+           </property>
+           <property name="dragDropMode">
+            <enum>QAbstractItemView::DragDrop</enum>
+           </property>
+           <property name="defaultDropAction">
+            <enum>Qt::MoveAction</enum>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>64</width>
+             <height>64</height>
+            </size>
+           </property>
+           <attribute name="horizontalHeaderVisible">
+            <bool>false</bool>
+           </attribute>
+           <attribute name="horizontalHeaderDefaultSectionSize">
+            <number>64</number>
+           </attribute>
+           <attribute name="horizontalHeaderHighlightSections">
+            <bool>false</bool>
+           </attribute>
+           <attribute name="horizontalHeaderMinimumSectionSize">
+            <number>64</number>
+           </attribute>
+           <attribute name="verticalHeaderVisible">
+            <bool>false</bool>
+           </attribute>
+           <attribute name="verticalHeaderDefaultSectionSize">
+            <number>64</number>
+           </attribute>
+           <attribute name="verticalHeaderHighlightSections">
+            <bool>false</bool>
+           </attribute>
+           <attribute name="verticalHeaderMinimumSectionSize">
+            <number>64</number>
+           </attribute>
+          </widget>
+         </item>
+        </layout>
        </widget>
        <widget class="QWidget" name="m_clothes_tab">
         <attribute name="title">
@@ -93,14 +162,26 @@
              <height>64</height>
             </size>
            </property>
+           <attribute name="horizontalHeaderVisible">
+            <bool>false</bool>
+           </attribute>
            <attribute name="horizontalHeaderDefaultSectionSize">
             <number>64</number>
+           </attribute>
+           <attribute name="horizontalHeaderHighlightSections">
+            <bool>false</bool>
            </attribute>
            <attribute name="horizontalHeaderMinimumSectionSize">
             <number>64</number>
            </attribute>
+           <attribute name="verticalHeaderVisible">
+            <bool>false</bool>
+           </attribute>
            <attribute name="verticalHeaderDefaultSectionSize">
             <number>64</number>
+           </attribute>
+           <attribute name="verticalHeaderHighlightSections">
+            <bool>false</bool>
            </attribute>
            <attribute name="verticalHeaderMinimumSectionSize">
             <number>64</number>
@@ -194,9 +275,26 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>m_equipped_view</sender>
+   <signal>customContextMenuRequested(QPoint)</signal>
+   <receiver>InventoryForm</receiver>
+   <slot>equippedCustomMenuRequested(QPoint)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>226</x>
+     <y>286</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>214</x>
+     <y>305</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>clothesClicked(QModelIndex)</slot>
   <slot>customMenuRequested(QPoint)</slot>
+  <slot>equippedCustomMenuRequested(QPoint)</slot>
  </slots>
 </ui>

@@ -24,7 +24,7 @@ public slots:
 	void toggle(Character*);
 	void clothesClicked(QModelIndex index);
 	void customMenuRequested(QPoint point);
-
+	void equippedCustomMenuRequested(QPoint point);
 private:
 	void updateUi();
 
@@ -32,6 +32,7 @@ private:
     Ui::InventoryForm *ui;
 	Character* m_character{ nullptr };
 	InventoryModel* m_inventory{ nullptr };
+	InventoryModel* m_equipped{ nullptr };
 };
 
 #endif // INVETORY_FORM_H2

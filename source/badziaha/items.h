@@ -16,7 +16,7 @@ public:
 		m_type{ value }
 	{}
 
-	ItemClassType classType() { return m_type; }
+	ItemClassType classType() const { return m_type; }
 
 	QString name() const { return m_name; }
 	QString description() const { return m_description; }
