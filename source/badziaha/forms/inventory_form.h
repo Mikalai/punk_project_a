@@ -11,6 +11,7 @@ namespace Ui {
 
 class Character;
 class InventoryModel;
+class InventoryTreeModel;
 
 class InventoryForm : public QWidget
 {
@@ -32,7 +33,7 @@ private:
     Ui::InventoryForm *ui;
 	Character* m_character{ nullptr };
 	InventoryModel* m_inventory{ nullptr };
-	InventoryModel* m_equipped{ nullptr };
+	InventoryTreeModel* m_equipped{ nullptr };
 };
 
 #endif // INVETORY_FORM_H2

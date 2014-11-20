@@ -16,6 +16,8 @@ public:
 		m_type{ value }
 	{}
 
+	virtual ~Item() {}
+
 	ItemClassType classType() const { return m_type; }
 
 	QString name() const { return m_name; }
@@ -25,6 +27,8 @@ public:
 	
 	float weight() const { return m_weight; }
 	float technologyLevel() const { return m_tech_level; }
+
+	virtual const QString ToString() const;
 
 protected:
 	void setName(const QString& value) {
@@ -80,6 +84,8 @@ public:
 	static ClothesPtr create(int type);
 
 	Clothes* clone();
+
+	const QString ToString() const override;
 
 private:
 	BodyPartType m_target_part{ BodyPartType::Head };

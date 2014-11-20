@@ -87,6 +87,7 @@
       <Filter>generated</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\badziaha\body_part_type.cpp" />
+    <ClCompile Include="..\..\source\badziaha\item_class_type.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\badziaha\unit_model.h" />

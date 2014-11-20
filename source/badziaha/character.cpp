@@ -299,10 +299,10 @@ const std::vector<const Item*> Character::selectItems(ItemClassType type) {
 	return res;
 }
 
-const std::vector<const Item*> Character::selectEquippedItems() {
+const std::vector<const Item*> Character::selectEquippedItems(ItemClassType type) {
 	std::vector<const Item*> res;
 	for (auto& p : body()->parts) {
-		if (p->clothes())
+		if (p->clothes() && type == ItemClassType::Clothes)
 			res.push_back(p->clothes());
 	}
 	return res;

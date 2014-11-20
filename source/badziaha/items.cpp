@@ -16,7 +16,7 @@ void destroy_clothes(Clothes* value) {
 	delete value;
 }
 
-class ClothesFactory : public Singletone<ClothesFactory> {
+class ClothesFactory : public Singletone < ClothesFactory > {
 public:
 	ClothesFactory() {
 		QFile file{ ":/clothes/clothes/config.ini" };
@@ -38,7 +38,7 @@ public:
 						auto value = ss[1].trimmed();
 						if (name == "name") {
 							current->setName(value);
-						} 
+						}
 						else if (name == "target") {
 							current->setTargetBodyPart(fromString(value));
 						}
@@ -104,4 +104,20 @@ Clothes* Clothes::clone() {
 
 ClothesPtr Clothes::create(int index) {
 	return ClothesFactory::instance()->create(index);
+}
+
+const QString Item::ToString() const {
+	QString v = "<b>" + name() + "</b><br/>";
+	v += "<font color='blue'>Weight: </font>" + QString::number(weight()) + "<br/>";
+	v += "<font color='blue'>Level: </font>" + QString::number(technologyLevel()) + "<br/>";
+	return v;
+}
+
+const QString Clothes::ToString() const {
+	QString v = Item::ToString();
+	v += "<font color='red'>Wind protection: </font>" + QString::number(windProtection()) + "<br/>";
+	v += "<font color='red'>Heat absorption: </font>" + QString::number(heatRadiationAbsorption()) + "<br/>";
+	v += "<font color='red'>Water resistance: </font>" + QString::number(waterResistance()) + "<br/>";
+	v += "<br/>" + description();
+	return v;
 }

@@ -184,7 +184,7 @@ public:
 	bool putOff(const Clothes* item);
 	void drop(const Item* item);
 	const std::vector<const Item*> selectItems(ItemClassType type);
-	const std::vector<const Item*> selectEquippedItems();
+	const std::vector<const Item*> selectEquippedItems(ItemClassType type);
 	ItemPtr popItem(const Item* item);
 
 private:

@@ -19,6 +19,7 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTableView>
+#include <QtWidgets/QTreeView>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -32,7 +33,7 @@ public:
     QTabWidget *m_tabs;
     QWidget *m_equipped_tab;
     QVBoxLayout *verticalLayout_4;
-    QTableView *m_equipped_view;
+    QTreeView *m_equipped_view;
     QWidget *m_clothes_tab;
     QVBoxLayout *verticalLayout_2;
     QTableView *m_clothes_view;
@@ -62,23 +63,28 @@ public:
         verticalLayout_4->setSpacing(0);
         verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
         verticalLayout_4->setContentsMargins(0, 0, 0, 0);
-        m_equipped_view = new QTableView(m_equipped_tab);
+        m_equipped_view = new QTreeView(m_equipped_tab);
         m_equipped_view->setObjectName(QStringLiteral("m_equipped_view"));
+        m_equipped_view->setMouseTracking(true);
         m_equipped_view->setContextMenuPolicy(Qt::CustomContextMenu);
         m_equipped_view->setAcceptDrops(true);
+        m_equipped_view->setMidLineWidth(1);
         m_equipped_view->setEditTriggers(QAbstractItemView::NoEditTriggers);
         m_equipped_view->setDragEnabled(true);
         m_equipped_view->setDragDropMode(QAbstractItemView::DragDrop);
         m_equipped_view->setDefaultDropAction(Qt::MoveAction);
+        m_equipped_view->setAlternatingRowColors(true);
+        m_equipped_view->setSelectionBehavior(QAbstractItemView::SelectItems);
         m_equipped_view->setIconSize(QSize(64, 64));
-        m_equipped_view->horizontalHeader()->setVisible(false);
-        m_equipped_view->horizontalHeader()->setDefaultSectionSize(64);
-        m_equipped_view->horizontalHeader()->setHighlightSections(false);
-        m_equipped_view->horizontalHeader()->setMinimumSectionSize(64);
-        m_equipped_view->verticalHeader()->setVisible(false);
-        m_equipped_view->verticalHeader()->setDefaultSectionSize(64);
-        m_equipped_view->verticalHeader()->setHighlightSections(false);
-        m_equipped_view->verticalHeader()->setMinimumSectionSize(64);
+        m_equipped_view->setTextElideMode(Qt::ElideMiddle);
+        m_equipped_view->setIndentation(0);
+        m_equipped_view->setRootIsDecorated(false);
+        m_equipped_view->setItemsExpandable(false);
+        m_equipped_view->setAllColumnsShowFocus(true);
+        m_equipped_view->header()->setVisible(false);
+        m_equipped_view->header()->setDefaultSectionSize(64);
+        m_equipped_view->header()->setMinimumSectionSize(64);
+        m_equipped_view->header()->setStretchLastSection(false);
 
         verticalLayout_4->addWidget(m_equipped_view);
 
@@ -140,7 +146,7 @@ public:
         QObject::connect(m_clothes_view, SIGNAL(customContextMenuRequested(QPoint)), InventoryForm, SLOT(customMenuRequested(QPoint)));
         QObject::connect(m_equipped_view, SIGNAL(customContextMenuRequested(QPoint)), InventoryForm, SLOT(equippedCustomMenuRequested(QPoint)));
 
-        m_tabs->setCurrentIndex(1);
+        m_tabs->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(InventoryForm);

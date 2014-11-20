@@ -259,6 +259,7 @@ xcopy /Y "$(QT_DIR)\bin\libegl.dll" "$(OutDir)"</Command>
     <ClCompile Include="..\..\source\badziaha\field.cpp" />
     <ClCompile Include="..\..\source\badziaha\forms\inventory_form.cpp" />
     <ClCompile Include="..\..\source\badziaha\items.cpp" />
+    <ClCompile Include="..\..\source\badziaha\item_class_type.cpp" />
     <ClCompile Include="..\..\source\badziaha\keys.cpp" />
     <ClCompile Include="..\..\source\badziaha\known_stuff.cpp" />
     <ClCompile Include="..\..\source\badziaha\local_field.cpp" />

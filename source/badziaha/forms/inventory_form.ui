@@ -40,7 +40,7 @@
         <enum>QTabWidget::West</enum>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="m_equipped_tab">
         <attribute name="title">
@@ -63,12 +63,18 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="QTableView" name="m_equipped_view">
+          <widget class="QTreeView" name="m_equipped_view">
+           <property name="mouseTracking">
+            <bool>true</bool>
+           </property>
            <property name="contextMenuPolicy">
             <enum>Qt::CustomContextMenu</enum>
            </property>
            <property name="acceptDrops">
             <bool>true</bool>
+           </property>
+           <property name="midLineWidth">
+            <number>1</number>
            </property>
            <property name="editTriggers">
             <set>QAbstractItemView::NoEditTriggers</set>
@@ -82,35 +88,44 @@
            <property name="defaultDropAction">
             <enum>Qt::MoveAction</enum>
            </property>
+           <property name="alternatingRowColors">
+            <bool>true</bool>
+           </property>
+           <property name="selectionBehavior">
+            <enum>QAbstractItemView::SelectItems</enum>
+           </property>
            <property name="iconSize">
             <size>
              <width>64</width>
              <height>64</height>
             </size>
            </property>
-           <attribute name="horizontalHeaderVisible">
+           <property name="textElideMode">
+            <enum>Qt::ElideMiddle</enum>
+           </property>
+           <property name="indentation">
+            <number>0</number>
+           </property>
+           <property name="rootIsDecorated">
+            <bool>false</bool>
+           </property>
+           <property name="itemsExpandable">
+            <bool>false</bool>
+           </property>
+           <property name="allColumnsShowFocus">
+            <bool>true</bool>
+           </property>
+           <attribute name="headerVisible">
             <bool>false</bool>
            </attribute>
-           <attribute name="horizontalHeaderDefaultSectionSize">
+           <attribute name="headerDefaultSectionSize">
             <number>64</number>
            </attribute>
-           <attribute name="horizontalHeaderHighlightSections">
+           <attribute name="headerMinimumSectionSize">
+            <number>64</number>
+           </attribute>
+           <attribute name="headerStretchLastSection">
             <bool>false</bool>
-           </attribute>
-           <attribute name="horizontalHeaderMinimumSectionSize">
-            <number>64</number>
-           </attribute>
-           <attribute name="verticalHeaderVisible">
-            <bool>false</bool>
-           </attribute>
-           <attribute name="verticalHeaderDefaultSectionSize">
-            <number>64</number>
-           </attribute>
-           <attribute name="verticalHeaderHighlightSections">
-            <bool>false</bool>
-           </attribute>
-           <attribute name="verticalHeaderMinimumSectionSize">
-            <number>64</number>
            </attribute>
           </widget>
          </item>
