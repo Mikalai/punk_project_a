@@ -23,7 +23,20 @@ const QString asString(ItemClassType value) {
 	return "[ERROR]";
 }
 
-ItemClassType ItemClassTypefromString(const QString& value) {
-	qDebug() << "Can't convert string to item class type";
+ItemClassType ItemClassTypeFromString(const QString& value) {
+	if (value == "Clothes")
+		return ItemClassType::Clothes;
+	if (value == "Trash")
+		return ItemClassType::Trash;
+	if (value == "Bottle")
+		return ItemClassType::Bottle;
+	if (value == "Weapon")
+		return ItemClassType::Weapon;
+	if (value == "Bag")
+		return ItemClassType::Bag;
+	if (value == "Ammo")
+		return ItemClassType::Ammo;
+	qDebug() << "Can't convert" << value << "to ItemClassType";
+	return ItemClassType::End;
 	return ItemClassType::End;
 }

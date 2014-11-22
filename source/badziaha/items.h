@@ -24,13 +24,14 @@ public:
 	QString description() const { return m_description; }
 
 	QImage* icon() const { return m_icon; }
+	const QString iconName() const { return m_icon_name; }
 	
 	float weight() const { return m_weight; }
 	float technologyLevel() const { return m_tech_level; }
 
 	virtual const QString ToString() const;
 
-protected:
+//protected:
 	void setName(const QString& value) {
 		m_name = value;
 	}
@@ -41,6 +42,10 @@ protected:
 
 	void setIcon(QImage* value) {
 		m_icon = value;
+	}
+
+	void setIcon(QString value) {
+		m_icon_name = value;
 	}
 
 	void setWeight(float value) {
@@ -59,6 +64,7 @@ private:
 	//	integral parameter that determines amount of resources and knowledge that were
 	//	used to create this item. In some sense this determines base value of the item.
 	float m_tech_level{ 1 };
+	QString m_icon_name;
 	QImage* m_icon{ nullptr };
 };
 
@@ -86,6 +92,11 @@ public:
 	Clothes* clone();
 
 	const QString ToString() const override;
+
+	void setWindProtection(float value) { m_wind_protection = value; }
+	void setWaterResistance(float value) { m_water_resistance = value; }
+	void setRadiationResistance(float value) { m_radiation_resistance = value; }
+	void setHeatRadiationAbsorption(float value) { m_heat_radiation_absorption = value; }
 
 private:
 	BodyPartType m_target_part{ BodyPartType::Head };

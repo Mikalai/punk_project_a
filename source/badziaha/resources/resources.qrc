@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/images">
+    <qresource prefix="/">
         <file>ranger.png</file>
         <file>grass.png</file>
         <file>water.png</file>
@@ -19,14 +19,12 @@
         <file>road.png</file>
         <file>sawmill.png</file>
         <file>construction.png</file>
-    </qresource>
-    <qresource prefix="/clothes">
+        <file>config.ini</file>
         <file>clothes/simple_boots.png</file>
         <file>clothes/simple_gloves.png</file>
         <file>clothes/simple_helmet.png</file>
         <file>clothes/simple_jacket.png</file>
         <file>clothes/simple_pants.png</file>
-        <file>clothes/config.ini</file>
     </qresource>
     <qresource prefix="/icons">
         <file>saw.png</file>
