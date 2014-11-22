@@ -6,7 +6,7 @@
 enum class ItemClassType {
 	Trash,
 	Bottle,
-	Clothes,
+	ClothesClass,
 	Ammo,
 	Weapon,
 	Bag,

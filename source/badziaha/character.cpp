@@ -31,13 +31,11 @@ ActivityClass::ActivityClass() {
 Character::Character(GlobalField* field, QObject* parent)
 	: Entity{field, parent }
 {
-	take(cast<Item>(Clothes::create(Stuff::Clothes::SimpleLeftBoots)));
-	take(cast<Item>(Clothes::create(Stuff::Clothes::SimpleRightBoots)));
-	take(cast<Item>(Clothes::create(Stuff::Clothes::SimpleLeftGloves)));
-	take(cast<Item>(Clothes::create(Stuff::Clothes::SimpleRightGloves)));
-	take(cast<Item>(Clothes::create(Stuff::Clothes::SimpleHelmet)));
-	take(cast<Item>(Clothes::create(Stuff::Clothes::SimpleJacket)));
-	take(cast<Item>(Clothes::create(Stuff::Clothes::SimplePants)));
+	auto& clothes_classes = Resources::instance()->clothes();
+	for (const auto& clothes_class : clothes_classes) {
+		auto item = clothes_class->createInstance();
+		take(cast<Item>(std::move(item)));
+	}
 }
 
 void Character::update() {
@@ -302,7 +300,7 @@ const std::vector<const Item*> Character::selectItems(ItemClassType type) {
 const std::vector<const Item*> Character::selectEquippedItems(ItemClassType type) {
 	std::vector<const Item*> res;
 	for (auto& p : body()->parts) {
-		if (p->clothes() && type == ItemClassType::Clothes)
+		if (p->clothes() && type == ItemClassType::ClothesClass)
 			res.push_back(p->clothes());
 	}
 	return res;

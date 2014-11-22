@@ -1,26 +1,35 @@
+#include <QtCore/qjsondocument.h>
+#include <QtCore/qjsonarray.h>
+#include <QtCore/qjsonobject.h>
+#include <QtCore/qjsonvalue.h>
+#include <QtCore/qfile.h>
+#include <QtCore/qdebug.h>
 #include <iostream>
+#include "items.h"
 #include "string_ex.h"
 #include "resources.h"
 #include "global_field.h"
 #include "model_type.h"
 
 Resources::Resources() {
-	m_global_field_cell_ground.push_back(std::unique_ptr < QImage > {new QImage{ ":/images/grass.png" }});
-	m_global_field_cell_ground.push_back(std::unique_ptr < QImage > {new QImage{ ":/images/water.png" }});
-	m_global_field_cell_ground.push_back(std::unique_ptr < QImage > {new QImage{ ":/images/sand.png" }});
-	m_global_field_cell_ground.push_back(std::unique_ptr < QImage > {new QImage{ ":/images/dirt.png" }});
-	m_global_field_cell_ground.push_back(std::unique_ptr < QImage > {new QImage{ ":/images/forest.png" }});
-	m_global_field_cell_ground.push_back(std::unique_ptr < QImage > {new QImage{ ":/images/rocks.png" }});
-	m_squad_image.reset(new QImage{ ":/images/ranger.png" });
-	m_city_image.reset(new QImage{ ":/images/city.png" });
+	m_global_field_cell_ground.push_back(std::unique_ptr < QImage > {new QImage{ ":/grass.png" }});
+	m_global_field_cell_ground.push_back(std::unique_ptr < QImage > {new QImage{ ":/water.png" }});
+	m_global_field_cell_ground.push_back(std::unique_ptr < QImage > {new QImage{ ":/sand.png" }});
+	m_global_field_cell_ground.push_back(std::unique_ptr < QImage > {new QImage{ ":/dirt.png" }});
+	m_global_field_cell_ground.push_back(std::unique_ptr < QImage > {new QImage{ ":/forest.png" }});
+	m_global_field_cell_ground.push_back(std::unique_ptr < QImage > {new QImage{ ":/rocks.png" }});
+	m_squad_image.reset(new QImage{ ":/ranger.png" });
+	m_city_image.reset(new QImage{ ":/city.png" });
 
 	m_models.resize((int)ModelType::End);
-	m_models[(int)ModelType::City].reset(new QImage{ ":/images/city.png" });
-	m_models[(int)ModelType::Squad].reset(new QImage{ ":/images/ranger.png" });
-	m_models[(int)ModelType::Warrior].reset(new QImage{ ":/images/warrior.png" });
-	m_models[(int)ModelType::Worker].reset(new QImage{ ":/images/worker.png" });
-	m_models[(int)ModelType::SawMill].reset(new QImage{ ":/images/sawmill.png" });
-	m_models[(int)ModelType::Construction].reset(new QImage{ ":/images/construction.png" });
+	m_models[(int)ModelType::City].reset(new QImage{ ":/city.png" });
+	m_models[(int)ModelType::Squad].reset(new QImage{ ":/ranger.png" });
+	m_models[(int)ModelType::Warrior].reset(new QImage{ ":/warrior.png" });
+	m_models[(int)ModelType::Worker].reset(new QImage{ ":/worker.png" });
+	m_models[(int)ModelType::SawMill].reset(new QImage{ ":/sawmill.png" });
+	m_models[(int)ModelType::Construction].reset(new QImage{ ":/construction.png" });
+
+	readItems();
 }
 
 QImage* Resources::getImage(const SurfaceType& value) {
@@ -63,4 +72,37 @@ QImage* Resources::loadImage(const QString& value) {
 		return i;
 	}
 	return it->second.get();
+}
+
+void Resources::readItems() {
+	QFile file{ ":/item_classes.json" };
+	if (!file.open(QIODevice::ReadOnly)) {
+		qCritical() << "Can't read items classes";
+		return;
+	}
+
+	auto byte_array = file.readAll();
+
+	QJsonDocument doc = QJsonDocument::fromJson(byte_array);
+
+	auto o = doc.object();
+	auto v = o.value("Clothes");
+
+	for (auto& cloth : o["Clothes"].toArray()) {
+		auto c = cloth.toObject();
+		ClothesClassPtr current{ make_ptr(new ClothesClass{}) };		
+		current->setName(c["name"].toString());
+		current->setTargetBodyPart(fromString(c["target"].toString()));		
+		current->setDescription(c["description"].toString());			
+		current->setIcon(c["icon"].toString());			
+		current->setWeight(c["weight"].toDouble());
+		current->setTechnologyLevel(c["technology"].toInt());			
+		current->setWindProtection(c["wind_protection"].toDouble());			
+		current->setWaterResistance(c["water_resistance"].toDouble());			
+		current->setRadiationResistance(c["radiation_resistance"].toDouble());			
+		current->setHeatRadiationAbsorption(c["heat_absorption"].toDouble());
+		m_items_cache.push_back(current.get());
+		m_clothes_cache.push_back(current.get());
+		m_items.push_back(cast<ItemClass>(current));
+	}
 }

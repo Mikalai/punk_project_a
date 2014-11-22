@@ -156,7 +156,7 @@ public:
     {
         InventoryForm->setWindowTitle(QApplication::translate("InventoryForm", "Form", 0));
         m_tabs->setTabText(m_tabs->indexOf(m_equipped_tab), QApplication::translate("InventoryForm", "Equiped", 0));
-        m_tabs->setTabText(m_tabs->indexOf(m_clothes_tab), QApplication::translate("InventoryForm", "Clothes", 0));
+        m_tabs->setTabText(m_tabs->indexOf(m_clothes_tab), QApplication::translate("InventoryForm", "ClothesClass", 0));
         m_tabs->setTabText(m_tabs->indexOf(m_weapons_tab), QApplication::translate("InventoryForm", "Weapons", 0));
         m_close->setText(QApplication::translate("InventoryForm", "Close", 0));
     } // retranslateUi

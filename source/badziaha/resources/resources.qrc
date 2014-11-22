@@ -19,7 +19,7 @@
         <file>road.png</file>
         <file>sawmill.png</file>
         <file>construction.png</file>
-        <file>config.ini</file>
+        <file>item_classes.json</file>
         <file>clothes/simple_boots.png</file>
         <file>clothes/simple_gloves.png</file>
         <file>clothes/simple_helmet.png</file>

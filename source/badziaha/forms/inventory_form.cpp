@@ -1,3 +1,4 @@
+#include <QtCore/qdebug.h>
 #include <functional>
 #include <QtWidgets/qmenu.h>
 #include <QtWidgets/qitemdelegate.h>
@@ -77,7 +78,7 @@ public:
 			return QVariant{};
 
 		if (role == Qt::DecorationRole) {
-			auto icon = QIcon{ QPixmap::fromImage(*item->icon()) };
+			auto icon = QIcon{ QPixmap::fromImage(item->icon()) };
 			return QVariant{ icon };
 		}
 		else if (role == Qt::SizeHintRole) {
@@ -144,15 +145,7 @@ public:
 		else 
 			return Qt::ItemFlag::ItemIsDragEnabled | Qt::ItemIsDropEnabled ;
 	}
-
-
-	/*const Clothes* clothes(QModelIndex index) const {
-		int i = plainIndex(index);
-		if (i >= m_cache.size())
-			return nullptr;
-		return (Clothes*)m_cache[i];
-	}*/
-
+	
 	void update() {
 		for (int i = 0; i < enum_size<ItemClassType>::Value; ++i) {
 			int old_row_count = rowCount(Tab[i]);
@@ -168,18 +161,30 @@ public:
 				removeRows(new_row_count, old_row_count - new_row_count, Tab[i]);
 				endRemoveRows();
 			}
-			dataChanged(index(0, 0), index(std::max(new_row_count, old_row_count) - 1, columnCount(), Tab[i])); 
-		}
+			if (new_row_count != 0 || old_row_count != 0) {				
+				emit dataChanged(index(0, 0), index(std::max(new_row_count, old_row_count) - 1, columnCount() - 1, Tab[i]));
+			}
+		}		
 	}
 
 	const Item* item(QModelIndex index) {
-		if (index.parent().isValid()) {
-			return (const Item*)index.internalPointer();
+		auto p = index.parent();
+		if (p.isValid()) {
+			auto class_type_index = p.internalId();
+			auto item_index = plainIndex(index);
+			if (item_index >= m_items[class_type_index].size())
+				return nullptr;
+			return m_items[class_type_index][item_index];
 		}
 		return nullptr;
 	}
 
 private:
+
+	int plainIndex(QModelIndex index) {
+		auto r = index.row() * columnCount() + index.column();
+		return r;
+	}
 	
 	const Item* getItem(int row, int column, ItemClassType type) const {
 		int type_index = enum_index(type);
@@ -230,7 +235,7 @@ public:
 		int i = plainIndex(index);
 		if (role == Qt::DecorationRole) {
 			if (i < m_cache.size()) {
-				auto icon = QIcon{ QPixmap::fromImage(*m_cache[i]->icon()) };
+				auto icon = QIcon{ QPixmap::fromImage(m_cache[i]->icon()) };
 				return QVariant{ icon };
 			}
 		}
@@ -263,7 +268,7 @@ public:
 		int i = plainIndex(index);
 		if (i >= m_cache.size())
 			return nullptr;
-		return (Clothes*)m_cache[i];
+		return (const Clothes*)m_cache[i];
 	}
 
 	void update() {
@@ -323,9 +328,9 @@ void InventoryForm::toggle(Character* value) {
 }
 
 void InventoryForm::updateUi() {
-	auto clothes = m_character->selectItems(ItemClassType::Clothes);
+	auto clothes = m_character->selectItems(ItemClassType::ClothesClass);
 	ui->m_clothes_view->setModel(m_inventory = new InventoryModel{ [](Character* chr) {
-		return chr->selectItems(ItemClassType::Clothes);
+		return chr->selectItems(ItemClassType::ClothesClass);
 	}, m_character, this });
 	ui->m_equipped_view->setModel(m_equipped = new InventoryTreeModel{ m_character, this });
 }
@@ -358,12 +363,12 @@ void InventoryForm::customMenuRequested(QPoint point) {
 	m_inventory->dataChanged(m_inventory->index(0, 0), m_inventory->index(m_inventory->rowCount() - 1, m_inventory->columnCount() - 1));
 }
 
-void InventoryForm::equippedCustomMenuRequested(QPoint point) {
-	qDebug(__FUNCTION__);
-
+void InventoryForm::equippedCustomMenuRequested(QPoint point) {	
 	auto item = m_equipped->item(ui->m_equipped_view->currentIndex());
 	if (!item)
 		return;
+
+	qDebug() << "Selected" << item->name();
 
 	QMenu menu{ this };
 	menu.addAction("Put off")->setData(0);
@@ -372,10 +377,11 @@ void InventoryForm::equippedCustomMenuRequested(QPoint point) {
 	auto action = menu.exec(ui->m_equipped_view->mapToGlobal(point));
 	if (action) {
 		if (action->data().toInt() == 0) {
-			if (item->classType() == ItemClassType::Clothes) {
+			if (item->classType() == ItemClassType::ClothesClass) {
 				m_character->putOff((Clothes*)item);
 				m_equipped->update();
 				m_inventory->update();
+				ui->m_equipped_view->clearSelection();
 			}
 		}
 		if (action->data().toInt() == 1)

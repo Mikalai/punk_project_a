@@ -49,8 +49,6 @@ class Clothes;
 class BodyPart;
 
 extern void delete_part(BodyPart* value);
-extern void delete_clothes(Clothes* value);
-extern void delete_item(Item* value);
 
 class BodyPart {
 public:

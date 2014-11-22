@@ -12,20 +12,21 @@
 #include "weather.h"
 #include "items.h"
 #include "known_stuff.h"
+#include "resources.h"
 
 struct Data {
-	std::vector<ClothesPtr> clothes;
+	std::vector<ClothesClassPtr> clothes;
 };
 
 Data all_items;
 
 void processClothes(QStringList* data) {
-	ClothesPtr current{ make_ptr(new Clothes{}) };
+	ClothesClassPtr current{ make_ptr(new ClothesClass{}) };
 	while (!data->empty()) {
 		auto s = data->front().trimmed();
 		data->pop_front();
 		if (s == "{") {
-			current.reset(new Clothes{});
+			current.reset(new ClothesClass{});
 		}
 		else if (s == "}") {
 			break;
@@ -82,8 +83,8 @@ void processClothes(QStringList* data) {
 int main(int argc, char** argv) {
 	QApplication app(argc, argv);
 	Temperature::instance();
-	createStuff();
-	QFile file{ ":/config.ini" };
+	Resources::instance();
+	/*QFile file{ ":/config.ini" };
 	QTextStream stream{ &file };
 	if (file.open(QIODevice::ReadOnly)) {
 		auto data = stream.readAll().split("\n");
@@ -91,10 +92,10 @@ int main(int argc, char** argv) {
 			auto v = data.front().trimmed();
 			data.pop_front();
 			auto type = ItemClassTypeFromString(v);
-			if (type == ItemClassType::Clothes)
+			if (type == ItemClassType::ClothesClass)
 				processClothes(&data);
 		}
-	}
+	}*/
 	MainWindow w;
 	w.show();
 	return app.exec();

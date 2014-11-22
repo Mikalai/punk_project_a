@@ -1,0 +1,91 @@
+{
+    "Clothes" : [
+        {
+            "name" : "Simple left boot",
+            "description": "Simple boot that can be used in any season on the left leg",
+            "icon" : ":/clothes/simple_boots.png",
+            "weight" : 1.0,
+            "technology" : 10,
+            "wind_protection" : 0.9,
+            "water_resistance" : 0.8,
+            "radiation_resistance" : 0.1,
+            "heat_absorption" : 0.8,
+            "target" : "LeftFoot"
+        },
+        {
+            "name" : "Simple right boot",
+            "description" : "Simple boot that can be used in any season on the right leg",
+            "icon" : ":/clothes/simple_boots.png",
+            "weight" : 1.0,
+            "technology" : 10,
+            "wind_protection" : 0.9,
+            "water_resistance" : 0.8,
+            "radiation_resistance" : 0.1,
+            "heat_absorption" : 0.8,
+            "target" : "RightFoot"
+        },
+        {
+            "name" : "Simple helmet",
+            "description" : "Simple helmet that can stop a bullet from an old musket. Nothing more.",
+            "icon" : ":/clothes/simple_helmet.png",
+            "weight" : 1.0,
+            "technology" : 5,
+            "wind_protection" : 0.3,
+            "water_resistance" : 1.0,
+            "radiation_resistance" : 0.0,
+            "heat_absorption" : 0.0,
+            "target" : "Head"
+        },
+        {
+            "name" : "Simple left glove",
+            "description" : "Simple glove that can protect you from cold on the left arm",
+            "icon" : ":/clothes/simple_gloves.png",
+            "weight" : 0.2,
+            "technology" : 10,
+            "wind_protection" : 0.3,
+            "water_resistance" : 0.3,
+            "radiation_resistance" : 0.1,
+            "heat_absorption" : 0.7,
+            "target" : "LeftPalm"
+        },
+        {
+            "name" : "Simple right glove",
+            "description" : "Simple glove that can protect you from cold on the right arm",
+            "icon" : ":/clothes/simple_gloves.png",
+            "weight" : 0.2,
+            "technology" : 10,
+            "wind_protection" : 0.3,
+            "water_resistance" : 0.3,
+            "radiation_resistance" : 0.1,
+            "heat_absorption" : 0.7,
+            "target" : "RightPalm"
+        },
+        {
+            "name" : "Simple jacket",
+            "description" : "This jacket will be able to save your life in winter",
+            "icon" : ":/clothes/simple_jacket.png",
+            "weight" : 2.5,
+            "technology" : 10,
+            "wind_protection" : 0.7,
+            "water_resistance" : 0.1,
+            "radiation_resistance" : 0.1,
+            "heat_absorption" : 0.7,
+            "target" : "Chest"
+        },
+        {
+            "name" : "Simple pants",
+            "description" : "Nice pants. Better than nothing.",
+            "icon" : ":/clothes/simple_pants.png",
+            "weight" : 0.9,
+            "technology" : 10,
+            "wind_protection" : 0.5,
+            "water_resistance" : 0.1,
+            "radiation_resistance" : 0.1,
+            "heat_absorption" : 0.4,
+            "target" : "Pelvis"
+        }
+    ],
+    "Weapon" : [
+        {
+    ]
+}

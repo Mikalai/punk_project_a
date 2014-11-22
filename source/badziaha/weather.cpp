@@ -1,3 +1,4 @@
+#include <qtcore/qdebug.h>
 #include <iostream>
 #include <math.h>
 #include <cstdint>
@@ -51,7 +52,7 @@ WindDirection wind_dir(QString s) {
 	if (value == L"Штиль")
 		return WindDirection::Calm;
 	
-	qDebug("Unkown wind direction. Use calm by default");
+	//qDebug() << "Unkown wind direction" << s << ". Use calm by default";
 	return WindDirection::Calm;
 }
 
@@ -84,7 +85,7 @@ WeatherPhenomen weather_phenomen(QString s) {
 	if (s == "HL")
 		return WeatherPhenomen::Hail;
 
-	qDebug("Unknown weather phenomen. Use clear by default");
+	//qDebug() << "Unknown weather phenomen" << s << ". Use clear by default";
 	return WeatherPhenomen::Clear;
 
 }
@@ -98,7 +99,7 @@ void Temperature::load() {
 			filename += "0";
 		} 
 		filename += QString::number(i + 1) + ".csv";
-		std::wcout << toWString(filename) << std::endl;
+		//std::wcout << toWString(filename) << std::endl;
 		QFile file{ filename };
 		QTextStream stream{ &file };
 		if (file.open(QIODevice::ReadOnly)) {

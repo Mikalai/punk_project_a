@@ -133,7 +133,7 @@
        </widget>
        <widget class="QWidget" name="m_clothes_tab">
         <attribute name="title">
-         <string>Clothes</string>
+         <string>ClothesClass</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <property name="spacing">
