@@ -18,6 +18,8 @@ public:
 
 	using ItemClasses = std::vector < const ItemClass* > ;
 	using ClothesClasses = std::vector < const ClothesClass* > ;
+	using AmmoClasses = std::vector < const AmmoClass* > ;
+	using WeaponClasses = std::vector < const WeaponClass* > ;
 	Resources();
 
 	QImage* getImage(const SurfaceType& value);
@@ -31,7 +33,8 @@ public:
 
 	const ItemClasses& items() const { return m_items_cache; }
 	const ClothesClasses& clothes() const { return m_clothes_cache; }
-
+	const AmmoClasses& ammos() const { return m_ammo_cache; }
+	const WeaponClasses weapons() const { return m_weapon_cache; }
 private:
 	void readItems();
 
@@ -45,6 +48,8 @@ private:
 	std::vector<ItemClassPtr> m_items;
 	ItemClasses m_items_cache;
 	ClothesClasses m_clothes_cache;
+	AmmoClasses m_ammo_cache;
+	WeaponClasses m_weapon_cache;
 };
 
 #endif	//	_H_RESOURCES

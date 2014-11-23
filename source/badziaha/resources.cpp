@@ -85,24 +85,60 @@ void Resources::readItems() {
 
 	QJsonDocument doc = QJsonDocument::fromJson(byte_array);
 
-	auto o = doc.object();
-	auto v = o.value("Clothes");
+	auto o = doc.object();	
 
 	for (auto& cloth : o["Clothes"].toArray()) {
 		auto c = cloth.toObject();
 		ClothesClassPtr current{ make_ptr(new ClothesClass{}) };		
 		current->setName(c["name"].toString());
-		current->setTargetBodyPart(fromString(c["target"].toString()));		
-		current->setDescription(c["description"].toString());			
-		current->setIcon(c["icon"].toString());			
+		current->setDescription(c["description"].toString());
+		current->setIcon(c["icon"].toString());
 		current->setWeight(c["weight"].toDouble());
-		current->setTechnologyLevel(c["technology"].toInt());			
+		current->setTechnologyLevel(c["technology"].toInt());
+		current->setTargetBodyPart(fromString(c["target"].toString()));									
 		current->setWindProtection(c["wind_protection"].toDouble());			
 		current->setWaterResistance(c["water_resistance"].toDouble());			
 		current->setRadiationResistance(c["radiation_resistance"].toDouble());			
 		current->setHeatRadiationAbsorption(c["heat_absorption"].toDouble());
 		m_items_cache.push_back(current.get());
 		m_clothes_cache.push_back(current.get());
+		m_items.push_back(cast<ItemClass>(current));
+	}
+
+	for (auto& ammo : o["Ammo"].toArray()) {
+		auto a = ammo.toObject();
+		AmmoClassPtr current{ make_ptr(new AmmoClass{}) };
+		current->setName(a["name"].toString());
+		current->setDescription(a["description"].toString());
+		current->setIcon(a["icon"].toString());
+		current->setWeight(a["weight"].toDouble());
+		current->setTechnologyLevel(a["technology"].toInt());
+		current->setCaliber(a["caliber"].toDouble());
+		current->setCartridge(a["cartridge"].toString());
+		current->setEnergy(a["energy"].toDouble());
+		current->setSpeed(a["speed"].toDouble());
+		current->setManufacture(a["manufacture"].toString());
+		m_items_cache.push_back(current.get());
+		m_ammo_cache.push_back(current.get());
+		m_items.push_back(cast<ItemClass>(current));
+	}
+
+	for (auto& weapon : o["Weapon"].toArray()) {
+		auto w = weapon.toObject();
+		WeaponClassPtr current{ make_ptr(new WeaponClass{}) };
+		current->setName(w["name"].toString());
+		current->setDescription(w["description"].toString());
+		current->setIcon(w["icon"].toString());
+		current->setWeight(w["weight"].toDouble());
+		current->setTechnologyLevel(w["technology"].toInt());
+		current->setCartridge(w["cartridge"].toString());
+		current->setWidth(w["width"].toDouble());
+		current->setHeight(w["height"].toDouble());
+		current->setBarrelLength(w["barrel_length"].toDouble());
+		current->setRange(w["range"].toDouble());
+		current->setRounds(w["rounds"].toInt());
+		m_items_cache.push_back(current.get());
+		m_weapon_cache.push_back(current.get());
 		m_items.push_back(cast<ItemClass>(current));
 	}
 }

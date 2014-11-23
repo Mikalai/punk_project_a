@@ -85,7 +85,34 @@
             "target" : "Pelvis"
         }
     ],
+    "Ammo" : [
+        {
+            "name" : "JHP+P",
+            "description" : "CORBON's Traditional Jacketed Hollow Point ammunition made its reputation with \"high velocity\" loads. This high velocity, combined with our exclusively designed, jacketed hollow point bullets, makes for a very effective self-defensive load. Penetration and expansion in our test medium of 10% ballistic gelatin are excellent; expansion is consistently 2 times the original diameter of the bullet. Depending on caliber and bullet weight, penetration is between 9 and 14 inches.",
+            "icon" : ":/ammo/9×19mm_Parabellum_Cor-Bon_JHP+P.png",
+            "weight" : 0.0075,
+            "cartridge" : "9×19mm Parabellum",
+            "caliber" : 9,
+            "manufacture" : "Cor-Bon",
+            "speed" : 410,
+            "energy" : 630
+        }
+
+    ],
     "Weapon" : [
         {
+            "name" : "Vector SP1",
+            "description" : "The Vektor SP1 is an improved 9mm version of the Z-88 pistol (which is a locally produced copy of Beretta 92F), produced since 1992 by Denel Land Systems (DLS), formerly Lyttleton Engineering Works (LIW).",
+            "icon" : ":/weapons/vektor_sp1.png",
+            "technology" : 1,
+            "weight" : 0.995,
+            "length" : 0.021,
+            "barrel_length" : 0.0118,
+            "width" : 0.0045,
+            "height" : 0.0145,
+            "cartridge" : "9×19mm Parabellum",            
+            "range" : 50,
+            "rounds" : 15
+        }
     ]
 }

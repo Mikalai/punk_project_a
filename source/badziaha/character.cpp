@@ -36,6 +36,18 @@ Character::Character(GlobalField* field, QObject* parent)
 		auto item = clothes_class->createInstance();
 		take(cast<Item>(std::move(item)));
 	}
+	auto& ammo_classes = Resources::instance()->ammos();
+	for (const auto& ammo_class : ammo_classes) {
+		auto item = ammo_class->createInstance();
+		item->setCount(10);
+		take(cast<Item>(std::move(item)));
+	}
+	auto& weapon_classes = Resources::instance()->weapons();
+	for (auto& weapon_class : weapon_classes) {
+		auto item = weapon_class->createInstance();
+		item->setCount(2);
+		take(cast<Item>(std::move(item)));
+	}
 }
 
 void Character::update() {
@@ -283,6 +295,7 @@ WeatherStamp* Character::weather() const {
 }
 
 bool Character::take(ItemPtr value) {
+	qDebug() << QString::number(value->quantity()) << "of" << value->name() << "has been taken by" << name();
 	m_items.push_back(std::move(value));
 	return true;
 }

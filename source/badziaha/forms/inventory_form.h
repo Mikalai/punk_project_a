@@ -32,7 +32,7 @@ private:
 private:
     Ui::InventoryForm *ui;
 	Character* m_character{ nullptr };
-	InventoryModel* m_inventory{ nullptr };
+	InventoryTreeModel* m_inventory{ nullptr };
 	InventoryTreeModel* m_equipped{ nullptr };
 };
 

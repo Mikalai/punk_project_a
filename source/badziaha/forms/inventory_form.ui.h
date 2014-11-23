@@ -18,7 +18,6 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QTabWidget>
-#include <QtWidgets/QTableView>
 #include <QtWidgets/QTreeView>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -36,8 +35,7 @@ public:
     QTreeView *m_equipped_view;
     QWidget *m_clothes_tab;
     QVBoxLayout *verticalLayout_2;
-    QTableView *m_clothes_view;
-    QWidget *m_weapons_tab;
+    QTreeView *m_clothes_view;
     QHBoxLayout *horizontalLayout;
     QSpacerItem *horizontalSpacer;
     QPushButton *m_close;
@@ -80,7 +78,7 @@ public:
         m_equipped_view->setIndentation(0);
         m_equipped_view->setRootIsDecorated(false);
         m_equipped_view->setItemsExpandable(false);
-        m_equipped_view->setAllColumnsShowFocus(true);
+        m_equipped_view->setAllColumnsShowFocus(false);
         m_equipped_view->header()->setVisible(false);
         m_equipped_view->header()->setDefaultSectionSize(64);
         m_equipped_view->header()->setMinimumSectionSize(64);
@@ -95,7 +93,7 @@ public:
         verticalLayout_2->setSpacing(0);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
-        m_clothes_view = new QTableView(m_clothes_tab);
+        m_clothes_view = new QTreeView(m_clothes_tab);
         m_clothes_view->setObjectName(QStringLiteral("m_clothes_view"));
         m_clothes_view->setContextMenuPolicy(Qt::CustomContextMenu);
         m_clothes_view->setAcceptDrops(true);
@@ -103,22 +101,20 @@ public:
         m_clothes_view->setDragEnabled(true);
         m_clothes_view->setDragDropMode(QAbstractItemView::DragDrop);
         m_clothes_view->setDefaultDropAction(Qt::MoveAction);
+        m_clothes_view->setSelectionBehavior(QAbstractItemView::SelectItems);
         m_clothes_view->setIconSize(QSize(64, 64));
-        m_clothes_view->horizontalHeader()->setVisible(false);
-        m_clothes_view->horizontalHeader()->setDefaultSectionSize(64);
-        m_clothes_view->horizontalHeader()->setHighlightSections(false);
-        m_clothes_view->horizontalHeader()->setMinimumSectionSize(64);
-        m_clothes_view->verticalHeader()->setVisible(false);
-        m_clothes_view->verticalHeader()->setDefaultSectionSize(64);
-        m_clothes_view->verticalHeader()->setHighlightSections(false);
-        m_clothes_view->verticalHeader()->setMinimumSectionSize(64);
+        m_clothes_view->setIndentation(0);
+        m_clothes_view->setRootIsDecorated(false);
+        m_clothes_view->setUniformRowHeights(false);
+        m_clothes_view->setItemsExpandable(false);
+        m_clothes_view->header()->setVisible(false);
+        m_clothes_view->header()->setDefaultSectionSize(64);
+        m_clothes_view->header()->setMinimumSectionSize(64);
+        m_clothes_view->header()->setStretchLastSection(false);
 
         verticalLayout_2->addWidget(m_clothes_view);
 
         m_tabs->addTab(m_clothes_tab, QString());
-        m_weapons_tab = new QWidget();
-        m_weapons_tab->setObjectName(QStringLiteral("m_weapons_tab"));
-        m_tabs->addTab(m_weapons_tab, QString());
 
         verticalLayout->addWidget(m_tabs);
 
@@ -142,11 +138,10 @@ public:
 
         retranslateUi(InventoryForm);
         QObject::connect(m_close, SIGNAL(clicked()), InventoryForm, SLOT(hide()));
-        QObject::connect(m_clothes_view, SIGNAL(clicked(QModelIndex)), InventoryForm, SLOT(clothesClicked(QModelIndex)));
-        QObject::connect(m_clothes_view, SIGNAL(customContextMenuRequested(QPoint)), InventoryForm, SLOT(customMenuRequested(QPoint)));
         QObject::connect(m_equipped_view, SIGNAL(customContextMenuRequested(QPoint)), InventoryForm, SLOT(equippedCustomMenuRequested(QPoint)));
+        QObject::connect(m_clothes_view, SIGNAL(customContextMenuRequested(QPoint)), InventoryForm, SLOT(customMenuRequested(QPoint)));
 
-        m_tabs->setCurrentIndex(0);
+        m_tabs->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(InventoryForm);
@@ -156,8 +151,7 @@ public:
     {
         InventoryForm->setWindowTitle(QApplication::translate("InventoryForm", "Form", 0));
         m_tabs->setTabText(m_tabs->indexOf(m_equipped_tab), QApplication::translate("InventoryForm", "Equiped", 0));
-        m_tabs->setTabText(m_tabs->indexOf(m_clothes_tab), QApplication::translate("InventoryForm", "ClothesClass", 0));
-        m_tabs->setTabText(m_tabs->indexOf(m_weapons_tab), QApplication::translate("InventoryForm", "Weapons", 0));
+        m_tabs->setTabText(m_tabs->indexOf(m_clothes_tab), QApplication::translate("InventoryForm", "Inventory", 0));
         m_close->setText(QApplication::translate("InventoryForm", "Close", 0));
     } // retranslateUi
 

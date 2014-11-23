@@ -9,7 +9,7 @@ const QString asString(ItemClassType value) {
 	case ItemClassType::Bottle:
 		return "Bottle";
 	case ItemClassType::ClothesClass:
-		return "ClothesClass";
+		return "Clothes";
 	case ItemClassType::Weapon:
 		return "Weapon";
 	case ItemClassType::Bag:
@@ -24,7 +24,7 @@ const QString asString(ItemClassType value) {
 }
 
 ItemClassType ItemClassTypeFromString(const QString& value) {
-	if (value == "ClothesClass")
+	if (value == "Clothes")
 		return ItemClassType::ClothesClass;
 	if (value == "Trash")
 		return ItemClassType::Trash;

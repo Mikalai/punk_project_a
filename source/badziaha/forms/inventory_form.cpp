@@ -1,4 +1,5 @@
 #include <QtCore/qdebug.h>
+#include <QtGui/qpainter.h>
 #include <functional>
 #include <QtWidgets/qmenu.h>
 #include <QtWidgets/qitemdelegate.h>
@@ -25,12 +26,13 @@ public:
 
 class InventoryTreeModel : public QAbstractItemModel  {
 public:
-	InventoryTreeModel(Character* character, QObject* parent = nullptr)
+	InventoryTreeModel(Character* character, std::function<std::vector<const Item*>(Character*, ItemClassType)> getter, QObject* parent = nullptr)
 		: QAbstractItemModel{ parent }
 		, m_character{ character }
+		, m_getter{ getter }
 	{
 		for (int i = 0; i < enum_size<ItemClassType>::Value; ++i) {
-			m_items[i] = m_character->selectEquippedItems(enum_value<ItemClassType>(i));
+			m_items[i] = m_getter(m_character, enum_value<ItemClassType>(i));
 			Tab[i] = createIndex(i, 0, (quintptr)i);
 		}
 	}
@@ -73,13 +75,35 @@ public:
 			return QVariant{};
 		}
 
-		auto item = (Item*)index.internalPointer();
+		auto item = getItem(index);
 		if (!item)
 			return QVariant{};
 
 		if (role == Qt::DecorationRole) {
-			auto icon = QIcon{ QPixmap::fromImage(item->icon()) };
-			return QVariant{ icon };
+			auto image = item->icon();
+			auto pixmap = QPixmap::fromImage(image);
+			pixmap = pixmap.scaled(64, 64);
+			if (item->quantity() != 1) {
+				QPainter painter;
+				painter.begin(&pixmap);
+				auto brush = painter.brush();
+				brush.setColor(QColor{ 255, 255, 255 });
+				brush.setStyle(Qt::BrushStyle::SolidPattern);
+				painter.setBrush(brush);
+
+				auto font = painter.font();
+				font.setBold(true);
+				font.setPixelSize(14);
+				painter.setFont(font);
+
+				auto s = QString::number(item->quantity());
+				auto l = s.length();
+				painter.drawRect(64 - l * 14 - 2, 48, l * 14 + 2, 16);
+				painter.drawText(64 - l * 14, 60, s);
+				painter.end();
+			}
+			auto icon = QIcon{ pixmap };
+			return icon;
 		}
 		else if (role == Qt::SizeHintRole) {
 			return QSize{ 64, 64 };
@@ -149,7 +173,7 @@ public:
 	void update() {
 		for (int i = 0; i < enum_size<ItemClassType>::Value; ++i) {
 			int old_row_count = rowCount(Tab[i]);
-			m_items[i] = m_character->selectEquippedItems(enum_value<ItemClassType>(i));
+			m_items[i] = m_getter(m_character, enum_value<ItemClassType>(i));
 			int new_row_count = rowCount(Tab[i]);
 			if (old_row_count < new_row_count) {
 				beginInsertRows(Tab[i], old_row_count, new_row_count - 1);
@@ -167,7 +191,7 @@ public:
 		}		
 	}
 
-	const Item* item(QModelIndex index) {
+	const Item* getItem(QModelIndex index) const {
 		auto p = index.parent();
 		if (p.isValid()) {
 			auto class_type_index = p.internalId();
@@ -203,6 +227,7 @@ private:
 	Character* m_character{ nullptr };
 	std::array<std::vector<const Item*>, enum_size<ItemClassType>::Value> m_items;
 	std::array<QModelIndex, enum_size<ItemClassType>::Value> Tab;
+	std::function<std::vector<const Item*>(Character*, ItemClassType)> m_getter;
 };
 
 
@@ -233,11 +258,34 @@ public:
 
 	QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override {
 		int i = plainIndex(index);
+		if (i >= (int)m_cache.size())
+			return QVariant{};
+		auto item = m_cache[i];
 		if (role == Qt::DecorationRole) {
-			if (i < m_cache.size()) {
-				auto icon = QIcon{ QPixmap::fromImage(m_cache[i]->icon()) };
-				return QVariant{ icon };
+			auto image = m_cache[i]->icon();
+			auto pixmap = QPixmap::fromImage(image);
+			pixmap = pixmap.scaled(64, 64);
+			if (item->quantity() != 1) {
+				QPainter painter;
+				painter.begin(&pixmap);
+				auto brush = painter.brush();
+				brush.setColor(QColor{ 255, 255, 255 });
+				brush.setStyle(Qt::BrushStyle::SolidPattern);
+				painter.setBrush(brush);
+
+				auto font = painter.font();
+				font.setBold(true);
+				font.setPixelSize(14);
+				painter.setFont(font);
+
+				auto s = QString::number(item->quantity());
+				auto l = s.length();
+				painter.drawRect(64 - l * 14 - 2, 48, l * 14 + 2, 16);
+				painter.drawText(64 - l * 14, 60, s);
+				painter.end();
 			}
+			auto icon = QIcon{ pixmap };
+			return icon;
 		}
 		else if (role == Qt::SizeHintRole) {
 			return QSize{ 64, 64 };
@@ -245,7 +293,7 @@ public:
 		else if (role == Qt::ToolTipRole) {
 			return m_cache[i]->ToString();
 		}
-		return QVariant{}; 
+		return QVariant{};
 	}
 
 	Qt::DropActions supportedDragActions() const override {
@@ -329,10 +377,14 @@ void InventoryForm::toggle(Character* value) {
 
 void InventoryForm::updateUi() {
 	auto clothes = m_character->selectItems(ItemClassType::ClothesClass);
-	ui->m_clothes_view->setModel(m_inventory = new InventoryModel{ [](Character* chr) {
-		return chr->selectItems(ItemClassType::ClothesClass);
-	}, m_character, this });
-	ui->m_equipped_view->setModel(m_equipped = new InventoryTreeModel{ m_character, this });
+	ui->m_clothes_view->setModel(m_inventory = new InventoryTreeModel{ m_character, [](Character* chr, ItemClassType type) {
+		return chr->selectItems(type);
+	}, this });
+	ui->m_equipped_view->setModel(m_equipped = new InventoryTreeModel{ m_character, [](Character* chr, ItemClassType type) {
+		return chr->selectEquippedItems(type);
+	}, this });
+	ui->m_equipped_view->expandAll();
+	ui->m_clothes_view->expandAll();
 }
 
 void InventoryForm::clothesClicked(QModelIndex index) {
@@ -341,9 +393,13 @@ void InventoryForm::clothesClicked(QModelIndex index) {
 }
 
 void InventoryForm::customMenuRequested(QPoint point) {
-	auto clothes = m_inventory->clothes(ui->m_clothes_view->currentIndex());
-	if (!clothes)
+	auto item = m_inventory->getItem(ui->m_clothes_view->currentIndex());
+	if (!item)
 		return;
+
+	const Clothes* clothes = nullptr;
+	if (item->classType() == ItemClassType::ClothesClass)
+		clothes = static_cast<const Clothes*>(item);
 
 	QMenu menu{ this };
 	menu.addAction("Put on")->setData(0);
@@ -356,6 +412,7 @@ void InventoryForm::customMenuRequested(QPoint point) {
 			m_inventory->update();
 			m_equipped->update();
 			ui->m_equipped_view->expandAll();
+			ui->m_clothes_view->expandAll();
 		}
 		if (action->data().toInt() == 1)
 			qDebug("Drop");
@@ -364,7 +421,7 @@ void InventoryForm::customMenuRequested(QPoint point) {
 }
 
 void InventoryForm::equippedCustomMenuRequested(QPoint point) {	
-	auto item = m_equipped->item(ui->m_equipped_view->currentIndex());
+	auto item = m_equipped->getItem(ui->m_equipped_view->currentIndex());
 	if (!item)
 		return;
 
@@ -381,7 +438,8 @@ void InventoryForm::equippedCustomMenuRequested(QPoint point) {
 				m_character->putOff((Clothes*)item);
 				m_equipped->update();
 				m_inventory->update();
-				ui->m_equipped_view->clearSelection();
+				ui->m_equipped_view->expandAll();
+				ui->m_clothes_view->expandAll();
 			}
 		}
 		if (action->data().toInt() == 1)

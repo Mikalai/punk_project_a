@@ -3,6 +3,7 @@
 
 #include <QtCore/qstring.h>
 #include <QtGui/qimage.h>
+#include <set>
 #include <memory>
 #include "body_part_type.h"
 #include "spatial.h"
@@ -104,14 +105,79 @@ private:
 	float m_heat_radiation_absorption{ 0.1f };
 };
 
+class AmmoClass : public ItemClass {
+public:
+	AmmoClass()
+		: ItemClass{ ItemClassType::Ammo }
+	{}
+
+	const QString manufacture() const { return m_manufacture; }	
+	const QString cartridge() const { return m_cartdridge; }	
+	float caliber() const { return m_caliber; }	
+	float speed() const { return m_speed; }	
+	float energy() const { return m_energy; }
+
+	void setManufacture(const QString value) { m_manufacture = value; }
+	void setCartridge(const QString value) { m_cartdridge = value; }
+	void setCaliber(float value) { m_caliber = value; }
+	void setSpeed(float value) { m_speed = value; }
+	void setEnergy(float value) { m_energy = value; }
+
+	const QString ToString() const override;
+	AmmoPtr createInstance() const;
+
+private:
+	QString m_manufacture;
+	QString m_cartdridge;
+	float m_caliber;
+	float m_speed;
+	float m_energy;
+};
+
+class WeaponClass : public ItemClass {
+public:
+	WeaponClass()
+		: ItemClass{ ItemClassType::Weapon }
+	{}
+
+	float length() const { return m_length; }
+	float barrelLength() const { return m_barrel_length; }
+	float width() const { return m_width; }
+	float height() const { return m_height; }
+	const QString cartridge() const { return m_cartridge; }
+	float range() const { return m_range; }
+	int rounds() const { return m_rounds; }
+
+	void setLength(float value) { m_length = value; }
+	void setBarrelLength(float value) { m_barrel_length = value; }
+	void setWidth(float value) { m_width = value; }
+	void setHeight(float value) { m_height = value; }
+	void setCartridge(const QString value) { m_cartridge = value; }
+	void setRange(float value) { m_range = value; }
+	void setRounds(int value) { m_rounds = value; }
+
+	const QString ToString() const override;
+	WeaponPtr createInstance() const;
+
+private:
+	float m_length{ 0 };
+	float m_barrel_length{ 0 };
+	float m_width{ 0 };
+	float m_height{ 0 };
+	QString m_cartridge;
+	float m_range{ 0 };
+	int m_rounds{ 1 };
+};
+
 class Item {
 public:
 	Item(const ItemClass* item_class)
 		: m_class{ item_class }
 	{}
 
-	Item(const Item&) = delete;
+	Item(const Item& value);	
 	Item& operator = (const Item&) = delete;
+
 	QString name() const { return itemClass()->name(); }
 	QString description() const { return itemClass()->description(); }
 	QImage icon() const { return itemClass()->icon(); }
@@ -119,11 +185,53 @@ public:
 	float weight() const { return itemClass()->weight(); }
 	float technologyLevel() const { return itemClass()->technologyLevel(); }
 	ItemClassType classType() const { return itemClass()->classType(); }
-	virtual const QString ToString() const { return itemClass()->ToString(); }
+		
+	ItemPtr split(int count);
+	void merge(ItemPtr& item);
+	int quantity() const { return m_count; }
+	virtual ItemPtr clone() const;
+	void setCount(int value);
+
+	virtual const QString ToString() const;
+	virtual bool isEqual(const Item* value) const;
+
 protected:
-	virtual const ItemClass* itemClass() const { return m_class; }
+	virtual const ItemClass* itemClass() const { return m_class; }	
 private:
 	const ItemClass* m_class{ nullptr };
+	//	count is not clonable
+	int m_count{ 1 };
+};
+
+class ClothesModification {
+
+};
+
+inline bool operator == (const ClothesModification& l, const ClothesModification& r) {
+	return false;
+}
+
+class Ammo : public Item {
+public:
+	Ammo(const AmmoClass* ammo_class)
+		: Item{ ammo_class }
+	{}
+
+
+	const QString manufacture() const { return itemClass()->manufacture(); }
+	const QString cartridge() const { return itemClass()->cartridge(); }
+	float caliber() const { return itemClass()->caliber(); }
+	float speed() const { return itemClass()->speed(); }
+	float energy() const { return itemClass()->energy(); }
+	bool isEqual(const Item* value) const override;
+	ItemPtr clone() const override;
+
+	const QString ToString() const override;
+
+protected:
+	const AmmoClass* itemClass() const override { return static_cast<const AmmoClass*>(Item::itemClass()); }
+private:
+
 };
 
 class Clothes : public Item {
@@ -132,13 +240,57 @@ public:
 		: Item{ clothes_class }
 	{}
 
+	Clothes(const Clothes& value); 
+
 	BodyPartType targetBodyPart() const { return itemClass()->targetBodyPart(); }
 	float windProtection() const { return itemClass()->windProtection(); }
 	float waterResistance() const { return itemClass()->waterResistance(); }
 	float radiationResistance() const { return itemClass()->radiationResistance(); }
 	float heatRadiationAbsorption() const { return itemClass()->heatRadiationAbsorption(); }
+	bool isEqual(const Item* value) const override;
+	ItemPtr clone() const override;
+
+	const QString ToString() const override;
+
 protected:
 	const ClothesClass* itemClass() const override { return static_cast<const ClothesClass*>(Item::itemClass()); }
+private:
+	std::set<ClothesModification> m_mods;
 };
 
+class WeaponModification {
+
+};
+
+inline bool operator == (const WeaponModification& l, const WeaponModification& r) {
+	return false;
+}
+
+class Weapon : public Item {
+public:
+	Weapon(const WeaponClass* weapon_class)
+		: Item{ weapon_class }
+	{}
+
+	Weapon(const Weapon& value);
+
+	float length() const { return itemClass()->length(); }
+	float barrelLength() const { return itemClass()->barrelLength(); }
+	float width() const { return itemClass()->weight(); }
+	float height() const { return itemClass()->height(); }
+	const QString cartridge() const { return itemClass()->cartridge(); }
+	float range() const { return itemClass()->range(); }
+	int rounds() const { return itemClass()->rounds(); }
+
+	//	Item override
+	bool isEqual(const Item* value) const override;
+	ItemPtr clone() const override;
+	const QString ToString() const override;	
+
+protected:
+	const WeaponClass* itemClass() const override { return static_cast<const WeaponClass*>(Item::itemClass()); }
+
+private:
+	std::set<WeaponModification> m_mods;
+};
 #endif	//	_H_ITEMS
