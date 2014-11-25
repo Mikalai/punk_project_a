@@ -10,6 +10,8 @@ enum class ModelType {
 	Road,
 	SawMill,
 	Construction,
+	LocalFieldCell,
+	LocalFieldItem,
 	End
 };
 

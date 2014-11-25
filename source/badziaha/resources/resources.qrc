@@ -27,6 +27,7 @@
         <file>clothes/simple_pants.png</file>
         <file>ammo/9×19mm_Parabellum_Cor-Bon_JHP+P.png</file>
         <file>weapons/vektor_sp1.png</file>
+        <file>bags/Condor_Compact _Assault_Pack.png</file>
     </qresource>
     <qresource prefix="/icons">
         <file>saw.png</file>

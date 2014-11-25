@@ -18,6 +18,10 @@ void FieldCell::removeEntity(Spatial* value) {
 	entities.erase(it);
 }
 
+FieldCell::FieldCell(QGraphicsItem* parent)
+	: QGraphicsItem{ parent }
+{}
+
 //
 //void GlobalField::pathFinderFunc(GlobalField* _this) {
 //	GlobalField* field = _this;

@@ -376,3 +376,11 @@ BodyPart* Body::wearClothes(const Clothes* item) {
 	return (*it).get();
 }
 
+void Character::drop(const Item* value) {
+	auto item = popItem(value);
+	if (!item.get()) {
+		qDebug() << "Can't drop" << value->name() << ". Not in inventory";
+	}
+	//field()->add(fullPosition(), std::move(item));
+}
+

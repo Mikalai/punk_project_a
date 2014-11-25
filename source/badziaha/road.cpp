@@ -11,7 +11,7 @@ Road::Road(GlobalField* field, GlobalFieldCell* start, GlobalFieldCell* end, QOb
 	, m_end{ end }
 {
 	if (start && end) {
-		if (m_field->getPath(start->position, end->position, m_path)) {
+		if (m_field->getPath(start->index(), end->index(), m_path)) {
 			for (auto& cell : m_path) {
 				cell->addRoad(this);
 			}

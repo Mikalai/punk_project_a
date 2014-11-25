@@ -1,19 +1,21 @@
-#ifndef _H_GLOBAL_FIELD_CELL
-#define _H_GLOBAL_FIELD_CELL
+#ifndef _H_GLOBAL_FIELD_CELL_REAL_SIZE
+#define _H_GLOBAL_FIELD_CELL_REAL_SIZE
 
 #include <QtCore/qpoint.h>
 #include <set>
 #include <vector>
 #include <chrono>
+#include "model_type.h"
 #include "surface_type.h"
 #include "field.h"
+#include "time_dependent.h"
 
 class Road;
-struct GlobalFieldCell;
+class GlobalField;
 class Entity;
 
-struct GlobalFieldCell : public FieldCell {
-
+class GlobalFieldCell : public FieldCell {
+public:
 	struct FindPathData {
 		int find_path_magic{ 0 };
 		int find_path_number{ 0 };
@@ -29,11 +31,16 @@ struct GlobalFieldCell : public FieldCell {
 	struct Tls {
 		FindPathData path;
 	};
-
-	SurfaceType ground{ SurfaceType::Grass };
-	QPoint position{ 0, 0 };
-
+	
 public:
+
+	enum { Type = QGraphicsItem::UserType + (int)ModelType::GlobalFieldCell };
+
+	int type() const override {
+		return Type;
+	}
+
+	GlobalFieldCell(GlobalField* field, QGraphicsItem* parent);
 
 	FindPathData* findPath(int index) {
 		return &getTls(index)->path;
@@ -48,8 +55,6 @@ public:
 	}
 
 	float getBaseMoveDifficulty() const;
-
-	GlobalFieldCell();
 
 	void update();
 
@@ -73,10 +78,24 @@ public:
 	//	returns random generator seed
 	int magic() const;
 
+
+	//	QGraphicsItem
+	QRectF boundingRect() const override;
+	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+
+	QPoint index() const;
+
+	static int cellSize() { return LOCAL_FIELD_CELL * LOCAL_FIELD_SIZE; }
+
+	GlobalField* field() const;
+
+	void setSurface(const SurfaceTypeClass* value) { m_surface = value; }
+	const SurfaceTypeClass* surface() const { return m_surface; }
 private:
-	std::chrono::high_resolution_clock::time_point last_update;
 	std::vector<Tls> tls;
 	std::set<Road*> m_roads;
+	GlobalField* m_field{ nullptr };
+	const SurfaceTypeClass* m_surface{ nullptr };
 };
 
-#endif	//	_H_GLOBAL_FIELD_CELL
+#endif	//	_H_GLOBAL_FIELD_CELL_REAL_SIZE

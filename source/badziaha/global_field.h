@@ -14,9 +14,10 @@
 #include "weather.h"
 #include "field.h"
 #include "global_field_cell.h"
+#include "fwd_global_field.h"
 
 class World;
-struct GlobalFieldCell;
+class GlobalFieldCell;
 class Squad;
 class City;
 class Road;
@@ -54,12 +55,6 @@ public:
 	GlobalField(World* world, QObject* parent = nullptr);
 	virtual ~GlobalField();
 	void Create();
-	
-	GlobalFieldCell* cell(const QPoint& p) override;
-	
-	GlobalFieldCell* cell(int x, int y) override {
-		return cell(QPoint{ x, y });
-	}
 
 	void neighbourCells(GlobalFieldCell* cell, std::vector<GlobalFieldCell*>& cells);
 
@@ -76,7 +71,7 @@ public:
 	void endGetPath(FindPathResult* result);
 	void cancelGetPath(FindPathResult* result);
 
-	static float cellSize();
+	static int cellSize();
 	static float timeStep();
 
 	Tls* getTls(int index) {
@@ -111,6 +106,30 @@ public:
 	Entity* player();
 
 	void update() override;
+
+	//	Field impl
+	void addItemInstance(const QPointF& global_position, ItemPtr item) override;
+	ItemPtr removeItemInstance(const Item* item) override;
+	bool hasItemInstance(const Item* item) const override;
+	const std::vector<const Item*> selectItemInstances(ItemClassType type) const override;
+	const std::vector<const Item*> selectItemInstances(ItemClassType type, QRectF rect) const override;
+	GlobalFieldCell* cell(const QPoint& p) override;
+
+	GlobalFieldCell* cell(int x, int y) override {
+		return cell(QPoint{ x, y });
+	}
+
+	GlobalFieldCell* cell(const QPointF& p) {
+		return cell(index(p));
+	}
+	 
+	const QPoint index(const QPointF& p) {
+		int x = (int)p.x() / cellSize();
+		int y = (int)p.y() / cellSize();
+		return QPoint{ x, y };
+	}
+
+	const SurfaceTypeClass* surface(const QPointF& position);
 
 public slots:
 	void onSelectionChanged();
@@ -152,7 +171,7 @@ private:
 	//	field description
 	int m_width{ 64};
 	int m_height{ 64};
-	std::vector<GlobalFieldCell> m_cells;
+	std::vector<GlobalFieldCellPtr> m_cells;
 
 	//	squads data
 	std::vector<Squad*> m_squads;

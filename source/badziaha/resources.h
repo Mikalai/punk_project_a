@@ -7,10 +7,10 @@
 #include <vector>
 #include "item_class_type.h"
 #include "fwd_items.h"
+#include "fwd_surface_type.h"
 
 
 class QImage;
-enum class SurfaceType;
 enum class ModelType;
 
 class Resources {
@@ -20,9 +20,9 @@ public:
 	using ClothesClasses = std::vector < const ClothesClass* > ;
 	using AmmoClasses = std::vector < const AmmoClass* > ;
 	using WeaponClasses = std::vector < const WeaponClass* > ;
+	using SurfaceTypeClasses = std::vector < const SurfaceTypeClass* > ;
 	Resources();
 
-	QImage* getImage(const SurfaceType& value);
 	QImage* getSquadImage();
 	QImage* getCityImage();
 	QImage* modelImage(const ModelType& value);	
@@ -30,6 +30,8 @@ public:
 
 	static void destroy();
 	static Resources* instance();
+
+	const SurfaceTypeClasses& surface_types() const { return m_surfaces_cache; }
 
 	const ItemClasses& items() const { return m_items_cache; }
 	const ClothesClasses& clothes() const { return m_clothes_cache; }
@@ -40,16 +42,18 @@ private:
 
 private:
 	static std::unique_ptr<Resources> m_instance;
-	std::vector<std::unique_ptr<QImage>> m_global_field_cell_ground;
+	std::vector<std::unique_ptr<QImage>> m_GLOBAL_FIELD_CELL_REAL_SIZE_ground;
 	std::unique_ptr<QImage> m_squad_image;
 	std::unique_ptr<QImage> m_city_image;
 	std::vector<std::unique_ptr<QImage>> m_models;
 	std::map<QString, std::unique_ptr<QImage>> m_images;
 	std::vector<ItemClassPtr> m_items;
+	std::vector<SurfaceTypeClassPtr> m_surface_types;
 	ItemClasses m_items_cache;
 	ClothesClasses m_clothes_cache;
 	AmmoClasses m_ammo_cache;
 	WeaponClasses m_weapon_cache;
+	SurfaceTypeClasses m_surfaces_cache;
 };
 
 #endif	//	_H_RESOURCES

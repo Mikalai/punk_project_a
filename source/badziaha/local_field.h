@@ -4,41 +4,50 @@
 #include <iosfwd>
 #include <memory>
 #include <QtWidgets/qgraphicsscene.h>
+#include "time_dependent.h"
 #include "surface_type.h"
+#include "fwd_items.h"
+#include "fwd_local_field.h"
+#include "field.h"
 
 class Character;
 class GlobalField;
-struct GlobalFieldCell;
+class GlobalFieldCell;
 class LocalFieldCell;
 class Unit;
 
-class LocalField : public QGraphicsScene {
+class LocalField : public Field, public TimeDependent {
 	Q_OBJECT
 public:
+
 	LocalField(GlobalField* field, GlobalFieldCell* cell, QObject* parent = nullptr);
 	virtual ~LocalField();
 
-	GlobalField* field();
-	GlobalFieldCell* globalCell();
-	LocalFieldCell* cell(int x, int y);
-	LocalFieldCell* cell(QPoint pos);
+	GlobalField* field() const { return m_global_field; }
+	GlobalFieldCell* globalCell() const { return m_global_field_cell; }
+	FieldCell* cell(int x, int y) override;
+	FieldCell* cell(const QPoint& pos) override;
+FieldCell* cell(const QPointF& pos);
 
 	//	size in pixels
 	static float cellSize();
 	//	size in meters
 	static float cellPhysicalSize();
 
-	int width() const;
-	int height() const;
+	int width() const { return m_width; }
+	int height() const { return m_height; }
 
-	void addUnit(Unit* unit);
-	void removeUnit(Unit* unit);
-
-	void update();
+	void update() override;
 
 	void create(int w, int h);
 
 	void centerOn(const QPointF& target);
+
+	void addItemInstance(const QPointF& global_position, ItemPtr item) override;
+	ItemPtr removeItemInstance(const Item* item) override;
+	bool hasItemInstance(const Item* item) const override;
+	const std::vector<const Item*> selectItemInstances(ItemClassType type) const override;
+	const std::vector<const Item*> selectItemInstances(ItemClassType type, QRectF rect) const override;
 
 signals:
 	void toggleInventory(Character*);
@@ -56,9 +65,17 @@ private:
 	void save();
 	bool hasStoredData(GlobalFieldCell* cell);
 	QString getFilename(GlobalFieldCell* cell);
-public:
-	class LocalFieldImpl;
-	std::unique_ptr<LocalFieldImpl> impl;	
+private:
+	GlobalField* m_global_field{ nullptr };
+	GlobalFieldCell* m_global_field_cell{ nullptr };
+	float m_scale{ 1 };
+	float m_max_scale{ 5.0f };
+	float m_min_scale{ 0.1f };
+	int m_width = 64;
+	int m_height = 64;
+	std::vector<LocalFieldCellPtr> m_cells;
+	QPointF m_last_position;
+	QPointF m_target;
 };
 
 #endif	//	_H_LOCAL_FIELD

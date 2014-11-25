@@ -75,6 +75,8 @@ void *Unit::qt_metacast(const char *_clname)
     if (!_clname) return 0;
     if (!strcmp(_clname, qt_meta_stringdata_Unit.stringdata))
         return static_cast<void*>(const_cast< Unit*>(this));
+    if (!strcmp(_clname, "QGraphicsItem"))
+        return static_cast< QGraphicsItem*>(const_cast< Unit*>(this));
     if (!strcmp(_clname, "TimeDependent"))
         return static_cast< TimeDependent*>(const_cast< Unit*>(this));
     return QObject::qt_metacast(_clname);

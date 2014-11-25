@@ -42,6 +42,8 @@ const QString toString(BodyPartType value) {
 		return "Head";
 	case Pelvis:
 		return "Pelvis";
+	case Back:
+		return "Back";
 	}
 	qDebug() << "Can't body part" << value << "to string";
 	return "UNKNOWN";
@@ -85,6 +87,8 @@ BodyPartType fromString(const QString& value) {
 		return Head;
 	if (value == "Pelvis")
 		return Pelvis;
+	if (value == "Back")
+		return Back;
 	qDebug() << "Can't convert string" << value << "to body part";
 	return BodyPartType::End;
 }

@@ -12,12 +12,12 @@
 #include "model_type.h"
 
 Resources::Resources() {
-	m_global_field_cell_ground.push_back(std::unique_ptr < QImage > {new QImage{ ":/grass.png" }});
-	m_global_field_cell_ground.push_back(std::unique_ptr < QImage > {new QImage{ ":/water.png" }});
-	m_global_field_cell_ground.push_back(std::unique_ptr < QImage > {new QImage{ ":/sand.png" }});
-	m_global_field_cell_ground.push_back(std::unique_ptr < QImage > {new QImage{ ":/dirt.png" }});
-	m_global_field_cell_ground.push_back(std::unique_ptr < QImage > {new QImage{ ":/forest.png" }});
-	m_global_field_cell_ground.push_back(std::unique_ptr < QImage > {new QImage{ ":/rocks.png" }});
+	m_GLOBAL_FIELD_CELL_REAL_SIZE_ground.push_back(std::unique_ptr < QImage > {new QImage{ ":/grass.png" }});
+	m_GLOBAL_FIELD_CELL_REAL_SIZE_ground.push_back(std::unique_ptr < QImage > {new QImage{ ":/water.png" }});
+	m_GLOBAL_FIELD_CELL_REAL_SIZE_ground.push_back(std::unique_ptr < QImage > {new QImage{ ":/sand.png" }});
+	m_GLOBAL_FIELD_CELL_REAL_SIZE_ground.push_back(std::unique_ptr < QImage > {new QImage{ ":/dirt.png" }});
+	m_GLOBAL_FIELD_CELL_REAL_SIZE_ground.push_back(std::unique_ptr < QImage > {new QImage{ ":/forest.png" }});
+	m_GLOBAL_FIELD_CELL_REAL_SIZE_ground.push_back(std::unique_ptr < QImage > {new QImage{ ":/rocks.png" }});
 	m_squad_image.reset(new QImage{ ":/ranger.png" });
 	m_city_image.reset(new QImage{ ":/city.png" });
 
@@ -30,10 +30,6 @@ Resources::Resources() {
 	m_models[(int)ModelType::Construction].reset(new QImage{ ":/construction.png" });
 
 	readItems();
-}
-
-QImage* Resources::getImage(const SurfaceType& value) {
-	return m_global_field_cell_ground.at((int)value).get();
 }
 
 std::unique_ptr<Resources> Resources::m_instance;
@@ -140,5 +136,16 @@ void Resources::readItems() {
 		m_items_cache.push_back(current.get());
 		m_weapon_cache.push_back(current.get());
 		m_items.push_back(cast<ItemClass>(current));
+	}
+
+	for (auto& surface : o["SurfaceTypes"].toArray()) {
+		auto s = surface.toObject();
+		SurfaceTypeClassPtr current{ make_ptr(new SurfaceTypeClass{}) };
+		current->setName(s["name"].toString());
+		current->setIsLand(s["land"].toInt());
+		current->setMovePenalty(s["move_penalty"].toDouble());
+		current->setIcon(s["icon"].toString());
+		m_surfaces_cache.push_back(current.get());
+		m_surface_types.push_back(std::move(current));
 	}
 }

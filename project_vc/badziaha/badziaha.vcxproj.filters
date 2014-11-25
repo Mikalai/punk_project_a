@@ -88,6 +88,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\badziaha\body_part_type.cpp" />
     <ClCompile Include="..\..\source\badziaha\item_class_type.cpp" />
+    <ClCompile Include="..\..\source\badziaha\local_field_cell.cpp" />
+    <ClCompile Include="..\..\source\badziaha\local_field_item.cpp" />
+    <ClCompile Include="..\..\source\badziaha\surface_type.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\badziaha\unit_model.h" />
@@ -118,6 +121,12 @@
     <ClInclude Include="..\..\source\badziaha\spatial.h" />
     <ClInclude Include="..\..\source\badziaha\item_class_type.h" />
     <ClInclude Include="..\..\source\badziaha\fwd_items.h" />
+    <ClInclude Include="..\..\source\badziaha\local_field_cell.h" />
+    <ClInclude Include="..\..\source\badziaha\local_field_item.h" />
+    <ClInclude Include="..\..\source\badziaha\fwd_local_field.h" />
+    <ClInclude Include="..\..\source\badziaha\pointer.h" />
+    <ClInclude Include="..\..\source\badziaha\fwd_global_field.h" />
+    <ClInclude Include="..\..\source\badziaha\fwd_surface_type.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="forms">

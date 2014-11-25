@@ -5,7 +5,7 @@
 #include <list>
 class QGraphicsItem;
 class GlobalField;
-struct GlobalFieldCell;
+class GlobalFieldCell;
 
 class Road : public QObject {
 public:

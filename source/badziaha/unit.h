@@ -3,6 +3,7 @@
 
 #include <QtCore/qobject.h>
 #include <QtGui/qtransform.h>
+#include <QtWidgets/qgraphicsitem.h>
 #include <QtCore/qpoint.h>
 #include "time_dependent.h"
 
@@ -10,11 +11,11 @@ class QGraphicsItem;
 class Character;
 class LocalField;
 
-class Unit : public QObject, public TimeDependent {
+class Unit : public QObject, public QGraphicsItem, public TimeDependent {
 	Q_OBJECT;
 
 public:
-	Unit(LocalField* field, Character* character, int squad_id, QObject* parent = nullptr);
+	Unit(LocalField* field, Character* character, int squad_id, QGraphicsItem* parent = nullptr);
 
 	Character* character() { return m_character; }
 
@@ -39,6 +40,8 @@ public:
 	void setTarget(const QPointF& value);
 	const QPointF& target() const { return m_target; }
 
+	QRectF boundingRect() const override;
+	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 private:
 	void updateTransform();
 

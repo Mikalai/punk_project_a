@@ -77,6 +77,8 @@ void MainWindow::newGame() {
 	m_world->create();
 
 	ui->m_render_view->setScene(m_world->globalField());
+	auto s = GLOBAL_FIELD_SIZE / (float)GLOBAL_FIELD_CELL_REAL_SIZE;
+	ui->m_render_view->scale(s, s);
 
 	connect(m_timer, SIGNAL(timeout()), this, SLOT(update()));
 	connect(m_world->globalField(), SIGNAL(citySelected(City*)), ui->m_city_widget, SLOT(setCity(City*)));
@@ -113,6 +115,8 @@ void MainWindow::enterLocation() {
 		auto v = std::unique_ptr < LocalField > { new LocalField{ world()->globalField(), cell, this }};
 		connect(v.get(), SIGNAL(toggleInventory(Character*)), ui->m_inventory, SLOT(toggle(Character*)));
 		ui->m_render_view->setScene(v.get());
+		auto s = GLOBAL_FIELD_SIZE / (float)GLOBAL_FIELD_CELL_REAL_SIZE;
+		ui->m_render_view->resetTransform();
 		v->create(64, 64);
 		world()->setLocalField(v.release());
 	}
@@ -123,6 +127,9 @@ void MainWindow::leaveLocation() {
 	auto player = world()->globalField()->player();
 	if (player)
 		ui->m_render_view->centerOn(player->model());
+	auto s = GLOBAL_FIELD_SIZE / (float)GLOBAL_FIELD_CELL_REAL_SIZE;
+	ui->m_render_view->resetTransform();
+	ui->m_render_view->scale(s, s);
 }
 
 void MainWindow::setTimeScale(int value) {

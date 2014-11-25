@@ -1,3 +1,4 @@
+#include <QtCore/qdebug.h>
 #include <iostream>
 #include <QtCore/qpoint.h>
 #include <QtWidgets/qgraphicsview.h>
@@ -17,258 +18,172 @@
 #include "unit.h"
 #include "unit_item.h"
 #include "character.h"
+#include "items.h"
+#include "local_field_cell.h"
 
-class LocalFieldCell {
-public:
-	LocalFieldCell()
-	{}
+void destroy(LocalField* value) {
+	delete value;
+}
 
-	QPoint position() const { return m_position; };
+void destroy(LocalFieldCell* value) {
+	delete value;
+}
 
-	void setPosition(QPoint value) {
-		m_position = value;
-	}
-
-	void setGlobalCell(GlobalFieldCell* cell) {
-		m_cell = cell;
-	}
-
-	GlobalFieldCell* globalCell() {
-		return m_cell;
-	}
-
-private:
-	QPoint m_position;
-	GlobalFieldCell* m_cell{ nullptr };
-};
-
-class LocalFieldCellItem : public QGraphicsItem {
-public:
-
-	LocalFieldCellItem(LocalFieldCell* cell, QGraphicsItem* parent)
-		: QGraphicsItem{ parent }
-		, m_cell{ cell }
-	{
-		QMatrix m;
-		m.translate(cell->position().x()*LocalField::cellSize(), cell->position().y()*LocalField::cellSize());
-		setTransform(QTransform{ m });
-		setZValue(0.0f);
-	}
-
-	QRectF boundingRect() const override {
-		auto size = LocalField::cellSize();
-		return QRectF{ -size / 2, -size / 2, size, size };
-	}
-
-	QBrush GetGroundBrush() {
-		return QBrush{ *Resources::instance()->getImage(m_cell->globalCell()->ground) };
-	}
-
-	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override {
-		auto size = LocalField::cellSize();
-		auto brush = GetGroundBrush();
-		auto pen = painter->pen();
-		pen.setStyle(Qt::PenStyle::NoPen);
-		painter->setPen(pen);
-		painter->setBrush(brush);
-		painter->drawRect(-size / 2, -size / 2, size, size);
-	}
-
-private:
-	LocalFieldCell* m_cell{ nullptr };
-};
-
-class LocalField::LocalFieldImpl {
-public:
-
-	LocalFieldImpl(GlobalField* field, GlobalFieldCell* cell, LocalField* owner) 
-		: m_field{ field }
-		, m_cell{ cell } 
-		, m_owner{ owner } {
-
-	}
-
-	~LocalFieldImpl() {
-		while (m_units.empty()) {
-
-		}
-	}
-
-	void create(int width, int height) {
-		m_width = width;
-		m_height = height;
-
-		m_cells.resize(m_width*m_height);
-		for (int y = 0; y < m_height; ++y) {
-			for (int x = 0; x < m_width; ++x) {
-				auto cell = &m_cells[x + y *m_width];
-				cell->setPosition(QPoint{ x, y });
-				cell->setGlobalCell(m_cell);
-				LocalFieldCellItem* item = new LocalFieldCellItem{ cell, nullptr };
-				m_owner->addItem(item);
-			}
-		}
-
-		//	create temporary unit
-		Unit* unit = new Unit{ m_owner, new Character{ m_owner->field(), m_owner }, 1, m_owner };
-		unit->character()->setHumanControl(true);
-		//unit->setPosition(QPointF{ 1, 1 });
-		addUnit(unit);
-
-		for (auto view : m_owner->views()) {
-			view->setTransformationAnchor(QGraphicsView::ViewportAnchor::AnchorViewCenter);
-			view->scale(1, 1);
-			view->centerOn(unit->model());
-		}
-	}
-
-	void addUnit(Unit* unit) {
-		auto it = std::find(m_units.begin(), m_units.end(), unit);
-		if (it != m_units.end()) {
-			qDebug("Can't add unit. Already added");
-			return;
-		}
-		if (unit->isHumanControl()) {
-			m_human_unit = unit;
-		}
-		m_units.push_back(unit);
-		m_owner->addItem(unit->model());
-	}
-
-	void removeUnit(Unit* unit) {
-		auto it = std::find(m_units.begin(), m_units.end(), unit);
-		if (it == m_units.end()) {
-			qDebug("Can't remove unit from local field. not added");
-			return;
-		}
-		m_units.erase(it);
-		m_owner->removeItem(unit->model());
-	}
-
-	void update() {
-		for (auto unit : m_units) {
-			unit->update();
-		}
-
-		if (Keys::instance()->keyboard(Qt::Key_Shift)) {
-			m_scale -= 0.1f;
-			m_scale = std::max(m_min_scale, m_scale);
-			for (auto view : m_owner->views()) {
-				view->resetTransform();
-				view->scale(m_scale, m_scale);
-			}
-		}
-		else {
-			m_scale += 0.1f;
-			m_scale = std::min(1.0f, m_scale);
-			for (auto view : m_owner->views()) {
-				view->resetTransform();
-				view->scale(m_scale, m_scale);
-			}
-		}
-		m_owner->updateViews();
-	}
-
-	void load(std::istream& stream) {
-
-	}
-
-	void save(std::ostream& stream) {
-
-	}
-
-
-	float m_scale{ 1 };
-	float m_max_scale{ 5.0f };
-	float m_min_scale{ 0.1f };
-	int m_width{ 0 };
-	int m_height{ 0 };
-	LocalField* m_owner{ nullptr };
-	GlobalField* m_field{ nullptr };
-	GlobalFieldCell* m_cell{ nullptr };
-	Unit* m_human_unit{ nullptr };
-
-	std::vector<LocalFieldCell> m_cells;
-	std::vector<Unit*> m_units;
-	QPointF m_last_position;
-	QPointF m_target;
-};
 
 LocalField::LocalField(GlobalField* field, GlobalFieldCell* cell, QObject* parent)
-	: QGraphicsScene{ parent }
-	, impl{ new LocalFieldImpl{ field, cell, this } }
-{
-	/*if (hasStoredData(cell)) {
-		load();
-	}
-	else {
-		impl->create(64, 64);
-	}*/
-}
-
-void LocalField::load() {
-	auto filename = getFilename(globalCell());
-	std::ifstream stream{ filename.toStdWString(), std::ios::binary };
-	if (stream.is_open())
-		impl->load(stream);
-}
-
-void LocalField::save() {
-	auto filename = getFilename(globalCell());
-	std::ofstream stream{ filename.toStdWString(), std::ios::binary };
-	if (stream.is_open())
-		impl->save(stream);
-}
+	: Field{ nullptr, parent }
+	, m_global_field{ field }
+	, m_global_field_cell{ cell }
+{}
 
 LocalField::~LocalField() {
-	//save();
-	impl.reset(nullptr);
 }
+
+void LocalField::create(int width, int height) {
+	m_width = width;
+	m_height = height;
+
+	//m_cells.resize(m_width*m_height);
+	for (int y = 0; y < m_height; ++y) {
+		for (int x = 0; x < m_width; ++x) {
+			QPointF pos{ x*cellSize(), y*cellSize() };
+			auto cell = make_ptr(new LocalFieldCell{ pos, nullptr });
+			addItem(cell.get());
+		}
+	}
+
+	//	create temporary unit
+	//Unit* unit = new Unit{ m_owner, new Character{ m_owner->field(), m_owner }, 1, m_owner };
+	//unit->character()->setHumanControl(true);
+	////unit->setPosition(QPointF{ 1, 1 });
+	//addUnit(unit);
+
+	//for (auto view : m_owner->views()) {
+	//	view->setTransformationAnchor(QGraphicsView::ViewportAnchor::AnchorViewCenter);
+	//	view->scale(1, 1);
+	//	view->centerOn(unit->model());
+	//}
+}
+
+//void addUnit(Unit* unit) {
+//	auto it = std::find(m_units.begin(), m_units.end(), unit);
+//	if (it != m_units.end()) {
+//		qDebug("Can't add unit. Already added");
+//		return;
+//	}
+//	if (unit->isHumanControl()) {
+//		m_human_unit = unit;
+//	}
+//	m_units.push_back(unit);
+//	m_owner->addItem(unit->model());
+//}
+//
+//void removeUnit(Unit* unit) {
+//	auto it = std::find(m_units.begin(), m_units.end(), unit);
+//	if (it == m_units.end()) {
+//		qDebug("Can't remove unit from local field. not added");
+//		return;
+//	}
+//	m_units.erase(it);
+//	m_owner->removeItem(unit->model());
+//}
+
+void LocalField::update() {
+	/*for (auto unit : m_units) {
+		unit->update();
+	}*/
+
+	auto children = items();
+	for (auto item : children) {
+		LocalFieldCell* cell = qgraphicsitem_cast<LocalFieldCell*>(item);
+		if (cell) {
+			cell->update();
+		}
+	}
+
+	if (Keys::instance()->keyboard(Qt::Key_Shift)) {
+		m_scale -= 0.1f;
+		m_scale = std::max(m_min_scale, m_scale);
+		for (auto view : views()) {
+			view->resetTransform();
+			view->scale(m_scale, m_scale);
+		}
+	}
+	else {
+		m_scale += 0.1f;
+		m_scale = std::min(1.0f, m_scale);
+		for (auto view : views()) {
+			view->resetTransform();
+			view->scale(m_scale, m_scale);
+		}
+	}
+}
+
+void load(std::istream& stream) {
+
+}
+
+void save(std::ostream& stream) {
+
+}
+
+//void LocalField::load() {
+//	auto filename = getFilename(globalCell());
+//	std::ifstream stream{ filename.toStdWString(), std::ios::binary };
+//	if (stream.is_open())
+//		impl->load(stream);
+//}
+//
+//void LocalField::save() {
+//	auto filename = getFilename(globalCell());
+//	std::ofstream stream{ filename.toStdWString(), std::ios::binary };
+//	if (stream.is_open())
+//		impl->save(stream);
+//}
+//
+//LocalField::~LocalField() {
+//	//save();
+//	impl.reset(nullptr);
+//}
 
 float LocalField::cellSize() {
 	return 6250;
 }
 
-bool LocalField::hasStoredData(GlobalFieldCell* cell) {
-	auto filename = getFilename(cell);
-	return QFile::exists(filename);
+//bool LocalField::hasStoredData(GlobalFieldCell* cell) {
+//	auto filename = getFilename(cell);
+//	return QFile::exists(filename);
+//}
+//
+//QString LocalField::getFilename(GlobalFieldCell* cell) {
+//	auto path = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+//	QDir dir{ path };
+//	if (!dir.exists("Badziaha"))
+//		dir.mkdir("Badziaha");
+//	dir.cd("Badziaha");
+//	auto filepath = dir.absoluteFilePath("cell_" + QString::number(cell->position.x()) + "_" + QString::number(cell->position.y()) + ".cell");
+//	return filepath;
+//}
+
+FieldCell* LocalField::cell(int x, int y) {
+	return m_cells[x + width()*y].get();
 }
 
-QString LocalField::getFilename(GlobalFieldCell* cell) {
-	auto path = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
-	QDir dir{ path };
-	if (!dir.exists("Badziaha"))
-		dir.mkdir("Badziaha");
-	dir.cd("Badziaha");
-	auto filepath = dir.absoluteFilePath("cell_" + QString::number(cell->position.x()) + "_" + QString::number(cell->position.y()) + ".cell");
-	return filepath;
-}
-
-LocalFieldCell* LocalField::cell(int x, int y) {
-	return &impl->m_cells[x + width()*y];
-}
-
-LocalFieldCell* LocalField::cell(QPoint pos) {
+FieldCell* LocalField::cell(const QPoint& pos) {
 	return cell(pos.x(), pos.y());
 }
 
-GlobalFieldCell* LocalField::globalCell() {
-	return impl->m_cell;
-}
-
-int LocalField::width() const {
-	return impl->m_width;
-}
-
-int LocalField::height() const {
-	return impl->m_height;
+FieldCell* LocalField::cell(const QPointF& pos) {
+	int x = pos.x() / LocalField::cellSize();
+	int y = pos.y() / LocalField::cellSize();
+	return cell(x, y);
 }
 
 void LocalField::keyPressEvent(QKeyEvent *event) {
 	//qDebug(__FUNCTION__);
 	Keys::instance()->setKeyboard(event->key(), true);
 	if (event->key() == Qt::Key_I) {
-		emit toggleInventory(impl->m_human_unit->character());
+		emit toggleInventory(nullptr);
 	}
 	event->accept();
 }
@@ -287,10 +202,10 @@ void LocalField::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 
 void LocalField::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
 	//std::cout << event->scenePos().x() / 100.0f << " " << event->scenePos().y() / 100.0f<< std::endl;
-	impl->m_last_position = event->scenePos();
-	if (impl->m_human_unit){
-		impl->m_human_unit->setTarget(impl->m_last_position);
-	}
+	m_last_position = event->scenePos();
+	/*if (m_human_unit){
+		m_human_unit->setTarget(impl->m_last_position);
+	}*/
 	updateViews();
 }
 
@@ -300,30 +215,88 @@ void LocalField::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
 	event->accept();
 }
 
-GlobalField* LocalField::field() {
-	return impl->m_field;
-}
-
-void LocalField::update() {
-	impl->update();
-}
-
-void LocalField::create(int w, int h) {
-	impl->create(w, h);
-}
-
 float LocalField::cellPhysicalSize() {
 	return 256;
 }
 
-void LocalField::centerOn(const QPointF& value) {
-	impl->m_target = value;	
-	updateViews();	
-}
-
 void LocalField::updateViews() {
 	for (auto view : views()) {
-		auto v = impl->m_target + (impl->m_last_position - impl->m_target) * 0.5f;
-			view->centerOn(v);
+		auto v = m_target + (m_last_position - m_target) * 0.5f;
+		view->centerOn(v);
+	}
+}
+
+//void LocalField::addItemInstance(const QPointF& global_position, ItemPtr item) {
+//	auto c = cell(global_position);
+//	if (!c) {
+//		qDebug() << "Can't find suitable cell in the local field";
+//		return;
+//	}
+//	c->add(global_position, std::move(value));
+//	qDebug() << value->name() << "was dropped in the cell" << c->position().x() << c->position().y();
+//}
+//
+//ItemPtr LocalField::removeItemInstance(const Item* value) {
+//	for (auto& c : impl->m_cells) {
+//		if (c->hasItem(value)) {
+//			qDebug() << value->name() << "was taken from the cell" << c->position().x() << c->position().y();
+//			return c->remove(value);
+//		}
+//	}
+//	return make_ptr<Item>(nullptr);
+//}
+//
+//bool LocalField::hasItemInstance(const Item* value) const {
+//	for (auto& c : impl->m_cells) {
+//		if (c->hasItem(value)) {
+//			return true;
+//		}
+//	}
+//	return false;
+//}
+//
+//const std::vector<const Item*> LocalField::selectItemInstances(ItemClassType type) const {
+//	std::vector<const Item*> result;
+//	for (auto& c : impl->m_cells) {
+//		for (auto& item : c->items())
+//			if (item.item->classType() == type)
+//				result.push_back(item.item.get());
+//	}
+//	return result;
+//}
+//
+//const std::vector<const Item*> LocalField::selectItemInstances(ItemClassType type, QRectF global_rect) const {
+//	std::vector<const Item*> result;
+//	for (auto& c : impl->m_cells) {
+//		for (auto& item : c->items()) {
+//			if (global_rect.contains(item.position))
+//				result.push_back(item.item.get());
+//		}
+//	}
+//	return result;
+//}
+
+void LocalField::addItemInstance(const QPointF& global_position, ItemPtr item) {
+	return;
+}
+
+ItemPtr LocalField::removeItemInstance(const Item* item) {
+	return make_ptr<Item>(nullptr);
+}
+
+bool LocalField::hasItemInstance(const Item* item) const {
+	return false;
+}
+
+const std::vector<const Item*> LocalField::selectItemInstances(ItemClassType type) const {
+	return std::vector<const Item*>();
+}
+const std::vector<const Item*> LocalField::selectItemInstances(ItemClassType type, QRectF rect) const {
+	return std::vector<const Item*>();
+}
+
+void LocalField::centerOn(const QPointF& target) {
+	for (auto v : views()) {
+		v->centerOn(target);
 	}
 }

@@ -46,7 +46,7 @@ void BuildRoad::update() {
 				return;
 			}
 
-			setPosition(m_path.front()->position);
+			setPosition(m_path.front()->index());
 			m_road->extend(m_path.front());
 			m_path.pop_front();
 			m_time_to_complete_cell = 1;
@@ -67,9 +67,9 @@ void BuildRoad::selectCell(GlobalFieldCell* cell) {
 		m_end = cell;
 
 	if (m_start && m_end) {
-		if (city()->field()->getPath(m_start->position, m_end->position, m_path)) {			
+		if (city()->field()->getPath(m_start->index(), m_end->index(), m_path)) {			
 			m_road = new Road{ city()->field(), nullptr, nullptr, city()->field() };
-			setPosition(m_path.front()->position);
+			setPosition(m_path.front()->index());
 			addRoad(city()->field(), m_road);
 			m_time_to_complete_cell = 0;
 			setStage(Stage::Execution);
@@ -112,9 +112,9 @@ void Build::selectCell(GlobalFieldCell* cell) {
 		return;
 
 	if (!m_position) {
-		setPosition(cell->position);
+		setPosition(cell->index());
 		m_position = cell;
-		m_entity->setPosition(m_position->position);
+		m_entity->setPosition(m_position->index());
 		//city()->field()->addBuilding(m_entity.get());
 		setStage(Stage::Execution);
 	}

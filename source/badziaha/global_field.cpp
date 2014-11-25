@@ -1,4 +1,5 @@
 #include <iostream>
+#include <QtCore/qdebug.h>
 #include <QtCore/qtimezone.h>
 #include <QtWidgets/qgraphicsitem.h>
 #include <stack>
@@ -19,54 +20,13 @@
 #include "buildings.h"
 #include "weather.h"
 
-static const int CELL_SIZE = 64;
+void destroy(GlobalField* value) {
+	delete value;
+}
 
-class GlobalFieldCellItem : public QGraphicsItem {
-public:
-
-	enum { Type = QGraphicsItem::UserType + (int)ModelType::GlobalFieldCell };
-
-	GlobalFieldCellItem(GlobalFieldCell* cell, GlobalField* field)
-		: m_cell{ cell }
-		, m_field{ field } {
-
-		QMatrix m{};
-		m.translate(m_cell->position.x()*CELL_SIZE, m_cell->position.y()*CELL_SIZE);
-		setTransform(QTransform(m));
-		setZValue(0.0f);
-	}
-
-	QRectF boundingRect() const override {
-		return QRectF(-CELL_SIZE / 2, -CELL_SIZE / 2, CELL_SIZE, CELL_SIZE);
-	}
-
-	QBrush GetGroundBrush() {
-		return QBrush{ *Resources::instance()->getImage(m_cell->ground) };
-	}
-
-	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override {
-		auto brush = GetGroundBrush();
-		auto pen = painter->pen();
-		pen.setStyle(Qt::PenStyle::NoPen);
-		painter->setPen(pen);
-		painter->setBrush(brush);
-		painter->drawRect(-CELL_SIZE / 2, -CELL_SIZE / 2, CELL_SIZE, CELL_SIZE);
-		painter->drawText(QPointF{ 0, 0 }, QString::number(m_cell->findPath(m_field->getTlsIndex())->full_path_cost));
-	}
-
-	GlobalFieldCell* cell() const {
-		return m_cell;
-	}
-
-	int type() const override {
-		return Type;
-	}
-
-private:
-	GlobalFieldCell* m_cell{ nullptr };
-	GlobalField* m_field{ nullptr };
-};
-
+void destroy(GlobalFieldCell* value) {
+	delete value;
+}
 
 GlobalField::GlobalField(World* world, QObject* parent)
 	: Field{ world, parent }
@@ -137,12 +97,15 @@ void GlobalField::Create() {
 
 void GlobalField::Create(float grass, float water, float sand, float dirt, float forest, float rocks, bool island, int sea_width) {
 	clear();
-	m_cells.resize(m_width*m_height);	
 
 	//	allocate TLS
 	for (int y = 0; y < m_height; ++y) {
 		for (int x = 0; x < m_width; ++x) {
-			m_cells[y*m_width + x].setTlsCount(2);
+			auto cell = make_ptr(new GlobalFieldCell{ this, nullptr });
+			cell->setTlsCount(2);
+			addItem(cell.get());
+			cell->setPos(x*cellSize(), x*cellSize());
+			m_cells.push_back(std::move(cell));
 		}
 	}
 
@@ -166,14 +129,15 @@ void GlobalField::Create(float grass, float water, float sand, float dirt, float
 	//	generate
 	for (int y = 0; y < m_height; ++y) {
 		for (int x = 0; x < m_width; ++x) {
-			auto cell = &m_cells[y*m_width + x];
-
+			auto& cell = m_cells[y*m_width + x];
 			// store position
-			cell->position = QPoint{ x, y };
+			cell->setPos(GLOBAL_FIELD_CELL_REAL_SIZE * x, GLOBAL_FIELD_CELL_REAL_SIZE * y);
 
 			//	store ground
-			float rnd = rand() / (float)RAND_MAX;
-			if (rnd < grass)
+			auto& surfaces = Resources::instance()->surface_types();
+			auto rnd = rand() % surfaces.size();
+			cell->setSurface(surfaces[rnd]);
+			/*if (rnd < grass)
 				cell->ground = SurfaceType::Grass;
 			else if (rnd < water)
 				cell->ground = SurfaceType::Water;
@@ -184,10 +148,10 @@ void GlobalField::Create(float grass, float water, float sand, float dirt, float
 			else if (rnd < forest)
 				cell->ground = SurfaceType::Forest;
 			else if (rnd < rocks)
-				cell->ground = SurfaceType::Rocks;
+				cell->ground = SurfaceType::Rocks;*/
 
 			//	if island make water on the edge of the map
-			if (island) {
+			/*if (island) {
 				if (y <= sea_width)
 					cell->ground = SurfaceType::Water;
 				if (y >= m_height - sea_width)
@@ -196,10 +160,7 @@ void GlobalField::Create(float grass, float water, float sand, float dirt, float
 					cell->ground = SurfaceType::Water;
 				if (x >= m_width - sea_width)
 					cell->ground = SurfaceType::Water;
-			}
-
-			GlobalFieldCellItem* item = new GlobalFieldCellItem{ cell, this };
-			addItem(item);
+			}*/
 		}
 	}
 
@@ -257,7 +218,7 @@ void GlobalField::update() {
 	}
 
 	for (int x = 0; x < m_width; ++x) {
-		m_cells[m_last_row_update*m_width + x].update();
+		m_cells[m_last_row_update*m_width + x]->update();
 	}
 	m_last_row_update++;
 
@@ -277,8 +238,8 @@ void GlobalField::update() {
 	}
 }
 
-float GlobalField::cellSize() {
-	return CELL_SIZE;
+int GlobalField::cellSize() {
+	return LOCAL_FIELD_CELL * LOCAL_FIELD_SIZE;
 }
 
 void GlobalField::addSquad(Squad* value) {
@@ -332,20 +293,20 @@ void GlobalField::onSelectionChanged() {
 }
 
 void GlobalField::mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent) {
-
+	qDebug() << __FUNCTION__ << mouseEvent->scenePos().x() << mouseEvent->scenePos().y();
 	auto all_items = items(mouseEvent->scenePos());
 	for (auto& item : all_items) {
-		auto field_cell_item = qgraphicsitem_cast<GlobalFieldCellItem*>(item);
+		auto field_cell_item = qgraphicsitem_cast<GlobalFieldCell*>(item);
 		if (field_cell_item)
-			emit fieldCellPressed(mouseEvent, field_cell_item->cell());
+			emit fieldCellPressed(mouseEvent, field_cell_item);
 	}	
 
 	//if (m_mode == InteractionMode::Select) {
 		if (mouseEvent->button() == Qt::RightButton && !m_squads.empty()) {
 			for (auto& item : all_items) {
-				auto field_cell_item = qgraphicsitem_cast<GlobalFieldCellItem*>(item);
+				auto field_cell_item = qgraphicsitem_cast<GlobalFieldCell*>(item);
 				if (field_cell_item) {
-					auto cell = field_cell_item->cell();
+					auto cell = field_cell_item;
 					for (auto squad : m_selected_squads) {
 						if (squad->isHumanControl())
 							squad->goTo(cell);
@@ -385,7 +346,7 @@ bool GlobalField::findPath(const QPoint& start, const QPoint& end, std::list<Glo
 		auto cell = stack.front();
 		stack.pop_front();
 		//qDebug("Process cell %d;%d", cell->position.x(), cell->position.y());
-		if (cell->position == end) {
+		if (cell->index() == end) {
 			end_cell = cell;
 			break;
 		}
@@ -394,7 +355,7 @@ bool GlobalField::findPath(const QPoint& start, const QPoint& end, std::list<Glo
 			for (int x = -1; x < 2; ++x) {
 				if (x == 0 && y == 0)
 					continue;
-				auto next_cell = this->cell(cell->position.x() + x, cell->position.y() + y);
+				auto next_cell = this->cell(cell->index().x() + x, cell->index().y() + y);
 				if (next_cell) {
 					if (next_cell->findPath(tls_index)->find_path_magic != getTls(tls_index)->find_path_magic) {
 						next_cell->findPath(tls_index)->find_path_number = cell->findPath(tls_index)->find_path_number + 1;
@@ -415,7 +376,7 @@ bool GlobalField::findPath(const QPoint& start, const QPoint& end, std::list<Glo
 			GlobalFieldCell* cell = nullptr;
 			for (int y = -1; y < 2; ++y) {
 				for (int x = -1; x < 2; ++x) {
-					auto temp = this->cell(end_cell->position.x() + x, end_cell->position.y() + y);
+					auto temp = this->cell(end_cell->index().x() + x, end_cell->index().y() + y);
 					if (!cell)
 						cell = temp;
 					int diff_old = end_cell->findPath(tls_index)->find_path_number - cell->findPath(tls_index)->find_path_number;
@@ -449,7 +410,7 @@ GlobalFieldCell* GlobalField::cell(const QPoint& value) {
 		return nullptr;
 	if (value.y() < 0 || value.y() >= m_height)
 		return nullptr;
-	return &m_cells[value.y() * m_width + value.x()];
+	return m_cells[value.y() * m_width + value.x()].get();
 }
 
 void addOpenSet(std::vector<GlobalFieldCell*>& cells, GlobalFieldCell* cell, int tls_index) {
@@ -543,7 +504,7 @@ bool GlobalField::findPathA(GlobalFieldCell* start, GlobalFieldCell* end, std::l
 }
 
 float GlobalField::heuristicCost(GlobalFieldCell* cell, GlobalFieldCell* end) {
-	return (cell->position - end->position).manhattanLength();
+	return (cell->index() - end->index()).manhattanLength();
 }
 
 void GlobalField::neighbourCells(GlobalFieldCell* cell, std::vector<GlobalFieldCell*>& cells) {
@@ -551,7 +512,7 @@ void GlobalField::neighbourCells(GlobalFieldCell* cell, std::vector<GlobalFieldC
 		for (int x = -1; x < 2; ++x) {
 			if (x == 0 && y == 0)
 				continue;
-			auto c = this->cell(cell->position.x() + x, cell->position.y() + y);
+			auto c = this->cell(cell->index().x() + x, cell->index().y() + y);
 			if (c) {
 				cells.push_back(c);
 			}
@@ -560,7 +521,7 @@ void GlobalField::neighbourCells(GlobalFieldCell* cell, std::vector<GlobalFieldC
 }
 
 float GlobalField::distanceCost(GlobalFieldCell* start, GlobalFieldCell* end) {
-	return (start->position - end->position).manhattanLength() * end->getBaseMoveDifficulty();
+	return (start->index() - end->index()).manhattanLength() * end->getBaseMoveDifficulty();
 }
 
 bool GlobalField::reconstructPath(GlobalFieldCell* start, GlobalFieldCell* end, std::list<GlobalFieldCell*>& cells, int tls_index) {
@@ -828,4 +789,29 @@ Entity* GlobalField::player() {
 			return s;
 	}
 	return nullptr;
+}
+
+void GlobalField::addItemInstance(const QPointF& global_position, ItemPtr item) {
+	
+}
+
+ItemPtr GlobalField::removeItemInstance(const Item* item) {
+	return make_ptr<Item>(nullptr);
+}
+
+bool GlobalField::hasItemInstance(const Item* item) const {
+	return false;
+}
+
+const std::vector<const Item*> GlobalField::selectItemInstances(ItemClassType type) const {
+	return std::vector < const Item* > {};
+}
+
+const std::vector<const Item*> GlobalField::selectItemInstances(ItemClassType type, QRectF rect) const {
+	return std::vector < const Item* > {};
+}
+
+const SurfaceTypeClass* GlobalField::surface(const QPointF& position) {
+	auto c = cell(position);
+	return c->surface();
 }

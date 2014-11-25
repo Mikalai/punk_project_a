@@ -436,6 +436,7 @@ void InventoryForm::equippedCustomMenuRequested(QPoint point) {
 		if (action->data().toInt() == 0) {
 			if (item->classType() == ItemClassType::ClothesClass) {
 				m_character->putOff((Clothes*)item);
+				//m_character->field();
 				m_equipped->update();
 				m_inventory->update();
 				ui->m_equipped_view->expandAll();

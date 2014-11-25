@@ -10,7 +10,7 @@
 #include "time_dependent.h"
 
 class Character;
-struct GlobalFieldCell;
+class GlobalFieldCell;
 class GlobalField;
 struct FindPathResult;
 class SquadTask;

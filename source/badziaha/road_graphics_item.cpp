@@ -23,7 +23,7 @@ QRectF RoadGraphicsItem::boundingRect() const {
 void RoadGraphicsItem::updateBoundingBox() {
 	QPolygonF p;
 	for (auto& cell : m_road->getPath()) {
-		p.append(cell->position * GlobalField::cellSize());
+		p.append(cell->index() * GlobalField::cellSize());
 	}
 	prepareGeometryChange();
 	m_bbox = p.boundingRect();
@@ -54,7 +54,7 @@ void RoadGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
 			auto& cur_cell = cell;
 			auto& next_cell = n;
-			auto delta = next_cell->position - cur_cell->position;
+			auto delta = next_cell->index() - cur_cell->index();
 			delta = delta / delta.manhattanLength();
 			auto angle = atan2(delta.y(), delta.x()) * 45 / atan(1);
 			QMatrix m;
@@ -69,10 +69,10 @@ void RoadGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 			pen.setCosmetic(false);
 			painter->setPen(pen);
 
-			painter->drawLine(cur_cell->position.x() * GlobalField::cellSize(),
-				cur_cell->position.y()*GlobalField::cellSize(),
-				next_cell->position.x() * GlobalField::cellSize(),
-				next_cell->position.y() * GlobalField::cellSize());
+			painter->drawLine(cur_cell->index().x() * GlobalField::cellSize(),
+				cur_cell->index().y()*GlobalField::cellSize(),
+				next_cell->index().x() * GlobalField::cellSize(),
+				next_cell->index().y() * GlobalField::cellSize());
 		}
 	}
 }

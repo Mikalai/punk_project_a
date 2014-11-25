@@ -8,6 +8,9 @@ class SquadGraphicsItem : public QGraphicsItem {
 public:
 
 	enum { Type = QGraphicsItem::UserType + (int)ModelType::Squad };
+	int type() const override {
+		return Type;
+	}
 
 	SquadGraphicsItem(Squad* squad, QGraphicsItem* parent = nullptr);
 	QImage* GetSquadAvatar() const;
@@ -15,10 +18,6 @@ public:
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 	Squad* getSquad() const {
 		return m_squad;
-	}
-
-	int type() const override {
-		return Type;
 	}
 
 protected:

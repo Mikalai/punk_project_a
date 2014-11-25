@@ -8,7 +8,7 @@
 
 class Character;
 class QPainter;
-struct GlobalFieldCell;
+class GlobalFieldCell;
 class GlobalField;
 class City;
 class Road;

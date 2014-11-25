@@ -11,7 +11,7 @@ class QGraphicsItem;
 
 class CityTask;
 class GlobalField;
-struct GlobalFieldCell;
+class GlobalFieldCell;
 
 enum class CityBuilding {
 	No,

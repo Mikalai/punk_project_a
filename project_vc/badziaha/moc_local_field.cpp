@@ -81,7 +81,7 @@ void LocalField::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
 }
 
 const QMetaObject LocalField::staticMetaObject = {
-    { &QGraphicsScene::staticMetaObject, qt_meta_stringdata_LocalField.data,
+    { &Field::staticMetaObject, qt_meta_stringdata_LocalField.data,
       qt_meta_data_LocalField,  qt_static_metacall, 0, 0}
 };
 
@@ -96,12 +96,14 @@ void *LocalField::qt_metacast(const char *_clname)
     if (!_clname) return 0;
     if (!strcmp(_clname, qt_meta_stringdata_LocalField.stringdata))
         return static_cast<void*>(const_cast< LocalField*>(this));
-    return QGraphicsScene::qt_metacast(_clname);
+    if (!strcmp(_clname, "TimeDependent"))
+        return static_cast< TimeDependent*>(const_cast< LocalField*>(this));
+    return Field::qt_metacast(_clname);
 }
 
 int LocalField::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = QGraphicsScene::qt_metacall(_c, _id, _a);
+    _id = Field::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {

@@ -23,6 +23,7 @@ enum BodyPartType {
 	RightCollarBone,
 	Head,
 	Pelvis,
+	Back,
 	End
 };
 

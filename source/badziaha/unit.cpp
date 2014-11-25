@@ -5,8 +5,8 @@
 #include "unit_model.h"
 #include "local_field.h"
 
-Unit::Unit(LocalField* field, Character* character, int squad_id, QObject* parent)
-	: QObject{ parent }
+Unit::Unit(LocalField* field, Character* character, int squad_id, QGraphicsItem* parent)
+	: QGraphicsItem{ parent }
 	, m_character{ character }
 	, m_squad_id{ squad_id }
 	, m_field{ field }
@@ -88,4 +88,13 @@ void Unit::setTarget(const QPointF& value) {
 	dir = dir / dir.manhattanLength();
 	m_rotation = atan2f(dir.y(), dir.x());
 	updateTransform();
+}
+
+QRectF Unit::boundingRect() const {
+	return m_character->model()->boundingRect();
+}
+
+void Unit::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
+	painter->drawRect(boundingRect());
+	//painter->drawImage(0, 0, m_character->model())
 }
