@@ -7,12 +7,12 @@
 #include "squad_graphics_item.h"
 #include "Character.h"
 
-Squad::Squad(Character* leader, GlobalField* field, QObject* parent)
+Squad::Squad(Character* leader, GlobalField* field, QGraphicsItem* parent)
 	: Entity{ field, parent }
 	, m_leader{ leader }
 {
-	setPosition(0, 0);
-	setModel(new SquadGraphicsItem{ this });
+	//setPosition(0, 0);
+	//setModel(new SquadGraphicsItem{ this });
 }
 
 void Squad::updateAi() {
@@ -25,9 +25,9 @@ void Squad::updateAi() {
 			if (!m_move_path && m_find_path_result == nullptr) {
 				auto dx = -5 + rand() % 10;
 				auto dy = -5 + rand() % 10;
-				auto x = std::max(0, position().x() + dx);
-				auto y = std::max(0, position().y() + dy);
-				goTo(field()->cell(x % field()->width(), y % field()->height()));
+				//auto x = std::max(0, position().x() + dx);
+				//auto y = std::max(0, position().y() + dy);
+				//goTo(field()->cell(x % field()->width(), y % field()->height()));
 			}
 		}
 	}
@@ -38,102 +38,102 @@ void Squad::updateHuman() {
 }
 
 void Squad::update() {
-	Entity::update();
+	TimeDependent::update();
 	auto dt = getTimeStep();
 
-	//	Tasks execution
-	if (m_goto) {
-		//qDebug("GOTO");
+	////	Tasks execution
+	//if (m_goto) {
+	//	//qDebug("GOTO");
 
-		//	if goto cell is not set, than we do not goto
-		if (!m_goto_cell) {
-			m_goto = false;
-			//qDebug("GOTO empty cell. Cancel GOTO");
-			return;
-		}
+	//	//	if goto cell is not set, than we do not goto
+	//	if (!m_goto_cell) {
+	//		m_goto = false;
+	//		//qDebug("GOTO empty cell. Cancel GOTO");
+	//		return;
+	//	}
 
-		//	if we are searching for new path - cancel it
-		if (m_find_path_result) {
-			//qDebug("GOTO search path. Cancle search path");
-			field()->cancelGetPath(m_find_path_result);
-			m_find_path_result = nullptr;
-			return;
-		}
+	//	//	if we are searching for new path - cancel it
+	//	if (m_find_path_result) {
+	//		//qDebug("GOTO search path. Cancle search path");
+	//		field()->cancelGetPath(m_find_path_result);
+	//		m_find_path_result = nullptr;
+	//		return;
+	//	}
 
-		//	if we already move along the path - terminate it
-		if (m_move_path) {
-			//qDebug("GOTO move along the path. Cancel movement");
-			m_path.clear();
-			m_move_path = false;
-			return;
-		}
+	//	//	if we already move along the path - terminate it
+	//	if (m_move_path) {
+	//		//qDebug("GOTO move along the path. Cancel movement");
+	//		m_path.clear();
+	//		m_move_path = false;
+	//		return;
+	//	}
 
-		//qDebug("GOTO calculate new path");
-		m_find_path_result = field()->beginGetPath(position(), m_goto_cell->index());
-		m_goto = false;
-		return;
-	}
+	//	//qDebug("GOTO calculate new path");
+	//	m_find_path_result = field()->beginGetPath(position(), m_goto_cell->index());
+	//	m_goto = false;
+	//	return;
+	//}
 
-	//	process stand by command
-	if (m_stand_by) {
-		m_seconds_left -= dt;
-		if (m_seconds_left < 0) {
-			m_seconds_left = 0;
-			m_stand_by = false;
-		}
-	}
+	////	process stand by command
+	//if (m_stand_by) {
+	//	m_seconds_left -= dt;
+	//	if (m_seconds_left < 0) {
+	//		m_seconds_left = 0;
+	//		m_stand_by = false;
+	//	}
+	//}
 
-	//	got new path
-	if (m_find_path_result && m_find_path_result->has_result) {
-	//	qDebug("New path calculated. Follow it");
-		if (m_find_path_result->has_path) {
-			movePath(m_find_path_result->path);
-		}
-		else {
-			m_move_path = false;
-		}
-		field()->endGetPath(m_find_path_result);
-		m_find_path_result = nullptr;
-	}
+	////	got new path
+	//if (m_find_path_result && m_find_path_result->has_result) {
+	////	qDebug("New path calculated. Follow it");
+	//	if (m_find_path_result->has_path) {
+	//		movePath(m_find_path_result->path);
+	//	}
+	//	else {
+	//		m_move_path = false;
+	//	}
+	//	field()->endGetPath(m_find_path_result);
+	//	m_find_path_result = nullptr;
+	//}
 
-	//	AI execution
-	if (isHumanControl()) {
-		updateHuman();
-	}
-	else {
-		updateAi();
-	}
+	////	AI execution
+	//if (isHumanControl()) {
+	//	updateHuman();
+	//}
+	//else {
+	//	updateAi();
+	//}
 
-	//	actual execution of tasks
-	if (m_move_path) {
-		if (m_path.empty()) {
-			m_move_path = false;
-		}
-		else {			
-			auto time = dt;
-			while (time > 0 && m_move_path) {
-				auto cell = m_path.front();
-				auto target = cell->index();
-				auto current = fullPosition();
-				auto t = (target - current).manhattanLength() / getBaseSpeed(cell);
-				if (t < time) {
-					auto top = m_path.front();
-					setPosition(top->index().x(), top->index().y(), 0, 0);
-					m_path.pop_front();
-					if (m_path.empty()) {
-						m_move_path = false;
-					}
-					time -= t;
-				}
-				else {
-					auto dir = (target - current) / (target - current).manhattanLength();
-					dir = dir * getBaseSpeed(cell) * time;
-					move(dir.x(), dir.y());
-					time = 0;
-				}
-			}
-		}
-	}
+	////	actual execution of tasks
+	//if (m_move_path) {
+	//	if (m_path.empty()) {
+	//		m_move_path = false;
+	//	}
+	//	else {			
+	//		auto time = dt;
+	//		while (time > 0 && m_move_path) {
+	//			auto cell = m_path.front();
+	//			auto target = cell->index();
+	//			auto current = fullPosition();
+	//			auto t = (target - current).manhattanLength() / getBaseSpeed(cell);
+	//			if (t < time) {
+	//				auto top = m_path.front();
+	//				setPosition(top->index().x(), top->index().y(), 0, 0);
+	//				m_path.pop_front();
+	//				if (m_path.empty()) {
+	//					m_move_path = false;
+	//				}
+	//				time -= t;
+	//			}
+	//			else {
+	//				auto dir = (target - current) / (target - current).manhattanLength();
+	//				dir = dir * getBaseSpeed(cell) * time;
+	//				move(dir.x(), dir.y());
+	//				time = 0;
+	//			}
+	//		}
+	//	}
+	//}
 }
 
 void Squad::terminateAnyActivity() {
@@ -147,7 +147,7 @@ bool Squad::IsIdle() {
 }
 
 void Squad::goTo(GlobalFieldCell* cell) {
-	if (!cell) {
+	/*if (!cell) {
 		return;
 	}
 
@@ -161,7 +161,7 @@ void Squad::goTo(GlobalFieldCell* cell) {
 		std::list<GlobalFieldCell*> path;
 		field()->getPath(position(), cell->index(), path);
 		movePath(path);
-	}
+	}*/
 }
 
 void Squad::movePath(const std::list<GlobalFieldCell*>& path) {
@@ -212,7 +212,7 @@ void joinSquad(Squad* squad, Character* Character) {
 }
 
 void leaveSquad(Character* Character) {
-	auto squad = Character->squad();
+	/*auto squad = Character->squad();
 
 	if (!squad) {
 		qDebug("Can't leave squad. Not in squad");
@@ -225,7 +225,7 @@ void leaveSquad(Character* Character) {
 	own_squad->setHumanControl(Character->isHumanControl());
 	own_squad->setPosition(squad->position());
 
-	addSquad(squad->field(), own_squad);
+	addSquad(squad->field(), own_squad);*/
 }
 
 //	SQUAD TASK
@@ -256,5 +256,5 @@ void ExploreFieldCellTask::update() {
 }
 
 GlobalField* Squad::field() {
-	return dynamic_cast<GlobalField*>(Entity::field());
+	return nullptr;// dynamic_cast<GlobalField*>(Entity::field());
 }

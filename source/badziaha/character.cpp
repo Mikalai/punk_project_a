@@ -8,6 +8,10 @@
 #include "unit_graphics_item.h"
 #include "known_stuff.h"
 
+void destroy(Character* value) {
+	delete value;
+}
+
 std::unique_ptr<ActivityClass> ActivityClass::m_instance;
 
 ActivityClass* ActivityClass::instance() {
@@ -28,7 +32,7 @@ ActivityClass::ActivityClass() {
 	m_consume_power[enum_index(Activity::Sweem)] = 670;
 }
 
-Character::Character(GlobalField* field, QObject* parent)
+Character::Character(GlobalField* field, QGraphicsItem* parent)
 	: Entity{field, parent }
 {
 	auto& clothes_classes = Resources::instance()->clothes();
@@ -51,7 +55,7 @@ Character::Character(GlobalField* field, QObject* parent)
 }
 
 void Character::update() {
-	Entity::update();
+	TimeDependent::update();
 	auto dt = Entity::getTimeStep();
 
 	m_body.update(dt);
@@ -119,7 +123,7 @@ float Body::shortWaveRadiation() const {
 	auto heat_sources = character()->heatSources();
 	auto R = 0.0f;
 	for (auto& s : heat_sources) {
-		R += r * projectedSurface() * s.power(character()->weather(), character()->fullPosition());
+		R += r * projectedSurface() * s.power(character()->weather(), character()->scenePos());
 	}
 	return R;
 }
@@ -384,3 +388,10 @@ void Character::drop(const Item* value) {
 	//field()->add(fullPosition(), std::move(item));
 }
 
+void Character::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
+	Entity::paint(painter, option, widget);
+}
+
+QRectF Character::boundingRect() const {
+	return Entity::boundingRect();
+}

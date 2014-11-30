@@ -1,4 +1,5 @@
 //#include <QtOpenGL/QGlWidget>
+#include <qtcore/qdebug.h>
 #include <QtCore/qtimezone.h>
 #include <QtCore/qtimer.h>
 #include <QtOpenGL/qgl.h>
@@ -12,6 +13,8 @@
 #include "../local_field.h"
 #include "../squad.h"
 #include "../weather.h"
+#include "../unit.h"
+#include "../character.h"
 
 MainWindow::MainWindow()
 	: QMainWindow{ nullptr }
@@ -105,28 +108,40 @@ void MainWindow::closeEvent(QCloseEvent* e) {
 }
 
 void MainWindow::enterLocation() {
-	auto player = world()->globalField()->player();
+	auto player = world()->player();
 	if (!player) {
 		qDebug("No player. Will not enter any location");
 		return;
 	}
-	auto cell = world()->globalField()->cell(player->position());
+	auto global_pos = player->scenePos();
+	qDebug() << "Player global position:" << global_pos.x() << global_pos.y();
+	auto cell = world()->globalField()->cell(global_pos);
+	auto local_pos = global_pos * cell->sceneMatrix().inverted();
+	qDebug() << "Player local position:" << local_pos.x() << local_pos.y();
 	if (cell) {
+		world()->globalField()->removeItem(player);
 		auto v = std::unique_ptr < LocalField > { new LocalField{ world()->globalField(), cell, this }};
 		connect(v.get(), SIGNAL(toggleInventory(Character*)), ui->m_inventory, SLOT(toggle(Character*)));
 		ui->m_render_view->setScene(v.get());
 		auto s = GLOBAL_FIELD_SIZE / (float)GLOBAL_FIELD_CELL_REAL_SIZE;
 		ui->m_render_view->resetTransform();
 		v->create(64, 64);
+		auto cell = v->cell(local_pos);
+		local_pos = local_pos * cell->sceneMatrix().inverted();
+		qDebug() << "Player local local position:" << local_pos.x() << local_pos.y();
+		world()->player()->setParentItem(cell);
+		world()->player()->setPos(local_pos);	
 		world()->setLocalField(v.release());
+		if (player)
+			ui->m_render_view->centerOn(player);
 	}
 }
 
 void MainWindow::leaveLocation() {
 	ui->m_render_view->setScene(world()->globalField());
 	auto player = world()->globalField()->player();
-	if (player)
-		ui->m_render_view->centerOn(player->model());
+	//if (player)
+	//	ui->m_render_view->centerOn(player->model());
 	auto s = GLOBAL_FIELD_SIZE / (float)GLOBAL_FIELD_CELL_REAL_SIZE;
 	ui->m_render_view->resetTransform();
 	ui->m_render_view->scale(s, s);
@@ -142,4 +157,11 @@ void MainWindow::update() {
 
 void MainWindow::weatherChanged(const WeatherStamp& value) {
 	ui->m_weather->setText(value.toString());
+}
+
+void MainWindow::createCharacter() {
+	auto c = make_ptr(new Character{ world()->globalField(), nullptr });
+	c->setHumanControl(true);
+	c->setPos(1000000, 1000000);
+	world()->addCharacter(std::move(c));
 }

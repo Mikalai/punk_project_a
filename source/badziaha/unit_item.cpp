@@ -12,7 +12,7 @@ QRectF UnitItem::boundingRect() const {
 }
 
 void UnitItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
-	setTransform(QTransform{ m_unit->getTransform() });
+	//setTransform(QTransform{ m_unit->getTransform() });
 	painter->drawRect(boundingRect());
 	painter->drawLine(0, 0, 50, 0);
 }

@@ -90,12 +90,14 @@ public:
 
 	//	roads
 	std::set<Road*>& roads() {
-		return m_roads;
+		throw;
+		//return m_roads;
 	}
 
 	//	buildings
 	std::vector<Construction*> buildings() {
-		return m_building;
+		throw;
+		//return m_building;
 	}
 
 	// delayed destroying
@@ -174,12 +176,12 @@ private:
 	std::vector<GlobalFieldCellPtr> m_cells;
 
 	//	squads data
-	std::vector<Squad*> m_squads;
-	std::set<Squad*> m_selected_squads;
+	//std::vector<Squad*> m_squads;
+	//std::set<Squad*> m_selected_squads;
 	int m_max_squad_count{ 5 };
 
 	// cities data
-	std::vector<City*> m_cities;
+	//std::vector<City*> m_cities;
 	int m_max_city_count{ 10 };
 
 	//	path finding 
@@ -198,13 +200,13 @@ private:
 	int m_last_row_update{ 0 };
 
 	//	all the roads 
-	std::set<Road*> m_roads;
+	//std::set<Road*> m_roads;
 
 	//	current interaction mode
 	InteractionMode m_mode{ InteractionMode::Select };
 
 	//	entities: Buildings
-	std::vector<Construction*> m_building;
+	//std::vector<Construction*> m_building;
 
 	//	pending removing
 	std::vector<Entity*> m_entities_to_delete;

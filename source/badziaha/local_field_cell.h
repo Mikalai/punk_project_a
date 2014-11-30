@@ -36,6 +36,7 @@ public:
 	const std::vector<const Item*> items() const;
 
 	LocalField* field() const;
+	GlobalFieldCell* globalFieldCell() const;
 
 	void update() override;
 

@@ -43,12 +43,14 @@ void LocalField::create(int width, int height) {
 	m_width = width;
 	m_height = height;
 
+	auto global_pos = globalCell()->pos();
 	//m_cells.resize(m_width*m_height);
 	for (int y = 0; y < m_height; ++y) {
 		for (int x = 0; x < m_width; ++x) {
 			QPointF pos{ x*cellSize(), y*cellSize() };
-			auto cell = make_ptr(new LocalFieldCell{ pos, nullptr });
+			auto cell = make_ptr(new LocalFieldCell{ global_pos + pos, nullptr });
 			addItem(cell.get());
+			m_cells.push_back(std::move(cell));
 		}
 	}
 
@@ -195,7 +197,7 @@ void LocalField::keyReleaseEvent(QKeyEvent *event) {
 }
 
 void LocalField::mousePressEvent(QGraphicsSceneMouseEvent *event) {
-	//qDebug(__FUNCTION__);
+	std::cout << event->scenePos().x() << " " << event->scenePos().y() << std::endl;
 	Keys::instance()->setMouse(event->button(), true);
 	event->accept();
 }

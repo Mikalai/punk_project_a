@@ -1,28 +1,25 @@
 #ifndef _H_ENTITY
 #define _H_ENTITY
 
+#include <QtWidgets/qgraphicsitem.h>
 #include <QtCore/qobject.h>
 #include <QtCore/qpoint.h>
 #include <chrono>
 #include "time_dependent.h"
 #include "spatial.h"
 
+class QPainter;
+class QWidget;
 class QGraphicsItem;
 class GlobalField;
 class Building;
 
-class Entity : public QObject, public TimeDependent, public Spatial {
+class Entity : public QObject, public QGraphicsItem, public TimeDependent {
 public:
 
-	Entity(GlobalField* field, QObject* parent = nullptr);
+	Entity(GlobalField* field, QGraphicsItem* parent);
 
 	virtual ~Entity();
-
-	QGraphicsItem* model() {
-		return m_model;
-	}
-
-	void setModel(QGraphicsItem* item);
 
 	void setHumanControl(bool value) {
 		m_human_control = value;
@@ -32,20 +29,23 @@ public:
 		return m_human_control;
 	}
 
+	void move(float dx, float dy);
 
-protected:
-	void OnPositionChanged() override;
+
+	//	QGraphicsItem
+	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0) override;
+	QRectF boundingRect() const override;
+	QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
+
+	const Field* field() const;
+	Field* field();
+
 private:
-	void updateModelTransform();
+
 
 private:
-	
-
-	/*std::chrono::high_resolution_clock::time_point m_last_update;
-	float m_dt{ 0 };*/
 	bool m_human_control{ false };
-	QGraphicsItem* m_model{ nullptr };
-	Building* m_building{ nullptr };
+	GlobalField* m_field{ nullptr };
 };
 
 #endif	//	_H_BUILDING

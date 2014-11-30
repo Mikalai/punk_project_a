@@ -19,13 +19,7 @@ public:
 
 	Character* character() { return m_character; }
 
-	QGraphicsItem* model() { return m_model; }
-	float rotation() const { return m_rotation; }
-	QPointF position() const { return m_position; }
-	void setPosition(QPointF value);
 	LocalField* field() { return m_field; }
-
-	QMatrix getTransform() const;
 
 	bool isHumanControl() const;
 
@@ -47,11 +41,8 @@ private:
 
 private:
 	LocalField* m_field{ nullptr };
-	QPointF m_position{ 0, 0 };
-	float m_rotation{ 0 };
 	Character* m_character{ nullptr };
 	int m_squad_id{ -1 };
-	QGraphicsItem* m_model{ nullptr };
 	//	target in scene coordinates
 	QPointF m_target;
 };

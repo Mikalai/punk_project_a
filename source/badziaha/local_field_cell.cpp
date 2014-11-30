@@ -2,6 +2,7 @@
 #include "items.h"
 #include "local_field.h"
 #include "resources.h"
+#include "global_field.h"
 #include "local_field_cell.h"
 #include "local_field_item.h"
 
@@ -20,22 +21,23 @@ QBrush LocalFieldCell::getGroundBrush() const {
 }
 
 LocalField* LocalFieldCell::field() const {
-	return qobject_cast<LocalField*>(parentItem()->scene());
+	return qobject_cast<LocalField*>(scene());
 }
 
 QRectF LocalFieldCell::boundingRect() const {
 	auto size = LocalField::cellSize();
-	return QRectF{ -size / 2, -size / 2, size, size };
+	return QRectF{ 0, 0, size, size };
 }
 
 void LocalFieldCell::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
 	auto size = LocalField::cellSize();
-	auto brush = getGroundBrush();
+	auto brush = painter->brush();// getGroundBrush();
+	brush.setTextureImage(globalFieldCell()->surface()->icon());
 	auto pen = painter->pen();
 	pen.setStyle(Qt::PenStyle::NoPen);
 	painter->setPen(pen);
 	painter->setBrush(brush);
-	painter->drawRect(-size / 2, -size / 2, size, size);
+	painter->drawRect(0, 0, size, size);
 
 	/*for (auto& child : childItems()) {
 		auto item = qgraphicsitem_cast<
@@ -90,4 +92,8 @@ const std::vector<const Item*> LocalFieldCell::items() const {
 void LocalFieldCell::update() {
 	TimeDependent::update();
 	auto dt = getTimeStep();
+}
+
+GlobalFieldCell* LocalFieldCell::globalFieldCell() const {
+	return field()->globalCell();
 }

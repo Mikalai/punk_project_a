@@ -1,4 +1,5 @@
 #include "main_window.ui.h"
+#include "../fwd_character.h"
 
 class InventoryForm;
 class World;
@@ -24,6 +25,7 @@ public slots:
 	void setTimeScale(int value);
 	void update();
 	void weatherChanged(const WeatherStamp& value);
+	void createCharacter();
 
 protected:
 

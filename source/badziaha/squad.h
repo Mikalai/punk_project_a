@@ -39,7 +39,7 @@ class Squad : public Entity {
 	Q_OBJECT;
 	Q_PROPERTY(Character* leader MEMBER m_leader);
 public:
-	Squad(Character* leader, GlobalField* field, QObject* parent = nullptr);
+	Squad(Character* leader, GlobalField* field, QGraphicsItem* parent = nullptr);
 
 	float getBaseSpeed(GlobalFieldCell* cell) const;
 	void goTo(GlobalFieldCell* cell);

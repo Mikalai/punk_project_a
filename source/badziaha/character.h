@@ -12,6 +12,7 @@
 #include "body_part_type.h"
 #include "item_class_type.h"
 #include "fwd_items.h"
+#include "fwd_character.h"
 
 enum class Activity {
 	Idle,
@@ -151,7 +152,7 @@ private:
 class Character : public Entity {
 	Q_OBJECT;
 public:
-	Character(GlobalField* field, QObject* parent = nullptr);
+	Character(GlobalField* field, QGraphicsItem* parent = nullptr);
 	virtual ~Character();
 
 	int builderLevel() const { return m_builder_level; }
@@ -184,6 +185,10 @@ public:
 	const std::vector<const Item*> selectItems(ItemClassType type);
 	const std::vector<const Item*> selectEquippedItems(ItemClassType type);
 	ItemPtr popItem(const Item* item);
+
+	//	QGraphicsItem
+	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0) override;
+	QRectF boundingRect() const override;
 
 private:
 	void processTasks();

@@ -48,14 +48,14 @@ QModelIndex CityModel::parent(const QModelIndex &child) const {
 }
 
 int CityModel::rowCount(const QModelIndex &parent) const {
-	if (!parent.isValid())
+	/*if (!parent.isValid())
 		return 3;
 	if (parent == Resources) {
 		return (int)m_city->rawMaterials().size();
 	}
 	if (parent == Characters) {
 		return (int)m_city->characters().size();
-	}
+	}*/
 	return 0;
 }
 
@@ -64,7 +64,7 @@ int CityModel::columnCount(const QModelIndex &parent) const {
 }
 
 bool CityModel::hasChildren(const QModelIndex &parent) const {
-	if (parent == QModelIndex{})
+	/*if (parent == QModelIndex{})
 		return true;
 
 	if (parent == Resources) {
@@ -74,12 +74,12 @@ bool CityModel::hasChildren(const QModelIndex &parent) const {
 	if (parent == Characters) {
 		return !m_city->characters().empty();
 	}
-
+*/
 	return false;
 }
 
 QVariant CityModel::data(const QModelIndex &index, int role) const {
-	if (!index.isValid())
+	/*if (!index.isValid())
 		return QVariant();
 
 	if (role != Qt::DisplayRole)
@@ -109,7 +109,7 @@ QVariant CityModel::data(const QModelIndex &index, int role) const {
 		else if (index.column() == 1) {
 			return QString{};
 		}
-	}
+	}*/
 	return QString{};
 }
 
@@ -129,14 +129,14 @@ void CityWidget::updateModel() {
 	if (!isVisible())
 		return;
 
-	auto model = ui->m_overview->model();
+	/*auto model = ui->m_overview->model();
 	if (!model)
-		return;
+		return;*/
 }
 
 void CityWidget::setCity(City* city) {
 	qDebug(__FUNCTION__);
-	m_city = city;
+	/*m_city = city;
 	setVisible(m_city != nullptr);
 	if (m_city) {
 		ui->m_name->setText(city->name());
@@ -144,13 +144,13 @@ void CityWidget::setCity(City* city) {
 		connect(m_timer, SIGNAL(timeout()), model, SLOT(refresh()));
 		ui->m_overview->setModel(model);
 		ui->m_overview->show();
-	}
+	}*/
 }
 
 void CityWidget::selectFieldCell(QGraphicsSceneMouseEvent* event, GlobalFieldCell* cell) {
 	qDebug(__FUNCTION__);
 
-	if (!m_city)
+	/*if (!m_city)
 		return;
 
 	if (m_new_task.get() && m_new_task->needInput()) {
@@ -159,25 +159,25 @@ void CityWidget::selectFieldCell(QGraphicsSceneMouseEvent* event, GlobalFieldCel
 			if (!m_new_task->needInput())
 				m_city->addTask(m_new_task.release());
 		}
-	}
+	}*/
 }
 
 void CityWidget::buildRoad() {
 	qDebug(__FUNCTION__);
-
+/*
 	if (!m_city)
 		return;
 
-	m_new_task.reset(new BuildRoad{ m_city});
+	m_new_task.reset(new BuildRoad{ m_city});*/
 }
 
 void CityWidget::buildSawmill() {	
 	qDebug(__FUNCTION__);
 
-	if (!m_city)
+	/*if (!m_city)
 		return;
 
 	auto mill = new SawMill{ m_city->field(), m_city->field() };
 	mill->setCity(m_city);
-	m_new_task.reset(new Build{ m_city, mill });
+	m_new_task.reset(new Build{ m_city, mill });*/
 }

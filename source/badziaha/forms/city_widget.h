@@ -27,7 +27,7 @@ private:
 	QTimer* m_timer{ nullptr };
 	City* m_city{ nullptr };
 	Ui::CityWidget* ui{ nullptr };
-	std::unique_ptr<CityTask> m_new_task{ nullptr };
+	//std::unique_ptr<CityTask> m_new_task{ nullptr };
 };
 
 class CityModel : public QAbstractItemModel {

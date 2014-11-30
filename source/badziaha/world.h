@@ -6,6 +6,7 @@
 #include <QtCore/qdatetime.h>
 #include "time_dependent.h"
 #include "weather.h"
+#include "fwd_character.h"
 
 struct WeatherStamp;
 class GlobalField;
@@ -34,6 +35,10 @@ public:
 		return &m_current_weather;
 	}
 
+	void addCharacter(CharacterPtr value);
+
+	Character* player() const { return m_player; }
+
 public slots:
 	void updateByTimer();
 
@@ -48,6 +53,8 @@ private:
 	GlobalField* m_global_field{ nullptr };
 	LocalField* m_local_field{ nullptr };
 	WeatherStamp m_current_weather;
+	std::vector<CharacterPtr> m_characters;
+	Character* m_player{ nullptr };
 };
 
 #endif	//	_H_WORLD

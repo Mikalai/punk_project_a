@@ -8,6 +8,11 @@
 enum class OptionType {
 	EnableCheats,
 	TimeScale,
+	GlobalFieldWidth,
+	GlobalFieldHeight,
+	LocalFieldWidth,
+	LocalFieldHeight,
+	CellSize,
 	End
 };
 
@@ -45,7 +50,7 @@ public:
 	}
 
 private:
-
+	void load();
 	static std::unique_ptr<Options> m_instance;	
 	std::array<Value, enum_size<OptionType>::Value> m_value;
 };

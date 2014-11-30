@@ -1,11 +1,12 @@
 #include "world.h"
 #include "global_field.h"
 #include "local_field.h"
+#include "character.h"
 
 void World::create() {
 	m_current_time = QDateTime(QDate(2012, 7, 6), QTime(21, 30, 0));
 	destroy();
-	
+
 	m_global_field = new GlobalField{ this, this };
 	m_global_field->Create();
 }
@@ -48,4 +49,15 @@ void World::setLocalField(LocalField* value) {
 	if (m_local_field)
 		delete m_local_field;
 	m_local_field = value;
+}
+
+void World::addCharacter(CharacterPtr value) {
+	if (value->isHumanControl()) {
+		if (m_player) {
+			m_player->setHumanControl(false);
+		}
+		m_player = value.get();
+	}
+	globalField()->addItem(value.get());
+	m_characters.push_back(std::move(value));
 }

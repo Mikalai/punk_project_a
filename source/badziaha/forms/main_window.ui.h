@@ -46,6 +46,7 @@ public:
     QAction *action1_10;
     QAction *action1_100;
     QAction *action1s_1000;
+    QAction *actionCreate_character;
     QWidget *centralwidget;
     QHBoxLayout *horizontalLayout;
     QGraphicsView *m_render_view;
@@ -94,6 +95,8 @@ public:
         action1_100->setObjectName(QStringLiteral("action1_100"));
         action1s_1000 = new QAction(MainWindow);
         action1s_1000->setObjectName(QStringLiteral("action1s_1000"));
+        actionCreate_character = new QAction(MainWindow);
+        actionCreate_character->setObjectName(QStringLiteral("actionCreate_character"));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         horizontalLayout = new QHBoxLayout(centralwidget);
@@ -130,7 +133,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1024, 21));
+        menubar->setGeometry(QRect(0, 0, 1024, 31));
         menuFile = new QMenu(menubar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuAction = new QMenu(menubar);
@@ -191,6 +194,7 @@ public:
         menuFile->addAction(actionQuit);
         menuAction->addAction(actionEnter_location);
         menuAction->addAction(actionLeave_location);
+        menuAction->addAction(actionCreate_character);
         menuTime->addAction(action1_1);
         menuTime->addAction(action1_10);
         menuTime->addAction(action1_100);
@@ -206,6 +210,7 @@ public:
         QObject::connect(actionEnter_location, SIGNAL(triggered()), MainWindow, SLOT(enterLocation()));
         QObject::connect(actionLeave_location, SIGNAL(triggered()), MainWindow, SLOT(leaveLocation()));
         QObject::connect(m_time_scale, SIGNAL(valueChanged(int)), MainWindow, SLOT(setTimeScale(int)));
+        QObject::connect(actionCreate_character, SIGNAL(triggered()), MainWindow, SLOT(createCharacter()));
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
@@ -231,6 +236,8 @@ public:
         action1_10->setText(QApplication::translate("MainWindow", "1s:10s", 0));
         action1_100->setText(QApplication::translate("MainWindow", "1s:100s", 0));
         action1s_1000->setText(QApplication::translate("MainWindow", "1s:1000s", 0));
+        actionCreate_character->setText(QApplication::translate("MainWindow", "Create character", 0));
+        actionCreate_character->setShortcut(QApplication::translate("MainWindow", "Ctrl+Shift+C", 0));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0));
         menuAction->setTitle(QApplication::translate("MainWindow", "Action", 0));
         menuTime->setTitle(QApplication::translate("MainWindow", "Time", 0));

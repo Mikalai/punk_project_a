@@ -1,4 +1,11 @@
 {
+    "Options" : {
+        "global_field_width" : 64,
+        "global_field_height" : 64,
+        "local_field_width" : 64,
+        "local_field_heigh" : 64,
+        "cell_size" : 6250
+    },
     "SurfaceTypes": [
         {
             "name": "Grass",

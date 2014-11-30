@@ -39,7 +39,7 @@ GlobalField::GlobalField(World* world, QObject* parent)
 }
 
 GlobalField::~GlobalField() {
-	while (!m_squads.empty()){
+	/*while (!m_squads.empty()){
 		delete m_squads.back();
 		m_squads.pop_back();
 	}
@@ -57,7 +57,7 @@ GlobalField::~GlobalField() {
 	while (!m_building.empty()) {
 		delete m_building.back();
 		m_building.pop_back();
-	}
+	}*/
 }
 
 void GlobalField::pathFinderFunc(GlobalField* _this) {
@@ -165,18 +165,18 @@ void GlobalField::Create(float grass, float water, float sand, float dirt, float
 	}
 
 	//	create player squad
-	Squad* s = new Squad(new Character{ this, this }, this, this);
+	/*Squad* s = new Squad(new Character{ this, this }, this, this);
 	s->setHumanControl(true);
 	s->setPosition(6, 6);
-	addSquad(s);
+	addSquad(s);*/
 
-	auto& list = QGraphicsScene::views();
+	/*auto& list = QGraphicsScene::views();
 	for (auto view : list) {
 		view->centerOn(s->model());
-	}
+	}*/
 
 	//	create cities
-	for (int i = 0; i < m_max_city_count; ++i) {
+	/*for (int i = 0; i < m_max_city_count; ++i) {
 		City* c = new City{ this, this };
 		if (i == 0) {
 			c->setPosition(10, 10);
@@ -188,7 +188,7 @@ void GlobalField::Create(float grass, float water, float sand, float dirt, float
 		addCity(c);
 	}
 
-	m_cities[0]->buildRoad(cell(m_cities[0]->position()), cell(m_cities[1]->position()));
+	m_cities[0]->buildRoad(cell(m_cities[0]->position()), cell(m_cities[1]->position()));*/
 }
 
 void GlobalField::update() {
@@ -205,12 +205,12 @@ void GlobalField::update() {
 	}
 
 	//	create squads if not enough
-	if (m_squads.size() < m_max_squad_count) {
-		Squad* s = new Squad(new Character{ this, this }, this, this);
-		s->setHumanControl(false);
-		s->setPosition(50, 50);
-		addSquad(s);
-	}
+	//if (m_squads.size() < m_max_squad_count) {
+	//	Squad* s = new Squad(new Character{ this, this }, this, this);
+	//	s->setHumanControl(false);
+	//	s->setPosition(50, 50);
+	//	addSquad(s);
+	//}
 
 	//	update cells
 	if (m_last_row_update >= m_height) {
@@ -223,19 +223,19 @@ void GlobalField::update() {
 	m_last_row_update++;
 
 	//	update squads
-	for (auto& squad : m_squads) {
-		squad->update();
-	}
+	//for (auto& squad : m_squads) {
+	//	squad->update();
+	//}
 
 	//	update cities
-	for (auto& city : m_cities) {
-		city->update();
-	}
+	//for (auto& city : m_cities) {
+	//	city->update();
+	//}
 
 	//	update buildings
-	for (auto& building : m_building) {
-		building->update();
-	}
+	//for (auto& building : m_building) {
+	//	building->update();
+	//}
 }
 
 int GlobalField::cellSize() {
@@ -243,19 +243,19 @@ int GlobalField::cellSize() {
 }
 
 void GlobalField::addSquad(Squad* value) {
-	auto it = std::find(m_squads.begin(), m_squads.end(), value);
-	if (it != m_squads.end())
-		return;
-	m_squads.push_back(value);
-	addItem(value->model());
+	//auto it = std::find(m_squads.begin(), m_squads.end(), value);
+	//if (it != m_squads.end())
+	//	return;
+	//m_squads.push_back(value);
+	//addItem(value->model());
 }
 
 void GlobalField::addCity(City* city) {
-	auto it = std::find(m_cities.begin(), m_cities.end(), city);
+	/*auto it = std::find(m_cities.begin(), m_cities.end(), city);
 	if (it != m_cities.end())
 		return;
 	m_cities.push_back(city);
-	addItem(city->model());
+	addItem(city->model());*/
 }
 
 void GlobalField::onSelectionChanged() {
@@ -267,29 +267,29 @@ void GlobalField::onSelectionChanged() {
 		emit selectionDropped();
 	}
 
-	m_selected_squads.clear();
-	for (auto item : items) {
+	//m_selected_squads.clear();
+	//for (auto item : items) {
 
-		//	check if squads were selected
-		SquadGraphicsItem* squad_item = qgraphicsitem_cast<SquadGraphicsItem*>(item);
-		if (squad_item) {
-			qDebug("Squad selected");
-			if (squad_item->getSquad()->isHumanControl()) {
-				m_selected_squads.insert(squad_item->getSquad());
-				emit citySelected(nullptr);
-			}
-		}
+	//	//	check if squads were selected
+	//	SquadGraphicsItem* squad_item = qgraphicsitem_cast<SquadGraphicsItem*>(item);
+	//	if (squad_item) {
+	//		qDebug("Squad selected");
+	//		if (squad_item->getSquad()->isHumanControl()) {
+	//			m_selected_squads.insert(squad_item->getSquad());
+	//			emit citySelected(nullptr);
+	//		}
+	//	}
 
-		// check if city was selected
-		CityGraphicsItem* city_item = qgraphicsitem_cast<CityGraphicsItem*>(item);
-		if (city_item) {
-			qDebug("City selected");
-			if (city_item->getCity()->isHumanControl()) {
-				emit citySelected(city_item->getCity());
-				break;
-			}
-		}
-	}
+	//	// check if city was selected
+	//	CityGraphicsItem* city_item = qgraphicsitem_cast<CityGraphicsItem*>(item);
+	//	if (city_item) {
+	//		qDebug("City selected");
+	//		if (city_item->getCity()->isHumanControl()) {
+	//			emit citySelected(city_item->getCity());
+	//			break;
+	//		}
+	//	}
+//	}
 }
 
 void GlobalField::mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent) {
@@ -302,21 +302,21 @@ void GlobalField::mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent) {
 	}	
 
 	//if (m_mode == InteractionMode::Select) {
-		if (mouseEvent->button() == Qt::RightButton && !m_squads.empty()) {
-			for (auto& item : all_items) {
-				auto field_cell_item = qgraphicsitem_cast<GlobalFieldCell*>(item);
-				if (field_cell_item) {
-					auto cell = field_cell_item;
-					for (auto squad : m_selected_squads) {
-						if (squad->isHumanControl())
-							squad->goTo(cell);
-					}
-				}
-			}
-		}
-		else {
-			QGraphicsScene::mousePressEvent(mouseEvent);
-		}
+		//if (mouseEvent->button() == Qt::RightButton && !m_squads.empty()) {
+		//	for (auto& item : all_items) {
+		//		auto field_cell_item = qgraphicsitem_cast<GlobalFieldCell*>(item);
+		//		if (field_cell_item) {
+		//			auto cell = field_cell_item;
+		//			for (auto squad : m_selected_squads) {
+		//				if (squad->isHumanControl())
+		//					squad->goTo(cell);
+		//			}
+		//		}
+		//	}
+		//}
+		//else {
+		//	QGraphicsScene::mousePressEvent(mouseEvent);
+		//}
 	//}
 	//else if (m_mode == InteractionMode::BuildRoad) {
 
@@ -607,31 +607,31 @@ void GlobalField::terminate() {
 }
 
 void GlobalField::addRoad(Road* road) {
-	if (!road)
-		return;
+	//if (!road)
+	//	return;
 
-	auto it = m_roads.find(road);
-	if (it != m_roads.end()) {
-		qDebug("Road has been already added to the scene");
-		return;
-	}
+	//auto it = m_roads.find(road);
+	//if (it != m_roads.end()) {
+	//	qDebug("Road has been already added to the scene");
+	//	return;
+	//}
 
-	m_roads.insert(road);
-	addItem(road->model());
+	//m_roads.insert(road);
+	//addItem(road->model());
 }
 
 void GlobalField::removeRoad(Road* road) {
-	if (!road)
-		return;
+	//if (!road)
+	//	return;
 
-	auto it = m_roads.find(road);
-	if (it == m_roads.end()) {
-		qDebug("Can't remove road from the field because it was not added");
-		return;
-	}
-	road->removeRoad();
-	m_roads.erase(road);
-	removeItem(road->model());
+	//auto it = m_roads.find(road);
+	//if (it == m_roads.end()) {
+	//	qDebug("Can't remove road from the field because it was not added");
+	//	return;
+	//}
+	//road->removeRoad();
+	//m_roads.erase(road);
+	//removeItem(road->model());
 }
 
 void GlobalField::setInteractionMode(GlobalField::InteractionMode value) {
@@ -639,155 +639,155 @@ void GlobalField::setInteractionMode(GlobalField::InteractionMode value) {
 }
 
 void GlobalField::addBuilding(Construction* value) {
-	if (!value)
-		return;
+	//if (!value)
+	//	return;
 
-	auto it = std::find(m_building.begin(), m_building.end(), value);
-	if (it != m_building.end()) {
-		qDebug("Can't add building. Already added");
-		return;
-	}
-	m_building.push_back(value);
-	addItem(value->model());
+	//auto it = std::find(m_building.begin(), m_building.end(), value);
+	//if (it != m_building.end()) {
+	//	qDebug("Can't add building. Already added");
+	//	return;
+	//}
+	//m_building.push_back(value);
+	//addItem(value->model());
 }
 
 void GlobalField::removeBuilding(Construction* value) {
-	if (!value)
-		return;
+	//if (!value)
+	//	return;
 
-	auto it = std::find(m_building.begin(), m_building.end(), value);
-	if (it == m_building.end()) {
-		qDebug("Can't remove building. Not added");
-		return;
-	}
-	m_building.erase(it);
+	//auto it = std::find(m_building.begin(), m_building.end(), value);
+	//if (it == m_building.end()) {
+	//	qDebug("Can't remove building. Not added");
+	//	return;
+	//}
+	//m_building.erase(it);
 }
 
 void GlobalField::removeSquad(Squad* value) {
-	if (!value)
-		return;
+	//if (!value)
+	//	return;
 
-	auto it = std::find(m_squads.begin(), m_squads.end(), value);
-	if (it == m_squads.end()) {
-		qDebug("Can't remove squad from field. Not added");
-		return;
-	}
-	removeItem(value->model());
-	m_squads.erase(it);
+	//auto it = std::find(m_squads.begin(), m_squads.end(), value);
+	//if (it == m_squads.end()) {
+	//	qDebug("Can't remove squad from field. Not added");
+	//	return;
+	//}
+	//removeItem(value->model());
+	//m_squads.erase(it);
 }
 
 void GlobalField::removeCity(City* value) {
-	if (!value)
-		return;
+	//if (!value)
+	//	return;
 
-	auto it = std::find(m_cities.begin(), m_cities.end(), value);
-	if (it == m_cities.end()) {
-		qDebug("Can't remove city from field. Not added.");
-		return;
-	}
-	removeItem(value->model());
-	m_cities.erase(it);
+	//auto it = std::find(m_cities.begin(), m_cities.end(), value);
+	//if (it == m_cities.end()) {
+	//	qDebug("Can't remove city from field. Not added.");
+	//	return;
+	//}
+	//removeItem(value->model());
+	//m_cities.erase(it);
 }
 
 void addSquad(GlobalField* field, Squad* squad) {
-	if (!field || !squad)
-		return;
+	//if (!field || !squad)
+	//	return;
 
-	field->addSquad(squad);
-	
-	GlobalFieldCell* cell = field->cell(squad->position());
-	cell->addEntity(squad);
+	//field->addSquad(squad);
+	//
+	//GlobalFieldCell* cell = field->cell(squad->position());
+	//cell->addEntity(squad);
 }
 
 void removeSquad(GlobalField* field, Squad* squad) {
-	if (!field || !squad)
-		return;
+	//if (!field || !squad)
+	//	return;
 
-	field->removeSquad(squad);
-	field->moveToTrash(squad);
+	//field->removeSquad(squad);
+	//field->moveToTrash(squad);
 
-	auto cell = field->cell(squad->position());
-	cell->removeEntity(squad);
+	//auto cell = field->cell(squad->position());
+	//cell->removeEntity(squad);
 }
 
 void addCity(GlobalField* field, City* value) {
-	if (!field || !value)
-		return;
+	//if (!field || !value)
+	//	return;
 
-	field->addCity(value);
+	//field->addCity(value);
 
-	GlobalFieldCell* cell = field->cell(value->position());
-	cell->addEntity(value);
+	//GlobalFieldCell* cell = field->cell(value->position());
+	//cell->addEntity(value);
 }
 
 void removeCity(GlobalField* field, City* city) {
-	if (!field || !city)
-		return;
+	//if (!field || !city)
+	//	return;
 
-	//	all the Characters in the city became independent squads
-	auto characters = city->characters();
-	for (auto& character : characters) {
-		addSquad(field, new Squad{ character, field, field });
-	}
+	////	all the Characters in the city became independent squads
+	//auto characters = city->characters();
+	//for (auto& character : characters) {
+	//	addSquad(field, new Squad{ character, field, field });
+	//}
 
-	field->removeCity(city);
-	field->moveToTrash(city);
+	//field->removeCity(city);
+	//field->moveToTrash(city);
 
-	auto cell = field->cell(city->position());
-	cell->removeEntity(city);
+	//auto cell = field->cell(city->position());
+	//cell->removeEntity(city);
 }
 
 void addBuilding(GlobalField* field, Construction* construction) {
-	if (!field || !construction)
-		return;
+	//if (!field || !construction)
+	//	return;
 
-	field->addBuilding(construction);
+	//field->addBuilding(construction);
 
-	GlobalFieldCell* cell = field->cell(construction->position());
-	cell->addEntity(construction);
+	//GlobalFieldCell* cell = field->cell(construction->position());
+	//cell->addEntity(construction);
 }
 
 void removeBuilding(GlobalField* field, Construction* construction) {
-	if (!field || !construction)
-		return;
+	//if (!field || !construction)
+	//	return;
 
-	field->removeBuilding(construction);
-	field->moveToTrash(construction);
+	//field->removeBuilding(construction);
+	//field->moveToTrash(construction);
 
-	auto cell = field->cell(construction->position());
-	cell->removeEntity(construction);
+	//auto cell = field->cell(construction->position());
+	//cell->removeEntity(construction);
 }
 
 void addRoad(GlobalField* field, Road* road) {
-	if (!field || !road)
-		return;
+	//if (!field || !road)
+	//	return;
 
-	field->addRoad(road);
+	//field->addRoad(road);
 
-	auto& path = road->getPath();
-	for (auto& cell : path) {
-		cell->addRoad(road);
-	}
+	//auto& path = road->getPath();
+	//for (auto& cell : path) {
+	//	cell->addRoad(road);
+	//}
 }
 
 void removeRoad(GlobalField* field, Road* road) {
-	if (!field || !road)
-		return;
+	//if (!field || !road)
+	//	return;
 
-	field->removeRoad(road);
+	//field->removeRoad(road);
 
-	auto& path = road->getPath();
+	//auto& path = road->getPath();
 
-	for (auto& cell : path) {
-		cell->removeRoad(road);
-	}
+	//for (auto& cell : path) {
+	//	cell->removeRoad(road);
+	//}
 }
 
 Entity* GlobalField::player() {
-	for (auto& s : m_squads) {
-		if (s->isHumanControl())
-			return s;
-	}
+	//for (auto& s : m_squads) {
+	//	if (s->isHumanControl())
+	//		return s;
+	//}
 	return nullptr;
 }
 

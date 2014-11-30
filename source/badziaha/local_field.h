@@ -8,6 +8,7 @@
 #include "surface_type.h"
 #include "fwd_items.h"
 #include "fwd_local_field.h"
+#include "fwd_unit.h"
 #include "field.h"
 
 class Character;
@@ -27,7 +28,7 @@ public:
 	GlobalFieldCell* globalCell() const { return m_global_field_cell; }
 	FieldCell* cell(int x, int y) override;
 	FieldCell* cell(const QPoint& pos) override;
-FieldCell* cell(const QPointF& pos);
+	FieldCell* cell(const QPointF& pos);
 
 	//	size in pixels
 	static float cellSize();
@@ -48,6 +49,8 @@ FieldCell* cell(const QPointF& pos);
 	bool hasItemInstance(const Item* item) const override;
 	const std::vector<const Item*> selectItemInstances(ItemClassType type) const override;
 	const std::vector<const Item*> selectItemInstances(ItemClassType type, QRectF rect) const override;
+
+	void addUnit(UnitPtr value);
 
 signals:
 	void toggleInventory(Character*);
