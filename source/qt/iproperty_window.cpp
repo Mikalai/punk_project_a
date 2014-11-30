@@ -96,7 +96,7 @@ namespace Gui {
 	};
 
 	extern "C" PUNK_ENGINE_API IPropertyWindow* CreatePropertyWindow() {
-		return new PropertyWindow(nullptr);
+		return new PropertyWindow{};
 	}
 }
 PUNK_ENGINE_END

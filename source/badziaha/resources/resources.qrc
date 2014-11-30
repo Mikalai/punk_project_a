@@ -19,7 +19,6 @@
         <file>road.png</file>
         <file>sawmill.png</file>
         <file>construction.png</file>
-        <file>item_classes.json</file>
         <file>clothes/simple_boots.png</file>
         <file>clothes/simple_gloves.png</file>
         <file>clothes/simple_helmet.png</file>
@@ -28,6 +27,7 @@
         <file>ammo/9×19mm_Parabellum_Cor-Bon_JHP+P.png</file>
         <file>weapons/vektor_sp1.png</file>
         <file>bags/Condor_Compact _Assault_Pack.png</file>
+        <file>input.ods</file>
     </qresource>
     <qresource prefix="/icons">
         <file>saw.png</file>
