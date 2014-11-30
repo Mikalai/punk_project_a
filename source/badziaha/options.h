@@ -29,6 +29,18 @@ public:
 	Options();
 
 	template<class T>
+	static T get(OptionType value) {
+		return instance()->option<T>(value);
+	}
+
+	template<class T>
+	static void set(OptionType type, T value) {
+		instance()->setOption(type, value);
+	}
+
+private:
+
+	template<class T>
 	T option(OptionType value) const {
 		return reinterpret_cast<const T&>(m_value[enum_index(value)]);
 	}
@@ -44,6 +56,8 @@ public:
 		}
 		return m_instance.get();
 	}
+
+public:
 
 	static void destroy() {
 		m_instance.reset{ nullptr };

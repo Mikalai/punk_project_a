@@ -23,20 +23,29 @@ public:
 	using SurfaceTypeClasses = std::vector < const SurfaceTypeClass* > ;
 	Resources();
 
+	static void destroy();
+	static const SurfaceTypeClasses& surface_types() { return instance()->_surface_types(); }
+
+	static const ItemClasses& items() { return instance()->_items(); }
+	static const ClothesClasses& clothes() { return instance()->_clothes(); }
+	static const AmmoClasses& ammos() { return instance()->_ammos(); }
+	static const WeaponClasses weapons() { return instance()->_weapons(); }
+
 	QImage* getSquadImage();
 	QImage* getCityImage();
 	QImage* modelImage(const ModelType& value);	
 	QImage* loadImage(const QString& value);
 
-	static void destroy();
 	static Resources* instance();
 
-	const SurfaceTypeClasses& surface_types() const { return m_surfaces_cache; }
+private:
 
-	const ItemClasses& items() const { return m_items_cache; }
-	const ClothesClasses& clothes() const { return m_clothes_cache; }
-	const AmmoClasses& ammos() const { return m_ammo_cache; }
-	const WeaponClasses weapons() const { return m_weapon_cache; }
+	const SurfaceTypeClasses& _surface_types() const { return m_surfaces_cache; }
+
+	const ItemClasses& _items() const { return m_items_cache; }
+	const ClothesClasses& _clothes() const { return m_clothes_cache; }
+	const AmmoClasses& _ammos() const { return m_ammo_cache; }
+	const WeaponClasses _weapons() const { return m_weapon_cache; }
 private:
 	void readItems();
 

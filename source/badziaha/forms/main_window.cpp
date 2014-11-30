@@ -148,7 +148,7 @@ void MainWindow::leaveLocation() {
 }
 
 void MainWindow::setTimeScale(int value) {
-	Options::instance()->setOption(OptionType::TimeScale, (float)value);
+	Options::set(OptionType::TimeScale, (float)value);
 }
 
 void MainWindow::update() {
