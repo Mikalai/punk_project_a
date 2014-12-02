@@ -11,16 +11,16 @@ public:
 
 	enum { Type = QGraphicsItem::UserType + (int)ModelType::City };
 
+	int type() const override {
+		return Type;
+	}
+
 	CityGraphicsItem(City* city, QGraphicsItem* parent = nullptr);
 	QRectF boundingRect() const override;
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
 	City* getCity() {
 		return m_city;
-	}
-
-	int type() const override {
-		return Type;
 	}
 
 private:

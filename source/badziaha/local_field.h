@@ -52,6 +52,9 @@ public:
 
 	void addUnit(UnitPtr value);
 
+	static float realWidth();
+	static float realHeight();
+
 signals:
 	void toggleInventory(Character*);
 

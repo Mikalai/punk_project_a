@@ -34,6 +34,7 @@ ActivityClass::ActivityClass() {
 
 Character::Character(GlobalField* field, QGraphicsItem* parent)
 	: Entity{field, parent }
+	, m_body{ this }
 {
 	auto& clothes_classes = Resources::instance()->clothes();
 	for (const auto& clothes_class : clothes_classes) {
@@ -55,8 +56,8 @@ Character::Character(GlobalField* field, QGraphicsItem* parent)
 }
 
 void Character::update() {
-	TimeDependent::update();
-	auto dt = Entity::getTimeStep();
+	Entity::update();
+	auto dt = getTimeStep();
 
 	m_body.update(dt);
 
@@ -72,7 +73,8 @@ void Character::processTasks() {
 	}
 }
 
-Body::Body() {
+Body::Body(Character* character)
+	: m_character{ character } {
 	parts.resize(enum_size<BodyPartType>::Value);
 	int index = 0;
 	for (auto& v : parts) {

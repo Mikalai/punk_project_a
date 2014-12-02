@@ -31,6 +31,7 @@ public:
 
 	void move(float dx, float dy);
 
+	void update();
 
 	//	QGraphicsItem
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0) override;
@@ -40,10 +41,13 @@ public:
 	const Field* field() const;
 	Field* field();
 
+	void setTarget(const QPointF& target);
+	const QPointF& target() { return m_target; }
 private:
 
 
 private:
+	QPointF m_target;
 	bool m_human_control{ false };
 	GlobalField* m_field{ nullptr };
 };

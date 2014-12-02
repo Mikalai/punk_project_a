@@ -7,6 +7,8 @@ namespace Const {
 	const auto CelsiusZero = 273.15;
 	const auto WaterSpecificHeatVaporization = 2.4e6;
 	const auto HumanBodySpecificHeat = 3470.0;
+	const auto RadToDeg = 180.0 / PI;
+	const auto DegToRad = PI / 180.0;
 }
 
 #endif	//	_H_CONSTANTS

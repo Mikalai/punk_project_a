@@ -19,7 +19,9 @@
 #include "unit_item.h"
 #include "character.h"
 #include "items.h"
+#include "world.h"
 #include "local_field_cell.h"
+#include "options.h"
 
 void destroy(LocalField* value) {
 	delete value;
@@ -31,7 +33,7 @@ void destroy(LocalFieldCell* value) {
 
 
 LocalField::LocalField(GlobalField* field, GlobalFieldCell* cell, QObject* parent)
-	: Field{ nullptr, parent }
+	: Field{ field->world(), parent }
 	, m_global_field{ field }
 	, m_global_field_cell{ cell }
 {}
@@ -91,6 +93,9 @@ void LocalField::create(int width, int height) {
 //}
 
 void LocalField::update() {
+	Field::update();
+	auto dt = getTimeStep();
+
 	/*for (auto unit : m_units) {
 		unit->update();
 	}*/
@@ -103,7 +108,7 @@ void LocalField::update() {
 		}
 	}
 
-	if (Keys::instance()->keyboard(Qt::Key_Shift)) {
+	if (Keyboard::get(Qt::Key_Shift)) {
 		m_scale -= 0.1f;
 		m_scale = std::max(m_min_scale, m_scale);
 		for (auto view : views()) {
@@ -183,7 +188,7 @@ FieldCell* LocalField::cell(const QPointF& pos) {
 
 void LocalField::keyPressEvent(QKeyEvent *event) {
 	//qDebug(__FUNCTION__);
-	Keys::instance()->setKeyboard(event->key(), true);
+	Keyboard::set(event->key(), true);
 	if (event->key() == Qt::Key_I) {
 		emit toggleInventory(nullptr);
 	}
@@ -192,19 +197,23 @@ void LocalField::keyPressEvent(QKeyEvent *event) {
 
 void LocalField::keyReleaseEvent(QKeyEvent *event) {
 	//qDebug(__FUNCTION__);
-	Keys::instance()->setKeyboard(event->key(), false);
+	Keyboard::set(event->key(), false);
 	event->accept();
 }
 
 void LocalField::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 	std::cout << event->scenePos().x() << " " << event->scenePos().y() << std::endl;
-	Keys::instance()->setMouse(event->button(), true);
+	Mouse::set(event->button(), true);
 	event->accept();
 }
 
 void LocalField::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
 	//std::cout << event->scenePos().x() / 100.0f << " " << event->scenePos().y() / 100.0f<< std::endl;
 	m_last_position = event->scenePos();
+	auto player = world()->player();
+	if (player) {
+		player->setTarget(m_last_position);
+	}
 	/*if (m_human_unit){
 		m_human_unit->setTarget(impl->m_last_position);
 	}*/
@@ -213,7 +222,7 @@ void LocalField::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
 
 void LocalField::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
 	//qDebug(__FUNCTION__);
-	Keys::instance()->setMouse(event->button(), false);
+	Mouse::set(event->button(), false);
 	event->accept();
 }
 
@@ -223,8 +232,12 @@ float LocalField::cellPhysicalSize() {
 
 void LocalField::updateViews() {
 	for (auto view : views()) {
-		auto v = m_target + (m_last_position - m_target) * 0.5f;
-		view->centerOn(v);
+		auto player = world()->player();
+		if (player) {
+			auto pos = player->scenePos();
+			//auto v = m_target + (m_last_position - m_target) * 0.5f;
+			view->centerOn(pos);
+		}
 	}
 }
 
@@ -301,4 +314,16 @@ void LocalField::centerOn(const QPointF& target) {
 	for (auto v : views()) {
 		v->centerOn(target);
 	}
+}
+
+float LocalField::realWidth() {
+	auto cell_size = Options::get<int>(OptionType::CellSize);
+	auto local_field_width = Options::get<int>(OptionType::LocalFieldWidth);
+	return cell_size * local_field_width;
+}
+
+float LocalField::realHeight() {
+	auto cell_size = Options::get<int>(OptionType::CellSize);
+	auto local_field_height = Options::get<int>(OptionType::LocalFieldHeight);
+	return cell_size * local_field_height;
 }

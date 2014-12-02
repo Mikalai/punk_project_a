@@ -31,16 +31,14 @@ void Unit::update() {
 	auto dt = getTimeStep();
 
 	if (isHumanControl()) {
-		auto keys = Keys::instance();
-
 		QPointF dir{ 0, 0 };
-		if (keys->keyboard(Qt::Key_W))
+		if (Keyboard::get(Qt::Key_W))
 			dir.setX(dir.x() + 1);
-		if (keys->keyboard(Qt::Key_S))
+		if (Keyboard::get(Qt::Key_S))
 			dir.setX(dir.x() - 1);
-		if (keys->keyboard(Qt::Key_D))
+		if (Keyboard::get(Qt::Key_D))
 			dir.setY(dir.y() + 1);
-		if (keys->keyboard(Qt::Key_A))
+		if (Keyboard::get(Qt::Key_A))
 			dir.setY(dir.y() - 1);
 
 		auto l = dir.manhattanLength();

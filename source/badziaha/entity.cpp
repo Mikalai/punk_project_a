@@ -5,6 +5,10 @@
 #include "global_field_cell.h"
 #include "global_field.h"
 #include "local_field.h"
+#include "constants.h"
+#include "keys.h"
+#include "local_field_cell.h"
+#include "options.h"
 
 Entity::Entity(GlobalField* field, QGraphicsItem* parent)
 	: QGraphicsItem{ parent }
@@ -69,23 +73,85 @@ Field* Entity::field() {
 
 QVariant Entity::itemChange(GraphicsItemChange change, const QVariant &value)
 {
-	qDebug() << __FUNCTION__;
+	//qDebug() << __FUNCTION__;
 
-	auto s = scene();
+	//auto s = scene();
+	auto local_field = qobject_cast<LocalField*>(scene());
+	if (local_field)
+		local_field->centerOn(this->scenePos());
 
-	LocalField* local_field = qobject_cast<LocalField*>(scene());
-	GlobalField* global_field = qobject_cast<GlobalField*>(scene());
-
-	if (change == ItemPositionChange && scene()) {
-		// value is the new position.
+	if (change == ItemPositionHasChanged && scene()) {
+		
+		//	if we in the current cell do nothing
 		QPointF newPos = value.toPointF();
-		if (global_field) {
-			GlobalFieldCell* cur = qgraphicsitem_cast<GlobalFieldCell*>(global_field->cell(newPos));
-			GlobalFieldCell* old = qgraphicsitem_cast<GlobalFieldCell*>(parentItem());
-			if (cur != old) {
-				setParentItem(cur);
-			}
+		if (newPos.x() >= 0 && newPos.x() <= LocalFieldCell::realSize()
+			&& newPos.y() >= 0 && newPos.y() <= LocalFieldCell::realSize()) {
+			//	return nothing. ignored anyway
+			return QVariant{};
+		}
+
+		//	find world position of the entity
+		auto world_to_local_cell = parentItem()->sceneMatrix();
+		auto scene_new_pos = newPos * world_to_local_cell;
+		//auto scene_new_pos = mapToScene(newPos);
+
+		//	retrieve local field to get global field cell
+		if (local_field) {
+			//	find transform from world to the global cell (the same a local field)
+			auto world_to_local_field = local_field->globalCell()->sceneMatrix().inverted();
+			//	get new position in the local field space
+			auto pos_in_local_field = scene_new_pos * world_to_local_field;
+			//	get new local cell where entity is located
+			auto new_cell = local_field->cell(pos_in_local_field);
+			//	get new position in the local cell space
+			auto new_pos = scene_new_pos * new_cell->sceneMatrix().inverted();
+			setParentItem(new_cell);
+			setPos(new_pos);
+			qDebug() << "Parent cell has been changed to" << new_cell->x() << new_cell->y();
+			qDebug() << "Entity scene pos" << scene_new_pos.x() << scene_new_pos.y();
+			qDebug() << "Entity local_pos" << new_pos.x() << new_pos.y();
+			qDebug() << "Entity old_pos" << newPos.x() << newPos.y();
+			qDebug() << "Entity pos in local field" << pos_in_local_field.x() << pos_in_local_field.y();
 		}
 	}
 	return QGraphicsItem::itemChange(change, value);
+}
+
+void Entity::setTarget(const QPointF& value) {
+	m_target = value;
+	auto dir = m_target - scenePos();
+	dir = dir / dir.manhattanLength();
+	auto angle = atan2f(dir.y(), dir.x()) * Const::RadToDeg;
+	setRotation(angle);
+}
+
+void Entity::update() {
+	TimeDependent::update();
+	auto dt = getTimeStep();
+
+	if (isHumanControl()) {
+
+		QPointF dir{ 0, 0 };
+		if (Keyboard::get(Qt::Key_W))
+			dir.setX(dir.x() + 1);
+		if (Keyboard::get(Qt::Key_S))
+			dir.setX(dir.x() - 1);
+		if (Keyboard::get(Qt::Key_D))
+			dir.setY(dir.y() + 1);
+		if (Keyboard::get(Qt::Key_A))
+			dir.setY(dir.y() - 1);
+
+		auto l = dir.manhattanLength();
+		if (l > 1e-3f) {
+			dir = dir / dir.manhattanLength();
+
+			QMatrix rm;
+			rm.rotate(rotation());
+			dir = dir * rm;
+
+			auto p = pos();
+			p += dir * dt * 140;
+			setPos(p);
+		}
+	}
 }

@@ -40,6 +40,8 @@ public:
 
 	void update() override;
 
+	static float realSize();
+
 private:
 	QBrush getGroundBrush() const;
 };

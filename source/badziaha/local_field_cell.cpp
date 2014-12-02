@@ -5,6 +5,9 @@
 #include "global_field.h"
 #include "local_field_cell.h"
 #include "local_field_item.h"
+#include "entity.h"
+#include "character.h"
+#include "options.h"
 
 
 LocalFieldCell::LocalFieldCell(const QPointF& global_position, QGraphicsItem* parent)
@@ -92,8 +95,18 @@ const std::vector<const Item*> LocalFieldCell::items() const {
 void LocalFieldCell::update() {
 	TimeDependent::update();
 	auto dt = getTimeStep();
+	for (auto item : childItems()) {
+		auto e = qgraphicsitem_cast<Character*>(item);
+		if (e) {
+			e->update();
+		}
+	}
 }
 
 GlobalFieldCell* LocalFieldCell::globalFieldCell() const {
 	return field()->globalCell();
+}
+
+float LocalFieldCell::realSize() {
+	return Options::get<int>(OptionType::CellSize);
 }

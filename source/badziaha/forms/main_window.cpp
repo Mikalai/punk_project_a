@@ -115,21 +115,22 @@ void MainWindow::enterLocation() {
 	}
 	auto global_pos = player->scenePos();
 	qDebug() << "Player global position:" << global_pos.x() << global_pos.y();
-	auto cell = world()->globalField()->cell(global_pos);
-	auto local_pos = global_pos * cell->sceneMatrix().inverted();
+	auto global_cell = world()->globalField()->cell(global_pos);
+	auto local_pos = global_pos * global_cell->sceneMatrix().inverted();
 	qDebug() << "Player local position:" << local_pos.x() << local_pos.y();
-	if (cell) {
+	if (global_cell) {
 		world()->globalField()->removeItem(player);
-		auto v = std::unique_ptr < LocalField > { new LocalField{ world()->globalField(), cell, this }};
+		auto v = std::unique_ptr < LocalField > { new LocalField{ world()->globalField(), global_cell, this }};
 		connect(v.get(), SIGNAL(toggleInventory(Character*)), ui->m_inventory, SLOT(toggle(Character*)));
 		ui->m_render_view->setScene(v.get());
 		auto s = GLOBAL_FIELD_SIZE / (float)GLOBAL_FIELD_CELL_REAL_SIZE;
 		ui->m_render_view->resetTransform();
 		v->create(64, 64);
-		auto cell = v->cell(local_pos);
-		local_pos = local_pos * cell->sceneMatrix().inverted();
+		auto local_cell = v->cell(local_pos);
+		local_pos = global_pos * local_cell->sceneMatrix().inverted();
+		//local_pos = local_pos * cell->sceneMatrix().inverted();
 		qDebug() << "Player local local position:" << local_pos.x() << local_pos.y();
-		world()->player()->setParentItem(cell);
+		world()->player()->setParentItem(local_cell);
 		world()->player()->setPos(local_pos);	
 		world()->setLocalField(v.release());
 		if (player)
@@ -162,6 +163,6 @@ void MainWindow::weatherChanged(const WeatherStamp& value) {
 void MainWindow::createCharacter() {
 	auto c = make_ptr(new Character{ world()->globalField(), nullptr });
 	c->setHumanControl(true);
-	c->setPos(1000000, 1000000);
+	c->setPos(65 * 6250 + 6240, 64 * 6250 + 100);
 	world()->addCharacter(std::move(c));
 }

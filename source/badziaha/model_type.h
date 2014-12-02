@@ -12,6 +12,7 @@ enum class ModelType {
 	Construction,
 	LocalFieldCell,
 	LocalFieldItem,
+	Character,
 	End
 };
 

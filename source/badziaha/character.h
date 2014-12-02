@@ -13,6 +13,7 @@
 #include "item_class_type.h"
 #include "fwd_items.h"
 #include "fwd_character.h"
+#include "model_type.h"
 
 enum class Activity {
 	Idle,
@@ -80,7 +81,7 @@ private:
 
 class Body {
 public:
-	Body();
+	Body(Character* character);
 	~Body();
 
 	float windProtection() const;
@@ -149,7 +150,7 @@ private:
 	float m_max_water{ 5000.0f };
 };
 
-class Character : public Entity {
+class Character final : public Entity {
 	Q_OBJECT;
 public:
 	Character(GlobalField* field, QGraphicsItem* parent = nullptr);
@@ -189,6 +190,12 @@ public:
 	//	QGraphicsItem
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0) override;
 	QRectF boundingRect() const override;
+
+	enum { Type = QGraphicsItem::UserType + (int)ModelType::Character};
+
+	int type() const override {
+		return Type;
+	}
 
 private:
 	void processTasks();

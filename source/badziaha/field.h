@@ -52,6 +52,7 @@ public:
 
 	WeatherStamp* weather() const;
 
+	World* world() const { return m_world; }
 private:
 	World* m_world{ nullptr };
 };
