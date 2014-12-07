@@ -353,7 +353,7 @@ Weapon::Weapon(const Weapon& value)
 	: Item{ value } {
 	m_mods = value.m_mods;
 	if (value.clip()) {
-		m_clip = std::move(cast<WeaponClip>(value.clip()->clone()));
+		m_clip = std::move(cast<WeaponClip>(value.clip()->clone()));		
 	}
 }
 
@@ -376,15 +376,26 @@ WeaponPtr WeaponClass::createInstance() const {
 bool WeaponClip::isEqual(const Item* value) const {
 	if (!Item::isEqual(value))
 		return false;
-	const WeaponClip* weapon = static_cast<const WeaponClip*>(value);
-	if (m_rounds_left != weapon->m_rounds_left)
+	const WeaponClip* clip = static_cast<const WeaponClip*>(value);
+	if (m_ammo.get() && clip->m_ammo.get()) {
+		if (!m_ammo->isEqual(clip->m_ammo.get()))
+			return false;
+		if (m_ammo->quantity() != clip->ammo()->quantity())
+			return false;
+	}
+	if (!ammo() && clip->ammo())
+		return false;
+	if (ammo() && !clip->ammo())
 		return false;
 	return true;
 }
 
 WeaponClip::WeaponClip(const WeaponClip& value)
 	: Item{ value } {
-	m_rounds_left = value.m_rounds_left;
+	if (value.m_ammo.get()) {
+		m_ammo = cast<Ammo>(value.m_ammo->clone());
+		m_ammo->setCount(value.m_ammo->quantity());
+	}
 }
 
 ItemPtr WeaponClip::clone() const {
@@ -413,4 +424,34 @@ WeaponClipPtr Weapon::ejectClip() {
 		qDebug() << "Bad clip ejected from" << name();
 	}
 	return std::move(m_clip); 
+}
+
+const WeaponClass* WeaponClipClass::weaponClass() const {
+	if (!m_weapon_class_ptr) {
+		auto& weapons = Resources::weapons();
+		for (auto& weapon : weapons) {
+			if (weapon->name() == m_weapon_class) {
+				return m_weapon_class_ptr = weapon;
+			}
+		}
+	}
+	return m_weapon_class_ptr;	
+}
+
+bool WeaponClip::isAmmoCompatible(Ammo* value) const {
+	return value->cartridge() == weaponClass()->cartridge();
+}
+
+void WeaponClip::load(AmmoPtr value) {
+	if (ammo()) {
+		qDebug() << "Loading" << name() << "when it is not empty";
+	}
+	m_ammo = std::move(value);
+}
+
+AmmoPtr WeaponClip::unload() {
+	if (!ammo()) {
+		qDebug() << "Unloading empty clip" << name(); 
+	}
+	return std::move(m_ammo);
 }

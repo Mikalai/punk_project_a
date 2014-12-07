@@ -173,6 +173,7 @@ public:
 	{}
 
 
+	const WeaponClass* weaponClass() const;
 	const QString weapon() const { return m_weapon_class; }
 	int rounds() const { return m_rounds; }
 
@@ -183,6 +184,7 @@ public:
 	WeaponClipPtr createInstance() const;
 
 private:
+	mutable const WeaponClass* m_weapon_class_ptr{ nullptr };
 	QString m_weapon_class;
 	int m_rounds{ 1 };
 };
@@ -329,10 +331,16 @@ public:
 
 	WeaponClip(const WeaponClip& value);
 
-	const QString weapon() const { return itemClass()->weapon(); }
-	int rounds() const { return m_rounds_left; }
+	const WeaponClass* weaponClass() const { return itemClass()->weaponClass(); }
+	const QString weapon() const { return itemClass()->weapon(); }	
+	int rounds() const { return m_ammo.get() ? m_ammo->quantity() : 0; }
 	int maxRounds() const { return itemClass()->rounds(); }
-	void setRounds(int value) { m_rounds_left = value; }
+	
+	Ammo* ammo() const { return m_ammo.get(); }
+	void load(AmmoPtr value);
+	AmmoPtr unload();
+
+	bool isAmmoCompatible(Ammo* value) const;
 
 	//	Item override
 	bool isEqual(const Item* value) const override;
@@ -343,7 +351,7 @@ protected:
 	const WeaponClipClass* itemClass() const override { return static_cast<const WeaponClipClass*>(Item::itemClass()); }
 
 private:
-	int m_rounds_left{ 0 };
+	AmmoPtr m_ammo{ make_ptr<Ammo>(nullptr) };
 };
 
 

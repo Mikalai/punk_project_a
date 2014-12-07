@@ -204,6 +204,9 @@ public:
 
 	//	commands
 	void injectClip(WeaponClip* clip, Weapon* weapon, std::function<void()> on_complete);
+	void ejectClip(Weapon* weapon, std::function<void()> on_complete);
+	void loadClip(WeaponClip* clip, Ammo* ammo, std::function<void()> on_complete);
+	void unloadClip(WeaponClip* clip, std::function<void()> on_complete);
 
 private:
 	void processTasks();
@@ -237,15 +240,19 @@ private:
 	enum class TaskType {
 		Idle,
 		InjectClip,
+		EjectClip = InjectClip,
+		LoadClip, 
+		UnloadClip = LoadClip,
 		Eat,
 		Drink,		
 	};
 
 	class Task {
 	public:
-		Task(float time, std::function<void()> on_complete)
+		Task(TaskType type, float time, std::function<void()> on_complete)
 			: m_time_to_complete{ time }
 			, m_on_complete{ on_complete }
+			, m_type{ type }
 		{}
 
 		virtual ~Task() {};

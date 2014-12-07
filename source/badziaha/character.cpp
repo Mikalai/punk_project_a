@@ -44,7 +44,7 @@ Character::Character(GlobalField* field, QGraphicsItem* parent)
 	auto& ammo_classes = Resources::ammos();
 	for (const auto& ammo_class : ammo_classes) {
 		auto item = ammo_class->createInstance();
-		item->setCount(10);
+		item->setCount(40);
 		take(cast<Item>(std::move(item)));
 	}
 	auto& weapon_classes = Resources::weapons();
@@ -55,8 +55,7 @@ Character::Character(GlobalField* field, QGraphicsItem* parent)
 	}
 	auto& weapon_clip_classes = Resources::weapon_clips();
 	for (auto& clip_class : weapon_clip_classes) {
-		auto item = clip_class->createInstance();
-		item->setRounds(15);
+		auto item = clip_class->createInstance();		
 		item->setCount(2);
 		take(cast<Item>(std::move(item)));
 	}
@@ -459,7 +458,7 @@ QRectF Character::boundingRect() const {
 }
 
 void Character::injectClip(WeaponClip* clip, Weapon* weapon, std::function<void()> on_complete) {
-	m_tasks.push(Task{ 2, [clip, weapon, this, on_complete]() {
+	m_tasks.push(Task{ TaskType::InjectClip, 2, [clip, weapon, this, on_complete]() {
 		if (weapon->clip()) {
 			auto old_clip = weapon->ejectClip();
 			take(cast<Item>(old_clip));
@@ -475,4 +474,55 @@ void Character::injectClip(WeaponClip* clip, Weapon* weapon, std::function<void(
 		//	call on complete
 		on_complete();
 	} });
+}
+
+void Character::ejectClip(Weapon* weapon, std::function<void()> on_complete) {
+	m_tasks.push(Task{ TaskType::EjectClip, 2, [weapon, this, on_complete]() {
+		//	take one weapon
+		auto weapon_item = cast<Weapon>(popOneItem(weapon));
+		//	eject clip from weapon
+		auto clip_item = weapon_item->ejectClip();
+		//	put clip in the inventory
+		take(cast<Item>(clip_item));
+		//	put gun back in the inventory
+		take(cast<Item>(weapon_item));
+		//	call on complete
+		on_complete();
+	} });
+}
+
+void Character::loadClip(WeaponClip* clip, Ammo* ammo, std::function<void()> on_complete) {
+	m_tasks.push(Task{ TaskType::LoadClip, 2, [clip, ammo, this, on_complete](){
+		//	take one clip
+		auto clip_item = cast<WeaponClip>(popOneItem(clip));
+		//	unload loaded ammo
+		auto old_ammo = clip_item->unload();
+		if (old_ammo.get()) {
+			take(cast<Item>(old_ammo));
+		}
+		//	get clip capacity
+		auto capacity = clip_item->maxRounds();
+		//	take all ammo
+		auto ammo_item = cast<Ammo>(popItem(ammo));
+		if (capacity >= ammo_item->quantity()) {
+			//	all ammo go to clip
+			clip_item->load(std::move(ammo_item));
+		}
+		else {
+			//	split ammo
+			auto splitted_ammo = cast<Ammo>(ammo_item->split(capacity));
+			//	put splitted part into the clip
+			clip_item->load(std::move(splitted_ammo));
+			//	put the rest back into the inventory
+			take(cast<Item>(ammo_item));
+		}
+		//	put clip back into inventory
+		take(cast<Item>(clip_item));
+		//	call callback
+		on_complete();
+	} });
+}
+
+void Character::unloadClip(WeaponClip* clip, std::function<void()> on_complete) {
+
 }

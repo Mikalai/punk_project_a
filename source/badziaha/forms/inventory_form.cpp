@@ -438,15 +438,15 @@ void InventoryForm::customMenuRequested(QPoint point) {
 	const Clothes* clothes = nullptr;
 	if (item->classType() == ItemClassType::ClothesClass)
 		clothes = static_cast<const Clothes*>(item);
+	auto chr = character();
 	QMenu menu{ this };
-	if (item->classType() == ItemClassType::WeaponClip) {
+	if (item->classType() == ItemClassType::WeaponClip) {		
+		auto clip = static_cast<WeaponClip*>(item);				
 		QMenu inject{ "Inject", this };
-		auto clip = static_cast<WeaponClip*>(item);		
-		auto items = character()->selectItems(ItemClassType::Weapon);
-		for (auto& item : items) {
+		auto weapons = character()->selectItems(ItemClassType::Weapon);
+		for (auto& item : weapons) {
 			if (item->name() == clip->weapon()) {
-				auto action = inject.addAction(item->name());
-				auto chr = character();
+				auto action = inject.addAction(item->name());				
 				Weapon* weapon = static_cast<Weapon*>(item);
 				connect(action, &QAction::triggered, [chr, clip, weapon, this] () {
 					auto v = this;
@@ -459,12 +459,47 @@ void InventoryForm::customMenuRequested(QPoint point) {
 				});
 			}
 		}
+		QMenu load{ "load", this };
+		auto ammos = character()->selectItems(ItemClassType::Ammo);
+		for (auto& item : ammos) {
+			auto ammo = static_cast<Ammo*>(item);
+			if (clip->isAmmoCompatible(ammo)) {
+				auto action = load.addAction(ammo->name());
+				connect(action, &QAction::triggered, [chr, clip, ammo, this](){
+					auto v = this;
+					chr->loadClip(clip, ammo, [v] {
+						v->m_inventory->update();
+						v->m_equipped->update();
+						v->ui->m_equipped_view->expandAll();
+						v->ui->m_clothes_view->expandAll();
+						v->m_inventory->dataChanged(v->m_inventory->index(0, 0), v->m_inventory->index(v->m_inventory->rowCount() - 1, v->m_inventory->columnCount() - 1)); });
+				});
+			}
+		}
 		menu.addMenu(&inject);		
+		menu.addMenu(&load);
 		menu.addSeparator();
 		menu.addAction("Drop")->setData(1);
 		menu.exec(ui->m_clothes_view->mapToGlobal(point));
 	}
 	else if (item->classType() == ItemClassType::Weapon) {
+		auto weapon = static_cast<Weapon*>(item);
+		if (weapon->clip()) {
+			auto action = menu.addAction("Eject clip");
+			connect(action, &QAction::triggered, [chr, weapon, this]() {
+				auto v = this;
+				chr->ejectClip(weapon, [v] {
+					v->m_inventory->update();
+					v->m_equipped->update();
+					v->ui->m_equipped_view->expandAll();
+					v->ui->m_clothes_view->expandAll();
+					v->m_inventory->dataChanged(v->m_inventory->index(0, 0), v->m_inventory->index(v->m_inventory->rowCount() - 1, v->m_inventory->columnCount() - 1)); });
+			});
+			menu.addAction(action);
+		}
+		menu.addSeparator();
+		menu.addAction("Drop")->setData(1);
+		menu.exec(ui->m_clothes_view->mapToGlobal(point));
 	}
 	else {
 		menu.addAction("Put off")->setData(0);
