@@ -9,8 +9,18 @@
 #include "inventory_form.h"
 #include "inventory_form.ui.h"
 
-class CustomDelegate : public QItemDelegate {
+static const int c_put_on = 1;
+static const int c_put_off = 2;
+static const int c_drop = 3;
+static const int c_take_left = 4;
+static const int c_take_right = 5;
+static const int c_take = 6;
+static const int c_inject_clip = 7;
+static const int c_eject_clip = 8;
+static const int c_weapon_inject_clip = 9;
+static const int c_weapon_eject_clip = 9;
 
+class CustomDelegate : public QItemDelegate {
 public:
 	CustomDelegate(QObject* parent) : QItemDelegate{ parent } {}
 
@@ -26,7 +36,7 @@ public:
 
 class InventoryTreeModel : public QAbstractItemModel  {
 public:
-	InventoryTreeModel(Character* character, std::function<std::vector<const Item*>(Character*, ItemClassType)> getter, QObject* parent = nullptr)
+	InventoryTreeModel(Character* character, std::function<std::vector<Item*>(Character*, ItemClassType)> getter, QObject* parent = nullptr)
 		: QAbstractItemModel{ parent }
 		, m_character{ character }
 		, m_getter{ getter }
@@ -147,15 +157,19 @@ public:
 	QModelIndex parent(const QModelIndex &child) const override {
 		if (!child.isValid())
 			return QModelIndex{};
+		auto item = (Item*)child.internalPointer();
 		for (int i = 0; i < enum_size<ItemClassType>::Value; ++i) {
 			if (Tab[i].internalId() == child.internalId())
 				return QModelIndex{};
-		}
-		auto item = (Item*)child.internalPointer();
-		if (item) {
-			int index = enum_index(item->classType());
-			return Tab[index];
-		}
+			//	in the same loop try to find item of the specified class
+			if (item) {
+				auto it = std::find(m_items[i].begin(), m_items[i].end(), item);
+				if (it != m_items[i].end()) {
+					int index = enum_index(item->classType());
+					return Tab[index];
+				}
+			}
+		}				
 		return QModelIndex{};
 	}
 
@@ -203,6 +217,18 @@ public:
 		return nullptr;
 	}
 
+	Item* getItem(QModelIndex index) {
+		auto p = index.parent();
+		if (p.isValid()) {
+			auto class_type_index = p.internalId();
+			auto item_index = plainIndex(index);
+			if (item_index >= m_items[class_type_index].size())
+				return nullptr;
+			return m_items[class_type_index][item_index];
+		}
+		return nullptr;
+	}
+
 private:
 
 	int plainIndex(QModelIndex index) {
@@ -225,9 +251,9 @@ private:
 private:
 	int m_column_count{ 4 };
 	Character* m_character{ nullptr };
-	std::array<std::vector<const Item*>, enum_size<ItemClassType>::Value> m_items;
+	std::array<std::vector<Item*>, enum_size<ItemClassType>::Value> m_items;
 	std::array<QModelIndex, enum_size<ItemClassType>::Value> Tab;
-	std::function<std::vector<const Item*>(Character*, ItemClassType)> m_getter;
+	std::function<std::vector<Item*>(Character*, ItemClassType)> m_getter;
 };
 
 
@@ -376,6 +402,9 @@ void InventoryForm::toggle(Character* value) {
 }
 
 void InventoryForm::updateUi() {
+	if (!m_character)
+		return;
+
 	auto clothes = m_character->selectItems(ItemClassType::ClothesClass);
 	ui->m_clothes_view->setModel(m_inventory = new InventoryTreeModel{ m_character, [](Character* chr, ItemClassType type) {
 		return chr->selectItems(type);
@@ -392,35 +421,78 @@ void InventoryForm::clothesClicked(QModelIndex index) {
 		return;
 }
 
+void injectClip(Character* chr, WeaponClip* clip, Weapon* weapon) {
+
+}
+
 void InventoryForm::customMenuRequested(QPoint point) {
 	auto item = m_inventory->getItem(ui->m_clothes_view->currentIndex());
 	if (!item)
 		return;
+/*
+	QMenu menu{ this };
+	if (item->classType() == ItemClassType::Ammo) {
+
+	}*/
 
 	const Clothes* clothes = nullptr;
 	if (item->classType() == ItemClassType::ClothesClass)
 		clothes = static_cast<const Clothes*>(item);
-
 	QMenu menu{ this };
-	menu.addAction("Put on")->setData(0);
-	menu.addAction("Drop")->setData(1);
-
-	auto action = menu.exec(ui->m_clothes_view->mapToGlobal(point));
-	if (action) {
-		if (action->data().toInt() == 0) {
-			m_character->putOn(clothes);
-			m_inventory->update();
-			m_equipped->update();
-			ui->m_equipped_view->expandAll();
-			ui->m_clothes_view->expandAll();
+	if (item->classType() == ItemClassType::WeaponClip) {
+		QMenu inject{ "Inject", this };
+		auto clip = static_cast<WeaponClip*>(item);		
+		auto items = character()->selectItems(ItemClassType::Weapon);
+		for (auto& item : items) {
+			if (item->name() == clip->weapon()) {
+				auto action = inject.addAction(item->name());
+				auto chr = character();
+				Weapon* weapon = static_cast<Weapon*>(item);
+				connect(action, &QAction::triggered, [chr, clip, weapon, this] () {
+					auto v = this;
+					chr->injectClip(clip, weapon, [v] {
+						v->m_inventory->update();
+						v->m_equipped->update();
+						v->ui->m_equipped_view->expandAll();
+						v->ui->m_clothes_view->expandAll();
+						v->m_inventory->dataChanged(v->m_inventory->index(0, 0), v->m_inventory->index(v->m_inventory->rowCount() - 1, v->m_inventory->columnCount() - 1)); });
+				});
+			}
 		}
-		if (action->data().toInt() == 1)
-			qDebug("Drop");
+		menu.addMenu(&inject);		
+		menu.addSeparator();
+		menu.addAction("Drop")->setData(1);
+		menu.exec(ui->m_clothes_view->mapToGlobal(point));
 	}
+	else if (item->classType() == ItemClassType::Weapon) {
+	}
+	else {
+		menu.addAction("Put off")->setData(0);
+		menu.addSeparator();
+		menu.addAction("Drop")->setData(1);
+		menu.exec(ui->m_clothes_view->mapToGlobal(point));
+	}	
+	
+	m_inventory->update();
+	m_equipped->update();
+	ui->m_equipped_view->expandAll();
+	ui->m_clothes_view->expandAll();
 	m_inventory->dataChanged(m_inventory->index(0, 0), m_inventory->index(m_inventory->rowCount() - 1, m_inventory->columnCount() - 1));
+
+	//if (action) {
+	//	if (action->data().toInt() == 0) {
+	//		m_character->putOn(clothes);
+	//		m_inventory->update();
+	//		m_equipped->update();
+	//		ui->m_equipped_view->expandAll();
+	//		ui->m_clothes_view->expandAll();
+	//	}
+	//	if (action->data().toInt() == 1)
+	//		qDebug("Drop");
+	//}	
 }
 
-void InventoryForm::equippedCustomMenuRequested(QPoint point) {	
+void InventoryForm::equippedCustomMenuRequested(QPoint point) {		
 	auto item = m_equipped->getItem(ui->m_equipped_view->currentIndex());
 	if (!item)
 		return;
@@ -428,8 +500,21 @@ void InventoryForm::equippedCustomMenuRequested(QPoint point) {
 	qDebug() << "Selected" << item->name();
 
 	QMenu menu{ this };
-	menu.addAction("Put off")->setData(0);
-	menu.addAction("Drop")->setData(1);
+	if (item->classType() == ItemClassType::WeaponClip) {
+		auto clip = static_cast<const WeaponClip*>(item);
+		QMenu inject{ "Inject", this};
+		auto items = character()->selectItems(ItemClassType::Weapon);
+		for (auto&  item : items) {
+			if (item->name() == clip->weapon()) {
+				auto action = inject.addAction(item->name());
+			}
+		}
+		menu.addMenu(&inject);
+	}
+	else {
+		menu.addAction("Put off")->setData(0);
+		menu.addAction("Drop")->setData(1);
+	}
 
 	auto action = menu.exec(ui->m_equipped_view->mapToGlobal(point));
 	if (action) {

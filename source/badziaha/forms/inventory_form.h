@@ -4,6 +4,7 @@
 #include <QtWidgets/qabstractitemdelegate.h>
 #include <QtCore/qpoint.h>
 #include <QtWidgets/qwidget.h>
+#include "../fwd_items.h"
 
 namespace Ui {
     class InventoryForm;
@@ -28,12 +29,37 @@ public slots:
 	void equippedCustomMenuRequested(QPoint point);
 private:
 	void updateUi();
+	Character* character() { return m_character; }
 
 private:
     Ui::InventoryForm *ui;
 	Character* m_character{ nullptr };
 	InventoryTreeModel* m_inventory{ nullptr };
 	InventoryTreeModel* m_equipped{ nullptr };
+
+	struct InjectClip {
+		WeaponClip* clip{ nullptr };
+		Weapon* weapon{ nullptr };
+	};
+
+	struct EjectClip {
+		WeaponClip* clip{ nullptr };
+		Weapon* weapon{ nullptr };
+	};
+
+	struct PutOn {
+		Clothes* clothes{ nullptr };
+	};
+
+	struct PutOff {
+		Clothes* clothes{ nullptr };
+	};
+
+	InjectClip inject_clip;
+	EjectClip eject_clip;
+	PutOn put_on;
+	PutOff put_off;
+
 };
 
 #endif // INVETORY_FORM_H2

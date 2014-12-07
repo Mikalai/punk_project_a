@@ -146,15 +146,13 @@ public:
 	float height() const { return m_height; }
 	const QString cartridge() const { return m_cartridge; }
 	float range() const { return m_range; }
-	int rounds() const { return m_rounds; }
-
+	
 	void setLength(float value) { m_length = value; }
 	void setBarrelLength(float value) { m_barrel_length = value; }
 	void setWidth(float value) { m_width = value; }
 	void setHeight(float value) { m_height = value; }
 	void setCartridge(const QString value) { m_cartridge = value; }
-	void setRange(float value) { m_range = value; }
-	void setRounds(int value) { m_rounds = value; }
+	void setRange(float value) { m_range = value; }	
 
 	const QString ToString() const override;
 	WeaponPtr createInstance() const;
@@ -165,7 +163,27 @@ private:
 	float m_width{ 0 };
 	float m_height{ 0 };
 	QString m_cartridge;
-	float m_range{ 0 };
+	float m_range{ 0 };	
+};
+
+class WeaponClipClass : public ItemClass {
+public:
+	WeaponClipClass()
+		: ItemClass{ ItemClassType::WeaponClip }
+	{}
+
+
+	const QString weapon() const { return m_weapon_class; }
+	int rounds() const { return m_rounds; }
+
+	void setRounds(int value) { m_rounds = value; }	
+	void setWeapon(const QString& value) { m_weapon_class = value; }
+
+	const QString ToString() const override;
+	WeaponClipPtr createInstance() const;
+
+private:
+	QString m_weapon_class;
 	int m_rounds{ 1 };
 };
 
@@ -185,10 +203,11 @@ public:
 	float weight() const { return itemClass()->weight(); }
 	float technologyLevel() const { return itemClass()->technologyLevel(); }
 	ItemClassType classType() const { return itemClass()->classType(); }
-		
+			
+	int quantity() const { return m_count; }	
 	ItemPtr split(int count);
 	void merge(ItemPtr& item);
-	int quantity() const { return m_count; }
+
 	virtual ItemPtr clone() const;
 	void setCount(int value);
 
@@ -196,6 +215,8 @@ public:
 	virtual bool isEqual(const Item* value) const;
 
 protected:
+	virtual void childMerge(ItemPtr& value) {};
+	virtual void childSplit(ItemPtr& new_parent, int count) {};
 	virtual const ItemClass* itemClass() const { return m_class; }	
 private:
 	const ItemClass* m_class{ nullptr };
@@ -280,7 +301,10 @@ public:
 	float height() const { return itemClass()->height(); }
 	const QString cartridge() const { return itemClass()->cartridge(); }
 	float range() const { return itemClass()->range(); }
-	int rounds() const { return itemClass()->rounds(); }
+	WeaponClip* clip() const { return m_clip.get(); }
+
+	void injectClip(WeaponClipPtr value);
+	WeaponClipPtr ejectClip();
 
 	//	Item override
 	bool isEqual(const Item* value) const override;
@@ -288,9 +312,39 @@ public:
 	const QString ToString() const override;	
 
 protected:
+	void childMerge(ItemPtr& value) override;
+	void childSplit(ItemPtr& new_parent, int count) override;
 	const WeaponClass* itemClass() const override { return static_cast<const WeaponClass*>(Item::itemClass()); }
 
 private:
+	WeaponClipPtr m_clip{ make_ptr<WeaponClip>(nullptr) };
 	std::set<WeaponModification> m_mods;
 };
+
+class WeaponClip : public Item {
+public:
+	WeaponClip(const WeaponClipClass* weapon_class)
+		: Item{ weapon_class }
+	{}
+
+	WeaponClip(const WeaponClip& value);
+
+	const QString weapon() const { return itemClass()->weapon(); }
+	int rounds() const { return m_rounds_left; }
+	int maxRounds() const { return itemClass()->rounds(); }
+	void setRounds(int value) { m_rounds_left = value; }
+
+	//	Item override
+	bool isEqual(const Item* value) const override;
+	ItemPtr clone() const override;
+	const QString ToString() const override;
+
+protected:
+	const WeaponClipClass* itemClass() const override { return static_cast<const WeaponClipClass*>(Item::itemClass()); }
+
+private:
+	int m_rounds_left{ 0 };
+};
+
+
 #endif	//	_H_ITEMS

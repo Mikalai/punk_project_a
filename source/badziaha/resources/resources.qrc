@@ -28,6 +28,7 @@
         <file>weapons/vektor_sp1.png</file>
         <file>bags/Condor_Compact _Assault_Pack.png</file>
         <file>input.ods</file>
+        <file>clips/vektorsp1_standard_clip.png</file>
     </qresource>
     <qresource prefix="/icons">
         <file>saw.png</file>

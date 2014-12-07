@@ -20,6 +20,7 @@ public:
 	using ClothesClasses = std::vector < const ClothesClass* > ;
 	using AmmoClasses = std::vector < const AmmoClass* > ;
 	using WeaponClasses = std::vector < const WeaponClass* > ;
+	using WeaponClipClasses = std::vector < const WeaponClipClass* >;
 	using SurfaceTypeClasses = std::vector < const SurfaceTypeClass* > ;
 	Resources();
 
@@ -30,6 +31,7 @@ public:
 	static const ClothesClasses& clothes() { return instance()->_clothes(); }
 	static const AmmoClasses& ammos() { return instance()->_ammos(); }
 	static const WeaponClasses weapons() { return instance()->_weapons(); }
+	static const WeaponClipClasses weapon_clips() { return instance()->_weapon_clips(); }
 
 	QImage* getSquadImage();
 	QImage* getCityImage();
@@ -46,6 +48,7 @@ private:
 	const ClothesClasses& _clothes() const { return m_clothes_cache; }
 	const AmmoClasses& _ammos() const { return m_ammo_cache; }
 	const WeaponClasses _weapons() const { return m_weapon_cache; }
+	const WeaponClipClasses _weapon_clips() const { return m_weapon_clip_cache; }
 private:
 	void readItems();
 
@@ -62,6 +65,7 @@ private:
 	ClothesClasses m_clothes_cache;
 	AmmoClasses m_ammo_cache;
 	WeaponClasses m_weapon_cache;
+	WeaponClipClasses m_weapon_clip_cache;
 	SurfaceTypeClasses m_surfaces_cache;
 };
 

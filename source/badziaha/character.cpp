@@ -36,20 +36,27 @@ Character::Character(GlobalField* field, QGraphicsItem* parent)
 	: Entity{field, parent }
 	, m_body{ this }
 {
-	auto& clothes_classes = Resources::instance()->clothes();
+	auto& clothes_classes = Resources::clothes();
 	for (const auto& clothes_class : clothes_classes) {
 		auto item = clothes_class->createInstance();
 		take(cast<Item>(std::move(item)));
 	}
-	auto& ammo_classes = Resources::instance()->ammos();
+	auto& ammo_classes = Resources::ammos();
 	for (const auto& ammo_class : ammo_classes) {
 		auto item = ammo_class->createInstance();
 		item->setCount(10);
 		take(cast<Item>(std::move(item)));
 	}
-	auto& weapon_classes = Resources::instance()->weapons();
+	auto& weapon_classes = Resources::weapons();
 	for (auto& weapon_class : weapon_classes) {
 		auto item = weapon_class->createInstance();
+		item->setCount(2);
+		take(cast<Item>(std::move(item)));
+	}
+	auto& weapon_clip_classes = Resources::weapon_clips();
+	for (auto& clip_class : weapon_clip_classes) {
+		auto item = clip_class->createInstance();
+		item->setRounds(15);
 		item->setCount(2);
 		take(cast<Item>(std::move(item)));
 	}
@@ -68,8 +75,8 @@ void Character::processTasks() {
 	if (m_tasks.empty())
 		return;
 	auto& task = m_tasks.top();
-	if (task.type == TaskType::Drink) {
-
+	if (task.update(getTimeStep())) {
+		m_tasks.pop();
 	}
 }
 
@@ -301,12 +308,30 @@ WeatherStamp* Character::weather() const {
 }
 
 bool Character::take(ItemPtr value) {
-	qDebug() << QString::number(value->quantity()) << "of" << value->name() << "has been taken by" << name();
-	m_items.push_back(std::move(value));
+	if (!value.get()) {
+		qDebug() << name() << "can't take nullptr item";
+		return false;
+	}	
+	//	try to merge item with items in inventory
+	auto items = selectItems(value->classType());
+	for (auto& item : items) {
+		item->merge(value);
+		if (!value.get()) {
+			qDebug() << item->name() << "has been merged";
+			break;
+		}
+	}
+
+	//	if not merged add new item
+	if (value.get()) {
+		qDebug() << value->quantity() << "of" << value->name() << "has been taken by" << name();
+		m_items.push_back(std::move(value));
+	}
+
 	return true;
 }
 
-const std::vector<const Item*> Character::selectItems(ItemClassType type) {
+const std::vector<const Item*> Character::selectItems(ItemClassType type) const {
 	std::vector<const Item*> res;
 	for (auto& item : m_items) {
 		if (item->classType() == type) {
@@ -316,8 +341,27 @@ const std::vector<const Item*> Character::selectItems(ItemClassType type) {
 	return res;
 }
 
-const std::vector<const Item*> Character::selectEquippedItems(ItemClassType type) {
+const std::vector<const Item*> Character::selectEquippedItems(ItemClassType type) const {
 	std::vector<const Item*> res;
+	for (auto& p : body()->parts) {
+		if (p->clothes() && type == ItemClassType::ClothesClass)
+			res.push_back(p->clothes());
+	}
+	return res;
+}
+
+const std::vector<Item*> Character::selectItems(ItemClassType type) {
+	std::vector<Item*> res;
+	for (auto& item : m_items) {
+		if (item->classType() == type) {
+			res.push_back(item.get());
+		}
+	}
+	return res;
+}
+
+const std::vector<Item*> Character::selectEquippedItems(ItemClassType type) {
+	std::vector<Item*> res;
 	for (auto& p : body()->parts) {
 		if (p->clothes() && type == ItemClassType::ClothesClass)
 			res.push_back(p->clothes());
@@ -334,6 +378,22 @@ ItemPtr Character::popItem(const Item* item) {
 	auto result = std::move(*it);
 	m_items.erase(it);
 	return result;
+}
+
+ItemPtr Character::popOneItem(const Item* item) {
+	auto it = std::find_if(m_items.begin(), m_items.end(), [&item](const ItemPtr& value) {
+		return value.get() == item;
+	});
+	if (it == m_items.end())
+		return make_ptr<Item>(nullptr);
+	if (item->quantity() == 1) {
+		auto result = std::move(*it);
+		m_items.erase(it);
+		return result;
+	}
+	else {
+		return (*it)->split(1);
+	}
 }
 
 bool Character::putOn(const Clothes* clothes) {
@@ -396,4 +456,23 @@ void Character::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
 QRectF Character::boundingRect() const {
 	return Entity::boundingRect();
+}
+
+void Character::injectClip(WeaponClip* clip, Weapon* weapon, std::function<void()> on_complete) {
+	m_tasks.push(Task{ 2, [clip, weapon, this, on_complete]() {
+		if (weapon->clip()) {
+			auto old_clip = weapon->ejectClip();
+			take(cast<Item>(old_clip));
+		}
+		//	take one clip from inventory
+		auto clip_item = cast<WeaponClip>(popOneItem(clip));
+		//	take one weapon from inventory
+		auto weapon_item = cast<Weapon>(popOneItem(weapon));
+		//	inject clip into the weapon
+		weapon_item->injectClip(std::move(clip_item));
+		//	put weapon into the inventory
+		take(cast<Item>(weapon_item));
+		//	call on complete
+		on_complete();
+	} });
 }

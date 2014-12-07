@@ -10,6 +10,7 @@ enum class ItemClassType {
 	Ammo,
 	Weapon,
 	Bag,
+	WeaponClip,
 	End
 };
 
