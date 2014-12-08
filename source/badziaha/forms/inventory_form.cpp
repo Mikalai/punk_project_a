@@ -397,7 +397,13 @@ void InventoryForm::toggle(Character* value) {
 		auto w = qobject_cast<QWidget*>(parent());
 		show();		
 	}
+	if (m_character)
+		m_character->setInvetoryChanged([](){});
 	m_character = value;	
+	if (m_character)
+		m_character->setInvetoryChanged([this]() { 
+		updateModels();
+	});
 	updateUi();
 }
 
@@ -416,13 +422,17 @@ void InventoryForm::updateUi() {
 	ui->m_clothes_view->expandAll();
 }
 
+void InventoryForm::updateModels() {
+	m_inventory->update();
+	m_equipped->update();
+	ui->m_equipped_view->expandAll();
+	ui->m_clothes_view->expandAll();
+	m_inventory->dataChanged(m_inventory->index(0, 0), m_inventory->index(m_inventory->rowCount() - 1, m_inventory->columnCount() - 1));
+}
+
 void InventoryForm::clothesClicked(QModelIndex index) {
 	if (!m_inventory)
 		return;
-}
-
-void injectClip(Character* chr, WeaponClip* clip, Weapon* weapon) {
-
 }
 
 void InventoryForm::customMenuRequested(QPoint point) {
@@ -448,14 +458,10 @@ void InventoryForm::customMenuRequested(QPoint point) {
 			if (item->name() == clip->weapon()) {
 				auto action = inject.addAction(item->name());				
 				Weapon* weapon = static_cast<Weapon*>(item);
-				connect(action, &QAction::triggered, [chr, clip, weapon, this] () {
+				connect(action, &QAction::triggered, [chr, clip, weapon, this]() {
 					auto v = this;
 					chr->injectClip(clip, weapon, [v] {
-						v->m_inventory->update();
-						v->m_equipped->update();
-						v->ui->m_equipped_view->expandAll();
-						v->ui->m_clothes_view->expandAll();
-						v->m_inventory->dataChanged(v->m_inventory->index(0, 0), v->m_inventory->index(v->m_inventory->rowCount() - 1, v->m_inventory->columnCount() - 1)); });
+						v->updateModels(); });
 				});
 			}
 		}
@@ -468,11 +474,7 @@ void InventoryForm::customMenuRequested(QPoint point) {
 				connect(action, &QAction::triggered, [chr, clip, ammo, this](){
 					auto v = this;
 					chr->loadClip(clip, ammo, [v] {
-						v->m_inventory->update();
-						v->m_equipped->update();
-						v->ui->m_equipped_view->expandAll();
-						v->ui->m_clothes_view->expandAll();
-						v->m_inventory->dataChanged(v->m_inventory->index(0, 0), v->m_inventory->index(v->m_inventory->rowCount() - 1, v->m_inventory->columnCount() - 1)); });
+						v->updateModels(); });
 				});
 			}
 		}
@@ -489,11 +491,7 @@ void InventoryForm::customMenuRequested(QPoint point) {
 			connect(action, &QAction::triggered, [chr, weapon, this]() {
 				auto v = this;
 				chr->ejectClip(weapon, [v] {
-					v->m_inventory->update();
-					v->m_equipped->update();
-					v->ui->m_equipped_view->expandAll();
-					v->ui->m_clothes_view->expandAll();
-					v->m_inventory->dataChanged(v->m_inventory->index(0, 0), v->m_inventory->index(v->m_inventory->rowCount() - 1, v->m_inventory->columnCount() - 1)); });
+					v->updateModels(); });
 			});
 			menu.addAction(action);
 		}

@@ -31,6 +31,9 @@ private:
 	void updateUi();
 	Character* character() { return m_character; }
 
+public:
+	void updateModels();
+
 private:
     Ui::InventoryForm *ui;
 	Character* m_character{ nullptr };

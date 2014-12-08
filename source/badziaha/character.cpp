@@ -12,6 +12,10 @@ void destroy(Character* value) {
 	delete value;
 }
 
+bool Hand::doHold(ItemClassType type) {
+	return m_part && m_part->item() && m_part->item()->classType() == type;
+}
+
 std::unique_ptr<ActivityClass> ActivityClass::m_instance;
 
 ActivityClass* ActivityClass::instance() {
@@ -73,7 +77,7 @@ void Character::update() {
 void Character::processTasks() {
 	if (m_tasks.empty())
 		return;
-	auto& task = m_tasks.top();
+	auto& task = m_tasks.front();	
 	if (task.update(getTimeStep())) {
 		m_tasks.pop();
 	}
@@ -87,6 +91,21 @@ Body::Body(Character* character)
 		v.reset(new BodyPart{enum_value<BodyPartType>(index), this });
 		++index;
 	}
+}
+
+void BodyPart::bindItem(ItemPtr value) {
+	if (m_taken_item.get()) {
+		character()->takeOrDrop(std::move(m_taken_item));
+	}
+	m_taken_item = std::move(value);
+}
+
+ItemPtr BodyPart::unbindItem() {
+	return std::move(m_taken_item);
+}
+
+Character* BodyPart::character() { 
+	return body()->character(); 
 }
 
 float Body::metabolismPower() const {
@@ -441,12 +460,11 @@ BodyPart* Body::wearClothes(const Clothes* item) {
 	return (*it).get();
 }
 
-void Character::drop(const Item* value) {
-	auto item = popItem(value);
+void Character::drop(ItemPtr item) {	
 	if (!item.get()) {
-		qDebug() << "Can't drop" << value->name() << ". Not in inventory";
+		qDebug() << "Can't drop" << item->name() << ". Not in inventory";
 	}
-	//field()->add(fullPosition(), std::move(item));
+	field()->addItemInstance(pos(), std::move(item));	
 }
 
 void Character::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
@@ -458,71 +476,136 @@ QRectF Character::boundingRect() const {
 }
 
 void Character::injectClip(WeaponClip* clip, Weapon* weapon, std::function<void()> on_complete) {
-	m_tasks.push(Task{ TaskType::InjectClip, 2, [clip, weapon, this, on_complete]() {
-		if (weapon->clip()) {
-			auto old_clip = weapon->ejectClip();
-			take(cast<Item>(old_clip));
-		}
-		//	take one clip from inventory
-		auto clip_item = cast<WeaponClip>(popOneItem(clip));
-		//	take one weapon from inventory
-		auto weapon_item = cast<Weapon>(popOneItem(weapon));
-		//	inject clip into the weapon
-		weapon_item->injectClip(std::move(clip_item));
-		//	put weapon into the inventory
-		take(cast<Item>(weapon_item));
-		//	call on complete
-		on_complete();
+	m_tasks.push(Task{ TaskType::InjectClip, 0, [clip, weapon, this]() {
+		if (!hasItem(clip))
+			return;
+		if (!hasItem(weapon))
+			return;
+		hands().take(popOneItem(clip));
+		hands().take(popOneItem(weapon));
+		inventoryChanged();
+
+		m_tasks.push(Task{ TaskType::InjectClip, 2, [clip, weapon, this]() {
+			if (weapon->clip()) {
+				auto old_clip = weapon->ejectClip();
+				take(cast<Item>(old_clip));
+			}
+			//	take one clip from inventory
+			auto clip_item = cast<WeaponClip>(hands().dropItem(ItemClassType::WeaponClip));
+			//	take one weapon from inventory
+			auto weapon_item = cast<Weapon>(hands().dropItem(ItemClassType::Weapon));
+			//	inject clip into the weapon
+			weapon_item->injectClip(std::move(clip_item));
+			//	put weapon into the inventory
+			take(cast<Item>(weapon_item));
+			//	call on complete
+			inventoryChanged();
+		} });
 	} });
 }
 
 void Character::ejectClip(Weapon* weapon, std::function<void()> on_complete) {
-	m_tasks.push(Task{ TaskType::EjectClip, 2, [weapon, this, on_complete]() {
-		//	take one weapon
-		auto weapon_item = cast<Weapon>(popOneItem(weapon));
-		//	eject clip from weapon
-		auto clip_item = weapon_item->ejectClip();
-		//	put clip in the inventory
-		take(cast<Item>(clip_item));
-		//	put gun back in the inventory
-		take(cast<Item>(weapon_item));
-		//	call on complete
-		on_complete();
+	m_tasks.push( Task{ TaskType::EjectClip, 0, [weapon, this]() {
+		if (!hasItem(weapon))
+			return;
+		hands().take(popOneItem(weapon));
+		inventoryChanged();
+		
+		m_tasks.push(Task{ TaskType::EjectClip, 2, [weapon, this]() {
+			//	take one weapon
+			WeaponPtr weapon_item = cast<Weapon>(hands().dropItem(ItemClassType::Weapon));
+			//	eject clip from weapon
+			auto clip_item = weapon_item->ejectClip();
+			//	put clip in the inventory
+			take(cast<Item>(clip_item));
+			//	put gun back in the inventory
+			take(cast<Item>(weapon_item));
+			//	call on complete
+			inventoryChanged();
+		} });
 	} });
 }
 
 void Character::loadClip(WeaponClip* clip, Ammo* ammo, std::function<void()> on_complete) {
-	m_tasks.push(Task{ TaskType::LoadClip, 2, [clip, ammo, this, on_complete](){
-		//	take one clip
-		auto clip_item = cast<WeaponClip>(popOneItem(clip));
-		//	unload loaded ammo
-		auto old_ammo = clip_item->unload();
-		if (old_ammo.get()) {
-			take(cast<Item>(old_ammo));
-		}
+	m_tasks.push(Task{ TaskType::LoadClip, 0, [clip, ammo, this]() {
+		if (!hasItem(clip))
+			return;
+		if (!hasItem(ammo))
+			return;
+		hands().take(popOneItem(clip));
 		//	get clip capacity
-		auto capacity = clip_item->maxRounds();
+		auto capacity = clip->maxRounds();
 		//	take all ammo
 		auto ammo_item = cast<Ammo>(popItem(ammo));
 		if (capacity >= ammo_item->quantity()) {
-			//	all ammo go to clip
-			clip_item->load(std::move(ammo_item));
+			//	take ammo in the hands
+			hands().take(cast<Item>(ammo_item));
 		}
 		else {
 			//	split ammo
 			auto splitted_ammo = cast<Ammo>(ammo_item->split(capacity));
-			//	put splitted part into the clip
-			clip_item->load(std::move(splitted_ammo));
+			//	take ammo in the hands
+			hands().take(cast<Item>(splitted_ammo));
 			//	put the rest back into the inventory
 			take(cast<Item>(ammo_item));
 		}
-		//	put clip back into inventory
-		take(cast<Item>(clip_item));
-		//	call callback
-		on_complete();
+
+		inventoryChanged();
+
+		//	when took all in hands create a task
+		m_tasks.push(Task{ TaskType::LoadClip, 2, [clip, ammo, this](){
+			//	take one clip
+			auto clip_item = cast<WeaponClip>(hands().dropItem(ItemClassType::WeaponClip));
+			//	take new ammo
+			auto ammo_item = cast<Ammo>(hands().dropItem(ItemClassType::Ammo));
+			//	unload loaded ammo
+			auto old_ammo = clip_item->unload();
+			if (old_ammo.get()) {
+				take(cast<Item>(old_ammo));
+			}
+			//	load ammo
+			clip_item->load(std::move(ammo_item));
+			//	put clip back into inventory
+			take(cast<Item>(clip_item));
+			//	call callback
+			inventoryChanged();
+		} });
 	} });
 }
 
 void Character::unloadClip(WeaponClip* clip, std::function<void()> on_complete) {
 
+}
+
+void Character::takeOrDrop(ItemPtr value) {
+	if (!canTake(value.get())) {
+		drop(std::move(value));
+	}
+	take(std::move(value));
+	inventoryChanged();
+}
+
+bool Character::takeInHand(const Item* value) {
+	auto item = popOneItem(value);
+	if (!item.get()) {
+		qDebug() << "Can't take item" << value->name() << ". Not found in inventory";
+		return false;
+	}
+
+	hands().take(std::move(item));
+
+	inventoryChanged();
+
+	return true;
+}
+
+bool Character::canTake(Item* value) {
+	return true;
+}
+
+bool Character::hasItem(const Item* item) const {
+	auto it = std::find_if(m_items.begin(), m_items.end(), [item](const ItemPtr& value) {
+		return value.get() == item;
+	});
+	return it != m_items.end();
 }
