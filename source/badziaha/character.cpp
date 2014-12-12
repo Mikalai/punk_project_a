@@ -1,3 +1,4 @@
+
 #include <QtGui/qpainter.h>
 #include <QtCore/qdebug.h>
 #include "weather.h"
@@ -468,7 +469,27 @@ void Character::drop(ItemPtr item) {
 }
 
 void Character::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
-	Entity::paint(painter, option, widget);
+	auto body = Resources::instance()->loadImage(":/body/body_male.png");
+	auto head = Resources::instance()->loadImage(":/body/head_male.png");
+
+	auto brush = painter->brush();
+	brush.setStyle(Qt::BrushStyle::SolidPattern);
+	brush.setColor(QColor(255, 0, 0));
+	brush.setTextureImage(*body);		
+	painter->setBrush(brush);	
+	//painter->fillRect(boundingRect(), brush);
+	painter->drawImage(boundingRect().bottomLeft(), *body, boundingRect());
+
+	brush = painter->brush();
+	brush.setStyle(Qt::BrushStyle::SolidPattern);
+	brush.setColor(QColor(255, 0, 0));
+	brush.setTextureImage(*head);		
+	painter->setBrush(brush);
+	//painter->fillRect(boundingRect(), brush);
+	painter->drawPixmap(boundingRect(), QPixmap::fromImage(*body), QRectF(0, 0, body->width(), body->height()));
+	painter->drawPixmap(QRectF(-10, -10, 20, 20), QPixmap::fromImage(*head), QRectF( 0, 0, head->width(), head->height() ));
+
+	//Entity::paint(painter, option, widget);
 }
 
 QRectF Character::boundingRect() const {
