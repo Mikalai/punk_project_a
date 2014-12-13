@@ -2,8 +2,10 @@
 #define _H_CHARACTER
 
 #include <array>
+#include <stack>
 #include <memory>
 #include <queue>
+#include <functional>
 #include <QtCore/qobject.h>
 #include <QtCore/qpoint.h>
 #include "entity.h"
@@ -65,7 +67,7 @@ public:
 	float windProtection() const;
 	float heatAbsorbingFactor() const;
 
-	BodyPartType type() const { return m_part; }
+	BodyPartType type() const { return m_part; }	
 
 	float relativeWeight() const;
 
@@ -73,9 +75,19 @@ public:
 	void putClothes(ClothesPtr value);
 	ClothesPtr dropClothes() { return std::move(m_clothes); }
 
+	void bindItem(ItemPtr value);
+	ItemPtr unbindItem();
+
+	Item* item() { return m_taken_item.get(); }
+	const Item* item() const { return m_taken_item.get(); }
+
+	Body* body() { return m_body; }
+	Character* character();
+
 private:
 	BodyPartType m_part{ BodyPartType::LeftFoot };
 	ClothesPtr m_clothes{ make_ptr<Clothes>(nullptr) };
+	ItemPtr m_taken_item{ make_ptr<Item>(nullptr) };
 	Body* m_body{ nullptr };
 };
 
@@ -109,7 +121,7 @@ public:
 	//	returns amount of liters that should be evaporated to consume power
 	float powerToEvaporatedWater(float power);
 
-	std::vector<std::unique_ptr<BodyPart>> parts;
+	std::vector<std::unique_ptr<BodyPart>> parts;	
 	
 	Character* character() const { return m_character; }
 
@@ -150,6 +162,76 @@ private:
 	float m_max_water{ 5000.0f };
 };
 
+class Hand {
+public:
+	Hand(BodyPart* part)
+		: m_part{ part }
+	{}
+
+	bool doHold(ItemClassType type);
+
+	ItemPtr dropItem() {
+		if (m_part)
+			return m_part->unbindItem();
+		return make_ptr<Item>(nullptr);
+	}
+
+	void take(ItemPtr value) {
+		if (m_part) {
+			m_part->bindItem(std::move(value));
+		}
+	}
+
+	Item* item() {
+		if (m_part)
+			return m_part->item();
+		return nullptr;
+	}
+
+private:
+	BodyPart* m_part{ nullptr };
+};
+
+class Hands {
+public:
+	Hands(BodyPart* left, BodyPart* right)
+		: m_left{ left }
+		, m_right{ right }
+	{}
+
+	bool doHold(ItemClassType type) {
+		if (m_left.doHold(type))
+			return true;
+		if (m_right.doHold(type))
+			return true;
+		return false;
+	}
+
+	ItemPtr dropItem(ItemClassType type) {
+		if (m_left.doHold(type))
+			return m_left.dropItem();
+		if (m_right.doHold(type))
+			return m_right.dropItem();
+		return make_ptr<Item>(nullptr);
+	}
+
+	void take(ItemPtr item) {
+		if (!left().item())
+			left().take(std::move(item));
+		else if (!right().item())
+			right().take(std::move(item));
+		else
+			left().take(std::move(item));
+	}
+
+	Hand& left() { return m_left; }
+	Hand& right() { return m_right; }
+
+private:
+	Hand m_left;
+	Hand m_right;
+};
+
 class Character final : public Entity {
 	Q_OBJECT;
 public:
@@ -168,6 +250,7 @@ public:
 	Squad* squad() { return m_current_squad; }
 
 	Body* body() { return &m_body; }
+	const Body* body() const { return &m_body; }
 
 	void update() override;
 
@@ -177,15 +260,26 @@ public:
 	WeatherStamp* weather() const;
 	std::vector<HeatSource> heatSources() const;
 
+	BodyPart* bodyPart(BodyPartType type) { return body()->part(type); }
+	Hand leftHand() { return Hand{ bodyPart(BodyPartType::LeftPalm) }; }
+	Hand rightHand() { return Hand{ bodyPart(BodyPartType::RightPalm) }; }
+	Hands hands() { return Hands{ bodyPart(BodyPartType::LeftPalm), bodyPart(BodyPartType::RightPalm) }; }
+
 	// inventory managment
-	bool hasItem(const Item* item);
+	bool hasItem(const Item* item) const;
 	bool take(ItemPtr item);
+	bool canTake(Item* value);
+	void takeOrDrop(ItemPtr item);
 	bool putOn(const Clothes* item);
 	bool putOff(const Clothes* item);
-	void drop(const Item* item);
-	const std::vector<const Item*> selectItems(ItemClassType type);
-	const std::vector<const Item*> selectEquippedItems(ItemClassType type);
+	void drop(ItemPtr item);
+	const std::vector<const Item*> selectItems(ItemClassType type) const;	
+	const std::vector<const Item*> selectEquippedItems(ItemClassType type) const;
+	const std::vector<Item*> selectItems(ItemClassType type);
+	const std::vector<Item*> selectEquippedItems(ItemClassType type);
 	ItemPtr popItem(const Item* item);
+	ItemPtr popOneItem(const Item* item);
+	bool takeInHand(const Item* item);
 
 	//	QGraphicsItem
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0) override;
@@ -195,6 +289,17 @@ public:
 
 	int type() const override {
 		return Type;
+	}
+
+	//	commands
+	void injectClip(WeaponClip* clip, Weapon* weapon, std::function<void()> on_complete);
+	void ejectClip(Weapon* weapon, std::function<void()> on_complete);
+	void loadClip(WeaponClip* clip, Ammo* ammo, std::function<void()> on_complete);
+	void unloadClip(WeaponClip* clip, std::function<void()> on_complete);
+
+	//	callbacks
+	void setInvetoryChanged(std::function<void()> callback) {
+		inventoryChanged = callback;
 	}
 
 private:
@@ -228,25 +333,56 @@ private:
 	//	task managment
 	enum class TaskType {
 		Idle,
+		InjectClip,
+		EjectClip = InjectClip,
+		LoadClip, 
+		UnloadClip = LoadClip,
 		Eat,
-		Drink
+		Drink,		
 	};
 
-	struct Task {
-		TaskType type{ TaskType::Idle };
-		float time_to_complete{ -1 };
+	class Task {
+	public:
+		Task(TaskType type, float time, std::function<void()> on_complete)
+			: m_time_to_complete{ time }
+			, m_on_complete{ on_complete }
+			, m_type{ type }
+		{}
+
+		virtual ~Task() {};
+
+		virtual bool update(float dt) {
+			if (m_time_to_complete < 0)
+				return false;
+			m_time_to_complete -= dt;
+			if (m_time_to_complete <= 0) {
+				m_on_complete();
+				return true;
+			}
+			return false;
+		}
+
+		float timeLeft() const { return m_time_to_complete; }
+		TaskType type() const { return m_type; }
+
+	private:
+		TaskType m_type{ TaskType::Idle };
+		float m_time_to_complete{ -1 };
+		std::function<void()> m_on_complete;
 	};
 
-	std::priority_queue < Task, std::vector<Task>> m_tasks;
+	std::queue<Task> m_tasks;
 
 	//	inventory
 	std::vector<ItemPtr> m_items;
 
-
 	friend bool operator < (const Character::Task& a, const Character::Task& b);
+
+	//	callbacks
+	std::function<void()> inventoryChanged;
 };
 
 inline bool operator < (const Character::Task& a, const Character::Task& b) {
-	return a.type < b.type;
+	return a.type() < b.type();
 }
 #endif	//_H_Character

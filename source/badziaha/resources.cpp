@@ -265,7 +265,7 @@ void Resources::readItems() {
 			}
 			else {
 				int id_col = -1;
-				int name_col = -1;	
+				int name_col = -1;
 				int icon_col = -1;
 				int move_penalty_col = -1;
 				int solid_col = -1;
@@ -304,7 +304,7 @@ void Resources::readItems() {
 							auto icon = *row->cell(icon_col)->value().AsString();
 							auto move_penalty = *row->cell(move_penalty_col)->value().AsDouble();
 							auto solid = (int)(*row->cell(solid_col)->value().AsDouble());
-							
+
 							SurfaceTypeClassPtr c = make_ptr(new SurfaceTypeClass{});
 							c->setName(name);
 							c->setIcon(icon);
@@ -429,7 +429,7 @@ void Resources::readItems() {
 		else {
 			auto rows = weapon->rows();
 			if (!rows) {
-				qDebug() << "No weapons for ammo";
+				qDebug() << "No rows for weapons";
 			}
 			else {
 				int id_col = -1;
@@ -484,7 +484,7 @@ void Resources::readItems() {
 									else if (*s == "rounds")
 										rounds_col = j;
 									else
-										qDebug() << "Unexpected ammo attribute" << *s;
+										qDebug() << "Unexpected weapon attribute" << *s;
 								}
 							}
 						}
@@ -515,12 +515,99 @@ void Resources::readItems() {
 							c->setCartridge(cartridge);
 							c->setLength(length);
 							c->setBarrelLength(barrel_length);
-							c->setWeight(width);
+							c->setWidth(width);
 							c->setHeight(height);
 							c->setRange(range);
-							c->setRounds(rounds);
 							m_weapon_cache.push_back(c.get());
 							m_items.push_back(cast<ItemClass>(c));
+						}
+					}
+				}
+			}
+		}
+
+		//	
+		//	Read weapon clips
+		//
+		{
+			auto clip = book.sheet("Clip");
+			if (!clip) {
+				qDebug() << "Clip not found";
+			}
+			else {
+				auto rows = clip->rows();
+				if (!rows) {
+					qDebug() << "No rows for clips";
+				}
+				else {
+					int id_col = -1;
+					int name_col = -1;
+					int description_col = -1;
+					int icon_col = -1;
+					int weight_col = -1;
+					int technology_col = -1;
+					int length_col = -1;
+					int weapon_col = -1;
+					int rounds_col = -1;
+
+					for (int i = 0, max_i = rows->size(); i < max_i; ++i) {
+						auto row = (*rows)[i];
+						if (i == 0) {
+							auto& cells = row->cells();
+							for (int j = 0, max_j = cells.size(); j < max_j; ++j) {
+								auto cell = cells[j];
+
+								auto& v = cell->value();
+								if (v.IsString()) {
+									auto s = v.AsString();
+									if (s) {
+										if (*s == "id")
+											id_col = j;
+										else if (*s == "name")
+											name_col = j;
+										else if (*s == "description")
+											description_col = j;
+										else if (*s == "icon")
+											icon_col = j;
+										else if (*s == "weight")
+											weight_col = j;
+										else if (*s == "technology")
+											technology_col = j;
+										else if (*s == "length")
+											length_col = j;
+										else if (*s == "weapon")
+											weapon_col = j;
+										else if (*s == "rounds")
+											rounds_col = j;
+										else
+											qDebug() << "Unexpected clip attribute" << *s;
+									}
+								}
+							}
+						}
+						else {
+							if (row->cell(id_col)->value().Ok()) {
+								auto v = row->cell(id_col)->value().AsDouble();
+								auto id = (int)(*v);
+								auto name = *row->cell(name_col)->value().AsString();
+								auto description = *row->cell(description_col)->value().AsString();
+								auto icon = *row->cell(icon_col)->value().AsString();
+								auto weight = *row->cell(weight_col)->value().AsDouble();
+								auto technology = (int)(*row->cell(technology_col)->value().AsDouble());
+								auto weapon = *row->cell(weapon_col)->value().AsString();
+								auto rounds = *row->cell(rounds_col)->value().AsDouble();
+
+								WeaponClipClassPtr c = make_ptr(new WeaponClipClass{});
+								c->setName(name);
+								c->setDescription(description);
+								c->setIcon(icon);
+								c->setWeight(weight);
+								c->setTechnologyLevel(technology);
+								c->setWeapon(weapon);
+								c->setRounds(rounds);
+								m_weapon_clip_cache.push_back(c.get());
+								m_items.push_back(cast<ItemClass>(c));
+							}
 						}
 					}
 				}

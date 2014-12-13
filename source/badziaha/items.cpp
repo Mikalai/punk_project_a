@@ -40,6 +40,14 @@ void destroy(Weapon* value) {
 	delete value;
 }
 
+void destroy(WeaponClipClass* value) {
+	delete value;
+}
+
+void destroy(WeaponClip* value) {
+	delete value;
+}
+
 //class ClothesFactory : public Singletone < ClothesFactory > {
 //public:
 //	ClothesFactory() {
@@ -177,6 +185,14 @@ const QString WeaponClass::ToString() const {
 	QString v = ItemClass::ToString();
 	v += "<font color='red'>Cartridge: </font>" + cartridge() + "<br/>";
 	v += "<font color='red'>Range: </font>" + QString::number(range()) + " m<br/>";
+//	v += "<font color='red'>Rounds: </font>" + QString::number(rounds()) + "<br/>";
+	v += "<br/>" + description();
+	return v;
+}
+
+const QString WeaponClipClass::ToString() const {
+	QString v = ItemClass::ToString();
+	v += "<font color='red'>Weapon: </font>" + weapon() + "<br/>";
 	v += "<font color='red'>Rounds: </font>" + QString::number(rounds()) + "<br/>";
 	v += "<br/>" + description();
 	return v;
@@ -196,8 +212,19 @@ const QString Ammo::ToString() const {
 const QString Weapon::ToString() const {
 	QString v = Item::ToString();
 	v += "<font color='red'>Cartridge: </font>" + cartridge() + "<br/>";
-	v += "<font color='red'>Range: </font>" + QString::number(range()) + " m<br/>";
-	v += "<font color='red'>Rounds: </font>" + QString::number(rounds()) + "<br/>";
+	v += "<font color='red'>Range: </font>" + QString::number(range()) + " m<br/>";	
+	v += "<font color='red'>Clip: </font>" + (clip() ? clip()->name() : "No") + "<br/>";
+	if (clip()) {
+		v += "<font color='red'>Rounds: </font>" + QString::number(clip()->rounds()) + "/" + QString::number(clip()->maxRounds()) + "<br/>";
+	}
+	v += "<br/>" + description();
+	return v;
+}
+
+const QString WeaponClip::ToString() const {
+	QString v = Item::ToString();
+	v += "<font color='red'>Weapon: </font>" + weapon() + "<br/>";
+	v += "<font color='red'>Rounds: </font>" + QString::number(rounds()) + "/" + QString::number(maxRounds()) + "<br/>";
 	v += "<br/>" + description();
 	return v;
 }
@@ -223,13 +250,22 @@ bool Item::isEqual(const Item* value) const {
 }
 
 ItemPtr Item::split(int count) {
-	if (m_count <= 0)
+	if (m_count <= 0) {
+		qDebug() << "Can't split" << name() << "with count" << count;
 		return make_ptr<Item>(nullptr);
-	if (m_count <= count)
+	}
+	if (m_count <= count) {
+		qDebug() << "Can't split" << name() << "with count" << count;
 		return make_ptr<Item>(nullptr);
+	}
 	auto result = clone();
 	result->setCount(count);
 	m_count -= count;
+
+	//	any nested classes can split some other parts
+	childSplit(result, count);
+
+	qDebug() << name() << "has been splitted with" << count;
 	return result;
 }
 
@@ -239,6 +275,8 @@ void Item::merge(ItemPtr& item) {
 		return;
 	//	increase count
 	m_count += item->quantity();
+	//	allow complex objects to merge internals
+	childMerge(item);
 	//	destroy useless item
 	item.reset();
 }
@@ -300,12 +338,23 @@ bool Weapon::isEqual(const Item* value) const {
 	const Weapon* weapon = static_cast<const Weapon*>(value);
 	if (m_mods != weapon->m_mods)
 		return false;
+	if (clip() && weapon->clip()) {
+		if (!clip()->isEqual(weapon->clip()))
+			return false;
+	}
+	if (!clip() && weapon->clip())
+		return false;
+	if (clip() && !weapon->clip())
+		return false;		
 	return true;
 }
 
 Weapon::Weapon(const Weapon& value) 
 	: Item{ value } {
 	m_mods = value.m_mods;
+	if (value.clip()) {
+		m_clip = std::move(cast<WeaponClip>(value.clip()->clone()));		
+	}
 }
 
 ItemPtr Weapon::clone() const {
@@ -313,7 +362,96 @@ ItemPtr Weapon::clone() const {
 	return cast<Item>(result);
 }
 
+void Weapon::childMerge(ItemPtr& value) {		
+}
+
+void Weapon::childSplit(ItemPtr& new_parent, int count) {	
+}
+
 WeaponPtr WeaponClass::createInstance() const {
 	return make_ptr(new Weapon{ this });
 }
 
+
+bool WeaponClip::isEqual(const Item* value) const {
+	if (!Item::isEqual(value))
+		return false;
+	const WeaponClip* clip = static_cast<const WeaponClip*>(value);
+	if (m_ammo.get() && clip->m_ammo.get()) {
+		if (!m_ammo->isEqual(clip->m_ammo.get()))
+			return false;
+		if (m_ammo->quantity() != clip->ammo()->quantity())
+			return false;
+	}
+	if (!ammo() && clip->ammo())
+		return false;
+	if (ammo() && !clip->ammo())
+		return false;
+	return true;
+}
+
+WeaponClip::WeaponClip(const WeaponClip& value)
+	: Item{ value } {
+	if (value.m_ammo.get()) {
+		m_ammo = cast<Ammo>(value.m_ammo->clone());
+		m_ammo->setCount(value.m_ammo->quantity());
+	}
+}
+
+ItemPtr WeaponClip::clone() const {
+	auto result = make_ptr(new WeaponClip{ *this });
+	return cast<Item>(result);
+}
+
+WeaponClipPtr WeaponClipClass::createInstance() const {
+	return make_ptr(new WeaponClip{ this });
+}
+
+void Weapon::injectClip(WeaponClipPtr value) { 
+	m_clip = std::move(value); 
+	if (clip()) {
+		qDebug() << clip()->name() << "has been injected into" << name();
+	}
+	else {
+		qDebug() << "Bad clip injected into" << name();
+	}
+}
+WeaponClipPtr Weapon::ejectClip() { 
+	if (clip()) {
+		qDebug() << clip()->name() << "ejected from" << name();
+	}
+	else {
+		qDebug() << "Bad clip ejected from" << name();
+	}
+	return std::move(m_clip); 
+}
+
+const WeaponClass* WeaponClipClass::weaponClass() const {
+	if (!m_weapon_class_ptr) {
+		auto& weapons = Resources::weapons();
+		for (auto& weapon : weapons) {
+			if (weapon->name() == m_weapon_class) {
+				return m_weapon_class_ptr = weapon;
+			}
+		}
+	}
+	return m_weapon_class_ptr;	
+}
+
+bool WeaponClip::isAmmoCompatible(Ammo* value) const {
+	return value->cartridge() == weaponClass()->cartridge();
+}
+
+void WeaponClip::load(AmmoPtr value) {
+	if (ammo()) {
+		qDebug() << "Loading" << name() << "when it is not empty";
+	}
+	m_ammo = std::move(value);
+}
+
+AmmoPtr WeaponClip::unload() {
+	if (!ammo()) {
+		qDebug() << "Unloading empty clip" << name(); 
+	}
+	return std::move(m_ammo);
+}

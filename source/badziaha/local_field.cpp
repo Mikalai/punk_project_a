@@ -190,7 +190,7 @@ void LocalField::keyPressEvent(QKeyEvent *event) {
 	//qDebug(__FUNCTION__);
 	Keyboard::set(event->key(), true);
 	if (event->key() == Qt::Key_I) {
-		emit toggleInventory(nullptr);
+		emit toggleInventory(world()->player());
 	}
 	event->accept();
 }

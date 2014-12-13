@@ -1,3 +1,4 @@
+
 #include <QtGui/qpainter.h>
 #include <QtCore/qdebug.h>
 #include "weather.h"
@@ -10,6 +11,10 @@
 
 void destroy(Character* value) {
 	delete value;
+}
+
+bool Hand::doHold(ItemClassType type) {
+	return m_part && m_part->item() && m_part->item()->classType() == type;
 }
 
 std::unique_ptr<ActivityClass> ActivityClass::m_instance;
@@ -36,20 +41,26 @@ Character::Character(GlobalField* field, QGraphicsItem* parent)
 	: Entity{field, parent }
 	, m_body{ this }
 {
-	auto& clothes_classes = Resources::instance()->clothes();
+	auto& clothes_classes = Resources::clothes();
 	for (const auto& clothes_class : clothes_classes) {
 		auto item = clothes_class->createInstance();
 		take(cast<Item>(std::move(item)));
 	}
-	auto& ammo_classes = Resources::instance()->ammos();
+	auto& ammo_classes = Resources::ammos();
 	for (const auto& ammo_class : ammo_classes) {
 		auto item = ammo_class->createInstance();
-		item->setCount(10);
+		item->setCount(40);
 		take(cast<Item>(std::move(item)));
 	}
-	auto& weapon_classes = Resources::instance()->weapons();
+	auto& weapon_classes = Resources::weapons();
 	for (auto& weapon_class : weapon_classes) {
 		auto item = weapon_class->createInstance();
+		item->setCount(2);
+		take(cast<Item>(std::move(item)));
+	}
+	auto& weapon_clip_classes = Resources::weapon_clips();
+	for (auto& clip_class : weapon_clip_classes) {
+		auto item = clip_class->createInstance();		
 		item->setCount(2);
 		take(cast<Item>(std::move(item)));
 	}
@@ -67,9 +78,9 @@ void Character::update() {
 void Character::processTasks() {
 	if (m_tasks.empty())
 		return;
-	auto& task = m_tasks.top();
-	if (task.type == TaskType::Drink) {
-
+	auto& task = m_tasks.front();	
+	if (task.update(getTimeStep())) {
+		m_tasks.pop();
 	}
 }
 
@@ -81,6 +92,21 @@ Body::Body(Character* character)
 		v.reset(new BodyPart{enum_value<BodyPartType>(index), this });
 		++index;
 	}
+}
+
+void BodyPart::bindItem(ItemPtr value) {
+	if (m_taken_item.get()) {
+		character()->takeOrDrop(std::move(m_taken_item));
+	}
+	m_taken_item = std::move(value);
+}
+
+ItemPtr BodyPart::unbindItem() {
+	return std::move(m_taken_item);
+}
+
+Character* BodyPart::character() { 
+	return body()->character(); 
 }
 
 float Body::metabolismPower() const {
@@ -301,12 +327,30 @@ WeatherStamp* Character::weather() const {
 }
 
 bool Character::take(ItemPtr value) {
-	qDebug() << QString::number(value->quantity()) << "of" << value->name() << "has been taken by" << name();
-	m_items.push_back(std::move(value));
+	if (!value.get()) {
+		qDebug() << name() << "can't take nullptr item";
+		return false;
+	}	
+	//	try to merge item with items in inventory
+	auto items = selectItems(value->classType());
+	for (auto& item : items) {
+		item->merge(value);
+		if (!value.get()) {
+			qDebug() << item->name() << "has been merged";
+			break;
+		}
+	}
+
+	//	if not merged add new item
+	if (value.get()) {
+		qDebug() << value->quantity() << "of" << value->name() << "has been taken by" << name();
+		m_items.push_back(std::move(value));
+	}
+
 	return true;
 }
 
-const std::vector<const Item*> Character::selectItems(ItemClassType type) {
+const std::vector<const Item*> Character::selectItems(ItemClassType type) const {
 	std::vector<const Item*> res;
 	for (auto& item : m_items) {
 		if (item->classType() == type) {
@@ -316,8 +360,27 @@ const std::vector<const Item*> Character::selectItems(ItemClassType type) {
 	return res;
 }
 
-const std::vector<const Item*> Character::selectEquippedItems(ItemClassType type) {
+const std::vector<const Item*> Character::selectEquippedItems(ItemClassType type) const {
 	std::vector<const Item*> res;
+	for (auto& p : body()->parts) {
+		if (p->clothes() && type == ItemClassType::ClothesClass)
+			res.push_back(p->clothes());
+	}
+	return res;
+}
+
+const std::vector<Item*> Character::selectItems(ItemClassType type) {
+	std::vector<Item*> res;
+	for (auto& item : m_items) {
+		if (item->classType() == type) {
+			res.push_back(item.get());
+		}
+	}
+	return res;
+}
+
+const std::vector<Item*> Character::selectEquippedItems(ItemClassType type) {
+	std::vector<Item*> res;
 	for (auto& p : body()->parts) {
 		if (p->clothes() && type == ItemClassType::ClothesClass)
 			res.push_back(p->clothes());
@@ -334,6 +397,22 @@ ItemPtr Character::popItem(const Item* item) {
 	auto result = std::move(*it);
 	m_items.erase(it);
 	return result;
+}
+
+ItemPtr Character::popOneItem(const Item* item) {
+	auto it = std::find_if(m_items.begin(), m_items.end(), [&item](const ItemPtr& value) {
+		return value.get() == item;
+	});
+	if (it == m_items.end())
+		return make_ptr<Item>(nullptr);
+	if (item->quantity() == 1) {
+		auto result = std::move(*it);
+		m_items.erase(it);
+		return result;
+	}
+	else {
+		return (*it)->split(1);
+	}
 }
 
 bool Character::putOn(const Clothes* clothes) {
@@ -382,18 +461,172 @@ BodyPart* Body::wearClothes(const Clothes* item) {
 	return (*it).get();
 }
 
-void Character::drop(const Item* value) {
-	auto item = popItem(value);
+void Character::drop(ItemPtr item) {	
 	if (!item.get()) {
-		qDebug() << "Can't drop" << value->name() << ". Not in inventory";
+		qDebug() << "Can't drop" << item->name() << ". Not in inventory";
 	}
-	//field()->add(fullPosition(), std::move(item));
+	field()->addItemInstance(pos(), std::move(item));	
 }
 
 void Character::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
-	Entity::paint(painter, option, widget);
+	auto body = Resources::instance()->loadImage(":/body/body_male.png");
+	auto head = Resources::instance()->loadImage(":/body/head_male.png");
+
+	auto brush = painter->brush();
+	brush.setStyle(Qt::BrushStyle::SolidPattern);
+	brush.setColor(QColor(255, 0, 0));
+	brush.setTextureImage(*body);		
+	painter->setBrush(brush);	
+	//painter->fillRect(boundingRect(), brush);
+	painter->drawImage(boundingRect().bottomLeft(), *body, boundingRect());
+
+	brush = painter->brush();
+	brush.setStyle(Qt::BrushStyle::SolidPattern);
+	brush.setColor(QColor(255, 0, 0));
+	brush.setTextureImage(*head);		
+	painter->setBrush(brush);
+	//painter->fillRect(boundingRect(), brush);
+	painter->drawPixmap(boundingRect(), QPixmap::fromImage(*body), QRectF(0, 0, body->width(), body->height()));
+	painter->drawPixmap(QRectF(-10, -10, 20, 20), QPixmap::fromImage(*head), QRectF( 0, 0, head->width(), head->height() ));
+
+	//Entity::paint(painter, option, widget);
 }
 
 QRectF Character::boundingRect() const {
 	return Entity::boundingRect();
+}
+
+void Character::injectClip(WeaponClip* clip, Weapon* weapon, std::function<void()> on_complete) {
+	m_tasks.push(Task{ TaskType::InjectClip, 0, [clip, weapon, this]() {
+		if (!hasItem(clip))
+			return;
+		if (!hasItem(weapon))
+			return;
+		hands().take(popOneItem(clip));
+		hands().take(popOneItem(weapon));
+		inventoryChanged();
+
+		m_tasks.push(Task{ TaskType::InjectClip, 2, [clip, weapon, this]() {
+			if (weapon->clip()) {
+				auto old_clip = weapon->ejectClip();
+				take(cast<Item>(old_clip));
+			}
+			//	take one clip from inventory
+			auto clip_item = cast<WeaponClip>(hands().dropItem(ItemClassType::WeaponClip));
+			//	take one weapon from inventory
+			auto weapon_item = cast<Weapon>(hands().dropItem(ItemClassType::Weapon));
+			//	inject clip into the weapon
+			weapon_item->injectClip(std::move(clip_item));
+			//	put weapon into the inventory
+			take(cast<Item>(weapon_item));
+			//	call on complete
+			inventoryChanged();
+		} });
+	} });
+}
+
+void Character::ejectClip(Weapon* weapon, std::function<void()> on_complete) {
+	m_tasks.push( Task{ TaskType::EjectClip, 0, [weapon, this]() {
+		if (!hasItem(weapon))
+			return;
+		hands().take(popOneItem(weapon));
+		inventoryChanged();
+		
+		m_tasks.push(Task{ TaskType::EjectClip, 2, [weapon, this]() {
+			//	take one weapon
+			WeaponPtr weapon_item = cast<Weapon>(hands().dropItem(ItemClassType::Weapon));
+			//	eject clip from weapon
+			auto clip_item = weapon_item->ejectClip();
+			//	put clip in the inventory
+			take(cast<Item>(clip_item));
+			//	put gun back in the inventory
+			take(cast<Item>(weapon_item));
+			//	call on complete
+			inventoryChanged();
+		} });
+	} });
+}
+
+void Character::loadClip(WeaponClip* clip, Ammo* ammo, std::function<void()> on_complete) {
+	m_tasks.push(Task{ TaskType::LoadClip, 0, [clip, ammo, this]() {
+		if (!hasItem(clip))
+			return;
+		if (!hasItem(ammo))
+			return;
+		hands().take(popOneItem(clip));
+		//	get clip capacity
+		auto capacity = clip->maxRounds();
+		//	take all ammo
+		auto ammo_item = cast<Ammo>(popItem(ammo));
+		if (capacity >= ammo_item->quantity()) {
+			//	take ammo in the hands
+			hands().take(cast<Item>(ammo_item));
+		}
+		else {
+			//	split ammo
+			auto splitted_ammo = cast<Ammo>(ammo_item->split(capacity));
+			//	take ammo in the hands
+			hands().take(cast<Item>(splitted_ammo));
+			//	put the rest back into the inventory
+			take(cast<Item>(ammo_item));
+		}
+
+		inventoryChanged();
+
+		//	when took all in hands create a task
+		m_tasks.push(Task{ TaskType::LoadClip, 2, [clip, ammo, this](){
+			//	take one clip
+			auto clip_item = cast<WeaponClip>(hands().dropItem(ItemClassType::WeaponClip));
+			//	take new ammo
+			auto ammo_item = cast<Ammo>(hands().dropItem(ItemClassType::Ammo));
+			//	unload loaded ammo
+			auto old_ammo = clip_item->unload();
+			if (old_ammo.get()) {
+				take(cast<Item>(old_ammo));
+			}
+			//	load ammo
+			clip_item->load(std::move(ammo_item));
+			//	put clip back into inventory
+			take(cast<Item>(clip_item));
+			//	call callback
+			inventoryChanged();
+		} });
+	} });
+}
+
+void Character::unloadClip(WeaponClip* clip, std::function<void()> on_complete) {
+
+}
+
+void Character::takeOrDrop(ItemPtr value) {
+	if (!canTake(value.get())) {
+		drop(std::move(value));
+	}
+	take(std::move(value));
+	inventoryChanged();
+}
+
+bool Character::takeInHand(const Item* value) {
+	auto item = popOneItem(value);
+	if (!item.get()) {
+		qDebug() << "Can't take item" << value->name() << ". Not found in inventory";
+		return false;
+	}
+
+	hands().take(std::move(item));
+
+	inventoryChanged();
+
+	return true;
+}
+
+bool Character::canTake(Item* value) {
+	return true;
+}
+
+bool Character::hasItem(const Item* item) const {
+	auto it = std::find_if(m_items.begin(), m_items.end(), [item](const ItemPtr& value) {
+		return value.get() == item;
+	});
+	return it != m_items.end();
 }

@@ -16,6 +16,8 @@ const QString asString(ItemClassType value) {
 		return "Bag";
 	case ItemClassType::Ammo:
 		return "Ammo";
+	case ItemClassType::WeaponClip:
+		return "Clip";
 	default:
 		break;
 	}
@@ -36,6 +38,8 @@ ItemClassType ItemClassTypeFromString(const QString& value) {
 		return ItemClassType::Bag;
 	if (value == "Ammo")
 		return ItemClassType::Ammo;
+	if (value == "Clip")
+		return ItemClassType::WeaponClip;
 	qDebug() << "Can't convert" << value << "to ItemClassType";
 	return ItemClassType::End;
 	return ItemClassType::End;
