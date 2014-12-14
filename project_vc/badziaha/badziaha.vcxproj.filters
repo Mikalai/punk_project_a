@@ -131,6 +131,7 @@
     <ClInclude Include="..\..\source\badziaha\fwd_unit.h" />
     <ClInclude Include="..\..\source\badziaha\fwd_character.h" />
     <ClInclude Include="..\..\source\badziaha\obstacle.h" />
+    <ClInclude Include="..\..\source\badziaha\fwd_road.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="forms">

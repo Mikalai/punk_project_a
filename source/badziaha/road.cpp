@@ -1,14 +1,31 @@
 #include <memory>
+#include "resources.h"
 #include "global_field.h"
 #include "global_field_cell.h"
 #include "road_graphics_item.h"
 #include "road.h"
 
-Road::Road(GlobalField* field, GlobalFieldCell* start, GlobalFieldCell* end, QObject* parent)
+void destroy(Road* value) {
+	delete value;
+}
+
+void destroy(RoadClass* value) {
+	delete value;
+}
+
+QImage RoadClass::surface() const {
+	if (m_surface_image.isNull()) {
+		m_surface_image = *Resources::instance()->loadImage(surfacePath());
+	}
+	return m_surface_image;
+}
+
+Road::Road(RoadClass* road_class, GlobalField* field, GlobalFieldCell* start, GlobalFieldCell* end, QObject* parent)
 	: QObject{ parent }
 	, m_field{ field }
 	, m_start{ start }
 	, m_end{ end }
+	, m_class{ road_class }
 {
 	if (start && end) {
 		if (m_field->getPath(start->index(), end->index(), m_path)) {
@@ -37,7 +54,7 @@ bool Road::split(GlobalFieldCell* cell, Road** road_a, Road** road_b) {
 		return false;
 
 	if (cell == m_path.front() || cell == m_path.back()) {
-		*road_a = new Road{ m_field, m_start, m_end, parent() };
+		*road_a = new Road{ roadClass(), m_field, m_start, m_end, parent() };
 		return true;
 	}
 
@@ -45,8 +62,8 @@ bool Road::split(GlobalFieldCell* cell, Road** road_a, Road** road_b) {
 	if (it == m_path.end())
 		return false;
 	
-	*road_a = new Road{ m_field, m_start, cell };
-	*road_b = new Road{ m_field, cell, m_end };
+	*road_a = new Road{ roadClass(), m_field, m_start, cell };
+	*road_b = new Road{ roadClass(), m_field, cell, m_end };
 	return true;
 }
 

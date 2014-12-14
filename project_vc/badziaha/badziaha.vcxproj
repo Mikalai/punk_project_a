@@ -384,6 +384,7 @@ xcopy /Y "$(SolutionDir)..\3rd\bin\$(ConfigurationName)\*.dll" "$(OutDir)"</Comm
     <ClInclude Include="..\..\source\badziaha\fwd_global_field.h" />
     <ClInclude Include="..\..\source\badziaha\fwd_items.h" />
     <ClInclude Include="..\..\source\badziaha\fwd_local_field.h" />
+    <ClInclude Include="..\..\source\badziaha\fwd_road.h" />
     <ClInclude Include="..\..\source\badziaha\fwd_surface_type.h" />
     <ClInclude Include="..\..\source\badziaha\fwd_unit.h" />
     <ClInclude Include="..\..\source\badziaha\items.h" />

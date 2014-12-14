@@ -31,6 +31,7 @@
         <file>clips/vektorsp1_standard_clip.png</file>
         <file>body/head_male.png</file>
         <file>body/body_male.png</file>
+        <file>roads/asphalt.png</file>
     </qresource>
     <qresource prefix="/icons">
         <file>saw.png</file>

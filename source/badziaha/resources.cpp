@@ -17,6 +17,7 @@
 #include "resources.h"
 #include "global_field.h"
 #include "model_type.h"
+#include "road.h"
 #include "options.h"
 
 Resources::Resources() {
@@ -607,6 +608,136 @@ void Resources::readItems() {
 								c->setRounds(rounds);
 								m_weapon_clip_cache.push_back(c.get());
 								m_items.push_back(cast<ItemClass>(c));
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		//	
+		//	Read roads
+		//
+		{
+			auto road = book.sheet("Roads");
+			if (!road) {
+				qDebug() << "Roads not found";
+			}
+			else {
+				auto rows = road->rows();
+				if (!rows) {
+					qDebug() << "No rows for roads";
+				}
+				else {					
+					int id_col = -1;
+					int name_col = -1;
+					int description_col = -1;
+					int category_col = -1;
+					int surface_col = -1;
+					int lanes_count_col = -1;
+					int lane_width_col = -1;
+					int roadway_width_col = -1;
+					int roadside_width_col = -1;
+					int fortified_roadside_width_col = -1;
+					int fortified_separation_width_col = -1;
+					int separation_width_col = -1;
+					int subgrade_width_col = -1;
+					int speed_col = -1;
+					int crossroad_speed_col = -1;
+					int mountain_speed_col = -1;
+					int estimated_traffic_col = -1;
+
+					for (int i = 0, max_i = rows->size(); i < max_i; ++i) {
+						auto row = (*rows)[i];
+						if (i == 0) {
+							auto& cells = row->cells();
+							for (int j = 0, max_j = cells.size(); j < max_j; ++j) {
+								auto cell = cells[j];
+
+								auto& v = cell->value();
+								if (v.IsString()) {
+									auto s = v.AsString();
+									if (s) {
+										if (*s == "id")
+											id_col = j;
+										else if (*s == "name")
+											name_col = j;
+										else if (*s == "description")
+											description_col = j;												
+										else if (*s == "surface")
+											surface_col = j;
+										else if (*s == "category")
+											category_col = j;
+										else if (*s == "lanes_count")
+											lanes_count_col = j;
+										else if (*s == "lane_width")
+											lane_width_col = j;
+										else if (*s == "roadway_width")
+											roadway_width_col = j;
+										else if (*s == "roadside_width")
+											roadside_width_col = j;
+										else if (*s == "fortified_roadside_width")
+											fortified_roadside_width_col = j;
+										else if (*s == "fortified_separation_width")
+											fortified_separation_width_col = j;
+										else if (*s == "separation_width")
+											separation_width_col = j;
+										else if (*s == "subgrade_width")
+											subgrade_width_col = j;
+										else if (*s == "speed")
+											speed_col = j;
+										else if (*s == "crossroad_speed")
+											crossroad_speed_col = j;
+										else if (*s == "mountain_speed")
+											mountain_speed_col = j;
+										else if (*s == "estimated_traffic")
+											estimated_traffic_col = j;
+										else
+											qDebug() << "Unexpected clip attribute" << *s;
+									}
+								}
+							}
+						}
+						else {
+							if (row->cell(id_col)->value().Ok()) {
+								auto v = row->cell(id_col)->value().AsDouble();
+								auto id = (int)(*v);
+								auto name = *row->cell(name_col)->value().AsString();
+								auto description = *row->cell(description_col)->value().AsString();
+								auto surface = *row->cell(surface_col)->value().AsString();
+								auto category = *row->cell(category_col)->value().AsString();
+								auto lanes_count = *row->cell(lanes_count_col)->value().AsDouble();
+								auto lane_width = *row->cell(lane_width_col)->value().AsDouble();
+								auto roadway_width = *row->cell(roadway_width_col)->value().AsDouble();
+								auto roadside_width = *row->cell(roadside_width_col)->value().AsDouble();
+								auto fortified_roadside_width = *row->cell(fortified_roadside_width_col)->value().AsDouble();
+								auto fortified_separation_width = *row->cell(fortified_separation_width_col)->value().AsDouble();
+								auto separation_width = *row->cell(separation_width_col)->value().AsDouble();
+								auto subgrade_width = *row->cell(subgrade_width_col)->value().AsDouble();
+								auto speed = *row->cell(speed_col)->value().AsDouble();
+								auto crossroad_speed = *row->cell(crossroad_speed_col)->value().AsDouble();
+								auto mountain_speed = *row->cell(mountain_speed_col)->value().AsDouble();
+								auto estimated_traffic = *row->cell(estimated_traffic_col)->value().AsDouble();
+
+								RoadClassPtr c = make_ptr(new RoadClass{});
+								c->setName(name);
+								c->setDescription(description);
+								c->setSurfacePath(surface);
+								c->setCategory(category);
+								c->setLanesCount(lanes_count);
+								c->setLaneWidth(lane_width);
+								c->setRoadwayWidth(roadway_width);
+								c->setRoadsideWidth(roadside_width);
+								c->setFortifiedRoadsideWidth(fortified_roadside_width);
+								c->setFortifiedSeparationWidth(fortified_separation_width);
+								c->setSeparationWidth(separation_width);
+								c->setSubgradeWidth(subgrade_width);
+								c->setSpeed(speed);
+								c->setCrossroadSpeed(crossroad_speed);
+								c->setMountainSpeed(mountain_speed);
+								c->setEstimatedTraffic(estimated_traffic);
+								m_roads_cache.push_back(c.get());
+								m_roads.push_back(std::move(c));
 							}
 						}
 					}

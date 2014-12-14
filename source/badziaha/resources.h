@@ -7,6 +7,7 @@
 #include <vector>
 #include "item_class_type.h"
 #include "fwd_items.h"
+#include "fwd_road.h"
 #include "fwd_surface_type.h"
 
 
@@ -22,6 +23,7 @@ public:
 	using WeaponClasses = std::vector < const WeaponClass* > ;
 	using WeaponClipClasses = std::vector < const WeaponClipClass* >;
 	using SurfaceTypeClasses = std::vector < const SurfaceTypeClass* > ;
+	using RoadClasses = std::vector < const RoadClass* > ;
 	Resources();
 
 	static void destroy();
@@ -32,6 +34,7 @@ public:
 	static const AmmoClasses& ammos() { return instance()->_ammos(); }
 	static const WeaponClasses weapons() { return instance()->_weapons(); }
 	static const WeaponClipClasses weapon_clips() { return instance()->_weapon_clips(); }
+	static const RoadClasses roads() { return instance()->_roads(); }
 
 	QImage* getSquadImage();
 	QImage* getCityImage();
@@ -49,6 +52,8 @@ private:
 	const AmmoClasses& _ammos() const { return m_ammo_cache; }
 	const WeaponClasses _weapons() const { return m_weapon_cache; }
 	const WeaponClipClasses _weapon_clips() const { return m_weapon_clip_cache; }
+	const RoadClasses _roads() const { return m_roads_cache; }
+
 private:
 	void readItems();
 
@@ -61,12 +66,14 @@ private:
 	std::map<QString, std::unique_ptr<QImage>> m_images;
 	std::vector<ItemClassPtr> m_items;
 	std::vector<SurfaceTypeClassPtr> m_surface_types;
+	std::vector<RoadClassPtr> m_roads;
 	ItemClasses m_items_cache;
 	ClothesClasses m_clothes_cache;
 	AmmoClasses m_ammo_cache;
 	WeaponClasses m_weapon_cache;
 	WeaponClipClasses m_weapon_clip_cache;
 	SurfaceTypeClasses m_surfaces_cache;
+	RoadClasses m_roads_cache;
 };
 
 #endif	//	_H_RESOURCES
