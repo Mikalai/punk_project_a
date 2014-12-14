@@ -1,6 +1,11 @@
+#include <QtCore/qdebug.h>
 #include <QtGui/qpainter.h>
+#include "local_field.h"
+#include "local_field_cell.h"
 #include "global_field.h"
 #include "global_field_cell.h"
+#include "character.h"
+#include "items.h"
 
 float GlobalFieldCell::getBaseMoveDifficulty() const {
 	if (!m_roads.empty())
@@ -18,6 +23,9 @@ GlobalFieldCell::GlobalFieldCell(GlobalField* field, QGraphicsItem* parent)
 	setZValue(0.0f);
 }
 
+GlobalFieldCell::~GlobalFieldCell() {
+	m_local_field.reset();
+}
 
 QRectF GlobalFieldCell::boundingRect() const {
 	return QRectF(0, 0, GLOBAL_FIELD_CELL_REAL_SIZE, GLOBAL_FIELD_CELL_REAL_SIZE);
@@ -78,6 +86,49 @@ QPoint GlobalFieldCell::index() const {
 	return QPoint{ x, y };
 }
 
-GlobalField* GlobalFieldCell::field() const {
+const GlobalField* GlobalFieldCell::field() const {
 	return qobject_cast<GlobalField*>(scene());
+}
+
+GlobalField* GlobalFieldCell::field() {
+	return qobject_cast<GlobalField*>(scene());
+}
+
+LocalField* GlobalFieldCell::localField() {
+	if (!m_local_field.get()) {
+		m_local_field.reset(new LocalField{ field(), this, field() });
+		m_local_field->create(64, 64);
+		for (auto f : on_post_create) {
+			f(m_local_field.get());
+		}
+	}
+	return m_local_field.get();
+}
+
+void GlobalFieldCell::addCharacterInstance(const QPointF& global_position, CharacterPtr value) {
+	if (m_local_field.get()){
+		m_local_field->addCharacterInstance(global_position, std::move(value));
+	}
+	else {
+		//	in c++14 this can be modified using generalized lambda capture
+		auto v = value.release();
+		on_post_create.push_back([global_position, v](LocalField* field) {
+			qDebug() << "Post create local field command triggered";			
+			field->addCharacterInstance(global_position, make_ptr(v));
+		});
+	}
+}
+
+void GlobalFieldCell::addItemInstance(const QPointF& global_position, ItemPtr item) {
+	if (m_local_field.get()) {
+		m_local_field->addItemInstance(global_position, std::move(item));
+	}
+	else {
+		//	in c++14 this can be modified using generalized lambda capture
+		auto v = item.release();
+		on_post_create.push_back([global_position, v](LocalField* field) {
+			qDebug() << "Post create local field command triggered";
+			field->addItemInstance(global_position, make_ptr(v));
+		});
+	}
 }

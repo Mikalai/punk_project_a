@@ -481,7 +481,12 @@ void InventoryForm::customMenuRequested(QPoint point) {
 		menu.addMenu(&inject);		
 		menu.addMenu(&load);
 		menu.addSeparator();
-		menu.addAction("Drop")->setData(1);
+		auto drop = menu.addAction("Drop");
+		connect(drop, &QAction::triggered, [chr, clip, this]() {
+			auto v = chr->popOneItem(clip);
+			chr->drop(cast<Item>(v));
+			updateModels();
+		});
 		menu.exec(ui->m_clothes_view->mapToGlobal(point));
 	}
 	else if (item->classType() == ItemClassType::Weapon) {

@@ -110,6 +110,7 @@ public:
 	void update() override;
 
 	//	Field impl
+	void addCharacterInstance(const QPointF& global_position, CharacterPtr value) override;
 	void addItemInstance(const QPointF& global_position, ItemPtr item) override;
 	ItemPtr removeItemInstance(const Item* item) override;
 	bool hasItemInstance(const Item* item) const override;

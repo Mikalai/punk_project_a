@@ -1,6 +1,7 @@
 #ifndef _H_GLOBAL_FIELD_CELL_REAL_SIZE
 #define _H_GLOBAL_FIELD_CELL_REAL_SIZE
 
+#include <functional>
 #include <QtCore/qpoint.h>
 #include <set>
 #include <vector>
@@ -9,10 +10,12 @@
 #include "surface_type.h"
 #include "field.h"
 #include "time_dependent.h"
+#include "fwd_local_field.h"
 
 class Road;
 class GlobalField;
 class Entity;
+class LocalField;
 
 class GlobalFieldCell : public FieldCell {
 public:
@@ -41,6 +44,7 @@ public:
 	}
 
 	GlobalFieldCell(GlobalField* field, QGraphicsItem* parent);
+	virtual ~GlobalFieldCell();
 
 	FindPathData* findPath(int index) {
 		return &getTls(index)->path;
@@ -87,15 +91,25 @@ public:
 
 	static int cellSize() { return LOCAL_FIELD_CELL * LOCAL_FIELD_SIZE; }
 
-	GlobalField* field() const;
+	const GlobalField* field() const;
+	GlobalField* field();
 
 	void setSurface(const SurfaceTypeClass* value) { m_surface = value; }
 	const SurfaceTypeClass* surface() const { return m_surface; }
+
+	LocalField* localField();
+
+	void addCharacterInstance(const QPointF& global_position, CharacterPtr value);
+	void addItemInstance(const QPointF& global_position, ItemPtr item);
+
 private:
+	LocalFieldPtr m_local_field{ make_ptr<LocalField>(nullptr) };
 	std::vector<Tls> tls;
 	std::set<Road*> m_roads;
 	GlobalField* m_field{ nullptr };
 	const SurfaceTypeClass* m_surface{ nullptr };
+
+	std::vector < std::function<void(LocalField*)>> on_post_create;
 };
 
 #endif	//	_H_GLOBAL_FIELD_CELL_REAL_SIZE

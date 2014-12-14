@@ -1,3 +1,4 @@
+#include <QtCore/qdebug.h>
 #include <QtGui/qpainter.h>
 #include "items.h"
 #include "local_field.h"
@@ -109,4 +110,21 @@ GlobalFieldCell* LocalFieldCell::globalFieldCell() const {
 
 float LocalFieldCell::realSize() {
 	return Options::get<int>(OptionType::CellSize);
+}
+
+void LocalFieldCell::addCharacter(CharacterPtr value) {
+	qDebug() << value->name() << "added to local field cell" << pos().x() << pos().y();
+	m_characters.push_back(std::move(value));
+}
+
+CharacterPtr LocalFieldCell::removeCharacter(Character* value) {
+	auto it = std::find_if(m_characters.begin(), m_characters.end(), [value](const CharacterPtr& v) {
+		return v.get() == value; });
+	if (it == m_characters.end()) {
+		qDebug() << value->name() << "not found in the local field cell" << pos().x() << pos().y();
+		return make_ptr<Character>(nullptr);
+	}
+	auto result = std::move(*it);
+	m_characters.erase(it);
+	return result;
 }

@@ -3,6 +3,7 @@
 
 #include <iosfwd>
 #include <memory>
+#include <functional>
 #include <QtWidgets/qgraphicsscene.h>
 #include "time_dependent.h"
 #include "surface_type.h"
@@ -44,6 +45,7 @@ public:
 
 	void centerOn(const QPointF& target);
 
+	void addCharacterInstance(const QPointF& global_position, CharacterPtr value) override;
 	void addItemInstance(const QPointF& global_position, ItemPtr item) override;
 	ItemPtr removeItemInstance(const Item* item) override;
 	bool hasItemInstance(const Item* item) const override;
@@ -81,7 +83,7 @@ private:
 	int m_height = 64;
 	std::vector<LocalFieldCellPtr> m_cells;
 	QPointF m_last_position;
-	QPointF m_target;
+	QPointF m_target;	
 };
 
 #endif	//	_H_LOCAL_FIELD

@@ -19,6 +19,8 @@
 #include "Character.h"
 #include "buildings.h"
 #include "weather.h"
+#include "local_field.h"
+#include "local_field_cell.h"
 
 void destroy(GlobalField* value) {
 	delete value;
@@ -791,8 +793,22 @@ Entity* GlobalField::player() {
 	return nullptr;
 }
 
-void GlobalField::addItemInstance(const QPointF& global_position, ItemPtr item) {
-	
+void GlobalField::addItemInstance(const QPointF& global_pos, ItemPtr item) {
+	//	get global cell by global coords
+	auto global_cell = cell(global_pos);
+	//	get pos in local field space
+	auto local_pos = global_pos * global_cell->sceneMatrix().inverted();
+	//	add item to the local pos
+	global_cell->addItemInstance(global_pos, std::move(item));	
+}
+
+void GlobalField::addCharacterInstance(const QPointF& global_pos, CharacterPtr value) {
+	//	get global cell by global coords
+	auto global_cell = cell(global_pos);
+	//	get pos in local field space
+	auto local_pos = global_pos * global_cell->sceneMatrix().inverted();
+	//	add item to the local pos	
+	global_cell->addCharacterInstance(global_pos, std::move(value));
 }
 
 ItemPtr GlobalField::removeItemInstance(const Item* item) {

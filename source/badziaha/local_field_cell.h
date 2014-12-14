@@ -2,6 +2,7 @@
 #define _H_LOCAL_FIELD_CELL
 
 #include "field.h"
+#include "fwd_character.h"
 #include "enum_helper.h"
 #include "model_type.h"
 
@@ -42,8 +43,12 @@ public:
 
 	static float realSize();
 
+	void addCharacter(CharacterPtr value);
+	CharacterPtr removeCharacter(Character* value);
+
 private:
 	QBrush getGroundBrush() const;
+	std::vector<CharacterPtr> m_characters;
 };
 
 #endif	//	_H_LOCAL_FIELD_CELL

@@ -24,8 +24,7 @@ public:
 
 	int type() const override {
 		return Type;
-	}
-
+	}	
 private:
 	ItemPtr m_item;
 };

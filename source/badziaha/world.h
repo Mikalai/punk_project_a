@@ -53,7 +53,7 @@ private:
 	GlobalField* m_global_field{ nullptr };
 	LocalField* m_local_field{ nullptr };
 	WeatherStamp m_current_weather;
-	std::vector<CharacterPtr> m_characters;
+	std::vector<Character*> m_characters;
 	Character* m_player{ nullptr };
 };
 

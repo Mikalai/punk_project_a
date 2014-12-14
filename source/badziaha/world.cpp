@@ -57,7 +57,7 @@ void World::addCharacter(CharacterPtr value) {
 			m_player->setHumanControl(false);
 		}
 		m_player = value.get();
-	}
-	globalField()->addItem(value.get());
-	m_characters.push_back(std::move(value));
+	}	
+	auto pos = value->pos();
+	globalField()->addCharacterInstance(pos, std::move(value));	
 }

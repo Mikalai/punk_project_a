@@ -119,20 +119,19 @@ void MainWindow::enterLocation() {
 	auto local_pos = global_pos * global_cell->sceneMatrix().inverted();
 	qDebug() << "Player local position:" << local_pos.x() << local_pos.y();
 	if (global_cell) {
-		world()->globalField()->removeItem(player);
-		auto v = std::unique_ptr < LocalField > { new LocalField{ world()->globalField(), global_cell, this }};
-		connect(v.get(), SIGNAL(toggleInventory(Character*)), ui->m_inventory, SLOT(toggle(Character*)));
-		ui->m_render_view->setScene(v.get());
-		auto s = GLOBAL_FIELD_SIZE / (float)GLOBAL_FIELD_CELL_REAL_SIZE;
-		ui->m_render_view->resetTransform();
-		v->create(64, 64);
+		//world()->globalField()->removeItem(player);
+		auto v = global_cell->localField();
+		connect(v, SIGNAL(toggleInventory(Character*)), ui->m_inventory, SLOT(toggle(Character*)));
+		ui->m_render_view->setScene(v);
+		//auto s = GLOBAL_FIELD_SIZE / (float)GLOBAL_FIELD_CELL_REAL_SIZE;
+		ui->m_render_view->resetTransform();		
 		auto local_cell = v->cell(local_pos);
 		local_pos = global_pos * local_cell->sceneMatrix().inverted();
 		//local_pos = local_pos * cell->sceneMatrix().inverted();
 		qDebug() << "Player local local position:" << local_pos.x() << local_pos.y();
 		world()->player()->setParentItem(local_cell);
 		world()->player()->setPos(local_pos);	
-		world()->setLocalField(v.release());
+		world()->setLocalField(v);
 		if (player)
 			ui->m_render_view->centerOn(player);
 	}

@@ -10,6 +10,7 @@
 #include "time_dependent.h"
 #include "item_class_type.h"
 #include "fwd_items.h"
+#include "fwd_character.h"
 
 struct WeatherStamp;
 class Spatial;
@@ -44,6 +45,7 @@ public:
 	virtual FieldCell* cell(const QPoint& p) = 0;
 	virtual FieldCell* cell(int x, int y) = 0;
 
+	virtual void addCharacterInstance(const QPointF& global_position, CharacterPtr value) = 0;
 	virtual void addItemInstance(const QPointF& global_position, ItemPtr item) = 0;
 	virtual ItemPtr removeItemInstance(const Item* item) = 0;
 	virtual bool hasItemInstance(const Item* item) const = 0;

@@ -385,4 +385,5 @@ private:
 inline bool operator < (const Character::Task& a, const Character::Task& b) {
 	return a.type() < b.type();
 }
+
 #endif	//_H_Character

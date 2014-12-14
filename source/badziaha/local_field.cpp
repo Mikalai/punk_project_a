@@ -21,6 +21,7 @@
 #include "items.h"
 #include "world.h"
 #include "local_field_cell.h"
+#include "local_field_item.h"
 #include "options.h"
 
 void destroy(LocalField* value) {
@@ -291,8 +292,25 @@ void LocalField::updateViews() {
 //	return result;
 //}
 
-void LocalField::addItemInstance(const QPointF& global_position, ItemPtr item) {
-	return;
+void LocalField::addItemInstance(const QPointF& global_pos, ItemPtr item) {
+	qDebug() << item->name() << "was added to the local field";
+	auto local_pos = global_pos * globalCell()->sceneMatrix().inverted();
+	auto local_cell = cell(local_pos);
+	local_pos = global_pos * local_cell->sceneMatrix().inverted();
+	auto v = new LocalFieldItem{ std::move(item), nullptr };
+	v->setParentItem(local_cell);
+	v->setPos(local_pos);
+}
+
+void LocalField::addCharacterInstance(const QPointF& global_pos, CharacterPtr item) {
+	qDebug() << item->name() << "was added to the local field";
+	auto local_pos = global_pos * globalCell()->sceneMatrix().inverted();
+	auto local_cell = qgraphicsitem_cast<LocalFieldCell*>(cell(local_pos));
+	local_pos = global_pos * local_cell->sceneMatrix().inverted();
+	item->setParentItem(local_cell);
+	item->setPos(local_pos);
+	//	delegate owership to the cell
+	local_cell->addCharacter(std::move(item));
 }
 
 ItemPtr LocalField::removeItemInstance(const Item* item) {

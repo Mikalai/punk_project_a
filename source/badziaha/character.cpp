@@ -465,7 +465,8 @@ void Character::drop(ItemPtr item) {
 	if (!item.get()) {
 		qDebug() << "Can't drop" << item->name() << ". Not in inventory";
 	}
-	field()->addItemInstance(pos(), std::move(item));	
+	qDebug() << item->name() << "has been dropped";
+	field()->addItemInstance(scenePos(), std::move(item));	
 }
 
 void Character::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {

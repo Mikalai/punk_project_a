@@ -1,4 +1,5 @@
 #include <QtGui/qpainter.h>
+#include "items.h"
 #include "local_field_item.h"
 
 LocalFieldItem::LocalFieldItem(ItemPtr item, QGraphicsItem* parent)
@@ -7,9 +8,9 @@ LocalFieldItem::LocalFieldItem(ItemPtr item, QGraphicsItem* parent)
 {}
 
 QRectF LocalFieldItem::boundingRect() const {
-	return QRectF{ 0, 0, 50, 50 };
+	return item()->icon().rect();
 }
 
 void LocalFieldItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
-	painter->drawRect(boundingRect());
+	painter->drawImage(QPoint{ 0, 0 }, item()->icon());
 }
