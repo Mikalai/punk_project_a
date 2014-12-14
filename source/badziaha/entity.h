@@ -7,6 +7,7 @@
 #include <chrono>
 #include "time_dependent.h"
 #include "spatial.h"
+#include "model_type.h"
 
 class QPainter;
 class QWidget;
@@ -37,6 +38,12 @@ public:
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0) override;
 	QRectF boundingRect() const override;
 	QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
+	
+	enum { Type = QGraphicsItem::UserType + (int)ModelType::Entity };
+
+	int type() const override {
+		return Type;
+	}
 
 	const Field* field() const;
 	Field* field();

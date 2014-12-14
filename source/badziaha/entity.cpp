@@ -8,6 +8,7 @@
 #include "constants.h"
 #include "keys.h"
 #include "local_field_cell.h"
+#include "local_field_item.h"
 #include "options.h"
 
 Entity::Entity(GlobalField* field, QGraphicsItem* parent)
@@ -150,8 +151,24 @@ void Entity::update() {
 			dir = dir * rm;
 
 			auto p = pos();
-			p += dir * dt * 140;
-			setPos(p);
+			auto new_pos = p + dir * dt * 140;
+			setPos(new_pos);
+
+			auto bbox = sceneBoundingRect();
+			auto dst = sqrtf(bbox.width()*bbox.width() + bbox.height() *bbox.height()) * 1.01;
+			for (auto child : parentItem()->childItems()) {
+				if (child == this)
+					continue;				
+				if (child->type() == LocalFieldItem::Type)
+					continue;
+				if (child->sceneBoundingRect().intersects(bbox)) {
+					auto norm = (pos() - child->pos()).manhattanLength();
+					auto dir = (child->pos()- pos()) / norm;
+					child->setPos(pos() + dir * dst);
+					//setPos(p);
+					break;
+				}
+			}
 		}
 	}
 }

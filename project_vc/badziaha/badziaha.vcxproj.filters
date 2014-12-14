@@ -91,6 +91,7 @@
     <ClCompile Include="..\..\source\badziaha\local_field_cell.cpp" />
     <ClCompile Include="..\..\source\badziaha\local_field_item.cpp" />
     <ClCompile Include="..\..\source\badziaha\surface_type.cpp" />
+    <ClCompile Include="..\..\source\badziaha\obstacle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\badziaha\unit_model.h" />
@@ -129,6 +130,7 @@
     <ClInclude Include="..\..\source\badziaha\fwd_surface_type.h" />
     <ClInclude Include="..\..\source\badziaha\fwd_unit.h" />
     <ClInclude Include="..\..\source\badziaha\fwd_character.h" />
+    <ClInclude Include="..\..\source\badziaha\obstacle.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="forms">

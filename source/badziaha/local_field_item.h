@@ -4,6 +4,7 @@
 #include "model_type.h"
 #include <QtWidgets/qgraphicsitem.h>
 #include "fwd_items.h"
+#include "entity.h"
 
 class QPainter;
 class QStyleOptionGraphicsItem;
@@ -19,12 +20,14 @@ public:
 	//	QGraphicsItem
 	QRectF boundingRect() const override;
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+	QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 
 	enum { Type = QGraphicsItem::UserType + (int)(ModelType::LocalFieldItem) };
 
 	int type() const override {
 		return Type;
 	}	
+
 private:
 	ItemPtr m_item;
 };

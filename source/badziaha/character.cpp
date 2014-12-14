@@ -1,4 +1,5 @@
 
+#include <QtWidgets/qgraphicsview.h>
 #include <QtGui/qpainter.h>
 #include <QtCore/qdebug.h>
 #include "weather.h"
@@ -487,6 +488,17 @@ void Character::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 	brush.setTextureImage(*head);		
 	painter->setBrush(brush);
 	//painter->fillRect(boundingRect(), brush);
+
+	auto view = qobject_cast<QGraphicsView*>(widget->parentWidget());
+	auto sx = view->transform().m11();
+	auto sy = view->transform().m22();
+	if (sx != 1) {
+		auto brush = painter->brush();
+		auto m = QMatrix{};
+		m.scale(sx, sy);
+		painter->setMatrix(m.inverted(), true);
+	}
+
 	painter->drawPixmap(boundingRect(), QPixmap::fromImage(*body), QRectF(0, 0, body->width(), body->height()));
 	painter->drawPixmap(QRectF(-10, -10, 20, 20), QPixmap::fromImage(*head), QRectF( 0, 0, head->width(), head->height() ));
 
