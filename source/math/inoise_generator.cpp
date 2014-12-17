@@ -300,6 +300,11 @@ namespace Math
 		Random m_rnd;
 	};
 
+	extern "C" PUNK_ENGINE_API INoiseGenerator* CreateNoiseGenerator() {
+		INoiseGenerator* result = System::CreateInstance<INoiseGenerator>(CLSID_NoiseGenerator);
+		return result;
+	}
+
 	PUNK_REGISTER_CREATOR(CLSID_NoiseGenerator, (System::CreateInstance<NoiseImpl, INoiseGenerator>));
 }
 PUNK_ENGINE_END

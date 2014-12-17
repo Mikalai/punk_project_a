@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="forms">
+      <UniqueIdentifier>{80456d3f-e69b-4142-b929-e58e7fd8d0c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="generated">
+      <UniqueIdentifier>{42ab20fb-3d51-4bb4-a5a7-fb956503eb92}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\source\tools\vector_field\forms\main_window.ui">
+      <Filter>forms</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\source\tools\vector_field\forms\main_window.h">
+      <Filter>forms</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\tools\vector_field\forms\main_window.ui.h">
+      <Filter>generated</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\source\tools\vector_field\forms\main_window.cpp">
+      <Filter>forms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\tools\vector_field\main.cpp" />
+    <ClCompile Include="moc_main_window.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

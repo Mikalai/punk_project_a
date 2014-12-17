@@ -68,6 +68,10 @@ namespace Math {
 			return true;
 		}
 
+		int RowsCount() const { return Rows; }
+
+		int ColumnsCoun() const { return Cols; }
+
 		std::array<T, Rows*Cols> m_v;
 	};
 
@@ -207,10 +211,11 @@ namespace Math {
 			}
 		}
 
-		void operator *= (const T& value) {
+		const MatrixData<T, Rows, Cols>& operator *= (const T& value) {
 			for (auto i = 0; i < Rows * Cols; ++i) {
 				this->m_v[i] *= value;
 			}
+			return *this;
 		}
 
 		void operator /= (const T& value) {
