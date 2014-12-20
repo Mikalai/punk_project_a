@@ -6,6 +6,10 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
+using namespace Punk::Engine::Math;
+using namespace Punk::Engine::Core;
+
+
 class Matrix2x2Test : public CppUnit::TestFixture
 {
 	CPPUNIT_TEST_SUITE(Matrix2x2Test);
@@ -22,6 +26,7 @@ class Matrix2x2Test : public CppUnit::TestFixture
 	CPPUNIT_TEST(testSetRow);
 	CPPUNIT_TEST(testIdentity);
 	CPPUNIT_TEST(testOperator);
+	CPPUNIT_TEST(testEigenValues);
 	CPPUNIT_TEST_SUITE_END();
 public:
 	void testCreateIdentity();
@@ -37,13 +42,22 @@ public:
 	void testSetRow();
 	void testIdentity();
 	void testOperator();
+	void testEigenValues() {
+		auto m = mat2{ 2, 0, 1, -1 };
+		auto eigen_values = m.EigenValues();
+		CPPUNIT_ASSERT((eigen_values[0] == -1 || eigen_values[0] == 2));
+		CPPUNIT_ASSERT((eigen_values[1] == 2 || eigen_values[1] == -1));
+
+		auto eigen_vectors = m.EigenVectors();
+		auto e1 = vec2{ m.at(0, 1), eigen_values[0] - m.at(0, 0) };
+		auto e2 = vec2{ m.at(0, 1), eigen_values[1] - m.at(0, 0) };
+		CPPUNIT_ASSERT((eigen_vectors[0] == e1 || eigen_vectors[0] == e2));
+		CPPUNIT_ASSERT((eigen_vectors[1] == e1 || eigen_vectors[1] == e2));
+	}
 };
 
 
 CPPUNIT_TEST_SUITE_REGISTRATION(Matrix2x2Test);
-
-using namespace Punk::Engine::Math;
-using namespace Punk::Engine::Core;
 
 void _DFGDFGDFGf() {
 		{

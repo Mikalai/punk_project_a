@@ -180,7 +180,7 @@ namespace Math {
 			for (auto i = 0; i < Rows * Cols; ++i) {
 				this->m_v[i] = T{ 0 };
 			}
-		}
+		}		
 
 		const MatrixData<T, Cols, Rows> Transposed() const
 		{
@@ -288,12 +288,24 @@ namespace Math {
 
 	template<class T, int Dim>
 	struct MatrixSquareOperationsBase : public MatrixOperations < T, Dim, Dim > {
+
 		using MatrixOperations<T, Dim, Dim>::MatrixOperations;
 
 		MatrixSquareOperationsBase() {}
 
 		MatrixSquareOperationsBase(const MatrixData<T, Dim, Dim>& value)
 			: MatrixOperations<T, Dim, Dim>(value) {}
+
+		/*MatrixSquareOperationsBase(std::initializer_list<T> values) 
+			: MatrixOperations<T, Dim, Dim>() {
+			auto it = values.begin();
+			for (int row = 0; row < Dim; ++row) {
+				for (int col = 0; col < Dim; ++col) {
+					this->at(row, col) = *it;
+					++it;
+				}
+			}
+		}*/
 
 		T Determinant() const {
 			return this->m_v[0] * this->m_v[3] - this->m_v[1] * this->m_v[2];
@@ -317,6 +329,14 @@ namespace Math {
 			for (auto i = 0; i < Dim; ++i) {
 				this->at(i, i) = T{ 1 };
 			}
+		}
+
+		const T Trace() const {
+			T result = 0;
+			for (int i = 0; i < Dim; ++i) {
+				result += at(i, i);
+			}
+			return result;
 		}
 
 		void operator *= (const MatrixSquareOperationsBase<T, Dim>& value) {
@@ -345,7 +365,8 @@ namespace Math {
 
 	template<class T>
 	struct MatrixSquareOperations<T, 2> : public MatrixSquareOperationsBase < T, 2 >
-	{
+	{		
+		static const int Dim = 2;
 		using MatrixSquareOperationsBase<T, 2>::MatrixSquareOperationsBase;
 
 		MatrixSquareOperations() {}
@@ -358,7 +379,7 @@ namespace Math {
 		}
 
 		void Inverse() {
-			T d = Determinant();
+			T d = this->Determinant();
 			
 			if (d == T(0))
 				return;
@@ -370,6 +391,25 @@ namespace Math {
 			tm[2] = -this->m_v[2] * d;
 			tm[3] = this->m_v[0] * d;
 			this->m_v = tm;
+		}
+
+		const Tuple<T, Dim, tagGeneral> EigenValues() const {
+			auto t = this->Trace();
+			auto d = this->Determinant();
+
+			auto l1 = (t + Sqrt(t*t - T(4) * d)) / T(2);
+			auto l2 = (t - Sqrt(t*t - T(4) * d)) / T(2);
+
+			Tuple<T, Dim, tagGeneral> res{ l1, l2 };
+			return res;
+		}
+
+		const Tuple<Tuple<T, Dim, tagVector>, Dim, tagGeneral> EigenVectors() const {
+			auto eigen_value = EigenValues();
+			Tuple<Tuple<T, Dim, tagVector>, Dim, tagGeneral> res;
+			res[0] = Tuple < T, Dim, tagVector > {this->at(0, 1), eigen_value[0] - this->at(0, 0)};
+			res[1] = Tuple < T, Dim, tagVector > {this->at(0, 1), eigen_value[1] - this->at(0, 0)};
+			return res;
 		}
 
 		const Matrix<T, 2, 2> Inversed() const {
