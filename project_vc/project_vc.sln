@@ -259,6 +259,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "route", "route\route.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "segments", "segments\segments.vcxproj", "{12D0C0C6-5926-4170-A980-0F057A94E2BA}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "longsum", "longsum\longsum.vcxproj", "{C325F37C-2F3F-4BDE-8A14-4511F4A23C0B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -948,6 +950,20 @@ Global
 		{12D0C0C6-5926-4170-A980-0F057A94E2BA}.Release|x64.ActiveCfg = Release|Win32
 		{12D0C0C6-5926-4170-A980-0F057A94E2BA}.Release|x86.ActiveCfg = Release|Win32
 		{12D0C0C6-5926-4170-A980-0F057A94E2BA}.Release|x86.Build.0 = Release|Win32
+		{C325F37C-2F3F-4BDE-8A14-4511F4A23C0B}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{C325F37C-2F3F-4BDE-8A14-4511F4A23C0B}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{C325F37C-2F3F-4BDE-8A14-4511F4A23C0B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C325F37C-2F3F-4BDE-8A14-4511F4A23C0B}.Debug|Win32.Build.0 = Debug|Win32
+		{C325F37C-2F3F-4BDE-8A14-4511F4A23C0B}.Debug|x64.ActiveCfg = Debug|Win32
+		{C325F37C-2F3F-4BDE-8A14-4511F4A23C0B}.Debug|x86.ActiveCfg = Debug|Win32
+		{C325F37C-2F3F-4BDE-8A14-4511F4A23C0B}.Debug|x86.Build.0 = Debug|Win32
+		{C325F37C-2F3F-4BDE-8A14-4511F4A23C0B}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{C325F37C-2F3F-4BDE-8A14-4511F4A23C0B}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{C325F37C-2F3F-4BDE-8A14-4511F4A23C0B}.Release|Win32.ActiveCfg = Release|Win32
+		{C325F37C-2F3F-4BDE-8A14-4511F4A23C0B}.Release|Win32.Build.0 = Release|Win32
+		{C325F37C-2F3F-4BDE-8A14-4511F4A23C0B}.Release|x64.ActiveCfg = Release|Win32
+		{C325F37C-2F3F-4BDE-8A14-4511F4A23C0B}.Release|x86.ActiveCfg = Release|Win32
+		{C325F37C-2F3F-4BDE-8A14-4511F4A23C0B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -997,5 +1013,6 @@ Global
 		{CF206D2D-3A79-4A9E-BC11-368DACEC6B89} = {B1BA75F5-6A12-4F1B-BB1C-5E688B43E184}
 		{637B56E1-2A28-4D96-A6F7-5A3D425D052A} = {B1BA75F5-6A12-4F1B-BB1C-5E688B43E184}
 		{12D0C0C6-5926-4170-A980-0F057A94E2BA} = {B1BA75F5-6A12-4F1B-BB1C-5E688B43E184}
+		{C325F37C-2F3F-4BDE-8A14-4511F4A23C0B} = {B1BA75F5-6A12-4F1B-BB1C-5E688B43E184}
 	EndGlobalSection
 EndGlobal
