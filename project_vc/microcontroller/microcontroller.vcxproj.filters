@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\source\lab\microcontroller\highlighter.cpp" />
+    <ClCompile Include="moc_highlighter.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\lab\microcontroller\mainwindow.cpp" />
+    <ClCompile Include="moc_mainwindow.cpp">
+      <Filter>generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\lab\microcontroller\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="generated">
+      <UniqueIdentifier>{73d82631-1b37-491d-9e4b-343554108eeb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\source\lab\microcontroller\highlighter.h" />
+    <CustomBuild Include="..\..\source\lab\microcontroller\mainwindow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\lab\microcontroller\microcontroller.h" />
+  </ItemGroup>
+</Project>
