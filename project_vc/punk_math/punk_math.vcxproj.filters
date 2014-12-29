@@ -160,7 +160,6 @@
     <ClInclude Include="..\..\source\math\line2d.h" />
     <ClInclude Include="..\..\source\math\line3d.h" />
     <ClInclude Include="..\..\source\math\low_level_math.h" />
-    <ClInclude Include="..\..\source\math\mat2.h" />
     <ClInclude Include="..\..\source\math\mat3.h" />
     <ClInclude Include="..\..\source\math\mat4.h" />
     <ClInclude Include="..\..\source\math\math.h" />
@@ -376,6 +375,7 @@
     <ClInclude Include="..\..\source\math\inoise_generator.h" />
     <ClInclude Include="..\..\source\math\pe_power.h" />
     <ClInclude Include="..\..\source\math\assignment.h" />
+    <ClInclude Include="..\..\source\math\vector_field.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graph">

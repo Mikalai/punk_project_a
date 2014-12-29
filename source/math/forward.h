@@ -14,6 +14,7 @@ namespace Math {
 	struct tagVector;
 	struct tagQuaternion;
 	struct tagIndex;
+	struct tagGeneral;
 
 	template<class T, int D, typename tag> class Tuple;
 	template<class T, int Rows, int Cols> class Matrix;
