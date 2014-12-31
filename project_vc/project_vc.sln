@@ -261,6 +261,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "segments", "segments\segmen
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "primes", "primes\primes.vcxproj", "{551A1118-6887-4A53-8FA3-3A83E8EC93F4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tria-pt", "tria-pt\tria-pt.vcxproj", "{0557EE0F-FB9B-4166-ADDA-7DEA5EE15255}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -965,6 +967,20 @@ Global
 		{551A1118-6887-4A53-8FA3-3A83E8EC93F4}.Release|x64.ActiveCfg = Release|Win32
 		{551A1118-6887-4A53-8FA3-3A83E8EC93F4}.Release|x86.ActiveCfg = Release|Win32
 		{551A1118-6887-4A53-8FA3-3A83E8EC93F4}.Release|x86.Build.0 = Release|Win32
+		{0557EE0F-FB9B-4166-ADDA-7DEA5EE15255}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{0557EE0F-FB9B-4166-ADDA-7DEA5EE15255}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{0557EE0F-FB9B-4166-ADDA-7DEA5EE15255}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0557EE0F-FB9B-4166-ADDA-7DEA5EE15255}.Debug|Win32.Build.0 = Debug|Win32
+		{0557EE0F-FB9B-4166-ADDA-7DEA5EE15255}.Debug|x64.ActiveCfg = Debug|Win32
+		{0557EE0F-FB9B-4166-ADDA-7DEA5EE15255}.Debug|x86.ActiveCfg = Debug|Win32
+		{0557EE0F-FB9B-4166-ADDA-7DEA5EE15255}.Debug|x86.Build.0 = Debug|Win32
+		{0557EE0F-FB9B-4166-ADDA-7DEA5EE15255}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{0557EE0F-FB9B-4166-ADDA-7DEA5EE15255}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{0557EE0F-FB9B-4166-ADDA-7DEA5EE15255}.Release|Win32.ActiveCfg = Release|Win32
+		{0557EE0F-FB9B-4166-ADDA-7DEA5EE15255}.Release|Win32.Build.0 = Release|Win32
+		{0557EE0F-FB9B-4166-ADDA-7DEA5EE15255}.Release|x64.ActiveCfg = Release|Win32
+		{0557EE0F-FB9B-4166-ADDA-7DEA5EE15255}.Release|x86.ActiveCfg = Release|Win32
+		{0557EE0F-FB9B-4166-ADDA-7DEA5EE15255}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1015,5 +1031,6 @@ Global
 		{637B56E1-2A28-4D96-A6F7-5A3D425D052A} = {B1BA75F5-6A12-4F1B-BB1C-5E688B43E184}
 		{12D0C0C6-5926-4170-A980-0F057A94E2BA} = {B1BA75F5-6A12-4F1B-BB1C-5E688B43E184}
 		{551A1118-6887-4A53-8FA3-3A83E8EC93F4} = {B1BA75F5-6A12-4F1B-BB1C-5E688B43E184}
+		{0557EE0F-FB9B-4166-ADDA-7DEA5EE15255} = {B1BA75F5-6A12-4F1B-BB1C-5E688B43E184}
 	EndGlobalSection
 EndGlobal
