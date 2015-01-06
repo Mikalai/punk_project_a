@@ -92,15 +92,15 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>PUNK_ENGINE_EXPORTS;WIN32;_DEBUG;_WINDOWS;_USRDLL;PUNK_LOADER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>XML_STATIC;PUNK_ENGINE_EXPORTS;WIN32;_DEBUG;_WINDOWS;_USRDLL;PUNK_LOADER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\source;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;$(SolutionDir)..\3rd\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>punk_error.lib;punk_string.lib;punk_core.lib;punk_math.lib;punk_system.lib;punk_attributes.lib;punk_scene.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)..\3rd\lib\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>punk_error.lib;punk_string.lib;punk_core.lib;punk_math.lib;punk_system.lib;punk_attributes.lib;punk_scene.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);expat32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -109,15 +109,15 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN64;PUNK_ENGINE_EXPORTS;WIN32;_DEBUG;_WINDOWS;_USRDLL;PUNK_LOADER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>XML_STATIC;WIN64;PUNK_ENGINE_EXPORTS;WIN32;_DEBUG;_WINDOWS;_USRDLL;PUNK_LOADER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\source;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;$(SolutionDir)..\3rd\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>punk_error.lib;punk_string.lib;punk_core.lib;punk_math.lib;punk_system.lib;punk_attributes.lib;punk_scene.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)..\3rd\lib\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>punk_error.lib;punk_string.lib;punk_core.lib;punk_math.lib;punk_system.lib;punk_attributes.lib;punk_scene.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);expat64.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -128,17 +128,17 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>PUNK_ENGINE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_USRDLL;PUNK_LOADER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>XML_STATIC;PUNK_ENGINE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_USRDLL;PUNK_LOADER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\source;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;$(SolutionDir)..\3rd\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>punk_error.lib;punk_string.lib;punk_core.lib;punk_math.lib;punk_system.lib;punk_attributes.lib;punk_scene.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)..\3rd\lib\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>punk_error.lib;punk_string.lib;punk_core.lib;punk_math.lib;punk_system.lib;punk_attributes.lib;punk_scene.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);expat32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -149,20 +149,21 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN64;PUNK_ENGINE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_USRDLL;PUNK_LOADER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>XML_STATIC;WIN64;PUNK_ENGINE_EXPORTS;WIN32;NDEBUG;_WINDOWS;_USRDLL;PUNK_LOADER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\source;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\source;$(SolutionDir)..\3rd\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>punk_error.lib;punk_string.lib;punk_core.lib;punk_math.lib;punk_system.lib;punk_attributes.lib;punk_scene.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)..\3rd\lib\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>punk_error.lib;punk_string.lib;punk_core.lib;punk_math.lib;punk_system.lib;punk_attributes.lib;punk_scene.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);expat64.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\source\loader\collada\icollada_reader.cpp" />
     <ClCompile Include="..\..\source\loader\error\loader_error.cpp" />
     <ClCompile Include="..\..\source\loader\parser\game_parser.cpp" />
     <ClCompile Include="..\..\source\loader\parser\keywords.cpp" />
@@ -302,6 +303,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\loader\error\loader_error.h" />
+    <ClInclude Include="..\..\source\loader\ireader.h" />
     <ClInclude Include="..\..\source\loader\module.h" />
     <ClInclude Include="..\..\source\loader\parser\game_parser.h" />
     <ClInclude Include="..\..\source\loader\parser\keywords.h" />

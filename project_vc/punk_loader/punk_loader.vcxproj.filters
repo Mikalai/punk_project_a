@@ -280,6 +280,9 @@
     <ClCompile Include="..\..\source\loader\singlethreaded\iio_module.cpp">
       <Filter>singlethreaded</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\loader\collada\icollada_reader.cpp">
+      <Filter>collada</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\loader\serializer\io_action.h">
@@ -556,6 +559,7 @@
     <ClInclude Include="..\..\source\loader\singlethreaded\iio_module.h">
       <Filter>singlethreaded</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\loader\ireader.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="serializer">
@@ -569,6 +573,9 @@
     </Filter>
     <Filter Include="singlethreaded">
       <UniqueIdentifier>{d1e53cee-fb2d-4e1c-89cb-03631734a51b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="collada">
+      <UniqueIdentifier>{28958e48-b174-4b6c-bcdb-2d758d7cf7c9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -48,7 +48,7 @@ namespace System
 #define LOG_SCOPE(MESSAGE) System::__private::LogScope __scope(MESSAGE)
 
 #else
-#define LOG_FUNCTION_SCOPE
+#define LOG_FUNCTION_SCOPE()
 #define LOG_SCOPE(MESSAGE)
 #endif
 }
