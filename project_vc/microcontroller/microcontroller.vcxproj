@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{802ACC58-6695-4B8B-804A-B7FD2CFBB0ED}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>microcontroller</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>CTP_Nov2013</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)_$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)..\build\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)_$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)..\build\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)_$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)..\build\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)_$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)..\build\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\3rd\include;$(QT_DIR)\include\QtANGLE\;$(QT_DIR)\include\qtopengl;$(QT_DIR)\include\qtcore;$(QT_DIR)\include;$(SolutionDir)..\source;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\3rd\lib\$(ConfigurationName);$(QT_DIR)\lib;$(OutDir);</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ods.lib;qt5cored.lib;qt5guid.lib;qt5widgetsd.lib;qt5opengld.lib;</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y "$(QT_DIR)\bin\Qt5cored.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\Qt5widgetsd.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\Qt5guid.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\icuin52.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\icuuc52.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\icudt52.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\libglesv2d.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\qt5opengld.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\libegld.dll" "$(OutDir)"
+xcopy /Y "$(SolutionDir)..\3rd\bin\$(ConfigurationName)\*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\3rd\include;$(QT_DIR)\include\QtANGLE\;$(QT_DIR)\include\qtopengl;$(QT_DIR)\include\qtcore;$(QT_DIR)\include;$(SolutionDir)..\source;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\3rd\lib\$(ConfigurationName);$(QT_DIR)\lib;$(OutDir);</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ods.lib;qt5cored.lib;qt5guid.lib;qt5widgetsd.lib;qt5opengld.lib;</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y "$(QT_DIR)\bin\Qt5cored.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\Qt5widgetsd.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\Qt5guid.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\icuin52.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\icuuc52.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\icudt52.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\libglesv2d.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\qt5opengld.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\libegld.dll" "$(OutDir)"
+xcopy /Y "$(SolutionDir)..\3rd\bin\$(ConfigurationName)\*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\3rd\include;$(QT_DIR)\include\QtANGLE\;$(QT_DIR)\include\qtopengl;$(QT_DIR)\include\qtcore;$(QT_DIR)\include;$(SolutionDir)..\source;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\3rd\lib\$(ConfigurationName);$(QT_DIR)\lib;$(OutDir);</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ods.lib;qt5core.lib;qt5gui.lib;qt5widgets.lib;qt5opengl.lib;punk_string.lib;punk_error.lib;punk_core.lib;</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y "$(QT_DIR)\bin\Qt5core.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\Qt5widgets.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\Qt5gui.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\icuin52.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\icuuc52.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\icudt52.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\libglesv2.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\qt5opengl.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\libegl.dll" "$(OutDir)"
+xcopy /Y "$(SolutionDir)..\3rd\bin\$(ConfigurationName)\*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\3rd\include;$(QT_DIR)\include\QtANGLE\;$(QT_DIR)\include\qtopengl;$(QT_DIR)\include\qtcore;$(QT_DIR)\include;$(SolutionDir)..\source;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\3rd\lib\$(ConfigurationName);$(QT_DIR)\lib;$(OutDir);</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ods.lib;qt5core.lib;qt5gui.lib;qt5widgets.lib;qt5opengl.lib;punk_string.lib;punk_error.lib;punk_core.lib;</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y "$(QT_DIR)\bin\Qt5core.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\Qt5widgets.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\Qt5gui.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\icuin52.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\icuuc52.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\icudt52.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\libglesv2.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\qt5opengl.dll" "$(OutDir)"
+xcopy /Y "$(QT_DIR)\bin\libegl.dll" "$(OutDir)"
+xcopy /Y "$(SolutionDir)..\3rd\bin\$(ConfigurationName)\*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\source\lab\microcontroller\highlighter.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QT_DIR)\bin\moc.exe" -DUNICODE -DWIN32 -DWIN64 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -I$(QT_DIR)/mkspecs/win32-msvc2013 -I$(SolutionDir)source -I$(QT_DIR)/include -I$(QT_DIR)/include/QtWidgets -I$(QT_DIR)/include/QtGui -I$(QT_DIR)/include/QtANGLE -I$(QT_DIR)/include/QtCore -o moc_%(Filename).cpp %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QT_DIR)\bin\moc.exe" -DUNICODE -DWIN32 -DWIN64 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -I$(QT_DIR)/mkspecs/win32-msvc2013 -I$(SolutionDir)source -I$(QT_DIR)/include -I$(QT_DIR)/include/QtWidgets -I$(QT_DIR)/include/QtGui -I$(QT_DIR)/include/QtANGLE -I$(QT_DIR)/include/QtCore -o moc_%(Filename).cpp %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QT_DIR)\bin\moc.exe" -DUNICODE -DWIN32 -DWIN64 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -I$(QT_DIR)/mkspecs/win32-msvc2013 -I$(SolutionDir)source -I$(QT_DIR)/include -I$(QT_DIR)/include/QtWidgets -I$(QT_DIR)/include/QtGui -I$(QT_DIR)/include/QtANGLE -I$(QT_DIR)/include/QtCore -o moc_%(Filename).cpp %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QT_DIR)\bin\moc.exe" -DUNICODE -DWIN32 -DWIN64 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -I$(QT_DIR)/mkspecs/win32-msvc2013 -I$(SolutionDir)source -I$(QT_DIR)/include -I$(QT_DIR)/include/QtWidgets -I$(QT_DIR)/include/QtGui -I$(QT_DIR)/include/QtANGLE -I$(QT_DIR)/include/QtCore -o moc_%(Filename).cpp %(FullPath)</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc'ing %(Filename).h</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc'ing %(Filename).h</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc'ing %(Filename).h</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc'ing %(Filename).h</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\source\lab\microcontroller\highlighter.cpp" />
+    <ClCompile Include="..\..\source\lab\microcontroller\main.cpp" />
+    <ClCompile Include="..\..\source\lab\microcontroller\mainwindow.cpp" />
+    <ClCompile Include="moc_highlighter.cpp" />
+    <ClCompile Include="moc_mainwindow.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\source\lab\microcontroller\mainwindow.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QT_DIR)\bin\moc.exe" -DUNICODE -DWIN32 -DWIN64 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -I$(QT_DIR)/mkspecs/win32-msvc2013 -I$(SolutionDir)source -I$(QT_DIR)/include -I$(QT_DIR)/include/QtWidgets -I$(QT_DIR)/include/QtGui -I$(QT_DIR)/include/QtANGLE -I$(QT_DIR)/include/QtCore -o moc_%(Filename).cpp %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QT_DIR)\bin\moc.exe" -DUNICODE -DWIN32 -DWIN64 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -I$(QT_DIR)/mkspecs/win32-msvc2013 -I$(SolutionDir)source -I$(QT_DIR)/include -I$(QT_DIR)/include/QtWidgets -I$(QT_DIR)/include/QtGui -I$(QT_DIR)/include/QtANGLE -I$(QT_DIR)/include/QtCore -o moc_%(Filename).cpp %(FullPath)</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc'ing %(Filename).h</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc'ing %(Filename).h</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\lab\microcontroller\microcontroller.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
