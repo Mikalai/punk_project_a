@@ -180,6 +180,9 @@
     <ClCompile Include="..\..\source\attributes\terrain\iterrain_data_provider.cpp">
       <Filter>terrain</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\attributes\data_flow\ifloat_array.cpp">
+      <Filter>data_flow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\attributes\module.h" />
@@ -532,6 +535,12 @@
     <ClInclude Include="..\..\source\attributes\collection\icollection_impl.h">
       <Filter>collection</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data_flow\ifloat_array.h">
+      <Filter>data_flow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data_flow\module.h">
+      <Filter>data_flow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="water">
@@ -593,6 +602,9 @@
     </Filter>
     <Filter Include="collection">
       <UniqueIdentifier>{9c9c697f-d84a-4efd-b5e0-9c39b9ff5431}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data_flow">
+      <UniqueIdentifier>{cd793a6f-a1a3-4f26-b056-4b8432f13ef7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

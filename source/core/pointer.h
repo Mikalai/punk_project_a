@@ -169,6 +169,10 @@ namespace Core {
 		Core::Pointer<T> v = r;
 		return v == l;
 	}
+
+	template<class T> Core::Pointer<T> make_ptr(T* value) {
+		return Core::Pointer < T > {value, Core::DestroyObject};
+	}
 }
 PUNK_ENGINE_END
 
