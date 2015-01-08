@@ -4,5 +4,6 @@
 #include "ifloat_array.h"
 #include "iaccessor.h"
 #include "iparam.h"
+#include "isource.h"
 
 #endif	//	_H_DATA_FLOW_MODULE

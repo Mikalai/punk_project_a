@@ -7,6 +7,10 @@ namespace Attributes {
 
 	class FloatArray : public IFloatArray, public Core::ISerializable {
 	public:
+		virtual ~FloatArray() {
+
+		}
+
 		//	IObject
 		void QueryInterface(const Core::Guid& type, void** object) override {
 			if (!object)

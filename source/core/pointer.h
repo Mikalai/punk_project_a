@@ -5,8 +5,9 @@
 
 PUNK_ENGINE_BEGIN
 namespace Core {
-
+	
 	class IObject;
+	extern PUNK_ENGINE_API void DestroyObject(IObject* object);
 
 	template<class T, class Base = IObject>	class WeakPtr;
 
@@ -21,7 +22,7 @@ namespace Core {
 			, m_destroy{ nullptr }
 		{}		
 
-		Pointer(T* object, void(*destroy)(Base*))
+		Pointer(T* object, void(*destroy)(Base*) = DestroyObject)
 			: m_object{ object }
 			, m_destroy{ destroy }
 		{
@@ -170,9 +171,15 @@ namespace Core {
 		return v == l;
 	}
 
-	template<class T> Core::Pointer<T> make_ptr(T* value) {
+	template<class T> Core::Pointer<T> MakePtr(T* value) {
 		return Core::Pointer < T > {value, Core::DestroyObject};
 	}
+
+	template<class T> struct Null {
+		static Core::Pointer<T> Value() {
+			return Core::Pointer < T > {(T*)nullptr, Core::DestroyObject};
+		}
+	};
 }
 PUNK_ENGINE_END
 

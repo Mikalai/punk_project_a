@@ -189,6 +189,9 @@
     <ClCompile Include="..\..\source\attributes\data_flow\iaccessor.cpp">
       <Filter>data_flow</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\attributes\data_flow\isource.cpp">
+      <Filter>data_flow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\attributes\module.h" />

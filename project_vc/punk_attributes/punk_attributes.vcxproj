@@ -219,6 +219,7 @@
     <ClCompile Include="..\..\source\attributes\data_flow\iaccessor.cpp" />
     <ClCompile Include="..\..\source\attributes\data_flow\ifloat_array.cpp" />
     <ClCompile Include="..\..\source\attributes\data_flow\iparam.cpp" />
+    <ClCompile Include="..\..\source\attributes\data_flow\isource.cpp" />
     <ClCompile Include="..\..\source\attributes\iattributes_module.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>

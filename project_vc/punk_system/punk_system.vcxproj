@@ -206,6 +206,7 @@
     <ClInclude Include="..\..\source\system\event_manager.h" />
     <ClInclude Include="..\..\source\system\factory\factory.h" />
     <ClInclude Include="..\..\source\system\factory\ifactory.h" />
+    <ClInclude Include="..\..\source\system\factory\interface.h" />
     <ClInclude Include="..\..\source\system\factory\module.h" />
     <ClInclude Include="..\..\source\system\filesystem\binary_file.h" />
     <ClInclude Include="..\..\source\system\filesystem\folder.h" />

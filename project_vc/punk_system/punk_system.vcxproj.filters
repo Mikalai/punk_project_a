@@ -270,6 +270,9 @@
     <ClInclude Include="..\..\source\system\time\iimpulse_generator.h">
       <Filter>time</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\system\factory\interface.h">
+      <Filter>factory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\system\config_file.cpp" />

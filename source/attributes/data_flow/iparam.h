@@ -2,7 +2,7 @@
 #define _H_IPARAM
 
 #include <config.h>
-#include <core/iobject.h>
+#include <system/factory/interface.h>
 
 PUNK_ENGINE_BEGIN
 namespace Attributes {
@@ -43,6 +43,10 @@ namespace Attributes {
 	};
 
 	using IParamPtr = Core::Pointer < IParam > ;
+
+	inline IParamPtr NewParam() {
+		return System::CreateInstancePtr<IParam>(CLSID_Param, IID_IParam);
+	}
 }
 PUNK_ENGINE_END
 

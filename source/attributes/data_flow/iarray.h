@@ -2,8 +2,7 @@
 #define _H_IARRAY
 
 #include <config.h>
-#include <core/iobject.h>
-#include <string/string.h>
+#include <system/factory/interface.h>
 
 PUNK_ENGINE_BEGIN
 namespace Attributes {
@@ -21,6 +20,8 @@ namespace Attributes {
 		virtual void* Data() = 0;
 		virtual const void* Data() const = 0;
 	};
+
+	using IArrayPtr = Core::Pointer < IArray > ;
 }
 PUNK_ENGINE_END
 

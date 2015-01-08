@@ -37,7 +37,6 @@ public:
 	std::uint32_t m_ref_count{ 0 };
 };
 
-
 class PointerTest : public CppUnit::TestFixture
 {
 	CPPUNIT_TEST_SUITE(PointerTest);
@@ -50,7 +49,13 @@ class PointerTest : public CppUnit::TestFixture
 	CPPUNIT_TEST_SUITE_END();
 
 public:
+
+	Core::Pointer<Core::IObject> result{ Core::Null<Core::IObject>::Value() };
+
 	void testPointerConstructor() {
+		
+		Core::Pointer<Core::IObject> result{ Core::Null<Core::IObject>::Value() };
+
 		auto v = new ProxyObject;
 			{
 			CPPUNIT_ASSERT(g_var == 1);

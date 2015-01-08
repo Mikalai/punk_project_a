@@ -1,4 +1,5 @@
 #include <stack>
+#include <core/pointer.h>
 #include <functional>
 #include <loader/ireader.h>
 #include <loader/error/loader_error.h>
@@ -11,13 +12,17 @@
 #include <attributes/data_flow/module.h>
 
 PUNK_ENGINE_BEGIN
+using namespace Core;
+using namespace Attributes;
 namespace IoModule {
 
 	enum class ColladaKeyword {
 		bad,
 		float_array,
 		param,
-		accessor
+		accessor,
+		technique_common,
+		source
 	};
 
 	enum class ColladaAttribute {
@@ -30,13 +35,15 @@ namespace IoModule {
 		semantic,
 		source,
 		offset,
-		stride
+		stride		
 	};
 
 	std::pair<const char*, ColladaKeyword> collada_mapping[] {
 		{ "float_array", ColladaKeyword::float_array },
 		{ "param", ColladaKeyword::param },
-		{ "accessor", ColladaKeyword::accessor }
+		{ "accessor", ColladaKeyword::accessor },
+		{ "technique_common", ColladaKeyword::technique_common },
+		{ "source", ColladaKeyword::source }
 	};
 
 	std::pair<const char*, ColladaAttribute> collada_attribute_mapping[] {
@@ -48,7 +55,7 @@ namespace IoModule {
 		{ "semantic", ColladaAttribute::semantic },
 		{ "source", ColladaAttribute::source },
 		{ "offset", ColladaAttribute::offset },
-		{ "stride", ColladaAttribute::stride }
+		{ "stride", ColladaAttribute::stride },		
 	};
 
 	ColladaKeyword Parse(const char* value) {
@@ -87,28 +94,28 @@ namespace IoModule {
 		return "[ERROR]";
 	}
 
-	Attributes::ParamType ParseColladaType(const char* value) {
+	ParamType ParseColladaType(const char* value) {
 		if (!strcmp(value, "float"))
-			return Attributes::ParamType::Float;
+			return ParamType::Float;
 		if (!strcmp(value, "int"))
-			return Attributes::ParamType::Int;
-		return Attributes::ParamType::Bad;
+			return ParamType::Int;
+		return ParamType::Bad;
 	}
 
-	Attributes::ParamSemantic ParseColladaSemantic(const char* value) {
-		return Attributes::ParamSemantic::Bad;
+	ParamSemantic ParseColladaSemantic(const char* value) {
+		return ParamSemantic::Bad;
 	}
 
 	class ColladaReader : public IReader {
 	public:
-		
+				
 		//	IObject
-		void QueryInterface(const Core::Guid& type, void** object) override {
+		void QueryInterface(const Guid& type, void** object) override {
 			if (!object)
 				return;
 
 			*object = nullptr;
-			if (type == Core::IID_IObject) {
+			if (type == IID_IObject) {
 				*object = (IReader*) this;
 				AddRef();
 			}
@@ -131,13 +138,13 @@ namespace IoModule {
 		}
 
 		//	IReader
-		Core::Pointer<Core::IObject> Read(const Core::String& filename)  override {
-			Core::Buffer buffer;
+		Pointer<IObject> Read(const String& filename)  override {
+			Buffer buffer;
 			System::BinaryFile::Load(filename, buffer);
 			return Read(buffer);
 		}
 
-		Core::Pointer<Core::IObject> Read(Core::Buffer& buffer) override {
+		Pointer<IObject> Read(Buffer& buffer) override {
 
 			auto parser = XML_ParserCreate(nullptr);
 
@@ -151,7 +158,7 @@ namespace IoModule {
 				auto size = s.Size();
 
 				if (XML_Parse(parser, data, size, buffer.IsEnd()) == XML_STATUS_ERROR) {
-					auto s = Core::String("Parse error at line {0}: {1}").arg((int)XML_GetCurrentLineNumber(parser)).arg(XML_ErrorString(XML_GetErrorCode(parser)));
+					auto s = String("Parse error at line {0}: {1}").arg((int)XML_GetCurrentLineNumber(parser)).arg(XML_ErrorString(XML_GetErrorCode(parser)));
 					throw Error::LoaderException(s);
 				}
 			}
@@ -193,22 +200,27 @@ namespace IoModule {
 				switch (key)
 				{
 				case ColladaKeyword::float_array:
-					m_current_frame.reset(new FloatArrayFrame{ [this](Attributes::IFloatArrayPtr& value) {
+					m_current_frame.reset(new FloatArrayFrame{ [this](IFloatArrayPtr& value) {
 						m_result = value;
 					} });
 					break;
 				case ColladaKeyword::param:
-					m_current_frame.reset(new ParamFrame{ [this](Attributes::IParamPtr& value) {
+					m_current_frame.reset(new ParamFrame{ [this](IParamPtr& value) {
 						m_result = value;
 					} });
 					break;
 				case ColladaKeyword::accessor:
-					m_current_frame.reset(new AccessorFrame{ [this](Attributes::IAccessorPtr& value) {
+					m_current_frame.reset(new AccessorFrame{ [this](IAccessorPtr& value) {
+						m_result = value;
+					} });
+					break;
+				case ColladaKeyword::source:
+					m_current_frame.reset(new SourceFrame{ [this](ISourcePtr& value) {
 						m_result = value;
 					} });
 					break;
 				default:
-					throw Error::LoaderException{ Core::String{ "Can't parse keyword {0}" }.arg(Parse(key)) };
+					throw Error::LoaderException{ String{ "Can't parse keyword {0}" }.arg(Parse(key)) };
 				}
 			}
 		}
@@ -249,8 +261,8 @@ namespace IoModule {
 		//
 		class FloatArrayFrame : public BaseFrame {
 		public:
-			FloatArrayFrame(std::function<void(Core::Pointer<Attributes::IFloatArray>&)> on_end)
-				: m_float_array{ System::CreateInstancePtr<Attributes::IFloatArray>(Attributes::CLSID_FloatArray, Attributes::IID_IFloatArray) }
+			FloatArrayFrame(std::function<void(Pointer<IFloatArray>&)> on_end)
+				: m_float_array{ NewFloatArray() }
 				, m_on_end{ on_end }
 			{}
 
@@ -266,15 +278,15 @@ namespace IoModule {
 					m_float_array->SetName(value);
 					break;
 				case ColladaAttribute::count:
-					m_float_array->SetCount(Core::String{ value }.ToInt32());
+					m_float_array->SetCount(String{ value }.ToInt32());
 					break;
 				default:
-					throw Error::LoaderException(Core::String{ "Unexpected attribute {0}" }.arg(ParseAttribute(attribute)));
+					throw Error::LoaderException(String{ "Unexpected attribute {0}" }.arg(ParseAttribute(attribute)));
 				}
 			}
 
 			void Text(const char* text, int len) override {
-				Core::String s{ text, (std::uint32_t)len };
+				String s{ text, (std::uint32_t)len };
 				auto values = s.Split(" ");
 				float* data = (float*)m_float_array->Data();
 				for (int i = 0, max_i = values.Size(); i < max_i; ++i) {
@@ -291,8 +303,8 @@ namespace IoModule {
 			}
 
 		private:			
-			Attributes::IFloatArrayPtr m_float_array;
-			std::function<void(Attributes::IFloatArrayPtr&)> m_on_end;			
+			IFloatArrayPtr m_float_array{ nullptr };
+			std::function<void(IFloatArrayPtr&)> m_on_end;			
 		};
 
 		//
@@ -300,8 +312,8 @@ namespace IoModule {
 		//
 		class ParamFrame : public BaseFrame {
 		public:
-			ParamFrame(std::function<void(Attributes::IParamPtr&)> on_end)
-				: m_value{ System::CreateInstancePtr<Attributes::IParam>(Attributes::CLSID_Param, Attributes::IID_IParam) }
+			ParamFrame(std::function<void(IParamPtr&)> on_end)
+				: m_value{ NewParam() }
 				, m_on_end{ on_end }
 			{}
 
@@ -320,7 +332,7 @@ namespace IoModule {
 				case ColladaAttribute::semantic:
 					m_value->SetSemantic(ParseColladaSemantic(value));
 				default:
-					throw Error::LoaderException(Core::String{ "Unexpected attribute {0}" }.arg(ParseAttribute(attribute)));
+					throw Error::LoaderException(String{ "Unexpected attribute {0}" }.arg(ParseAttribute(attribute)));
 				}
 			}
 
@@ -333,8 +345,8 @@ namespace IoModule {
 			}
 
 		private:
-			Attributes::IParamPtr m_value;
-			std::function<void(Attributes::IParamPtr&)> m_on_end;
+			IParamPtr m_value;
+			std::function<void(IParamPtr&)> m_on_end;
 		};
 
 		//
@@ -342,8 +354,8 @@ namespace IoModule {
 		//
 		class AccessorFrame : public BaseFrame {
 		public:
-			AccessorFrame(std::function<void(Attributes::IAccessorPtr&)> on_end)
-				: m_value{ System::CreateInstancePtr<Attributes::IAccessor>(Attributes::CLSID_Accessor, Attributes::IID_IAccessor) }
+			AccessorFrame(std::function<void(IAccessorPtr&)> on_end)
+				: m_value{ NewAccessor() }
 				, m_on_end{ on_end }
 			{}
 
@@ -354,12 +366,12 @@ namespace IoModule {
 					switch (key)
 					{
 					case Punk::Engine::IoModule::ColladaKeyword::param:
-						m_current_frame.reset(new ParamFrame{ [this](Attributes::IParamPtr& value) {
+						m_current_frame.reset(new ParamFrame{ [this](IParamPtr& value) {
 							m_value->AddParam(value);
 						} });
 						break;
 					default:
-						throw Error::LoaderException{ Core::String{ "Can't parse keyword {0}" }.arg(Parse(key)) };
+						throw Error::LoaderException{ String{ "Can't parse keyword {0}" }.arg(Parse(key)) };
 					}
 				}
 			}
@@ -374,16 +386,16 @@ namespace IoModule {
 						m_value->SetSource(value);
 						break;
 					case ColladaAttribute::offset:
-						m_value->SetOffset(Core::String(value).ToInt32());
+						m_value->SetOffset(String(value).ToInt32());
 						break;
 					case ColladaAttribute::stride:
-						m_value->SetStride(Core::String(value).ToInt32());
+						m_value->SetStride(String(value).ToInt32());
 						break;
 					case ColladaAttribute::count:
-						m_value->SetCount(Core::String(value).ToInt32());
+						m_value->SetCount(String(value).ToInt32());
 						break;
 					default:
-						throw Error::LoaderException(Core::String{ "Unexpected attribute {0}" }.arg(ParseAttribute(attribute)));
+						throw Error::LoaderException(String{ "Unexpected attribute {0}" }.arg(ParseAttribute(attribute)));
 					}
 				}
 			}
@@ -408,14 +420,19 @@ namespace IoModule {
 
 		private:
 			std::unique_ptr<BaseFrame> m_current_frame{ nullptr };
-			Core::Pointer<Attributes::IAccessor> m_value;
-			std::function<void(Core::Pointer<Attributes::IAccessor>&)> m_on_end;
+			Pointer<IAccessor> m_value;
+			std::function<void(Pointer<IAccessor>&)> m_on_end;
 		};
 		//
 		//	SourceFrame
 		//
-		/*class SourceFrame : public BaseFrame {
+		class SourceFrame : public BaseFrame {
 		public:
+
+			SourceFrame(std::function<void(ISourcePtr&)> on_end)
+				: m_on_end{ on_end }
+				, m_value{ NewSource() }
+			{}
 
 			void Attribute(ColladaAttribute attribute, const char* value) override {
 				if (m_current_frame.get()) {
@@ -425,11 +442,13 @@ namespace IoModule {
 					switch (attribute)
 					{
 					case ColladaAttribute::id:
+						m_value->SetId(value);
 						break;
 					case ColladaAttribute::name:
-						break;
+						m_value->SetName(value);
+						break;											
 					default:
-						throw Error::LoaderException(Core::String("Unexpected attribute {0}", ParseAttribute(attribute)));
+						throw Error::LoaderException{ String("Unexpected attribute {0}").arg(ParseAttribute(attribute)) };
 					}
 				}
 			}
@@ -441,26 +460,52 @@ namespace IoModule {
 			}
 			
 			void Begin(ColladaKeyword key) override {
-				switch (key)
-				{
-				case ColladaKeyword::bad:
-					break;
-				case ColladaKeyword::float_array:
-					break;
-				default:
-					throw Error::LoaderException{ Core::String("Unexpected keyword {0}").arg(Parse(key)) };
+				if (m_current_frame) {
+					m_current_frame->Begin(key);
+				}
+				else {
+					switch (key)
+					{
+					case ColladaKeyword::technique_common:
+						//	Just skip it
+						break;
+					case ColladaKeyword::accessor:
+						m_current_frame.reset(new AccessorFrame{ [this](IAccessorPtr& value) {
+							m_value->SetAccessor(value);
+						} });
+						break;
+					case ColladaKeyword::float_array:
+						m_current_frame.reset(new FloatArrayFrame{ [this](IFloatArrayPtr&value) {
+							m_value->SetArray(value);
+						} });
+						break;
+					default:
+						throw Error::LoaderException{ String("Unexpected keyword {0}").arg(Parse(key)) };
+					}
 				}
 			}
 			
-			void End() override {
+			bool End() override {
+				if (m_current_frame) {
+					if (m_current_frame->End())
+						m_current_frame.reset();
+					return false;
+				}
+				else {
+					if (m_on_end)
+						m_on_end(m_value);
+					return true;
+				}
 			}
 
 		private:
+			std::function<void(ISourcePtr&)> m_on_end;
+			ISourcePtr m_value;
 			std::unique_ptr<BaseFrame> m_current_frame{ nullptr };
-		};*/
+		};
 
 		std::unique_ptr<BaseFrame> m_current_frame{ nullptr };
-		Core::Pointer<Core::IObject> m_result{ Core::make_ptr((Core::IObject*)nullptr) };
+		IObjectPtr m_result{ nullptr };
 
 		std::atomic<std::uint32_t> m_ref_count{ 0 };		
 	};

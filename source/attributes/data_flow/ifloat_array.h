@@ -27,6 +27,10 @@ namespace Attributes {
 	};	
 
 	using IFloatArrayPtr = Core::Pointer < IFloatArray > ;
+
+	inline IFloatArrayPtr NewFloatArray() {
+		return System::CreateInstancePtr<IFloatArray>(CLSID_FloatArray, IID_IFloatArray);
+	}
 }
 PUNK_ENGINE_END
 

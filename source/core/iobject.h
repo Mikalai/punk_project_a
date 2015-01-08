@@ -8,7 +8,6 @@
 #include <memory>
 #include "pointer.h"
 #include "guid.h"
-#include "container.h"
 
 PUNK_ENGINE_BEGIN
 namespace Core {
@@ -22,6 +21,8 @@ namespace Core {
 		virtual std::uint32_t AddRef() = 0;
 		virtual std::uint32_t Release() = 0;		
 	};
+
+	using IObjectPtr = Core::Pointer < IObject > ;
 
 	extern PUNK_ENGINE_API IObject* GetRootObject();
 	extern PUNK_ENGINE_API void DestroyRootObject();

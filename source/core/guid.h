@@ -8,9 +8,6 @@
 PUNK_ENGINE_BEGIN
 namespace Core {
 
-#define DECLARE_PUNK_GUID(T,V) static const Core::Guid T{ V }
-#define DEFINE_PUNK_GUID(T,V) //extern "C" PUNK_ENGINE_API const Core::Guid T{ V }
-
 	class PUNK_ENGINE_API Guid {
 	public:
 		Guid();
@@ -37,6 +34,10 @@ namespace Core {
 	extern PUNK_ENGINE_API bool operator < (const Guid& l, const Guid& r);
 	extern PUNK_ENGINE_API bool operator == (const Guid& l, const Guid& r);
 	extern PUNK_ENGINE_API bool operator != (const Guid& l, const Guid& r);
+
+#define DECLARE_PUNK_GUID(T,V) static const Core::Guid T{ V }
+#define DEFINE_PUNK_GUID(T,V) //extern "C" PUNK_ENGINE_API const Core::Guid T{ V }
+
 }
 PUNK_ENGINE_END
 

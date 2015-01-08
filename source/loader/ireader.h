@@ -2,7 +2,7 @@
 #define _H_IREADER
 
 #include <config.h>
-#include <core/iobject.h>
+#include <system/factory/interface.h>
 
 PUNK_ENGINE_BEGIN
 
@@ -19,8 +19,14 @@ namespace IoModule {
 	class IReader : public Core::IObject {
 	public:
 		virtual Core::Pointer<Core::IObject> Read(const Core::String& filename) = 0;
-		virtual Core::Pointer<Core::IObject> Read(Core::Buffer& buffer) = 0;
+		virtual Core::Pointer<Core::IObject> Read(Core::Buffer& buffer) = 0;		
 	};
+
+	using IReaderPtr = Core::Pointer < IReader > ;
+
+	inline IReaderPtr NewColladaReader() {
+		return System::CreateInstancePtr<IReader>(CLSID_ColladaReader, IID_IReader);
+	}
 }
 PUNK_ENGINE_END
 

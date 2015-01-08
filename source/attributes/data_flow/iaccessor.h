@@ -2,7 +2,7 @@
 #define _H_IACCSESSOR
 
 #include <config.h>
-#include <core/iobject.h>
+#include <system/factory/interface.h>
 #include <math/forward.h>
 #include "iparam.h"
 #include "iarray.h"
@@ -82,7 +82,10 @@ namespace Attributes {
 		Core::Pointer<IAccessor> m_accessor{ Core::make_ptr((IAccessor*)nullptr) };
 		Core::Pointer<IArray> m_array{ Core::make_ptr((IArray*)nullptr) };
 	};
-	
+
+	inline IAccessorPtr NewAccessor() {
+		return System::CreateInstancePtr<IAccessor>(CLSID_Accessor, IID_IAccessor);
+	}
 }
 PUNK_ENGINE_END
 
