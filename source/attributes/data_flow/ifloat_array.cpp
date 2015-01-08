@@ -25,6 +25,10 @@ namespace Attributes {
 				*object = this;
 				AddRef();
 			}
+			else if (type == IID_IArray) {
+				*object = this;
+				AddRef();
+			}
 		}
 
 		std::uint32_t AddRef() override {
@@ -39,9 +43,9 @@ namespace Attributes {
 			return v;
 		}
 
-		//	IFloatArray
+		//	IArray
 		std::uint32_t GetCount() const override {
-			return m_data.size();
+			return (std::uint32_t)m_data.size();
 		}
 
 		void SetCount(std::uint32_t value) override {
@@ -62,15 +66,7 @@ namespace Attributes {
 
 		void SetName(const Core::String& value) override {
 			m_name = value;
-		}
-
-		void SetValue(int index, float value) override {
-			m_data.at(index) = value;
-		}
-
-		float GetValue(int index) const override {
-			return m_data.at(index);
-		}
+		}		
 
 		void* Data() {
 			return (void*)m_data.data();
@@ -78,6 +74,15 @@ namespace Attributes {
 
 		const void* Data() const override {
 			return (const void*)m_data.data();
+		}
+
+		//	IFloatArray
+		void SetValue(int index, float value) override {
+			m_data.at(index) = value;
+		}
+
+		float GetValue(int index) const override {
+			return m_data.at(index);
 		}
 
 		//	ISerializable

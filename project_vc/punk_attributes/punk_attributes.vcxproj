@@ -216,7 +216,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <FileType>CppCode</FileType>
     </ClInclude>
+    <ClCompile Include="..\..\source\attributes\data_flow\iaccessor.cpp" />
     <ClCompile Include="..\..\source\attributes\data_flow\ifloat_array.cpp" />
+    <ClCompile Include="..\..\source\attributes\data_flow\iparam.cpp" />
     <ClCompile Include="..\..\source\attributes\iattributes_module.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -471,7 +473,11 @@
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\collection\icollection.h" />
     <ClInclude Include="..\..\source\attributes\collection\icollection_impl.h" />
+    <ClInclude Include="..\..\source\attributes\data_flow\iaccessor.h" />
+    <ClInclude Include="..\..\source\attributes\data_flow\iarray.h" />
     <ClInclude Include="..\..\source\attributes\data_flow\ifloat_array.h" />
+    <ClInclude Include="..\..\source\attributes\data_flow\iparam.h" />
+    <ClInclude Include="..\..\source\attributes\data_flow\isource.h" />
     <ClInclude Include="..\..\source\attributes\data_flow\module.h" />
     <ClInclude Include="..\..\source\attributes\iattributes_module.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>

@@ -173,7 +173,9 @@
     <ClCompile Include="..\..\source\tests\punk_core_test\weak_pointer_test.cpp">
       <FileType>CppHeader</FileType>
     </ClCompile>
-    <ClInclude Include="..\..\source\tests\punk_core_test\string_list_test.h" />
+    <ClCompile Include="..\..\source\tests\punk_core_test\action_test.cpp">
+      <FileType>CppHeader</FileType>
+    </ClCompile>
     <ClInclude Include="..\..\source\tests\punk_core_test\string_test.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
