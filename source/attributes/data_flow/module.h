@@ -5,5 +5,6 @@
 #include "iaccessor.h"
 #include "iparam.h"
 #include "isource.h"
+#include "iinput.h"
 
 #endif	//	_H_DATA_FLOW_MODULE

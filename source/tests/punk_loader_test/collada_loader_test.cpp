@@ -18,6 +18,7 @@ class ColladaLoaderTest : public CppUnit::TestFixture
 	CPPUNIT_TEST(testAccessor);
 	CPPUNIT_TEST(testParam);
 	CPPUNIT_TEST(testSource);
+	CPPUNIT_TEST(testInput);
 	CPPUNIT_TEST_SUITE_END();
 public:
 
@@ -176,6 +177,30 @@ public:
 				}
 				CPPUNIT_ASSERT(p->GetType() == Attributes::ParamType::Float);
 			}
+		}
+		catch (System::Error::SystemException& e) {
+			System::GetDefaultLogger()->Error(e.Message());
+			CPPUNIT_ASSERT(false);
+		}
+	}
+
+	void testInput() {
+		try {
+			//auto system = System::LoadPunkModule("punk_system");
+			auto loader = System::LoadPunkModule("punk_loader");
+
+			auto reader = NewColladaReader();
+
+			Core::Buffer buffer;
+			buffer.WriteString("<input semantic=\"POSITION\" source=\"#Cube-mesh-positions\"/>");
+			buffer.SetPosition(0);
+
+			auto o = reader->Read(buffer);
+
+			auto input = Core::QueryInterfacePtr<Attributes::IInput>(o, Attributes::IID_IInput);
+			CPPUNIT_ASSERT(input);
+			CPPUNIT_ASSERT(input->GetSemantic() == InputSemantic::Position);
+			CPPUNIT_ASSERT(input->GetSourceRef() == "#Cube-mesh-positions");
 		}
 		catch (System::Error::SystemException& e) {
 			System::GetDefaultLogger()->Error(e.Message());
