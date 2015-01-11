@@ -10,7 +10,9 @@ namespace Attributes {
 
 	enum class InputSemantic {
 		Bad,
-		Position
+		Position,
+		Vertex,
+		Normal
 	};
 
 	DECLARE_PUNK_GUID(IID_IInput, "4CEDBE0A-03CE-4FF1-B023-6AB7287526A0");

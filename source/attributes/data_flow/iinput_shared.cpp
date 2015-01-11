@@ -1,12 +1,12 @@
 #include <system/factory/module.h>
-#include "iinput.h"
+#include "iinput_shared.h"
 
 PUNK_ENGINE_BEGIN
 namespace Attributes {
 
-	class Input : public IInput {
+	class InputShared : public IInputShared {
 	public:
-		virtual ~Input() {}
+		virtual ~InputShared() {}
 
 		//	IObject
 		void QueryInterface(const Core::Guid& type, void** object) override {
@@ -15,10 +15,14 @@ namespace Attributes {
 			*object = nullptr;
 
 			if (type == Core::IID_IObject) {
-				*object = this;
+				*object = (IAccessor*)this;
 				AddRef();
 			}
 			else if (type == IID_IInput) {
+				*object = this;
+				AddRef();
+			}
+			else if (type == IID_IInputShared) {
 				*object = this;
 				AddRef();
 			}
@@ -64,13 +68,32 @@ namespace Attributes {
 			return m_source_ref;
 		}
 
+		//	IInputShared
+		void SetOffset(std::uint32_t value) override {
+			m_offset = value;
+		}
+
+		std::uint32_t GetOffset() const override {
+			return m_offset;
+		}
+
+		void SetSet(std::uint32_t value) override {
+			m_set = value;
+		}
+
+		std::uint32_t GetSet() const override {
+			return m_offset;
+		}
+
 	private:
 		std::atomic<std::uint32_t> m_ref_count{ 0 };
 		Core::String m_source_ref;
 		InputSemantic m_semantic{ InputSemantic::Bad };
 		ISourcePtr m_source{ nullptr };
+		std::uint32_t m_offset{ 0 };
+		std::uint32_t m_set{ 0 };
 	};
 
-	PUNK_REGISTER_CREATOR(CLSID_Input, (System::CreateInstance<Input, IInput>));
+	PUNK_REGISTER_CREATOR(CLSID_InputShared, (System::CreateInstance<InputShared, IInputShared>));
 }
 PUNK_ENGINE_END

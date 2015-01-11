@@ -10,6 +10,7 @@
 #include <system/filesystem/module.h>
 #include <system/factory/module.h>
 #include <attributes/data_flow/module.h>
+#include <attributes/geometry/module.h>
 
 PUNK_ENGINE_BEGIN
 using namespace Core;
@@ -23,7 +24,10 @@ namespace IoModule {
 		accessor,
 		technique_common,
 		source,
-		input
+		input,
+		vertices,
+		vcount,
+		p
 	};
 
 	enum class ColladaAttribute {
@@ -36,7 +40,8 @@ namespace IoModule {
 		semantic,
 		source,
 		offset,
-		stride
+		stride,
+		set
 	};
 
 	std::pair<const char*, ColladaKeyword> collada_mapping[] {
@@ -45,7 +50,10 @@ namespace IoModule {
 		{ "accessor", ColladaKeyword::accessor },
 		{ "technique_common", ColladaKeyword::technique_common },
 		{ "source", ColladaKeyword::source },
-		{ "input", ColladaKeyword::input }
+		{ "input", ColladaKeyword::input },
+		{ "vertices", ColladaKeyword::vertices },
+		{ "vcount", ColladaKeyword::vcount },
+		{ "p", ColladaKeyword::p },
 	};
 
 	std::pair<const char*, ColladaAttribute> collada_attribute_mapping[] {
@@ -58,6 +66,7 @@ namespace IoModule {
 		{ "source", ColladaAttribute::source },
 		{ "offset", ColladaAttribute::offset },
 		{ "stride", ColladaAttribute::stride },
+		{ "set", ColladaAttribute::set },
 	};
 
 	ColladaKeyword Parse(const char* value) {
@@ -111,6 +120,10 @@ namespace IoModule {
 	InputSemantic ParseInputSemantic(const char* value) {
 		if (!strcmp(value, "POSITION"))
 			return InputSemantic::Position;
+		if (!strcmp(value, "VERTEX"))
+			return InputSemantic::Vertex; 
+		if (!strcmp(value, "NORMAL"))
+			return InputSemantic::Normal;
 		return InputSemantic::Bad;
 	}
 
@@ -228,7 +241,22 @@ namespace IoModule {
 					} });
 					break;
 				case ColladaKeyword::input:
-					m_current_frame.reset(new InputFrame{ [this](IInputPtr& value) {
+					m_current_frame.reset(new InputFrame{ std::function < void(IInputSharedPtr&) > { [this](IInputSharedPtr& value) {
+						m_result = value;
+					} } });
+					break;
+				case ColladaKeyword::vertices:
+					m_current_frame.reset(new VerticesFrame{ [this](IVerticesPtr& value) {
+						m_result = value;
+					} });
+					break;
+				case ColladaKeyword::vcount:
+					m_current_frame.reset(new VertexCountListFrame{ [this](IVertexCountListPtr& value) {
+						m_result = value;
+					} });
+					break;
+				case ColladaKeyword::p:
+					m_current_frame.reset(new PrimitivesListFrame{ [this](IPrimitivesListPtr& value) {
 						m_result = value;
 					} });
 					break;
@@ -524,8 +552,15 @@ namespace IoModule {
 		class InputFrame : public BaseFrame {
 		public:
 			InputFrame(std::function<void(IInputPtr&)> on_end)
-				: m_value{ NewInput() }
+				: m_value_shared{ NewInputShared() }
+				, m_value{ m_value_shared }
 				, m_on_end{ on_end }
+			{}
+
+			InputFrame(std::function<void(IInputSharedPtr&)> on_end)
+				: m_value_shared{ NewInputShared() }
+				, m_value{ m_value_shared }
+				, m_on_end_shared{ on_end }
 			{}
 
 			void Attribute(ColladaAttribute attribute, const char* value) override {
@@ -537,8 +572,124 @@ namespace IoModule {
 				case ColladaAttribute::semantic:
 					m_value->SetSemantic(ParseInputSemantic(value));
 					break;
+				case ColladaAttribute::offset:
+					m_value_shared->SetOffset(Core::String(value).ToInt32());
+					break;
+				case ColladaAttribute::set:
+					m_value_shared->SetSet(Core::String(value).ToInt32());
+					break;
 				default:
 					throw Error::LoaderException(String{ "Unexpected attribute {0}" }.arg(ParseAttribute(attribute)));
+				}
+			}
+
+			void Begin(ColladaKeyword key) override {}
+
+			bool End() {
+				if (m_on_end)
+					m_on_end(m_value);
+				if (m_on_end_shared)
+					m_on_end_shared(m_value_shared);
+				return true;
+			}
+
+		private:
+			IInputSharedPtr m_value_shared;
+			IInputPtr m_value;			
+			std::function<void(IInputPtr&)> m_on_end;
+			std::function<void(IInputSharedPtr&)> m_on_end_shared;
+		};
+
+		//
+		//	VerticesFrame
+		//
+		class VerticesFrame : public BaseFrame {
+		public:
+			VerticesFrame(std::function<void(IVerticesPtr&)> on_end)
+				: m_value{ NewVertices() }
+				, m_on_end{ on_end }
+			{}
+
+			void Begin(ColladaKeyword key) override {
+				if (m_current_frame)
+					m_current_frame->Begin(key);
+				else {
+					switch (key)
+					{
+					case ColladaKeyword::input:
+						m_current_frame.reset(new InputFrame{ std::function < void(IInputPtr&) > {[this](IInputPtr& value) {
+							m_value->AddInput(value);
+						} } });
+						break;
+					default:
+						throw Error::LoaderException{ String{ "Can't parse keyword {0}" }.arg(Parse(key)) };
+					}
+				}
+			}
+
+			void Attribute(ColladaAttribute attribute, const char* value) override {
+				if (m_current_frame)
+					m_current_frame->Attribute(attribute, value);
+				else {
+					switch (attribute)
+					{
+					case ColladaAttribute::name:
+						m_value->SetName(value);
+						break;
+					case ColladaAttribute::id:
+						m_value->SetId(value);
+						break;
+					default:
+						throw Error::LoaderException(String{ "Unexpected attribute {0}" }.arg(ParseAttribute(attribute)));
+					}
+				}
+			}
+
+			void Text(const char* text, int len) override {
+				if (m_current_frame)
+					m_current_frame->Text(text, len);
+			}
+
+			bool End() {
+				if (m_current_frame) {
+					if (m_current_frame->End())
+						m_current_frame.reset();
+					return false;
+				}
+				else {
+					if (m_on_end)
+						m_on_end(m_value);
+					return true;
+				}
+			}
+
+		private:
+			std::unique_ptr<BaseFrame> m_current_frame{ nullptr };
+			IVerticesPtr m_value;
+			std::function<void(IVerticesPtr&)> m_on_end;
+		};
+
+		//
+		//	VertexCountListFrame
+		//
+		class VertexCountListFrame : public BaseFrame {
+		public:
+
+			VertexCountListFrame(std::function<void(IVertexCountListPtr&)> on_end)
+				: m_value{ NewVertexCountList() }
+				, m_on_end{ on_end }
+			{}
+
+			void Attribute(ColladaAttribute attribute, const char* value) override {
+				throw Error::LoaderException(String{ "Unexpected attribute {0}" }.arg(ParseAttribute(attribute)));
+			}
+
+			void Text(const char* text, int len) override {
+				String s{ text, (std::uint32_t)len };
+				auto values = s.Split(" ");
+				for (int i = 0, max_i = values.Size(); i < max_i; ++i) {
+					auto v = values[i].ToInt32();
+					m_value->AddValue(v);
 				}
 			}
 
@@ -551,8 +702,45 @@ namespace IoModule {
 			}
 
 		private:
-			IInputPtr m_value;
-			std::function<void(IInputPtr&)> m_on_end;
+			IVertexCountListPtr m_value;
+			std::function<void(IVertexCountListPtr&)> m_on_end;
+		};
+
+		//
+		//	VertexCountListFrame
+		//
+		class PrimitivesListFrame : public BaseFrame {
+		public:
+
+			PrimitivesListFrame(std::function<void(IPrimitivesListPtr&)> on_end)
+				: m_value{ NewPrimitivesList() }
+				, m_on_end{ on_end }
+			{}
+
+			void Attribute(ColladaAttribute attribute, const char* value) override {
+				throw Error::LoaderException(String{ "Unexpected attribute {0}" }.arg(ParseAttribute(attribute)));
+			}
+
+			void Text(const char* text, int len) override {
+				String s{ text, (std::uint32_t)len };
+				auto values = s.Split(" ");
+				for (int i = 0, max_i = values.Size(); i < max_i; ++i) {
+					auto v = values[i].ToInt32();
+					m_value->AddValue(v);
+				}
+			}
+
+			void Begin(ColladaKeyword key) override {}
+
+			bool End() {
+				if (m_on_end)
+					m_on_end(m_value);
+				return true;
+			}
+
+		private:
+			IPrimitivesListPtr m_value;
+			std::function<void(IPrimitivesListPtr&)> m_on_end;
 		};
 
 	private:

@@ -4,6 +4,7 @@
 #include <loader/module.h>
 #include <system/factory/module.h>
 #include <attributes/data_flow/module.h>
+#include <attributes/geometry/module.h>
 #include <string/buffer.h>
 #include <math/absolute_value.h>
 
@@ -19,6 +20,10 @@ class ColladaLoaderTest : public CppUnit::TestFixture
 	CPPUNIT_TEST(testParam);
 	CPPUNIT_TEST(testSource);
 	CPPUNIT_TEST(testInput);
+	CPPUNIT_TEST(testVertices);
+	CPPUNIT_TEST(testInputShared);
+	CPPUNIT_TEST(testVertexCountList);
+	CPPUNIT_TEST(testPrimitivesList);
 	CPPUNIT_TEST_SUITE_END();
 public:
 
@@ -201,6 +206,117 @@ public:
 			CPPUNIT_ASSERT(input);
 			CPPUNIT_ASSERT(input->GetSemantic() == InputSemantic::Position);
 			CPPUNIT_ASSERT(input->GetSourceRef() == "#Cube-mesh-positions");
+		}
+		catch (System::Error::SystemException& e) {
+			System::GetDefaultLogger()->Error(e.Message());
+			CPPUNIT_ASSERT(false);
+		}
+	}
+
+	void testInputShared() {
+		try {
+			//auto system = System::LoadPunkModule("punk_system");
+			auto loader = System::LoadPunkModule("punk_loader");
+
+			auto reader = NewColladaReader();
+
+			Core::Buffer buffer;
+			buffer.WriteString("<input semantic=\"VERTEX\" source=\"#Cube-mesh-vertices\" offset=\"1\"/>");
+			buffer.SetPosition(0);
+
+			auto o = reader->Read(buffer);
+
+			auto input = Core::QueryInterfacePtr<Attributes::IInputShared>(o, Attributes::IID_IInputShared);
+			CPPUNIT_ASSERT(input);
+			CPPUNIT_ASSERT(input->GetSemantic() == InputSemantic::Vertex);
+			CPPUNIT_ASSERT(input->GetSourceRef() == "#Cube-mesh-vertices");
+			CPPUNIT_ASSERT(input->GetOffset() == 1);
+		}
+		catch (System::Error::SystemException& e) {
+			System::GetDefaultLogger()->Error(e.Message());
+			CPPUNIT_ASSERT(false);
+		}
+	}
+
+	void testVertices() {
+		try {
+			//auto system = System::LoadPunkModule("punk_system");
+			auto loader = System::LoadPunkModule("punk_loader");
+
+			auto reader = NewColladaReader();
+
+			Core::Buffer buffer;
+			buffer.WriteString("<vertices id=\"Cube-mesh-vertices\">\
+				<input semantic=\"POSITION\" source=\"#Cube-mesh-positions\"/>\
+				</vertices>");
+			buffer.SetPosition(0);
+
+			auto o = reader->Read(buffer);
+
+			auto vertices = Core::QueryInterfacePtr<Attributes::IVertices>(o, Attributes::IID_IVertices);
+			CPPUNIT_ASSERT(vertices);
+			CPPUNIT_ASSERT(vertices->GetId() == "Cube-mesh-vertices");
+			CPPUNIT_ASSERT(vertices->GetInputsCount() == 1);
+			auto input = vertices->GetInput(0);
+			CPPUNIT_ASSERT(input);
+			CPPUNIT_ASSERT(input->GetSemantic() == InputSemantic::Position);
+			CPPUNIT_ASSERT(input->GetSourceRef() == "#Cube-mesh-positions");
+		}
+		catch (System::Error::SystemException& e) {
+			System::GetDefaultLogger()->Error(e.Message());
+			CPPUNIT_ASSERT(false);
+		}
+	}
+
+	void testVertexCountList() {
+		try {
+			//auto system = System::LoadPunkModule("punk_system");
+			auto loader = System::LoadPunkModule("punk_loader");
+
+			auto reader = NewColladaReader();
+
+			Core::Buffer buffer;
+			buffer.WriteString("<vcount>3 3 3 3 3 3 3 3 3 3 3 3 </vcount>");
+			buffer.SetPosition(0);
+
+			auto o = reader->Read(buffer);
+
+			auto vcount = Core::QueryInterfacePtr<Attributes::IVertexCountList>(o, Attributes::IID_IVertexCountList);
+			CPPUNIT_ASSERT(vcount);
+			CPPUNIT_ASSERT(vcount->GetSize() == 12);
+			for (int i = 0; i < (int)vcount->GetSize(); ++i) {
+				auto v = vcount->GetValue(i);
+				CPPUNIT_ASSERT(v == 3);
+			}
+		}
+		catch (System::Error::SystemException& e) {
+			System::GetDefaultLogger()->Error(e.Message());
+			CPPUNIT_ASSERT(false);
+		}
+	}
+
+	void testPrimitivesList() {
+		try {
+			//auto system = System::LoadPunkModule("punk_system");
+			auto loader = System::LoadPunkModule("punk_loader");
+
+			auto reader = NewColladaReader();
+
+			Core::Buffer buffer;
+			buffer.WriteString("<p>1 0 2 0 3 0 7 1 6 1 5 1 0 2 4 2 5 2 1 3 5 3 6 3 6 4 7 4 3 4 0 5 3 5 7 5 0 6 1 6 3 6 4 7 7 7 5 7 1 8 0 8 5 8 2 9 1 9 6 9 2 10 6 10 3 10 4 11 0 11 7 11</p>");
+			buffer.SetPosition(0);
+
+			auto o = reader->Read(buffer);
+
+			auto p = Core::QueryInterfacePtr<Attributes::IPrimitivesList>(o, Attributes::IID_IPrimitivesList);
+			CPPUNIT_ASSERT(p);
+			CPPUNIT_ASSERT(p->GetSize() == 72);
+
+			int res[] = { 1, 0, 2, 0, 3, 0, 7, 1, 6, 1, 5, 1, 0, 2, 4, 2, 5, 2, 1, 3, 5, 3, 6, 3, 6, 4, 7, 4, 3, 4, 0, 5, 3, 5, 7, 5, 0, 6, 1, 6, 3, 6, 4, 7, 7, 7, 5, 7, 1, 8, 0, 8, 5, 8, 2, 9, 1, 9, 6, 9, 2, 10, 6, 10, 3, 10, 4, 11, 0, 11, 7, 11 };
+			for (int i = 0; i < (int)p->GetSize(); ++i) {
+				auto v = p->GetValue(i);
+				CPPUNIT_ASSERT(v == res[i]);
+			}
 		}
 		catch (System::Error::SystemException& e) {
 			System::GetDefaultLogger()->Error(e.Message());

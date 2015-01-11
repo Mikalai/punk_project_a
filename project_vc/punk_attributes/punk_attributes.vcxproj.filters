@@ -193,6 +193,18 @@
       <Filter>data_flow</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\attributes\data_flow\iinput.cpp" />
+    <ClCompile Include="..\..\source\attributes\geometry\ivertices.cpp">
+      <Filter>geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\data_flow\iinput_shared.cpp">
+      <Filter>data_flow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\geometry\ivertex_count_list.cpp">
+      <Filter>geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\geometry\iprimitive_list.cpp">
+      <Filter>geometry</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\attributes\module.h" />
@@ -568,6 +580,15 @@
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\data_flow\iinput.h">
       <Filter>data_flow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data_flow\iinput_shared.h">
+      <Filter>data_flow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\geometry\ivertex_count_list.h">
+      <Filter>geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\geometry\iprimitive_list.h">
+      <Filter>geometry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

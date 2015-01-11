@@ -10,5 +10,8 @@
 #include "icomponent_texture.h"
 #include "icomponent_texture_face.h"
 #include "igeometry_cooker.h"
+#include "ivertices.h"
+#include "ivertex_count_list.h"
+#include "iprimitive_list.h"
 
 #endif	//	_H_GEOMETRY_MODULE
