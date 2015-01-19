@@ -205,6 +205,12 @@
     <ClCompile Include="..\..\source\attributes\geometry\iprimitive_list.cpp">
       <Filter>geometry</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\attributes\geometry\ipolylist.cpp">
+      <Filter>geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\geometry\imesh.cpp">
+      <Filter>geometry</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\attributes\module.h" />
@@ -588,6 +594,12 @@
       <Filter>geometry</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\geometry\iprimitive_list.h">
+      <Filter>geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\geometry\ipolylist.h">
+      <Filter>geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\geometry\imesh.h">
       <Filter>geometry</Filter>
     </ClInclude>
   </ItemGroup>

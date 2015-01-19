@@ -27,7 +27,9 @@ namespace IoModule {
 		input,
 		vertices,
 		vcount,
-		p
+		p,
+		polylist,
+		mesh
 	};
 
 	enum class ColladaAttribute {
@@ -41,7 +43,8 @@ namespace IoModule {
 		source,
 		offset,
 		stride,
-		set
+		set,
+		material
 	};
 
 	std::pair<const char*, ColladaKeyword> collada_mapping[] {
@@ -54,6 +57,8 @@ namespace IoModule {
 		{ "vertices", ColladaKeyword::vertices },
 		{ "vcount", ColladaKeyword::vcount },
 		{ "p", ColladaKeyword::p },
+		{ "polylist", ColladaKeyword::polylist },
+		{ "mesh", ColladaKeyword::mesh },
 	};
 
 	std::pair<const char*, ColladaAttribute> collada_attribute_mapping[] {
@@ -67,6 +72,7 @@ namespace IoModule {
 		{ "offset", ColladaAttribute::offset },
 		{ "stride", ColladaAttribute::stride },
 		{ "set", ColladaAttribute::set },
+		{ "material", ColladaAttribute::material },
 	};
 
 	ColladaKeyword Parse(const char* value) {
@@ -257,6 +263,16 @@ namespace IoModule {
 					break;
 				case ColladaKeyword::p:
 					m_current_frame.reset(new PrimitivesListFrame{ [this](IPrimitivesListPtr& value) {
+						m_result = value;
+					} });
+					break;
+				case ColladaKeyword::polylist:
+					m_current_frame.reset(new PolyListFrame{ [this](IPolyListPtr& value) {
+						m_result = value;
+					} });
+					break;
+				case ColladaKeyword::mesh:
+					m_current_frame.reset(new MeshFrame{ [this](IMeshPtr& value) {
 						m_result = value;
 					} });
 					break;
@@ -509,7 +525,7 @@ namespace IoModule {
 					switch (key)
 					{
 					case ColladaKeyword::technique_common:
-						//	Just skip it
+						++m_technique_common;
 						break;
 					case ColladaKeyword::accessor:
 						m_current_frame.reset(new AccessorFrame{ [this](IAccessorPtr& value) {
@@ -533,14 +549,20 @@ namespace IoModule {
 						m_current_frame.reset();
 					return false;
 				}
+				else if (m_technique_common) {
+					--m_technique_common;
+					return false;
+				}
 				else {
-					if (m_on_end)
+					if (m_on_end) {
 						m_on_end(m_value);
+					}
 					return true;
 				}
 			}
 
 		private:
+			int m_technique_common{ 0 };
 			std::function<void(ISourcePtr&)> m_on_end;
 			ISourcePtr m_value;
 			std::unique_ptr<BaseFrame> m_current_frame{ nullptr };
@@ -741,6 +763,154 @@ namespace IoModule {
 		private:
 			IPrimitivesListPtr m_value;
 			std::function<void(IPrimitivesListPtr&)> m_on_end;
+		};
+
+		//
+		//	PolyListFrame
+		//
+		class PolyListFrame : public BaseFrame {
+		public:
+			PolyListFrame(std::function<void(IPolyListPtr&)> on_end)
+				: m_value{ NewPolyList() }
+				, m_on_end{ on_end }
+			{}
+
+			void Begin(ColladaKeyword key) override {
+				if (m_current_frame)
+					m_current_frame->Begin(key);
+				else {
+					switch (key)
+					{
+					case ColladaKeyword::input:
+						m_current_frame.reset(new InputFrame{ std::function < void(IInputSharedPtr&) > {[this](IInputSharedPtr& value) {
+							m_value->AddInput(value);
+						} } });
+						break;
+					case ColladaKeyword::vcount:
+						m_current_frame.reset(new VertexCountListFrame{ [this](IVertexCountListPtr& value) {
+							m_value->SetVertexCountList(value);
+						} });
+						break;
+					case ColladaKeyword::p:
+						m_current_frame.reset(new PrimitivesListFrame{ [this](IPrimitivesListPtr& value) {
+							m_value->SetPrimitivesList(value);
+						} });
+						break;
+					default:
+						throw Error::LoaderException{ String{ "Can't parse keyword {0}" }.arg(Parse(key)) };
+					}
+				}
+			}
+
+			void Attribute(ColladaAttribute attribute, const char* value) override {
+				if (m_current_frame)
+					m_current_frame->Attribute(attribute, value);
+				else {
+					switch (attribute)
+					{
+					case ColladaAttribute::count:
+						m_value->SetSize(Core::String(value).ToInt32());
+						break;
+					case ColladaAttribute::material:
+						m_value->SetMaterialRef(value);
+						break;
+					default:
+						throw Error::LoaderException(String{ "Unexpected attribute {0}" }.arg(ParseAttribute(attribute)));
+					}
+				}
+			}
+
+			void Text(const char* text, int len) override {
+				if (m_current_frame)
+					m_current_frame->Text(text, len);
+			}
+
+			bool End() {
+				if (m_current_frame) {
+					if (m_current_frame->End())
+						m_current_frame.reset();
+					return false;
+				}
+				else {
+					if (m_on_end)
+						m_on_end(m_value);
+					return true;
+				}
+			}
+
+		private:
+			std::unique_ptr<BaseFrame> m_current_frame{ nullptr };
+			IPolyListPtr m_value;
+			std::function<void(IPolyListPtr&)> m_on_end;
+		};
+
+		//
+		//	PolyListFrame
+		//
+		class MeshFrame : public BaseFrame {
+		public:
+			MeshFrame(std::function<void(IMeshPtr&)> on_end)
+				: m_value{ NewMesh() }
+				, m_on_end{ on_end }
+			{}
+
+			void Begin(ColladaKeyword key) override {
+				if (m_current_frame)
+					m_current_frame->Begin(key);
+				else {
+					switch (key)
+					{
+					case ColladaKeyword::source:
+						m_current_frame.reset(new SourceFrame{ std::function < void(ISourcePtr&) > {[this](ISourcePtr& value) {
+							m_value->AddSource(value);
+						} } });
+						break;
+					case ColladaKeyword::vertices:
+						m_current_frame.reset(new VerticesFrame{ [this](IVerticesPtr& value) {
+							m_value->SetVertices(value);
+						} });
+						break;
+					case ColladaKeyword::polylist:
+						m_current_frame.reset(new PolyListFrame{ [this](IPolyListPtr& value) {
+							m_value->AddPolylist(value);
+						} });
+						break;
+					default:
+						throw Error::LoaderException{ String{ "Can't parse keyword {0}" }.arg(Parse(key)) };
+					}
+				}
+			}
+
+			void Attribute(ColladaAttribute attribute, const char* value) override {
+				if (m_current_frame)
+					m_current_frame->Attribute(attribute, value);
+				else {
+					throw Error::LoaderException(String{ "Unexpected attribute {0}" }.arg(ParseAttribute(attribute)));
+				}
+			}
+
+			void Text(const char* text, int len) override {
+				if (m_current_frame)
+					m_current_frame->Text(text, len);
+			}
+
+			bool End() {
+				if (m_current_frame) {
+					if (m_current_frame->End())
+						m_current_frame.reset();
+					return false;
+				}
+				else {
+					if (m_on_end)
+						m_on_end(m_value);
+					return true;
+				}
+			}
+
+		private:
+			std::unique_ptr<BaseFrame> m_current_frame{ nullptr };
+			IMeshPtr m_value;
+			std::function<void(IMeshPtr&)> m_on_end;
 		};
 
 	private:

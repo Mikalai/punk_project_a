@@ -6,6 +6,11 @@ namespace Attributes {
 
 	class Source : public ISource {
 	public:
+
+		virtual ~Source() {
+
+		}
+
 		//	IObject
 		void QueryInterface(const Core::Guid& type, void** object) override {
 			if (!object)

@@ -13,5 +13,7 @@
 #include "ivertices.h"
 #include "ivertex_count_list.h"
 #include "iprimitive_list.h"
+#include "ipolylist.h"
+#include "imesh.h"
 
 #endif	//	_H_GEOMETRY_MODULE
