@@ -496,8 +496,71 @@ namespace Attributes
 		Math::BoundingSphere m_sphere;
 	};
 
-	
+
+	class Geometry2 : public IGeometry2 {
+	public:
+		virtual ~Geometry2() {}
+		//	IObject
+		void QueryInterface(const Core::Guid& type, void** object) override {
+			if (!object)
+				return;
+			*object = nullptr;
+
+			if (type == Core::IID_IObject) {
+				*object = (IGeometry2*)this;
+				AddRef();
+			}
+			else if (type == IID_IGeometry2) {
+				*object = (IGeometry2*)this;
+				AddRef();
+			}
+		}
+		
+		std::uint32_t AddRef() override {
+			return m_ref_count.fetch_add(1);
+		}
+
+		std::uint32_t Release() override {
+			auto v = m_ref_count.fetch_sub(1) - 1;
+			if (!v) {
+				delete this;
+			}
+			return v;
+		}
+
+		//	IGeometry2
+		void SetId(const Core::String& value) override {
+			m_id = value;
+		}
+
+		const Core::String GetId() const override {
+			return m_id;
+		}
+
+		void SetName(const Core::String& value) override {
+			m_name = value;
+		}
+
+		const Core::String GetName() const override {
+			return m_name;
+		}
+
+		void SetGeometryElement(IGeometryElementPtr value) override {
+			m_geometry_element = value;
+		}
+
+		IGeometryElementPtr GetGeometryElement() override {
+			return m_geometry_element;
+		}
+
+	private:
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
+		Core::String m_id;
+		Core::String m_name;
+		IGeometryElementPtr m_geometry_element;
+	};
 
 	PUNK_REGISTER_CREATOR(CLSID_Geometry3D, (System::CreateInstance<Geometry3D, IGeometry>));
+	PUNK_REGISTER_CREATOR(CLSID_Geometry2, (System::CreateInstance<Geometry2, IGeometry2>));
 }
 PUNK_ENGINE_END

@@ -26,6 +26,7 @@ class ColladaLoaderTest : public CppUnit::TestFixture
 	CPPUNIT_TEST(testPrimitivesList);
 	CPPUNIT_TEST(testPolylist);
 	CPPUNIT_TEST(testMesh);
+	CPPUNIT_TEST(testGeometry);
 	CPPUNIT_TEST_SUITE_END();
 public:
 
@@ -446,6 +447,65 @@ public:
 				CPPUNIT_ASSERT(input->GetSemantic() == Attributes::InputSemantic::Position);
 				CPPUNIT_ASSERT(input->GetSourceRef() == "#Cube-mesh-positions");
 			}
+
+		}
+		catch (System::Error::SystemException& e) {
+			System::GetDefaultLogger()->Error(e.Message());
+			CPPUNIT_ASSERT(false);
+		}
+	}
+
+	void testGeometry() {
+		try {
+			//auto system = System::LoadPunkModule("punk_system");
+			auto loader = System::LoadPunkModule("punk_loader");
+
+			auto reader = NewColladaReader();
+
+			Core::Buffer buffer;
+			buffer.WriteString("<geometry id=\"Cube-mesh\" name=\"Cube\">\
+	<mesh>\
+		<source id=\"Cube-mesh-positions\">\
+			<float_array id=\"Cube-mesh-positions-array\" count=\"24\">\1 1 -1 1 -1 -1 -1 -0.9999998 -1 -0.9999997 1 -1 1 0.9999995 1 0.9999994 -1.000001 1 -1 -0.9999997 1 -1 1 1</float_array>\
+			<technique_common>\
+				<accessor source=\"#Cube-mesh-positions-array\" count=\"8\" stride=\"3\">\
+					<param name=\"X\" type=\"float\"/>\
+					<param name=\"Y\" type=\"float\"/>\
+					<param name=\"Z\" type=\"float\"/>\
+				</accessor>\
+			</technique_common>\
+		</source>\
+		<source id=\"Cube-mesh-normals\">\
+			<float_array id=\"Cube-mesh-normals-array\" count=\"36\">\0 0 -1 0 0 1 1 -5.66244e-7 -2.38419e-7 -4.76837e-7 -1 -2.98023e-7 -1 2.08616e-7 -1.49012e-7 2.08616e-7 1 1.78814e-7 0 0 -1 0 0 1 1 0 3.27826e-7 0 -1 0 -1 2.38419e-7 -1.19209e-7 2.68221e-7 1 2.38419e-7</float_array>\
+			<technique_common>\
+				<accessor source=\"#Cube-mesh-normals-array\" count=\"12\" stride=\"3\">\
+					<param name=\"X\" type=\"float\"/>\
+					<param name=\"Y\" type=\"float\"/>\
+					<param name=\"Z\" type=\"float\"/>\
+				</accessor>\
+			</technique_common>\
+		</source>\
+		<vertices id=\"Cube-mesh-vertices\">\
+			<input semantic=\"POSITION\" source=\"#Cube-mesh-positions\"/>\
+		</vertices>\
+		<polylist material=\"Material-material\" count=\"12\">\
+			<input semantic=\"VERTEX\" source=\"#Cube-mesh-vertices\" offset=\"0\"/>\
+			<input semantic=\"NORMAL\" source=\"#Cube-mesh-normals\" offset=\"1\"/>\
+			<vcount>\3 3 3 3 3 3 3 3 3 3 3 3 </vcount>\
+			<p>\1 0 2 0 3 0 7 1 6 1 5 1 0 2 4 2 5 2 1 3 5 3 6 3 6 4 7 4 3 4 0 5 3 5 7 5 0 6 1 6 3 6 4 7 7 7 5 7 1 8 0 8 5 8 2 9 1 9 6 9 2 10 6 10 3 10 4 11 0 11 7 11</p>\
+		</polylist>\
+	</mesh>\
+</geometry>");
+
+			buffer.SetPosition(0);
+
+			auto o = reader->Read(buffer);
+
+			auto p = Core::QueryInterfacePtr<Attributes::IGeometry2>(o, Attributes::IID_IGeometry2);
+
+			CPPUNIT_ASSERT(p);
+			CPPUNIT_ASSERT(p->GetId() == "Cube-mesh");
+			CPPUNIT_ASSERT(p->GetName() == "Cube");
 
 		}
 		catch (System::Error::SystemException& e) {

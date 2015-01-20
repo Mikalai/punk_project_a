@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio Express 2013 for Windows Desktop
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "punk_string", "punk_string\punk_string.vcxproj", "{40098EBC-4ABC-43C5-87F1-2EF1D96757F8}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -191,8 +191,14 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cppunit", "cppunit\cppunit.vcxproj", "{84FE02B5-D26F-4FF4-B241-7CFCE63C8491}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "punk_math_test", "punk_math_test\punk_math_test.vcxproj", "{231DF4DA-80D8-40B1-A75F-27B45C3CAA69}"
+	ProjectSection(ProjectDependencies) = postProject
+		{84FE02B5-D26F-4FF4-B241-7CFCE63C8491} = {84FE02B5-D26F-4FF4-B241-7CFCE63C8491}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "punk_core_test", "punk_core_test\punk_core_test.vcxproj", "{EF930D50-3296-44D0-B728-6C8DBB3BE85F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{84FE02B5-D26F-4FF4-B241-7CFCE63C8491} = {84FE02B5-D26F-4FF4-B241-7CFCE63C8491}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "punk_gui", "punk_gui\punk_gui.vcxproj", "{7C29E7D5-F34B-4011-9BB6-347D25FD7B6F}"
 EndProject
@@ -203,8 +209,14 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "punk_editor", "punk_editor\punk_editor.vcxproj", "{AE5EF2C0-7521-444F-8798-3607C9563107}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "punk_scene_test", "punk_scene_test\punk_scene_test.vcxproj", "{1AC78BF9-9212-4E3E-8E85-3FF1D0C72912}"
+	ProjectSection(ProjectDependencies) = postProject
+		{84FE02B5-D26F-4FF4-B241-7CFCE63C8491} = {84FE02B5-D26F-4FF4-B241-7CFCE63C8491}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "punk_attributes_test", "punk_attributes_test\punk_attributes_test.vcxproj", "{FB532D99-0CE6-484E-91E8-06395117EB06}"
+	ProjectSection(ProjectDependencies) = postProject
+		{84FE02B5-D26F-4FF4-B241-7CFCE63C8491} = {84FE02B5-D26F-4FF4-B241-7CFCE63C8491}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "entity layer", "entity layer", "{8A3291B5-BBDF-4006-BAA7-6B284B835D5D}"
 EndProject
@@ -218,6 +230,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "badziaha", "badziaha\badzia
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "punk_entities_test", "punk_entities_test\punk_entities_test.vcxproj", "{30EDB490-1BA8-4675-BC9E-9AA7351FD5F4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{84FE02B5-D26F-4FF4-B241-7CFCE63C8491} = {84FE02B5-D26F-4FF4-B241-7CFCE63C8491}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lab", "lab", "{5055C88A-435A-479F-879E-18BA4A05F2A9}"
 EndProject
@@ -234,6 +249,7 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "punk_system_test", "punk_system_test\punk_system_test.vcxproj", "{26AA6987-9C8B-490E-BFDC-ECCE9FDEBCE7}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E8655136-53BE-4087-87ED-DBFFE7B7973B} = {E8655136-53BE-4087-87ED-DBFFE7B7973B}
+		{84FE02B5-D26F-4FF4-B241-7CFCE63C8491} = {84FE02B5-D26F-4FF4-B241-7CFCE63C8491}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "punk_qt", "punk_qt\punk_qt.vcxproj", "{DCA5DB01-75F0-4AD1-961C-BC72435A6ACC}"
@@ -274,6 +290,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "punk_loader_test", "punk_lo
 		{E8655136-53BE-4087-87ED-DBFFE7B7973B} = {E8655136-53BE-4087-87ED-DBFFE7B7973B}
 		{31B26C70-E2E1-4259-B63D-618D876C87D3} = {31B26C70-E2E1-4259-B63D-618D876C87D3}
 		{52E7ECA7-7D60-44CE-A018-3BB923D44F1C} = {52E7ECA7-7D60-44CE-A018-3BB923D44F1C}
+		{84FE02B5-D26F-4FF4-B241-7CFCE63C8491} = {84FE02B5-D26F-4FF4-B241-7CFCE63C8491}
 		{72AC92BB-3AD1-4F4D-8DEC-F17080124623} = {72AC92BB-3AD1-4F4D-8DEC-F17080124623}
 		{40098EBC-4ABC-43C5-87F1-2EF1D96757F8} = {40098EBC-4ABC-43C5-87F1-2EF1D96757F8}
 		{F5AF39CD-DC09-4CE5-95D9-2A9E37269DED} = {F5AF39CD-DC09-4CE5-95D9-2A9E37269DED}
@@ -285,6 +302,7 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "punk_graphics_test", "punk_graphics_test\punk_graphics_test.vcxproj", "{9E79BB18-B76B-4612-8ACF-8ED93B695511}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D0DE068F-3BF2-4B86-8EA8-5B4D66498C48} = {D0DE068F-3BF2-4B86-8EA8-5B4D66498C48}
+		{84FE02B5-D26F-4FF4-B241-7CFCE63C8491} = {84FE02B5-D26F-4FF4-B241-7CFCE63C8491}
 	EndProjectSection
 EndProject
 Global

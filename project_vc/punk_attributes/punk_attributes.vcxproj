@@ -222,6 +222,7 @@
     <ClCompile Include="..\..\source\attributes\data_flow\iinput_shared.cpp" />
     <ClCompile Include="..\..\source\attributes\data_flow\iparam.cpp" />
     <ClCompile Include="..\..\source\attributes\data_flow\isource.cpp" />
+    <ClCompile Include="..\..\source\attributes\geometry\igeometry_element.cpp" />
     <ClCompile Include="..\..\source\attributes\geometry\imesh.cpp" />
     <ClCompile Include="..\..\source\attributes\geometry\ipolylist.cpp" />
     <ClCompile Include="..\..\source\attributes\geometry\iprimitive_list.cpp" />
@@ -489,6 +490,7 @@
     <ClInclude Include="..\..\source\attributes\data_flow\iparam.h" />
     <ClInclude Include="..\..\source\attributes\data_flow\isource.h" />
     <ClInclude Include="..\..\source\attributes\data_flow\module.h" />
+    <ClInclude Include="..\..\source\attributes\geometry\igeometry_element.h" />
     <ClInclude Include="..\..\source\attributes\geometry\imesh.h" />
     <ClInclude Include="..\..\source\attributes\geometry\ipolylist.h" />
     <ClInclude Include="..\..\source\attributes\geometry\iprimitive_list.h" />

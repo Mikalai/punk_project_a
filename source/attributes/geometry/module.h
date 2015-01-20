@@ -15,5 +15,6 @@
 #include "iprimitive_list.h"
 #include "ipolylist.h"
 #include "imesh.h"
+#include "igeometry_element.h"
 
 #endif	//	_H_GEOMETRY_MODULE

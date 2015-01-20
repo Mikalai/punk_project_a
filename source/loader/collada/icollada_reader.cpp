@@ -29,7 +29,8 @@ namespace IoModule {
 		vcount,
 		p,
 		polylist,
-		mesh
+		mesh,
+		geometry,
 	};
 
 	enum class ColladaAttribute {
@@ -59,6 +60,7 @@ namespace IoModule {
 		{ "p", ColladaKeyword::p },
 		{ "polylist", ColladaKeyword::polylist },
 		{ "mesh", ColladaKeyword::mesh },
+		{ "geometry", ColladaKeyword::geometry },
 	};
 
 	std::pair<const char*, ColladaAttribute> collada_attribute_mapping[] {
@@ -273,6 +275,11 @@ namespace IoModule {
 					break;
 				case ColladaKeyword::mesh:
 					m_current_frame.reset(new MeshFrame{ [this](IMeshPtr& value) {
+						m_result = value;
+					} });
+					break;
+				case ColladaKeyword::geometry:
+					m_current_frame.reset(new GeometryFrame{ [this](IGeometry2Ptr& value) {
 						m_result = value;
 					} });
 					break;
@@ -845,7 +852,7 @@ namespace IoModule {
 		};
 
 		//
-		//	PolyListFrame
+		//	MeshFrame
 		//
 		class MeshFrame : public BaseFrame {
 		public:
@@ -911,6 +918,76 @@ namespace IoModule {
 			std::unique_ptr<BaseFrame> m_current_frame{ nullptr };
 			IMeshPtr m_value;
 			std::function<void(IMeshPtr&)> m_on_end;
+		};
+
+		//
+		//	GeoemtryFrame
+		//
+		class GeometryFrame : public BaseFrame {
+		public:
+			GeometryFrame(std::function<void(IGeometry2Ptr&)> on_end)
+				: m_value{ NewGeometry2() }
+				, m_on_end{ on_end }
+			{}
+
+			void Begin(ColladaKeyword key) override {
+				if (m_current_frame)
+					m_current_frame->Begin(key);
+				else {
+					switch (key)
+					{
+					case ColladaKeyword::mesh:
+						m_current_frame.reset(new MeshFrame{ std::function < void(IMeshPtr&) > {[this](IMeshPtr& value) {
+							Attributes::GeometryAccessor a{ m_value };
+							a.SetMesh(value);
+						} } });
+						break;
+					default:
+						throw Error::LoaderException{ String{ "Can't parse keyword {0}" }.arg(Parse(key)) };
+					}
+				}
+			}
+
+			void Attribute(ColladaAttribute attribute, const char* value) override {
+				if (m_current_frame)
+					m_current_frame->Attribute(attribute, value);
+				else {
+					switch (attribute)
+					{
+					case ColladaAttribute::id:
+						m_value->SetId(value);
+						break;
+					case ColladaAttribute::name:
+						m_value->SetName(value);
+						break;
+					default:
+						throw Error::LoaderException(String{ "Unexpected attribute {0}" }.arg(ParseAttribute(attribute)));
+					}
+				}
+			}
+
+			void Text(const char* text, int len) override {
+				if (m_current_frame)
+					m_current_frame->Text(text, len);
+			}
+
+			bool End() {
+				if (m_current_frame) {
+					if (m_current_frame->End())
+						m_current_frame.reset();
+					return false;
+				}
+				else {
+					if (m_on_end)
+						m_on_end(m_value);
+					return true;
+				}
+			}
+
+		private:
+			std::unique_ptr<BaseFrame> m_current_frame{ nullptr };
+			IGeometry2Ptr m_value;
+			std::function<void(IGeometry2Ptr&)> m_on_end;
 		};
 
 	private:

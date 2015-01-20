@@ -1,10 +1,11 @@
 #include <system/factory/module.h>
 #include "imesh.h"
+#include "igeometry_element.h"
 
 PUNK_ENGINE_BEGIN
 namespace Attributes {
 
-	class Mesh : public IMesh {
+	class Mesh : public IMesh, public IGeometryElement {
 	public:
 		virtual ~Mesh() {}
 
@@ -15,11 +16,15 @@ namespace Attributes {
 			*object = nullptr;
 
 			if (type == Core::IID_IObject) {
-				*object = this;
+				*object = (IMesh*)this;
 				AddRef();
 			}
 			else if (type == IID_IMesh) {
-				*object = this;
+				*object = (IMesh*)this;
+				AddRef();
+			}
+			else if (type == IID_IGeometryElement) {
+				*object = (IGeometryElement*)this;
 				AddRef();
 			}
 		}

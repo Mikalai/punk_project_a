@@ -27,6 +27,9 @@ namespace Core {
 	extern PUNK_ENGINE_API IObject* GetRootObject();
 	extern PUNK_ENGINE_API void DestroyRootObject();
 	extern PUNK_ENGINE_API void DestroyObject(IObject* object);
+
+	template<class I> extern Pointer<I> QueryInterfacePtr(Core::Pointer<IObject> source, const Guid& type);
+	template<class This> extern void QueryInterface(This* _this, const Guid& type, void** object, std::initializer_list<Guid> supported);
 }
 PUNK_ENGINE_END
 
