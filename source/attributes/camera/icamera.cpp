@@ -266,5 +266,69 @@ namespace Attributes
 	//	ray.SetOriginDestination(view_pos, mouse_in_world);
 	//	return ray;
 	//}    
+
+	class Camera2 : public ICamera2 {
+	public:
+		// IObject		
+		void QueryInterface(const Core::Guid& type, void** object) override {
+			if (!object)
+				return;
+			*object = nullptr;
+
+			if (type == Core::IID_IObject) {
+				*object = (IOptics*)this;
+				AddRef();
+			}
+			else if (type == IID_IOptics) {
+				*object = (IOptics*)this;
+				AddRef();
+			}
+		}
+
+		std::uint32_t AddRef() override {
+			return m_ref_count.fetch_add(1);
+		}
+
+		std::uint32_t Release() override {
+			auto v = m_ref_count.fetch_sub(1) - 1;
+			if (!v) {
+				delete this;
+			}
+			return v;
+		}
+
+		//	ICamera2
+		void SetId(const Core::String& value) override {
+			m_id = value;
+		}
+
+		const Core::String GetId() const override {
+			return m_id;
+		}
+
+		void SetName(const Core::String& value) override {
+			m_name = value;
+		}
+
+		const Core::String GetName() const override {
+			return m_name;
+		}
+
+		void SetOptics(IOpticsPtr value) override {
+			m_optics = value;
+		}
+
+		IOpticsPtr GetOptics() const override {
+			return m_optics;
+		}
+	private:
+		std::atomic<std::uint32_t> m_ref_count{ 0 };
+		Core::String m_id;
+		Core::String m_name;
+		IOpticsPtr m_optics;
+	};
+
+	PUNK_REGISTER_CREATOR(CLSID_Camera2, (System::CreateInstance<Camera2, ICamera2>));
+
 }
 PUNK_ENGINE_END

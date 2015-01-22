@@ -216,6 +216,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <FileType>CppCode</FileType>
     </ClInclude>
+    <ClCompile Include="..\..\source\attributes\camera\ioptics.cpp" />
+    <ClCompile Include="..\..\source\attributes\camera\iperspective.cpp" />
     <ClCompile Include="..\..\source\attributes\data_flow\iaccessor.cpp" />
     <ClCompile Include="..\..\source\attributes\data_flow\ifloat_array.cpp" />
     <ClCompile Include="..\..\source\attributes\data_flow\iinput.cpp" />
@@ -228,6 +230,7 @@
     <ClCompile Include="..\..\source\attributes\geometry\iprimitive_list.cpp" />
     <ClCompile Include="..\..\source\attributes\geometry\ivertex_count_list.cpp" />
     <ClCompile Include="..\..\source\attributes\geometry\ivertices.cpp" />
+    <ClCompile Include="..\..\source\attributes\geometry\ilibrary_geometries.cpp" />
     <ClCompile Include="..\..\source\attributes\iattributes_module.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -480,6 +483,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\..\source\attributes\camera\ioptics.h" />
+    <ClInclude Include="..\..\source\attributes\camera\iperspective.h" />
+    <ClInclude Include="..\..\source\attributes\camera\iprojection.h" />
     <ClInclude Include="..\..\source\attributes\collection\icollection.h" />
     <ClInclude Include="..\..\source\attributes\collection\icollection_impl.h" />
     <ClInclude Include="..\..\source\attributes\data_flow\iaccessor.h" />
@@ -489,6 +495,7 @@
     <ClInclude Include="..\..\source\attributes\data_flow\iinput_shared.h" />
     <ClInclude Include="..\..\source\attributes\data_flow\iparam.h" />
     <ClInclude Include="..\..\source\attributes\data_flow\isource.h" />
+    <ClInclude Include="..\..\source\attributes\data_flow\ivalue.h" />
     <ClInclude Include="..\..\source\attributes\data_flow\module.h" />
     <ClInclude Include="..\..\source\attributes\geometry\igeometry_element.h" />
     <ClInclude Include="..\..\source\attributes\geometry\imesh.h" />
@@ -496,6 +503,7 @@
     <ClInclude Include="..\..\source\attributes\geometry\iprimitive_list.h" />
     <ClInclude Include="..\..\source\attributes\geometry\ivertex_count_list.h" />
     <ClInclude Include="..\..\source\attributes\geometry\ivertices.h" />
+    <ClInclude Include="..\..\source\attributes\geometry\ilibrary_geometries.h" />
     <ClInclude Include="..\..\source\attributes\iattributes_module.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>

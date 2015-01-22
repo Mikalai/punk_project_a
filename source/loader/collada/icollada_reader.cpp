@@ -11,6 +11,7 @@
 #include <system/factory/module.h>
 #include <attributes/data_flow/module.h>
 #include <attributes/geometry/module.h>
+#include <attributes/camera/module.h>
 
 PUNK_ENGINE_BEGIN
 using namespace Core;
@@ -31,6 +32,13 @@ namespace IoModule {
 		polylist,
 		mesh,
 		geometry,
+		library_geometries,
+		perspective,
+		xfov,
+		yfov,
+		aspect_ratio,
+		znear,
+		zfar,
 	};
 
 	enum class ColladaAttribute {
@@ -61,6 +69,13 @@ namespace IoModule {
 		{ "polylist", ColladaKeyword::polylist },
 		{ "mesh", ColladaKeyword::mesh },
 		{ "geometry", ColladaKeyword::geometry },
+		{ "library_geometries", ColladaKeyword::library_geometries },
+		{ "perspective", ColladaKeyword::perspective },
+		{ "xfov", ColladaKeyword::xfov },
+		{ "yfov", ColladaKeyword::yfov },
+		{ "aspect_ratio", ColladaKeyword::aspect_ratio },
+		{ "znear", ColladaKeyword::znear },
+		{ "zfar", ColladaKeyword::zfar },
 	};
 
 	std::pair<const char*, ColladaAttribute> collada_attribute_mapping[] {
@@ -280,6 +295,16 @@ namespace IoModule {
 					break;
 				case ColladaKeyword::geometry:
 					m_current_frame.reset(new GeometryFrame{ [this](IGeometry2Ptr& value) {
+						m_result = value;
+					} });
+					break;
+				case ColladaKeyword::library_geometries:
+					m_current_frame.reset(new LibraryGeometriesFrame{ [this](ILibraryGeometriesPtr& value) {
+						m_result = value;
+					} });
+					break;
+				case ColladaKeyword::perspective:
+					m_current_frame.reset(new PerspectiveFrame{ [this](IPerspectivePtr& value) {
 						m_result = value;
 					} });
 					break;
@@ -988,6 +1013,142 @@ namespace IoModule {
 			std::unique_ptr<BaseFrame> m_current_frame{ nullptr };
 			IGeometry2Ptr m_value;
 			std::function<void(IGeometry2Ptr&)> m_on_end;
+		};
+
+		//
+		//	LibraryGeometriesFrame
+		//
+		class LibraryGeometriesFrame : public BaseFrame {
+		public:
+			LibraryGeometriesFrame(std::function<void(ILibraryGeometriesPtr&)> on_end)
+				: m_value{ NewLibraryGeometry() }
+				, m_on_end{ on_end }
+			{}
+
+			void Begin(ColladaKeyword key) override {
+				if (m_current_frame)
+					m_current_frame->Begin(key);
+				else {
+					switch (key)
+					{
+					case ColladaKeyword::geometry:
+						m_current_frame.reset(new GeometryFrame{ std::function < void(IGeometry2Ptr&) > {[this](IGeometry2Ptr& value) {
+							m_value->AddGeometry(value);
+						} } });
+						break;
+					default:
+						throw Error::LoaderException{ String{ "Can't parse keyword {0}" }.arg(Parse(key)) };
+					}
+				}
+			}
+
+			void Attribute(ColladaAttribute attribute, const char* value) override {
+				if (m_current_frame)
+					m_current_frame->Attribute(attribute, value);
+				else {
+					switch (attribute)
+					{
+					case ColladaAttribute::id:
+						m_value->SetId(value);
+						break;
+					case ColladaAttribute::name:
+						m_value->SetName(value);
+						break;
+					default:
+						throw Error::LoaderException(String{ "Unexpected attribute {0}" }.arg(ParseAttribute(attribute)));
+					}
+				}
+			}
+
+			void Text(const char* text, int len) override {
+				if (m_current_frame)
+					m_current_frame->Text(text, len);
+			}
+
+			bool End() {
+				if (m_current_frame) {
+					if (m_current_frame->End())
+						m_current_frame.reset();
+					return false;
+				}
+				else {
+					if (m_on_end)
+						m_on_end(m_value);
+					return true;
+				}
+			}
+
+		private:
+			std::unique_ptr<BaseFrame> m_current_frame{ nullptr };
+			ILibraryGeometriesPtr m_value;
+			std::function<void(ILibraryGeometriesPtr&)> m_on_end;
+		};
+
+		//
+		//	PerspectiveFrame
+		//
+		class PerspectiveFrame : public BaseFrame {
+		public:
+			PerspectiveFrame(std::function<void(IPerspectivePtr&)> on_end)
+				: m_value{ NewPerspective() }
+				, m_on_end{ on_end }
+			{}
+
+			void Begin(ColladaKeyword key) override {
+				m_cur_word = key;				
+			}
+
+			void Attribute(ColladaAttribute attribute, const char* value) override {
+				if (attribute == ColladaAttribute::sid) {					
+					m_float.SetSid(value);										
+				} else 
+					throw Error::LoaderException(String{ "Unexpected attribute {0}" }.arg(ParseAttribute(attribute)));
+			}
+
+			void Text(const char* text, int len) override {
+				if (m_cur_word != ColladaKeyword::bad) {
+					m_float.SetValue(Core::String(text, len).ToFloat());
+
+					switch (m_cur_word)
+					{
+					case ColladaKeyword::xfov:
+						m_value->SetFovX(Math::degf::To<Math::tagRadian>(m_float));
+						break;
+					case ColladaKeyword::yfov:
+						m_value->SetFovY(Math::degf::To<Math::tagRadian>(m_float));
+						break;
+					case ColladaKeyword::aspect_ratio:
+						m_value->SetAspectRatio(m_float);
+						break;
+					case ColladaKeyword::zfar:
+						m_value->SetZFar(m_float);
+						break;
+					case ColladaKeyword::znear:
+						m_value->SetZNear(m_float);
+						break;
+					default:
+						throw Error::LoaderException{ String{ "Can't parse keyword {0}" }.arg(Parse(m_cur_word)) };
+					}
+				}
+			}
+
+			bool End() {
+				if (m_cur_word != ColladaKeyword::bad) {
+					m_cur_word = ColladaKeyword::bad;
+					return false;
+				}
+				else {
+					if (m_on_end)
+						m_on_end(m_value);
+					return true;
+				}
+			}
+
+		private:
+			ColladaKeyword m_cur_word{ ColladaKeyword::bad };
+			IPerspectivePtr m_value;
+			Math::realf m_float;
+			std::function<void(IPerspectivePtr&)> m_on_end;
 		};
 
 	private:

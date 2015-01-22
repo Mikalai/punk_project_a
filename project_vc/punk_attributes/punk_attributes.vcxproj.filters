@@ -214,6 +214,15 @@
     <ClCompile Include="..\..\source\attributes\geometry\igeometry_element.cpp">
       <Filter>geometry</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\attributes\geometry\ilibrary_geometries.cpp">
+      <Filter>geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\camera\iperspective.cpp">
+      <Filter>camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\attributes\camera\ioptics.cpp">
+      <Filter>camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\attributes\module.h" />
@@ -608,6 +617,19 @@
     <ClInclude Include="..\..\source\attributes\geometry\igeometry_element.h">
       <Filter>geometry</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\attributes\geometry\ilibrary_geometries.h">
+      <Filter>geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\camera\iperspective.h">
+      <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\camera\ioptics.h">
+      <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\camera\iprojection.h">
+      <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\attributes\data_flow\ivalue.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="water">

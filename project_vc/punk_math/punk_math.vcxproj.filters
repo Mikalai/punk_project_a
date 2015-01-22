@@ -376,6 +376,8 @@
     <ClInclude Include="..\..\source\math\pe_power.h" />
     <ClInclude Include="..\..\source\math\assignment.h" />
     <ClInclude Include="..\..\source\math\vector_field.h" />
+    <ClInclude Include="..\..\source\math\value.h" />
+    <ClInclude Include="..\..\source\math\angle.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graph">

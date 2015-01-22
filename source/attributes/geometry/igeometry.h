@@ -66,7 +66,7 @@ namespace Attributes {
 	};
 
 	inline IGeometry2Ptr NewGeometry2() {
-		return System::CreateInstancePtr<IMesh>(CLSID_Geometry2, IID_IGeometry2);
+		return System::CreateInstancePtr<IGeometry2>(CLSID_Geometry2, IID_IGeometry2);
 	}
 }
 PUNK_ENGINE_END
