@@ -39,6 +39,8 @@ namespace IoModule {
 		aspect_ratio,
 		znear,
 		zfar,
+		extra,
+		optics,
 	};
 
 	enum class ColladaAttribute {
@@ -76,6 +78,8 @@ namespace IoModule {
 		{ "aspect_ratio", ColladaKeyword::aspect_ratio },
 		{ "znear", ColladaKeyword::znear },
 		{ "zfar", ColladaKeyword::zfar },
+		{ "extra", ColladaKeyword::extra },
+		{ "optics", ColladaKeyword::optics },
 	};
 
 	std::pair<const char*, ColladaAttribute> collada_attribute_mapping[] {
@@ -305,6 +309,11 @@ namespace IoModule {
 					break;
 				case ColladaKeyword::perspective:
 					m_current_frame.reset(new PerspectiveFrame{ [this](IPerspectivePtr& value) {
+						m_result = value;
+					} });
+					break;
+				case ColladaKeyword::optics:
+					m_current_frame.reset(new OpticsFrame{ [this](IOpticsPtr& value) {
 						m_result = value;
 					} });
 					break;
@@ -1149,6 +1158,73 @@ namespace IoModule {
 			IPerspectivePtr m_value;
 			Math::realf m_float;
 			std::function<void(IPerspectivePtr&)> m_on_end;
+		};
+
+		//
+		//	OpticsFrame
+		//
+		class OpticsFrame : public BaseFrame {
+		public:
+			OpticsFrame(std::function<void(IOpticsPtr&)> on_end)
+				: m_value{ NewOptics() }
+				, m_on_end{ on_end }
+			{}
+
+			void Begin(ColladaKeyword key) override {				
+				if (m_current_frame)
+					m_current_frame->Begin(key);
+				else {
+					switch (key)
+					{
+					case ColladaKeyword::perspective:
+						m_current_frame.reset(new PerspectiveFrame{ std::function < void(IPerspectivePtr&) > {[this](IPerspectivePtr& value) {
+							m_value->SetProjection(To<IProjection>::From(value));
+						} } });
+						break;
+					case ColladaKeyword::technique_common:
+						m_technique_common++;
+						break;
+					default:
+						throw Error::LoaderException{ String{ "Can't parse keyword {0}" }.arg(Parse(key)) };
+					}
+				}
+			}
+
+			void Attribute(ColladaAttribute attribute, const char* value) override {
+				if (m_current_frame)
+					m_current_frame->Attribute(attribute, value);
+				else {
+					throw Error::LoaderException(String{ "Unexpected attribute {0}" }.arg(ParseAttribute(attribute)));
+				}
+			}
+
+			void Text(const char* text, int len) override {
+				if (m_current_frame)
+					m_current_frame->Text(text, len);
+			}
+
+			bool End() {
+				if (m_current_frame) {
+					if (m_current_frame->End())
+						m_current_frame.reset();
+					return false;
+				}
+				else if (m_technique_common) {
+					m_technique_common--;
+					return false;
+				}
+				else {
+					if (m_on_end)
+						m_on_end(m_value);
+					return true;
+				}
+			}
+
+		private:
+			int m_technique_common{ 0 };
+			std::unique_ptr<BaseFrame> m_current_frame{ nullptr };
+			IOpticsPtr m_value;
+			std::function<void(IOpticsPtr&)> m_on_end;
 		};
 
 	private:

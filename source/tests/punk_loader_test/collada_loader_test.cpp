@@ -31,6 +31,7 @@ class ColladaLoaderTest : public CppUnit::TestFixture
 	CPPUNIT_TEST(testGeometry);
 	CPPUNIT_TEST(testLibraryGeometries);
 	CPPUNIT_TEST(testPerspective);
+	CPPUNIT_TEST(testOptics);
 	CPPUNIT_TEST_SUITE_END();
 public:
 
@@ -604,6 +605,37 @@ public:
 			CPPUNIT_ASSERT(AreEqual(p->GetAspectRatio().GetValue(), 1.777778f));
 			CPPUNIT_ASSERT(AreEqual(p->GetZNear().GetValue(), 0.1f));
 			CPPUNIT_ASSERT(AreEqual(p->GetZFar().GetValue(), 100.0f));
+
+		}
+		catch (System::Error::SystemException& e) {
+			System::GetDefaultLogger()->Error(e.Message());
+			CPPUNIT_ASSERT(false);
+		}
+	}
+
+	void testOptics() {
+		try {
+			//auto system = System::LoadPunkModule("punk_system");
+			auto loader = System::LoadPunkModule("punk_loader");
+
+			auto reader = NewColladaReader();
+
+			Core::Buffer buffer;
+			buffer.WriteString("<optics><perspective>\
+							   	<xfov sid=\"xfov\">49.13434</xfov>\
+									<aspect_ratio>1.777778</aspect_ratio>\
+										<znear sid=\"znear\">0.1</znear>\
+											<zfar sid=\"zfar\">100</zfar>\
+											</perspective></optics>");
+
+			buffer.SetPosition(0);
+
+			auto o = reader->Read(buffer);
+
+			auto p = Core::QueryInterfacePtr<Attributes::IOptics>(o, Attributes::IID_IOptics);
+
+			CPPUNIT_ASSERT(p);
+			CPPUNIT_ASSERT(p->GetProjection());
 
 		}
 		catch (System::Error::SystemException& e) {
