@@ -279,7 +279,7 @@ namespace Attributes
 				*object = (IOptics*)this;
 				AddRef();
 			}
-			else if (type == IID_IOptics) {
+			else if (type == IID_ICamera2) {
 				*object = (IOptics*)this;
 				AddRef();
 			}

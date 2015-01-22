@@ -32,6 +32,8 @@ class ColladaLoaderTest : public CppUnit::TestFixture
 	CPPUNIT_TEST(testLibraryGeometries);
 	CPPUNIT_TEST(testPerspective);
 	CPPUNIT_TEST(testOptics);
+	CPPUNIT_TEST(testCamera);
+	CPPUNIT_TEST(testLibraryCameras);
 	CPPUNIT_TEST_SUITE_END();
 public:
 
@@ -74,10 +76,10 @@ public:
 
 			Core::Buffer buffer;
 			buffer.WriteString("<accessor source = \"#Cube - mesh - positions - array\" count = \"8\" stride = \"3\">\
-				<param name=\"X\" type=\"float\" />\
-				<param name=\"Y\" type=\"float\" />\
-				<param name=\"Z\" type=\"float\" />\
-				</accessor>");
+							   				<param name=\"X\" type=\"float\" />\
+															<param name=\"Y\" type=\"float\" />\
+																			<param name=\"Z\" type=\"float\" />\
+																							</accessor>");
 			buffer.SetPosition(0);
 
 			auto o = reader->Read(buffer);
@@ -106,15 +108,15 @@ public:
 		catch (System::Error::SystemException& e) {
 			System::GetDefaultLogger()->Error(e.Message());
 			CPPUNIT_ASSERT(false);
-		}			
+		}
 	}
 
-	void testParam() {		
+	void testParam() {
 		try {
 			//auto system = System::LoadPunkModule("punk_system");
 			auto loader = System::LoadPunkModule("punk_loader");
 
-			auto reader = NewColladaReader(); 
+			auto reader = NewColladaReader();
 
 			Core::Buffer buffer;
 			buffer.WriteString("<param name=\"X\" type=\"float\" />");
@@ -141,15 +143,15 @@ public:
 
 			Core::Buffer buffer;
 			buffer.WriteString("<source id=\"Cube-mesh-positions\">\
-				<float_array id = \"Cube-mesh-positions-array\" count = \"24\">1 1 -1 1 -1 -1 -1 -0.9999998 -1 -0.9999997 1 -1 1 0.9999995 1 0.9999994 -1.000001 1 -1 -0.9999997 1 -1 1 1 </float_array>\
-				<technique_common>\
-				<accessor source = \"#Cube-mesh-positions-array\" count = \"8\" stride = \"3\">\
-				<param name = \"X\" type = \"float\" />\
-				<param name = \"Y\" type = \"float\" />\
-				<param name = \"Z\" type = \"float\" />\
-				</accessor>\
-				</technique_common>\
-				</source>");
+							   				<float_array id = \"Cube-mesh-positions-array\" count = \"24\">1 1 -1 1 -1 -1 -1 -0.9999998 -1 -0.9999997 1 -1 1 0.9999995 1 0.9999994 -1.000001 1 -1 -0.9999997 1 -1 1 1 </float_array>\
+															<technique_common>\
+																			<accessor source = \"#Cube-mesh-positions-array\" count = \"8\" stride = \"3\">\
+																							<param name = \"X\" type = \"float\" />\
+																											<param name = \"Y\" type = \"float\" />\
+																															<param name = \"Z\" type = \"float\" />\
+																																			</accessor>\
+																																							</technique_common>\
+																																											</source>");
 			buffer.SetPosition(0);
 
 			auto o = reader->Read(buffer);
@@ -159,7 +161,7 @@ public:
 			auto accessor = source->GetAccessor();
 			CPPUNIT_ASSERT(accessor);
 			CPPUNIT_ASSERT(source->GetId() == "Cube-mesh-positions");
-			
+
 			auto float_array = Core::QueryInterfacePtr<IFloatArray>(source->GetArray(), IID_IFloatArray);
 
 			CPPUNIT_ASSERT(float_array->GetId() == "Cube-mesh-positions-array");
@@ -170,7 +172,7 @@ public:
 			for (int i = 0, max_i = float_array->GetCount(); i < max_i; ++i) {
 				CPPUNIT_ASSERT(Math::Abs(res[i] - float_array->GetValue(i)) < 1e-6);
 			}
-			
+
 			CPPUNIT_ASSERT(accessor->GetSource() == "#Cube-mesh-positions-array");
 			CPPUNIT_ASSERT(accessor->GetCount() == 8);
 			CPPUNIT_ASSERT(accessor->GetOffset() == 0);
@@ -255,8 +257,8 @@ public:
 
 			Core::Buffer buffer;
 			buffer.WriteString("<vertices id=\"Cube-mesh-vertices\">\
-				<input semantic=\"POSITION\" source=\"#Cube-mesh-positions\"/>\
-				</vertices>");
+							   				<input semantic=\"POSITION\" source=\"#Cube-mesh-positions\"/>\
+															</vertices>");
 			buffer.SetPosition(0);
 
 			auto o = reader->Read(buffer);
@@ -341,12 +343,12 @@ public:
 
 			Core::Buffer buffer;
 			buffer.WriteString("<polylist material=\"Material-material\" count=\"12\">\
-				<input semantic=\"VERTEX\" source=\"#Cube-mesh-vertices\" offset=\"0\"/> \
-				<input semantic=\"NORMAL\" source=\"#Cube-mesh-normals\" offset=\"1\"/> \
-				<vcount>3 3 3 3 3 3 3 3 3 3 3 3 </vcount>\
-				<p>1 0 2 0 3 0 7 1 6 1 5 1 0 2 4 2 5 2 1 3 5 3 6 3 6 4 7 4 3 4 0 5 3 5 7 5 0 6 1 6 3 6 4 7 7 7 5 7 1 8 0 8 5 8 2 9 1 9 6 9 2 10 6 10 3 10 4 11 0 11 7 11</p>\
-				</polylist>\
-				");
+							   				<input semantic=\"VERTEX\" source=\"#Cube-mesh-vertices\" offset=\"0\"/> \
+															<input semantic=\"NORMAL\" source=\"#Cube-mesh-normals\" offset=\"1\"/> \
+																			<vcount>3 3 3 3 3 3 3 3 3 3 3 3 </vcount>\
+																							<p>1 0 2 0 3 0 7 1 6 1 5 1 0 2 4 2 5 2 1 3 5 3 6 3 6 4 7 4 3 4 0 5 3 5 7 5 0 6 1 6 3 6 4 7 7 7 5 7 1 8 0 8 5 8 2 9 1 9 6 9 2 10 6 10 3 10 4 11 0 11 7 11</p>\
+																											</polylist>\
+																															");
 
 			buffer.SetPosition(0);
 
@@ -392,7 +394,7 @@ public:
 				auto v = primitives->GetValue(i);
 				CPPUNIT_ASSERT(v == res[i]);
 			}
-			
+
 		}
 		catch (System::Error::SystemException& e) {
 			System::GetDefaultLogger()->Error(e.Message());
@@ -409,31 +411,31 @@ public:
 
 			Core::Buffer buffer;
 			buffer.WriteString("<mesh>\
-				<source id=\"Cube-mesh-positions\">\
-				<float_array id=\"Cube-mesh-positions-array\" count=\"24\">1 1 -1 1 -1 -1 -1 -0.9999998 -1 -0.9999997 1 -1 1 0.9999995 1 0.9999994 -1.000001 1 -1 -0.9999997 1 -1 1 1</float_array>\
-				<technique_common>\
-				<accessor source=\"#Cube-mesh-positions-array\" count=\"8\" stride=\"3\">\
-				<param name=\"X\" type=\"float\" />\
-				<param name=\"Y\" type=\"float\" />\
-				<param name=\"Z\" type=\"float\" />\
-				</accessor></technique_common></source>\
-				<source id=\"Cube-mesh-normals\">\
-				<float_array id=\"Cube-mesh-normals-array\" count=\"36\">0 0 -1 0 0 1 1 -5.66244e-7 -2.38419e-7 -4.76837e-7 -1 -2.98023e-7 -1 2.08616e-7 -1.49012e-7 2.08616e-7 1 1.78814e-7 0 0 -1 0 0 1 1 0 3.27826e-7 0 -1 0 -1 2.38419e-7 -1.19209e-7 2.68221e-7 1 2.38419e-7</float_array>\
-				<technique_common>\
-				<accessor source=\"#Cube-mesh-normals-array\" count=\"12\" stride=\"3\">\
-				<param name=\"X\" type=\"float\" />\
-				<param name=\"Y\" type=\"float\" />\
-				<param name=\"Z\" type=\"float\" />\
-				</accessor></technique_common></source>\
-				<vertices id=\"Cube-mesh-vertices\">\
-				<input semantic=\"POSITION\" source=\"#Cube-mesh-positions\" />\
-				</vertices>\
-				<polylist material=\"Material-material\" count=\"12\">\
-				<input semantic=\"VERTEX\" source=\"#Cube-mesh-vertices\" offset=\"0\" />\
-				<input semantic=\"NORMAL\" source=\"#Cube-mesh-normals\" offset=\"1\" />\
-				<vcount>3 3 3 3 3 3 3 3 3 3 3 3 </vcount>\
-				<p>1 0 2 0 3 0 7 1 6 1 5 1 0 2 4 2 5 2 1 3 5 3 6 3 6 4 7 4 3 4 0 5 3 5 7 5 0 6 1 6 3 6 4 7 7 7 5 7 1 8 0 8 5 8 2 9 1 9 6 9 2 10 6 10 3 10 4 11 0 11 7 11</p>\
-				</polylist></mesh>");
+							   				<source id=\"Cube-mesh-positions\">\
+															<float_array id=\"Cube-mesh-positions-array\" count=\"24\">1 1 -1 1 -1 -1 -1 -0.9999998 -1 -0.9999997 1 -1 1 0.9999995 1 0.9999994 -1.000001 1 -1 -0.9999997 1 -1 1 1</float_array>\
+																			<technique_common>\
+																							<accessor source=\"#Cube-mesh-positions-array\" count=\"8\" stride=\"3\">\
+																											<param name=\"X\" type=\"float\" />\
+																															<param name=\"Y\" type=\"float\" />\
+																																			<param name=\"Z\" type=\"float\" />\
+																																							</accessor></technique_common></source>\
+																																											<source id=\"Cube-mesh-normals\">\
+																																															<float_array id=\"Cube-mesh-normals-array\" count=\"36\">0 0 -1 0 0 1 1 -5.66244e-7 -2.38419e-7 -4.76837e-7 -1 -2.98023e-7 -1 2.08616e-7 -1.49012e-7 2.08616e-7 1 1.78814e-7 0 0 -1 0 0 1 1 0 3.27826e-7 0 -1 0 -1 2.38419e-7 -1.19209e-7 2.68221e-7 1 2.38419e-7</float_array>\
+																																																			<technique_common>\
+																																																							<accessor source=\"#Cube-mesh-normals-array\" count=\"12\" stride=\"3\">\
+																																																											<param name=\"X\" type=\"float\" />\
+																																																															<param name=\"Y\" type=\"float\" />\
+																																																																			<param name=\"Z\" type=\"float\" />\
+																																																																							</accessor></technique_common></source>\
+																																																																											<vertices id=\"Cube-mesh-vertices\">\
+																																																																															<input semantic=\"POSITION\" source=\"#Cube-mesh-positions\" />\
+																																																																																			</vertices>\
+																																																																																							<polylist material=\"Material-material\" count=\"12\">\
+																																																																																											<input semantic=\"VERTEX\" source=\"#Cube-mesh-vertices\" offset=\"0\" />\
+																																																																																															<input semantic=\"NORMAL\" source=\"#Cube-mesh-normals\" offset=\"1\" />\
+																																																																																																			<vcount>3 3 3 3 3 3 3 3 3 3 3 3 </vcount>\
+																																																																																																							<p>1 0 2 0 3 0 7 1 6 1 5 1 0 2 4 2 5 2 1 3 5 3 6 3 6 4 7 4 3 4 0 5 3 5 7 5 0 6 1 6 3 6 4 7 7 7 5 7 1 8 0 8 5 8 2 9 1 9 6 9 2 10 6 10 3 10 4 11 0 11 7 11</p>\
+																																																																																																											</polylist></mesh>");
 
 			buffer.SetPosition(0);
 
@@ -469,38 +471,38 @@ public:
 
 			Core::Buffer buffer;
 			buffer.WriteString("<geometry id=\"Cube-mesh\" name=\"Cube\">\
-	<mesh>\
-		<source id=\"Cube-mesh-positions\">\
-			<float_array id=\"Cube-mesh-positions-array\" count=\"24\">1 1 -1 1 -1 -1 -1 -0.9999998 -1 -0.9999997 1 -1 1 0.9999995 1 0.9999994 -1.000001 1 -1 -0.9999997 1 -1 1 1</float_array>\
-			<technique_common>\
-				<accessor source=\"#Cube-mesh-positions-array\" count=\"8\" stride=\"3\">\
-					<param name=\"X\" type=\"float\"/>\
-					<param name=\"Y\" type=\"float\"/>\
-					<param name=\"Z\" type=\"float\"/>\
-				</accessor>\
-			</technique_common>\
-		</source>\
-		<source id=\"Cube-mesh-normals\">\
-			<float_array id=\"Cube-mesh-normals-array\" count=\"36\">0 0 -1 0 0 1 1 -5.66244e-7 -2.38419e-7 -4.76837e-7 -1 -2.98023e-7 -1 2.08616e-7 -1.49012e-7 2.08616e-7 1 1.78814e-7 0 0 -1 0 0 1 1 0 3.27826e-7 0 -1 0 -1 2.38419e-7 -1.19209e-7 2.68221e-7 1 2.38419e-7</float_array>\
-			<technique_common>\
-				<accessor source=\"#Cube-mesh-normals-array\" count=\"12\" stride=\"3\">\
-					<param name=\"X\" type=\"float\"/>\
-					<param name=\"Y\" type=\"float\"/>\
-					<param name=\"Z\" type=\"float\"/>\
-				</accessor>\
-			</technique_common>\
-		</source>\
-		<vertices id=\"Cube-mesh-vertices\">\
-			<input semantic=\"POSITION\" source=\"#Cube-mesh-positions\"/>\
-		</vertices>\
-		<polylist material=\"Material-material\" count=\"12\">\
-			<input semantic=\"VERTEX\" source=\"#Cube-mesh-vertices\" offset=\"0\"/>\
-			<input semantic=\"NORMAL\" source=\"#Cube-mesh-normals\" offset=\"1\"/>\
-			<vcount>3 3 3 3 3 3 3 3 3 3 3 3 </vcount>\
-			<p>1 0 2 0 3 0 7 1 6 1 5 1 0 2 4 2 5 2 1 3 5 3 6 3 6 4 7 4 3 4 0 5 3 5 7 5 0 6 1 6 3 6 4 7 7 7 5 7 1 8 0 8 5 8 2 9 1 9 6 9 2 10 6 10 3 10 4 11 0 11 7 11</p>\
-		</polylist>\
-	</mesh>\
-</geometry>");
+							   	<mesh>\
+										<source id=\"Cube-mesh-positions\">\
+													<float_array id=\"Cube-mesh-positions-array\" count=\"24\">1 1 -1 1 -1 -1 -1 -0.9999998 -1 -0.9999997 1 -1 1 0.9999995 1 0.9999994 -1.000001 1 -1 -0.9999997 1 -1 1 1</float_array>\
+																<technique_common>\
+																				<accessor source=\"#Cube-mesh-positions-array\" count=\"8\" stride=\"3\">\
+																									<param name=\"X\" type=\"float\"/>\
+																														<param name=\"Y\" type=\"float\"/>\
+																																			<param name=\"Z\" type=\"float\"/>\
+																																							</accessor>\
+																																										</technique_common>\
+																																												</source>\
+																																														<source id=\"Cube-mesh-normals\">\
+																																																	<float_array id=\"Cube-mesh-normals-array\" count=\"36\">0 0 -1 0 0 1 1 -5.66244e-7 -2.38419e-7 -4.76837e-7 -1 -2.98023e-7 -1 2.08616e-7 -1.49012e-7 2.08616e-7 1 1.78814e-7 0 0 -1 0 0 1 1 0 3.27826e-7 0 -1 0 -1 2.38419e-7 -1.19209e-7 2.68221e-7 1 2.38419e-7</float_array>\
+																																																				<technique_common>\
+																																																								<accessor source=\"#Cube-mesh-normals-array\" count=\"12\" stride=\"3\">\
+																																																													<param name=\"X\" type=\"float\"/>\
+																																																																		<param name=\"Y\" type=\"float\"/>\
+																																																																							<param name=\"Z\" type=\"float\"/>\
+																																																																											</accessor>\
+																																																																														</technique_common>\
+																																																																																</source>\
+																																																																																		<vertices id=\"Cube-mesh-vertices\">\
+																																																																																					<input semantic=\"POSITION\" source=\"#Cube-mesh-positions\"/>\
+																																																																																							</vertices>\
+																																																																																									<polylist material=\"Material-material\" count=\"12\">\
+																																																																																												<input semantic=\"VERTEX\" source=\"#Cube-mesh-vertices\" offset=\"0\"/>\
+																																																																																															<input semantic=\"NORMAL\" source=\"#Cube-mesh-normals\" offset=\"1\"/>\
+																																																																																																		<vcount>3 3 3 3 3 3 3 3 3 3 3 3 </vcount>\
+																																																																																																					<p>1 0 2 0 3 0 7 1 6 1 5 1 0 2 4 2 5 2 1 3 5 3 6 3 6 4 7 4 3 4 0 5 3 5 7 5 0 6 1 6 3 6 4 7 7 7 5 7 1 8 0 8 5 8 2 9 1 9 6 9 2 10 6 10 3 10 4 11 0 11 7 11</p>\
+																																																																																																							</polylist>\
+																																																																																																								</mesh>\
+																																																																																																								</geometry>");
 
 			buffer.SetPosition(0);
 
@@ -528,40 +530,40 @@ public:
 
 			Core::Buffer buffer;
 			buffer.WriteString("<library_geometries>\
-	<geometry id=\"Cube-mesh\" name=\"Cube\">\
-		<mesh>\
-			<source id=\"Cube-mesh-positions\">\
-				<float_array id=\"Cube-mesh-positions-array\" count=\"24\">1 1 -1 1 -1 -1 -1 -0.9999998 -1 -0.9999997 1 -1 1 0.9999995 1 0.9999994 -1.000001 1 -1 -0.9999997 1 -1 1 1</float_array>\
-				<technique_common>\
-					<accessor source=\"#Cube-mesh-positions-array\" count=\"8\" stride=\"3\">\
-						<param name=\"X\" type=\"float\"/>\
-						<param name=\"Y\" type=\"float\"/>\
-						<param name=\"Z\" type=\"float\"/>\
-					</accessor>\
-				</technique_common>\
-			</source>\
-			<source id=\"Cube-mesh-normals\">\
-				<float_array id=\"Cube-mesh-normals-array\" count=\"36\">0 0 -1 0 0 1 1 -5.66244e-7 -2.38419e-7 -4.76837e-7 -1 -2.98023e-7 -1 2.08616e-7 -1.49012e-7 2.08616e-7 1 1.78814e-7 0 0 -1 0 0 1 1 0 3.27826e-7 0 -1 0 -1 2.38419e-7 -1.19209e-7 2.68221e-7 1 2.38419e-7</float_array>\
-				<technique_common>\
-					<accessor source=\"#Cube-mesh-normals-array\" count=\"12\" stride=\"3\">\
-						<param name=\"X\" type=\"float\"/>\
-						<param name=\"Y\" type=\"float\"/>\
-						<param name=\"Z\" type=\"float\"/>\
-					</accessor>\
-				</technique_common>\
-			</source>\
-			<vertices id=\"Cube-mesh-vertices\">\
-				<input semantic=\"POSITION\" source=\"#Cube-mesh-positions\"/>\
-			</vertices>\
-			<polylist material=\"Material-material\" count=\"12\">\
-				<input semantic=\"VERTEX\" source=\"#Cube-mesh-vertices\" offset=\"0\"/>\
-				<input semantic=\"NORMAL\" source=\"#Cube-mesh-normals\" offset=\"1\"/>\
-				<vcount>3 3 3 3 3 3 3 3 3 3 3 3 </vcount>\
-				<p>1 0 2 0 3 0 7 1 6 1 5 1 0 2 4 2 5 2 1 3 5 3 6 3 6 4 7 4 3 4 0 5 3 5 7 5 0 6 1 6 3 6 4 7 7 7 5 7 1 8 0 8 5 8 2 9 1 9 6 9 2 10 6 10 3 10 4 11 0 11 7 11</p>\
-			</polylist>\
-		</mesh>\
-	</geometry>\
-</library_geometries>");
+							   	<geometry id=\"Cube-mesh\" name=\"Cube\">\
+										<mesh>\
+													<source id=\"Cube-mesh-positions\">\
+																	<float_array id=\"Cube-mesh-positions-array\" count=\"24\">1 1 -1 1 -1 -1 -1 -0.9999998 -1 -0.9999997 1 -1 1 0.9999995 1 0.9999994 -1.000001 1 -1 -0.9999997 1 -1 1 1</float_array>\
+																					<technique_common>\
+																										<accessor source=\"#Cube-mesh-positions-array\" count=\"8\" stride=\"3\">\
+																																<param name=\"X\" type=\"float\"/>\
+																																						<param name=\"Y\" type=\"float\"/>\
+																																												<param name=\"Z\" type=\"float\"/>\
+																																																	</accessor>\
+																																																					</technique_common>\
+																																																								</source>\
+																																																											<source id=\"Cube-mesh-normals\">\
+																																																															<float_array id=\"Cube-mesh-normals-array\" count=\"36\">0 0 -1 0 0 1 1 -5.66244e-7 -2.38419e-7 -4.76837e-7 -1 -2.98023e-7 -1 2.08616e-7 -1.49012e-7 2.08616e-7 1 1.78814e-7 0 0 -1 0 0 1 1 0 3.27826e-7 0 -1 0 -1 2.38419e-7 -1.19209e-7 2.68221e-7 1 2.38419e-7</float_array>\
+																																																																			<technique_common>\
+																																																																								<accessor source=\"#Cube-mesh-normals-array\" count=\"12\" stride=\"3\">\
+																																																																														<param name=\"X\" type=\"float\"/>\
+																																																																																				<param name=\"Y\" type=\"float\"/>\
+																																																																																										<param name=\"Z\" type=\"float\"/>\
+																																																																																															</accessor>\
+																																																																																																			</technique_common>\
+																																																																																																						</source>\
+																																																																																																									<vertices id=\"Cube-mesh-vertices\">\
+																																																																																																													<input semantic=\"POSITION\" source=\"#Cube-mesh-positions\"/>\
+																																																																																																																</vertices>\
+																																																																																																																			<polylist material=\"Material-material\" count=\"12\">\
+																																																																																																																							<input semantic=\"VERTEX\" source=\"#Cube-mesh-vertices\" offset=\"0\"/>\
+																																																																																																																											<input semantic=\"NORMAL\" source=\"#Cube-mesh-normals\" offset=\"1\"/>\
+																																																																																																																															<vcount>3 3 3 3 3 3 3 3 3 3 3 3 </vcount>\
+																																																																																																																																			<p>1 0 2 0 3 0 7 1 6 1 5 1 0 2 4 2 5 2 1 3 5 3 6 3 6 4 7 4 3 4 0 5 3 5 7 5 0 6 1 6 3 6 4 7 7 7 5 7 1 8 0 8 5 8 2 9 1 9 6 9 2 10 6 10 3 10 4 11 0 11 7 11</p>\
+																																																																																																																																						</polylist>\
+																																																																																																																																								</mesh>\
+																																																																																																																																									</geometry>\
+																																																																																																																																									</library_geometries>");
 
 			buffer.SetPosition(0);
 
@@ -588,11 +590,11 @@ public:
 
 			Core::Buffer buffer;
 			buffer.WriteString("<perspective>\
-	<xfov sid=\"xfov\">49.13434</xfov>\
-	<aspect_ratio>1.777778</aspect_ratio>\
-	<znear sid=\"znear\">0.1</znear>\
-	<zfar sid=\"zfar\">100</zfar>\
-</perspective>");
+							   	<xfov sid=\"xfov\">49.13434</xfov>\
+									<aspect_ratio>1.777778</aspect_ratio>\
+										<znear sid=\"znear\">0.1</znear>\
+											<zfar sid=\"zfar\">100</zfar>\
+											</perspective>");
 
 			buffer.SetPosition(0);
 
@@ -622,11 +624,11 @@ public:
 
 			Core::Buffer buffer;
 			buffer.WriteString("<optics><perspective>\
-							   	<xfov sid=\"xfov\">49.13434</xfov>\
-									<aspect_ratio>1.777778</aspect_ratio>\
-										<znear sid=\"znear\">0.1</znear>\
-											<zfar sid=\"zfar\">100</zfar>\
-											</perspective></optics>");
+							   							   	<xfov sid=\"xfov\">49.13434</xfov>\
+																								<aspect_ratio>1.777778</aspect_ratio>\
+																																		<znear sid=\"znear\">0.1</znear>\
+																																													<zfar sid=\"zfar\">100</zfar>\
+																																																								</perspective></optics>");
 
 			buffer.SetPosition(0);
 
@@ -636,6 +638,100 @@ public:
 
 			CPPUNIT_ASSERT(p);
 			CPPUNIT_ASSERT(p->GetProjection());
+
+		}
+		catch (System::Error::SystemException& e) {
+			System::GetDefaultLogger()->Error(e.Message());
+			CPPUNIT_ASSERT(false);
+		}
+	}
+
+	void testCamera() {
+		try {
+			//auto system = System::LoadPunkModule("punk_system");
+			auto loader = System::LoadPunkModule("punk_loader");
+
+			auto reader = NewColladaReader();
+
+			Core::Buffer buffer;
+			buffer.WriteString("<camera id=\"Camera-camera\" name=\"Camera\">\
+							   	<optics>\
+										<technique_common>\
+													<perspective>\
+																	<xfov sid=\"xfov\">49.13434</xfov>\
+																					<aspect_ratio>1.777778</aspect_ratio>\
+																									<znear sid=\"znear\">0.1</znear>\
+																													<zfar sid=\"zfar\">100</zfar>\
+																																</perspective>\
+																																		</technique_common>\
+																																			</optics>\
+																																				<extra>\
+																																						<technique profile=\"blender\">\
+																																									<YF_dofdist>0</YF_dofdist>\
+																																												<shiftx>0</shiftx>\
+																																															<shifty>0</shifty>\
+																																																	</technique>\
+																																																		</extra>\
+																																																		</camera>");
+
+			buffer.SetPosition(0);
+
+			auto o = reader->Read(buffer);
+
+			auto p = Core::QueryInterfacePtr<Attributes::ICamera2>(o, Attributes::IID_ICamera2);
+
+			CPPUNIT_ASSERT(p);
+			CPPUNIT_ASSERT(p->GetOptics());
+			CPPUNIT_ASSERT(p->GetId() == "Camera-camera");
+			CPPUNIT_ASSERT(p->GetName() == "Camera");
+
+		}
+		catch (System::Error::SystemException& e) {
+			System::GetDefaultLogger()->Error(e.Message());
+			CPPUNIT_ASSERT(false);
+		}
+	}
+
+	void testLibraryCameras() {
+		try {
+			//auto system = System::LoadPunkModule("punk_system");
+			auto loader = System::LoadPunkModule("punk_loader");
+
+			auto reader = NewColladaReader();
+
+			Core::Buffer buffer;
+			buffer.WriteString("<library_cameras id=\"id\" name=\"name\">\
+    <camera id=\"Camera-camera\" name=\"Camera\">\
+      <optics>\
+        <technique_common>\
+          <perspective>\
+            <xfov sid=\"xfov\">49.13434</xfov>\
+            <aspect_ratio>1.777778</aspect_ratio>\
+            <znear sid=\"znear\">0.1</znear>\
+            <zfar sid=\"zfar\">100</zfar>\
+          </perspective>\
+        </technique_common>\
+      </optics>\
+      <extra>\
+        <technique profile=\"blender\">\
+          <YF_dofdist>0</YF_dofdist>\
+          <shiftx>0</shiftx>\
+          <shifty>0</shifty>\
+        </technique>\
+      </extra>\
+    </camera>\
+  </library_cameras>");
+
+			buffer.SetPosition(0);
+
+			auto o = reader->Read(buffer);
+
+			auto p = Core::QueryInterfacePtr<Attributes::ILibraryCameras>(o, Attributes::IID_ILibraryCameras);
+
+			CPPUNIT_ASSERT(p);
+			CPPUNIT_ASSERT(p->GetCamerasCount() == 1);
+			CPPUNIT_ASSERT(p->GetId() == "id");
+			CPPUNIT_ASSERT(p->GetName() == "name");
 
 		}
 		catch (System::Error::SystemException& e) {

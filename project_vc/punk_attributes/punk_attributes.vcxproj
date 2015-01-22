@@ -216,6 +216,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <FileType>CppCode</FileType>
     </ClInclude>
+    <ClCompile Include="..\..\source\attributes\camera\ilibrary_cameras.cpp" />
     <ClCompile Include="..\..\source\attributes\camera\ioptics.cpp" />
     <ClCompile Include="..\..\source\attributes\camera\iperspective.cpp" />
     <ClCompile Include="..\..\source\attributes\data_flow\iaccessor.cpp" />
@@ -483,6 +484,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\..\source\attributes\camera\ilibrary_cameras.h" />
     <ClInclude Include="..\..\source\attributes\camera\ioptics.h" />
     <ClInclude Include="..\..\source\attributes\camera\iperspective.h" />
     <ClInclude Include="..\..\source\attributes\camera\iprojection.h" />

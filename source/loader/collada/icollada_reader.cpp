@@ -41,6 +41,8 @@ namespace IoModule {
 		zfar,
 		extra,
 		optics,
+		camera,
+		library_cameras,
 	};
 
 	enum class ColladaAttribute {
@@ -80,6 +82,8 @@ namespace IoModule {
 		{ "zfar", ColladaKeyword::zfar },
 		{ "extra", ColladaKeyword::extra },
 		{ "optics", ColladaKeyword::optics },
+		{ "camera", ColladaKeyword::camera },
+		{ "library_cameras", ColladaKeyword::library_cameras  },
 	};
 
 	std::pair<const char*, ColladaAttribute> collada_attribute_mapping[] {
@@ -93,7 +97,7 @@ namespace IoModule {
 		{ "offset", ColladaAttribute::offset },
 		{ "stride", ColladaAttribute::stride },
 		{ "set", ColladaAttribute::set },
-		{ "material", ColladaAttribute::material },
+		{ "material", ColladaAttribute::material },		
 	};
 
 	ColladaKeyword Parse(const char* value) {
@@ -314,6 +318,16 @@ namespace IoModule {
 					break;
 				case ColladaKeyword::optics:
 					m_current_frame.reset(new OpticsFrame{ [this](IOpticsPtr& value) {
+						m_result = value;
+					} });
+					break;
+				case ColladaKeyword::camera:
+					m_current_frame.reset(new CameraFrame{ [this](ICamera2Ptr& value) {
+						m_result = value;
+					} });
+					break;					
+				case ColladaKeyword::library_cameras:
+					m_current_frame.reset(new LibraryCamerasFrame{ [this](ILibraryCamerasPtr& value) {
 						m_result = value;
 					} });
 					break;
@@ -1225,6 +1239,159 @@ namespace IoModule {
 			std::unique_ptr<BaseFrame> m_current_frame{ nullptr };
 			IOpticsPtr m_value;
 			std::function<void(IOpticsPtr&)> m_on_end;
+		};
+
+		//
+		//	CameraFrame
+		//
+		class CameraFrame : public BaseFrame {
+		public:
+			CameraFrame(std::function<void(ICamera2Ptr&)> on_end)
+				: m_value{ NewCamera2() }
+				, m_on_end{ on_end }
+			{}
+
+			void Begin(ColladaKeyword key) override {
+				if (m_extra) {
+					m_extra++;
+					return;
+				}
+
+				if (m_current_frame)
+					m_current_frame->Begin(key);
+				else {
+					switch (key)
+					{
+					case ColladaKeyword::optics:
+						m_current_frame.reset(new OpticsFrame{ std::function < void(IOpticsPtr&) > {[this](IOpticsPtr& value) {
+							m_value->SetOptics(value);
+						} } });
+						break;
+					case ColladaKeyword::extra:
+						m_extra++;
+						break;
+					default:
+						throw Error::LoaderException{ String{ "Can't parse keyword {0}" }.arg(Parse(key)) };
+					}
+				}
+			}
+
+			void Attribute(ColladaAttribute attribute, const char* value) override {
+				if (m_extra)
+					return;
+				if (m_current_frame)
+					m_current_frame->Attribute(attribute, value);
+				else {
+					switch (attribute)
+					{
+					case ColladaAttribute::id:
+						m_value->SetId(value);
+						break;
+					case ColladaAttribute::name:
+						m_value->SetName(value);
+						break;
+					default:
+						throw Error::LoaderException(String{ "Unexpected attribute {0}" }.arg(ParseAttribute(attribute)));
+					}					
+				}
+			}
+
+			void Text(const char* text, int len) override {
+				if (m_current_frame)
+					m_current_frame->Text(text, len);
+			}
+
+			bool End() {
+				if (m_extra) {
+					m_extra--;
+					return false;
+				}
+				else if (m_current_frame) {
+					if (m_current_frame->End())
+						m_current_frame.reset();
+					return false;
+				}				
+				else {
+					if (m_on_end)
+						m_on_end(m_value);
+					return true;
+				}
+			}
+
+		private:
+			int m_extra{ 0 };
+			std::unique_ptr<BaseFrame> m_current_frame{ nullptr };
+			ICamera2Ptr m_value;
+			std::function<void(ICamera2Ptr&)> m_on_end;
+		};
+
+		//
+		//	LibraryGeometriesFrame
+		//
+		class LibraryCamerasFrame : public BaseFrame {
+		public:
+			LibraryCamerasFrame(std::function<void(ILibraryCamerasPtr&)> on_end)
+				: m_value{ NewLibraryCameras() }
+				, m_on_end{ on_end }
+			{}
+
+			void Begin(ColladaKeyword key) override {
+				if (m_current_frame)
+					m_current_frame->Begin(key);
+				else {
+					switch (key)
+					{
+					case ColladaKeyword::camera:
+						m_current_frame.reset(new CameraFrame{ std::function < void(ICamera2Ptr&) > {[this](ICamera2Ptr& value) {
+							m_value->AddCamera(value);
+						} } });
+						break;
+					default:
+						throw Error::LoaderException{ String{ "Can't parse keyword {0}" }.arg(Parse(key)) };
+					}
+				}
+			}
+
+			void Attribute(ColladaAttribute attribute, const char* value) override {
+				if (m_current_frame)
+					m_current_frame->Attribute(attribute, value);
+				else {
+					switch (attribute)
+					{
+					case ColladaAttribute::id:
+						m_value->SetId(value);
+						break;
+					case ColladaAttribute::name:
+						m_value->SetName(value);
+						break;
+					default:
+						throw Error::LoaderException(String{ "Unexpected attribute {0}" }.arg(ParseAttribute(attribute)));
+					}
+				}
+			}
+
+			void Text(const char* text, int len) override {
+				if (m_current_frame)
+					m_current_frame->Text(text, len);
+			}
+
+			bool End() {
+				if (m_current_frame) {
+					if (m_current_frame->End())
+						m_current_frame.reset();
+					return false;
+				}
+				else {
+					if (m_on_end)
+						m_on_end(m_value);
+					return true;
+				}
+			}
+
+		private:
+			std::unique_ptr<BaseFrame> m_current_frame{ nullptr };
+			ILibraryCamerasPtr m_value;
+			std::function<void(ILibraryCamerasPtr&)> m_on_end;
 		};
 
 	private:

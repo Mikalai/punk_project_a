@@ -5,6 +5,7 @@
 #include "iperspective_camera.h"
 #include "iprojection.h"
 #include "iperspective.h"
+#include "ilibrary_cameras.h"
 
 PUNK_ENGINE_BEGIN
 namespace Attributes {

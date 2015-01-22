@@ -223,6 +223,9 @@
     <ClCompile Include="..\..\source\attributes\camera\ioptics.cpp">
       <Filter>camera</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\attributes\camera\ilibrary_cameras.cpp">
+      <Filter>camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\attributes\module.h" />
@@ -630,6 +633,9 @@
       <Filter>camera</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\attributes\data_flow\ivalue.h" />
+    <ClInclude Include="..\..\source\attributes\camera\ilibrary_cameras.h">
+      <Filter>camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="water">
