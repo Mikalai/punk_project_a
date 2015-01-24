@@ -12,6 +12,7 @@
 #include <attributes/data_flow/module.h>
 #include <attributes/geometry/module.h>
 #include <attributes/camera/module.h>
+#include <attributes/light/module.h>
 
 PUNK_ENGINE_BEGIN
 using namespace Core;
@@ -43,6 +44,11 @@ namespace IoModule {
 		optics,
 		camera,
 		library_cameras,
+		point,
+		color,
+		constant_attenuation,
+		linear_attenuation,
+		quadratic_attenuation
 	};
 
 	enum class ColladaAttribute {
@@ -84,6 +90,11 @@ namespace IoModule {
 		{ "optics", ColladaKeyword::optics },
 		{ "camera", ColladaKeyword::camera },
 		{ "library_cameras", ColladaKeyword::library_cameras  },
+		{ "point", ColladaKeyword::point },
+		{ "color", ColladaKeyword::color },
+		{ "constant_attenuation", ColladaKeyword::constant_attenuation },
+		{ "linear_attenuation", ColladaKeyword::linear_attenuation },
+		{ "quadratic_attenuation", ColladaKeyword::quadratic_attenuation },
 	};
 
 	std::pair<const char*, ColladaAttribute> collada_attribute_mapping[] {
@@ -328,6 +339,11 @@ namespace IoModule {
 					break;					
 				case ColladaKeyword::library_cameras:
 					m_current_frame.reset(new LibraryCamerasFrame{ [this](ILibraryCamerasPtr& value) {
+						m_result = value;
+					} });
+					break;
+				case ColladaKeyword::point:
+					m_current_frame.reset(new PointFrame{ [this](IPointPtr& value) {
 						m_result = value;
 					} });
 					break;
@@ -1394,6 +1410,86 @@ namespace IoModule {
 			std::function<void(ILibraryCamerasPtr&)> m_on_end;
 		};
 
+		//
+		//	PointFrame
+		//
+		class PointFrame : public BaseFrame {
+		public:
+			PointFrame(std::function<void(IPointPtr&)> on_end)
+				: m_value{ NewPerspective() }
+				, m_on_end{ on_end }
+			{}
+
+			void Begin(ColladaKeyword key) override {
+				m_cur_word = key;
+			}
+
+			void Attribute(ColladaAttribute attribute, const char* value) override {
+				if (attribute == ColladaAttribute::sid) {
+					if (m_cur_word == ColladaKeyword::color)
+						m_color.SetSid(value);
+					else 
+						m_float.SetSid(value);
+				}
+				else
+					throw Error::LoaderException(String{ "Unexpected attribute {0}" }.arg(ParseAttribute(attribute)));
+			}
+
+			void Text(const char* text, int len) override {
+				if (m_cur_word != ColladaKeyword::bad) {
+					if (m_cur_word == ColladaKeyword::color) {
+						Core::String s(text, len);
+						auto items = s.Split(" ");
+						for (int i = 0, max_i = items.Size(); i < max_i; ++i) {
+							m_color.GetValue()[i] = items[i].ToFloat();
+						}
+					}
+					else {
+						m_float.SetValue(Core::String(text, len).ToFloat());
+					}
+
+					switch (m_cur_word)
+					{
+					case ColladaKeyword::color:
+						m_value->SetColor(m_color);
+						break;
+					case ColladaKeyword::constant_attenuation:
+						m_value->SetConstantAttenuation(m_float);
+						break;
+					case ColladaKeyword::linear_attenuation:
+						m_value->SetLinearAttenuation(m_float);
+						break;
+					case ColladaKeyword::quadratic_attenuation:
+						m_value->SetQuadraticsAttenuation(m_float);
+						break;
+					case ColladaKeyword::zfar:
+						m_value->SetZFar(m_float);
+						break;
+					default:
+						throw Error::LoaderException{ String{ "Can't parse keyword {0}" }.arg(Parse(m_cur_word)) };
+					}
+				}
+			}
+
+			bool End() {
+				if (m_cur_word != ColladaKeyword::bad) {
+					m_cur_word = ColladaKeyword::bad;
+					return false;
+				}
+				else {
+					if (m_on_end)
+						m_on_end(m_value);
+					return true;
+				}
+			}
+
+		private:
+			ColladaKeyword m_cur_word{ ColladaKeyword::bad };
+			IPointPtr m_value;
+			Math::realf m_float;
+			Math::Color m_color;
+			std::function<void(IPointPtr&)> m_on_end;
+		};
 	private:
 		std::unique_ptr<BaseFrame> m_current_frame{ nullptr };
 		IObjectPtr m_result{ nullptr };

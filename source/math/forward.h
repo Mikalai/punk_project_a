@@ -25,6 +25,9 @@ namespace Math {
 
 	using mat2 = Matrix <float, 2, 2 >;
 	
+	using color3 = Tuple < float, 3, tagColor > ;
+	using color4 = Tuple < float, 4, tagColor >;
+
 	using vec3 = Tuple < float, 3, tagVector >;	
 	using point3d = Tuple < float, 3, tagPoint >;
 	using ivec3 = Tuple < int, 3, tagVector >;

@@ -6,6 +6,7 @@
 #include <attributes/data_flow/module.h>
 #include <attributes/geometry/module.h>
 #include <attributes/camera/module.h>
+#include <attributes/light/module.h>
 #include <string/buffer.h>
 #include <math/absolute_value.h>
 
@@ -34,6 +35,7 @@ class ColladaLoaderTest : public CppUnit::TestFixture
 	CPPUNIT_TEST(testOptics);
 	CPPUNIT_TEST(testCamera);
 	CPPUNIT_TEST(testLibraryCameras);
+	CPPUNIT_TEST(testPoint);
 	CPPUNIT_TEST_SUITE_END();
 public:
 
@@ -733,6 +735,39 @@ public:
 			CPPUNIT_ASSERT(p->GetId() == "id");
 			CPPUNIT_ASSERT(p->GetName() == "name");
 
+		}
+		catch (System::Error::SystemException& e) {
+			System::GetDefaultLogger()->Error(e.Message());
+			CPPUNIT_ASSERT(false);
+		}
+	}
+
+	void testPoint() {
+		try {
+			//auto system = System::LoadPunkModule("punk_system");
+			auto loader = System::LoadPunkModule("punk_loader");
+
+			auto reader = NewColladaReader();
+
+			Core::Buffer buffer;
+			buffer.WriteString("<point>\
+	<color sid=\"color\">1 1 1</color>\
+	<constant_attenuation>1</constant_attenuation>\
+	<linear_attenuation>0</linear_attenuation>\
+	<quadratic_attenuation>0.00111109</quadratic_attenuation>\
+</point>");
+
+			buffer.SetPosition(0);
+
+			auto o = reader->Read(buffer);
+
+			auto p = Core::QueryInterfacePtr<Attributes::IPoint>(o, Attributes::IID_IPoint);
+
+			CPPUNIT_ASSERT(p);
+			CPPUNIT_ASSERT((p->GetColor().GetValue() == Color3{ color3{ 1, 1, 1 } }));
+			CPPUNIT_ASSERT(AreEqual(p->GetConstantAttenuation().GetValue(), 1.0f));
+			CPPUNIT_ASSERT(AreEqual(p->GetLinearAttenuation().GetValue(), 0.0f));
+			CPPUNIT_ASSERT(AreEqual(p->GetQuadraticsAttenuation().GetValue(), 0.00111109f));
 		}
 		catch (System::Error::SystemException& e) {
 			System::GetDefaultLogger()->Error(e.Message());

@@ -226,6 +226,9 @@
     <ClCompile Include="..\..\source\attributes\camera\ilibrary_cameras.cpp">
       <Filter>camera</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\attributes\light\ipoint_light.cpp">
+      <Filter>light</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\attributes\module.h" />

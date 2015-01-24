@@ -30,7 +30,11 @@ namespace Math {
 			m_value = value;
 		}
 
-		T GetValue() const {
+		T& GetValue() {
+			return m_value;
+		}
+		
+		const T& GetValue() const {
 			return m_value;
 		}
 

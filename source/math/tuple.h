@@ -15,6 +15,7 @@
 #include "square_root.h"
 #include "absolute_value.h"
 #include "forward.h"
+#include "value.h"
 
 #ifdef USE_QT
 #include <QString>
@@ -1118,7 +1119,9 @@ namespace Math {
 	template<class T, int D, typename tag>
 	bool operator != (const Tuple<T, D, tag>& l, const TupleData<T, D, tag>& r) {
 		return !l.IsEqual(r);
-	}
+	}	
+	
+	using Color3 = Value < Tuple < float, 3, tagColor > >;
 }
 PUNK_ENGINE_END
 

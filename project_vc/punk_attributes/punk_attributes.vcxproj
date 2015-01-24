@@ -264,6 +264,7 @@
     <ClCompile Include="..\..\source\attributes\geometry\skin_geometry.cpp" />
     <ClCompile Include="..\..\source\attributes\geometry\static_geometry.cpp" />
     <ClCompile Include="..\..\source\attributes\light\ilight.cpp" />
+    <ClCompile Include="..\..\source\attributes\light\ipoint_light.cpp" />
     <ClCompile Include="..\..\source\attributes\light\light_set.cpp" />
     <ClCompile Include="..\..\source\attributes\manager\camera_manager.cpp" />
     <ClCompile Include="..\..\source\attributes\manager\ioptions.cpp" />
